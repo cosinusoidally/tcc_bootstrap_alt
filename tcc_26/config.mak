@@ -23,6 +23,6 @@ NATIVE_DEFINES+=-DCONFIG_MULTIARCHDIR="\"i386-linux-gnu\""
 ARCH=i386
 TARGETOS=Linux
 VERSION=0.9.26
-SRC_PATH=/home/foo/boot/tcc_26
+SRC_PATH=/home/foo/tcc_bootstrap_alt/tcc_26
 top_srcdir=$(TOP)
 top_builddir=$(TOP)
