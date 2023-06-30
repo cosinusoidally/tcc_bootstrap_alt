@@ -1,4 +1,10 @@
 rm tcc_26_boot.exe
 rm tcc_bootstrap.o
 rm tcc_3/a.out
+rm tcc_10/a.out
 rm tcc_10/tcc.o
+rm tcc_19/a.out
+rm tcc_19/tcc.o
+rm tcc_23/a.out
+rm tcc_24/tcc.o
+rm tcc_24/libtcc1.o
