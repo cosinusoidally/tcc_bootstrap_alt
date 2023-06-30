@@ -36,17 +36,13 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-mv a.out ../tcc_19_boot1.exe
-
 cd ..
-
-sha256sum tcc_19_boot1.exe
 
 cd tcc_23
 
-./configure
-../tcc_19_boot1.exe tcc.c -c
-../tcc_19_boot1.exe libtcc1.c -c
+echo "tcc_19 to tcc_23"
+../tcc_19/a.out tcc.c -c
+../tcc_19/a.out libtcc1.c -c
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
@@ -57,13 +53,14 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
+echo "tcc_23 to tcc_24"
 cd ../tcc_24
 ./configure
 ../tcc_23/a.out -I ../woody/usr/include/ -I . -c tcc.c
 ../tcc_23/a.out -c libtcc1.c
 tcc libtcc1.o tcc.o -ldl
 
-echo "version 26"
+echo "tcc_24 to tcc_26"
 cd ../tcc_26
 ./configure
 ../tcc_24/a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
@@ -116,10 +113,8 @@ rm libtcc1.o
 mv a.out ../tcc_26_boot2
 
 cd ..
-sha256sum tcc_26_boot1
-sha256sum tcc_26_boot2
 
-./tcc_26_boot1 -c tcc_bootstrap.c
+./tcc_26_boot.exe -c tcc_bootstrap.c
 
 sha256sum tcc_bootstrap.o
 sha256sum -c sum
