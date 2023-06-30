@@ -67,20 +67,20 @@ cd ../tcc_26
 ../tcc_24/a.out -c ../tcc_24/libtcc1.c
 tcc libtcc1.o tcc.o -ldl
 
-./a.out -c libtcc1.c
-./a.out -I ../woody/usr/include/ -I . -c tcc.c
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
