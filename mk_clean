@@ -1,8 +1,5 @@
-rm tcc_19_boot
-rm tcc_19_boot1
-rm tcc_19_boot2
-rm tcc_26_boot1
-rm tcc_26_boot2
+rm tcc_19_boot1.exe
+rm tcc_26_boot1.exe
 rm tcc_bootstrap.o
 rm tcc_3/a.out
 rm tcc_10/tcc.o
