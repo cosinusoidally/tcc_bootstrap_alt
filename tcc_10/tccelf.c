@@ -738,8 +738,9 @@ static void tcc_add_runtime(TCCState *s1)
     int i;
     Section *s;
 
-    snprintf(buf, sizeof(buf), "%s/%s", tcc_lib_path, "libtcc1.o");
-    tcc_add_file(s1, buf);
+// HACK BOOTSTRAP
+//    snprintf(buf, sizeof(buf), "%s/%s", tcc_lib_path, "libtcc1.o");
+//    tcc_add_file(s1, buf);
 #ifdef CONFIG_TCC_BCHECK
     if (do_bounds_check) {
         unsigned long *ptr;
