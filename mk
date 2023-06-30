@@ -6,11 +6,14 @@ set -e
 
 tcc tcc.c -I /home/foo/boot/woody/usr/include/ -ldl
 cd ../tcc_10
+
+echo "tcc_3 to tcc_10"
 ../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
 tcc tcc.o -ldl
+
+echo "tcc_10 to tcc_19"
 cd ../tcc_19
-make clean
-./configure
+
 ../tcc_10/a.out -o tcc.o -c tcc.c
 ../tcc_10/a.out -o libtcc1.o -c libtcc1_min.c
 tcc ../tcc_10/libtcc1.o tcc.o -ldl
@@ -35,33 +38,7 @@ rm libtcc1.o
 
 mv a.out ../tcc_19_boot1
 
-make clean
-./configure
-tcc tcc.c -I /home/foo/boot/woody/usr/include/ -ldl
-
-./a.out -c libtcc1.c
-./a.out -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c libtcc1.c
-./a.out -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c libtcc1.c
-./a.out -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-mv a.out ../tcc_19_boot2
-cd ..
-
 sha256sum tcc_19_boot1
-sha256sum tcc_19_boot2
 
 cd tcc_23
 
