@@ -45,33 +45,33 @@ sha256sum tcc_19_boot1.exe
 cd tcc_23
 
 ./configure
-../tcc_19_boot1 tcc.c -c
-../tcc_19_boot1 libtcc1.c -c
+../tcc_19_boot1.exe tcc.c -c
+../tcc_19_boot1.exe libtcc1.c -c
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
 ./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
+./a.out -I ../woody/usr/include/ -I . -c tcc.c
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
 cd ../tcc_24
 ./configure
-../tcc_23/a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
+../tcc_23/a.out -I ../woody/usr/include/ -I . -c tcc.c
 ../tcc_23/a.out -c libtcc1.c
 tcc libtcc1.o tcc.o -ldl
 
 echo "version 26"
 cd ../tcc_26
 ./configure
-../tcc_24/a.out -I /home/foo/boot/woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../tcc_24/a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
 ../tcc_24/a.out -c ../tcc_24/libtcc1.c
 tcc libtcc1.o tcc.o -ldl
 
 ./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
+./a.out -I ../woody/usr/include/ -I . -c tcc.c
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
