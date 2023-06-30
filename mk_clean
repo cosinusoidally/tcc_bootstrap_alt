@@ -7,4 +7,5 @@ rm tcc_19/a.out
 rm tcc_19/tcc.o
 rm tcc_23/a.out
 rm tcc_24/tcc.o
+rm tcc_24/a.out
 rm tcc_24/libtcc1.o
