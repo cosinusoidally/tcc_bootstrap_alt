@@ -99,6 +99,18 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
 mv a.out ../artifacts/tcc_27_boot.exe
 
 cd ..
