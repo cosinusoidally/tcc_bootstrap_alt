@@ -16,7 +16,7 @@ cd ../tcc_19
 
 ../tcc_10/a.out -o tcc.o -c tcc.c
 ../tcc_10/a.out -o libtcc1.o -c libtcc1_min.c
-tcc ../tcc_10/libtcc1.o tcc.o -ldl
+tcc libtcc1.o tcc.o -ldl
 
 ./a.out -c libtcc1.c
 ./a.out -c tcc.c
