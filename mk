@@ -1,6 +1,9 @@
 ./mk_clean
 
 cd tcc_3
+
+set -e
+
 tcc tcc.c -I /home/foo/boot/woody/usr/include/ -ldl
 cd ../tcc_10
 ../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
