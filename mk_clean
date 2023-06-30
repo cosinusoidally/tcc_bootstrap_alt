@@ -1,4 +1,4 @@
-rm tcc_26_boot.exe
+rm artifacts/tcc_26_boot.exe
 rm tcc_bootstrap.o
 rm tcc_3/a.out
 rm tcc_10/a.out

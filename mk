@@ -85,11 +85,11 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-mv a.out ../tcc_26_boot.exe
+mv a.out ../artifacts/tcc_26_boot.exe
 
 cd ..
 
-./tcc_26_boot.exe -c tcc_bootstrap.c
+./artifacts/tcc_26_boot.exe -c tcc_bootstrap.c
 
 sha256sum tcc_bootstrap.o
 sha256sum -c sum
