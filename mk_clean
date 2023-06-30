@@ -1,4 +1,4 @@
-rm artifacts/tcc_26_boot.exe
+rm artifacts/tcc_27_boot.exe
 rm tcc_bootstrap.o
 rm tcc_3/a.out
 rm tcc_10/a.out
@@ -9,3 +9,9 @@ rm tcc_23/a.out
 rm tcc_24/tcc.o
 rm tcc_24/a.out
 rm tcc_24/libtcc1.o
+rm tcc_26/tcc.o
+rm tcc_26/a.out
+rm tcc_26/libtcc1.o
+rm tcc_27/tcc.o
+rm tcc_27/a.out
+rm tcc_27/libtcc1.o

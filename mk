@@ -85,11 +85,25 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-mv a.out ../artifacts/tcc_26_boot.exe
+echo "tcc_26 to tcc_27"
+
+cd ../tcc_27
+
+../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
+../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
+tcc libtcc1.o tcc.o -ldl
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+mv a.out ../artifacts/tcc_27_boot.exe
 
 cd ..
 
-./artifacts/tcc_26_boot.exe -c ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/tcc_bootstrap.c
+./artifacts/tcc_27_boot.exe -c ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/tcc_bootstrap.c
 
 sha256sum tcc_bootstrap.o
 sha256sum -c sum
