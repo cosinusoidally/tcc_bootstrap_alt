@@ -89,7 +89,7 @@ mv a.out ../artifacts/tcc_26_boot.exe
 
 cd ..
 
-./artifacts/tcc_26_boot.exe -c tcc_bootstrap.c
+./artifacts/tcc_26_boot.exe -c ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/tcc_bootstrap.c
 
 sha256sum tcc_bootstrap.o
 sha256sum -c sum
