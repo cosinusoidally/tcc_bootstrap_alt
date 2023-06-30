@@ -1,5 +1,4 @@
-c9522341329bc7dbf40ee737008ca274170a2cf6af372b554c818a57590c692b  tcc_bootstrap.o
 0e8e02c852a11ebec585650d3c6fa5917fb51d7b66dd1d458d3e51680c660964  ../mishmashvm/libc_portable_proto/my_libc.o
 0cdb519efb42f22eba96bf90407e10b87868355e1d793d3a70271f09d47aa403  ../mishmashvm/libc_portable_proto/stubs.o
-b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365  ../mishmashvm/libc_portable_proto/tcc_bin/tcc_boot3.o
 59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3  ../mishmashvm/libc_portable_proto/tcc_bin/libtcc1.o
+b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365  ../mishmashvm/libc_portable_proto/tcc_bin/tcc_boot3.o
