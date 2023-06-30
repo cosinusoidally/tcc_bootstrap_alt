@@ -36,9 +36,11 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-mv a.out ../tcc_19_boot1
+mv a.out ../tcc_19_boot1.exe
 
-sha256sum tcc_19_boot1
+cd ..
+
+sha256sum tcc_19_boot1.exe
 
 cd tcc_23
 

@@ -9455,8 +9455,8 @@ int tcc_set_output_type(TCCState *s, int output_type)
     if (!s->nostdinc) {
         /* default include paths */
         /* XXX: reverse order needed if -isystem support */
-        tcc_add_sysinclude_path(s, "/usr/local/include");
-        tcc_add_sysinclude_path(s, "/usr/include");
+        tcc_add_sysinclude_path(s, "../woody/usr/include/");
+        tcc_add_sysinclude_path(s, "../tcc_19");
         snprintf(buf, sizeof(buf), "%s/include", tcc_lib_path);
         tcc_add_sysinclude_path(s, buf);
     }
