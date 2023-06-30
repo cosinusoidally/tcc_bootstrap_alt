@@ -55,14 +55,14 @@ rm libtcc1.o
 
 echo "tcc_23 to tcc_24"
 cd ../tcc_24
-./configure
+
 ../tcc_23/a.out -I ../woody/usr/include/ -I . -c tcc.c
 ../tcc_23/a.out -c libtcc1.c
 tcc libtcc1.o tcc.o -ldl
 
 echo "tcc_24 to tcc_26"
 cd ../tcc_26
-./configure
+
 ../tcc_24/a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
 ../tcc_24/a.out -c ../tcc_24/libtcc1.c
 tcc libtcc1.o tcc.o -ldl
@@ -85,32 +85,7 @@ tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
-mv a.out ../tcc_26_boot1
-make clean
-
-./configure
-
-tcc tcc.c -ldl -DONE_SOURCE
-
-./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c libtcc1.c
-./a.out -I /home/foo/boot/woody/usr/include/ -I . -c tcc.c
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-mv a.out ../tcc_26_boot2
+mv a.out ../tcc_26_boot.exe
 
 cd ..
 
