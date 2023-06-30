@@ -4,7 +4,7 @@ cd tcc_3
 
 set -e
 
-tcc tcc.c -I /home/foo/boot/woody/usr/include/ -ldl
+tcc tcc.c -I ../woody/usr/include/ -ldl
 cd ../tcc_10
 
 echo "tcc_3 to tcc_10"
