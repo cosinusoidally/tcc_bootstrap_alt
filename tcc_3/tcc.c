@@ -6096,8 +6096,8 @@ int main(int argc, char **argv)
     char *p, *r, *outfile;
     int optind;
 
-    include_paths[0] = "/usr/include";
-    include_paths[1] = "/usr/lib/tcc";
+    include_paths[0] = "../woody/usr/include/";
+    include_paths[1] = "../tcc_3";
     include_paths[2] = "/usr/local/lib/tcc";
     nb_include_paths = 3;
 

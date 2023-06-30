@@ -6890,8 +6890,8 @@ TCCState *tcc_new(void)
     s->output_type = TCC_OUTPUT_MEMORY;
     
     /* default include paths */
-    tcc_add_sysinclude_path(s, "/usr/local/include");
-    tcc_add_sysinclude_path(s, "/usr/include");
+    tcc_add_sysinclude_path(s, "../woody/usr/include/");
+    tcc_add_sysinclude_path(s, "../tcc_10/");
     tcc_add_sysinclude_path(s, CONFIG_TCC_PREFIX "/lib/tcc/include");
 
     /* add all tokens */
