@@ -26,8 +26,6 @@
 #include <unistd.h>
 #include <sys/ucontext.h>
 #include <sys/mman.h>
-#include <elf.h>
-#include <stab.h>
 #include <malloc.h>
 #ifndef CONFIG_TCC_STATIC
 #include <dlfcn.h>
@@ -596,7 +594,7 @@ char *pstrcat(char *buf, int buf_size, const char *s)
     return buf;
 }
 
-Section *new_section(const char *name, int sh_type, int sh_flags)
+Section *new_section(const char *name)
 {
     Section *sec, **psec;
     void *data;
@@ -608,8 +606,6 @@ Section *new_section(const char *name, int sh_type, int sh_flags)
     pstrcpy(sec->name, sizeof(sec->name), name);
     sec->link = NULL;
     sec->sh_num = ++section_num;
-    sec->sh_type = sh_type;
-    sec->sh_flags = sh_flags;
     data = mmap(NULL, SECTION_VSIZE, 
                 PROT_EXEC | PROT_READ | PROT_WRITE, 
                 MAP_PRIVATE | MAP_ANONYMOUS, 
@@ -5508,22 +5504,6 @@ void build_exe(char *filename)
     printf("Dummy code output %s\n",filename);
 }
 
-/* print the position in the source file of PC value 'pc' by reading
-   the stabs debug information */
-static void rt_printline(unsigned long wanted_pc)
-{
-}
-
-/* emit a run time error at position 'pc' */
-void rt_error(unsigned long pc, const char *fmt, ...)
-{
-}
-
-/* signal handler for fatal errors */
-static void sig_error(int signum, siginfo_t *siginf, void *puc)
-{
-}
-
 /* launch the compiled program with the given arguments */
 int launch_exe(int argc, char **argv)
 {
@@ -5582,10 +5562,10 @@ int main(int argc, char **argv)
     define_symbol("__TINYC__");
     
     /* create standard sections */
-    text_section = new_section(".text", SHT_PROGBITS, SHF_ALLOC | SHF_EXECINSTR);
-    data_section = new_section(".data", SHT_PROGBITS, SHF_ALLOC | SHF_WRITE);
+    text_section = new_section(".text");
+    data_section = new_section(".data");
     /* XXX: should change type to SHT_NOBITS */
-    bss_section = new_section(".bss", SHT_PROGBITS, SHF_ALLOC | SHF_WRITE);
+    bss_section = new_section(".bss");
 
     optind = 1;
     outfile = NULL;
