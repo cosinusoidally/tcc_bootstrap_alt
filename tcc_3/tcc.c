@@ -5546,13 +5546,6 @@ int tcc_compile_file(const char *filename1)
     vtop = vstack - 1;
     anon_sym = SYM_FIRST_ANOM; 
 
-    /* file info: full path + filename */
-    if (do_debug) {
-        getcwd(buf, sizeof(buf));
-        pstrcat(buf, sizeof(buf), "/");
-        put_stabs(buf, N_SO, 0, 0, (unsigned long)text_section->data_ptr);
-        put_stabs(filename, N_SO, 0, 0, (unsigned long)text_section->data_ptr);
-    }
     /* define common 'char *' type because it is often used internally
        for arrays and struct dereference */
     char_pointer_type = mk_pointer(VT_BYTE);
@@ -5565,11 +5558,6 @@ int tcc_compile_file(const char *filename1)
     if (tok != -1)
         expect("declaration");
     fclose(file);
-
-    /* end of translation unit info */
-    if (do_debug) {
-        put_stabn(N_SO, 0, 0, (unsigned long)text_section->data_ptr);
-    }
 
     /* reset define stack, but leave -Dsymbols (may be incorrect if
        they are undefined) */
@@ -5638,23 +5626,11 @@ void undef_symbol(const char *sym)
    compiled programs */
 void open_dll(char *libname)
 {
-    char buf[1024];
-    void *h;
-
-    snprintf(buf, sizeof(buf), "lib%s.so", libname);
-    h = dlopen(buf, RTLD_GLOBAL | RTLD_LAZY);
-    if (!h)
-        error((char *)dlerror());
 }
 
 static void *resolve_sym(const char *sym)
 {
     void *ptr;
-    if (do_bounds_check) {
-        ptr = bound_resolve_sym(sym);
-        if (ptr)
-            return ptr;
-    }
     return dlsym(NULL, sym);
 }
 
@@ -5684,15 +5660,6 @@ void resolve_extern_syms(void)
 
 static int put_elf_str(Section *s, const char *sym)
 {
-    int c, offset;
-    offset = s->data_ptr - s->data;
-    for(;;) {
-        c = *sym++;
-        *s->data_ptr++ = c;
-        if (c == '\0')
-            break;
-    }
-    return offset;
 }
 
 static void put_elf_sym(Section *s, 
