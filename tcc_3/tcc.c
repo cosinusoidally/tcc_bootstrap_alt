@@ -4362,7 +4362,6 @@ void unary(void)
             gfunc_start(&gf);
             next();
             sa = s->next; /* first parameter */
-#ifdef INVERT_FUNC_PARAMS
             {
                 int *str, len, parlevel, *saved_macro_ptr;
                 Sym *args, *s1;
@@ -4414,7 +4413,6 @@ void unary(void)
                 /* restore token */
                 tok = ')';
             }
-#endif
             /* compute first implicit argument if a structure is returned */
             if ((s->t & VT_BTYPE) == VT_STRUCT) {
                 /* get some space for the returned structure */
@@ -4440,17 +4438,6 @@ void unary(void)
                 }
                 ret.c.i = 0;
             }
-#ifndef INVERT_FUNC_PARAMS
-exit(1);
-            while (tok != ')') {
-                expr_eq();
-                gfunc_param_typed(&gf, s, sa);
-                if (sa)
-                    sa = sa->next;
-                if (tok == ',')
-                    next();
-            }
-#endif
             if (sa)
                 error("too few arguments to function");
             skip(')');
