@@ -5755,9 +5755,12 @@ static void put_stabd(int type, int other, int desc)
 }
 
 /* output an ELF file (currently, only for testing) */
+/*
+TODO LJW 2023-07-01 note 1
+*/
 void build_exe(char *filename)
-{ 
-    puts("Dummy code output\n");
+{
+    printf("Dummy code output %s\n",filename);
 }
 
 /* print the position in the source file of PC value 'pc' by reading
@@ -5882,8 +5885,7 @@ int main(int argc, char **argv)
 
     if (outfile) {
         build_exe(outfile);
-        return 0;
-    } else {
-        return launch_exe(argc - optind, argv + optind);
     }
+
+    return launch_exe(argc - optind, argv + optind);
 }

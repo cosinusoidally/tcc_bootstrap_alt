@@ -14,3 +14,11 @@ rip out buggy and broken elf generation code
 
 write main README for this repo
 
+Notes:
+
+Note 1:
+build_exe
+The idea here is to add a custom output executable format. I will then add code
+to load this custom format into Spidermonkey via js-ctypes. That way I can
+avoid the need to add a full elf writer to tcc_3.
+

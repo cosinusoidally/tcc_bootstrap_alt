@@ -1,6 +1,7 @@
 rm artifacts/tcc_27_boot.exe
 rm tcc_bootstrap.o
 rm tcc_3/a.out
+rm tcc_3/tcc_dummy.o
 rm tcc_10/a.out
 rm tcc_10/tcc.o
 rm tcc_19/a.out

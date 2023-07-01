@@ -8,7 +8,7 @@ tcc tcc.c -I ../woody/usr/include/ -ldl
 cd ../tcc_10
 
 echo "tcc_3 to tcc_10"
-../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
+../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c -o tcc_dummy.o ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
 tcc tcc.o -ldl
 
 echo "tcc_10 to tcc_19"
