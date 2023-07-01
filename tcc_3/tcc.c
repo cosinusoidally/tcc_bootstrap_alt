@@ -6151,41 +6151,6 @@ int main(int argc, char **argv)
             if (optind >= argc)
                 goto show_help;
             tcc_compile_file(argv[optind++]);
-        } else if (r[1] == 'b') {
-            if (!do_bounds_check) {
-                do_bounds_check = 1;
-                /* define symbol */
-                define_symbol("__BOUNDS_CHECKING_ON");
-                /* create bounds sections */
-                bounds_section = new_section(".bounds", 
-                                             SHT_PROGBITS, SHF_ALLOC);
-                lbounds_section = new_section(".lbounds", 
-                                              SHT_PROGBITS, SHF_ALLOC);
-                /* debug is implied */
-                goto debug_opt;
-            }
-        } else if (r[1] == 'g') {
-        debug_opt:
-            if (!do_debug) {
-                do_debug = 1;
-
-                /* stab symbols */
-                stab_section = new_section(".stab", SHT_PROGBITS, 0);
-                stab_section->sh_entsize = sizeof(Stab_Sym);
-                stabstr_section = new_section(".stabstr", SHT_STRTAB, 0);
-                put_elf_str(stabstr_section, "");
-                stab_section->link = stabstr_section;
-                /* put first entry */
-                put_stabs("", 0, 0, 0, 0);
-                
-                /* elf symbols */
-                symtab_section = new_section(".symtab", SHT_SYMTAB, 0);
-                symtab_section->sh_entsize = sizeof(Elf32_Sym);
-                strtab_section = new_section(".strtab", SHT_STRTAB, 0);
-                put_elf_str(strtab_section, "");
-                symtab_section->link = strtab_section;
-                put_elf_sym(symtab_section, 0, 0, 0, 0, 0, NULL);
-            }
         } else if (r[1] == 'o') {
             /* currently, only for testing, so not documented */
             if (optind >= argc)
@@ -6202,7 +6167,7 @@ int main(int argc, char **argv)
     resolve_extern_syms();
 
     if (outfile) {
-        build_exe(outfile);
+//        build_exe(outfile);
         return 0;
     } else {
         return launch_exe(argc - optind, argv + optind);
