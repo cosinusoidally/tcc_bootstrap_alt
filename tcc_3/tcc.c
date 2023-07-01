@@ -5264,23 +5264,8 @@ int decl_initializer_alloc(int t, AttributeDef *ad, int r, int has_init)
     if (ad->aligned > align)
         align = ad->aligned;
     if ((r & VT_VALMASK) == VT_LOCAL) {
-        if (do_bounds_check && (t & VT_ARRAY)) 
-            loc--;
         loc = (loc - size) & -align;
         addr = loc;
-        /* handles bounds */
-        /* XXX: currently, since we do only one pass, we cannot track
-           '&' operators, so we add only arrays */
-        if (do_bounds_check && (t & VT_ARRAY)) {
-            int *bounds_ptr;
-            /* add padding between regions */
-            loc--;
-            /* then add local bound info */
-            bounds_ptr = (int *)lbounds_section->data_ptr;
-            *bounds_ptr++ = addr;
-            *bounds_ptr++ = size;
-            lbounds_section->data_ptr = (unsigned char *)bounds_ptr;
-        }
     } else {
         /* compute section */
         sec = ad->section;
@@ -5298,17 +5283,6 @@ int decl_initializer_alloc(int t, AttributeDef *ad, int r, int has_init)
            initializers themselves can create new
            initializers */
         data_offset += size;
-        /* handles bounds */
-        if (do_bounds_check) {
-            int *bounds_ptr;
-            /* first, we need to add at least one byte between each region */
-            data_offset++;
-            /* then add global bound info */
-            bounds_ptr = (int *)bounds_section->data_ptr;
-            *bounds_ptr++ = addr;
-            *bounds_ptr++ = size;
-            bounds_section->data_ptr = (unsigned char *)bounds_ptr;
-        }
         sec->data_ptr = (unsigned char *)data_offset;
     }
     if (has_init) {
@@ -5325,24 +5299,6 @@ int decl_initializer_alloc(int t, AttributeDef *ad, int r, int has_init)
 
 void put_func_debug(int t)
 {
-    int bind;
-    char buf[512];
-
-    if (t & VT_STATIC)
-        bind = STB_LOCAL;
-    else
-        bind = STB_GLOBAL;
-    put_elf_sym(symtab_section, ind, 0, 
-                ELF32_ST_INFO(bind, STT_FUNC), 0, 
-                cur_text_section->sh_num, funcname);
-    /* stabs info */
-    /* XXX: we put here a dummy type */
-    snprintf(buf, sizeof(buf), "%s:%c1", 
-             funcname, t & VT_STATIC ? 'f' : 'F');
-    put_stabs(buf, N_FUN, 0, line_num, ind);
-    func_ind = ind;
-    last_ind = 0;
-    last_line_num = 0;
 }
 
 /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
@@ -5406,9 +5362,6 @@ void decl(int l)
                 }
                 sym->r = VT_CONST;
                 funcname = get_tok_str(v, NULL);
-                /* put debug symbol */
-                if (do_debug)
-                    put_func_debug(t);
                 /* push a dummy symbol to enable local sym storage */
                 sym_push1(&local_stack, 0, 0, 0);
                 gfunc_prolog(t);
@@ -5421,9 +5374,6 @@ void decl(int l)
                 sym_pop(&label_stack, NULL); /* reset label stack */
                 sym_pop(&local_stack, NULL); /* reset local stack */
                 /* end of function */
-                if (do_debug) {
-                    put_stabn(N_FUN, 0, 0, ind - func_ind);
-                }
                 funcname = ""; /* for safety */
                 func_vt = VT_VOID; /* for safety */
                 ind = 0; /* for safety */
