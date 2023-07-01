@@ -4441,6 +4441,7 @@ void unary(void)
                 ret.c.i = 0;
             }
 #ifndef INVERT_FUNC_PARAMS
+exit(1);
             while (tok != ')') {
                 expr_eq();
                 gfunc_param_typed(&gf, s, sa);
@@ -4662,14 +4663,6 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 {
     int a, b, c, d;
     Sym *s;
-
-    /* generate line number info */
-    if (do_debug && 
-        (last_line_num != line_num || last_ind != ind)) {
-        put_stabn(N_SLINE, 0, line_num, ind - func_ind);
-        last_ind = ind;
-        last_line_num = line_num;
-    }
 
     if (tok == TOK_IF) {
         /* if test */
