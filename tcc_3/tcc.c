@@ -5699,59 +5699,18 @@ static void put_elf_sym(Section *s,
                        unsigned long value, unsigned long size,
                        int info, int other, int shndx, const char *name)
 {
-    int name_offset;
-    Elf32_Sym *sym;
-
-    sym = (Elf32_Sym *)s->data_ptr;
-    if (name)
-        name_offset = put_elf_str(s->link, name);
-    else
-        name_offset = 0;
-    sym->st_name = name_offset;
-    sym->st_value = value;
-    sym->st_size = size;
-    sym->st_info = info;
-    sym->st_other = other;
-    sym->st_shndx = shndx;
-    s->data_ptr += sizeof(Elf32_Sym);
 }
-
-/* put stab debug information */
-
-typedef struct {
-    unsigned long n_strx;         /* index into string table of name */
-    unsigned char n_type;         /* type of symbol */
-    unsigned char n_other;        /* misc info (usually empty) */
-    unsigned short n_desc;        /* description field */
-    unsigned long n_value;        /* value of symbol */
-} Stab_Sym;
 
 static void put_stabs(const char *str, int type, int other, int desc, int value)
 {
-    Stab_Sym *sym;
-
-    sym = (Stab_Sym *)stab_section->data_ptr;
-    if (str) {
-        sym->n_strx = put_elf_str(stabstr_section, str);
-    } else {
-        sym->n_strx = 0;
-    }
-    sym->n_type = type;
-    sym->n_other = other;
-    sym->n_desc = desc;
-    sym->n_value = value;
-
-    stab_section->data_ptr += sizeof(Stab_Sym);
 }
 
 static void put_stabn(int type, int other, int desc, int value)
 {
-    put_stabs(NULL, type, other, desc, value);
 }
 
 static void put_stabd(int type, int other, int desc)
 {
-    put_stabs(NULL, type, other, desc, 0);
 }
 
 /* output an ELF file (currently, only for testing) */
