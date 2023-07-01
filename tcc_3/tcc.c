@@ -3620,58 +3620,6 @@ void inc(int post, int c)
  */
 void parse_attribute(AttributeDef *ad)
 {
-    int t, n;
-
-    next();
-    skip('(');
-    skip('(');
-    while (tok != ')') {
-        if (tok < TOK_IDENT)
-            expect("attribute name");
-        t = tok;
-        next();
-        switch(t) {
-        case TOK_SECTION:
-        case TOK___SECTION__:
-            skip('(');
-            if (tok != TOK_STR)
-                expect("section name");
-            ad->section = find_section(tokc.ts->str);
-            next();
-            skip(')');
-            break;
-        case TOK_ALIGNED:
-        case TOK___ALIGNED__:
-            skip('(');
-            n = expr_const();
-            if (n <= 0 || (n & (n - 1)) != 0) 
-                error("alignment must be a positive power of two");
-            ad->aligned = n;
-            skip(')');
-            break;
-        case TOK_UNUSED:
-        case TOK___UNUSED__:
-            /* currently, no need to handle it because tcc does not
-               track unused objects */
-            break;
-        default:
-            warning("'%s' attribute ignored", get_tok_str(t, NULL));
-            /* skip parameters */
-            /* XXX: skip parenthesis too */
-            if (tok == '(') {
-                next();
-                while (tok != ')' && tok != -1)
-                    next();
-                next();
-            }
-            break;
-        }
-        if (tok != ',')
-            break;
-        next();
-    }
-    skip(')');
-    skip(')');
 }
 
 /* enum/struct/union declaration */
