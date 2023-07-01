@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include <errno.h>
 #include <math.h>
 #include <unistd.h>
 #include <sys/ucontext.h>
@@ -1639,7 +1638,6 @@ void parse_number(void)
             }
             *q = '\0';
             t = toup(ch);
-            errno = 0;
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
