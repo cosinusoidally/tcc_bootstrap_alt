@@ -4113,8 +4113,6 @@ void indir(void)
     if (!(vtop->t & VT_ARRAY)) {
         vtop->r |= VT_LVAL;
         /* if bound checking, the referenced pointer must be checked */
-        if (do_bounds_check) 
-            vtop->r |= VT_MUSTBOUND;
     }
 }
 
