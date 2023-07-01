@@ -5996,42 +5996,6 @@ void rt_error(unsigned long pc, const char *fmt, ...)
 /* signal handler for fatal errors */
 static void sig_error(int signum, siginfo_t *siginf, void *puc)
 {
-    struct ucontext *uc = puc;
-    unsigned long pc;
-
-#ifdef __i386__
-    pc = uc->uc_mcontext.gregs[14];
-#else
-#error please put the right sigcontext field    
-#endif
-
-    switch(signum) {
-    case SIGFPE:
-        switch(siginf->si_code) {
-        case FPE_INTDIV:
-        case FPE_FLTDIV:
-            rt_error(pc, "division by zero");
-            break;
-        default:
-            rt_error(pc, "floating point exception");
-            break;
-        }
-        break;
-    case SIGBUS:
-    case SIGSEGV:
-        rt_error(pc, "dereferencing invalid pointer");
-        break;
-    case SIGILL:
-        rt_error(pc, "illegal instruction");
-        break;
-    case SIGABRT:
-        rt_error(pc, "abort() called");
-        break;
-    default:
-        rt_error(pc, "caught signal %d", signum);
-        break;
-    }
-    exit(255);
 }
 
 /* launch the compiled program with the given arguments */
@@ -6039,41 +6003,14 @@ int launch_exe(int argc, char **argv)
 {
     Sym *s;
     int (*t)();
-    struct sigaction sigact;
 
     s = sym_find1(&extern_stack, TOK_MAIN);
     if (!s || (s->r & VT_FORWARD))
         error("main() not defined");
-    
-    if (do_debug) {
-        /* install TCC signal handlers to print debug info on fatal
-           runtime errors */
-        sigact.sa_flags = SA_SIGINFO | SA_ONESHOT;
-        sigact.sa_sigaction = sig_error;
-        sigemptyset(&sigact.sa_mask);
-        sigaction(SIGFPE, &sigact, NULL);
-        sigaction(SIGILL, &sigact, NULL);
-        sigaction(SIGSEGV, &sigact, NULL);
-        sigaction(SIGBUS, &sigact, NULL);
-        sigaction(SIGABRT, &sigact, NULL);
-    }
-
-    if (do_bounds_check) {
-        int *p, *p_end;
-        __bound_init();
-        /* add all known static regions */
-        p = (int *)bounds_section->data;
-        p_end = (int *)bounds_section->data_ptr;
-        while (p < p_end) {
-            __bound_new_region((void *)p[0], p[1]);
-            p += 2;
-        }
-    }
 
     t = (int (*)())s->c;
     return (*t)(argc, argv);
 }
-
 
 void help(void)
 {
@@ -6098,8 +6035,7 @@ int main(int argc, char **argv)
 
     include_paths[0] = "../woody/usr/include/";
     include_paths[1] = "../tcc_3";
-    include_paths[2] = "/usr/local/lib/tcc";
-    nb_include_paths = 3;
+    nb_include_paths = 2;
 
     /* add all tokens */
     tok_ident = TOK_IDENT;
