@@ -640,20 +640,6 @@ Section *new_section(const char *name, int sh_type, int sh_flags)
     return sec;
 }
 
-/* return a reference to a section, and create it if it does not
-   exists */
-Section *find_section(const char *name)
-{
-    Section *sec;
-    
-    for(sec = first_section; sec != NULL; sec = sec->next) {
-        if (!strcmp(name, sec->name)) 
-            return sec;
-    }
-    /* sections are created as PROGBITS */
-    return new_section(name, SHT_PROGBITS, SHF_ALLOC);
-}
-
 /* add a new relocation entry to symbol 's' */
 void greloc(Sym *s, int addr, int type)
 {
