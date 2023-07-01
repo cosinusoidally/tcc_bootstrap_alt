@@ -162,11 +162,6 @@ int section_num;
 Section *text_section, *data_section, *bss_section; /* predefined sections */
 Section *cur_text_section; /* current section where function code is
                               generated */
-/* bound check related sections */
-Section *bounds_section; /* contains global data bound description */
-Section *lbounds_section; /* contains local data bound description */
-/* debug sections */
-Section *stab_section, *stabstr_section, *symtab_section, *strtab_section;
 
 /* loc : local variable index
    ind : output code index
@@ -196,12 +191,6 @@ int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
 int char_pointer_type;
-
-/* compile with debug symbol (and use them if error during execution) */
-int do_debug = 0;
-
-/* compile with built-in memory and bounds checker */
-int do_bounds_check = 0;
 
 /* use GNU C extensions */
 int gnu_ext = 1;
@@ -964,10 +953,6 @@ int handle_eof(void)
 {
     if (include_stack_ptr == include_stack)
         return -1;
-    /* add end of include file debug info */
-    if (do_debug) {
-        put_stabd(N_EINCL, 0, 0);
-    }
     /* pop include stack */
     fclose(file);
     free(filename);
@@ -1320,10 +1305,6 @@ void preprocess(void)
         file = f;
         filename = strdup(buf1);
         line_num = 1;
-        /* add include file debug info */
-        if (do_debug) {
-            put_stabs(filename, N_BINCL, 0, 0, 0);
-        }
     } else if (tok == TOK_IFNDEF) {
         c = 1;
         goto do_ifdef;
