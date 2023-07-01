@@ -457,8 +457,6 @@ static inline int is_float(int t)
     return bt == VT_LDOUBLE || bt == VT_DOUBLE || bt == VT_FLOAT;
 }
 
-#include "bcheck.c"
-
 #include "i386-gen.c"
 
 #ifdef CONFIG_TCC_STATIC
@@ -2923,19 +2921,7 @@ void gen_op(int op)
             /* XXX: cast to int ? (long long case) */
             vpushi(pointed_size(vtop[-1].t));
             gen_op('*');
-            if (do_bounds_check) {
-                /* if bounded pointers, we generate a special code to
-                   test bounds */
-                if (op == '-') {
-                    vpushi(0);
-                    vswap();
-                    gen_op('-');
-                }
-                gen_bounded_ptr_add1();
-                gen_bounded_ptr_add2(0);
-            } else {
-                gen_opc(op);
-            }
+            gen_opc(op);
             /* put again type if gen_opc() swaped operands */
             vtop->t = t1;
         }
