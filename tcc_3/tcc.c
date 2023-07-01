@@ -24,7 +24,6 @@
 #include <errno.h>
 #include <math.h>
 #include <unistd.h>
-#include <signal.h>
 #include <sys/ucontext.h>
 #include <sys/mman.h>
 #include <elf.h>
