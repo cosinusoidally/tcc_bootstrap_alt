@@ -5755,242 +5755,20 @@ static void put_stabd(int type, int other, int desc)
 }
 
 /* output an ELF file (currently, only for testing) */
-/* XXX: generate dynamic reloc info + DLL tables */
-/* XXX: generate startup code */
-/* XXX: better program header generation */
-/* XXX: handle realloc'ed sections (instead of mmaping them) */
 void build_exe(char *filename)
 { 
-    Elf32_Ehdr ehdr;
-    FILE *f;
-    int shnum, i, phnum, file_offset, offset, size, j;
-    Section *sec, *strsec;
-    Elf32_Shdr *shdr, *sh;
-    Elf32_Phdr *phdr, *ph;
-
-    memset(&ehdr, 0, sizeof(ehdr));
-
-    /* we add a section for symbols */
-    strsec = new_section(".shstrtab", SHT_STRTAB, 0);
-    put_elf_str(strsec, "");
-    
-    /* count number of sections and compute number of program segments */
-    shnum = 1; /* section index zero is reserved */
-    phnum = 0;
-    for(sec = first_section; sec != NULL; sec = sec->next) {
-        shnum++;
-        if (sec->sh_flags & SHF_ALLOC)
-            phnum++;
-    }
-    /* allocate section headers */
-    shdr = malloc(shnum * sizeof(Elf32_Shdr));
-    if (!shdr)
-        error("memory full");
-    memset(shdr, 0, shnum * sizeof(Elf32_Shdr));
-    /* allocate program segment headers */
-    phdr = malloc(phnum * sizeof(Elf32_Phdr));
-    if (!phdr)
-        error("memory full");
-    memset(phdr, 0, phnum * sizeof(Elf32_Phdr));
-        
-    /* XXX: find correct load order */
-    file_offset = sizeof(Elf32_Ehdr) + phnum * sizeof(Elf32_Phdr);
-    for(sec = first_section, i = 1; sec != NULL; sec = sec->next, i++) {
-        sh = &shdr[i];
-        sh->sh_name = put_elf_str(strsec, sec->name);
-        sh->sh_type = sec->sh_type;
-        sh->sh_flags = sec->sh_flags;
-        sh->sh_entsize = sec->sh_entsize;
-        if (sec->link)
-            sh->sh_link = sec->link->sh_num;
-        if (sh->sh_type == SHT_STRTAB) {
-            sh->sh_addralign = 1;
-        } else if (sh->sh_type == SHT_SYMTAB ||
-                   (sh->sh_flags & SHF_ALLOC) == 0) {
-            sh->sh_addralign = 4;
-        } else {
-            sh->sh_addr = (Elf32_Word)sec->data;
-            sh->sh_addralign = 4096;
-        }
-        sh->sh_size = (Elf32_Word)sec->data_ptr - (Elf32_Word)sec->data;
-        /* align to section start */
-        file_offset = (file_offset + sh->sh_addralign - 1) & 
-            ~(sh->sh_addralign - 1);
-        sh->sh_offset = file_offset;
-        file_offset += sh->sh_size;
-    }
-    /* build program headers (simplistic - not fully correct) */
-    j = 0;
-    for(i=1;i<shnum;i++) {
-        sh = &shdr[i];
-        if (sh->sh_type == SHT_PROGBITS &&
-            (sh->sh_flags & SHF_ALLOC) != 0) {
-            ph = &phdr[j++];
-            ph->p_type = PT_LOAD;
-            ph->p_offset = sh->sh_offset;
-            ph->p_vaddr = sh->sh_addr;
-            ph->p_paddr = ph->p_vaddr;
-            ph->p_filesz = sh->sh_size;
-            ph->p_memsz = sh->sh_size;
-            ph->p_flags = PF_R;
-            if (sh->sh_flags & SHF_WRITE)
-                ph->p_flags |= PF_W;
-            if (sh->sh_flags & SHF_EXECINSTR)
-                ph->p_flags |= PF_X;
-            ph->p_align = sh->sh_addralign;
-        }
-    }
-
-    /* align to 4 */
-    file_offset = (file_offset + 3) & -4;
-    
-    /* fill header */
-    ehdr.e_ident[0] = ELFMAG0;
-    ehdr.e_ident[1] = ELFMAG1;
-    ehdr.e_ident[2] = ELFMAG2;
-    ehdr.e_ident[3] = ELFMAG3;
-    ehdr.e_ident[4] = ELFCLASS32;
-    ehdr.e_ident[5] = ELFDATA2LSB;
-    ehdr.e_ident[6] = EV_CURRENT;
-    ehdr.e_type = ET_EXEC;
-    ehdr.e_machine = EM_386;
-    ehdr.e_version = EV_CURRENT;
-    ehdr.e_entry = 0; /* XXX: patch it */
-    ehdr.e_phoff = sizeof(Elf32_Ehdr);
-    ehdr.e_shoff = file_offset;
-    ehdr.e_ehsize = sizeof(Elf32_Ehdr);
-    ehdr.e_phentsize = sizeof(Elf32_Phdr);
-    ehdr.e_phnum = phnum;
-    ehdr.e_shentsize = sizeof(Elf32_Shdr);
-    ehdr.e_shnum = shnum;
-    ehdr.e_shstrndx = shnum - 1;
-    
-    /* write elf file */
-    f = fopen(filename, "w");
-    if (!f)
-        error("could not write '%s'", filename);
-    fwrite(&ehdr, 1, sizeof(Elf32_Ehdr), f);
-    fwrite(phdr, 1, phnum * sizeof(Elf32_Phdr), f);
-    offset = sizeof(Elf32_Ehdr) + phnum * sizeof(Elf32_Phdr);
-    for(sec = first_section, i = 1; sec != NULL; sec = sec->next, i++) {
-        sh = &shdr[i];
-        while (offset < sh->sh_offset) {
-            fputc(0, f);
-            offset++;
-        }
-        size = sec->data_ptr - sec->data;
-        fwrite(sec->data, 1, size, f);
-        offset += size;
-    }
-    while (offset < ehdr.e_shoff) {
-        fputc(0, f);
-        offset++;
-    }
-    fwrite(shdr, 1, shnum * sizeof(Elf32_Shdr), f);
-    fclose(f);
+    puts("Dummy code output\n");
 }
 
 /* print the position in the source file of PC value 'pc' by reading
    the stabs debug information */
 static void rt_printline(unsigned long wanted_pc)
 {
-    Stab_Sym *sym, *sym_end;
-    char func_name[128];
-    unsigned long func_addr, last_pc, pc;
-    const char *incl_files[INCLUDE_STACK_SIZE];
-    int incl_index, len, last_line_num, i;
-    const char *str, *p;
-
-    func_name[0] = '\0';
-    func_addr = 0;
-    incl_index = 0;
-    last_pc = 0xffffffff;
-    last_line_num = 1;
-    sym = (Stab_Sym *)stab_section->data + 1;
-    sym_end = (Stab_Sym *)stab_section->data_ptr;
-    while (sym < sym_end) {
-        switch(sym->n_type) {
-            /* function start or end */
-        case N_FUN:
-            if (sym->n_strx == 0) {
-                func_name[0] = '\0';
-                func_addr = 0;
-            } else {
-                str = stabstr_section->data + sym->n_strx;
-                p = strchr(str, ':');
-                if (!p) {
-                    pstrcpy(func_name, sizeof(func_name), str);
-                } else {
-                    len = p - str;
-                    if (len > sizeof(func_name) - 1)
-                        len = sizeof(func_name) - 1;
-                    memcpy(func_name, str, len);
-                    func_name[len] = '\0';
-                }
-                func_addr = sym->n_value;
-            }
-            break;
-            /* line number info */
-        case N_SLINE:
-            pc = sym->n_value + func_addr;
-            if (wanted_pc >= last_pc && wanted_pc < pc)
-                goto found;
-            last_pc = pc;
-            last_line_num = sym->n_desc;
-            break;
-            /* include files */
-        case N_BINCL:
-            str = stabstr_section->data + sym->n_strx;
-        add_incl:
-            if (incl_index < INCLUDE_STACK_SIZE) {
-                incl_files[incl_index++] = str;
-            }
-            break;
-        case N_EINCL:
-            if (incl_index > 1)
-                incl_index--;
-            break;
-        case N_SO:
-            if (sym->n_strx == 0) {
-                incl_index = 0; /* end of translation unit */
-            } else {
-                str = stabstr_section->data + sym->n_strx;
-                /* do not add path */
-                len = strlen(str);
-                if (len > 0 && str[len - 1] != '/')
-                    goto add_incl;
-            }
-            break;
-        }
-        sym++;
-    }
-    /* did not find line number info: */
-    fprintf(stderr, "(no debug info, pc=0x%08lx): ", wanted_pc);
-    return;
- found:
-    for(i = 0; i < incl_index - 1; i++)
-        fprintf(stderr, "In file included from %s\n", 
-                incl_files[i]);
-    if (incl_index > 0) {
-        fprintf(stderr, "%s:%d: ", 
-                incl_files[incl_index - 1], last_line_num);
-    }
-    if (func_name[0] != '\0') {
-        fprintf(stderr, "in function '%s()': ", func_name);
-    }
 }
 
 /* emit a run time error at position 'pc' */
 void rt_error(unsigned long pc, const char *fmt, ...)
 {
-    va_list ap;
-    va_start(ap, fmt);
-
-    rt_printline(pc);
-    vfprintf(stderr, fmt, ap);
-    fprintf(stderr, "\n");
-    exit(255);
-    va_end(ap);
 }
 
 /* signal handler for fatal errors */
@@ -6103,7 +5881,7 @@ int main(int argc, char **argv)
     resolve_extern_syms();
 
     if (outfile) {
-//        build_exe(outfile);
+        build_exe(outfile);
         return 0;
     } else {
         return launch_exe(argc - optind, argv + optind);
