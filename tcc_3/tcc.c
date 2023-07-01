@@ -2346,15 +2346,6 @@ void gaddrof(void)
 /* generate lvalue bound code */
 void gbound(void)
 {
-    vtop->r &= ~VT_MUSTBOUND;
-    /* if lvalue, then use checking code before dereferencing */
-    if (vtop->r & VT_LVAL) {
-        gaddrof();
-        vpushi(0);
-        gen_bounded_ptr_add1();
-        gen_bounded_ptr_add2(1);
-        vtop->r |= VT_LVAL;
-    }
 }
 
 /* store vtop a register belonging to class 'rc'. lvalues are
