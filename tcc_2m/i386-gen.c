@@ -179,12 +179,15 @@ void load(int r, int ft, int fc)
             v = r;
         }
         if ((ft & VT_BTYPE) == VT_FLOAT) {
+            puts("load float");
             o(0xd9); /* flds */
             r = 0;
         } else if ((ft & VT_BTYPE) == VT_DOUBLE) {
+            puts("load double");
             o(0xdd); /* fldl */
             r = 0;
         } else if ((ft & VT_BTYPE) == VT_LDOUBLE) {
+            puts("load long double");
             o(0xdb); /* fldt */
             r = 5;
         } else if ((ft & VT_TYPE) == VT_BYTE)
@@ -242,12 +245,15 @@ void store(r, ft, fc)
     /* XXX: incorrect if reg to reg */
     /* XXX: should not flush float stack */
     if (bt == VT_FLOAT) {
+        puts("store float");
         o(0xd9); /* fsts */
         r = 2;
     } else if (bt == VT_DOUBLE) {
+        puts("store double");
         o(0xdd); /* fstpl */
         r = 2;
     } else if (bt == VT_LDOUBLE) {
+        puts("store long double");
         o(0xc0d9); /* fld %st(0) */
         o(0xdb); /* fstpt */
         r = 7;
@@ -298,6 +304,7 @@ void gfunc_param(GFuncContext *c)
         vstore();
         c->args_size += size;
     } else if (is_float(vtop->t)) {
+        puts("gfunc_param float");
         gv(); /* only one float register */
         if ((vtop->t & VT_BTYPE) == VT_FLOAT)
             size = 4;
@@ -469,6 +476,7 @@ void gen_opi(int op)
 /* NOTE: currently floats can only be lvalues */
 void gen_opf(int op)
 {
+    puts("gen_opf");
     int a, ft, fc, swapped, r;
 
     /* convert constants to memory references */
@@ -562,6 +570,7 @@ void gen_opf(int op)
 /* convert integers to fp 't' type */
 void gen_cvt_itof(int t)
 {
+    puts("gen_cvt_itof");
     gv();
     if ((vtop->t & (VT_BTYPE | VT_UNSIGNED)) == (VT_INT | VT_UNSIGNED)) {
         /* unsigned int to float/double/long double */
@@ -589,6 +598,7 @@ static unsigned short __tcc_int_fpu_control = 0x137f | 0x0c00;
 /* XXX: handle long long case */
 void gen_cvt_ftoi(int t)
 {
+    puts("gen_cvt_ftoi");
     int r, size;
 
     gv();
@@ -617,6 +627,7 @@ void gen_cvt_ftoi(int t)
 /* convert from one floating point type to another */
 void gen_cvt_ftof(int t)
 {
+puts("gen_cvt_ftof");
     /* all we have to do on i386 is to put the float in a register */
     gv();
 }
@@ -626,6 +637,7 @@ void vpop(void)
 {
     /* for x86, we need to pop the FP stack */
     if ((vtop->t & VT_VALMASK) == REG_ST0) {
+        puts("vpop fp stack");
         o(0xd9dd); /* fstp %st(1) */
     }
     vtop--;
