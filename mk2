@@ -1,14 +1,14 @@
 ./mk_clean
 
-cd tcc_3
+cd tcc_2
 
 set -e
 
 tcc tcc.c -I ../woody/usr/include/ -ldl
 cd ../tcc_10
 
-echo "tcc_3 to tcc_10"
-../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
+echo "tcc_2 to tcc_10"
+../tcc_2/a.out ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
 ../check_syms.sh
 tcc tcc.o -ldl
 
