@@ -4,7 +4,9 @@ cd tcc_2
 
 set -e
 
-tcc tcc.c -I ../woody/usr/include/ -ldl
+tcc -c tcc.c -I ../woody/usr/include/
+tcc tcc.o -ldl
+../check_syms.sh
 cd ../tcc_10
 
 echo "tcc_2 to tcc_10"

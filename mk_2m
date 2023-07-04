@@ -1,14 +1,16 @@
 ./mk_clean
 
-cd tcc_2
+cd tcc_2m
 
 set -e
 
-tcc tcc.c -I ../woody/usr/include/ -ldl
+tcc -c tcc.c -I ../woody/usr/include/
+tcc tcc.o -ldl
+../check_syms.sh
 cd ../tcc_10
 
 echo "tcc_2 to tcc_10"
-../tcc_2/a.out ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
+../tcc_2m/a.out ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
 ../check_syms.sh
 tcc tcc.o -ldl
 
