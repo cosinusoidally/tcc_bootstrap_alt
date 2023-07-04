@@ -1232,7 +1232,6 @@ void parse_number(void)
     char *q;
     unsigned int n, n1;
     unsigned int bn[BN_SIZE];
-    double d;
 
     /* number */
     q = token_buf;
@@ -1355,25 +1354,17 @@ void parse_number(void)
             }
             exp_val = exp_val * s;
             
-            /* now we can generate the number */
-            /* XXX: should patch directly float number */
-// HACK LJW disable some double stuff
-//            d = (double)bn[1] * 4294967296.0 + (double)bn[0];
-//            d = ldexp(d, exp_val - frac_bits);
             t = toup(ch);
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
                 /* float : should handle overflow */
-//                tokc.f = (float)d;
             } else if (t == 'L') {
                 cinp();
                 tok = TOK_CLDOUBLE;
                 /* XXX: not large enough */
-//                tokc.ld = (long double)d;
             } else {
                 tok = TOK_CDOUBLE;
-//                tokc.d = d;
             }
         } else {
             /* decimal floats */
@@ -1416,14 +1407,11 @@ void parse_number(void)
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
-                tokc.f = strtof(token_buf, NULL);
             } else if (t == 'L') {
                 cinp();
                 tok = TOK_CLDOUBLE;
-                tokc.ld = strtold(token_buf, NULL);
             } else {
                 tok = TOK_CDOUBLE;
-                tokc.d = strtod(token_buf, NULL);
             }
         }
     } else {
@@ -2296,17 +2284,11 @@ puts("got here\n");exit(1);
                         goto do_ftoi;
                     case VT_INT | VT_UNSIGNED:
                         switch(sbt) {
-                        case VT_FLOAT: vtop->c.ui = (unsigned int)vtop->c.d; break;
-                        case VT_DOUBLE: vtop->c.ui = (unsigned int)vtop->c.d; break;
-                        case VT_LDOUBLE: vtop->c.ui = (unsigned int)vtop->c.d; break;
                         }
                         break;
                     default:
                         /* int case */
                         switch(sbt) {
-                        case VT_FLOAT: vtop->c.i = (int)vtop->c.d; break;
-                        case VT_DOUBLE: vtop->c.i = (int)vtop->c.d; break;
-                        case VT_LDOUBLE: vtop->c.i = (int)vtop->c.d; break;
                         }
                         break;
                     }
