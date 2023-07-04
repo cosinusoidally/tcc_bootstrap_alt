@@ -9,6 +9,7 @@ cd ../tcc_10
 
 echo "tcc_3 to tcc_10"
 ../tcc_3/a.out ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
+../check_syms.sh
 tcc tcc.o -ldl
 
 echo "tcc_10 to tcc_23"
@@ -18,10 +19,12 @@ cd ../tcc_23
 ../tcc_10/a.out -o tcc.o -c tcc.c
 ../tcc_10/a.out -o libtcc1_min.o -c libtcc1_min.c
 tcc libtcc1_min.o tcc.o -ldl
+../check_syms.sh
 rm tcc.o
 
 ./a.out -c libtcc1.c
 ./a.out -I ../woody/usr/include/ -I . -c tcc.c
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 echo "tcc_23 to tcc_24"
@@ -29,6 +32,7 @@ cd ../tcc_24
 
 ../tcc_23/a.out -I ../woody/usr/include/ -I . -c tcc.c
 ../tcc_23/a.out -c libtcc1.c
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 echo "tcc_24 to tcc_26"
@@ -36,22 +40,26 @@ cd ../tcc_26
 
 ../tcc_24/a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
 ../tcc_24/a.out -c ../tcc_24/libtcc1.c
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c ./lib/libtcc1.c
-./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
@@ -62,22 +70,26 @@ cd ../tcc_27
 
 ../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
 ../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
-tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
-
-./a.out -c ./lib/libtcc1.c
-./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 rm tcc.o
 rm libtcc1.o
 
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 mv a.out ../artifacts/tcc_27_boot.exe
