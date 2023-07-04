@@ -372,53 +372,6 @@ static inline int is_float(int t)
 
 #include "i386-gen.c"
 
-#ifdef CONFIG_TCC_STATIC
-
-#define RTLD_LAZY       0x001
-#define RTLD_NOW        0x002
-#define RTLD_GLOBAL     0x100
-
-/* dummy function for profiling */
-void *dlopen(const char *filename, int flag)
-{
-    return NULL;
-}
-
-const char *dlerror(void)
-{
-    return "error";
-}
-
-typedef struct TCCSyms {
-    char *str;
-    void *ptr;
-} TCCSyms;
-
-#define TCCSYM(a) { #a, &a, },
-
-/* add the symbol you want here if no dynamic linking is done */
-static TCCSyms tcc_syms[] = {
-    TCCSYM(printf)
-    TCCSYM(fprintf)
-    TCCSYM(fopen)
-    TCCSYM(fclose)
-    { NULL, NULL },
-};
-
-void *dlsym(void *handle, char *symbol)
-{
-    TCCSyms *p;
-    p = tcc_syms;
-    while (p->str != NULL) {
-        if (!strcmp(p->str, symbol))
-            return p->ptr;
-        p++;
-    }
-    return NULL;
-}
-
-#endif
-
 static inline int isid(int c)
 {
     return (c >= 'a' && c <= 'z') ||
