@@ -108,12 +108,12 @@ rm libtcc1.o
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
 tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
 
 mv a.out ../artifacts/tcc_27_boot.exe
 
 cd ..
 
-sha256sum artifacts/tcc_27_boot.exe
+./artifacts/tcc_27_boot.exe -v
+sha256sum tcc_27/tcc.o
+sha256sum tcc_27/libtcc1.o
 sha256sum -c sum
