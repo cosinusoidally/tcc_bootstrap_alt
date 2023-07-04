@@ -1685,12 +1685,15 @@ void parse_number(void)
         }
         
         /* XXX: not exactly ANSI compliant */
+#ifndef NO_LONG_LONG
         if ((n & 0xffffffff00000000LL) != 0) {
             if ((n >> 63) != 0)
                 tok = TOK_CULLONG;
             else
                 tok = TOK_CLLONG;
-        } else if (n > 0x7fffffff) {
+        } else
+#endif
+        if (n > 0x7fffffff) {
             tok = TOK_CUINT;
         } else {
             tok = TOK_CINT;
