@@ -22,9 +22,7 @@
 #include <string.h>
 #include <errno.h>
 #include <math.h>
-#ifndef CONFIG_TCC_STATIC
 #include <dlfcn.h>
-#endif
 
 //#define DEBUG
 /* preprocessor debug */
