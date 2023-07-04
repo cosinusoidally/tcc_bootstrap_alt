@@ -1357,22 +1357,23 @@ void parse_number(void)
             
             /* now we can generate the number */
             /* XXX: should patch directly float number */
-            d = (double)bn[1] * 4294967296.0 + (double)bn[0];
-            d = ldexp(d, exp_val - frac_bits);
+// HACK LJW disable some double stuff
+//            d = (double)bn[1] * 4294967296.0 + (double)bn[0];
+//            d = ldexp(d, exp_val - frac_bits);
             t = toup(ch);
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
                 /* float : should handle overflow */
-                tokc.f = (float)d;
+//                tokc.f = (float)d;
             } else if (t == 'L') {
                 cinp();
                 tok = TOK_CLDOUBLE;
                 /* XXX: not large enough */
-                tokc.ld = (long double)d;
+//                tokc.ld = (long double)d;
             } else {
                 tok = TOK_CDOUBLE;
-                tokc.d = d;
+//                tokc.d = d;
             }
         } else {
             /* decimal floats */
@@ -2250,20 +2251,8 @@ void gen_cast(int t)
             if (sf && df) {
                 /* convert from fp to fp */
                 if (c) {
-                    /* constant case: we can do it now */
-                    /* XXX: in ISOC, cannot do it if error in convert */
-                    if (dbt == VT_FLOAT && sbt == VT_DOUBLE) 
-                        vtop->c.f = (float)vtop->c.d;
-                    else if (dbt == VT_FLOAT && sbt == VT_LDOUBLE) 
-                        vtop->c.f = (float)vtop->c.ld;
-                    else if (dbt == VT_DOUBLE && sbt == VT_FLOAT) 
-                        vtop->c.d = (double)vtop->c.f;
-                    else if (dbt == VT_DOUBLE && sbt == VT_LDOUBLE) 
-                        vtop->c.d = (double)vtop->c.ld;
-                    else if (dbt == VT_LDOUBLE && sbt == VT_FLOAT) 
-                        vtop->c.ld = (long double)vtop->c.f;
-                    else if (dbt == VT_LDOUBLE && sbt == VT_DOUBLE) 
-                        vtop->c.ld = (long double)vtop->c.d;
+puts("got here\n");exit(1);
+// LJW HACK deleted code
                 } else {
                     /* non constant case: generate code */
                     gen_cvt_ftof(dbt);
@@ -2280,16 +2269,10 @@ void gen_cast(int t)
                         goto do_itof;
                     case VT_INT | VT_UNSIGNED:
                         switch(dbt) {
-                        case VT_FLOAT: vtop->c.f = (float)vtop->c.ui; break;
-                        case VT_DOUBLE: vtop->c.d = (double)vtop->c.ui; break;
-                        case VT_LDOUBLE: vtop->c.ld = (long double)vtop->c.ui; break;
                         }
                         break;
                     default:
                         switch(dbt) {
-                        case VT_FLOAT: vtop->c.f = (float)vtop->c.i; break;
-                        case VT_DOUBLE: vtop->c.d = (double)vtop->c.i; break;
-                        case VT_LDOUBLE: vtop->c.ld = (long double)vtop->c.i; break;
                         }
                         break;
                     }
@@ -3943,16 +3926,9 @@ void init_putv(int t, int c, int v, int is_expr)
             *(short *)c = vtop->c.i;
             break;
         case VT_DOUBLE:
-            *(double *)c = vtop->c.d;
             break;
         case VT_LDOUBLE:
-            *(long double *)c = vtop->c.ld;
             break;
-#if 0
-        case VT_LLONG:
-            *(long long *)c = vtop->c.ll;
-            break;
-#endif
         default:
             *(int *)c = vtop->c.i;
             break;
