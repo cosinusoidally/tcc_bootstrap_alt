@@ -4445,6 +4445,7 @@ void build_exe(char *filename)
 
 int main(int argc, char **argv)
 {
+    puts("tcc 2m start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
@@ -4514,6 +4515,7 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
+    puts("tcc 2m compile done");
 
     resolve_extern_syms();
 
