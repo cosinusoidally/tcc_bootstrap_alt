@@ -5538,7 +5538,7 @@ int main(int argc, char **argv)
     int optind;
 
     include_paths[0] = "../woody/usr/include/";
-    include_paths[1] = "../tcc_3";
+    include_paths[1] = "../tcc_3m";
     nb_include_paths = 2;
 
     /* add all tokens */
