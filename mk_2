@@ -63,8 +63,6 @@ rm libtcc1.o
 ./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
 ../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
-rm tcc.o
-rm libtcc1.o
 
 echo "tcc_26 to tcc_27"
 
