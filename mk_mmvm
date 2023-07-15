@@ -1,4 +1,4 @@
-./mk
+./mk_2m
 cd artifacts
 export PATH=$PWD:$PATH
 cd ../../mishmashvm/libc_portable_proto

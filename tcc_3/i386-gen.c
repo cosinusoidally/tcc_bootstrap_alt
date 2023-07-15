@@ -76,7 +76,6 @@ typedef struct GFuncContext {
 /******************************************************/
 
 static int *func_sub_sp_ptr;
-static unsigned char *func_bound_ptr;
 
 void g(int c)
 {
@@ -393,36 +392,11 @@ void gfunc_prolog(int t)
     }
     o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
     func_sub_sp_ptr = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
-    /* leave some room for bound checking code */
-    if (do_bounds_check) {
-        oad(0xb8, 0); /* lbound section pointer */
-        oad(0xb8, 0); /* call to function */
-        func_bound_ptr = lbounds_section->data_ptr;
-    }
 }
 
 /* generate function epilog */
 void gfunc_epilog(void)
 {
-    if (do_bounds_check && func_bound_ptr != lbounds_section->data_ptr) {
-        int saved_ind;
-        int *bounds_ptr;
-        /* add end of table info */
-        bounds_ptr = (int *)lbounds_section->data_ptr;
-        *bounds_ptr++ = 0;
-        lbounds_section->data_ptr = (unsigned char *)bounds_ptr;
-        /* generate bound local allocation */
-        saved_ind = ind;
-        ind = (int)func_sub_sp_ptr + 4;
-        oad(0xb8, (int)func_bound_ptr); /* mov %eax, xxx */
-        oad(0xe8, (int)__bound_local_new - ind - 5);
-        ind = saved_ind;
-        /* generate bound check local freeing */
-        o(0x5250); /* save returned value, if any */
-        oad(0xb8, (int)func_bound_ptr); /* mov %eax, xxx */
-        oad(0xe8, (int)__bound_local_delete - ind - 5);
-        o(0x585a); /* restore returned value, if any */
-    }
     o(0xc3c9); /* leave, ret */
     /* align local size to word & save local variables */
     *func_sub_sp_ptr = (-loc + 3) & -4; 
@@ -779,49 +753,6 @@ void gen_cvt_ftof(int t)
 {
     /* all we have to do on i386 is to put the float in a register */
     gv(RC_FLOAT);
-}
-
-/* bound check support functions */
-
-/* generate first part of bounded pointer addition */
-void gen_bounded_ptr_add1(void)
-{
-    /* prepare fast i386 function call (args in eax and edx) */
-    gv2(RC_EAX, RC_EDX);
-    /* save all temporary registers */
-    vtop--;
-    vtop->r = VT_CONST;
-    save_regs(); 
-}
-
-/* if deref is true, then also test dereferencing */
-void gen_bounded_ptr_add2(int deref)
-{
-    void *func;
-    int size, align;
-
-    if (deref) {
-        size = type_size(vtop->t, &align);
-        switch(size) {
-        case  1: func = __bound_ptr_indir1; break;
-        case  2: func = __bound_ptr_indir2; break;
-        case  4: func = __bound_ptr_indir4; break;
-        case  8: func = __bound_ptr_indir8; break;
-        case 12: func = __bound_ptr_indir12; break;
-        case 16: func = __bound_ptr_indir16; break;
-        default:
-            error("unhandled size when derefencing bounded pointer");
-            func = NULL;
-            break;
-        }
-    } else {
-        func = __bound_ptr_add;
-    }
-
-    /* do a fast function call */
-    oad(0xe8, (int)func - ind - 5);
-    /* return pointer is there */
-    vtop->r = REG_EAX;
 }
 
 /* end of X86 code generator */

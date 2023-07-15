@@ -1,0 +1,120 @@
+The aim here is to provide an alternative bootstrap path for
+https://github.com/cosinusoidally/mishmashvm/ to allow us to bootstrap tcc
+without relying on an Emscripten compiled JS version of tcc. This bootstrap
+method goes from an adapted tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
+(the most recent official release from 2017).
+
+Setup:
+======
+
+Follow the Linux setup instructions from
+https://github.com/cosinusoidally/mishmashvm/ in order to set up an Ubuntu
+bionic chroot, but debootstrap a buildd rather than a minbase:
+
+sudo debootstrap --arch=i386 --variant=buildd bionic bionic
+
+Make sure you bind mount /dev /dev/shm and /proc as per the mishmashvm
+instructions as these are needed in order to allow the Mozilla Spidermonkey
+shell to run. Note Spidermonkey is not a hard requirement to bootstrap tcc, it
+is only needed to test the full end to end bootstrap from tcc 0.9.2 to 0.9.27 to
+the mishmashvm variant of tcc 0.9.27.
+
+When entering the chroot make sure you do setarch i686 if you are on a amd64
+kernel, otherwise tcc will misbehave and try to build 64 bit binaries.
+
+cd bionic
+sudo chroot .
+su foo (set up this user so we are not running as root)
+setarch i686
+bash
+
+make yourself a directory to check out tcc_bootstrap_alt just to keep things
+separate (the build process will touch the parent diretory of tcc_bootstrap_alt
+).
+
+from tcc_bootstrap_alt
+
+cp -r tcc_27 ../
+cd ../tcc_27
+./configure --prefix=/tmp/tcc
+make
+make install
+cd ../tcc_bootstrap_alt/
+pushd .
+cd /tmp/tcc/bin/
+export PATH=$PWD:$PATH
+popd
+
+At this point you will be in tcc_bootstrap_alt . There are several alternative
+bootstrap scripts:
+
+./mk_2m   ("minimal v2" this bootstraps from an integer only version of 0.9.2,
+         this is the preferred starting point)
+./mk_2    (bootstraps from a more complete version of v2)
+./mk_3    (bootstraps from 0.9.3)
+./mk_mmvm (bootstraps from v2m up to v27 and then bootstraps the mishmashvm
+           version of tcc. It expects mishmashvm to be in ../mishmashvm . You
+           must also have the Mozilla Spidermonkey JS VM in your PATH)
+./mk_clean (cleans up build artifacts)
+
+Just a note on notation, you'll see many tcc_X directories, these directories
+correspond to tcc 0.9.X just for briefness (pretty redundant saying 0.9.X when
+tcc has been on 0.9.x for 20+ years).
+
+To bootstrap:
+=============
+
+./mk_2m
+
+If this is successful you will see:
+
+tcc version 0.9.27 (i386 Linux)
+5175a1b6e0c00caa211b1a9cb6df674b197c5a27beaa5e04ff456d9ceb0419b3  tcc_27/tcc.o
+52d0516842257aed4d9a3e91046bbce9c9eb4edcc267d0f411a9a605f509f053  tcc_27/libtcc1.o
+tcc_27/tcc.o: OK
+tcc_27/libtcc1.o: OK
+
+This confirms that tcc 0.9.27 builds, runs, and that the hashes of the object
+code are as expected.
+
+The compiler itself is in artifacts/tcc_27_boot.exe . Note that is a Linux
+executable, but it has the extension "exe" to make it easier to gitignore. Also
+note that it can build ".o" files but it will probably struggle to locate stuff
+like crt*.o if you try to use it to build Linux executables (you'll likely end
+up needing to use -nostdlib and then manually specifying everything). Further
+note this is not a major issue for my purposes as mishmashvm directly loads and
+runs ".o" files.
+
+Bootstrapping mishmashvm:
+=========================
+
+Make sure you have checked out mishmashvm in the parent directory:
+
+$ ls
+jsshell  mishmashvm  mmvm_cfg.json  tcc_27  tcc_bootstrap_alt
+
+jump into tcc_bootstrap_alt and run ./mk_mmvm
+
+cd tcc_bootstrap_alt
+./mk_mmvm
+
+If this is successful you will see:
+
+....
+
+0e8e02c852a11ebec585650d3c6fa5917fb51d7b66dd1d458d3e51680c660964 my_libc.o
+0e8e02c852a11ebec585650d3c6fa5917fb51d7b66dd1d458d3e51680c660964 my_libc.o.new
+0cdb519efb42f22eba96bf90407e10b87868355e1d793d3a70271f09d47aa403 stubs.o
+0cdb519efb42f22eba96bf90407e10b87868355e1d793d3a70271f09d47aa403 stubs.o.new
+59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3 tcc_bin/libtcc1.o
+59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3 tcc_bin/libtcc1.o.new
+b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365 tcc_bin/tcc_boot3.o
+b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365 tcc_bin/tcc_boot3.o.new
+../mishmashvm/libc_portable_proto/my_libc.o: OK
+../mishmashvm/libc_portable_proto/stubs.o: OK
+../mishmashvm/libc_portable_proto/tcc_bin/libtcc1.o: OK
+../mishmashvm/libc_portable_proto/tcc_bin/tcc_boot3.o: OK
+
+tcc_boot3.o is the mishmashvm version of tcc. This bootstrap method produces a
+version of tcc which is bit identical to the version created by the Emscripten
+compiled JS based version of tcc in (mishmashvm/tcc_js_bootstrap/tcc_em.js).

@@ -1,0 +1,25 @@
+TODO list:
+
+Critical:
+- finish float/double support. add function type convertion.
+- section generation and GNUC __attributte__ handling.
+- D option with '=' handling
+- 0 is pointer - fix type compare
+- To check: 'sizeof' may not work if too complex expression is given.
+- fix 'char' and 'short' casts (only in function parameters and in
+  assignment).
+
+Not critical:
+
+- interactive mode
+- fix multiple compound literals inits in blocks (ISOC99 normative
+  example - only relevant when using gotos! -> must add boolean
+  variable to tell if compound literal was already initialized).
+- fix L"\x1234" wide string case (need to store them as utf8 ?)
+- fix preprocessor symbol redefinition
+- better constant opt (&&, ||, ?:)
+- add ELF executable and shared library output option (would be needed
+  for completness!).
+- add PowerPC code generator.
+- add portable byte code generator and interpreter for other
+  unsupported architectures.

@@ -1,0 +1,24 @@
+2023-07-01
+
+ok today I think I will strip down tcc 0.9.3 (1st bootstrap version). To do this
+I have taken a backup copy of tcc_3 (tcc_3_orig). I will then make changes to
+tcc_3. The reason I have done this is because I may bootstrap from tcc_3 to
+tcc_3_orig and then onto tcc_10
+
+Tasks:
+
+rip out all bcheck stuff from tcc_3
+rip out all signal handling stuff
+rip out debug stuff
+rip out buggy and broken elf generation code
+
+write main README for this repo
+
+Notes:
+
+Note 1:
+build_exe
+The idea here is to add a custom output executable format. I will then add code
+to load this custom format into Spidermonkey via js-ctypes. That way I can
+avoid the need to add a full elf writer to tcc_3.
+

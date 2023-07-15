@@ -1,17 +1,30 @@
 rm artifacts/tcc_27_boot.exe
-rm tcc_bootstrap.o
+
+rm tcc_2m/a.out
+rm tcc_2m/tcc.o
+
+rm tcc_2/a.out
+rm tcc_2/tcc.o
+
 rm tcc_3/a.out
+rm tcc_3/tcc.o
+
 rm tcc_10/a.out
 rm tcc_10/tcc.o
-rm tcc_19/a.out
-rm tcc_19/tcc.o
+
 rm tcc_23/a.out
-rm tcc_24/tcc.o
+rm tcc_23/libtcc1.o
+rm tcc_23/libtcc1_min.o
+rm tcc_23/tcc.o
+
 rm tcc_24/a.out
 rm tcc_24/libtcc1.o
-rm tcc_26/tcc.o
+rm tcc_24/tcc.o
+
 rm tcc_26/a.out
 rm tcc_26/libtcc1.o
-rm tcc_27/tcc.o
+rm tcc_26/tcc.o
+
 rm tcc_27/a.out
 rm tcc_27/libtcc1.o
+rm tcc_27/tcc.o
