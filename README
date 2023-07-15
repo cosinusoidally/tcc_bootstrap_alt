@@ -118,3 +118,38 @@ b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365 tcc_bin/tcc_boo
 tcc_boot3.o is the mishmashvm version of tcc. This bootstrap method produces a
 version of tcc which is bit identical to the version created by the Emscripten
 compiled JS based version of tcc in (mishmashvm/tcc_js_bootstrap/tcc_em.js).
+
+Technical Details:
+==================
+
+There are a couple of details that make this possible:
+
+* use of debian woody glibc headers. These are very old since older versions of
+  tcc cannot parse newer glibc headers
+* rely on tcc 0.9.27 to do the linking. Earlier version of tcc will struggle to
+  correctly link things on a Bionic system. Generally the logic for locating
+  things like crt file and shared libraries is also fragile. Very early versions
+  of tcc cannot even create executables as they are pure C JIT compilers. To
+  avoid these problems we simply use a copy of v27 built on the host system in
+  order to do the linking.
+* start with a cut down integer only version of v2. This is with the eventual
+  aim of starting the bootstrap process from a simpler C compiler like M2-Planet
+  from https://github.com/oriansj/m2-planet and using
+  https://github.com/oriansj/stage0-posix-x86 to start the bootstrap. There is
+  code in mishmashvm that is actually able to build M2-Planet under a JS vm:
+  https://github.com/cosinusoidally/mishmashvm/tree/master/tcc_js_bootstrap/alt_bootstrap
+  Alternatively it may be possible to further cut down v2m and then port it to a
+  simple subset of JS, maybe even a subset of JS that is also valid C. eg:
+
+  #define var int
+  #define function int
+  #include "foo.js"
+
+  foo.js:
+
+  function foo(){
+    return 7;
+  }
+
+  The above program is valid JS and valid C. There are lots of caveats to this
+  approach but it may be viable.
