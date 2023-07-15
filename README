@@ -47,11 +47,38 @@ popd
 At this point you will be in tcc_bootstrap_alt . There are several alternative
 bootstrap scripts:
 
-./mk_2m ("minimal v2" this bootstraps from an integer only version of 0.9.2,
+./mk_2m   ("minimal v2" this bootstraps from an integer only version of 0.9.2,
          this is the preferred starting point)
-./mk_2  (bootstraps from a more complete version of v2)
-./mk_3  (bootstraps from 0.9.3)
+./mk_2    (bootstraps from a more complete version of v2)
+./mk_3    (bootstraps from 0.9.3)
+./mk_mmvm (bootstraps from v2m up to v27 and then bootstraps the mishmashvm
+           version of tcc. It expects mishmashvm to be in ../mishmashvm . You
+           must also have the Mozilla Spidermonkey JS VM in your PATH)
+./mk_clean (cleans up build artifacts)
 
 Just a note on notation, you'll see many tcc_X directories, these directories
 correspond to tcc 0.9.X just for briefness (pretty redundant saying 0.9.X when
 tcc has been on 0.9.x for 20+ years).
+
+To boostrap:
+
+./mk_2m
+
+If this is successful you will see:
+
+tcc version 0.9.27 (i386 Linux)
+5175a1b6e0c00caa211b1a9cb6df674b197c5a27beaa5e04ff456d9ceb0419b3  tcc_27/tcc.o
+52d0516842257aed4d9a3e91046bbce9c9eb4edcc267d0f411a9a605f509f053  tcc_27/libtcc1.o
+tcc_27/tcc.o: OK
+tcc_27/libtcc1.o: OK
+
+This confirms that tcc 0.9.27 builds, runs, and that the hashes of the object
+code are as expected.
+
+The compiler itself is in artifacts/tcc_27_boot.exe . Note that is a Linux
+executable, but it has the extension "exe" to make it easier to gitignore. Also
+note that it can build ".o" files but it will probably struggle to locate stuff
+like crt*.o if you try to use it to build Linux executables (you'll likely end
+up needing to use -nostdlib and then manually specifying everything). Further
+note this is not a major issue for my purposes as mishmashvm directly loads and
+runs ".o" files.
