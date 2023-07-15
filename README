@@ -5,6 +5,7 @@ method goes from an adapted tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
 (the most recent official release from 2017).
 
 Setup:
+======
 
 Follow the Linux setup instructions from
 https://github.com/cosinusoidally/mishmashvm/ in order to set up an Ubuntu
@@ -60,7 +61,8 @@ Just a note on notation, you'll see many tcc_X directories, these directories
 correspond to tcc 0.9.X just for briefness (pretty redundant saying 0.9.X when
 tcc has been on 0.9.x for 20+ years).
 
-To boostrap:
+To bootstrap:
+=============
 
 ./mk_2m
 
@@ -82,3 +84,37 @@ like crt*.o if you try to use it to build Linux executables (you'll likely end
 up needing to use -nostdlib and then manually specifying everything). Further
 note this is not a major issue for my purposes as mishmashvm directly loads and
 runs ".o" files.
+
+Bootstrapping mishmashvm:
+=========================
+
+Make sure you have checked out mishmashvm in the parent directory:
+
+$ ls
+jsshell  mishmashvm  mmvm_cfg.json  tcc_27  tcc_bootstrap_alt
+
+jump into tcc_bootstrap_alt and run ./mk_mmvm
+
+cd tcc_bootstrap_alt
+./mk_mmvm
+
+If this is successful you will see:
+
+....
+
+0e8e02c852a11ebec585650d3c6fa5917fb51d7b66dd1d458d3e51680c660964 my_libc.o
+0e8e02c852a11ebec585650d3c6fa5917fb51d7b66dd1d458d3e51680c660964 my_libc.o.new
+0cdb519efb42f22eba96bf90407e10b87868355e1d793d3a70271f09d47aa403 stubs.o
+0cdb519efb42f22eba96bf90407e10b87868355e1d793d3a70271f09d47aa403 stubs.o.new
+59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3 tcc_bin/libtcc1.o
+59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3 tcc_bin/libtcc1.o.new
+b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365 tcc_bin/tcc_boot3.o
+b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365 tcc_bin/tcc_boot3.o.new
+../mishmashvm/libc_portable_proto/my_libc.o: OK
+../mishmashvm/libc_portable_proto/stubs.o: OK
+../mishmashvm/libc_portable_proto/tcc_bin/libtcc1.o: OK
+../mishmashvm/libc_portable_proto/tcc_bin/tcc_boot3.o: OK
+
+tcc_boot3.o is the mishmashvm version of tcc. This bootstrap method produces a
+version of tcc which is bit identical to the version created by the Emscripten
+compiled JS based version of tcc in (mishmashvm/tcc_js_bootstrap/tcc_em.js).
