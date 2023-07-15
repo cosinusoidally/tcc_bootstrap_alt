@@ -6,8 +6,26 @@ method goes from an adapted tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
 
 Setup:
 
-Follow the Linux setup instruction from
+Follow the Linux setup instructions from
 https://github.com/cosinusoidally/mishmashvm/ in order to set up an Ubuntu
 bionic chroot, but debootstrap a buildd rather than a minbase:
 
 sudo debootstrap --arch=i386 --variant=buildd bionic bionic
+
+Make sure you bind mount /dev /dev/shm and /proc as per the mishmashvm
+instructions as these are needed in order to allow the Mozilla Spidermonkey
+shell to run. Note Spidermonkey is not a hard requirement to bootstrap tcc, it
+is only needed to test the full end to end bootstrap from tcc 0.9.2 to 0.9.27 to
+the mishmashvm variant of tcc 0.9.27.
+
+When entering the chroot make sure you do setarch i686 if you are on a amd64
+kernel, otherwise tcc will misbehave and try to build 64 bit binaries.
+
+cd bionic
+sudo chroot .
+su foo (set up this user so we are not running as root)
+setarch i686
+bash
+
+
+
