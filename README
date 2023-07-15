@@ -1,6 +1,6 @@
 The aim here is to provide an alternative bootstrap path for
 https://github.com/cosinusoidally/mishmashvm/ to allow us to bootstrap tcc
-without relying on an Emscripten compiled JS version of JS. This bootstrap
+without relying on an Emscripten compiled JS version of tcc. This bootstrap
 method goes from an adapted tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
 (the most recent official release from 2017).
 
