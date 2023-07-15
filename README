@@ -83,7 +83,8 @@ note that it can build ".o" files but it will probably struggle to locate stuff
 like crt*.o if you try to use it to build Linux executables (you'll likely end
 up needing to use -nostdlib and then manually specifying everything). Further
 note this is not a major issue for my purposes as mishmashvm directly loads and
-runs ".o" files.
+runs ".o" files. Even further note that it will probably also struggle to find
+include files (you may need to use -nostdinc and specify manually).
 
 Bootstrapping mishmashvm:
 =========================
@@ -128,10 +129,10 @@ There are a couple of details that make this possible:
   tcc cannot parse newer glibc headers
 * rely on tcc 0.9.27 to do the linking. Earlier version of tcc will struggle to
   correctly link things on a Bionic system. Generally the logic for locating
-  things like crt file and shared libraries is also fragile. Very early versions
-  of tcc cannot even create executables as they are pure C JIT compilers. To
-  avoid these problems we simply use a copy of v27 built on the host system in
-  order to do the linking.
+  things like crt files and shared libraries is also fragile. Very early
+  versions of tcc cannot even create executables as they are pure C JIT
+  compilers. To avoid these problems we simply use a copy of v27 built on the
+  host system in order to do the linking.
 * start with a cut down integer only version of v2. This is with the eventual
   aim of starting the bootstrap process from a simpler C compiler like M2-Planet
   from https://github.com/oriansj/m2-planet and using
@@ -153,3 +154,12 @@ There are a couple of details that make this possible:
 
   The above program is valid JS and valid C. There are lots of caveats to this
   approach but it may be viable.
+
+* note very early versions of tcc assume malloced memory is executable. If Linux
+  processes are enforcing the No Execute bit on pages (NX) then v2 will crash.
+  You'll notice this happens if you compile v2m using gcc. Not 100% sure why
+  this happens with gcc but not tcc, but might be to do with the fact v27 of tcc
+  does not use symbol versioning. The lack of symbol versioning may implicitly
+  be making glibc more lax about enforcement of NX (though this is just a
+  hypothesis). v3 and above will use mmap and correctly set executable
+  permissions on the allocated memory, this could be backported to 2.
