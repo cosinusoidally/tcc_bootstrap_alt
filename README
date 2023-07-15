@@ -197,7 +197,7 @@ options:
   but may be very tedious.
 
 
-I think a mix of modifying the v2m backend manual porting will probably be the
+I think a mix of modifying the v2m backend/manual porting will probably be the
 way forward. The advantage is that I may be able to also autogenerate a
 simplified C version of v2m.
 
