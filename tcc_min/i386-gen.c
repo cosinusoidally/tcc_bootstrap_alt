@@ -40,9 +40,6 @@ int reg_classes[NB_REGS] = {
 /* integer return register for functions */
 #define FUNC_RET_REG        0 
 
-/* defined if function parameters must be evaluated in reverse order */
-#define INVERT_FUNC_PARAMS
-
 /* pointer size, in bytes */
 #define PTR_SIZE 4
 
