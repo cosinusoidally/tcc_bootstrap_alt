@@ -2213,26 +2213,6 @@ void gen_cast(int t)
                     dt1 != VT_LLONG | VT_UNSIGNED &&
                     dt1 != VT_LLONG)
                     dt1 = VT_INT;
-                if (c) {
-                    switch(dt1) {
-                    case VT_LLONG | VT_UNSIGNED:
-                    case VT_LLONG:
-                        /* well, currently not needed */
-                        goto do_ftoi;
-                    case VT_INT | VT_UNSIGNED:
-                        switch(sbt) {
-                        }
-                        break;
-                    default:
-                        /* int case */
-                        switch(sbt) {
-                        }
-                        break;
-                    }
-                } else {
-                do_ftoi:
-                    gen_cvt_ftoi(dt1);
-                }
                 if (dt1 == VT_INT && (t & (VT_TYPE | VT_UNSIGNED)) != dt1) {
                     /* additionnal cast for char/short/bool... */
                     vtop->t = (vtop->t & ~VT_TYPE) | dt1;

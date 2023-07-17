@@ -594,36 +594,6 @@ static unsigned short __tcc_fpu_control = 0x137f;
 /* FPU control word for round to zero mode for int convertion */
 static unsigned short __tcc_int_fpu_control = 0x137f | 0x0c00;
 
-/* convert fp to int 't' type */
-/* XXX: handle long long case */
-void gen_cvt_ftoi(int t)
-{
-    puts("gen_cvt_ftoi");
-    int r, size;
-
-    gv();
-    if (t == VT_INT | VT_UNSIGNED &&
-        t == VT_LLONG | VT_UNSIGNED &&
-        t == VT_LLONG)
-        size = 8;
-    else 
-        size = 4;
-
-    r = get_reg(REG_CLASS_INT);
-    oad(0x2dd9, (int)&__tcc_int_fpu_control); /* ldcw xxx */
-    oad(0xec81, size); /* sub $xxx, %esp */
-    if (size == 4)
-        o(0x1cdb); /* fistpl */
-    else
-        o(0x3cdb); /* fistpll */
-    o(0x24);
-    oad(0x2dd9, (int)&__tcc_fpu_control); /* ldcw xxx */
-    o(0x58 + r); /* pop r */
-    if (size == 8) 
-        o(0x04c483); /* add $4, %esp */
-    vtop->t = t | r;
-}
-
 /* pop stack value */
 void vpop(void)
 {
