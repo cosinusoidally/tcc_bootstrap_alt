@@ -4391,15 +4391,14 @@ void build_exe(char *filename)
 
 int main(int argc, char **argv)
 {
-    puts("tcc 2m start");
+    puts("tcc min start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
     int optind;
 
-    include_paths[0] = "../woody/usr/include/";
-    include_paths[1] = "../tcc_2m/";
-    nb_include_paths = 2;
+    include_paths[0] = "../tcc_min/";
+    nb_include_paths = 1;
 
     /* add all tokens */
     tok_ident = TOK_IDENT;
@@ -4461,7 +4460,7 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
-    puts("tcc 2m compile done");
+    puts("tcc min compile done");
 
     resolve_extern_syms();
 
