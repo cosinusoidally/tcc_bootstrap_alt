@@ -2907,15 +2907,6 @@ void unary(void)
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
         vset(VT_CONST | VT_INT, tokc.i);
         next();
-    } else if (tok == TOK_CFLOAT) {
-        vsetc(VT_CONST | VT_FLOAT, &tokc);
-        next();
-    } else if (tok == TOK_CDOUBLE) {
-        vsetc(VT_CONST | VT_DOUBLE, &tokc);
-        next();
-    } else if (tok == TOK_CLDOUBLE) {
-        vsetc(VT_CONST | VT_LDOUBLE, &tokc);
-        next();
     } else if (tok == TOK___FUNC__) {
         /* special function name identifier */
         /* generate (char *) type */
@@ -3109,7 +3100,6 @@ void unary(void)
             gfunc_start(&gf);
             next();
             sa = s->next; /* first parameter */
-#ifdef INVERT_FUNC_PARAMS
             {
                 int *str, len, parlevel, *saved_macro_ptr;
                 Sym *args, *s1;
@@ -3161,7 +3151,6 @@ void unary(void)
                 /* restore token */
                 tok = ')';
             }
-#endif
             /* compute first implicit argument if a structure is returned */
             if ((s->t & VT_BTYPE) == VT_STRUCT) {
                 /* get some space for the returned structure */
@@ -3177,16 +3166,6 @@ void unary(void)
                 rett = s->t | FUNC_RET_REG; /* return in register */
                 retc.i = 0;
             }
-#ifndef INVERT_FUNC_PARAMS
-            while (tok != ')') {
-                expr_eq();
-                gfunc_param_typed(&gf, s, sa);
-                if (sa)
-                    sa = sa->next;
-                if (tok == ',')
-                    next();
-            }
-#endif
             if (sa)
                 error("too few arguments to function %x", sa->t);
             skip(')');
