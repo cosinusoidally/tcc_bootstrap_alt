@@ -4145,13 +4145,6 @@ void decl(int l)
         }
         while (1) { /* iterate thru each declaration */
             t = type_decl(&v, b, TYPE_DIRECT);
-#if 0
-            {
-                char buf[500];
-                type_to_str(buf, sizeof(buf), t, get_tok_str(v, NULL));
-                printf("type = '%s'\n", buf);
-            }
-#endif
             if (tok == '{') {
                 if (l == VT_LOCAL)
                     error("cannot use local functions");
@@ -4187,12 +4180,6 @@ void decl(int l)
                              addr);
                     size = type_size(u, &align);
                     size = (size + 3) & ~3;
-#ifdef FUNC_STRUCT_PARAM_AS_PTR
-                    /* structs are passed as pointer */
-                    if ((u & VT_BTYPE) == VT_STRUCT) {
-                        size = 4;
-                    }
-#endif
                     addr += size;
                 }
                 loc = 0;
