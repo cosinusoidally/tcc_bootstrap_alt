@@ -2585,16 +2585,6 @@ int struct_decl(int u)
                             if (align > maxalign)
                                 maxalign = align;
                         }
-#if 0
-                        printf("add field %s offset=%d", 
-                               get_tok_str(v, NULL), offset);
-                        if (t & VT_BITFIELD) {
-                            printf(" pos=%d size=%d", 
-                                   (t >> VT_STRUCT_SHIFT) & 0x3f,
-                                   (t >> (VT_STRUCT_SHIFT + 6)) & 0x3f);
-                        }
-                        printf("\n");
-#endif
                         ss = sym_push(v | SYM_FIELD, t, offset);
                         *ps = ss;
                         ps = &ss->next;
