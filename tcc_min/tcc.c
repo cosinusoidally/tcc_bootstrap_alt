@@ -356,14 +356,6 @@ int type_decl(int *v, int t, int td);
 void error(const char *fmt, ...);
 void vset(int t, int v);
 
-/* true if float/double/long double type */
-static inline int is_float(int t)
-{
-    int bt;
-    bt = t & VT_BTYPE;
-    return bt == VT_LDOUBLE || bt == VT_DOUBLE || bt == VT_FLOAT;
-}
-
 #include "i386-gen.c"
 
 static inline int isid(int c)
@@ -2134,8 +2126,6 @@ void gen_cast(int t)
         dbt = t & VT_BTYPE;
         sbt = vtop->t & VT_BTYPE;
         if (sbt != dbt) {
-            sf = is_float(sbt);
-            df = is_float(dbt);
             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
             if (dbt == VT_BOOL) {
                 vset(VT_CONST, 0);
@@ -2379,7 +2369,7 @@ void gen_assign_cast(int dt)
         type_to_str(buf2, sizeof(buf2), dt, NULL);
         error("cannot cast '%s' to '%s'", buf1, buf2);
     }
-    if ((dt & VT_BTYPE) == VT_BOOL || is_float(dt)) {
+    if ((dt & VT_BTYPE) == VT_BOOL ) {
         gen_cast(dt & VT_BTYPE);
     }
 }
