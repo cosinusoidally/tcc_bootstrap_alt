@@ -2182,16 +2182,7 @@ void gen_cast(int t)
             sf = is_float(sbt);
             df = is_float(dbt);
             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-            if (sf && df) {
-                /* convert from fp to fp */
-                if (c) {
-puts("got here\n");exit(1);
-// LJW HACK deleted code
-                } else {
-                    /* non constant case: generate code */
-                    gen_cvt_ftof(dbt);
-                }
-            } else if (df) {
+            if (df) {
                 /* convert int to fp */
                 /* XXX: add const cases */
                 st1 = vtop->t & (VT_BTYPE | VT_UNSIGNED);

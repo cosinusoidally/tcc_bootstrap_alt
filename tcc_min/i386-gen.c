@@ -624,22 +624,9 @@ void gen_cvt_ftoi(int t)
     vtop->t = t | r;
 }
 
-/* convert from one floating point type to another */
-void gen_cvt_ftof(int t)
-{
-puts("gen_cvt_ftof");
-    /* all we have to do on i386 is to put the float in a register */
-    gv();
-}
-
 /* pop stack value */
 void vpop(void)
 {
-    /* for x86, we need to pop the FP stack */
-    if ((vtop->t & VT_VALMASK) == REG_ST0) {
-        puts("vpop fp stack");
-        o(0xd9dd); /* fstp %st(1) */
-    }
     vtop--;
 }
 
