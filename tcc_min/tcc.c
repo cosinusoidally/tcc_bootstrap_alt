@@ -2298,21 +2298,6 @@ void type_to_str(char *buf, int buf_size,
     case VT_INT:
         strcat(buf, "int");
         break;
-    case VT_LONG:
-        strcat(buf, "long");
-        break;
-    case VT_LLONG:
-        strcat(buf, "long long");
-        break;
-    case VT_FLOAT:
-        strcat(buf, "float");
-        break;
-    case VT_DOUBLE:
-        strcat(buf, "double");
-        break;
-    case VT_LDOUBLE:
-        strcat(buf, "long double");
-        break;
     case VT_ENUM:
     case VT_STRUCT:
         if (bt == VT_STRUCT)
