@@ -45,14 +45,9 @@ typedef struct TokenSym {
 
 /* constant value */
 typedef union CValue {
-    long double ld;
-    double d;
-    float f;
     int i;
     unsigned int ui;
     unsigned int ul; /* address (should be unsigned long on 64 bit cpu) */
-    long long ll;
-    unsigned long long ull;
     struct TokenSym *ts;
     int tab[1];
     struct Sym *sym;
@@ -316,10 +311,6 @@ enum {
     TOK___FUNC__,
     TOK_MAIN,
 };
-
-/* XXX: need to define this to use them in non ISOC99 context */
-extern float strtof (const char *__nptr, char **__endptr);
-extern long double strtold (const char *__nptr, char **__endptr);
 
 void sum(int l);
 void next(void);
