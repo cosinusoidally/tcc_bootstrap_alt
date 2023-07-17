@@ -4343,19 +4343,6 @@ int tcc_compile_file(const char *filename1)
     return 0;
 }
 
-/* open a dynamic library so that its symbol are available for
-   compiled programs */
-void open_dll(char *libname)
-{
-    char buf[1024];
-    void *h;
-
-    snprintf(buf, sizeof(buf), "lib%s.so", libname);
-    h = dlopen(buf, RTLD_GLOBAL | RTLD_LAZY);
-    if (!h)
-        error((char *)dlerror());
-}
-
 void resolve_extern_syms(void)
 {
     Sym *s, *s1;
@@ -4433,17 +4420,10 @@ int main(int argc, char **argv)
             include_paths[nb_include_paths++] = r + 2;
         } else if (r[1] == 'D') {
             define_symbol(r + 2);
-        } else if (r[1] == 'l') {
-            open_dll(r + 2);
         } else if (r[1] == 'i') {
             if (optind >= argc)
                 goto show_help;
             tcc_compile_file(argv[optind++]);
-        } else if (r[1] == 'o') {
-            /* currently, only for testing, so not documented */
-            if (optind >= argc)
-                goto show_help;
-            outfile = argv[optind++];
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);
