@@ -2090,34 +2090,7 @@ void gen_op(int op)
     bt1 = t1 & VT_BTYPE;
     bt2 = t2 & VT_BTYPE;
         
-    if (is_float(bt1) || is_float(bt2)) {
-        /* compute bigger type and do implicit casts */
-        if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE) {
-            t = VT_LDOUBLE;
-        } else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE) {
-            t = VT_DOUBLE;
-        } else {
-            t = VT_FLOAT;
-        }
-        if (op != '+' && op != '-' && op != '*' && op != '/' &&
-            op < TOK_EQ || op > TOK_GT)
-            error("invalid operands for binary operation");
-        if (bt1 != t) {
-            vswap();
-            gen_cast(t);
-            vswap();
-        }
-        if (bt2 != t) {
-            gen_cast(t);
-        }
-        gen_opf(op);
-        if (op >= TOK_EQ && op <= TOK_GT) {
-            /* the result is an int */
-            vtop->t = (vtop->t & ~VT_TYPE) | VT_INT;
-        } else {
-            vtop->t = (vtop->t & ~VT_TYPE) | t;
-        }
-    } else if (op == '+' || op == '-') {
+    if (op == '+' || op == '-') {
         if ((t1 & VT_BTYPE) == VT_PTR && 
             (t2 & VT_BTYPE) == VT_PTR) {
             if (op != '-')
