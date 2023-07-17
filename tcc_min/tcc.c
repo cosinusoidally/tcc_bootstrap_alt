@@ -1973,10 +1973,7 @@ int gv(void)
         }
         r = vtop->t & VT_VALMASK;
         if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
-            if (is_float(vtop->t))
-                rc = REG_CLASS_FLOAT;
-            else
-                rc = REG_CLASS_INT;
+            rc = REG_CLASS_INT;
             r = get_reg(rc);
         }
         load(r, vtop->t, vtop->c.ul);
@@ -3498,9 +3495,6 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
                 vswap();
                 /* copy structure value to pointer */
                 vstore();
-            } else if (is_float(func_vt)) {
-                /* move return value to float return register */
-                move_reg(FUNC_RET_FREG, gv());
             } else {
                 /* move return value to standard return register */
                 move_reg(FUNC_RET_REG, gv());
