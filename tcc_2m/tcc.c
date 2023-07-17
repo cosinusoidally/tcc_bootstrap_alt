@@ -17,12 +17,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <math.h>
-#include <dlfcn.h>
+
+#include <tcclib.h>
 
 //#define DEBUG
 /* preprocessor debug */
@@ -1354,7 +1350,6 @@ void parse_number(void)
             }
             *q = '\0';
             t = toup(ch);
-            errno = 0;
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
