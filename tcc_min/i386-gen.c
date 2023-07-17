@@ -178,19 +178,7 @@ void load(int r, int ft, int fc)
             load(r, VT_LOCAL | VT_LVAL, fc);
             v = r;
         }
-        if ((ft & VT_BTYPE) == VT_FLOAT) {
-            puts("load float");
-            o(0xd9); /* flds */
-            r = 0;
-        } else if ((ft & VT_BTYPE) == VT_DOUBLE) {
-            puts("load double");
-            o(0xdd); /* fldl */
-            r = 0;
-        } else if ((ft & VT_BTYPE) == VT_LDOUBLE) {
-            puts("load long double");
-            o(0xdb); /* fldt */
-            r = 5;
-        } else if ((ft & VT_TYPE) == VT_BYTE)
+        if ((ft & VT_TYPE) == VT_BYTE)
             o(0xbe0f);   /* movsbl */
         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
             o(0xb60f);   /* movzbl */
