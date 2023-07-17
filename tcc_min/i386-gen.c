@@ -242,29 +242,13 @@ void store(r, ft, fc)
 
     fr = ft & VT_VALMASK;
     bt = ft & VT_BTYPE;
-    /* XXX: incorrect if reg to reg */
-    /* XXX: should not flush float stack */
-    if (bt == VT_FLOAT) {
-        puts("store float");
-        o(0xd9); /* fsts */
-        r = 2;
-    } else if (bt == VT_DOUBLE) {
-        puts("store double");
-        o(0xdd); /* fstpl */
-        r = 2;
-    } else if (bt == VT_LDOUBLE) {
-        puts("store long double");
-        o(0xc0d9); /* fld %st(0) */
-        o(0xdb); /* fstpt */
-        r = 7;
-    } else {
-        if (bt == VT_SHORT)
-            o(0x66);
-        if (bt == VT_BYTE)
-            o(0x88);
-        else
-            o(0x89);
-    }
+
+    if (bt == VT_SHORT)
+        o(0x66);
+    if (bt == VT_BYTE)
+        o(0x88);
+    else
+        o(0x89);
     if (fr == VT_CONST) {
         o(0x05 + r * 8); /* mov r,xxx */
         gen_addr32(fc, ft);
