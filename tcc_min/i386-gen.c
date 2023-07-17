@@ -567,33 +567,6 @@ void gen_opf(int op)
     }
 }
 
-/* convert integers to fp 't' type */
-void gen_cvt_itof(int t)
-{
-    puts("gen_cvt_itof");
-    gv();
-    if ((vtop->t & (VT_BTYPE | VT_UNSIGNED)) == (VT_INT | VT_UNSIGNED)) {
-        /* unsigned int to float/double/long double */
-        o(0x6a); /* push $0 */
-        g(0x00);
-        o(0x50 + (vtop->t & VT_VALMASK)); /* push r */
-        o(0x242cdf); /* fildll (%esp) */
-        o(0x08c483); /* add $8, %esp */
-    } else {
-        /* int to float/double/long double */
-        o(0x50 + (vtop->t & VT_VALMASK)); /* push r */
-        o(0x2404db); /* fildl (%esp) */
-        o(0x04c483); /* add $4, %esp */
-    }
-    vtop->t = t | REG_ST0;
-}
-
-/* FPU control word for rounding to nearest mode */
-/* XXX: should move that into tcc lib support code ! */
-static unsigned short __tcc_fpu_control = 0x137f;
-/* FPU control word for round to zero mode for int convertion */
-static unsigned short __tcc_int_fpu_control = 0x137f | 0x0c00;
-
 /* pop stack value */
 void vpop(void)
 {

@@ -2182,43 +2182,7 @@ void gen_cast(int t)
             sf = is_float(sbt);
             df = is_float(dbt);
             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-            if (df) {
-                /* convert int to fp */
-                /* XXX: add const cases */
-                st1 = vtop->t & (VT_BTYPE | VT_UNSIGNED);
-                if (c) {
-                    switch(st1) {
-                    case VT_LLONG | VT_UNSIGNED:
-                    case VT_LLONG:
-                        /* well, currently not needed */
-                        goto do_itof;
-                    case VT_INT | VT_UNSIGNED:
-                        switch(dbt) {
-                        }
-                        break;
-                    default:
-                        switch(dbt) {
-                        }
-                        break;
-                    }
-                } else {
-                do_itof:
-                    gen_cvt_itof(dbt);
-                }
-            } else if (sf) {
-                /* convert fp to int */
-                dt1 = t & (VT_BTYPE | VT_UNSIGNED);
-                /* we handle char/short/etc... with generic code */
-                if (dt1 != VT_INT | VT_UNSIGNED &&
-                    dt1 != VT_LLONG | VT_UNSIGNED &&
-                    dt1 != VT_LLONG)
-                    dt1 = VT_INT;
-                if (dt1 == VT_INT && (t & (VT_TYPE | VT_UNSIGNED)) != dt1) {
-                    /* additionnal cast for char/short/bool... */
-                    vtop->t = (vtop->t & ~VT_TYPE) | dt1;
-                    gen_cast(t);
-                }
-            } else if (dbt == VT_BOOL) {
+            if (dbt == VT_BOOL) {
                 vset(VT_CONST, 0);
                 gen_op(TOK_NE);
             } else if (dbt == VT_BYTE || dbt == VT_SHORT) {
