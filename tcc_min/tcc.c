@@ -778,8 +778,6 @@ static inline int tok_ext_size(int t)
         return 1;
     case TOK_CDOUBLE:
         return 2;
-    case TOK_CLDOUBLE:
-        return LDOUBLE_SIZE / 4;
     default:
         return 0;
     }
@@ -2196,13 +2194,7 @@ int type_size(int t, int *a)
             *a = PTR_SIZE;
             return PTR_SIZE;
         }
-    } else if (bt == VT_LDOUBLE) {
-        *a = LDOUBLE_ALIGN;
-        return LDOUBLE_SIZE;
-    } else if (bt == VT_DOUBLE || bt == VT_LLONG) {
-        *a = 8;
-        return 8;
-    } else if (bt == VT_INT || bt == VT_ENUM || bt == VT_FLOAT) {
+    } else if (bt == VT_INT || bt == VT_ENUM ) {
         *a = 4;
         return 4;
     } else if (bt == VT_SHORT) {

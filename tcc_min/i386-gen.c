@@ -46,10 +46,6 @@ int reg_classes[NB_REGS] = {
 /* pointer size, in bytes */
 #define PTR_SIZE 4
 
-/* long double size and alignment, in bytes */
-#define LDOUBLE_SIZE  12
-#define LDOUBLE_ALIGN 4
-
 /* function call context */
 typedef struct GFuncContext {
     int args_size;
