@@ -1608,20 +1608,7 @@ void macro_subst(int **tok_str, int *tok_len,
         next_nomacro();
         if (tok == 0)
             break;
-        /* special macros */
-        if (tok == TOK___LINE__) {
-            cval.i = line_num;
-            tok_add2(tok_str, tok_len, TOK_NUM, &cval);
-        } else if (tok == TOK___FILE__) {
-            cval.ts = tok_alloc(filename, 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if (tok == TOK___DATE__) {
-            cval.ts = tok_alloc("Jan  1 1970", 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if (tok == TOK___TIME__) {
-            cval.ts = tok_alloc("00:00:00", 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if ((s = sym_find1(&define_stack, tok)) != NULL) {
+        if ((s = sym_find1(&define_stack, tok)) != NULL) {
             /* if symbol is a macro, prepare substitution */
             /* if nested substitution, do nothing */
             if (sym_find2(*nested_list, tok))
