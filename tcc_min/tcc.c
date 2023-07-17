@@ -1956,19 +1956,6 @@ int gv(void)
         gen_op(TOK_SAR);
         r = gv();
     } else {
-        if (is_float(vtop->t) && (vtop->t & (VT_CONST | VT_LVAL)) == VT_CONST) {
-            /* CPUs usually cannot use float constants, so we store them
-               generically in data segment */
-            size = type_size(vtop->t, &align);
-            glo = (glo + align - 1) & -align;
-            /* XXX: not portable yet */
-            size = size >> 2;
-            for(i=0;i<size;i++)
-                ((int *)glo)[i] = vtop->c.tab[i];
-            vtop->t |= VT_LVAL;
-            vtop->c.ul = glo;
-            glo += size << 2;
-        }
         r = vtop->t & VT_VALMASK;
         if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
             rc = REG_CLASS_INT;
