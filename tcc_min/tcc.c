@@ -20,10 +20,6 @@
 
 #include <tcclib.h>
 
-//#define DEBUG
-/* preprocessor debug */
-//#define PP_DEBUG
-
 /* these sizes are dummy for unix, because malloc() does not use
    memory when the pages are not used */
 #define TEXT_SIZE           (1*1024*1024)
@@ -854,22 +850,6 @@ int expr_preprocess(void)
     return c != 0;
 }
 
-#if defined(DEBUG)
-void tok_print(int *str)
-{
-    int t;
-    CValue cval;
-
-    while (1) {
-        t = tok_get(&str, &cval);
-        if (!t)
-            break;
-        printf(" %s", get_tok_str(t, &cval));
-    }
-    printf("\n");
-}
-#endif
-
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
 {
@@ -931,10 +911,6 @@ void preprocess(void)
             tok_add2(&str, &len, tok, &tokc);
         }
         tok_add(&str, &len, 0);
-#ifdef PP_DEBUG
-        printf("define %s %d: ", get_tok_str(v, NULL), t);
-        tok_print(str);
-#endif
         s = sym_push1(&define_stack, v, t, (int)str);
         s->next = first;
     } else if (tok == TOK_UNDEF) {
@@ -1538,9 +1514,6 @@ int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
                     strcat(token_buf, get_tok_str(t, &cval));
                     notfirst = 1;
                 }
-#ifdef PP_DEBUG
-                printf("stringize: %s\n", token_buf);
-#endif
                 /* add string */
                 ts = tok_alloc(token_buf, 0);
                 cval.ts = ts;
@@ -1780,9 +1753,6 @@ void next(void)
             }
         }
     }
-#if defined(DEBUG)
-    printf("token = %s\n", get_tok_str(tok, tokc));
-#endif
 }
 
 void swap(int *p, int *q)
