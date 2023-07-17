@@ -4380,15 +4380,6 @@ void resolve_extern_syms(void)
     }
 }
 
-/* output a binary file (for testing) */
-void build_exe(char *filename)
-{ 
-    FILE *f;
-    f = fopen(filename, "w");
-    fwrite((void *)prog, 1, ind - prog, f);
-    fclose(f);
-}
-
 int main(int argc, char **argv)
 {
     puts("tcc min start");
@@ -4463,15 +4454,9 @@ int main(int argc, char **argv)
     puts("tcc min compile done");
 
     resolve_extern_syms();
-
-    if (outfile) {
-        build_exe(outfile);
-        return 0;
-    } else {
-        s = sym_find1(&extern_stack, TOK_MAIN);
-        if (!s || (s->t & VT_FORWARD))
-            error("main() not defined");
-        t = (int (*)())s->c;
-        return (*t)(argc - optind, argv + optind);
-    }
+    s = sym_find1(&extern_stack, TOK_MAIN);
+    if (!s || (s->t & VT_FORWARD))
+        error("main() not defined");
+    t = (int (*)())s->c;
+    return (*t)(argc - optind, argv + optind);
 }
