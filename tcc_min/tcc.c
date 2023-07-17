@@ -3688,10 +3688,6 @@ void init_putv(int t, int c, int v, int is_expr)
         case VT_SHORT:
             *(short *)c = vtop->c.i;
             break;
-        case VT_DOUBLE:
-            break;
-        case VT_LDOUBLE:
-            break;
         default:
             *(int *)c = vtop->c.i;
             break;
