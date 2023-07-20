@@ -954,53 +954,8 @@ void preprocess(void)
         file = f;
         filename = strdup(buf1);
         line_num = 1;
-    } else if (tok == TOK_IFNDEF) {
-        c = 1;
-        goto do_ifdef;
-    } else if (tok == TOK_IF) {
-        c = expr_preprocess();
-        goto do_if;
-    } else if (tok == TOK_IFDEF) {
-        c = 0;
-    do_ifdef:
-        next_nomacro();
-        c = (sym_find1(&define_stack, tok) != 0) ^ c;
-    do_if:
-        if (ifdef_stack_ptr >= ifdef_stack + IFDEF_STACK_SIZE)
-            error("memory full");
-        *ifdef_stack_ptr++ = c;
-        goto test_skip;
-    } else if (tok == TOK_ELSE) {
-        if (ifdef_stack_ptr == ifdef_stack ||
-            (ifdef_stack_ptr[-1] & 2))
-            error("#else after #else");
-        c = (ifdef_stack_ptr[-1] ^= 3);
-        goto test_skip;
-    } else if (tok == TOK_ELIF) {
-        if (ifdef_stack_ptr == ifdef_stack ||
-            ifdef_stack_ptr[-1] > 1)
-            error("#elif after #else");
-        c = expr_preprocess();
-        ifdef_stack_ptr[-1] = c;
-    test_skip:
-    } else if (tok == TOK_ENDIF) {
-        if (ifdef_stack_ptr == ifdef_stack)
-            expect("#if");
-        ifdef_stack_ptr--;
-    } else if (tok == TOK_LINE) {
-        next();
-        if (tok != TOK_NUM)
-            error("#line");
-        line_num = tokc.i;
-        skip_spaces();
-        if (ch != '\n') {
-            next();
-            if (tok != TOK_STR)
-                error("#line");
-            /* XXX: potential memory leak */
-            filename = strdup(get_tok_str(tok, &tokc));
-        }
-    } else if (tok == TOK_ERROR) {
+    }
+    if (tok == TOK_ERROR) {
         error("#error");
     }
     /* ignore other preprocess commands or #! for C scripts */
