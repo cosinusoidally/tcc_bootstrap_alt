@@ -716,12 +716,6 @@ void skip_spaces(void)
         cinp();
 }
 
-/* skip block of text until #else, #elif or #endif. skip also pairs of
-   #if/#endif */
-void preprocess_skip()
-{
-}
-
 /* return the number of additionnal 'ints' necessary to store the
    token */
 static inline int tok_ext_size(int t)
