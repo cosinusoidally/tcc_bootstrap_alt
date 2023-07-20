@@ -3922,9 +3922,7 @@ int main(int argc, char **argv)
 
     /* standard defines */
     define_symbol("__STDC__");
-#ifdef __i386__
     define_symbol("__i386__");
-#endif
     /* tiny C specific defines */
     define_symbol("__TINYC__");
     
