@@ -781,46 +781,6 @@ int tok_get(int **tok_str, CValue *cv)
     return t;
 }
 
-/* eval an expression for #if/#elif */
-int expr_preprocess(void)
-{
-    int *str, len, c, t;
-    
-    str = NULL;
-    len = 0;
-    while (1) {
-        skip_spaces();
-        if (ch == '\n')
-            break;
-        next(); /* do macro subst */
-        if (tok == TOK_DEFINED) {
-            next_nomacro();
-            t = tok;
-            if (t == '(') 
-                next_nomacro();
-            c = sym_find1(&define_stack, tok) != 0;
-            if (t == '(')
-                next_nomacro();
-            tok = TOK_NUM;
-            tokc.i = c;
-        } else if (tok >= TOK_IDENT) {
-            /* if undefined macro */
-            tok = TOK_NUM;
-            tokc.i = 0;
-        }
-        tok_add2(&str, &len, tok, &tokc);
-    }
-    tok_add(&str, &len, -1); /* simulate end of file */
-    tok_add(&str, &len, 0);
-    /* now evaluate C constant expression */
-    macro_ptr = str;
-    next();
-    c = expr_const();
-    macro_ptr = NULL;
-    free(str);
-    return c != 0;
-}
-
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
 {
