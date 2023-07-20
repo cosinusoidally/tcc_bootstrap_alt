@@ -1107,35 +1107,11 @@ int getq()
     return c;
 }
 
-/* we use 64 bit numbers */
-#define BN_SIZE 2
-
-/* bn = (bn << shift) | or_val */
-void bn_lshift(unsigned int *bn, int shift, int or_val)
-{
-    int i;
-    unsigned int v;
-    for(i=0;i<BN_SIZE;i++) {
-        v = bn[i];
-        bn[i] = (v << shift) | or_val;
-        or_val = v >> (32 - shift);
-    }
-}
-
-void bn_zero(unsigned int *bn)
-{
-    int i;
-    for(i=0;i<BN_SIZE;i++) {
-        bn[i] = 0;
-    }
-}
-
 void parse_number(void)
 {
     int b, t, shift, frac_bits, s, exp_val;
     char *q;
     unsigned int n, n1;
-    unsigned int bn[BN_SIZE];
 
     /* number */
     q = token_buf;
