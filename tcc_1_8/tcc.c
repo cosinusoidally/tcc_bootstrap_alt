@@ -1270,7 +1270,7 @@ int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
     return str;
 }
 
-/* handle the '##' operator */
+/* handle the '##' operator LJW HACK DELETED CODE*/
 int *macro_twosharps(int *macro_str)
 {
     TokenSym *ts;
@@ -1286,30 +1286,6 @@ int *macro_twosharps(int *macro_str)
         next_nomacro();
         if (tok == 0)
             break;
-        while (*macro_ptr == TOK_TWOSHARPS) {
-            macro_ptr++;
-            macro_ptr1 = macro_ptr;
-            t = *macro_ptr;
-            if (t) {
-                t = tok_get(&macro_ptr, &cval);
-                /* XXX: we handle only most common cases: 
-                   ident + ident or ident + number */
-                if (tok >= TOK_IDENT && 
-                    (t >= TOK_IDENT || t == TOK_NUM)) {
-                    /* XXX: buffer overflow */
-                    p = get_tok_str(tok, &tokc);
-                    strcpy(token_buf, p);
-                    p = get_tok_str(t, &cval);
-                    strcat(token_buf, p);
-                    ts = tok_alloc(token_buf, 0);
-                    tok = ts->tok; /* modify current token */
-                } else {
-                    /* cannot merge tokens: skip '##' */
-                    macro_ptr = macro_ptr1;
-                    break;
-                }
-            }
-        }
         tok_add2(&macro_str1, &macro_str1_len, tok, &tokc);
     }
     tok_add(&macro_str1, &macro_str1_len, 0);
