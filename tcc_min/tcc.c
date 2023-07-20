@@ -1145,9 +1145,7 @@ void parse_number(void)
     b = 10;
     if (t == '.') {
         /* special dot handling */
-        if (ch >= '0' && ch <= '9') {
-            goto float_frac_parse;
-        } else if (ch == '.') {
+        if (ch == '.') {
             cinp();
             if (ch != '.')
                 expect("'.'");
@@ -1189,169 +1187,39 @@ void parse_number(void)
         *q++ = ch;
         cinp();
     }
-    if (ch == '.' || 
-        ((ch == 'e' || ch == 'E') && b == 10) ||
-        ((ch == 'p' || ch == 'P') && (b == 16 || b == 2))) {
-        if (b != 10) {
-            /* NOTE: strtox should support that for hexa numbers, but
-               non ISOC99 libcs do not support it, so we prefer to do
-               it by hand */
-            /* hexadecimal or binary floats */
-            /* XXX: handle overflows */
-            *q = '\0';
-            if (b == 16)
-                shift = 4;
-            else 
-                shift = 2;
-            bn_zero(bn);
-            q = token_buf;
-            while (1) {
-                t = *q++;
-                if (t == '\0') {
-                    break;
-                } else if (t >= 'a') {
-                    t = t - 'a' + 10;
-                } else if (t >= 'A') {
-                    t = t - 'A' + 10;
-                } else {
-                    t = t - '0';
-                }
-                bn_lshift(bn, shift, t);
-            }
-            frac_bits = 0;
-            if (ch == '.') {
-                cinp();
-                while (1) {
-                    t = ch;
-                    if (t >= 'a' && t <= 'f') {
-                        t = t - 'a' + 10;
-                    } else if (t >= 'A' && t <= 'F') {
-                        t = t - 'A' + 10;
-                    } else if (t >= '0' && t <= '9') {
-                        t = t - '0';
-                    } else {
-                        break;
-                    }
-                    if (t >= b)
-                        error("invalid digit");
-                    bn_lshift(bn, shift, t);
-                    frac_bits += shift;
-                    cinp();
-                }
-            }
-            if (ch != 'p' && ch != 'P')
-                error("exponent expected");
-            cinp();
-            s = 1;
-            exp_val = 0;
-            if (ch == '+') {
-                cinp();
-            } else if (ch == '-') {
-                s = -1;
-                cinp();
-            }
-            if (ch < '0' || ch > '9')
-                error("exponent digits expected");
-            while (ch >= '0' && ch <= '9') {
-                exp_val = exp_val * 10 + ch - '0';
-                cinp();
-            }
-            exp_val = exp_val * s;
-            
-            t = toup(ch);
-            if (t == 'F') {
-                cinp();
-                tok = TOK_CFLOAT;
-                /* float : should handle overflow */
-            } else if (t == 'L') {
-                cinp();
-                tok = TOK_CLDOUBLE;
-                /* XXX: not large enough */
-            } else {
-                tok = TOK_CDOUBLE;
-            }
-        } else {
-            /* decimal floats */
-            if (ch == '.') {
-                if (q >= token_buf + STRING_MAX_SIZE)
-                    goto num_too_long;
-                *q++ = ch;
-                cinp();
-            float_frac_parse:
-                while (ch >= '0' && ch <= '9') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-            }
-            if (ch == 'e' || ch == 'E') {
-                if (q >= token_buf + STRING_MAX_SIZE)
-                    goto num_too_long;
-                *q++ = ch;
-                cinp();
-                if (ch == '-' || ch == '+') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-                if (ch < '0' || ch > '9')
-                    error("exponent digits expected");
-                while (ch >= '0' && ch <= '9') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-            }
-            *q = '\0';
-            t = toup(ch);
-            if (t == 'F') {
-                cinp();
-                tok = TOK_CFLOAT;
-            } else if (t == 'L') {
-                cinp();
-                tok = TOK_CLDOUBLE;
-            } else {
-                tok = TOK_CDOUBLE;
-            }
-        }
-    } else {
-        /* integer number */
-        *q = '\0';
-        q = token_buf;
-        if (b == 10 && *q == '0') {
-            b = 8;
-            q++;
-        }
-        n = 0;
-        while(1) {
-            t = *q++;
-            /* no need for checks except for base 10 / 8 errors */
-            if (t == '\0') {
-                break;
-            } else if (t >= 'a') {
-                t = t - 'a' + 10;
-            } else if (t >= 'A') {
-                t = t - 'A' + 10;
-            } else {
-                t = t - '0';
-                if (t >= b)
-                    error("invalid digit");
-            }
-            n1 = n;
-            n = n * b + t;
-            /* detect overflow */
-            if (n < n1)
-                error("integer constant overflow");
-        }
-        tokc.ui = n;
-        tok = TOK_NUM;
-        /* XXX: add unsigned constant support (ANSI) */
-        while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
-            cinp();
+    /* integer number */
+    *q = '\0';
+    q = token_buf;
+    if (b == 10 && *q == '0') {
+        b = 8;
+        q++;
     }
+    n = 0;
+    while(1) {
+        t = *q++;
+        /* no need for checks except for base 10 / 8 errors */
+        if (t == '\0') {
+            break;
+        } else if (t >= 'a') {
+            t = t - 'a' + 10;
+        } else if (t >= 'A') {
+            t = t - 'A' + 10;
+        } else {
+            t = t - '0';
+            if (t >= b)
+                error("invalid digit");
+        }
+        n1 = n;
+        n = n * b + t;
+        /* detect overflow */
+        if (n < n1)
+            error("integer constant overflow");
+    }
+    tokc.ui = n;
+    tok = TOK_NUM;
+    /* XXX: add unsigned constant support (ANSI) */
+    while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
+        cinp();
 }
 
 
