@@ -1594,27 +1594,13 @@ int gv(void)
     int r, bit_pos, bit_size, rc, size, align, i;
 
     /* NOTE: get_reg can modify vstack[] */
-    if (vtop->t & VT_BITFIELD) {
-        bit_pos = (vtop->t >> VT_STRUCT_SHIFT) & 0x3f;
-        bit_size = (vtop->t >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
-        /* remove bit field info to avoid loops */
-        vtop->t &= ~(VT_BITFIELD | (-1 << VT_STRUCT_SHIFT));
-        /* generate shifts */
-        vset(VT_CONST, 32 - (bit_pos + bit_size));
-        gen_op(TOK_SHL);
-        vset(VT_CONST, 32 - bit_size);
-        /* NOTE: transformed to SHR if unsigned */
-        gen_op(TOK_SAR);
-        r = gv();
-    } else {
-        r = vtop->t & VT_VALMASK;
-        if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
-            rc = REG_CLASS_INT;
-            r = get_reg(rc);
-        }
-        load(r, vtop->t, vtop->c.ul);
-        vtop->t = (vtop->t & VT_TYPE) | r;
+    r = vtop->t & VT_VALMASK;
+    if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
+        rc = REG_CLASS_INT;
+        r = get_reg(rc);
     }
+    load(r, vtop->t, vtop->c.ul);
+    vtop->t = (vtop->t & VT_TYPE) | r;
     return r;
 }
 
