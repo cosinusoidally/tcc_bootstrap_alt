@@ -2340,29 +2340,6 @@ void vstore(void)
         vset(VT_CONST, (int)&memcpy);
         gfunc_call(&gf);
         /* leave source on stack */
-    } else if (ft & VT_BITFIELD) {
-        /* bitfield store handling */
-        bit_pos = (ft >> VT_STRUCT_SHIFT) & 0x3f;
-        bit_size = (ft >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
-        /* remove bit field info to avoid loops */
-        vtop[-1].t = ft & ~(VT_BITFIELD | (-1 << VT_STRUCT_SHIFT));
-
-        /* duplicate destination */
-        vdup();
-        vtop[-1] = vtop[-2];
-
-        /* mask and shift source */
-        vset(VT_CONST, (1 << bit_size) - 1);
-        gen_op('&');
-        vset(VT_CONST, bit_pos);
-        gen_op(TOK_SHL);
-        /* load destination, mask and or with source */
-        vswap();
-        vset(VT_CONST, ~(((1 << bit_size) - 1) << bit_pos));
-        gen_op('&');
-        gen_op('|');
-        /* store result */
-        vstore();
     } else {
         r = gv();  /* generate value */
         ft = vtop[-1].t;
