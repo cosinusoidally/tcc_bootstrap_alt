@@ -718,28 +718,6 @@ void skip_spaces(void)
    #if/#endif */
 void preprocess_skip()
 {
-    int a;
-    a = 0;
-    while (1) {
-        while (ch != '\n') {
-            if (ch == -1)
-                expect("#endif");
-            cinp();
-        }
-        cinp();
-        skip_spaces();
-        if (ch == '#') {
-            cinp();
-            next_nomacro();
-            if (a == 0 && 
-                (tok == TOK_ELSE || tok == TOK_ELIF || tok == TOK_ENDIF))
-                break;
-            if (tok == TOK_IF || tok == TOK_IFDEF || tok == TOK_IFNDEF)
-                a++;
-            else if (tok == TOK_ENDIF)
-                a--;
-        }
-    }
 }
 
 /* return the number of additionnal 'ints' necessary to store the
@@ -1005,10 +983,6 @@ void preprocess(void)
         c = expr_preprocess();
         ifdef_stack_ptr[-1] = c;
     test_skip:
-        if (!(c & 1)) {
-            preprocess_skip();
-            goto redo;
-        }
     } else if (tok == TOK_ENDIF) {
         if (ifdef_stack_ptr == ifdef_stack)
             expect("#if");
