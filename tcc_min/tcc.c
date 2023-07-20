@@ -2445,55 +2445,10 @@ int struct_decl(int u)
                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
                             error("invalid type for '%s'", 
                                   get_tok_str(v, NULL));
-                    } else {
-                        t = b;
-                    }
-                    if (tok == ':') {
-                        next();
-                        bit_size = expr_const();
-                        /* XXX: handle v = 0 case for messages */
-                        if (bit_size < 0)
-                            error("negative width in bit-field '%s'", 
-                                  get_tok_str(v, NULL));
-                        if (v && bit_size == 0)
-                            error("zero width for bit-field '%s'", 
-                                  get_tok_str(v, NULL));
                     }
                     size = type_size(t, &align);
                     lbit_pos = 0;
-                    if (bit_size >= 0) {
-                        bt = t & VT_BTYPE;
-                        if (bt != VT_INT && 
-                            bt != VT_BYTE && 
-                            bt != VT_SHORT)
-                            error("bitfields must have scalar type");
-                        bsize = size * 8;
-                        if (bit_size > bsize) {
-                            error("width of '%s' exceeds its type",
-                                  get_tok_str(v, NULL));
-                        } else if (bit_size == bsize) {
-                            /* no need for bit fields */
-                            bit_pos = 0;
-                        } else if (bit_size == 0) {
-                            /* XXX: what to do if only padding in a
-                               structure ? */
-                            /* zero size: means to pad */
-                            if (bit_pos > 0)
-                                bit_pos = bsize;
-                        } else {
-                            /* we do not have enough room ? */
-                            if ((bit_pos + bit_size) > bsize)
-                                bit_pos = 0;
-                            lbit_pos = bit_pos;
-                            /* XXX: handle LSB first */
-                            t |= VT_BITFIELD | 
-                                (bit_pos << VT_STRUCT_SHIFT) |
-                                (bit_size << (VT_STRUCT_SHIFT + 6));
-                            bit_pos += bit_size;
-                        }
-                    } else {
-                        bit_pos = 0;
-                    }
+                    bit_pos = 0;
                     if (v) {
                         /* add new memory data only if starting
                            bit field */
