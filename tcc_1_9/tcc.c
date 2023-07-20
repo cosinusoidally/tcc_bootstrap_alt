@@ -3901,13 +3901,13 @@ void resolve_extern_syms(void)
 
 int main(int argc, char **argv)
 {
-    puts("tcc min start");
+    puts("tcc 1_9 start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
     int optind;
 
-    include_paths[0] = "../tcc_min/";
+    include_paths[0] = "../tcc_1_9/";
     nb_include_paths = 1;
 
     /* add all tokens */
@@ -3961,7 +3961,7 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
-    puts("tcc min compile done");
+    puts("tcc 1_9 compile done");
 
     resolve_extern_syms();
     s = sym_find1(&extern_stack, TOK_MAIN);
