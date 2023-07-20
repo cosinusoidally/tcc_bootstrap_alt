@@ -1850,10 +1850,7 @@ void gen_cast(int t)
         sbt = vtop->t & VT_BTYPE;
         if (sbt != dbt) {
             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-            if (dbt == VT_BOOL) {
-                vset(VT_CONST, 0);
-                gen_op(TOK_NE);
-            } else if (dbt == VT_BYTE || dbt == VT_SHORT) {
+            if (dbt == VT_BYTE || dbt == VT_SHORT) {
                 if (dbt == VT_BYTE)
                     bits = 8;
                 else
@@ -2009,9 +2006,6 @@ void type_to_str(char *buf, int buf_size,
     case VT_VOID:
         strcat(buf, "void");
         break;
-    case VT_BOOL:
-        strcat(buf, "_Bool");
-        break;
     case VT_BYTE:
         strcat(buf, "char");
         break;
@@ -2076,9 +2070,6 @@ void gen_assign_cast(int dt)
         type_to_str(buf1, sizeof(buf1), st, NULL);
         type_to_str(buf2, sizeof(buf2), dt, NULL);
         error("cannot cast '%s' to '%s'", buf1, buf2);
-    }
-    if ((dt & VT_BTYPE) == VT_BOOL ) {
-        gen_cast(dt & VT_BTYPE);
     }
 }
 
@@ -2291,32 +2282,6 @@ int ist(void)
         case TOK_INT:
             next();
             break;
-        case TOK_LONG:
-            next();
-            if ((t & VT_BTYPE) == VT_DOUBLE) {
-                t = (t & ~VT_BTYPE) | VT_LDOUBLE;
-            } else if ((t & VT_BTYPE) == VT_LONG) {
-                t = (t & ~VT_BTYPE) | VT_LLONG;
-            } else {
-                u = VT_LONG;
-                goto basic_type1;
-            }
-            break;
-        case TOK_BOOL:
-            u = VT_BOOL;
-            goto basic_type;
-        case TOK_FLOAT:
-            u = VT_FLOAT;
-            goto basic_type;
-        case TOK_DOUBLE:
-            next();
-            if ((t & VT_BTYPE) == VT_LONG) {
-                t = (t & ~VT_BTYPE) | VT_LDOUBLE;
-            } else {
-                u = VT_DOUBLE;
-                goto basic_type1;
-            }
-            break;
         case TOK_ENUM:
             u = struct_decl(VT_ENUM);
             goto basic_type1;
@@ -2364,9 +2329,6 @@ int ist(void)
         t |= 2;
     }
 the_end:
-    /* long is never used as type */
-    if ((t & VT_BTYPE) == VT_LONG)
-        t = (t & ~VT_BTYPE) | VT_INT;
     return t;
 }
 
