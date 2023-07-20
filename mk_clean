@@ -1,7 +1,10 @@
 rm artifacts/tcc_27_boot.exe
 
-rm tcc_min/a.out
-rm tcc_min/tcc.o
+rm tcc_1_8/a.out
+rm tcc_1_8/tcc.o
+
+rm tcc_1_9/a.out
+rm tcc_1_9/tcc.o
 
 rm tcc_2m/a.out
 rm tcc_2m/tcc.o
