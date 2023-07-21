@@ -669,12 +669,15 @@ static inline void inp(void)
 /* input with '\\n' handling */
 static inline void minp(void)
 {
- redo:
-    ch = ch1;
-    inp();
-    if (ch == '\\' && ch1 == '\n') {
+    int redo=1;
+    while(redo){
+        redo=0;
+        ch = ch1;
         inp();
-        goto redo;
+        if (ch == '\\' && ch1 == '\n') {
+            inp();
+            redo=1;
+        }
     }
     //printf("ch=%c 0x%x\n", ch, ch);
 }
