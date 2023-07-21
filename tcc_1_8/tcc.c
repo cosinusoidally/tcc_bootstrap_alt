@@ -801,6 +801,7 @@ void define_symbol(char *sym)
 void preprocess(void)
 {
     int size, i, c, v, t, *str, len;
+    int found=0;
     char buf[1024], *q, *p;
     char buf1[1024];
     FILE *f;
@@ -874,20 +875,23 @@ void preprocess(void)
             strcat(buf1, buf);
             f = fopen(buf1, "r");
             if (f)
-                goto found;
+                found=1;
         }
         /* now search in standard include path */
-        for(i=nb_include_paths - 1;i>=0;i--) {
-            strcpy(buf1, include_paths[i]);
-            strcat(buf1, "/");
-            strcat(buf1, buf);
-            f = fopen(buf1, "r");
-            if (f)
-                goto found;
+        if(!found){
+            for(i=nb_include_paths - 1;i>=0;i--) {
+                strcpy(buf1, include_paths[i]);
+                strcat(buf1, "/");
+                strcat(buf1, buf);
+                f = fopen(buf1, "r");
+                if (f)
+                    found=1;
+            }
         }
-        error("include file '%s' not found", buf1);
-        f = NULL;
-    found:
+        if(!found){
+            error("include file '%s' not found", buf1);
+            f = NULL;
+        }
         /* push current file in stack */
         /* XXX: fix current line init */
         include_stack_ptr->file = file;
