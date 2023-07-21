@@ -835,12 +835,10 @@ void preprocess(void)
             sym_undef(&define_stack, s);
     } else if (tok == TOK_INCLUDE) {
         skip_spaces();
-        if (ch == '<') {
+        if ((ch == '<') || (ch == '\"')) {
             c = '>';
-            goto read_name;
-        } else if (ch == '\"') {
+        if (ch == '\"')
             c = ch;
-        read_name:
             minp();
             q = buf;
             while (ch != c && ch != '\n' && ch != -1) {
