@@ -1904,20 +1904,19 @@ void type_to_str(char *buf, int buf_size,
                 strcat(buf, ", ");
         }
         strcat(buf, ")");
-        goto no_var;
+        return;
     case VT_PTR:
         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
         strcpy(buf1, "*");
         if (varstr)
             strcat(buf1, varstr);
         type_to_str(buf, buf_size, s->t, buf1);
-        goto no_var;
+        return;
     }
     if (varstr) {
         strcat(buf, " ");
         strcat(buf, varstr);
     }
- no_var: ;
 }
 
                  
