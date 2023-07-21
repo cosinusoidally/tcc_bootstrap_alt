@@ -3528,11 +3528,14 @@ void decl(int l)
                         if (has_init)
                             next();
                         addr = decl_initializer_alloc(u, has_init);
+                        while(1){
                         if (l == VT_CONST) {
                             /* global scope: see if already defined */
                             sym = sym_find(v);
-                            if (!sym)
-                                goto do_def;
+                            if (!sym) {
+                                sym_push(v, u, addr);
+                                break;
+                            }
                             if (!is_compatible_types(sym->t, u))
                                 error("incompatible types for redefinition of '%s'", 
                                       get_tok_str(v, NULL));
@@ -3540,8 +3543,9 @@ void decl(int l)
                                 error("redefinition of '%s'", get_tok_str(v, NULL));
                             greloc_patch(sym, addr);
                         } else {
-                        do_def:
                             sym_push(v, u, addr);
+                        }
+                        break;
                         }
                     }
                 }
