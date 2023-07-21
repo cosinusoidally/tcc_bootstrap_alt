@@ -22,8 +22,8 @@
 
 /* these sizes are dummy for unix, because malloc() does not use
    memory when the pages are not used */
-#define TEXT_SIZE           (1*1024*1024)
-#define DATA_SIZE           (1*1024*1024)
+#define TEXT_SIZE           (256*1024)
+#define DATA_SIZE           (256*1024)
 
 #define INCLUDE_STACK_SIZE  32
 #define IFDEF_STACK_SIZE    64
