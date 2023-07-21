@@ -809,24 +809,6 @@ void preprocess(void)
         /* XXX: should check if same macro (ANSI) */
         first = NULL;
         t = MACRO_OBJ;
-        /* '(' must be just after macro definition for MACRO_FUNC */
-        if (ch == '(') {
-            next_nomacro();
-            next_nomacro();
-            ps = &first;
-            while (tok != ')') {
-                if (tok == TOK_DOTS) 
-                    tok = TOK___VA_ARGS__;
-                s = sym_push1(&define_stack, tok | SYM_FIELD, 0, 0);
-                *ps = s;
-                ps = &s->next;
-                next_nomacro();
-                if (tok != ',')
-                    break;
-                next_nomacro();
-            }
-            t = MACRO_FUNC;
-        }
         str = NULL;
         len = 0;
         while (1) {
@@ -1321,63 +1303,6 @@ void macro_subst(int **tok_str, int *tok_len,
                 goto no_subst;
             mstr = (int *)s->c;
             mstr_allocated = 0;
-            if (s->t == MACRO_FUNC) {
-printline();
-exit(1);
-                /* NOTE: we do not use next_nomacro to avoid eating the
-                   next token. XXX: find better solution */
-                if (macro_ptr) {
-                    t = *macro_ptr;
-                } else {
-                    while (ch == ' ' || ch == '\t' || ch == '\n')
-                        cinp();
-                    t = ch;
-                }
-                if (t != '(') /* no macro subst */
-                    goto no_subst;
-                    
-                /* argument macro */
-                next_nomacro();
-                next_nomacro();
-                args = NULL;
-                sa = s->next;
-                while (tok != ')' && sa) {
-                    len = 0;
-                    str = NULL;
-                    parlevel = 0;
-                    while ((parlevel > 0 || 
-                            (tok != ')' && 
-                             (tok != ',' || 
-                              sa->v == (TOK___VA_ARGS__ | SYM_FIELD)))) && 
-                           tok != -1) {
-                        if (tok == '(')
-                            parlevel++;
-                        else if (tok == ')')
-                            parlevel--;
-                        tok_add2(&str, &len, tok, &tokc);
-                        next_nomacro();
-                    }
-                    tok_add(&str, &len, 0);
-                    sym_push2(&args, sa->v & ~SYM_FIELD, 0, (int)str);
-                    if (tok != ',')
-                        break;
-                    next_nomacro();
-                    sa = sa->next;
-                }
-                if (tok != ')')
-                    expect(")");
-                /* now subst each arg */
-                mstr = macro_arg_subst(nested_list, mstr, args);
-                /* free memory */
-                sa = args;
-                while (sa) {
-                    sa1 = sa->prev;
-                    free((int *)sa->c);
-                    free(sa);
-                    sa = sa1;
-                }
-                mstr_allocated = 1;
-            }
             sym_push2(nested_list, s->v, 0, 0);
             macro_subst(tok_str, tok_len, nested_list, mstr);
             /* pop nested defined symbol */
