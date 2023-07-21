@@ -809,7 +809,6 @@ void preprocess(void)
 
     cinp();
     next_nomacro();
- redo:
     if (tok == TOK_DEFINE) {
         next_nomacro();
         v = tok;
@@ -1033,7 +1032,6 @@ void parse_number(void)
         if (t >= b)
             break;
         if (q >= token_buf + STRING_MAX_SIZE) {
-        num_too_long:
             error("number too long");
         }
         *q++ = ch;
