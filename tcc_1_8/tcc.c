@@ -2397,13 +2397,9 @@ void unary(void)
         strcpy((void *)glo, funcname);
         glo += strlen(funcname) + 1;
         next();
-    } else if (tok == TOK_LSTR) {
-        t = VT_INT;
-        goto str_init;
     } else if (tok == TOK_STR) {
         /* string parsing */
         t = VT_BYTE;
-    str_init:
         type_size(t, &align);
         glo = (glo + align - 1) & -align;
         fc = glo;
