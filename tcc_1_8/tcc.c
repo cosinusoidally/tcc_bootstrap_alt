@@ -3030,7 +3030,6 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
         block(bsym, csym, case_sym, def_sym, case_reg);
     } else
     if (tok == TOK_GOTO) {
-printf("\nTOK_GOTO\n");
         next();
         s = sym_find1(&label_stack, tok);
         /* put forward definition if needed */
@@ -3046,7 +3045,6 @@ printf("\nTOK_GOTO\n");
     } else {
         b = is_label();
         if (b) {
-printf("\nis_label\n");
             /* label case */
             s = sym_find1(&label_stack, b);
             if (s) {
