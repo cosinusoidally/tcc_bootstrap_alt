@@ -3683,13 +3683,13 @@ int show_help(void)
 
 int main(int argc, char **argv)
 {
-    puts("tcc 1_8 start");
+    puts("tcc 1_7 start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
     int optind;
 
-    include_paths[0] = "../tcc_1_8/";
+    include_paths[0] = "../tcc_1_7/";
     nb_include_paths = 1;
 
     /* add all tokens */
@@ -3740,7 +3740,7 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
-    puts("tcc 1_8 compile done");
+    puts("tcc 1_7 compile done");
 
     resolve_extern_syms();
     s = sym_find1(&extern_stack, TOK_MAIN);

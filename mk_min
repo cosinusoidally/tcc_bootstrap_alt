@@ -1,6 +1,6 @@
 ./mk_clean
 
-cd tcc_1_8
+cd tcc_1_7
 
 set -e
 
@@ -9,8 +9,8 @@ tcc tcc.o -ldl
 ../check_syms.sh
 cd ../tcc_10
 
-echo "tcc_2 to tcc_10"
-../tcc_1_8/a.out ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
+echo "tcc_1_7 to tcc_10"
+../tcc_1_7/a.out ../tcc_1_7/tcc.c ../tcc_1_7/tcc.c ../tcc_1_7/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc.c -o tcc.o -c tcc.c
 ../check_syms.sh
 tcc tcc.o -ldl
 
