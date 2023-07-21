@@ -2211,6 +2211,7 @@ int ist(void)
 int post_type(int t)
 {
     int p, n, pt, l, t1;
+    int foo;
     Sym **plast, *s, *first;
 
     if (tok == '(') {
@@ -2220,28 +2221,37 @@ int post_type(int t)
         first = NULL;
         plast = &first;
         while (tok != ')') {
+            foo=0;
             /* read param name and compute offset */
+            while(1){
             if (l != FUNC_OLD) {
                 if (!(pt = ist())) {
                     if (l) {
                         error("invalid type");
                     } else {
                         l = FUNC_OLD;
-                        goto old_proto;
+                        n = tok;
+                        pt = VT_INT;
+                        next();
+                        break;
                     }
                 }
                 l = FUNC_NEW;
-                if ((pt & VT_BTYPE) == VT_VOID && tok == ')')
+                if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
+                    foo=1;
                     break;
+                }
                 pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
                 if ((pt & VT_BTYPE) == VT_VOID)
                     error("parameter declared as void");
             } else {
-            old_proto:
                 n = tok;
                 pt = VT_INT;
                 next();
             }
+            break;
+            }
+            if(foo){break;}
             /* array must be transformed to pointer according to ANSI C */
             pt &= ~VT_ARRAY;
             s = sym_push(n | SYM_FIELD, pt, 0);
