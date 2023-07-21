@@ -1543,6 +1543,7 @@ int gv(void)
 void gen_opc(int op)
 {
     int fc, c1, c2, n;
+    int general_case=0;
     SValue *v1, *v2;
 
     v1 = vtop - 1;
@@ -1550,6 +1551,7 @@ void gen_opc(int op)
     /* currently, we cannot do computations with forward symbols */
     c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    while(1) {
     if (c1 && c2) {
         fc = v2->c.i;
         switch(op) {
@@ -1582,8 +1584,9 @@ void gen_opc(int op)
         case TOK_LAND: v1->c.i = v1->c.i && fc; break;
         case TOK_LOR: v1->c.i = v1->c.i || fc; break;
         default:
-            goto general_case;
+            general_case=1;
         }
+        if(general_case){break;}
         vtop--;
     } else {
         /* if commutative ops, put c2 as constant */
@@ -1619,13 +1622,17 @@ void gen_opc(int op)
                 else
                     op = TOK_SHR;
             }
-            goto general_case;
+            general_case=1;break;
         } else {
-        general_case:
-            /* call low level op generator */
-            /* XXX: remove explicit registers */
-            gen_opi(op);
+        general_case=1;
         }
+    }
+    break;
+    }
+    if(general_case){
+        /* call low level op generator */
+        /* XXX: remove explicit registers */
+        gen_opi(op);
     }
 }
 
