@@ -1333,6 +1333,7 @@ void macro_subst(int **tok_str, int *tok_len,
 void next(void)
 {
     int len, *ptr;
+    int redo=1;
     Sym *nested_list;
 
     /* special 'ungettok' case for label parsing */
@@ -1341,7 +1342,8 @@ void next(void)
         tokc = tok1c;
         tok1 = 0;
     } else {
-    redo:
+    while(redo){
+        redo=0;
         if (!macro_ptr) {
             /* if not reading from macro substuted string, then try to substitute */
             len = 0;
@@ -1352,19 +1354,25 @@ void next(void)
                 tok_add(&ptr, &len, 0);
                 macro_ptr = ptr;
                 macro_ptr_allocated = ptr;
-                goto redo;
+                redo=1;
+                continue;
             }
-            if (tok == 0)
-                goto redo;
+            if (tok == 0) {
+                redo=1;
+                continue;
+             }
         } else {
             next_nomacro();
             if (tok == 0) {
                 /* end of macro string: free it */
                 free(macro_ptr_allocated);
                 macro_ptr = NULL;
-                goto redo;
+                redo=1;
+                continue;
             }
         }
+        break;
+    }
     }
 }
 
