@@ -2184,7 +2184,7 @@ int ist(void)
         default:
             s = sym_find(tok);
             if (!s || !(s->t & VT_TYPEDEF))
-                goto the_end;
+                return t;
             t |= (s->t & ~VT_TYPEDEF);
             next();
             break;
