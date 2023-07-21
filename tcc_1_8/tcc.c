@@ -649,14 +649,17 @@ int handle_eof(void)
 /* read next char from current input file */
 static inline void inp(void)
 {
- redo:
-    /* faster than fgetc */
-    ch1 = getc_unlocked(file);
-    if (ch1 == -1) {
-        if (handle_eof() < 0)
-            return;
-        else
-            goto redo;
+    int redo=1;
+    while(redo){
+        redo=0;
+        /* faster than fgetc */
+        ch1 = getc_unlocked(file);
+        if (ch1 == -1) {
+            if (handle_eof() < 0)
+                return;
+            else
+                redo=1;
+        }
     }
     if (ch1 == '\n')
         line_num++;
