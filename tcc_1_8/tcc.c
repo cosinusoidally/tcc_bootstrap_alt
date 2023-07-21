@@ -2116,6 +2116,19 @@ int struct_decl(int u)
     return u;
 }
 
+int basic_type1(int t,int u){
+    if ((t & VT_BTYPE) != 0)
+        error("too many basic types %x", t);
+    t |= u;
+    return t;
+}
+
+int basic_type(int t, int u){
+    next();
+    return basic_type1(t,u);
+}
+
+
 /* return 0 if no type declaration. otherwise, return the basic type
    and skip it. 
    XXX: A '2' is ored to ensure non zero return if int type.
@@ -2131,29 +2144,28 @@ int ist(void)
             /* basic types */
         case TOK_CHAR:
             u = VT_BYTE;
-        basic_type:
-            next();
-        basic_type1:
-            if ((t & VT_BTYPE) != 0)
-                error("too many basic types %x", t);
-            t |= u;
+            t=basic_type(t,u);
             break;
         case TOK_VOID:
             u = VT_VOID;
-            goto basic_type;
+            t=basic_type(t,u);
+            break;
         case TOK_SHORT:
             u = VT_SHORT;
-            goto basic_type;
+            t=basic_type(t,u);
+            break;
         case TOK_INT:
             next();
             break;
         case TOK_ENUM:
             u = struct_decl(VT_ENUM);
-            goto basic_type1;
+            t=basic_type1(t,u);
+            break;
         case TOK_STRUCT:
         case TOK_UNION:
             u = struct_decl(VT_STRUCT);
-            goto basic_type1;
+            t=basic_type1(t,u);
+            break;
 
             /* type modifiers */
         case TOK_CONST:
@@ -2193,7 +2205,6 @@ int ist(void)
         }
         t |= 2;
     }
-the_end:
     return t;
 }
 
