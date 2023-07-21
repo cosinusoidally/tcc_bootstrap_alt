@@ -3636,6 +3636,13 @@ void resolve_extern_syms(void)
     }
 }
 
+int show_help(void)
+{
+    printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
+           "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
+    return 1;
+}
+
 int main(int argc, char **argv)
 {
     puts("tcc 1_8 start");
@@ -3672,10 +3679,7 @@ int main(int argc, char **argv)
     outfile = NULL;
     while (1) {
         if (optind >= argc) {
-        show_help:
-            printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n" 
-                   "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
-            return 1;
+        return show_help();
         }
         r = argv[optind];
         if (r[0] != '-')
@@ -3689,7 +3693,7 @@ int main(int argc, char **argv)
             define_symbol(r + 2);
         } else if (r[1] == 'i') {
             if (optind >= argc)
-                goto show_help;
+                return show_help();
             tcc_compile_file(argv[optind++]);
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
