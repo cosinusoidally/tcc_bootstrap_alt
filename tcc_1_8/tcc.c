@@ -1277,6 +1277,7 @@ void macro_subst(int **tok_str, int *tok_len,
     Sym *s, *args, *sa, *sa1;
     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
     int mstr_allocated, *macro_str1;
+    int no_subst;
     CValue cval;
 
     saved_macro_ptr = macro_ptr;
@@ -1289,6 +1290,7 @@ void macro_subst(int **tok_str, int *tok_len,
     }
 
     while (1) {
+        no_subst=0;
         next_nomacro();
         if (tok == 0)
             break;
@@ -1296,19 +1298,23 @@ void macro_subst(int **tok_str, int *tok_len,
             /* if symbol is a macro, prepare substitution */
             /* if nested substitution, do nothing */
             if (sym_find2(*nested_list, tok))
-                goto no_subst;
-            mstr = (int *)s->c;
-            mstr_allocated = 0;
-            sym_push2(nested_list, s->v, 0, 0);
-            macro_subst(tok_str, tok_len, nested_list, mstr);
-            /* pop nested defined symbol */
-            sa1 = *nested_list;
-            *nested_list = sa1->prev;
-            free(sa1);
-            if (mstr_allocated)
+                no_subst=1;
+            if(no_subst==0){
+                mstr = (int *)s->c;
+                mstr_allocated = 0;
+                sym_push2(nested_list, s->v, 0, 0);
+                macro_subst(tok_str, tok_len, nested_list, mstr);
+                /* pop nested defined symbol */
+                sa1 = *nested_list;
+                *nested_list = sa1->prev;
+                free(sa1);
+                if (mstr_allocated)
                 free(mstr);
+            }
         } else {
-        no_subst:
+            no_subst=1;
+        }
+        if (no_subst) {
             /* no need to add if reading input stream */
             if (!macro_str)
                 return;
