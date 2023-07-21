@@ -1467,19 +1467,22 @@ void save_reg(int r)
 int get_reg(int rc)
 {
     int r, i;
+    int notfound;
     SValue *p;
 
     /* find a free register */
     for(r=0;r<NB_REGS;r++) {
+        notfound=0;
         if (reg_classes[r] & rc) {
             for(p=vstack;p<=vtop;p++) {
                 i = p->t & VT_VALMASK;
                 if (i == r)
-                    goto notfound;
+                    notfound=1;
             }
+            if(!notfound){
             return r;
+            }
         }
-    notfound: ;
     }
     
     /* no register left : free the first one on the stack (very
