@@ -2022,6 +2022,7 @@ int struct_decl(int u)
 
     a = tok; /* save decl type */
     next();
+    while(1){
     if (tok != '{') {
         v = tok;
         next();
@@ -2030,14 +2031,15 @@ int struct_decl(int u)
         if (s = sym_find(v | SYM_STRUCT)) {
             if (s->t != a)
                 error("invalid type");
-            goto do_decl;
+            break;
         }
     } else {
         v = anon_sym++;
     }
     s = sym_push(v | SYM_STRUCT, a, 0);
     /* put struct/union/enum name in type */
- do_decl:
+    break;
+    }
     u = u | (v << VT_STRUCT_SHIFT);
     
     if (tok == '{') {
