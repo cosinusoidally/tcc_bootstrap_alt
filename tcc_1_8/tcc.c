@@ -143,7 +143,7 @@ char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
 
 /* use GNU C extensions */
-int gnu_ext = 1;
+int gnu_ext = 0;
 
 /* use Tiny C extensions */
 int tcc_ext = 1;
@@ -2565,9 +2565,8 @@ void unary(void)
                 if ((vtop->t & (VT_BTYPE | VT_ARRAY)) == VT_PTR) {
                     vtop->t = pointed_type(vtop->t);
                     if ((vtop->t & VT_BTYPE) != VT_FUNC)
-                        goto error_func;
+                        expect("function pointer");
                 } else {
-                error_func:
                     expect("function pointer");
                 }
             } else {
@@ -3079,8 +3078,6 @@ void decl_designator(int t, int c,
     int notfirst, index, align, l;
 
     notfirst = 0;
-    if (gnu_ext && (l = is_label()) != 0)
-        goto struct_field;
 
     while (tok == '[' || tok == '.') {
         if (tok == '[') {
@@ -3100,7 +3097,6 @@ void decl_designator(int t, int c,
             next();
             l = tok;
             next();
-        struct_field:
             if ((t & VT_BTYPE) != VT_STRUCT)
                 expect("struct/union type");
             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
