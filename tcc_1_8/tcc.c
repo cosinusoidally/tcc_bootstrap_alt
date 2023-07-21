@@ -1322,6 +1322,8 @@ void macro_subst(int **tok_str, int *tok_len,
             mstr = (int *)s->c;
             mstr_allocated = 0;
             if (s->t == MACRO_FUNC) {
+printline();
+exit(1);
                 /* NOTE: we do not use next_nomacro to avoid eating the
                    next token. XXX: find better solution */
                 if (macro_ptr) {

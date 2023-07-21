@@ -547,7 +547,9 @@ Sym *sym_find2(Sym *s, int v)
     return NULL;
 }
 
-#define HASH_SYM(v) ((unsigned)(v) % SYM_HASH_SIZE)
+unsigned int HASH_SYM(int v) {
+    return ((unsigned)(v) % SYM_HASH_SIZE);
+}
 
 /* find a symbol and return its associated structure. 'st' is the
    symbol stack */
