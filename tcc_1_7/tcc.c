@@ -3028,49 +3028,13 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
             error("too many 'default'");
         *def_sym = ind;
         block(bsym, csym, case_sym, def_sym, case_reg);
-    } else
-    if (tok == TOK_GOTO) {
-printf("\nTOK_GOTO\n");
-        next();
-        s = sym_find1(&label_stack, tok);
-        /* put forward definition if needed */
-        if (!s)
-            s = sym_push1(&label_stack, tok, VT_FORWARD, 0);
-        /* label already defined */
-        if (s->t & VT_FORWARD) 
-            s->c = gjmp(s->c); /* jmp xxx */
-        else
-            oad(0xe9, s->c - ind - 5); /* jmp xxx */
-        next();
-        skip(';');
     } else {
-        b = is_label();
-        if (b) {
-printf("\nis_label\n");
-            /* label case */
-            s = sym_find1(&label_stack, b);
-            if (s) {
-                if (!(s->t & VT_FORWARD))
-                    error("multiple defined label");
-                gsym(s->c);
-                s->c = ind;
-                s->t = 0;
-            } else {
-                sym_push1(&label_stack, b, 0, ind);
-            }
-            /* we accept this, but it is a mistake */
-            if (tok == '}') 
-                warning("deprecated use of label at end of compound statement");
-            else
-                block(bsym, csym, case_sym, def_sym, case_reg);
-        } else {
-            /* expression case */
-            if (tok != ';') {
-                gexpr();
-                vpop();
-            }
-            skip(';');
+        /* expression case */
+        if (tok != ';') {
+            gexpr();
+            vpop();
         }
+        skip(';');
     }
 }
 
