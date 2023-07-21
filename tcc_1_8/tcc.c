@@ -377,12 +377,13 @@ void printline(void)
 void error(const char *fmt, ...)
 {
     va_list ap;
-    va_start(ap, fmt);
+//    va_start(ap, fmt);
+    ap = ((char *)&(fmt)) + sizeof(int);
     printline();
     vfprintf(stderr, fmt, ap);
     fprintf(stderr, "\n");
     exit(1);
-    va_end(ap);
+//    va_end(ap);
 }
 
 void expect(const char *msg)
