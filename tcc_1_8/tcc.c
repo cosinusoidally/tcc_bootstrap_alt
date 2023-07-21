@@ -1102,16 +1102,6 @@ void next_nomacro1(void)
         q = token_buf;
         *q++ = ch;
         cinp();
-        if (q[-1] == 'L') {
-            if (ch == '\'') {
-                tok = TOK_LCHAR;
-                goto char_const;
-            }
-            if (ch == '\"') {
-                tok = TOK_LSTR;
-                goto str_const;
-            }
-        }
         while (isid(ch) || isnum(ch)) {
             if (q >= token_buf + STRING_MAX_SIZE)
                 error("ident too long");
@@ -1125,7 +1115,6 @@ void next_nomacro1(void)
         parse_number();
     } else if (ch == '\'') {
         tok = TOK_CCHAR;
-    char_const:
         minp();
         tokc.i = getq();
         if (ch != '\'')
@@ -1133,7 +1122,6 @@ void next_nomacro1(void)
         minp();
     } else if (ch == '\"') {
         tok = TOK_STR;
-    str_const:
         minp();
         q = token_buf;
         while (ch != '\"') {
