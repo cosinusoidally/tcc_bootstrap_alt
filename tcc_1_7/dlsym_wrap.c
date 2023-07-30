@@ -32,6 +32,16 @@ int getcwd_wrap(){
   exit(1);
 }
 
+int ldexp_wrap(){
+  printf("ldexp unimplemented\n");
+  exit(1);
+}
+
+int lseek_wrap(){
+  printf("lseek unimplemented\n");
+  exit(1);
+}
+
 // dummy declarations to create required symbols
 int close();
 int fputc();
@@ -57,6 +67,8 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "fwrite", &fwrite, },
       { "getc_unlocked", &getc_unlocked, },
       { "getcwd", &getcwd_wrap, },
+      { "ldexp", &ldexp_wrap, },
+      { "lseek", &lseek_wrap, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
