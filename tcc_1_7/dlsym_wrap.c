@@ -50,6 +50,7 @@ int memmove_wrap(){
 // dummy declarations to create required symbols
 int close();
 int fputc();
+int open();
 
 void *dlsym_wrap(void *handle, char *symbol)
 {
@@ -78,6 +79,9 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "memcmp", &memcmp, },
       { "memcpy", &memcpy, },
       { "memmove", &memmove_wrap, },
+      { "memset", &memset, },
+      { "mmap", &mmap, },
+      { "open", &open, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
