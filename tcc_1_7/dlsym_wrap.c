@@ -42,6 +42,7 @@ void *dlsym_wrap(void *handle, char *symbol)
 //      { "dlsym", &dlsym_wrap, },
       { "exit", &exit, },
       { "fclose", &fclose, },
+      { "fdopen", &fdopen, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
