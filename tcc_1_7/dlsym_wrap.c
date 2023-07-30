@@ -125,6 +125,7 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "strtof", &strtof, },
       { "strtol", &strtol_wrap, },
       { "strtold", &strtold_wrap, },
+      { "vfprintf", &vfprintf, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
