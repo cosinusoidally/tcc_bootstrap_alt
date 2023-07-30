@@ -12,18 +12,24 @@ typedef struct TCCSyms {
     void *ptr;
 } TCCSyms;
 
-static TCCSyms tcc_syms[] = {
-    { NULL, NULL },
-};
+int blah_wrap(){
+  printf("blah unimplemented\n");
+  exit(1);
+}
 
 void *dlsym_wrap(void *handle, char *symbol)
 {
-//if (!strcmp(p->str, symbol))
+  // TCCSyms must be defined here, I think there is a bug around global data
+  // relocations
+  TCCSyms tcc_syms[] = {
+      { "atoi", &atoi, },
+      { NULL, NULL },
+  };
+
   TCCSyms *s;
   s=tcc_syms;
-
   int p;
-  int i=0;
+
   printf("dlsym: %s\n",symbol);
   if(!strcmp("dlsym", symbol)) {
     return &dlsym_wrap;
