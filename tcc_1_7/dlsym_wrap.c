@@ -27,6 +27,11 @@ int dlopen_wrap(){
   exit(1);
 }
 
+int getcwd_wrap(){
+  printf("getcwd unimplemented\n");
+  exit(1);
+}
+
 // dummy declarations to create required symbols
 int close();
 int fputc();
@@ -50,6 +55,8 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "fputc", &fputc, },
       { "free", &free, },
       { "fwrite", &fwrite, },
+      { "getc_unlocked", &getc_unlocked, },
+      { "getcwd", &getcwd_wrap, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
