@@ -38,6 +38,10 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "close", &close, },
       { "dlerror", &dlerror_wrap, },
       { "dlopen", &dlopen_wrap, },
+// don't override here
+//      { "dlsym", &dlsym_wrap, },
+      { "exit", &exit, },
+      { "fclose", &fclose, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
