@@ -2288,7 +2288,6 @@ void parse_number(void)
             }
             *q = '\0';
             t = toup(ch);
-            errno = 0;
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
