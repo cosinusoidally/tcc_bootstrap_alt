@@ -63,6 +63,7 @@ int fputc();
 int open();
 int read();
 int strtod();
+int strtof();
 
 void *dlsym_wrap(void *handle, char *symbol)
 {
@@ -111,6 +112,7 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "strlen", &strlen, },
       { "strrchr", &strrchr, },
       { "strtod", &strtod, },
+      { "strtof", &strtof, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
