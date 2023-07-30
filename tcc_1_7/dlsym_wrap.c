@@ -22,6 +22,11 @@ int dlerror_wrap(){
   exit(1);
 }
 
+int dlopen_wrap(){
+  printf("dlopen unimplemented\n");
+  exit(1);
+}
+
 int close();
 
 void *dlsym_wrap(void *handle, char *symbol)
@@ -32,6 +37,8 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "atoi", &atoi, },
       { "close", &close, },
       { "dlerror", &dlerror_wrap, },
+      { "dlopen", &dlopen_wrap, },
+      { "blah", &blah_wrap, },
       { NULL, NULL },
   };
 
