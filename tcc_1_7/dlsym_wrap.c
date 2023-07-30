@@ -17,12 +17,21 @@ int blah_wrap(){
   exit(1);
 }
 
+int dlerror_wrap(){
+  printf("dlerror unimplemented\n");
+  exit(1);
+}
+
+int close();
+
 void *dlsym_wrap(void *handle, char *symbol)
 {
   // TCCSyms must be defined here, I think there is a bug around global data
   // relocations
   TCCSyms tcc_syms[] = {
       { "atoi", &atoi, },
+      { "close", &close, },
+      { "dlerror", &dlerror_wrap, },
       { NULL, NULL },
   };
 
