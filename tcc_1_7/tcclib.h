@@ -53,6 +53,7 @@ void perror(const char *s);
 /* string.h */
 char *strcat(char *dest, const char *src);
 char *strchr(const char *s, int c);
+int strcmp(char *s1, char *s2);
 char *strrchr(const char *s, int c);
 char *strcpy(char *dest, const char *src);
 void *memcpy(void *dest, const void *src, size_t n);
