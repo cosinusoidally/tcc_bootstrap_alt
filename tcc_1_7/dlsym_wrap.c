@@ -99,6 +99,9 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "realloc", &realloc, },
       { "sigaction", &sigaction_wrap, },
       { "sigemptyset", &sigemptyset_wrap, },
+      { "snprintf", &snprintf, },
+      { "sprintf", &sprintf, },
+      { "stderr", &stderr, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
