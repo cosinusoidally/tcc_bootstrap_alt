@@ -47,6 +47,16 @@ int memmove_wrap(){
   exit(1);
 }
 
+int sigaction_wrap(){
+  printf("sigaction unimplemented\n");
+  exit(1);
+}
+
+int sigemptyset_wrap(){
+  printf("sigemptyset unimplemented\n");
+  exit(1);
+}
+
 // dummy declarations to create required symbols
 int close();
 int fputc();
@@ -86,6 +96,9 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "printf", &printf, },
       { "puts", &puts, },
       { "read", &read, },
+      { "realloc", &realloc, },
+      { "sigaction", &sigaction_wrap, },
+      { "sigemptyset", &sigemptyset_wrap, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
