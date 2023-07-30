@@ -102,6 +102,8 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "snprintf", &snprintf, },
       { "sprintf", &sprintf, },
       { "stderr", &stderr, },
+      { "strcat", &strcat, },
+      { "strchr", &strchr, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
