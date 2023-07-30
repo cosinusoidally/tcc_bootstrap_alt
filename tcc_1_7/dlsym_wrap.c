@@ -57,6 +57,16 @@ int sigemptyset_wrap(){
   exit(1);
 }
 
+int strtol_wrap(){
+  printf("strtol unimplemented\n");
+  exit(1);
+}
+
+int strtold_wrap(){
+  printf("strtold unimplemented\n");
+  exit(1);
+}
+
 // dummy declarations to create required symbols
 int close();
 int fputc();
@@ -113,6 +123,8 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "strrchr", &strrchr, },
       { "strtod", &strtod, },
       { "strtof", &strtof, },
+      { "strtol", &strtol_wrap, },
+      { "strtold", &strtold_wrap, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
