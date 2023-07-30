@@ -42,6 +42,11 @@ int lseek_wrap(){
   exit(1);
 }
 
+int memmove_wrap(){
+  printf("memmove unimplemented\n");
+  exit(1);
+}
+
 // dummy declarations to create required symbols
 int close();
 int fputc();
@@ -69,6 +74,10 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "getcwd", &getcwd_wrap, },
       { "ldexp", &ldexp_wrap, },
       { "lseek", &lseek_wrap, },
+      { "malloc", &malloc, },
+      { "memcmp", &memcmp, },
+      { "memcpy", &memcpy, },
+      { "memmove", &memmove_wrap, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
