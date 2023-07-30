@@ -27,7 +27,9 @@ int dlopen_wrap(){
   exit(1);
 }
 
+// dummy declarations to create required symbols
 int close();
+int fputc();
 
 void *dlsym_wrap(void *handle, char *symbol)
 {
@@ -45,6 +47,9 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "fdopen", &fdopen, },
       { "fopen", &fopen, },
       { "fprintf", &fprintf, },
+      { "fputc", &fputc, },
+      { "free", &free, },
+      { "fwrite", &fwrite, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
