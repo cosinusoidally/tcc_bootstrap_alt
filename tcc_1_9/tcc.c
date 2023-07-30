@@ -3931,7 +3931,10 @@ int main(int argc, char **argv)
     
     glo = (int)malloc(DATA_SIZE);
     memset((void *)glo, 0, DATA_SIZE);
-    prog = (int)malloc(TEXT_SIZE);
+    prog = (int)mmap(NULL, TEXT_SIZE,
+                PROT_EXEC | PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
     ind = prog;
 
     optind = 1;
