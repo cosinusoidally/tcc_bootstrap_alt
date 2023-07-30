@@ -51,6 +51,7 @@ int memmove_wrap(){
 int close();
 int fputc();
 int open();
+int read();
 
 void *dlsym_wrap(void *handle, char *symbol)
 {
@@ -82,6 +83,9 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "memset", &memset, },
       { "mmap", &mmap, },
       { "open", &open, },
+      { "printf", &printf, },
+      { "puts", &puts, },
+      { "read", &read, },
       { "blah", &blah_wrap, },
       { NULL, NULL },
   };
