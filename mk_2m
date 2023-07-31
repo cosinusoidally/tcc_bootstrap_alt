@@ -4,7 +4,7 @@ cd tcc_2m
 
 set -e
 
-tcc -c tcc.c -I ../woody/usr/include/
+tcc -nostdinc -c tcc.c -I .
 tcc tcc.o -ldl
 ../check_syms.sh
 cd ../tcc_10
