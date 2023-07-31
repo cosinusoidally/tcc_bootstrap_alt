@@ -536,7 +536,7 @@ char *tcc_keywords =
 #define snprintf _snprintf
 #endif
 
-#if defined(WIN32) || defined(TCC_UCLIBC)
+// HACK MMVM unconditionally enable
 /* currently incorrect */
 long double strtold(const char *nptr, char **endptr)
 {
@@ -546,11 +546,6 @@ float strtof(const char *nptr, char **endptr)
 {
     return (float)strtod(nptr, endptr);
 }
-#else
-/* XXX: need to define this to use them in non ISOC99 context */
-extern float strtof (const char *__nptr, char **__endptr);
-extern long double strtold (const char *__nptr, char **__endptr);
-#endif
 
 static char *pstrcpy(char *buf, int buf_size, const char *s);
 static char *pstrcat(char *buf, int buf_size, const char *s);
@@ -2295,7 +2290,8 @@ void parse_number(void)
             } else if (t == 'L') {
                 cinp();
                 tok = TOK_CLDOUBLE;
-                tokc.ld = strtold(token_buf, NULL);
+// HACK MMVM disable this to allow win32 bootstrap
+//                tokc.ld = strtold(token_buf, NULL);
             } else {
                 tok = TOK_CDOUBLE;
                 tokc.d = strtod(token_buf, NULL);
