@@ -1121,7 +1121,9 @@ int tcc_output_file(TCCState *s1, const char *filename)
     dynamic = NULL;
     dynstr = NULL; /* avoid warning */
     saved_dynamic_data_offset = 0; /* avoid warning */
-    
+
+// LJW HACK need this to stop BSS ending up in COM
+    relocate_common_syms();
     if (file_type != TCC_OUTPUT_OBJ) {
         relocate_common_syms();
 
