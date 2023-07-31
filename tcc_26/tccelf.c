@@ -2203,12 +2203,15 @@ static int elf_output_file(TCCState *s1, const char *filename)
     else
         mode = 0777;
     unlink(filename);
+/* HACK MMVM can't use this form of open
     fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, mode); 
     if (fd < 0) {
         tcc_error_noabort("could not write '%s'", filename);
         goto fail;
     }
     f = fdopen(fd, "wb");
+*/
+    f = fopen(filename, "wb");
     if (s1->verbose)
         printf("<- %s\n", filename);
 
