@@ -10687,3 +10687,7 @@ int main(int argc, char **argv)
 }
 
 #endif
+
+#ifdef FOO
+#include "libtcc1_min.c"
+#endif
