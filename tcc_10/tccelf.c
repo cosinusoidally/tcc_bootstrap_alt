@@ -1338,11 +1338,14 @@ int tcc_output_file(TCCState *s1, const char *filename)
         mode = 0666;
     else
         mode = 0777;
+/* HACK MMVM can't use this form of open
     fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, mode); 
     if (fd < 0)
         error("could not write '%s'", filename);
 
     f = fdopen(fd, "w");
+*/
+    f = fopen(filename, "wb");
     fwrite(&ehdr, 1, sizeof(Elf32_Ehdr), f);
     fwrite(phdr, 1, phnum * sizeof(Elf32_Phdr), f);
     offset = sizeof(Elf32_Ehdr) + phnum * sizeof(Elf32_Phdr);
