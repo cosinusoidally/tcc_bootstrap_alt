@@ -115,8 +115,12 @@ void mk_reloc(int addr,int val){
     if(is_data(val)){
       *(int *)relocs=val-glo_base;
       relocs=relocs+4;
+      *(int *)relocs=0;
+      relocs=relocs+4;
     } else {
       *(int *)relocs=val-prog;
+      relocs=relocs+4;
+      *(int *)relocs=1;
       relocs=relocs+4;
     }
 //   printf("val: %d %d\n",val,is_data(val));

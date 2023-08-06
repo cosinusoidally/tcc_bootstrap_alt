@@ -3681,7 +3681,7 @@ int show_help(void)
 int r32(int o){
   int r;
   r=((int *)(o))[0];
-  printf("r32: %x\n",r);
+//  printf("r32: %x\n",r);
   return r;
 }
 
@@ -3729,7 +3729,7 @@ void gen_obj(int e){
 
   memcpy((char *)prog_rel,(char *)prog,text_len);
   memcpy((char *)data_rel,(char *)glo_base,data_len);
-  for(i=0;i<reloc_len;i=i+8){
+  for(i=0;i<reloc_len;i=i+12){
     w32(prog_rel+r32(relocs_base+i),0); 
   }
   for(i=0;i<global_reloc_len;i=i+8){
@@ -3772,6 +3772,7 @@ void load_obj(void){
     exit(1);
   }
   global_relocs_table_base=(int)malloc(global_reloc_table_len);
+  global_relocs_table=global_relocs_table_base;
   fread((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
@@ -3822,7 +3823,27 @@ void load_obj(void){
   printf("prog: %x \n",prog);
   memcpy((char *)prog,(char *)prog_rel,text_len);
   memcpy((char *)glo_base,(char *)data_rel,data_len);
+  printf("entrypoint: %x\n",(prog+entrypoint));
+  printf("text_len: %x\n",(text_len));
+  printf("data_len: %x\n",(data_len));
   fclose(f);
+
+  int m=global_relocs_table_base+global_reloc_table_len;
+  int l;
+  int a;
+  int n;
+  for(i=0;i<reloc_len;i=i+12){
+    w32(prog+r32(relocs_base+i),r32(relocs_base+i+4)); 
+  }
+  while(global_relocs_table<m){
+    l=strlen((char *)global_relocs_table);
+    a=dlsym(NULL,(char *)global_relocs_table);
+    printf("global_reloc: %s %d ",global_relocs_table,l);
+    global_relocs_table+=l+1;
+    n=r32(global_relocs_table);
+    global_relocs_table+=4;
+    printf("global_reloc_num: %d\n",n);
+  }
 }
 
 int main(int argc, char **argv)
