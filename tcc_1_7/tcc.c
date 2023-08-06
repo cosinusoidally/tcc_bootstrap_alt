@@ -149,6 +149,7 @@ int gnu_ext = 0;
 int tcc_ext = 1;
 
 int reloc=0;
+int reloc_global=0;
 
 /* The current value can be: */
 #define VT_VALMASK 0x000f
@@ -3629,6 +3630,8 @@ int tcc_compile_file(const char *filename1)
 
 void resolve_extern_syms(void)
 {
+// HACK RELOC
+reloc_global=1;
     Sym *s, *s1;
     char *str;
     int addr;
@@ -3644,11 +3647,15 @@ void resolve_extern_syms(void)
                 addr = (int)dlsym(NULL, str);
                 if (!addr)
                     error("unresolved external reference '%s'", str);
+if(reloc){
+  printf("resolve_extern_syms: %s\n",str);
+}
                 greloc_patch(s, addr);
             }
         }
         s = s1;
     }
+reloc_global=0;
 }
 
 int show_help(void)
@@ -3656,6 +3663,13 @@ int show_help(void)
     printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
            "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
     return 1;
+}
+
+void gen_obj(){
+  printf("Generating object file\n");
+  FILE *f;
+  f = fopen("tcc_boot.o", "wb");
+
 }
 
 int main(int argc, char **argv)
@@ -3734,6 +3748,11 @@ int main(int argc, char **argv)
     s = sym_find1(&extern_stack, TOK_MAIN);
     if (!s || (s->t & VT_FORWARD))
         error("main() not defined");
+
+if(reloc){
+  gen_obj();
+}
+
     t = (int (*)())s->c;
     return (*t)(argc - optind, argv + optind);
 }

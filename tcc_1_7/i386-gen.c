@@ -95,11 +95,15 @@ void greloc_patch(Sym *s, int val)
         switch(p->type) {
         case RELOC_ADDR32:
 if(reloc){
-  printf("reloc at: %x to: %x\n",p->addr,val);
+  printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
 }
             *(int *)p->addr = val;
             break;
         case RELOC_REL32:
+if(reloc_global){
+  printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
+
+}
             *(int *)p->addr = val - p->addr - 4;
             break;
         }
@@ -146,15 +150,16 @@ int lt=0;
 void gen_addr32(int c, int t)
 {
     if (!(t & VT_FORWARD)) {
+
+// RELOC HACK
 if(reloc){
-if(lt==2){
 //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
   if(t==VT_CONST){
     printf("\nreloc2: integer constant");
+    printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
+  } else {
+    printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
   }
-  printf("\nreloc2: at: %x to: %d\n",ind,c);
-}
-
 }
         gen_le32(c);
     } else {
