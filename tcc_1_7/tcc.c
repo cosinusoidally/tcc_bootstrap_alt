@@ -3680,7 +3680,7 @@ int show_help(void)
 
 int r32(int o){
   int r;
-  r=((int *)(o));
+  r=((int *)(o))[0];
   printf("r32: %x\n",r);
   return r;
 }
@@ -3716,10 +3716,10 @@ void gen_obj(){
   memcpy((char *)data_rel,(char *)glo_base,data_len);
   fwrite((void *)data_rel,1,data_len,f);
   fwrite((void *)global_relocs_base,1,global_reloc_len,f);
-  for(i=0;i<reloc_len;i=i+4){
+  for(i=0;i<reloc_len;i=i+8){
     w32(prog_rel+r32(relocs_base+i),0); 
   }
-//  fwrite((void *)prog_rel,1,text_len,f);
+  fwrite((void *)prog_rel,1,text_len,f);
   fclose(f);
 }
 

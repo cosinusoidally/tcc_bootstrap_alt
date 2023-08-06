@@ -85,7 +85,7 @@ void greloc(Sym *s, int addr, int type)
 }
 
 int is_prog(int a){
-  if((a-prog)<(TEXT_SIZE)){
+  if(((unsigned int)(a-prog))<(TEXT_SIZE)){
     return 1;
   }
   return 0;
@@ -93,7 +93,7 @@ int is_prog(int a){
 }
 
 int is_data(int a){
-  if((a-glo_base)<(DATA_SIZE)){
+  if(((unsigned int)(a-glo_base))<(DATA_SIZE)){
     return 1;
   }
   return 0;
@@ -116,7 +116,8 @@ void mk_reloc(int addr,int val){
       *(int *)relocs=val-glo_base;
       relocs=relocs+4;
     } else {
-      printf("Can't handle relocs from prog to prog\n");
+      *(int *)relocs=val-prog;
+      relocs=relocs+4;
     }
 //   printf("val: %d %d\n",val,is_data(val));
 }
