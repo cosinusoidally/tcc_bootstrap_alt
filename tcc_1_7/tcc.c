@@ -3678,6 +3678,17 @@ int show_help(void)
     return 1;
 }
 
+int r32(int o){
+  int r;
+  r=((int *)(o));
+  printf("r32: %x\n",r);
+  return r;
+}
+
+int w32(int o,int v){
+return 0;
+  *(int *)o=v;
+}
 void gen_obj(){
   printf("Generating object file\n");
   FILE *f;
@@ -3688,6 +3699,7 @@ void gen_obj(){
   int global_reloc_table_len=global_relocs_table-global_relocs_table_base;
   int prog_rel;
   int data_rel;
+  int i;
   f = fopen("tcc_boot.o", "wb");
   fprintf(f,"hello world\n");
   fprintf(f,"entrypoint: 0xXXX\n");
@@ -3699,12 +3711,15 @@ void gen_obj(){
   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
+  fwrite((void *)relocs_base,1,reloc_len,f);
   memcpy((char *)prog_rel,(char *)prog,text_len);
   memcpy((char *)data_rel,(char *)glo_base,data_len);
-//  fwrite((void *)prog_rel,1,text_len,f);
   fwrite((void *)data_rel,1,data_len,f);
-  fwrite((void *)relocs_base,1,reloc_len,f);
   fwrite((void *)global_relocs_base,1,global_reloc_len,f);
+  for(i=0;i<reloc_len;i=i+4){
+    w32(prog_rel+r32(relocs_base+i),0); 
+  }
+//  fwrite((void *)prog_rel,1,text_len,f);
   fclose(f);
 }
 
