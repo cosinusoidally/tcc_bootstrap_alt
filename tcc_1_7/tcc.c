@@ -3701,8 +3701,9 @@ void gen_obj(){
   data_rel=(int)malloc(data_len);
   memcpy((char *)prog_rel,(char *)prog,text_len);
   memcpy((char *)data_rel,(char *)glo_base,data_len);
-  fwrite((void *)prog_rel,1,text_len,f);
+//  fwrite((void *)prog_rel,1,text_len,f);
   fwrite((void *)data_rel,1,data_len,f);
+  fwrite((void *)relocs_base,1,reloc_len,f);
   fclose(f);
 }
 
@@ -3778,6 +3779,10 @@ int main(int argc, char **argv)
 if(reloc){
 global_relocs_table=(int)malloc(64*1024);
 global_relocs_table_base=global_relocs_table;
+
+relocs=(int)malloc(64*1024);
+relocs_base=relocs;
+
 };
     
     tcc_compile_file(argv[optind]);

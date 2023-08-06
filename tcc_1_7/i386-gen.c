@@ -84,6 +84,34 @@ void greloc(Sym *s, int addr, int type)
     s->c = (int)p;
 }
 
+int is_prog(int a){
+  if((a-prog)<(TEXT_SIZE)){
+    return 1;
+  }
+  return 0;
+
+}
+
+int is_data(int a){
+  if((a-glo_base)<(DATA_SIZE)){
+    return 1;
+  }
+  return 0;
+}
+
+void mk_reloc(int addr,int val){
+    if(is_prog(addr)){
+      *(int *)relocs=addr-prog;
+      relocs=relocs+4;
+    } else {
+      printf("Can't handle relocs in data\n");
+      exit(1);
+    }
+    *(int *)relocs=val;
+    relocs=relocs+4;
+   printf("val: %d %d\n",val,is_data(val));
+}
+
 /* patch each relocation entry with value 'val' */
 int greloc_patch(Sym *s, int val)
 {
@@ -98,10 +126,11 @@ count++;
 if(reloc){
   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
   if(reloc_global){
-    relocs=relocs+4;
-  } else {
     global_relocs=global_relocs+8;
-
+  } else {
+printf("shouldn't get here\n");
+exit(1);
+//    mk_reloc(p->addr,val);
   }
 }
             *(int *)p->addr = val;
@@ -171,9 +200,8 @@ if(reloc){
 if(reloc_global){
 printf("relocs error\n");
   exit(1);
-
 }
-    relocs=relocs+4;
+    mk_reloc(ind,c);
   }
 }
         gen_le32(c);
