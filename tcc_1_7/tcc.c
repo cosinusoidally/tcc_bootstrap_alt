@@ -3686,6 +3686,8 @@ void gen_obj(){
   int reloc_len=relocs-relocs_base;
   int global_reloc_len=global_relocs-global_relocs_base;
   int global_reloc_table_len=global_relocs_table-global_relocs_table_base;
+  int prog_rel;
+  int data_rel;
   f = fopen("tcc_boot.o", "wb");
   fprintf(f,"hello world\n");
   fprintf(f,"entrypoint: 0xXXX\n");
@@ -3695,6 +3697,12 @@ void gen_obj(){
   fprintf(f,"global_reloc_len: 0x%x\n",global_reloc_len);
   fprintf(f,"global_reloc_table_len: 0x%x\n",global_reloc_table_len);
   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
+  prog_rel=(int)malloc(text_len);
+  data_rel=(int)malloc(data_len);
+  memcpy((char *)prog_rel,(char *)prog,text_len);
+  memcpy((char *)data_rel,(char *)glo_base,data_len);
+  fwrite((void *)prog_rel,1,text_len,f);
+  fwrite((void *)data_rel,1,data_len,f);
   fclose(f);
 }
 
