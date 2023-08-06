@@ -121,7 +121,7 @@ CValue tokc, tok1c;
    anon_sym: anonymous symbol index
 */
 int rsym, anon_sym,
-    prog, ind, loc, glo, const_wanted;
+    prog, ind, loc, glo, const_wanted, glo_base;
 int global_expr; /* true if compound literals must be allocated
                     globally (used during initializers parsing */
 int func_vt, func_vc; /* current function return type (used by
@@ -147,6 +147,8 @@ int gnu_ext = 0;
 
 /* use Tiny C extensions */
 int tcc_ext = 1;
+
+int reloc=0;
 
 /* The current value can be: */
 #define VT_VALMASK 0x000f
@@ -342,6 +344,7 @@ int ist(void);
 int type_decl(int *v, int t, int td);
 void error(const char *fmt, ...);
 void vset(int t, int v);
+void printline2(void);
 
 #include "i386-gen.c"
 
@@ -372,6 +375,15 @@ void printline(void)
         fprintf(stderr, "In file included from %s:%d:\n", 
                 f->filename, f->line_num);
     fprintf(stderr, "%s:%d: ", filename, line_num);
+}
+
+void printline2(void)
+{
+    IncludeFile *f;
+    for(f = include_stack; f < include_stack_ptr; f++)
+        fprintf(stdout, "In file included from %s:%d:\n", 
+                f->filename, f->line_num);
+    fprintf(stdout, "%s:%d: ", filename, line_num);
 }
 
 void error(const char *fmt, ...)
@@ -661,6 +673,7 @@ static inline void inp(void)
                 redo=1;
         }
     }
+    printf("%c",ch1);
     if (ch1 == '\n')
         line_num++;
     //    printf("ch1=%c 0x%x\n", ch1, ch1);
@@ -3672,13 +3685,19 @@ int main(int argc, char **argv)
     /* tiny C specific defines */
     define_symbol("__TINYC__");
     
-    glo = (int)malloc(DATA_SIZE);
+    glo = (int)mmap(NULL, DATA_SIZE,
+                PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
+    glo_base=glo;
+    printf("glo: %x %x\n",glo,glo_base);
     memset((void *)glo, 0, DATA_SIZE);
     prog = (int)mmap(NULL, TEXT_SIZE,
                 PROT_EXEC | PROT_READ | PROT_WRITE,
                 MAP_PRIVATE | MAP_ANONYMOUS,
                 -1, 0);
     ind = prog;
+    printf("prog: %x \n",prog);
 
     optind = 1;
     outfile = NULL;
@@ -3700,6 +3719,8 @@ int main(int argc, char **argv)
             if (optind >= argc)
                 return show_help();
             tcc_compile_file(argv[optind++]);
+        } else if (r[1] == 'r') {
+            reloc=1;;
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);

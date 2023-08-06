@@ -94,6 +94,9 @@ void greloc_patch(Sym *s, int val)
         p1 = p->next;
         switch(p->type) {
         case RELOC_ADDR32:
+if(reloc){
+  printf("reloc at: %x to: %x\n",p->addr,val);
+}
             *(int *)p->addr = val;
             break;
         case RELOC_REL32:
@@ -137,10 +140,22 @@ int oad(int c, int s)
     return s;
 }
 
+int lt=0;
+
 /* output constant with relocation if 't & VT_FORWARD' is true */
 void gen_addr32(int c, int t)
 {
     if (!(t & VT_FORWARD)) {
+if(reloc){
+if(lt==2){
+//  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
+  if(t==VT_CONST){
+    printf("\nreloc2: integer constant");
+  }
+  printf("\nreloc2: at: %x to: %d\n",ind,c);
+}
+
+}
         gen_le32(c);
     } else {
         greloc((Sym *)c, ind, RELOC_ADDR32);
@@ -173,6 +188,8 @@ void load(int r, int ft, int fc)
 
         if (v == VT_CONST) {
             o(0x05 + r * 8); /* 0xXX, r */
+printf("\n load1 %x\n",ind);
+lt=1;
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
@@ -182,6 +199,8 @@ void load(int r, int ft, int fc)
     } else {
         if (v == VT_CONST) {
             o(0xb8 + r); /* mov $xx, r */
+printf("\n load2 %x\n",ind);
+lt=2;
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
             o(0x8d);
@@ -221,6 +240,8 @@ void store(r, ft, fc)
         o(0x89);
     if (fr == VT_CONST) {
         o(0x05 + r * 8); /* mov r,xxx */
+lt=1;
+printf("\nstore 32 ind: %x\n",ind);
         gen_addr32(fc, ft);
     } else if (fr == VT_LOCAL) {
         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
