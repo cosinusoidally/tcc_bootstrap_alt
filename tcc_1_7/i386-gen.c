@@ -121,14 +121,12 @@ void mk_reloc(int addr,int val){
 //   printf("val: %d %d\n",val,is_data(val));
 }
 
-void mk_reloc_global(int type,int addr,int val){
+void mk_reloc_global(int type,int addr){
 //return;
 printf("mk_reloc_global: %d\n",global_relocs);
   *(int *)global_relocs=type;
   global_relocs+=4;
-  *(int *)global_relocs=addr;
-  global_relocs+=4;
-  *(int *)global_relocs=val;
+  *(int *)global_relocs=addr-prog;
   global_relocs+=4;
 }
 
@@ -146,7 +144,7 @@ count++;
 if(reloc){
   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
   if(reloc_global){
-mk_reloc_global(RELOC_ADDR32,p->addr,val);
+mk_reloc_global(RELOC_ADDR32,p->addr);
 //    global_relocs=global_relocs+12;
   } else {
 printf("shouldn't get here\n");
@@ -157,9 +155,9 @@ exit(1);
             *(int *)p->addr = val;
             break;
         case RELOC_REL32:
-if(reloc_global & relocs){
+if(reloc_global && relocs){
   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
-mk_reloc_global(RELOC_REL32,p->addr,val);
+mk_reloc_global(RELOC_REL32,p->addr);
 //  global_relocs=global_relocs+12;
 
 }

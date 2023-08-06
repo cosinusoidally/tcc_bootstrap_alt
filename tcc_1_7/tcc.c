@@ -3704,6 +3704,7 @@ void gen_obj(){
 //  fwrite((void *)prog_rel,1,text_len,f);
   fwrite((void *)data_rel,1,data_len,f);
   fwrite((void *)relocs_base,1,reloc_len,f);
+  fwrite((void *)global_relocs_base,1,global_reloc_len,f);
   fclose(f);
 }
 
@@ -3777,7 +3778,7 @@ int main(int argc, char **argv)
     }
 
 if(reloc){
-global_relocs=(int)malloc(128*1024);
+global_relocs=(int)malloc(64*1024);
 global_relocs_base=global_relocs;
 
 printf("global_relocs %d\n",global_relocs);
