@@ -3832,9 +3832,16 @@ void load_obj(void){
   int l;
   int a;
   int n;
+  int p;
   for(i=0;i<reloc_len;i=i+12){
-    w32(prog+r32(relocs_base+i),r32(relocs_base+i+4)); 
+    if(relocs_base+i+8==0){
+      p=prog;
+    } else {
+      p=glo;
+    }
+    w32(prog+r32(relocs_base+i),r32(relocs_base+i+4)+p); 
   }
+  int goff=0;
   while(global_relocs_table<m){
     l=strlen((char *)global_relocs_table);
     a=dlsym(NULL,(char *)global_relocs_table);
@@ -3843,6 +3850,10 @@ void load_obj(void){
     n=r32(global_relocs_table);
     global_relocs_table+=4;
     printf("global_reloc_num: %d\n",n);
+    for(i=0;i<n;i++){
+      printf("Reloc type: %x\n",r32(global_relocs_base+goff));
+      goff=goff+8;
+    }
   }
 }
 
