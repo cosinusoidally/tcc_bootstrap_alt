@@ -3689,7 +3689,7 @@ int w32(int o,int v){
 // return 0;
   *(int *)o=v;
 }
-void gen_obj(){
+void gen_obj(int e){
   printf("Generating object file\n");
   FILE *f;
   int text_len=ind-prog;
@@ -3699,10 +3699,14 @@ void gen_obj(){
   int global_reloc_table_len=global_relocs_table-global_relocs_table_base;
   int prog_rel;
   int data_rel;
+  int entrypoint=e-prog;
+  int m1=0xdeadbe01;
+  int m2=0xdeadbe02;
+  int m3=0xdeadbe03;
+  int m4=0xdeadbe04;
   int i;
   f = fopen("tcc_boot.o", "wb");
-  fprintf(f,"hello world\n");
-  fprintf(f,"entrypoint: 0xXXX\n");
+  fprintf(f,"entrypoint: 0x%x\n",entrypoint);
   fprintf(f,"text_len: 0x%x\n",text_len);
   fprintf(f,"data_len: 0x%x\n",data_len);
   fprintf(f,"reloc_len: 0x%x\n",reloc_len);
@@ -3711,17 +3715,26 @@ void gen_obj(){
   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
+
+  fwrite(&m1,1,4,f);
   fwrite((void *)relocs_base,1,reloc_len,f);
+
+  fwrite(&m2,1,4,f);
+  fwrite((void *)data_rel,1,data_len,f);
+
+  fwrite(&m3,1,4,f);
+  fwrite((void *)global_relocs_base,1,global_reloc_len,f);
+
   memcpy((char *)prog_rel,(char *)prog,text_len);
   memcpy((char *)data_rel,(char *)glo_base,data_len);
-  fwrite((void *)data_rel,1,data_len,f);
-  fwrite((void *)global_relocs_base,1,global_reloc_len,f);
   for(i=0;i<reloc_len;i=i+8){
     w32(prog_rel+r32(relocs_base+i),0); 
   }
   for(i=0;i<global_reloc_len;i=i+8){
     w32(prog_rel+r32(global_relocs_base+i+4),0); 
   }
+
+  fwrite(&m4,1,4,f);
   fwrite((void *)prog_rel,1,text_len,f);
   fclose(f);
 }
@@ -3818,7 +3831,7 @@ relocs_base=relocs;
         error("main() not defined");
 
 if(reloc){
-  gen_obj();
+  gen_obj(s->c);
 }
 
     t = (int (*)())s->c;
