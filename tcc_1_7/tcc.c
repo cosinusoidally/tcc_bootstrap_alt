@@ -3797,14 +3797,31 @@ void load_obj(void){
     exit(1);
   }
 
-/*
-  fwrite((void *)global_relocs_base,1,global_reloc_len,f);
 
-  memcpy((char *)prog_rel,(char *)prog,text_len);
-  memcpy((char *)data_rel,(char *)glo_base,data_len);
-  fwrite(&m4,1,4,f);
-  fwrite((void *)prog_rel,1,text_len,f);
-*/
+  global_relocs_base=(int)malloc(global_reloc_len);
+  fread((void *)global_relocs_base,1,global_reloc_len,f);
+
+  fread(&t,1,4,f);
+  if(!(t==m4)){
+    printf("sync m4 %x\n",t);
+    exit(1);
+  }
+  fread((void *)prog_rel,1,text_len,f);
+  glo = (int)mmap(NULL, DATA_SIZE,
+              PROT_READ | PROT_WRITE,
+              MAP_PRIVATE | MAP_ANONYMOUS,
+              -1, 0);
+  glo_base=glo;
+  printf("glo: %x %x\n",glo,glo_base);
+  memset((void *)glo, 0, DATA_SIZE);
+  prog = (int)mmap(NULL, TEXT_SIZE,
+              PROT_EXEC | PROT_READ | PROT_WRITE,
+              MAP_PRIVATE | MAP_ANONYMOUS,
+              -1, 0);
+  ind = prog;
+  printf("prog: %x \n",prog);
+  memcpy((char *)prog,(char *)prog_rel,text_len);
+  memcpy((char *)glo_base,(char *)data_rel,data_len);
   fclose(f);
 }
 
