@@ -3769,7 +3769,7 @@ int main(int argc, char **argv)
                 return show_help();
             tcc_compile_file(argv[optind++]);
         } else if (r[1] == 'r') {
-            reloc=1;;
+            reloc=1;
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);
@@ -3777,6 +3777,11 @@ int main(int argc, char **argv)
     }
 
 if(reloc){
+global_relocs=(int)malloc(128*1024);
+global_relocs_base=global_relocs;
+
+printf("global_relocs %d\n",global_relocs);
+
 global_relocs_table=(int)malloc(64*1024);
 global_relocs_table_base=global_relocs_table;
 
@@ -3784,7 +3789,7 @@ relocs=(int)malloc(64*1024);
 relocs_base=relocs;
 
 };
-    
+
     tcc_compile_file(argv[optind]);
     puts("tcc 1_7 compile done");
 

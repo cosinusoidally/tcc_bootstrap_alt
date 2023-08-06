@@ -100,6 +100,9 @@ int is_data(int a){
 }
 
 void mk_reloc(int addr,int val){
+    if(val==0){
+      return;
+    }
     if(is_prog(addr)){
       *(int *)relocs=addr-prog;
       relocs=relocs+4;
@@ -107,9 +110,26 @@ void mk_reloc(int addr,int val){
       printf("Can't handle relocs in data\n");
       exit(1);
     }
-    *(int *)relocs=val;
-    relocs=relocs+4;
-   printf("val: %d %d\n",val,is_data(val));
+
+
+    if(is_data(val)){
+      *(int *)relocs=val-glo_base;
+      relocs=relocs+4;
+    } else {
+      printf("Can't handle relocs from prog to prog\n");
+    }
+//   printf("val: %d %d\n",val,is_data(val));
+}
+
+void mk_reloc_global(int type,int addr,int val){
+//return;
+printf("mk_reloc_global: %d\n",global_relocs);
+  *(int *)global_relocs=type;
+  global_relocs+=4;
+  *(int *)global_relocs=addr;
+  global_relocs+=4;
+  *(int *)global_relocs=val;
+  global_relocs+=4;
 }
 
 /* patch each relocation entry with value 'val' */
@@ -126,7 +146,8 @@ count++;
 if(reloc){
   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
   if(reloc_global){
-    global_relocs=global_relocs+8;
+mk_reloc_global(RELOC_ADDR32,p->addr,val);
+//    global_relocs=global_relocs+12;
   } else {
 printf("shouldn't get here\n");
 exit(1);
@@ -136,9 +157,10 @@ exit(1);
             *(int *)p->addr = val;
             break;
         case RELOC_REL32:
-if(reloc_global){
+if(reloc_global & relocs){
   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
-  global_relocs=global_relocs+8;
+mk_reloc_global(RELOC_REL32,p->addr,val);
+//  global_relocs=global_relocs+12;
 
 }
             *(int *)p->addr = val - p->addr - 4;
@@ -192,8 +214,8 @@ void gen_addr32(int c, int t)
 // RELOC HACK
 if(reloc){
 //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
-  if(t==VT_CONST){
-    printf("\nreloc2: integer constant");
+  if((t==VT_CONST) || (t==138)){
+    printf("\nreloc2: integer constant or enum");
     printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
   } else {
     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
