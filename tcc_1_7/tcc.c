@@ -107,6 +107,8 @@ typedef struct {
     int line_num;
 } IncludeFile;
 
+int special=0;
+
 /* parser */
 FILE *file;
 int line_num;
@@ -1989,9 +1991,13 @@ void vstore(void)
         save_regs();
         vset(VT_CONST, (int)&memcpy);
 if(reloc){
+special=1;
   printf("memcpy function pointer stuff\n");
 }
         gfunc_call(&gf);
+if(reloc){
+special=0;
+}
         /* leave source on stack */
     } else {
         r = gv();  /* generate value */

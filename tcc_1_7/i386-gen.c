@@ -373,7 +373,20 @@ void gfunc_call(GFuncContext *c)
             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
             oad(0xe8, 0);
         } else {
+// HACK ljw
+if(special) {
 printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
+  char *str="memcpy";
+  strcpy((char *)global_relocs_table,str);
+  global_relocs_table+=strlen(str)+1;
+  *(int *)global_relocs_table=1;
+  global_relocs_table+=4;
+  *(int *)global_relocs=RELOC_REL32;
+  global_relocs+=4;
+  *(int *)global_relocs=ind+1-prog;
+  global_relocs+=4;
+
+}
             oad(0xe8, vtop->c.ul - ind - 5);
         }
     } else {
