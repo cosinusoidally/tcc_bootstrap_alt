@@ -3686,7 +3686,7 @@ int r32(int o){
 }
 
 int w32(int o,int v){
-return 0;
+// return 0;
   *(int *)o=v;
 }
 void gen_obj(){
@@ -3718,6 +3718,9 @@ void gen_obj(){
   fwrite((void *)global_relocs_base,1,global_reloc_len,f);
   for(i=0;i<reloc_len;i=i+8){
     w32(prog_rel+r32(relocs_base+i),0); 
+  }
+  for(i=0;i<global_reloc_len;i=i+8){
+    w32(prog_rel+r32(global_relocs_base+i+4),0); 
   }
   fwrite((void *)prog_rel,1,text_len,f);
   fclose(f);
