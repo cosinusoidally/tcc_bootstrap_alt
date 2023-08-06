@@ -3742,6 +3742,9 @@ void gen_obj(int e){
   fclose(f);
 }
 
+int prog_rel;
+int data_rel;
+
 int load_obj(void){
   printf("Loading object file\n");
   FILE *f;
@@ -3750,8 +3753,6 @@ int load_obj(void){
   int reloc_len;
   int global_reloc_len;
   int global_reloc_table_len;
-  int prog_rel;
-  int data_rel;
   int entrypoint;
   int m0=0xdeadbe00;
   int m1=0xdeadbe01;
@@ -3848,32 +3849,28 @@ int load_obj(void){
   while(global_relocs_table<m){
     l=strlen((char *)global_relocs_table);
     a=dlsym(NULL,(char *)global_relocs_table);
-    printf("global_reloc: %s %d ",global_relocs_table,l);
+    printf("global_reloc: %s %d %x ",global_relocs_table,l,a);
     global_relocs_table+=l+1;
     n=r32(global_relocs_table);
     global_relocs_table+=4;
     printf("global_reloc_num: %d\n",n);
     for(i=0;i<n;i++){
       off=r32(global_relocs_base+goff+4);
-      addr=off+prog;
+      addr=(unsigned int)(off+prog);
       switch(r32(global_relocs_base+goff)) {
         case RELOC_ADDR32:
-          printf("Reloc type RELOC_ADDR32 at %x\n",off);
+          printf("Reloc type RELOC_ADDR32 at %x\n",addr);
           *(int *)addr=a;
           break;
         case RELOC_REL32:
-          printf("Reloc type RELOC_REL32 at %x\n",off);
+          printf("Reloc type RELOC_REL32 at %x\n",addr);
           *(int *)addr = a - addr - 4;
           break;
       }
       goff=goff+8;
     }
   }
-  int (*pr)();
-  pr = (int (*)())(prog+entrypoint);
-//  return (*t)(argc - optind, argv + optind);
-  printf("entry: %x\n",pr);
-  return (*pr)(0,0);
+  return prog+entrypoint;
 }
 
 int main(int argc, char **argv)
@@ -3919,7 +3916,9 @@ int main(int argc, char **argv)
 
     optind = 1;
     outfile = NULL;
+int loader=0;
     while (1) {
+printf("argc %d\n",argc);
         if (optind >= argc) {
         return show_help();
         }
@@ -3940,15 +3939,17 @@ int main(int argc, char **argv)
         } else if (r[1] == 'r') {
             reloc=1;
         } else if (r[1] == 'R') {
-            load_obj();
-puts("Done load");
-exit(1);
+            t=(int (*)())load_obj();
+            loader=1;
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);
         }
     }
 
+if(loader){
+  return (*t)(argc - optind, argv + optind);
+}
 if(reloc){
 global_relocs=(int)malloc(64*1024);
 global_relocs_base=global_relocs;
