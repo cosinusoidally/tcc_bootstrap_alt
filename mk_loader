@@ -1,3 +1,6 @@
+mv tcc_10/tcc_boot.o .
+./mk_clean
+mv tcc_boot.o tcc_10
 
 cd tcc_1_7
 
