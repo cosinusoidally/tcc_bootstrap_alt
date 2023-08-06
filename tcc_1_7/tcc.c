@@ -3700,6 +3700,7 @@ void gen_obj(int e){
   int prog_rel;
   int data_rel;
   int entrypoint=e-prog;
+  int m0=0xdeadbe00;
   int m1=0xdeadbe01;
   int m2=0xdeadbe02;
   int m3=0xdeadbe03;
@@ -3712,6 +3713,7 @@ void gen_obj(int e){
   fwrite(&reloc_len,1,4,f);
   fwrite(&global_reloc_len,1,4,f);
   fwrite(&global_reloc_table_len,1,4,f);
+  fwrite(&m0,1,4,f);
   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
@@ -3736,6 +3738,73 @@ void gen_obj(int e){
 
   fwrite(&m4,1,4,f);
   fwrite((void *)prog_rel,1,text_len,f);
+  fclose(f);
+}
+
+void load_obj(void){
+  printf("Loading object file\n");
+  FILE *f;
+  int text_len;
+  int data_len;
+  int reloc_len;
+  int global_reloc_len;
+  int global_reloc_table_len;
+  int prog_rel;
+  int data_rel;
+  int entrypoint;
+  int m0=0xdeadbe00;
+  int m1=0xdeadbe01;
+  int m2=0xdeadbe02;
+  int m3=0xdeadbe03;
+  int m4=0xdeadbe04;
+  int i;
+  int t;
+  f = fopen("tcc_boot.o", "rb");
+  fread(&entrypoint,1,4,f);
+  fread(&text_len,1,4,f);
+  fread(&data_len,1,4,f);
+  fread(&reloc_len,1,4,f);
+  fread(&global_reloc_len,1,4,f);
+  fread(&global_reloc_table_len,1,4,f);
+  fread(&t,1,4,f);
+  if(!(t==m0)){
+    printf("sync m0 %x\n",t);
+    exit(1);
+  }
+  global_relocs_table_base=(int)malloc(global_reloc_table_len);
+  fread((void *)global_relocs_table_base,1,global_reloc_table_len,f);
+  prog_rel=(int)malloc(text_len);
+  data_rel=(int)malloc(data_len);
+
+  fread(&t,1,4,f);
+  if(!(t==m1)){
+    printf("sync m1 %x\n",t);
+    exit(1);
+  }
+  relocs_base=(int)malloc(reloc_len);
+  fread((void *)relocs_base,1,reloc_len,f);
+  fread(&t,1,4,f);
+  if(!(t==m2)){
+    printf("sync m2 %x\n",t);
+    exit(1);
+  }
+
+  fread((void *)data_rel,1,data_len,f);
+
+  fread(&t,1,4,f);
+  if(!(t==m3)){
+    printf("sync m3 %x\n",t);
+    exit(1);
+  }
+
+/*
+  fwrite((void *)global_relocs_base,1,global_reloc_len,f);
+
+  memcpy((char *)prog_rel,(char *)prog,text_len);
+  memcpy((char *)data_rel,(char *)glo_base,data_len);
+  fwrite(&m4,1,4,f);
+  fwrite((void *)prog_rel,1,text_len,f);
+*/
   fclose(f);
 }
 
@@ -3802,6 +3871,10 @@ int main(int argc, char **argv)
             tcc_compile_file(argv[optind++]);
         } else if (r[1] == 'r') {
             reloc=1;
+        } else if (r[1] == 'R') {
+            load_obj();
+puts("Done load");
+exit(1);
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);

@@ -89,6 +89,7 @@ void *dlsym_wrap(void *handle, char *symbol)
       { "fputc", &fputc, },
       { "free", &free, },
       { "fwrite", &fwrite, },
+      { "fread", &fread, },
       { "getc_unlocked", &getc_unlocked, },
       { "getcwd", &getcwd_wrap, },
       { "ldexp", &ldexp_wrap, },
