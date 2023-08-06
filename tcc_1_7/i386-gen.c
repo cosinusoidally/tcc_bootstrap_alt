@@ -373,6 +373,7 @@ void gfunc_call(GFuncContext *c)
             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
             oad(0xe8, 0);
         } else {
+printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
             oad(0xe8, vtop->c.ul - ind - 5);
         }
     } else {

@@ -1988,6 +1988,9 @@ void vstore(void)
 
         save_regs();
         vset(VT_CONST, (int)&memcpy);
+if(reloc){
+  printf("memcpy function pointer stuff\n");
+}
         gfunc_call(&gf);
         /* leave source on stack */
     } else {
@@ -3192,6 +3195,9 @@ void init_putz(int t, int c, int size)
         vset(VT_LOCAL, c);
         gfunc_param(&gf);
         vset(VT_CONST, (int)&memset);
+if(reloc){
+  printf("memset function point stuff\n");
+}
         gfunc_call(&gf);
     }
 }
