@@ -3706,12 +3706,12 @@ void gen_obj(int e){
   int m4=0xdeadbe04;
   int i;
   f = fopen("tcc_boot.o", "wb");
-  fprintf(f,"entrypoint: 0x%x\n",entrypoint);
-  fprintf(f,"text_len: 0x%x\n",text_len);
-  fprintf(f,"data_len: 0x%x\n",data_len);
-  fprintf(f,"reloc_len: 0x%x\n",reloc_len);
-  fprintf(f,"global_reloc_len: 0x%x\n",global_reloc_len);
-  fprintf(f,"global_reloc_table_len: 0x%x\n",global_reloc_table_len);
+  fwrite(&entrypoint,1,4,f);
+  fwrite(&text_len,1,4,f);
+  fwrite(&data_len,1,4,f);
+  fwrite(&reloc_len,1,4,f);
+  fwrite(&global_reloc_len,1,4,f);
+  fwrite(&global_reloc_table_len,1,4,f);
   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
