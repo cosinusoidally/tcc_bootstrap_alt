@@ -3718,6 +3718,9 @@ void gen_obj(int e){
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
 
+  memcpy((char *)prog_rel,(char *)prog,text_len);
+  memcpy((char *)data_rel,(char *)glo_base,data_len);
+
   fwrite(&m1,1,4,f);
   fwrite((void *)relocs_base,1,reloc_len,f);
 
@@ -3727,8 +3730,6 @@ void gen_obj(int e){
   fwrite(&m3,1,4,f);
   fwrite((void *)global_relocs_base,1,global_reloc_len,f);
 
-  memcpy((char *)prog_rel,(char *)prog,text_len);
-  memcpy((char *)data_rel,(char *)glo_base,data_len);
   for(i=0;i<reloc_len;i=i+12){
     w32(prog_rel+r32(relocs_base+i),0); 
   }
@@ -3741,7 +3742,7 @@ void gen_obj(int e){
   fclose(f);
 }
 
-void load_obj(void){
+int load_obj(void){
   printf("Loading object file\n");
   FILE *f;
   int text_len;
@@ -3842,6 +3843,8 @@ void load_obj(void){
     w32(prog+r32(relocs_base+i),r32(relocs_base+i+4)+p); 
   }
   int goff=0;
+  int off;
+  int addr;
   while(global_relocs_table<m){
     l=strlen((char *)global_relocs_table);
     a=dlsym(NULL,(char *)global_relocs_table);
@@ -3851,10 +3854,26 @@ void load_obj(void){
     global_relocs_table+=4;
     printf("global_reloc_num: %d\n",n);
     for(i=0;i<n;i++){
-      printf("Reloc type: %x\n",r32(global_relocs_base+goff));
+      off=r32(global_relocs_base+goff+4);
+      addr=off+prog;
+      switch(r32(global_relocs_base+goff)) {
+        case RELOC_ADDR32:
+          printf("Reloc type RELOC_ADDR32 at %x\n",off);
+          *(int *)addr=a;
+          break;
+        case RELOC_REL32:
+          printf("Reloc type RELOC_REL32 at %x\n",off);
+          *(int *)addr = a - addr - 4;
+          break;
+      }
       goff=goff+8;
     }
   }
+  int (*pr)();
+  pr = (int (*)())(prog+entrypoint);
+//  return (*t)(argc - optind, argv + optind);
+  printf("entry: %x\n",pr);
+  return (*pr)(0,0);
 }
 
 int main(int argc, char **argv)
