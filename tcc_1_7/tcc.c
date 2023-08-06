@@ -151,6 +151,15 @@ int tcc_ext = 1;
 int reloc=0;
 int reloc_global=0;
 
+int relocs;
+int relocs_base;
+
+int global_relocs;
+int global_relocs_base;
+
+int global_relocs_table;
+int global_relocs_table_base;
+
 /* The current value can be: */
 #define VT_VALMASK 0x000f
 #define VT_CONST   0x000a  /* constant in vc 
@@ -3668,8 +3677,20 @@ int show_help(void)
 void gen_obj(){
   printf("Generating object file\n");
   FILE *f;
+  int text_len=ind-prog;
+  int data_len=glo-glo_base;
+  int reloc_len=relocs-relocs_base;
+  int global_reloc_len=global_relocs-global_relocs_base;
+  int global_reloc_table_len=global_relocs_table-global_relocs_table_base;
   f = fopen("tcc_boot.o", "wb");
-
+  fprintf(f,"hello world\n");
+  fprintf(f,"entrypoint: 0xXXX\n");
+  fprintf(f,"text_len: 0x%x\n",text_len);
+  fprintf(f,"data_len: 0x%x\n",data_len);
+  fprintf(f,"reloc_len: 0x%x\n",reloc_len);
+  fprintf(f,"global_reloc_len: 0x%x\n",global_reloc_len);
+  fprintf(f,"global_reloc_table_len: 0x%x\n",global_reloc_table_len);
+  fclose(f);
 }
 
 int main(int argc, char **argv)
