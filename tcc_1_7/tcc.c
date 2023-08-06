@@ -3960,6 +3960,7 @@ printf("argc %d\n",argc);
     }
 
 if(loader){
+  printf("running loader\n");
   return (*t)(argc - optind, argv + optind);
 }
 if(reloc){
