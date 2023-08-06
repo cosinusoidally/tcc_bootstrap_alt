@@ -85,23 +85,31 @@ void greloc(Sym *s, int addr, int type)
 }
 
 /* patch each relocation entry with value 'val' */
-void greloc_patch(Sym *s, int val)
+int greloc_patch(Sym *s, int val)
 {
     Reloc *p, *p1;
-
+int count=0;
     p = (Reloc *)s->c;
     while (p != NULL) {
+count++;
         p1 = p->next;
         switch(p->type) {
         case RELOC_ADDR32:
 if(reloc){
   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
+  if(reloc_global){
+    relocs=relocs+4;
+  } else {
+    global_relocs=global_relocs+8;
+
+  }
 }
             *(int *)p->addr = val;
             break;
         case RELOC_REL32:
 if(reloc_global){
   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
+  global_relocs=global_relocs+8;
 
 }
             *(int *)p->addr = val - p->addr - 4;
@@ -112,6 +120,7 @@ if(reloc_global){
     }
     s->c = val;
     s->t &= ~VT_FORWARD;
+return count;
 }
 
 /* output a symbol and patch all calls to it */
@@ -159,6 +168,12 @@ if(reloc){
     printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
   } else {
     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
+if(reloc_global){
+printf("relocs error\n");
+  exit(1);
+
+}
+    relocs=relocs+4;
   }
 }
         gen_le32(c);

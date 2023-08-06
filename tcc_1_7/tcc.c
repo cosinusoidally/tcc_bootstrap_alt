@@ -3644,7 +3644,7 @@ reloc_global=1;
     Sym *s, *s1;
     char *str;
     int addr;
-
+int count;
     s = extern_stack.top;
     while (s != NULL) {
         s1 = s->prev;
@@ -3656,10 +3656,14 @@ reloc_global=1;
                 addr = (int)dlsym(NULL, str);
                 if (!addr)
                     error("unresolved external reference '%s'", str);
+                count=greloc_patch(s, addr);
 if(reloc){
-  printf("resolve_extern_syms: %s\n",str);
+  printf("resolve_extern_syms: %s %d\n",str,count);
+  strcpy((char *)global_relocs_table,str);
+  global_relocs_table+=strlen(str)+1;
+  *(int *)global_relocs_table=count;
+  global_relocs_table+=4;
 }
-                greloc_patch(s, addr);
             }
         }
         s = s1;
@@ -3690,6 +3694,7 @@ void gen_obj(){
   fprintf(f,"reloc_len: 0x%x\n",reloc_len);
   fprintf(f,"global_reloc_len: 0x%x\n",global_reloc_len);
   fprintf(f,"global_reloc_table_len: 0x%x\n",global_reloc_table_len);
+  fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
   fclose(f);
 }
 
@@ -3761,6 +3766,11 @@ int main(int argc, char **argv)
             exit(1);
         }
     }
+
+if(reloc){
+global_relocs_table=(int)malloc(64*1024);
+global_relocs_table_base=global_relocs_table;
+};
     
     tcc_compile_file(argv[optind]);
     puts("tcc 1_7 compile done");
