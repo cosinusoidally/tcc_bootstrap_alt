@@ -105,12 +105,34 @@ print("blah2 "+to_hex(ri32(0))+" "+to_hex(ri32(4)));
 heap[0]=0x0;
 heap[1]=0x0;
 
+function to_printable(x){
+  if(32 <=x  && x <=126){
+    return String.fromCharCode(x);
+  };
+  return ".";
+};
+
 function hd(o,n){
   var d=[];
-  for(var i=0;i<n;i++){
-    d.push(("0000"+(ri8(o+i).toString(16))).slice(-2));
+  var l=o+n;
+  while(o<l){
+    d.push(to_hex(o));
+    d.push(": ");
+    var r=[];
+    for(var i=0;i<16;i++){
+      r.push(ri8(o+i));
+    };
+    for(var i=0;i<r.length;i=i+2){
+      d.push(("0000"+(r[i].toString(16))).slice(-2));
+      d.push(("0000"+(r[i+1].toString(16))).slice(-2));
+      d.push(" ");
+    };
+    o=o+16;
+    d.push("  ");
+    d.push(r.map(to_printable).join(""));
+    d.push("\n");
   };
-  print(d.join(" "));
+  print(d.join(""));
 }
 hd(0,16);
 
