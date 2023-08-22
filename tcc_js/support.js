@@ -73,7 +73,15 @@ function ri8(o){
   var s=o&3;
   var v1=heap[o1];
   return (v1>>>(s*8)) &0xff;
-}
+};
+
+function ri32(o){
+  var r=0;
+  for(var i=0;i<4;i++){
+     r=r|(ri8(o+i)<<(i*8));
+  };
+  return r;
+};
 
 heap[0]=0xdeadbeef;
 print("blah "+to_hex(heap[0]));
@@ -91,7 +99,7 @@ heap[1]=0xdeadbeef;
 
 wi32(2,0);
 
-print("blah2 "+to_hex(heap[0])+" "+to_hex(heap[1]));
+print("blah2 "+to_hex(ri32(0))+" "+to_hex(ri32(4)));
 
 function hd(o,n){
   for(var i=0;i<n;i++){
