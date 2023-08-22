@@ -62,8 +62,12 @@ function wi8(o,v){
 };
 
 function wi32(o,v){
-  err();
+  for(var i=0;i<4;i++){
+    wi8(o+i,v);
+    v=v>>>8;
+  }
 };
+
 
 heap[0]=0xdeadbeef;
 print("blah "+to_hex(heap[0]));
@@ -75,3 +79,10 @@ wi8(2,1);
 print("blah "+to_hex(heap[0]));
 wi8(3,1);
 print("blah "+to_hex(heap[0]));
+
+heap[0]=0xdeadbeef;
+heap[1]=0xdeadbeef;
+
+wi32(2,0);
+
+print("blah2 "+to_hex(heap[0])+" "+to_hex(heap[1]));
