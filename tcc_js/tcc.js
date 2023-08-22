@@ -446,6 +446,7 @@ load("i386-gen.js");
 // TokenSym *tok_alloc(char *str, int len)
 // {
 function tok_alloc(str, len) {
+    enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
 //     int h, i;
@@ -489,6 +490,7 @@ function tok_alloc(str, len) {
 //     *pts = ts;
 //     return ts;
 // }
+    return leave();
 }
 // 
 // void add_char(char **pp, int c)
@@ -3900,6 +3902,7 @@ function tok_alloc(str, len) {
 // int main(int argc, char **argv)
 // {
 function main(argc,argv){
+    enter();
 //     puts("tcc 1_7 start");
      puts("tcc 1_7 start");
 //     Sym *s;
@@ -4023,6 +4026,7 @@ err();
 //     t = (int (*)())s->c;
 //     return (*t)(argc - optind, argv + optind);
 // }
+    return leave();
 }
 
 // dummy main call:

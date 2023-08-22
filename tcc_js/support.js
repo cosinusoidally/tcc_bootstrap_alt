@@ -8,7 +8,7 @@ for(var i=0;i<heap_size/4;i++){
 };
 
 var esp=heap_size-4;
-var ebp=esp;
+var ebp=0;
 
 function to_hex(x){
   var y;
@@ -32,6 +32,7 @@ function puts(x){
 }
 
 function err(){
+//  leave();
   hd(0,512);
   backtrace();
   throw "error not impl";
@@ -154,4 +155,20 @@ function mk_js_string_len(o,l){
     s.push(ri8(o+i));
   };
   return s.map(function(x){return String.fromCharCode(x)}).join("");
+}
+
+function enter(){
+  print("pre-enter esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
+  esp=esp-4;
+  wi32(esp,ebp);
+  ebp=esp;
+  print("post-enter esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
+}
+
+function leave(x){
+  esp=ebp;
+  ebp=ri32(esp);
+  esp=esp+4;
+  print("leave esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
+  return x;
 }
