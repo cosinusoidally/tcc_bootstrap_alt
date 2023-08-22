@@ -445,6 +445,8 @@ load("i386-gen.js");
 // 
 // TokenSym *tok_alloc(char *str, int len)
 // {
+function tok_alloc(str, len) {
+    print("tok_alloc str: "+to_hex(str)+" len: "+len);
 //     TokenSym *ts, **pts, **ptable;
 //     int h, i;
 //     
@@ -487,6 +489,7 @@ load("i386-gen.js");
 //     *pts = ts;
 //     return ts;
 // }
+}
 // 
 // void add_char(char **pp, int c)
 // {
@@ -3904,8 +3907,8 @@ function main(argc,argv){
 //     int (*t)();
     var t=alloca(4);
 //     char *p, *r, *outfile;
-    var p=alloca(4);
-    var r=alloca(4);
+    var p;
+    var r;
     var outfile=alloca(4);
 //     int optind;
     var optind;
@@ -3920,14 +3923,20 @@ function main(argc,argv){
     tok_ident = TOK_IDENT;
 //     p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
     var p = mk_c_string("int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0");
-err();
 //     while (*p) {
+     while (ri8(p)) {
 //         r = p;
+         r = p;
 //         while (*r++);
+         while (c=ri8(r++));
 //         tok_alloc(p, r - p - 1);
+         tok_alloc(p, r - p - 1);
 //         p = r;
+         p = r;
 //     }
+     }
 // 
+err();
 //     /* standard defines */
 //     define_symbol("__STDC__");
 //     define_symbol("__i386__");
