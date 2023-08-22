@@ -147,3 +147,11 @@ function mk_c_string(s){
   };
   return o;
 }
+
+function mk_js_string_len(o,l){
+  var s=[];
+  for(var i=0;i<l;i++){
+    s.push(ri8(o+i));
+  };
+  return s.map(function(x){return String.fromCharCode(x)}).join("");
+}

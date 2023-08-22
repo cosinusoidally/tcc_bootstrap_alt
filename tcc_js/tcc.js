@@ -446,7 +446,7 @@ load("i386-gen.js");
 // TokenSym *tok_alloc(char *str, int len)
 // {
 function tok_alloc(str, len) {
-    print("tok_alloc str: "+to_hex(str)+" len: "+len);
+    print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
 //     int h, i;
 //     
