@@ -1,5 +1,6 @@
 print("tcc.js start");
 load("support.js");
+load("metadata.js");
 
 // /*
 //  *  TCC - Tiny C Compiler
