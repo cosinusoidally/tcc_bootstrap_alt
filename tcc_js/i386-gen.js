@@ -1,3 +1,4 @@
+print("i386-gen.js loading");
 //  /*
 //  *  X86 code generator for TCC
 //  * 

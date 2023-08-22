@@ -1,3 +1,6 @@
+print("tcc.js start");
+load("support.js");
+
 // /*
 //  *  TCC - Tiny C Compiler
 //  * 
@@ -359,6 +362,7 @@
 // void printline2(void);
 // 
 // #include "i386-gen.c"
+load("i386-gen.js");
 // 
 // static inline int isid(int c)
 // {
