@@ -32,7 +32,7 @@ function puts(x){
 }
 
 function err(){
-  hd(0,128);
+  hd(0,256);
   backtrace();
   throw "error not impl";
 }
@@ -102,6 +102,9 @@ wi32(2,0);
 
 print("blah2 "+to_hex(ri32(0))+" "+to_hex(ri32(4)));
 
+heap[0]=0x0;
+heap[1]=0x0;
+
 function hd(o,n){
   var d=[];
   for(var i=0;i<n;i++){
@@ -116,6 +119,7 @@ function mk_c_string(s){
   var a=s.split("");
   a=a.map(function(x){return x.charCodeAt(0)});
   a.push(0);
+//  print("o "+o+" len "+a.length);
   for(var i=0;i<a.length;i++){
     wi8(o+i,a[i]);
   };

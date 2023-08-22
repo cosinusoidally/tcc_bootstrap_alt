@@ -3909,7 +3909,7 @@ function main(argc,argv){
     var optind;
 // 
 //     include_paths[0] = "../tcc_1_7/";
-    wi32(ri32(include_paths),mk_c_string("../tcc_1_7/"));
+    wi32(include_paths,mk_c_string("../tcc_1_7/"));
 //     nb_include_paths = 1;
     nb_include_paths = 1;
 err();
