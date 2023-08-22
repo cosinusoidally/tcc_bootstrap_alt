@@ -133,6 +133,7 @@ var INCLUDE_PATHS_MAX = 32;
 // int func_vt, func_vc; /* current function return type (used by
 //                          return instruction) */
 // int tok_ident;
+var tok_ident;
 // TokenSym **table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
 // char token_buf[STRING_MAX_SIZE + 1];
@@ -3912,10 +3913,11 @@ function main(argc,argv){
     wi32(include_paths,mk_c_string("../tcc_1_7/"));
 //     nb_include_paths = 1;
     nb_include_paths = 1;
-err();
 // 
 //     /* add all tokens */
 //     tok_ident = TOK_IDENT;
+    tok_ident = TOK_IDENT;
+err();
 //     p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
 //     while (*p) {
 //         r = p;
