@@ -57,7 +57,7 @@ function wi8(o,v){
   var o1=o>>>2;
   var s=o&3;
   var v1=heap[o1];
-  v1=v1&(~(0xff<<(o*8))) | ((v&0xff)<<(o*8));
+  v1=v1&(~(0xff<<(s*8))) | ((v&0xff)<<(s*8));
   heap[o1]=v1;
 };
 
@@ -68,6 +68,12 @@ function wi32(o,v){
   }
 };
 
+function ri8(o){
+  var o1=o>>>2;
+  var s=o&3;
+  var v1=heap[o1];
+  return (v1>>>(s*8)) &0xff;
+}
 
 heap[0]=0xdeadbeef;
 print("blah "+to_hex(heap[0]));
@@ -86,3 +92,10 @@ heap[1]=0xdeadbeef;
 wi32(2,0);
 
 print("blah2 "+to_hex(heap[0])+" "+to_hex(heap[1]));
+
+function hd(o,n){
+  for(var i=0;i<n;i++){
+    print(ri8(o+i).toString(16));
+  }
+}
+hd(0,16);
