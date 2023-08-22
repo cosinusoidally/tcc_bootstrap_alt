@@ -35,3 +35,8 @@ function err(){
   backtrace();
   throw "error not impl";
 }
+
+function alloca(x){
+  print("alloca "+x);
+  return 0;
+}

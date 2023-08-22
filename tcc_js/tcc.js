@@ -3894,8 +3894,9 @@ load("i386-gen.js");
 function main(argc,argv){
 //     puts("tcc 1_7 start");
      puts("tcc 1_7 start");
-err();
 //     Sym *s;
+    var s=alloca(4);
+err();
 //     int (*t)();
 //     char *p, *r, *outfile;
 //     int optind;
@@ -4002,7 +4003,4 @@ err();
 }
 
 // dummy main call:
-try {
-  main(0,0);
-} catch(e){
-}
+main(0,0);
