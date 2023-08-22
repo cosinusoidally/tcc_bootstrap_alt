@@ -41,3 +41,37 @@ function alloca(x){
   print("alloca "+x+" at:"+to_hex(esp));
   return esp;
 }
+
+var malloc_base=4;
+
+function malloc(x){
+  var r=malloc_base;
+  malloc_base=malloc_base+x;
+  if(malloc_base>(heap_size-stack_size)){
+    throw "oom malloc";
+  }
+  return r;
+}
+
+function wi8(o,v){
+  var o1=o>>>2;
+  var s=o&3;
+  var v1=heap[o1];
+  v1=v1&(~(0xff<<(o*8))) | ((v&0xff)<<(o*8));
+  heap[o1]=v1;
+};
+
+function wi32(o,v){
+  err();
+};
+
+heap[0]=0xdeadbeef;
+print("blah "+to_hex(heap[0]));
+wi8(0,1);
+print("blah "+to_hex(heap[0]));
+wi8(1,1);
+print("blah "+to_hex(heap[0]));
+wi8(2,1);
+print("blah "+to_hex(heap[0]));
+wi8(3,1);
+print("blah "+to_hex(heap[0]));

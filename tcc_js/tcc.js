@@ -33,6 +33,7 @@ load("support.js");
 // #define VSTACK_SIZE         64
 // #define STRING_MAX_SIZE     1024
 // #define INCLUDE_PATHS_MAX   32
+var INCLUDE_PATHS_MAX = 32;
 // 
 // #define TOK_HASH_SIZE       521
 // #define TOK_ALLOC_INCR      256 /* must be a power of two */
@@ -145,7 +146,9 @@ load("support.js");
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 // int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 // char *include_paths[INCLUDE_PATHS_MAX];
+var include_paths = malloc(4*INCLUDE_PATHS_MAX);
 // int nb_include_paths;
+var nb_include_paths=0;
 // 
 // /* use GNU C extensions */
 // int gnu_ext = 0;
@@ -3896,13 +3899,20 @@ function main(argc,argv){
      puts("tcc 1_7 start");
 //     Sym *s;
     var s=alloca(4);
-err();
 //     int (*t)();
+    var t=alloca(4);
 //     char *p, *r, *outfile;
+    var p=alloca(4);
+    var r=alloca(4);
+    var outfile=alloca(4);
 //     int optind;
+    var optind;
 // 
 //     include_paths[0] = "../tcc_1_7/";
+    wi32(ri32(include_paths),mk_c_string("../tcc_1_7/"));
 //     nb_include_paths = 1;
+    nb_include_paths = 1;
+err();
 // 
 //     /* add all tokens */
 //     tok_ident = TOK_IDENT;
