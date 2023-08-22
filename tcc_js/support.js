@@ -32,6 +32,7 @@ function puts(x){
 }
 
 function err(){
+  hd(0,128);
   backtrace();
   throw "error not impl";
 }
@@ -102,8 +103,21 @@ wi32(2,0);
 print("blah2 "+to_hex(ri32(0))+" "+to_hex(ri32(4)));
 
 function hd(o,n){
+  var d=[];
   for(var i=0;i<n;i++){
-    print(ri8(o+i).toString(16));
-  }
+    d.push(("0000"+(ri8(o+i).toString(16))).slice(-2));
+  };
+  print(d.join(" "));
 }
 hd(0,16);
+
+function mk_c_string(s){
+  var o=malloc(s.length+1);
+  var a=s.split("");
+  a=a.map(function(x){return x.charCodeAt(0)});
+  a.push(0);
+  for(var i=0;i<a.length;i++){
+    wi8(o+i,a[i]);
+  };
+  return o;
+}
