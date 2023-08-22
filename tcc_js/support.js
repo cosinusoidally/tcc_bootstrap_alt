@@ -26,3 +26,12 @@ function to_hex(x){
 }
 print(to_hex(heap_size));
 print(to_hex(esp));
+
+function puts(x){
+  print(x);
+}
+
+function err(){
+  backtrace();
+  throw "error not impl";
+}
