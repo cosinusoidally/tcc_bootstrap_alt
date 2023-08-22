@@ -37,6 +37,7 @@ function err(){
 }
 
 function alloca(x){
-  print("alloca "+x);
-  return 0;
+  esp=esp-x;
+  print("alloca "+x+" at:"+to_hex(esp));
+  return esp;
 }
