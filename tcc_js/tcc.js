@@ -138,6 +138,7 @@ var TOK_ALLOC_INCR = 256;
 // int tok_ident;
 var tok_ident;
 // TokenSym **table_ident;
+var table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
 var hash_ident=malloc(TOK_HASH_SIZE*4);
 // char token_buf[STRING_MAX_SIZE + 1];
@@ -514,12 +515,13 @@ err();
             error("memory full");
         };
 //         table_ident = ptable;
-        table_ident = ptable;
+        table_ident = ri32(ptable);
 //     }
     }
 // 
-err();
 //     ts = malloc(sizeof(TokenSym) + len);
+    ts = malloc(TokenSym_size + len);
+err();
 //     if (!ts)
 //         error("memory full");
 //     table_ident[i] = ts;

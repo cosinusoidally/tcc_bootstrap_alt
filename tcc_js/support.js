@@ -55,6 +55,14 @@ function malloc(x){
   return r;
 }
 
+function realloc(x,size){
+  var r=malloc(size);
+  for(var i=0;i<size;i++){
+    wi8(r+i,ri8(x+i));
+  };
+  return r;
+}
+
 function wi8(o,v){
   var o1=o>>>2;
   var s=o&3;
