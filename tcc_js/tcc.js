@@ -521,10 +521,14 @@ err();
 // 
 //     ts = malloc(sizeof(TokenSym) + len);
     ts = malloc(TokenSym_size + len);
-err();
 //     if (!ts)
+     if (!ts) {
 //         error("memory full");
+         error("memory full");
+     };
 //     table_ident[i] = ts;
+     wi32(table_ident+(i*4), ts);
+err();
 //     ts->tok = tok_ident++;
 //     ts->len = len;
 //     ts->hash_next = NULL;
