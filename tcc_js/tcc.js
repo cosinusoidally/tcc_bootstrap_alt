@@ -493,10 +493,13 @@ print("ts: "+ts);
 //             break;
             break;
         };
-err();
 //         if (ts->len == len && !memcmp(ts->str, str, len))
+        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
 //             return ts;
+            return ts;
+        }
 //         pts = &(ts->hash_next);
+        wi32(pts, ts+TokenSym_hash_next_o);
 //     }
     }
 // 
@@ -540,8 +543,8 @@ err();
     wi32(ts+TokenSym_hash_next_o,0);
 //     memcpy(ts->str, str, len + 1);
     memcpy(ts+TokenSym_str_o, str, len + 1);
-err();
 //     *pts = ts;
+    wi32(ri32(pts),ts);
 //     return ts;
     return leave(ts);
 // }
