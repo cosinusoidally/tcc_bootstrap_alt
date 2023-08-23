@@ -51,6 +51,7 @@ var TokenSym_tok_o=4;
 //     int len;
 var TokenSym_len_o=8;
 //     char str[1];
+var TokenSym_str_o=12;
 // } TokenSym;
 // 
 // /* constant value */

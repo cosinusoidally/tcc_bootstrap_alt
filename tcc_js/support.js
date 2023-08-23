@@ -180,3 +180,9 @@ function leave(x){
   print("leave esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
   return x;
 }
+
+function memcpy(dest,src,count){
+  for(var i=0;i<count;i++){
+    wi8(dest,ri8(src));
+  }
+}
