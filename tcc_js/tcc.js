@@ -39,6 +39,7 @@ var INCLUDE_PATHS_MAX = 32;
 // #define TOK_HASH_SIZE       521
 var TOK_HASH_SIZE = 521;
 // #define TOK_ALLOC_INCR      256 /* must be a power of two */
+var TOK_ALLOC_INCR = 256;
 // #define SYM_HASH_SIZE       263
 // 
 // /* token symbol management */
@@ -499,17 +500,25 @@ err();
 //         error("memory full");
         error("memory full");
     };
-err();
 // 
 //     /* expand token table if needed */
 //     i = tok_ident - TOK_IDENT;
+    i = tok_ident - TOK_IDENT;
 //     if ((i % TOK_ALLOC_INCR) == 0) {
+    if ((i % TOK_ALLOC_INCR) == 0) {
 //         ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
+        wi32(ptable, realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
 //         if (!ptable)
+        if (!ptable) {
 //             error("memory full");
+            error("memory full");
+        };
 //         table_ident = ptable;
+        table_ident = ptable;
 //     }
+    }
 // 
+err();
 //     ts = malloc(sizeof(TokenSym) + len);
 //     if (!ts)
 //         error("memory full");
