@@ -45,8 +45,11 @@ var TOK_ALLOC_INCR = 256;
 // /* token symbol management */
 // typedef struct TokenSym {
 //     struct TokenSym *hash_next;
+var TokenSym_hash_next_o=0;
 //     int tok; /* token number */
+var TokenSym_tok_o=4;
 //     int len;
+var TokenSym_len_o=8;
 //     char str[1];
 // } TokenSym;
 // 
@@ -527,16 +530,20 @@ err();
          error("memory full");
      };
 //     table_ident[i] = ts;
-     wi32(table_ident+(i*4), ts);
-err();
+    wi32(table_ident+(i*4), ts);
 //     ts->tok = tok_ident++;
+    wi32(ts+TokenSym_tok_o , tok_ident++);
 //     ts->len = len;
+    wi32(ts+TokenSym_len_o, len);
 //     ts->hash_next = NULL;
+    wi32(ts+TokenSym_hash_next_o,0);
 //     memcpy(ts->str, str, len + 1);
+    memcpy(ts+TokenSym_str_o, str, len + 1);
+err();
 //     *pts = ts;
 //     return ts;
+    return leave(ts);
 // }
-    return leave();
 }
 // 
 // void add_char(char **pp, int c)
