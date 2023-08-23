@@ -37,6 +37,7 @@ load("metadata.js");
 var INCLUDE_PATHS_MAX = 32;
 // 
 // #define TOK_HASH_SIZE       521
+var TOK_HASH_SIZE = 521;
 // #define TOK_ALLOC_INCR      256 /* must be a power of two */
 // #define SYM_HASH_SIZE       263
 // 
@@ -137,6 +138,7 @@ var INCLUDE_PATHS_MAX = 32;
 var tok_ident;
 // TokenSym **table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
+var hash_ident=malloc(TOK_HASH_SIZE*4);
 // char token_buf[STRING_MAX_SIZE + 1];
 // char *filename, *funcname;
 // /* contains global symbols which remain between each translation unit */
@@ -449,26 +451,55 @@ function tok_alloc(str, len) {
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
+    var ts=alloca(4);
+    var pts=alloca(4);
+    var ptable=alloca(4);
 //     int h, i;
+    var h;
+    var i;
 //     
 //     if (len <= 0)
+    if (len <= 0) {
 //         len = strlen(str);
+err();
+        len = strlen(str);
+    };
 //     h = 1;
+    h = 1;
 //     for(i=0;i<len;i++)
+    for(i=0;i<len;i++) {
 //         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
+        h = ((h << 8) | (ri8(str+i) & 0xff)) % TOK_HASH_SIZE;
+    };
 // 
+print("h: "+h);
 //     pts = &hash_ident[h];
+print("hash_ident: "+to_hex(hash_ident));
+    wi32(pts, hash_ident+(h*4));
+print("pts: "+to_hex(pts));
 //     while (1) {
+    while (1) {
 //         ts = *pts;
+        ts = ri32(ri32(pts));
+print("ts: "+ts);
 //         if (!ts)
+        if (!ts) {
 //             break;
+            break;
+        };
+err();
 //         if (ts->len == len && !memcmp(ts->str, str, len))
 //             return ts;
 //         pts = &(ts->hash_next);
 //     }
+    }
 // 
 //     if (tok_ident >= SYM_FIRST_ANOM) 
+    if (tok_ident >= SYM_FIRST_ANOM) {
 //         error("memory full");
+        error("memory full");
+    };
+err();
 // 
 //     /* expand token table if needed */
 //     i = tok_ident - TOK_IDENT;
