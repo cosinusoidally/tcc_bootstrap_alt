@@ -822,21 +822,36 @@ print("ts: "+ts);
 //    token */
 // static inline int tok_ext_size(int t)
 // {
+function tok_ext_size(t) {
 //     switch(t) {
+    switch(t) {
 //         /* 4 bytes */
 //     case TOK_NUM:
+    case TOK_NUM:
 //     case TOK_CCHAR:
+    case TOK_CCHAR:
 //     case TOK_LCHAR:
+    case TOK_LCHAR:
 //     case TOK_STR:
+    case TOK_STR:
 //     case TOK_LSTR:
+    case TOK_LSTR:
 //     case TOK_CFLOAT:
+    case TOK_CFLOAT:
 //         return 1;
+        return 1;
 //     case TOK_CDOUBLE:
+    case TOK_CDOUBLE:
 //         return 2;
+        return 2;
 //     default:
+    default:
 //         return 0;
+        return 0;
 //     }
+    }
 // }
+}
 // 
 // void tok_add(int **tok_str, int *tok_len, int t)
 // {
@@ -880,10 +895,13 @@ function tok_add2(tok_str, tok_len, t, cv) {
 // 
 //     tok_add(tok_str, tok_len, t);
     tok_add(tok_str, tok_len, t);
-err();
 //     n = tok_ext_size(t);
+    n = tok_ext_size(t);
 //     for(i=0;i<n;i++)
+    for(i=0;i<n;i++) {
 //         tok_add(tok_str, tok_len, cv->tab[i]);
+        tok_add(tok_str, tok_len, cv+(i*4));
+    }
 // }
     leave();
 }
@@ -925,8 +943,9 @@ function define_symbol(sym) {
     wi32(cval,1);
 //     tok_add2(&str, &len, TOK_NUM, &cval);
     tok_add2(str, len, TOK_NUM, cval);
-err();
 //     tok_add(&str, &len, 0);
+    tok_add(str, len, 0);
+err();
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 // }
     leave();
