@@ -855,6 +855,9 @@ print("ts: "+ts);
 // 
 // void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 // {
+function tok_add2(tok_str, tok_len, t, cv) {
+    enter();
+err();
 //     int n, i;
 // 
 //     tok_add(tok_str, tok_len, t);
@@ -862,6 +865,8 @@ print("ts: "+ts);
 //     for(i=0;i<n;i++)
 //         tok_add(tok_str, tok_len, cv->tab[i]);
 // }
+    leave();
+}
 // 
 // /* get a token from an integer array and increment pointer accordingly */
 // int tok_get(int **tok_str, CValue *cv)
@@ -892,11 +897,15 @@ function define_symbol(sym) {
 // 
 //     ts = tok_alloc(sym, 0);
     ts = tok_alloc(sym, 0);
-err();
 //     str = NULL;
+    wi32(str,0);
 //     len = 0;
+    wi32(len,0);
 //     cval.i = 1;
+    wi32(cval,1);
 //     tok_add2(&str, &len, TOK_NUM, &cval);
+    tok_add2(str, len, TOK_NUM, cval);
+err();
 //     tok_add(&str, &len, 0);
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 // }
