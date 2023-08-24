@@ -467,7 +467,6 @@ function tok_alloc(str, len) {
 //     if (len <= 0)
     if (len <= 0) {
 //         len = strlen(str);
-err();
         len = strlen(str);
     };
 //     h = 1;

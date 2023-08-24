@@ -186,3 +186,12 @@ function memcpy(dest,src,count){
     wi8(dest,ri8(src));
   }
 }
+
+function strlen(s){
+  var l=0;
+  while(ri8(s++)){
+    l=l+1;
+  };
+  print("strlen: "+l);
+  return l;
+}
