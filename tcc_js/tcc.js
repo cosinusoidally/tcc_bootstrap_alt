@@ -881,11 +881,19 @@ print("ts: "+ts);
 // /* XXX: should be more factorized */
 // void define_symbol(char *sym)
 // {
+function define_symbol(sym) {
+    enter();
 //     TokenSym *ts;
+    var ts;
 //     int *str, len;
+    var str=alloca(4);
+    var len=alloca(4);
 //     CValue cval;
+    var cval=alloca(CValue_size);
 // 
 //     ts = tok_alloc(sym, 0);
+    ts = tok_alloc(sym, 0);
+err();
 //     str = NULL;
 //     len = 0;
 //     cval.i = 1;
@@ -893,6 +901,8 @@ print("ts: "+ts);
 //     tok_add(&str, &len, 0);
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 // }
+    leave();
+}
 // 
 // void preprocess(void)
 // {
@@ -3996,9 +4006,10 @@ function main(argc,argv){
 //     }
      }
 // 
-err();
 //     /* standard defines */
 //     define_symbol("__STDC__");
+    define_symbol("__STDC__");
+err();
 //     define_symbol("__i386__");
 //     /* tiny C specific defines */
 //     define_symbol("__TINYC__");

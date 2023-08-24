@@ -9,5 +9,6 @@ int main(void){
   printf("var TOK_IDENT=0x%x;\n",TOK_IDENT);
   printf("var SYM_FIRST_ANOM=0x%x;\n",SYM_FIRST_ANOM);
   printf("var TokenSym_size=0x%x;\n",sizeof(TokenSym));
+  printf("var CValue_size=0x%x;\n",sizeof(CValue));
   return 0;
 }
