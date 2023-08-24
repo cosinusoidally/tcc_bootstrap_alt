@@ -662,6 +662,9 @@ print("ts: "+ts);
 // 
 // Sym *sym_push1(SymStack *st, int v, int t, int c)
 // {
+function sym_push1(st, v, t, c) {
+    enter();
+err();
 //     Sym *s, **ps;
 //     s = sym_push2(&st->top, v, t, c);
 //     /* add in hash table */
@@ -671,7 +674,9 @@ print("ts: "+ts);
 //         *ps = s;
 //     }
 //     return s;
+    return leave(s);
 // }
+}
 // 
 // /* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
@@ -945,8 +950,8 @@ function define_symbol(sym) {
     tok_add2(str, len, TOK_NUM, cval);
 //     tok_add(&str, &len, 0);
     tok_add(str, len, 0);
-err();
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
+    sym_push1(define_stack, ts+TokSym_tok_o, MACRO_OBJ, ri32(str));
 // }
     leave();
 }
