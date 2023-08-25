@@ -951,8 +951,7 @@ function define_symbol(sym) {
 //     tok_add(&str, &len, 0);
     tok_add(str, len, 0);
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
-// FIXME ljw this is not right
-    sym_push1(define_stack, ts+TokSym_tok_o, MACRO_OBJ, ri32(str));
+    sym_push1(define_stack, ri32(ts+TokSym_tok_o), MACRO_OBJ, ri32(str));
 // }
     leave();
 }
