@@ -905,6 +905,7 @@ function tok_add2(tok_str, tok_len, t, cv) {
 //     for(i=0;i<n;i++)
     for(i=0;i<n;i++) {
 //         tok_add(tok_str, tok_len, cv->tab[i]);
+// FIXME ljw this is probably wrong
         tok_add(tok_str, tok_len, cv+(i*4));
     }
 // }
