@@ -919,7 +919,7 @@ function tok_add(tok_str, tok_len, t) {
 //     len = *tok_len;
     len=ri32(tok_len);
 //     str = *tok_str;
-    str = tok_str;
+    str = ri32(tok_str);
 //     if ((len & 63) == 0) {
     if ((len & 63) == 0) {
 //         str = realloc(str, (len + 64) * sizeof(int));

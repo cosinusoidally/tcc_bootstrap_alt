@@ -8,7 +8,7 @@ for(var i=0;i<heap_size/4;i++){
 };
 
 var esp=heap_size-4;
-var ebp=0;
+var ebp=esp;
 
 function to_hex(x){
   var y;
@@ -167,7 +167,7 @@ function mk_js_string_len(o,l){
 }
 
 function enter(){
-backtrace();
+// backtrace();
   print("pre-enter esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
   esp=esp-4;
   wi32(esp,ebp);
@@ -176,7 +176,7 @@ backtrace();
 }
 
 function leave(x){
-backtrace();
+// backtrace();
   esp=ebp;
   ebp=ri32(esp);
   esp=esp+4;
