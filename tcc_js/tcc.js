@@ -73,11 +73,17 @@ var TokenSym_str_o=12;
 // /* symbol management */
 // typedef struct Sym {
 //     int v;    /* symbol token */
+var Sym_v_o=0;
 //     int t;    /* associated type */
+var Sym_t_o=4;
 //     int c;    /* associated number */
+var Sym_c_o=8;
 //     struct Sym *next; /* next related symbol */
+var Sym_next_o=12;
 //     struct Sym *prev; /* prev symbol in stack */
+var Sym_prev_o=16;
 //     struct Sym *hash_next; /* next symbol in hash table */
+var Sym_hash_next_o=20;
 // } Sym;
 // 
 // typedef struct SymStack {
@@ -629,8 +635,9 @@ function sym_push2(ps, v, t, c) {
 //         error("memory full");
         error("memory full");
     }
-err();
 //     s->v = v;
+    wi32(ri32(s)+Sym_v_o, v);
+err();
 //     s->t = t;
 //     s->c = c;
 //     s->next = NULL;
