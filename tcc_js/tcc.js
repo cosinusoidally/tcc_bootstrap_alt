@@ -938,7 +938,7 @@ function tok_add(tok_str, tok_len, t) {
 //     *tok_len = len;
     wi32(tok_len, len);
 // }
-    leave();
+    return leave();
 }
 // 
 // void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
@@ -959,7 +959,7 @@ function tok_add2(tok_str, tok_len, t, cv) {
         tok_add(tok_str, tok_len, ri32(cv+(i*4)));
     }
 // }
-    leave();
+    return leave();
 }
 // 
 // /* get a token from an integer array and increment pointer accordingly */
@@ -1004,7 +1004,7 @@ function define_symbol(sym) {
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
     sym_push1(define_stack, ri32(ts+TokenSym_tok_o), MACRO_OBJ, ri32(str));
 // }
-    leave();
+    return leave();
 }
 // 
 // void preprocess(void)
