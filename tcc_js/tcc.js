@@ -106,6 +106,7 @@ var TokenSym_str_o=12;
 // 
 // /* field 'Sym.t' for macros */
 // #define MACRO_OBJ      0 /* object like macro */
+var MACRO_OBJ = 0;
 // #define MACRO_FUNC     1 /* function like macro */
 // 
 // /* type_decl() types */
@@ -953,7 +954,7 @@ function define_symbol(sym) {
 //     tok_add(&str, &len, 0);
     tok_add(str, len, 0);
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
-    sym_push1(define_stack, ri32(ts+TokSym_tok_o), MACRO_OBJ, ri32(str));
+    sym_push1(define_stack, ri32(ts+TokenSym_tok_o), MACRO_OBJ, ri32(str));
 // }
     leave();
 }
