@@ -18,5 +18,6 @@ int main(void){
   printf("var TOK_CFLOAT=0x%x;\n",TOK_CFLOAT);
   printf("var TOK_CDOUBLE=0x%x;\n",TOK_CDOUBLE);
   printf("var SymStack_size=0x%x;\n",sizeof(SymStack));
+  printf("var Sym_size=0x%x;\n",sizeof(Sym));
   return 0;
 }

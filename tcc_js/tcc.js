@@ -82,6 +82,7 @@ var TokenSym_str_o=12;
 // 
 // typedef struct SymStack {
 //   struct Sym *top;
+var SymStack_top_o=0;
 //   struct Sym *hash[SYM_HASH_SIZE];
 // } SymStack;
 // 
@@ -617,10 +618,18 @@ print("ts: "+ts);
 // /* push, without hashing */
 // Sym *sym_push2(Sym **ps, int v, int t, int c)
 // {
+function sym_push2(ps, v, t, c) {
+    enter();
 //     Sym *s;
+    var s=alloca(4);
 //     s = malloc(sizeof(Sym));
+    wi32(s, malloc(Sym_size));
 //     if (!s)
+    if (!ri32(s)){
 //         error("memory full");
+        error("memory full");
+    }
+err();
 //     s->v = v;
 //     s->t = t;
 //     s->c = c;
@@ -629,7 +638,9 @@ print("ts: "+ts);
 //     s->prev = *ps;
 //     *ps = s;
 //     return s;
+    return leave(ri32(s));
 // }
+}
 // 
 // /* find a symbol and return its associated structure. 's' is the top
 //    of the symbol stack */
@@ -666,9 +677,12 @@ print("ts: "+ts);
 // {
 function sym_push1(st, v, t, c) {
     enter();
-err();
 //     Sym *s, **ps;
+    var s=alloca(4);
+    var ss=alloca(4);
 //     s = sym_push2(&st->top, v, t, c);
+    s = sym_push2(st+SymStack_top_o, v, t, c);
+err();
 //     /* add in hash table */
 //     if (v) {
 //         ps = &st->hash[HASH_SYM(v)];
