@@ -206,3 +206,21 @@ function memset(x,v,size){
     ri8(x+i,v);
   }
 }
+
+function mk_argc_argv(s){
+  var argc;
+  var argv;
+  print("error");
+  s=s.split(" ");
+  argc=s.length;
+  print(JSON.stringify(s));
+  while(s.length>0){
+    argv=alloca(4);
+    wi32(argv,mk_c_string(s.pop()));
+  }
+  return {argc:argc,argv:argv};
+}
+
+function mk_char(c){
+  return c.charCodeAt(0);
+}

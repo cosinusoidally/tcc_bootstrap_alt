@@ -4157,37 +4157,60 @@ err();
 //         }
          }
 //         r = argv[optind];
+         r = ri32(argv+(optind*4));
 //         if (r[0] != '-')
+         if (ri8(r) !== mk_char('-')) {
+print("r[0]:"+ri8(r));
 //             break;
+             break;
+         }
 //         optind++;
+         optind++;
 //         if (r[1] == 'I') {
+         if (ri8(r+1) === mk_char('I')) {
+err();
 //             if (nb_include_paths >= INCLUDE_PATHS_MAX)
 //                 error("too many include paths");
 //             include_paths[nb_include_paths++] = r + 2;
 //         } else if (r[1] == 'D') {
+         } else if (ri8(r+1) === mk_char('D')) {
+err();
 //             define_symbol(r + 2);
 //         } else if (r[1] == 'i') {
+         } else if (ri8(r+1) === mk_char('i')) {
+err();
 //             if (optind >= argc)
 //                 return show_help();
 //             tcc_compile_file(argv[optind++]);
 //         } else if (r[1] == 'r') {
+         } else if (ri8(r+1) === mk_char('r')) {
 //             reloc=1;
+             reloc=1;
 //         } else if (r[1] == 'R') {
+         } else if (ri8(r+1) == mk_char('R')) {
+err();
 //             t=(int (*)())load_obj();
 //             loader=1;
 //         } else {
+         } else {
+err();
 //             fprintf(stderr, "invalid option -- '%s'\n", r);
 //             exit(1);
 //         }
+         }
 //     }
     }
-err();
 // 
 // if(loader){
+if(loader){
+err();
 //   printf("running loader\n");
 //   return (*t)(argc - optind, argv + optind);
 // }
+}
 // if(reloc){
+if(reloc){
+err();
 // global_relocs=(int)malloc(64*1024);
 // global_relocs_base=global_relocs;
 // 
@@ -4200,7 +4223,9 @@ err();
 // relocs_base=relocs;
 // 
 // };
+};
 // 
+err();
 //     tcc_compile_file(argv[optind]);
 //     puts("tcc 1_7 compile done");
 // 
@@ -4220,5 +4245,8 @@ err();
 }
 
 // dummy main call:
-main(0,0);
+argc_argv=mk_argc_argv("tcc -r test.c");
+print(JSON.stringify(argc_argv));
+//err();
+main(argc_argv.argc,argc_argv.argv);
 
