@@ -196,3 +196,7 @@ function strlen(s){
   print("strlen: "+l);
   return l;
 }
+
+function unsigned(x){
+  return x>>>0;
+}

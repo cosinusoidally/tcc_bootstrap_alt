@@ -41,6 +41,7 @@ var TOK_HASH_SIZE = 521;
 // #define TOK_ALLOC_INCR      256 /* must be a power of two */
 var TOK_ALLOC_INCR = 256;
 // #define SYM_HASH_SIZE       263
+var SYM_HASH_SIZE = 263;
 // 
 // /* token symbol management */
 // typedef struct TokenSym {
@@ -90,6 +91,7 @@ var Sym_hash_next_o=20;
 //   struct Sym *top;
 var SymStack_top_o=0;
 //   struct Sym *hash[SYM_HASH_SIZE];
+var SymStack_hash_o=4;
 // } SymStack;
 // 
 // /* relocation entry (currently only used for functions or variables */
@@ -502,6 +504,7 @@ print("ts: "+ts);
             break;
         };
 //         if (ts->len == len && !memcmp(ts->str, str, len))
+// FIXME ljw not right
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
 //             return ts;
             return ts;
@@ -667,8 +670,11 @@ function sym_push2(ps, v, t, c) {
 // }
 // 
 // unsigned int HASH_SYM(int v) {
+function HASH_SYM(v) {
 //     return ((unsigned)(v) % SYM_HASH_SIZE);
+    return (unsigned(v) % SYM_HASH_SIZE);
 // }
+}
 // 
 // /* find a symbol and return its associated structure. 'st' is the
 //    symbol stack */
@@ -690,17 +696,21 @@ function sym_push2(ps, v, t, c) {
 function sym_push1(st, v, t, c) {
     enter();
 //     Sym *s, **ps;
-    var s=alloca(4);
-    var ss=alloca(4);
+    var s;
+    var ps;
 //     s = sym_push2(&st->top, v, t, c);
     s = sym_push2(st+SymStack_top_o, v, t, c);
-err();
 //     /* add in hash table */
 //     if (v) {
+    if (v) {
 //         ps = &st->hash[HASH_SYM(v)];
+        wi32(ps, st+SymStack_hash_o+4*(HASH_SYM(v)));
 //         s->hash_next = *ps;
+        wi32(s+Sym_hash_next_o, ps);
 //         *ps = s;
+        wi32(ps,s);
 //     }
+    }
 //     return s;
     return leave(s);
 // }
@@ -4089,11 +4099,13 @@ function main(argc,argv){
 //     /* standard defines */
 //     define_symbol("__STDC__");
     define_symbol("__STDC__");
-err();
 //     define_symbol("__i386__");
+    define_symbol("__i386__");
 //     /* tiny C specific defines */
 //     define_symbol("__TINYC__");
+    define_symbol("__TINYC__");
 //     
+err();
 //     glo = (int)mmap(NULL, DATA_SIZE,
 //                 PROT_READ | PROT_WRITE,
 //                 MAP_PRIVATE | MAP_ANONYMOUS,
