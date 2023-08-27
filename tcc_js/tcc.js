@@ -3798,6 +3798,10 @@ function define_symbol(sym) {
 // /* compile a C file. Return non zero if errors. */
 // int tcc_compile_file(const char *filename1)
 // {
+function tcc_compile_file(filename) {
+    enter();
+    print("filename: "+mk_js_string(ri32(filename)));
+err();
 //     Sym *define_start;
 // 
 //     filename = (char *)filename1;
@@ -3831,7 +3835,9 @@ function define_symbol(sym) {
 //     sym_pop(&global_stack, NULL);
 //     
 //     return 0;
+    return leave(0);
 // }
+}
 // 
 // void resolve_extern_syms(void)
 // {

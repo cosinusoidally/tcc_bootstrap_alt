@@ -166,6 +166,15 @@ function mk_js_string_len(o,l){
   return s.map(function(x){return String.fromCharCode(x)}).join("");
 }
 
+function mk_js_string(o){
+  var s=[];
+  var l=strlen(o);
+  for(var i=0;i<l;i++){
+    s.push(ri8(o+i));
+  };
+  return s.map(function(x){return String.fromCharCode(x)}).join("");
+}
+
 function enter(){
 // backtrace();
   print("pre-enter esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
