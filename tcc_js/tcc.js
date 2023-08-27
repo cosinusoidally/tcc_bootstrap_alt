@@ -637,13 +637,18 @@ function sym_push2(ps, v, t, c) {
     }
 //     s->v = v;
     wi32(ri32(s)+Sym_v_o, v);
-err();
 //     s->t = t;
+    wi32(ri32(s)+Sym_t_o, t);
 //     s->c = c;
+    wi32(ri32(s)+Sym_c_o, c);
 //     s->next = NULL;
+    wi32(ri32(s)+Sym_next_o, 0);
 //     /* add in stack */
 //     s->prev = *ps;
+// FIXME ljw is this right?
+    wi32(ri32(s)+Sym_prev_o, ri32(ps));
 //     *ps = s;
+    wi32(ps,ri32(s));
 //     return s;
     return leave(ri32(s));
 // }
