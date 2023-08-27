@@ -505,6 +505,7 @@ print("ts: "+ts);
         };
 //         if (ts->len == len && !memcmp(ts->str, str, len))
 // FIXME ljw not right
+print("len: "+len);
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
 //             return ts;
             return ts;
@@ -4100,12 +4101,12 @@ function main(argc,argv){
 //     define_symbol("__STDC__");
     define_symbol("__STDC__");
 //     define_symbol("__i386__");
+err();
     define_symbol("__i386__");
 //     /* tiny C specific defines */
 //     define_symbol("__TINYC__");
     define_symbol("__TINYC__");
 //     
-err();
 //     glo = (int)mmap(NULL, DATA_SIZE,
 //                 PROT_READ | PROT_WRITE,
 //                 MAP_PRIVATE | MAP_ANONYMOUS,
