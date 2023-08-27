@@ -150,6 +150,7 @@ var hash_ident=malloc(TOK_HASH_SIZE*4);
 // /* contains global symbols which remain between each translation unit */
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
+var define_stack=malloc(SymStack_size);
 // 
 // SValue vstack[VSTACK_SIZE], *vtop;
 // int *macro_ptr, *macro_ptr_allocated;
