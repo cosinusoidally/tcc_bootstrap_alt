@@ -4210,23 +4210,30 @@ err();
 }
 // if(reloc){
 if(reloc){
-err();
 // global_relocs=(int)malloc(64*1024);
+global_relocs=malloc(64*1024);
 // global_relocs_base=global_relocs;
+global_relocs_base=global_relocs;
 // 
 // printf("global_relocs %d\n",global_relocs);
+print("global_relocs "+to_hex(global_relocs));
 // 
 // global_relocs_table=(int)malloc(64*1024);
+global_relocs_table=malloc(64*1024);
 // global_relocs_table_base=global_relocs_table;
+global_relocs_table_base=global_relocs_table;
 // 
 // relocs=(int)malloc(64*1024);
+relocs=malloc(64*1024);
 // relocs_base=relocs;
+relocs_base=relocs;
 // 
 // };
 };
 // 
-err();
 //     tcc_compile_file(argv[optind]);
+    tcc_compile_file(argv+(4*optind));
+err();
 //     puts("tcc 1_7 compile done");
 // 
 //     resolve_extern_syms();

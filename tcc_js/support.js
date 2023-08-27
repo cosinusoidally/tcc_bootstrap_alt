@@ -167,6 +167,7 @@ function mk_js_string_len(o,l){
 }
 
 function enter(){
+backtrace();
   print("pre-enter esp: "+to_hex(esp)+" ebp: "+to_hex(ebp));
   esp=esp-4;
   wi32(esp,ebp);
@@ -175,6 +176,7 @@ function enter(){
 }
 
 function leave(x){
+backtrace();
   esp=ebp;
   ebp=ri32(esp);
   esp=esp+4;
