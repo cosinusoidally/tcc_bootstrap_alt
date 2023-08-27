@@ -2,6 +2,8 @@ print("tcc.js start");
 load("support.js");
 load("metadata.js");
 
+var NULL=0;
+
 // /*
 //  *  TCC - Tiny C Compiler
 //  * 
@@ -27,7 +29,9 @@ load("metadata.js");
 // /* these sizes are dummy for unix, because malloc() does not use
 //    memory when the pages are not used */
 // #define TEXT_SIZE           (256*1024)
+var TEXT_SIZE = (256*1024);
 // #define DATA_SIZE           (256*1024)
+var DATA_SIZE = (256*1024);
 // 
 // #define INCLUDE_STACK_SIZE  32
 // #define IFDEF_STACK_SIZE    64
@@ -145,6 +149,11 @@ var MACRO_OBJ = 0;
 // */
 // int rsym, anon_sym,
 //     prog, ind, loc, glo, const_wanted, glo_base;
+var prog;
+var ind;
+var loc;
+var glo;
+var glo_base;
 // int global_expr; /* true if compound literals must be allocated
 //                     globally (used during initializers parsing */
 // int func_vt, func_vc; /* current function return type (used by
@@ -479,7 +488,9 @@ function tok_alloc(str, len) {
     if (len <= 0) {
 //         len = strlen(str);
         len = strlen(str);
+    print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
     };
+print("len: "+len);
 //     h = 1;
     h = 1;
 //     for(i=0;i<len;i++)
@@ -505,8 +516,9 @@ print("ts: "+ts);
         };
 //         if (ts->len == len && !memcmp(ts->str, str, len))
 // FIXME ljw not right
-print("len: "+len);
+print("len: "+len+" ts-table_ident:"+(ts-table_ident));
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
+err();
 //             return ts;
             return ts;
         }
@@ -4099,36 +4111,51 @@ function main(argc,argv){
 // 
 //     /* standard defines */
 //     define_symbol("__STDC__");
-    define_symbol("__STDC__");
+    define_symbol(mk_c_string("__STDC__"));
 //     define_symbol("__i386__");
-err();
-    define_symbol("__i386__");
+    define_symbol(mk_c_string("__i386__"));
 //     /* tiny C specific defines */
 //     define_symbol("__TINYC__");
-    define_symbol("__TINYC__");
+    define_symbol(mk_c_string("__TINYC__"));
 //     
 //     glo = (int)mmap(NULL, DATA_SIZE,
 //                 PROT_READ | PROT_WRITE,
 //                 MAP_PRIVATE | MAP_ANONYMOUS,
 //                 -1, 0);
+    glo=malloc(DATA_SIZE);
 //     glo_base=glo;
+    glo_base=glo;
 //     printf("glo: %x %x\n",glo,glo_base);
+    print("glo: "+to_hex(glo));
 //     memset((void *)glo, 0, DATA_SIZE);
+    memset(glo, 0, DATA_SIZE);
 //     prog = (int)mmap(NULL, TEXT_SIZE,
 //                 PROT_EXEC | PROT_READ | PROT_WRITE,
 //                 MAP_PRIVATE | MAP_ANONYMOUS,
 //                 -1, 0);
+    prog=malloc(TEXT_SIZE);
 //     ind = prog;
+    ind = prog;
 //     printf("prog: %x \n",prog);
+    print("prog: "+to_hex(prog));
 // 
 //     optind = 1;
+    optind = 1;
 //     outfile = NULL;
+    outfile = NULL;
 // int loader=0;
+var loader=0;
 //     while (1) {
+    while (1) {
 // printf("argc %d\n",argc);
+print("argc "+argc);
 //         if (optind >= argc) {
+        if (optind >= argc) {
 //         return show_help();
+err();
+          return show_help();
 //         }
+         }
 //         r = argv[optind];
 //         if (r[0] != '-')
 //             break;
@@ -4153,6 +4180,8 @@ err();
 //             exit(1);
 //         }
 //     }
+    }
+err();
 // 
 // if(loader){
 //   printf("running loader\n");
