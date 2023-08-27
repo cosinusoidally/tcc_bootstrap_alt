@@ -166,6 +166,8 @@ var table_ident;
 var hash_ident=malloc(TOK_HASH_SIZE*4);
 // char token_buf[STRING_MAX_SIZE + 1];
 // char *filename, *funcname;
+var filename;
+var funcname;
 // /* contains global symbols which remain between each translation unit */
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
@@ -3798,9 +3800,9 @@ function define_symbol(sym) {
 // /* compile a C file. Return non zero if errors. */
 // int tcc_compile_file(const char *filename1)
 // {
-function tcc_compile_file(filename) {
+function tcc_compile_file(filename1) {
     enter();
-    print("filename: "+mk_js_string(ri32(filename)));
+    print("filename: "+mk_js_string(ri32(filename1)));
 err();
 //     Sym *define_start;
 // 
