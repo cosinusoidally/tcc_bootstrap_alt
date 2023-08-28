@@ -128,6 +128,7 @@ var MACRO_OBJ = 0;
 // /* type_decl() types */
 // #define TYPE_ABSTRACT  1 /* type without variable */
 // #define TYPE_DIRECT    2 /* type with variable */
+var TYPE_DIRECT = 2;
 // 
 // typedef struct {
 //     FILE *file;
@@ -2793,35 +2794,59 @@ err();
 //    type. If v is true, then also put variable name in 'vtop->c' */
 // int type_decl(int *v, int t, int td)
 // {
+function  type_decl(v, t, td) {
+    enter();
 //     int u, p;
+    var u;
+    var p;
 //     Sym *s;
+    var s;
 // 
 //     t = t & -3; /* suppress the ored '2' */
+    t = t & -3;
 //     while (tok == '*') {
+    while (tok == mk_char('*')) {
+err();
 //         next();
+       next();
 //         while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
+       while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
 //             next();
+           next();
 //         t = mk_pointer(t);
+       t = mk_pointer(t);
 //     }
+    }
 //     
 //     /* recursive type */
 //     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
 //     if (tok == '(') {
+    if (tok === mk_char('(')) {
+err();
 //         next();
 //         u = type_decl(v, 0, td);
 //         skip(')');
 //     } else {
+    } else {
 //         u = 0;
+        u = 0;
 //         /* type identifier */
 //         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+        if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+err();
 //             *v = tok;
 //             next();
 //         } else {
+         } else {
+err();
 //             if (!(td & TYPE_ABSTRACT))
 //                 expect("identifier");
 //             *v = 0;
 //         }
+         }
 //     }
+    }
+err();
 //     /* append t at the end of u */
 //     t = post_type(t);
 //     if (!u) 
@@ -2836,7 +2861,9 @@ err();
 //         }
 //     }
 //     return u;
+    return leave(u);
 // }
+}
 // 
 // /* define a new external reference to a function 'v' of type 'u' */
 // Sym *external_sym(int v, int u)
@@ -3910,9 +3937,9 @@ function decl(l) {
 //     while (1) {
     while (1) {
 //         b = ist();
-         wi32(b,ist());
+         b = ist();
 //         if (!b) {
-         if (!ri32(b)) {
+         if (!b) {
 err();
 //             /* skip redundant ';' */
 //             /* XXX: find more elegant solution */

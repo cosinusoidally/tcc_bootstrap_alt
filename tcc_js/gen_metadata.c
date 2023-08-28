@@ -41,5 +41,6 @@ int main(void){
   printf("var SValue_size=0x%x;\n",sizeof(SValue));
   printf("var VT_BTYPE=0x%x;\n",sizeof(VT_BTYPE));
   printf("var VT_ENUM=0x%x;\n",sizeof(VT_ENUM));
+  printf("var VT_STRUCT=0x%x;\n",sizeof(VT_STRUCT));
   return 0;
 }
