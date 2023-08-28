@@ -1319,6 +1319,9 @@ function define_symbol(sym) {
 // /* return next token without macro substitution */
 // void next_nomacro1(void)
 // {
+function next_nomacro1() {
+err();
+    enter();
 //     int b;
 //     char *q;
 //     TokenSym *ts;
@@ -1407,19 +1410,30 @@ function define_symbol(sym) {
 //             tok = TOK_GT;
 //     }
 // }
+    leave();
+}
 // 
 // /* return next token without macro substitution. Can read input from
 //    macro_ptr buffer */
 // void next_nomacro()
 // {
+function next_nomacro() {
+    enter();
 //     if (macro_ptr) {
+    if (macro_ptr) {
+err();
 //         tok = *macro_ptr;
 //         if (tok)
 //             tok = tok_get(&macro_ptr, &tokc);
 //     } else {
+    } else {
 //         next_nomacro1();
+        next_nomacro1();
 //     }
+    }
 // }
+    leave();
+}
 // 
 // /* substitute args in macro_str and return allocated string */
 // int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
