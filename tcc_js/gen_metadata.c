@@ -39,5 +39,7 @@ int main(void){
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));
   printf("var SValue_size=0x%x;\n",sizeof(SValue));
+  printf("var VT_BTYPE=0x%x;\n",sizeof(VT_BTYPE));
+  printf("var VT_ENUM=0x%x;\n",sizeof(VT_ENUM));
   return 0;
 }

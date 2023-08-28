@@ -3927,16 +3927,26 @@ err();
 //             b = VT_INT;
 //         }
          }
-err();
 //         if (((b & VT_BTYPE) == VT_ENUM ||
+         if (((b & VT_BTYPE) == VT_ENUM ||
 //              (b & VT_BTYPE) == VT_STRUCT) && 
+              (b & VT_BTYPE) == VT_STRUCT) &&
 //             tok == ';') {
+             tok === mk_char(';')) {
 //             /* we accept no variable after */
 //             next();
+             next();
 //             continue;
+err();
+             continue;
 //         }
+err();
+         }
 //         while (1) { /* iterate thru each declaration */
+         while (1) { /* iterate thru each declaration */
 //             t = type_decl(&v, b, TYPE_DIRECT);
+             t = type_decl(v, b, TYPE_DIRECT);
+err();
 //             if (tok == '{') {
 //                 if (l == VT_LOCAL)
 //                     error("cannot use local functions");
@@ -4040,6 +4050,7 @@ err();
 //                 next();
 //             }
 //         }
+         }
 //     }
      }
 // }
