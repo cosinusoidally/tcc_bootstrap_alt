@@ -141,6 +141,10 @@ var MACRO_OBJ = 0;
 // int line_num;
 var line_num=0;
 // int ch, ch1, tok, tok1;
+var ch;
+var ch1;
+var tok;
+var tok1;
 // CValue tokc, tok1c;
 // 
 // /* loc : local variable index
@@ -1567,9 +1571,16 @@ function define_symbol(sym) {
 // /* return next token with macro substitution */
 // void next(void)
 // {
+function next() {
+    enter();
 //     int len, *ptr;
+    var len=alloca(4);
+    var ptr=alloca(4);
 //     int redo=1;
+    var redo=1;
 //     Sym *nested_list;
+    var nested_list=alloca(4);
+err();
 // 
 //     /* special 'ungettok' case for label parsing */
 //     if (tok1) {
@@ -1610,6 +1621,8 @@ function define_symbol(sym) {
 //     }
 //     }
 // }
+    leave();
+}
 // 
 // void swap(int *p, int *q)
 // {
