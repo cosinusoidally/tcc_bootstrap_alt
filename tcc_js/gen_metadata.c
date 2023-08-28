@@ -17,6 +17,10 @@ int main(void){
   printf("var TOK_LSTR=0x%x;\n",TOK_LSTR);
   printf("var TOK_CFLOAT=0x%x;\n",TOK_CFLOAT);
   printf("var TOK_CDOUBLE=0x%x;\n",TOK_CDOUBLE);
+  printf("var TOK_CHAR=0x%x;\n",TOK_CHAR);
+  printf("var TOK_VOID=0x%x;\n",TOK_VOID);
+  printf("var TOK_SHORT=0x%x;\n",TOK_SHORT);
+  printf("var TOK_INT=0x%x;\n",TOK_INT);
   printf("var SymStack_size=0x%x;\n",sizeof(SymStack));
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));

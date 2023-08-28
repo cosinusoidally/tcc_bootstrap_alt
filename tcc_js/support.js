@@ -256,6 +256,7 @@ function getc_unlocked(file){
 }
 
 function memcmp(s1,s2,n){
+//print("memcmp "+to_hex(s1)+" "+to_hex(s2)+" "+n);
   var r=0;
   for(var i=0;i<n;i++){
 // FIXME not quite right

@@ -528,6 +528,9 @@ print("len: "+len);
     };
 // 
 print("h: "+h);
+if(h===28){
+  print("int?");
+};
 //     pts = &hash_ident[h];
 print("hash_ident: "+to_hex(hash_ident));
     wi32(pts, hash_ident+(h*4));
@@ -544,7 +547,7 @@ print("ts: "+ts);
         };
 //         if (ts->len == len && !memcmp(ts->str, str, len))
 print("len: "+len+" ts-table_ident:"+(ts-table_ident));
-        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ri32(ts+TokenSym_str_o), str, len)) {
+        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
 err();
 //             return ts;
             return ts;
