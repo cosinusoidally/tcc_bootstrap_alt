@@ -150,6 +150,8 @@ var MACRO_OBJ = 0;
 //    anon_sym: anonymous symbol index
 // */
 // int rsym, anon_sym,
+var rsym;
+var anon_sym;
 //     prog, ind, loc, glo, const_wanted, glo_base;
 var prog;
 var ind;
@@ -3831,12 +3833,16 @@ function tcc_compile_file(filename1) {
 // FIXME ljw not needed:
 //     ifdef_stack_ptr = ifdef_stack;
 // 
-err();
 //     vtop = vstack - 1;
+    vtop = vstack - SValue_size;
 //     anon_sym = SYM_FIRST_ANOM; 
+    anon_sym = SYM_FIRST_ANOM;
 //     
 //     define_start = define_stack.top;
+    define_start = ri32(define_stack+SymStack_top_o);
 //     inp();
+    inp();
+err();
 //     ch = '\n'; /* needed to parse correctly first preprocessor command */
 //     next();
 //     decl(VT_CONST);
