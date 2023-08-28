@@ -856,18 +856,30 @@ function inp(){
 // /* input with '\\n' handling */
 // static inline void minp(void)
 // {
+function minp() {
 //     int redo=1;
+    var redo=1;
 //     while(redo){
+    while(redo){
 //         redo=0;
+        redo=0;
 //         ch = ch1;
+        ch = ch1;
 //         inp();
+        inp();
 //         if (ch == '\\' && ch1 == '\n') {
+        if (ch == mk_char('\\') && ch1 == mk_char('\n')) {
 //             inp();
+            inp();
 //             redo=1;
+            redo=1;
 //         }
+        }
 //     }
+    }
 //     //printf("ch=%c 0x%x\n", ch, ch);
 // }
+}
 // 
 // 
 // /* same as minp, but also skip comments */
