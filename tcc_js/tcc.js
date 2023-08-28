@@ -3826,6 +3826,9 @@ err();
 // /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
 // void decl(int l)
 // {
+function decl(l) {
+    enter();
+err();
 //     int *a, t, b, v, u, addr, has_init, size, align;
 //     Sym *sym;
 //     
@@ -3958,6 +3961,8 @@ err();
 //         }
 //     }
 // }
+    leave();
+}
 // 
 // /* put all global symbols in the extern stack and do all the
 //    resolving which can be done without using external symbols from DLLs */
