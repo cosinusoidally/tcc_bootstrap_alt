@@ -3803,14 +3803,19 @@ function define_symbol(sym) {
 function tcc_compile_file(filename1) {
     enter();
     print("filename: "+mk_js_string(ri32(filename1)));
-err();
 //     Sym *define_start;
+    var define_start;
 // 
 //     filename = (char *)filename1;
+    filename = filename1;
 // 
 //     line_num = 1;
+    line_num = 1;
 //     funcname = "";
+    funcname = "";
 //     file = fopen(filename, "r");
+    file = fopen(filename, "r");
+err();
 //     if (!file)
 //         error("file '%s' not found", filename);
 //     include_stack_ptr = include_stack;
