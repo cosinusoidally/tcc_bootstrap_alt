@@ -220,6 +220,7 @@ var nb_include_paths=0;
 // /* The current value can be: */
 // #define VT_VALMASK 0x000f
 // #define VT_CONST   0x000a  /* constant in vc 
+var VT_CONST = 0x000a;
 //                               (must be first non register value) */
 // #define VT_LLOCAL  0x000b  /* lvalue, offset on stack */
 // #define VT_LOCAL   0x000c  /* offset on stack */
@@ -2558,67 +2559,107 @@ err();
 //  */
 // int ist(void)
 // {
+function ist() {
+    enter();
 //     int t, u;
+    var t;
+    var u;
 //     Sym *s;
+    var s;
 // 
 //     t = 0;
+    t = 0;
 //     while(1) {
+    while(1) {
 //         switch(tok) {
+        switch(tok) {
 //             /* basic types */
 //         case TOK_CHAR:
+        case TOK_CHAR:
+err();
 //             u = VT_BYTE;
 //             t=basic_type(t,u);
 //             break;
 //         case TOK_VOID:
+        case TOK_VOID:
+err();
 //             u = VT_VOID;
 //             t=basic_type(t,u);
 //             break;
 //         case TOK_SHORT:
+        case TOK_SHORT:
+err();
 //             u = VT_SHORT;
 //             t=basic_type(t,u);
 //             break;
 //         case TOK_INT:
+        case TOK_INT:
+err();
 //             next();
 //             break;
 //         case TOK_ENUM:
+        case TOK_ENUM:
+err();
 //             u = struct_decl(VT_ENUM);
 //             t=basic_type1(t,u);
 //             break;
 //         case TOK_STRUCT:
+        case TOK_STRUCT:
+err();
 //         case TOK_UNION:
+        case TOK_UNION:
+err();
 //             u = struct_decl(VT_STRUCT);
 //             t=basic_type1(t,u);
 //             break;
 // 
 //             /* type modifiers */
 //         case TOK_CONST:
+        case TOK_CONST:
 //         case TOK_VOLATILE:
+        case TOK_VOLATILE:
 //         case TOK_REGISTER:
+        case TOK_REGISTER:
 //         case TOK_SIGNED:
+        case TOK_SIGNED:
 //         case TOK_AUTO:
+        case TOK_AUTO:
 //         case TOK_INLINE:
+        case TOK_INLINE:
 //         case TOK_RESTRICT:
+        case TOK_RESTRICT:
+err();
 //             next();
 //             break;
 //         case TOK_UNSIGNED:
+        case TOK_UNSIGNED:
+err();
 //             t |= VT_UNSIGNED;
 //             next();
 //             break;
 // 
 //             /* storage */
 //         case TOK_EXTERN:
+        case TOK_EXTERN:
+err();
 //             t |= VT_EXTERN;
 //             next();
 //             break;
 //         case TOK_STATIC:
+        case TOK_STATIC:
+err();
 //             t |= VT_STATIC;
 //             next();
 //             break;
 //         case TOK_TYPEDEF:
+        case TOK_TYPEDEF:
+err();
 //             t |= VT_TYPEDEF;
 //             next();
 //             break;
 //         default:
+        default:
+err();
 //             s = sym_find(tok);
 //             if (!s || !(s->t & VT_TYPEDEF))
 //                 return t;
@@ -2626,10 +2667,15 @@ err();
 //             next();
 //             break;
 //         }
+        }
 //         t |= 2;
+        t |= 2;
 //     }
+    }
 //     return t;
+    return leave(t);
 // }
+}
 // 
 // int post_type(int t)
 // {
@@ -3828,13 +3874,26 @@ err();
 // {
 function decl(l) {
     enter();
-err();
 //     int *a, t, b, v, u, addr, has_init, size, align;
+    var a=alloca(4);
+    var t=alloca(4);
+    var b=alloca(4);
+    var v=alloca(4);
+    var u=alloca(4);
+    var addr=alloca(4);
+    var has_init=alloca(4);
+    var size=alloca(4);
+    var align=alloca(4);
 //     Sym *sym;
+    var sym=alloca(Sym_size);
 //     
 //     while (1) {
+    while (1) {
 //         b = ist();
+         wi32(b,ist());
 //         if (!b) {
+         if (!ri32(b)) {
+err();
 //             /* skip redundant ';' */
 //             /* XXX: find more elegant solution */
 //             if (tok == ';') {
@@ -3847,6 +3906,8 @@ err();
 //                 break;
 //             b = VT_INT;
 //         }
+         }
+err();
 //         if (((b & VT_BTYPE) == VT_ENUM ||
 //              (b & VT_BTYPE) == VT_STRUCT) && 
 //             tok == ';') {
@@ -3960,6 +4021,7 @@ err();
 //             }
 //         }
 //     }
+     }
 // }
     leave();
 }
