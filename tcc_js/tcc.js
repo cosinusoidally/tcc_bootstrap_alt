@@ -139,6 +139,7 @@ var MACRO_OBJ = 0;
 // /* parser */
 // FILE *file;
 // int line_num;
+var line_num=0;
 // int ch, ch1, tok, tok1;
 // CValue tokc, tok1c;
 // 
@@ -809,23 +810,40 @@ function sym_push1(st, v, t, c) {
 // /* read next char from current input file */
 // static inline void inp(void)
 // {
+function inp(){
 //     int redo=1;
+    var redo=1;
 //     while(redo){
+    while(redo){
 //         redo=0;
+        redo=0;
 //         /* faster than fgetc */
 //         ch1 = getc_unlocked(file);
+        ch1 = getc_unlocked(file);
 //         if (ch1 == -1) {
+        if (ch1 == -1) {
 //             if (handle_eof() < 0)
+            if (handle_eof() < 0)
 //                 return;
+                return;
 //             else
+            else
 //                 redo=1;
+                redo=1;
 //         }
+        }
 //     }
+    }
 //     printf("%c",ch1);
+    print(String.fromCharCode(ch1));
 //     if (ch1 == '\n')
+    if (ch1 === mk_char('\n')){
 //         line_num++;
+        line_num++;
+    }
 //     //    printf("ch1=%c 0x%x\n", ch1, ch1);
 // }
+}
 // 
 // /* input with '\\n' handling */
 // static inline void minp(void)
@@ -3842,9 +3860,11 @@ function tcc_compile_file(filename1) {
     define_start = ri32(define_stack+SymStack_top_o);
 //     inp();
     inp();
-err();
 //     ch = '\n'; /* needed to parse correctly first preprocessor command */
+    ch = mk_char('\n');
 //     next();
+    next();
+err();
 //     decl(VT_CONST);
 //     if (tok != -1)
 //         expect("declaration");
