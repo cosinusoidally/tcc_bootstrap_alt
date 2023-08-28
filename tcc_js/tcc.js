@@ -34,6 +34,7 @@ var TEXT_SIZE = (256*1024);
 var DATA_SIZE = (256*1024);
 // 
 // #define INCLUDE_STACK_SIZE  32
+var INCLUDE_STACK_SIZE = 32;
 // #define IFDEF_STACK_SIZE    64
 // #define VSTACK_SIZE         64
 // #define STRING_MAX_SIZE     1024
@@ -176,6 +177,8 @@ var define_stack=malloc(SymStack_size);
 // SValue vstack[VSTACK_SIZE], *vtop;
 // int *macro_ptr, *macro_ptr_allocated;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
+var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
+var include_stack_ptr;
 // int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 // char *include_paths[INCLUDE_PATHS_MAX];
 var include_paths = malloc(4*INCLUDE_PATHS_MAX);
@@ -3815,12 +3818,17 @@ function tcc_compile_file(filename1) {
     funcname = "";
 //     file = fopen(filename, "r");
     file = fopen(filename, "r");
-err();
 //     if (!file)
+    if (!file) {
 //         error("file '%s' not found", filename);
+        error("file '%s' not found", filename);
+    }
 //     include_stack_ptr = include_stack;
+    include_stack_ptr = include_stack;
+// FIXME ljw not needed:
 //     ifdef_stack_ptr = ifdef_stack;
 // 
+err();
 //     vtop = vstack - 1;
 //     anon_sym = SYM_FIRST_ANOM; 
 //     
