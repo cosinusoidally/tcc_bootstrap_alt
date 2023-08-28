@@ -1474,13 +1474,18 @@ err();
 //         minp();
 //     } else {
     } else {
-err();
 //         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
+        q = mk_c_string("<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266");
 //         /* two chars */
 //         tok = ch;
+        tok = ch;
 //         cinp();
+        cinp();
 //         while (*q) {
+        while (ri8(q)) {
 //             if (*q == tok && q[1] == ch) {
+            if (ri8(q) === tok && ri8(q+1) === ch) {
+err();
 //                 cinp();
 //                 tok = q[2] & 0xff;
 //                 /* three chars tests */
@@ -1496,13 +1501,23 @@ err();
 //                 }
 //                 return;
 //             }
+            }
 //             q = q + 3;
+            q = q + 3;
 //         }
+        }
 //         /* single char substitutions */
 //         if (tok == '<')
+        if (tok === mk_char('<')){
+err();
 //             tok = TOK_LT;
+            tok = TOK_LT;
 //         else if (tok == '>')
+        } else if (tok == mk_char('>')) {
+err();
 //             tok = TOK_GT;
+            tok = TOK_GT;
+        }
 //     }
     }
 // }
