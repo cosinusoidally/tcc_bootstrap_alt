@@ -21,6 +21,10 @@ int main(void){
   printf("var TOK_VOID=0x%x;\n",TOK_VOID);
   printf("var TOK_SHORT=0x%x;\n",TOK_SHORT);
   printf("var TOK_INT=0x%x;\n",TOK_INT);
+  printf("var TOK_ENUM=0x%x;\n",TOK_ENUM);
+  printf("var TOK_STRUCT=0x%x;\n",TOK_STRUCT);
+  printf("var TOK_UNION=0x%x;\n",TOK_UNION);
+  printf("var TOK_CONST=0x%x;\n",TOK_CONST);
   printf("var SymStack_size=0x%x;\n",sizeof(SymStack));
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));

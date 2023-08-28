@@ -548,7 +548,6 @@ print("ts: "+ts);
 //         if (ts->len == len && !memcmp(ts->str, str, len))
 print("len: "+len+" ts-table_ident:"+(ts-table_ident));
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
-err();
 //             return ts;
             return ts;
         }
@@ -2597,9 +2596,10 @@ err();
 //             break;
 //         case TOK_INT:
         case TOK_INT:
-err();
 //             next();
+            next();
 //             break;
+            break;
 //         case TOK_ENUM:
         case TOK_ENUM:
 err();
