@@ -183,6 +183,8 @@ var funcname;
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
 var define_stack=malloc(SymStack_size);
+var local_stack=malloc(SymStack_size);
+var global_stack=malloc(SymStack_size);
 // 
 // SValue vstack[VSTACK_SIZE], *vtop;
 var vstack=malloc(SValue_size*VSTACK_SIZE);
@@ -2672,11 +2674,9 @@ err();
         default:
 //             s = sym_find(tok);
           s = sym_find(tok);
-err();
 //             if (!s || !(s->t & VT_TYPEDEF))
           if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
 //                 return t;
-err();
                return leave(t);
           }
 //             t |= (s->t & ~VT_TYPEDEF);
@@ -2684,6 +2684,7 @@ err();
 //             next();
           next();
 //             break;
+err();
           break;
 //         }
         }
