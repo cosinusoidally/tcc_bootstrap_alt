@@ -774,12 +774,20 @@ function sym_push1(st, v, t, c) {
 // /* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
 // {
+function sym_find(v) {
 //     Sym *s;
+    var s;
 //     s = sym_find1(&local_stack, v);
+    s = sym_find1(local_stack, v);
 //     if (!s)
+    if (!s) {
 //         s = sym_find1(&global_stack, v);
+        s = sym_find1(global_stack, v);
+    }
 //     return s;
+    return s;
 // }
+}
 // 
 // /* push a given symbol on the symbol stack */
 // Sym *sym_push(int v, int t, int c)
@@ -2662,13 +2670,21 @@ err();
 //             break;
 //         default:
         default:
-err();
 //             s = sym_find(tok);
+          s = sym_find(tok);
+err();
 //             if (!s || !(s->t & VT_TYPEDEF))
+          if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
 //                 return t;
+err();
+               return leave(t);
+          }
 //             t |= (s->t & ~VT_TYPEDEF);
+          t |= (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
 //             next();
+          next();
 //             break;
+          break;
 //         }
         }
 //         t |= 2;
