@@ -25,6 +25,16 @@ int main(void){
   printf("var TOK_STRUCT=0x%x;\n",TOK_STRUCT);
   printf("var TOK_UNION=0x%x;\n",TOK_UNION);
   printf("var TOK_CONST=0x%x;\n",TOK_CONST);
+  printf("var TOK_VOLATILE=0x%x;\n",TOK_VOLATILE);
+  printf("var TOK_REGISTER=0x%x;\n",TOK_REGISTER);
+  printf("var TOK_SIGNED=0x%x;\n",TOK_SIGNED);
+  printf("var TOK_AUTO=0x%x;\n",TOK_AUTO);
+  printf("var TOK_INLINE=0x%x;\n",TOK_INLINE);
+  printf("var TOK_RESTRICT=0x%x;\n",TOK_RESTRICT);
+  printf("var TOK_UNSIGNED=0x%x;\n",TOK_UNSIGNED);
+  printf("var TOK_EXTERN=0x%x;\n",TOK_EXTERN);
+  printf("var TOK_STATIC=0x%x;\n",TOK_STATIC);
+  printf("var TOK_TYPEDEF=0x%x;\n",TOK_TYPEDEF);
   printf("var SymStack_size=0x%x;\n",sizeof(SymStack));
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));
