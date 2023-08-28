@@ -39,6 +39,7 @@ var INCLUDE_STACK_SIZE = 32;
 // #define VSTACK_SIZE         64
 var VSTACK_SIZE = 64;
 // #define STRING_MAX_SIZE     1024
+var STRING_MAX_SIZE = 1024;
 // #define INCLUDE_PATHS_MAX   32
 var INCLUDE_PATHS_MAX = 32;
 // 
@@ -174,6 +175,7 @@ var table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
 var hash_ident=malloc(TOK_HASH_SIZE*4);
 // char token_buf[STRING_MAX_SIZE + 1];
+var token_buf=malloc(STRING_MAX_SIZE + 1);
 // char *filename, *funcname;
 var filename;
 var funcname;
@@ -1320,28 +1322,46 @@ function define_symbol(sym) {
 // void next_nomacro1(void)
 // {
 function next_nomacro1() {
-err();
     enter();
 //     int b;
+    var b;
 //     char *q;
+    var q;
 //     TokenSym *ts;
+    var ts;
 // 
 //     /* skip spaces */
 //     while(1) {
+    while(1) {
 //         while (ch == '\n') {
+        while (ch == mk_char('\n')) {
 //             cinp();
+            cinp();
 //             while (ch == ' ' || ch == 9)
+            while (ch == mk_char(' ') || ch == 9) {
 //                 cinp();
+                cinp();
+            }
 //             if (ch == '#') {
+            if (ch == mk_char('#')) {
 //                 /* preprocessor command if # at start of line after
 //                    spaces */
 //                 preprocess();
+                preprocess();
 //             }
+            }
 //         }
+        }
 //         if (ch != ' ' && ch != '\t' && ch != '\f')
+        if (ch != mk_char(' ') && ch != mk_char('\t') && ch != mk_char('\f')) {
 //             break;
+            break;
+        }
 //         cinp();
+        cinp();
 //     }
+    }
+err();
 //     if (isid(ch)) {
 //         q = token_buf;
 //         *q++ = ch;
