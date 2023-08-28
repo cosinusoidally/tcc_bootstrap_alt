@@ -1381,8 +1381,9 @@ function next_nomacro1() {
         cinp();
 //     }
     }
-err();
 //     if (isid(ch)) {
+    if (isid(ch)) {
+err();
 //         q = token_buf;
 //         *q++ = ch;
 //         cinp();
@@ -1396,8 +1397,12 @@ err();
 //         ts = tok_alloc(token_buf, q - token_buf);
 //         tok = ts->tok;
 //     } else if (isnum(ch) || ch == '.') {
+    } else if (isnum(ch) || ch == mk_char('.')) {
+err();
 //         parse_number();
 //     } else if (ch == '\'') {
+     } else if (ch == mk_char('\'')) {
+err();
 //         tok = TOK_CCHAR;
 //         minp();
 //         tokc.i = getq();
@@ -1405,6 +1410,8 @@ err();
 //             expect("\'");
 //         minp();
 //     } else if (ch == '\"') {
+    } else if (ch == mk_char('\"')) {
+err();
 //         tok = TOK_STR;
 //         minp();
 //         q = token_buf;
@@ -1420,6 +1427,8 @@ err();
 //         tokc.ts = tok_alloc(token_buf, q - token_buf);
 //         minp();
 //     } else {
+    } else {
+err();
 //         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
 //         /* two chars */
 //         tok = ch;
@@ -1449,6 +1458,7 @@ err();
 //         else if (tok == '>')
 //             tok = TOK_GT;
 //     }
+    }
 // }
     leave();
 }
