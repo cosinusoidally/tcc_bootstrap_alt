@@ -719,16 +719,29 @@ function HASH_SYM(v) {
 //    symbol stack */
 // Sym *sym_find1(SymStack *st, int v)
 // {
+function sym_find1(st, v) {
 //     Sym *s;
+    var s;
 // 
 //     s = st->hash[HASH_SYM(v)];
+    s = ri32(st+SymStack_hash_o+(4*HASH_SYM(v)));
 //     while (s) {
+print("s: "+s);
+     while (s) {
 //         if (s->v == v)
+         if (ri32(s+Sym_v_o) === v) {
 //             return s;
+err();
+             return s;
+         }
 //         s = s->hash_next;
+         s = ri32(s+Sym_hash_next_o);
 //     }
+     }
 //     return 0;
+     return 0;
 // }
+}
 // 
 // Sym *sym_push1(SymStack *st, int v, int t, int c)
 // {
@@ -1667,26 +1680,37 @@ err();
 //             }
 //         } else {
          } else {
-err();
 //             no_subst=1;
+             no_subst=1;
 //         }
          }
-err();
 //         if (no_subst) {
+         if (no_subst) {
 //             /* no need to add if reading input stream */
 //             if (!macro_str)
+             if (!macro_str) {
 //                 return;
+                 return leave();
+             }
 //             tok_add2(tok_str, tok_len, tok, &tokc);
+err();
+             tok_add2(tok_str, tok_len, tok, tokc);
 //         }
+         }
 //         /* only replace one macro while parsing input stream */
 //         if (!macro_str)
+         if (!macro_str) {
 //             return;
+             return leave();
 //     }
+     }
+err();
 //     macro_ptr = saved_macro_ptr;
 //     if (macro_str1)
 //         free(macro_str1);
 // }
 }
+err();
     leave();
 }
 // 
