@@ -186,6 +186,8 @@ var define_stack=malloc(SymStack_size);
 var vstack=malloc(SValue_size*VSTACK_SIZE);
 var vtop;
 // int *macro_ptr, *macro_ptr_allocated;
+var macro_ptr=0;
+var macro_ptr_allocated=0;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
 var include_stack_ptr;
@@ -1580,22 +1582,32 @@ function next() {
     var redo=1;
 //     Sym *nested_list;
     var nested_list=alloca(4);
-err();
 // 
 //     /* special 'ungettok' case for label parsing */
 //     if (tok1) {
+    if (tok1) {
+err();
 //         tok = tok1;
 //         tokc = tok1c;
 //         tok1 = 0;
 //     } else {
+    } else {
 //     while(redo){
+    while(redo){
 //         redo=0;
+        redo=0;
 //         if (!macro_ptr) {
+        if (!macro_ptr) {
 //             /* if not reading from macro substuted string, then try to substitute */
 //             len = 0;
+            wi32(len, 0);
 //             ptr = NULL;
+            wi32(ptr, NULL);
 //             nested_list = NULL;
+            wi32(nested_list, NULL);
 //             macro_subst(&ptr, &len, &nested_list, NULL);
+            macro_subst(ptr, len, nested_list, NULL);
+err();
 //             if (ptr) {
 //                 tok_add(&ptr, &len, 0);
 //                 macro_ptr = ptr;
@@ -1608,6 +1620,8 @@ err();
 //                 continue;
 //              }
 //         } else {
+        } else {
+err();
 //             next_nomacro();
 //             if (tok == 0) {
 //                 /* end of macro string: free it */
@@ -1617,10 +1631,15 @@ err();
 //                 continue;
 //             }
 //         }
+        }
 //         break;
+        break;
 //     }
+    }
 //     }
+    }
 // }
+err();
     leave();
 }
 // 
