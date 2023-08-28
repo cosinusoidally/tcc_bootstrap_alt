@@ -146,7 +146,12 @@ function hd(o,n){
 }
 hd(0,16);
 
+var string_cache={};
+
 function mk_c_string(s){
+  if(string_cache[s]){
+    return string_cache[s];
+  }
   var o=malloc(s.length+1);
   var a=s.split("");
   a=a.map(function(x){return x.charCodeAt(0)});
@@ -155,6 +160,7 @@ function mk_c_string(s){
   for(var i=0;i<a.length;i++){
     wi8(o+i,a[i]);
   };
+  string_cache[s]=o;
   return o;
 }
 

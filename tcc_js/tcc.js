@@ -2833,9 +2833,10 @@ err();
 //         /* type identifier */
 //         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
-err();
 //             *v = tok;
+            wi32(v, tok);
 //             next();
+            next();
 //         } else {
          } else {
 err();
