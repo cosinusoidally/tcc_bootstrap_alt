@@ -37,6 +37,7 @@ var DATA_SIZE = (256*1024);
 var INCLUDE_STACK_SIZE = 32;
 // #define IFDEF_STACK_SIZE    64
 // #define VSTACK_SIZE         64
+var VSTACK_SIZE = 64;
 // #define STRING_MAX_SIZE     1024
 // #define INCLUDE_PATHS_MAX   32
 var INCLUDE_PATHS_MAX = 32;
@@ -175,6 +176,8 @@ var funcname;
 var define_stack=malloc(SymStack_size);
 // 
 // SValue vstack[VSTACK_SIZE], *vtop;
+var vstack=malloc(SValue_size*VSTACK_SIZE);
+var vtop;
 // int *macro_ptr, *macro_ptr_allocated;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);

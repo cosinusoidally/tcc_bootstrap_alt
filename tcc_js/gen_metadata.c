@@ -20,5 +20,6 @@ int main(void){
   printf("var SymStack_size=0x%x;\n",sizeof(SymStack));
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));
+  printf("var SValue_size=0x%x;\n",sizeof(SValue));
   return 0;
 }

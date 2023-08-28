@@ -13,3 +13,4 @@ var TOK_CDOUBLE=0xc0;
 var SymStack_size=0x420;
 var Sym_size=0x18;
 var IncludeFile_size=0xc;
+var SValue_size=0x8;
