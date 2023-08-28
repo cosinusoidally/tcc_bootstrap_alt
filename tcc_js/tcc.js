@@ -873,9 +873,13 @@ function inp(){
 // /* same as minp, but also skip comments */
 // void cinp(void)
 // {
+function cinp() {
 //     int c;
+    var c;
 // 
 //     if (ch1 == '/') {
+    if (ch1 == mk_char('/')) {
+err();
 //         inp();
 //         if (ch1 == '/') {
 //             /* single line C++ comments */
@@ -900,9 +904,13 @@ function inp(){
 //             ch = '/';
 //         }
 //     } else {
+    } else {
 //         minp();
+        minp();
 //     }
+    }
 // }
+}
 // 
 // void skip_spaces(void)
 // {
