@@ -1515,24 +1515,50 @@ function define_symbol(sym) {
 // void macro_subst(int **tok_str, int *tok_len, 
 //                  Sym **nested_list, int *macro_str)
 // {
+function macro_subst(tok_str, tok_len, nested_list, macro_str) {
+    enter();
 //     Sym *s, *args, *sa, *sa1;
+    var s=alloca(4);
+    var args=alloca(4);
+    var sa=alloca(4);
+    var sa1=alloca(4);
 //     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
+    var str=alloca(4);
+    var parlevel=alloca(4);
+    var len=alloca(4);
+    var mstr=alloca(4);
+    var t=alloca(4);
+    var saved_macro_ptr;
 //     int mstr_allocated, *macro_str1;
+    var mstr_allocated=alloca(4);
+    var macro_str1;
 //     int no_subst;
+    var no_subst;
 //     CValue cval;
+    var cval=alloca(CValue_size);
 // 
 //     saved_macro_ptr = macro_ptr;
+    saved_macro_ptr = macro_ptr;
 //     macro_ptr = macro_str;
+    macro_ptr = macro_str;
 //     macro_str1 = NULL;
+    macro_str1 = NULL;
 //     if (macro_str) {
+    if (macro_str) {
+err();
 //         /* first scan for '##' operator handling */
 //         macro_str1 = macro_twosharps(macro_str);
 //         macro_ptr = macro_str1;
 //     }
+    }
 // 
 //     while (1) {
+    while (1) {
 //         no_subst=0;
+        no_subst=0;
 //         next_nomacro();
+        next_nomacro();
+err();
 //         if (tok == 0)
 //             break;
 //         if ((s = sym_find1(&define_stack, tok)) != NULL) {
@@ -1569,6 +1595,9 @@ function define_symbol(sym) {
 //     if (macro_str1)
 //         free(macro_str1);
 // }
+}
+    leave();
+}
 // 
 // /* return next token with macro substitution */
 // void next(void)
