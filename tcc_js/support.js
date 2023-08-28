@@ -235,3 +235,11 @@ function mk_argc_argv(s){
 function mk_char(c){
   return c.charCodeAt(0);
 }
+
+file_num=1;
+function fopen(f,mode){
+// FIXME ljw non-dummy impl
+  var filename=mk_js_string(ri32(f));
+  print("fopen: filename: "+filename+" mode: "+mode);
+  return file_num++;
+}
