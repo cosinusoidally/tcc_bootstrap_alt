@@ -254,3 +254,14 @@ function getc_unlocked(file){
   }
   return fbuf.pop();
 }
+
+function memcmp(s1,s2,n){
+  var r=0;
+  for(var i=0;i<n;i++){
+// FIXME not quite right
+    if(ri8(s1)!==ri8(s2)){
+      r=1;
+    }
+  }
+  return r;
+}

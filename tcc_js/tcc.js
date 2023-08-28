@@ -542,9 +542,8 @@ print("ts: "+ts);
             break;
         };
 //         if (ts->len == len && !memcmp(ts->str, str, len))
-// FIXME ljw not right
 print("len: "+len+" ts-table_ident:"+(ts-table_ident));
-        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
+        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ri32(ts+TokenSym_str_o), str, len)) {
 err();
 //             return ts;
             return ts;
@@ -1414,8 +1413,8 @@ function next_nomacro1() {
         wi8(q, 0);
 //         ts = tok_alloc(token_buf, q - token_buf);
         ts = tok_alloc(token_buf, q - token_buf);
-err();
 //         tok = ts->tok;
+         tok = ri32(ts+TokenSym_tok_o);
 //     } else if (isnum(ch) || ch == '.') {
     } else if (isnum(ch) || ch == mk_char('.')) {
 err();
@@ -1642,10 +1641,14 @@ err();
         no_subst=0;
 //         next_nomacro();
         next_nomacro();
-err();
 //         if (tok == 0)
+         if (tok == 0) {
 //             break;
+             break;
+         }
 //         if ((s = sym_find1(&define_stack, tok)) != NULL) {
+         if ((s = sym_find1(define_stack, tok)) !== NULL) {
+err();
 //             /* if symbol is a macro, prepare substitution */
 //             /* if nested substitution, do nothing */
 //             if (sym_find2(*nested_list, tok))
@@ -1663,8 +1666,12 @@ err();
 //                 free(mstr);
 //             }
 //         } else {
+         } else {
+err();
 //             no_subst=1;
 //         }
+         }
+err();
 //         if (no_subst) {
 //             /* no need to add if reading input stream */
 //             if (!macro_str)
