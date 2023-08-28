@@ -241,5 +241,16 @@ function fopen(f,mode){
 // FIXME ljw non-dummy impl
   var filename=mk_js_string(ri32(f));
   print("fopen: filename: "+filename+" mode: "+mode);
+// FIXME hack hack
+  fbuf=read("test.c").split("").reverse();
+  fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
   return file_num++;
+}
+
+function getc_unlocked(file){
+// FIXME hack hack
+  if(fbuf.length===0){
+    return -1;
+  }
+  return fbuf.pop();
 }
