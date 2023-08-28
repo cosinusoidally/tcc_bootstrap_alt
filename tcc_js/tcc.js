@@ -418,15 +418,23 @@ load("i386-gen.js");
 // 
 // static inline int isid(int c)
 // {
+function isid(c) {
 //     return (c >= 'a' && c <= 'z') ||
 //         (c >= 'A' && c <= 'Z') ||
 //         c == '_';
+    return (c >= mk_char('a') && c <= mk_char('z')) ||
+        (c >= mk_char('A') && c <= mk_char('Z')) ||
+        c == mk_char('_');
 // }
+}
 // 
 // static inline int isnum(int c)
 // {
+function isnum(c) {
 //     return c >= '0' & c <= '9';
+    return c >= mk_char('0') & c <= mk_char('9');
 // }
+}
 // 
 // static inline int toup(int c)
 // {
@@ -1383,18 +1391,30 @@ function next_nomacro1() {
     }
 //     if (isid(ch)) {
     if (isid(ch)) {
-err();
 //         q = token_buf;
+        q = token_buf;
 //         *q++ = ch;
+        wi8(q++, ch);
 //         cinp();
+        cinp();
 //         while (isid(ch) || isnum(ch)) {
+        while (isid(ch) || isnum(ch)) {
 //             if (q >= token_buf + STRING_MAX_SIZE)
+            if (q >= token_buf + STRING_MAX_SIZE) {
 //                 error("ident too long");
+                error("ident too long");
+            }
 //             *q++ = ch;
+               wi8(q++, ch);
 //             cinp();
+            cinp();
 //         }
+        }
 //         *q = '\0';
+        wi8(q, 0);
 //         ts = tok_alloc(token_buf, q - token_buf);
+        ts = tok_alloc(token_buf, q - token_buf);
+err();
 //         tok = ts->tok;
 //     } else if (isnum(ch) || ch == '.') {
     } else if (isnum(ch) || ch == mk_char('.')) {
