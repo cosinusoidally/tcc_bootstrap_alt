@@ -1751,18 +1751,24 @@ err();
             wi32(nested_list, NULL);
 //             macro_subst(&ptr, &len, &nested_list, NULL);
             macro_subst(ptr, len, nested_list, NULL);
-err();
 //             if (ptr) {
+             if (ri32(ptr)) {
+err();
 //                 tok_add(&ptr, &len, 0);
 //                 macro_ptr = ptr;
 //                 macro_ptr_allocated = ptr;
 //                 redo=1;
 //                 continue;
 //             }
+             }
 //             if (tok == 0) {
+             if (tok === 0) {
 //                 redo=1;
+                 redo=1;
 //                 continue;
+                 continue;
 //              }
+              }
 //         } else {
         } else {
 err();
@@ -1783,7 +1789,6 @@ err();
 //     }
     }
 // }
-err();
     leave();
 }
 // 
@@ -4040,8 +4045,9 @@ function tcc_compile_file(filename1) {
     ch = mk_char('\n');
 //     next();
     next();
-err();
 //     decl(VT_CONST);
+    decl(VT_CONST);
+err();
 //     if (tok != -1)
 //         expect("declaration");
 //     fclose(file);
