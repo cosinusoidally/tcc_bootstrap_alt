@@ -117,6 +117,7 @@ var SymStack_hash_o=4;
 // #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
 // 
 // #define FUNC_NEW       1 /* ansi function prototype */
+var FUNC_NEW = 1;
 // #define FUNC_OLD       2 /* old function prototype */
 var FUNC_OLD = 2;
 // #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
@@ -492,10 +493,16 @@ function isnum(c) {
 // 
 // void skip(int c)
 // {
+function skip(c) {
 //     if (tok != c)
+    if (tok !== c) {
 //         error("'%c' expected", c);
+        error("'%c' expected", c);
+    }
 //     next();
+    next();
 // }
+}
 // 
 // void test_lvalue(void)
 // {
@@ -2570,16 +2577,26 @@ err();
 // }
 // 
 // int basic_type1(int t,int u){
+function basic_type1(t,u){
 //     if ((t & VT_BTYPE) != 0)
+    if ((t & VT_BTYPE) !== 0)
 //         error("too many basic types %x", t);
+        error("too many basic types %x", t);
 //     t |= u;
+    t |= u;
 //     return t;
+    return t;
 // }
+}
 // 
 // int basic_type(int t, int u){
+function basic_type(t, u){
 //     next();
+    next();
 //     return basic_type1(t,u);
+    return basic_type1(t,u);
 // }
+}
 // 
 // 
 // /* return 0 if no type declaration. otherwise, return the basic type
@@ -2739,7 +2756,7 @@ function post_type(t) {
 //         next();
         next();
 //         l = 0;
-        wi32(l, 0);
+        l = 0;
 //         first = NULL;
         wi32(first, NULL);
 //         plast = &first;
@@ -2767,13 +2784,17 @@ err();
 //                     }
 //                 }
                 }
-err();
 //                 l = FUNC_NEW;
+                l = FUNC_NEW;
 //                 if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
-err();
+                if ((pt & VT_BTYPE) === VT_VOID && tok === mk_char(')')) {
 //                     foo=1;
+                    foo=1;
 //                     break;
+                    break;
 //                 }
+                }
+err();
 //                 pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
 //                 if ((pt & VT_BTYPE) == VT_VOID)
 //                     error("parameter declared as void");
@@ -2789,8 +2810,9 @@ err();
 //             break;
 //             }
             }
-err();
 //             if(foo){break;}
+            if(foo){break;}
+err();
 //             /* array must be transformed to pointer according to ANSI C */
 //             pt &= ~VT_ARRAY;
 //             s = sym_push(n | SYM_FIELD, pt, 0);
@@ -2808,8 +2830,14 @@ err();
         }
 //         /* if no parameters, then old type prototype */
 //         if (l == 0)
+        if (l === 0) {
+err();
 //             l = FUNC_OLD;
+            l = FUNC_OLD;
+        }
 //         skip(')');
+        skip(mk_char(')'));
+err();
 //         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
 //         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
 //         /* we push a anonymous symbol which will contain the function prototype */
