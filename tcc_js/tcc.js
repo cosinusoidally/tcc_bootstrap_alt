@@ -118,6 +118,7 @@ var SymStack_hash_o=4;
 // 
 // #define FUNC_NEW       1 /* ansi function prototype */
 // #define FUNC_OLD       2 /* old function prototype */
+var FUNC_OLD = 2;
 // #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
 // 
 // /* field 'Sym.t' for macros */
@@ -2748,9 +2749,11 @@ function post_type(t) {
 //             /* read param name and compute offset */
 //             while(1){
             while(1){
-err();
 //             if (l != FUNC_OLD) {
+            if (ri32(l) !== FUNC_OLD) {
+err();
 //                 if (!(pt = ist())) {
+err();
 //                     if (l) {
 //                         error("invalid type");
 //                     } else {
@@ -2761,8 +2764,10 @@ err();
 //                         break;
 //                     }
 //                 }
+err();
 //                 l = FUNC_NEW;
 //                 if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
+err();
 //                     foo=1;
 //                     break;
 //                 }
@@ -2770,13 +2775,18 @@ err();
 //                 if ((pt & VT_BTYPE) == VT_VOID)
 //                     error("parameter declared as void");
 //             } else {
+            } else {
+err();
 //                 n = tok;
 //                 pt = VT_INT;
 //                 next();
 //             }
+            }
+err();
 //             break;
 //             }
             }
+err();
 //             if(foo){break;}
 //             /* array must be transformed to pointer according to ANSI C */
 //             pt &= ~VT_ARRAY;
