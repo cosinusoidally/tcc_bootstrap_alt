@@ -2715,20 +2715,40 @@ err();
 // 
 // int post_type(int t)
 // {
+function post_type(t) {
+    enter();
 //     int p, n, pt, l, t1;
-//     int foo;
+    var p=alloca(4);
+    var n=alloca(4);
+    var pt=alloca(4);
+    var l=alloca(4);
+    var t1=alloca(4);
+//     int foo=alloca(4);
+    var foo;
 //     Sym **plast, *s, *first;
+    var plast=alloca(4);
+    var s=alloca(4);
+    var first=alloca(4);
 // 
 //     if (tok == '(') {
+    if (tok === mk_char('(')) {
 //         /* function declaration */
 //         next();
+        next();
 //         l = 0;
+        wi32(l, 0);
 //         first = NULL;
+        wi32(first, NULL);
 //         plast = &first;
+        wi32(plast, first);
 //         while (tok != ')') {
+        while (tok !== mk_char(')')) {
 //             foo=0;
+            foo=0;
 //             /* read param name and compute offset */
 //             while(1){
+            while(1){
+err();
 //             if (l != FUNC_OLD) {
 //                 if (!(pt = ist())) {
 //                     if (l) {
@@ -2756,6 +2776,7 @@ err();
 //             }
 //             break;
 //             }
+            }
 //             if(foo){break;}
 //             /* array must be transformed to pointer according to ANSI C */
 //             pt &= ~VT_ARRAY;
@@ -2771,6 +2792,7 @@ err();
 //                 }
 //             }
 //         }
+        }
 //         /* if no parameters, then old type prototype */
 //         if (l == 0)
 //             l = FUNC_OLD;
@@ -2783,6 +2805,8 @@ err();
 //         s->next = first;
 //         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
 //     } else if (tok == '[') {
+    } else if (tok === mk_char('[')) {
+err();
 //         /* array definition */
 //         next();
 //         n = -1;
@@ -2802,8 +2826,11 @@ err();
 //         sym_push(p, t, n);
 //         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
 //     }
+    }
 //     return t;
+    return leave(t);
 // }
+}
 // 
 // /* Read a type declaration (except basic type), and return the
 //    type. If v is true, then also put variable name in 'vtop->c' */
@@ -2862,12 +2889,18 @@ err();
          }
 //     }
     }
-err();
 //     /* append t at the end of u */
 //     t = post_type(t);
+print("tok: "+tok+" t: "+t);
+    t = post_type(t);
 //     if (!u) 
+    if (!u) {
 //         return t;
+        return leave(t);
+    }
 //     p = u;
+    p = u;
+err();
 //     while(1) {
 //         s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
 //         p = s->t;
