@@ -42,5 +42,6 @@ int main(void){
   printf("var VT_BTYPE=0x%x;\n",sizeof(VT_BTYPE));
   printf("var VT_ENUM=0x%x;\n",sizeof(VT_ENUM));
   printf("var VT_STRUCT=0x%x;\n",sizeof(VT_STRUCT));
+  printf("var VT_VOID=0x%x;\n",sizeof(VT_VOID));
   return 0;
 }

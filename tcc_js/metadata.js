@@ -35,3 +35,4 @@ var SValue_size=0x8;
 var VT_BTYPE=0x4;
 var VT_ENUM=0x4;
 var VT_STRUCT=0x4;
+var VT_VOID=0x4;

@@ -2611,10 +2611,12 @@ err();
 //             break;
 //         case TOK_VOID:
         case TOK_VOID:
-err();
 //             u = VT_VOID;
+            u = VT_VOID;
 //             t=basic_type(t,u);
+            t=basic_type(t,u);
 //             break;
+            break;
 //         case TOK_SHORT:
         case TOK_SHORT:
 err();
@@ -2721,7 +2723,7 @@ function post_type(t) {
 //     int p, n, pt, l, t1;
     var p=alloca(4);
     var n=alloca(4);
-    var pt=alloca(4);
+    var pt;
     var l=alloca(4);
     var t1=alloca(4);
 //     int foo=alloca(4);
@@ -2751,8 +2753,8 @@ function post_type(t) {
             while(1){
 //             if (l != FUNC_OLD) {
             if (ri32(l) !== FUNC_OLD) {
-err();
 //                 if (!(pt = ist())) {
+                if (!(pt = ist())) {
 err();
 //                     if (l) {
 //                         error("invalid type");
@@ -2764,6 +2766,7 @@ err();
 //                         break;
 //                     }
 //                 }
+                }
 err();
 //                 l = FUNC_NEW;
 //                 if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
