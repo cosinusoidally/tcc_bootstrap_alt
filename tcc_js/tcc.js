@@ -4035,7 +4035,7 @@ function decl(l) {
     var size=alloca(4);
     var align=alloca(4);
 //     Sym *sym;
-    var sym=alloca(Sym_size);
+    var sym;
 //     
 //     while (1) {
     while (1) {
@@ -4078,20 +4078,32 @@ err();
             t = type_decl(v, b, TYPE_DIRECT);
 //             if (tok == '{') {
             if (tok === mk_char('{')) {
-err();
 //                 if (l == VT_LOCAL)
+                if (l === VT_LOCAL) {
 //                     error("cannot use local functions");
+                    error("cannot use local functions");
+                }
 //                 if (!(t & VT_FUNC))
+                if (!(t & VT_FUNC)) {
 //                     expect("function definition");
+                    expect("function definition");
+                }
 //                 /* patch forward references */
 //                 if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
+                if ((sym = sym_find(v)) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
+err();
 //                     greloc_patch(sym, ind);
 //                     sym->t = VT_CONST | t;
 //                 } else {
+                } else {
 //                     /* put function address */
 //                     sym_push1(&global_stack, v, VT_CONST | t, ind);
+                    sym_push1(global_stack, v, VT_CONST | t, ind);
 //                 }
+                }
 //                 funcname = get_tok_str(v, NULL);
+                funcname = get_tok_str(v, NULL);
+err();
 //                 /* push a dummy symbol to enable local sym storage */
 //                 sym_push1(&local_stack, 0, 0, 0);
 //                 /* define parameters */

@@ -48,5 +48,6 @@ int main(void){
   printf("var VT_EXTERN=0x%x;\n",VT_EXTERN);
   printf("var VT_FUNC=0x%x;\n",VT_FUNC);
   printf("var VT_STRUCT_SHIFT=0x%x;\n",VT_STRUCT_SHIFT);
+  printf("var VT_LOCAL=0x%x;\n",VT_LOCAL);
   return 0;
 }
