@@ -169,6 +169,7 @@ var ind;
 var loc;
 var glo;
 var glo_base;
+var const_wanted=0;
 // int global_expr; /* true if compound literals must be allocated
 //                     globally (used during initializers parsing */
 // int func_vt, func_vc; /* current function return type (used by
@@ -3472,9 +3473,17 @@ err();
 // /* XXX: better constant handling */
 // void expr_eq(void)
 // {
+function expr_eq() {
 //     int t, u, c, r1, r2;
+    var t;
+    var u;
+    var c;
+    var r1;
+    var r2;
 // 
 //     if (const_wanted) {
+    if (const_wanted) {
+err();
 //         sum(10);
 //         if (tok == '?') {
 //             c = vtop->c.i;
@@ -3489,8 +3498,12 @@ err();
 //                 vtop->c.i = t;
 //         }
 //     } else {
+    } else {
 //         eor();
+        eor();
 //         if (tok == '?') {
+        if (tok === mk_char('?')) {
+err();
 //             next();
 //             t = gtst(1, 0);
 // 
@@ -3507,19 +3520,32 @@ err();
 //             vtop->t = (vtop->t & VT_TYPE) | r1;
 //             gsym(u);
 //         }
+        }
+err();
 //     }
+    }
 // }
+}
 // 
 // void gexpr(void)
 // {
+function gexpr() {
 //     while (1) {
+    while (1) {
 //         expr_eq();
+        expr_eq();
 //         if (tok != ',')
+        if (tok !== mk_char(','))
 //             break;
+            break;
 //         vpop();
+        vpop();
 //         next();
+        next();
 //     }
+    }
 // }
+}
 // 
 // /* parse a constant expression and return value in vtop */
 // void expr_const1(void)
