@@ -52,5 +52,15 @@ int main(void){
   printf("var TOK_IF=0x%x;\n",TOK_IF);
   printf("var TOK_WHILE=0x%x;\n",TOK_WHILE);
   printf("var TOK_RETURN=0x%x;\n",TOK_RETURN);
+  printf("var TOK_SHL=0x%x;\n",TOK_SHL);
+  printf("var TOK_SAR=0x%x;\n",TOK_SAR);
+  printf("var TOK_ULE=0x%x;\n",TOK_ULE);
+  printf("var TOK_GT=0x%x;\n",TOK_GT);
+  printf("var TOK_ULT=0x%x;\n",TOK_ULT);
+  printf("var TOK_UGE=0x%x;\n",TOK_UGE);
+  printf("var TOK_EQ=0x%x;\n",TOK_EQ);
+  printf("var TOK_NE=0x%x;\n",TOK_NE);
+  printf("var TOK_LAND=0x%x;\n",TOK_LAND);
+  printf("var TOK_LOR=0x%x;\n",TOK_LOR);
   return 0;
 }
