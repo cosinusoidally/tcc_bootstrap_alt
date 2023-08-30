@@ -4128,17 +4128,20 @@ err();
 //                 funcname = get_tok_str(v, NULL);
                 funcname = get_tok_str(ri32(v), NULL);
 print("funcname: "+mk_js_string(funcname));
-hd(funcname,64);
-err();
+// hd(funcname,64);
 //                 /* push a dummy symbol to enable local sym storage */
 //                 sym_push1(&local_stack, 0, 0, 0);
+                sym_push1(local_stack, 0, 0, 0);
 //                 /* define parameters */
 //                 sym = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
+                sym = sym_find(t >>> VT_STRUCT_SHIFT);
 //                 /* XXX: the following is x86 dependant -> move it to
 //                    x86 code gen */
 //                 addr = 8;
+                addr = 8;
 //                 /* if the function returns a structure, then add an
 //                    implicit pointer parameter */
+err();
 //                 func_vt = sym->t;
 //                 if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 //                     func_vc = addr;
