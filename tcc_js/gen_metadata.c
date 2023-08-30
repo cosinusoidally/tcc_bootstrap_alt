@@ -49,5 +49,6 @@ int main(void){
   printf("var VT_FUNC=0x%x;\n",VT_FUNC);
   printf("var VT_STRUCT_SHIFT=0x%x;\n",VT_STRUCT_SHIFT);
   printf("var VT_LOCAL=0x%x;\n",VT_LOCAL);
+  printf("var TOK_IF=0x%x;\n",TOK_IF);
   return 0;
 }

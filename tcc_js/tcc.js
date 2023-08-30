@@ -3503,10 +3503,18 @@ err();
 // 
 // void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 // {
+function block(bsym, csym, case_sym, def_sym, case_reg) {
 //     int a, b, c, d;
+    var a;
+    var b;
+    var c;
+    var d;
 //     Sym *s;
+    var s;
 // 
 //     if (tok == TOK_IF) {
+    if (tok == TOK_IF) {
+err();
 //         /* if test */
 //         next();
 //         skip('(');
@@ -3524,6 +3532,8 @@ err();
 //         } else
 //             gsym(a);
 //     } else if (tok == TOK_WHILE) {
+    } else if (tok == TOK_WHILE) {
+err();
 //         next();
 //         d = ind;
 //         skip('(');
@@ -3536,6 +3546,8 @@ err();
 //         gsym(a);
 //         gsym_addr(b, d);
 //     } else if (tok == '{') {
+    } else if (tok == mk_char('{')) {
+err();
 //         next();
 //         /* declarations */
 //         s = local_stack.top;
@@ -3548,6 +3560,8 @@ err();
 //         sym_pop(&local_stack, s);
 //         next();
 //     } else if (tok == TOK_RETURN) {
+    } else if (tok == TOK_RETURN) {
+err();
 //         next();
 //         if (tok != ';') {
 //             gexpr();
@@ -3568,6 +3582,8 @@ err();
 //         skip(';');
 //         rsym = gjmp(rsym); /* jmp */
 //     } else if (tok == TOK_BREAK) {
+    } else if (tok == TOK_BREAK) {
+err();
 //         /* compute jump */
 //         if (!bsym)
 //             error("cannot break");
@@ -3575,6 +3591,8 @@ err();
 //         next();
 //         skip(';');
 //     } else if (tok == TOK_CONTINUE) {
+    } else if (tok == TOK_CONTINUE) {
+err();
 //         /* compute jump */
 //         if (!csym)
 //             error("cannot continue");
@@ -3614,6 +3632,8 @@ err();
 //         gsym_addr(b, c);
 //     } else 
 //     if (tok == TOK_DO) {
+    } else if (tok == TOK_DO) {
+err();
 //         next();
 //         a = 0;
 //         b = 0;
@@ -3630,6 +3650,8 @@ err();
 //         skip(';');
 //     } else
 //     if (tok == TOK_SWITCH) {
+    } else if (tok == TOK_SWITCH) {
+err();
 //         next();
 //         skip('(');
 //         gexpr();
@@ -3649,6 +3671,8 @@ err();
 //         gsym(a);
 //     } else
 //     if (tok == TOK_CASE) {
+    } else if (tok == TOK_CASE) {
+err();
 //         next();
 //         a = expr_const();
 //         if (!case_sym)
@@ -3665,6 +3689,8 @@ err();
 //         block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else 
 //     if (tok == TOK_DEFAULT) {
+    } else if (tok == TOK_DEFAULT) {
+err();
 //         next();
 //         skip(':');
 //         if (!def_sym)
@@ -3674,6 +3700,8 @@ err();
 //         *def_sym = ind;
 //         block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else {
+//     } else {
+err();
 //         /* expression case */
 //         if (tok != ';') {
 //             gexpr();
@@ -3681,7 +3709,9 @@ err();
 //         }
 //         skip(';');
 //     }
+    }
 // }
+}
 // 
 // /* t is the array or struct type. c is the array or struct
 //    address. cur_index/cur_field is the pointer to the current

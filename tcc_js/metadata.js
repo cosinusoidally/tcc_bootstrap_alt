@@ -42,3 +42,4 @@ var VT_EXTERN=0x40;
 var VT_FUNC=0xc00;
 var VT_STRUCT_SHIFT=0x10;
 var VT_LOCAL=0xc;
+var TOK_IF=0x103;
