@@ -1555,7 +1555,6 @@ function next_nomacro1() {
     } else if (isnum(ch) || ch == mk_char('.')) {
 //         parse_number();
         parse_number();
-err();
 //     } else if (ch == '\'') {
      } else if (ch == mk_char('\'')) {
 err();
@@ -3644,8 +3643,9 @@ err();
         next();
 //         if (tok != ';') {
         if (tok !== mk_char(';')) {
-err();
 //             gexpr();
+            gexpr();
+err();
 //             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 //                 /* if returning structure, must copy it to implicit
 //                    first pointer arg location */
