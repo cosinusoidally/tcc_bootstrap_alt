@@ -4167,10 +4167,13 @@ err();
                 loc = 0;
 //                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
-err();
 //                 a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
+                a = oad(0xec81, 0);
 //                 rsym = 0;
+                rsym = 0;
 //                 block(NULL, NULL, NULL, NULL, 0);
+                block(NULL, NULL, NULL, NULL, 0);
+err();
 //                 gsym(rsym);
 //                 o(0xc3c9); /* leave, ret */
 //                 *a = (-loc + 3) & -4; /* align local size to word & 
