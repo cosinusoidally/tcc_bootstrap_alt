@@ -687,8 +687,8 @@ err();
 //         return buf;
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
-err();
 //         return table_ident[v - TOK_IDENT]->str;
+        return ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o;
 //     } else {
     } else {
 err();
@@ -4128,6 +4128,7 @@ err();
 //                 funcname = get_tok_str(v, NULL);
                 funcname = get_tok_str(ri32(v), NULL);
 print("funcname: "+mk_js_string(funcname));
+hd(funcname,64);
 err();
 //                 /* push a dummy symbol to enable local sym storage */
 //                 sym_push1(&local_stack, 0, 0, 0);
