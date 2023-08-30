@@ -640,15 +640,27 @@ print("len: "+len+" ts-table_ident:"+(ts-table_ident));
 // /* XXX: buffer overflow */
 // char *get_tok_str(int v, CValue *cv)
 // {
+function get_tok_str(v, cv) {
+    enter();
 //     static char buf[STRING_MAX_SIZE + 1];
+// FIXME ljw should this be reserved on the heap?
+    var buf=alloca(STRING_MAX_SIZE + 1);
 //     TokenSym *ts;
+    var ts;
 //     char *p;
+    var p=alloca(4);
 //     int i;
+    var i;
 // 
+print("v: "+v);
 //     if (v == TOK_NUM) {
+    if (v === TOK_NUM) {
+err();
 //         sprintf(buf, "%u", cv->ui);
 //         return buf;
 //     } else if (v == TOK_CCHAR || v == TOK_LCHAR) {
+    } else if (v === TOK_CCHAR || v === TOK_LCHAR) {
+err();
 //         p = buf;
 //         *p++ = '\'';
 //         add_char(&p, cv->i);
@@ -656,6 +668,8 @@ print("len: "+len+" ts-table_ident:"+(ts-table_ident));
 //         *p = '\0';
 //         return buf;
 //     } else if (v == TOK_STR || v == TOK_LSTR) {
+    } else if (v === TOK_STR || v === TOK_LSTR) {
+err();
 //         ts = cv->ts;
 //         p = buf;
 //         *p++ = '\"';
@@ -665,17 +679,27 @@ print("len: "+len+" ts-table_ident:"+(ts-table_ident));
 //         *p = '\0';
 //         return buf;
 //     } else if (v < TOK_IDENT) {
+    } else if (v < TOK_IDENT) {
+err();
 //         p = buf;
 //         *p++ = v;
 //         *p = '\0';
 //         return buf;
 //     } else if (v < tok_ident) {
+    } else if (v < tok_ident) {
+err();
 //         return table_ident[v - TOK_IDENT]->str;
 //     } else {
+    } else {
+err();
 //         /* should never happen */
 //         return NULL;
 //     }
+    }
 // }
+err();
+   return leave(0);
+}
 // 
 // /* push, without hashing */
 // Sym *sym_push2(Sym **ps, int v, int t, int c)
@@ -4090,7 +4114,7 @@ err();
                 }
 //                 /* patch forward references */
 //                 if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
-                if ((sym = sym_find(v)) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
+                if ((sym = sym_find(ri32(v))) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
 err();
 //                     greloc_patch(sym, ind);
 //                     sym->t = VT_CONST | t;
@@ -4102,7 +4126,7 @@ err();
 //                 }
                 }
 //                 funcname = get_tok_str(v, NULL);
-                funcname = get_tok_str(v, NULL);
+                funcname = get_tok_str(ri32(v), NULL);
 print("funcname: "+mk_js_string(funcname));
 err();
 //                 /* push a dummy symbol to enable local sym storage */
