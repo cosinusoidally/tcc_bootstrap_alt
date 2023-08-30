@@ -3461,20 +3461,34 @@ function eand() {
 // 
 //     sum(8);
     sum(8);
-err();
 //     t = 0;
+    t = 0;
 //     while (1) {
+    while (1) {
 //         if (tok != TOK_LAND) {
+        if (tok != TOK_LAND) {
 //             if (t) {
+            if (t) {
+err();
 //                 t = gtst(1, t);
+                t = gtst(1, t);
 //                 vset(VT_JMPI, t);
+                vset(VT_JMPI, t);
 //             }
+            }
 //             break;
+            break;
 //         }
+        }
+err();
 //         t = gtst(1, t);
+        t = gtst(1, t);
 //         next();
+        next();
 //         sum(8);
+        sum(8);
 //     }
+    }
 // }
 }
 // 
@@ -3486,20 +3500,29 @@ function eor() {
 // 
 //     eand();
     eand();
-err();
 //     t = 0;
+    t = 0;
 //     while (1) {
+    while (1) {
 //         if (tok != TOK_LOR) {
+        if (tok != TOK_LOR) {
 //             if (t) {
+            if (t) {
+err();
 //                 t = gtst(0, t);
 //                 vset(VT_JMP, t);
 //             }
+            }
 //             break;
+            break;
 //         }
+        }
+err();
 //         t = gtst(0, t);
 //         next();
 //         eand();
 //     }
+    }
 // }
 }
 // 
@@ -3554,7 +3577,6 @@ err();
 //             gsym(u);
 //         }
         }
-err();
 //     }
     }
 // }
@@ -3704,8 +3726,9 @@ err();
         if (tok !== mk_char(';')) {
 //             gexpr();
             gexpr();
-err();
 //             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+            if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+err();
 //                 /* if returning structure, must copy it to implicit
 //                    first pointer arg location */
 //                 vset(mk_pointer(func_vt) | VT_LOCAL | VT_LVAL, func_vc);
@@ -3714,9 +3737,13 @@ err();
 //                 /* copy structure value to pointer */
 //                 vstore();
 //             } else {
+err();
+            } else {
 //                 /* move return value to standard return register */
 //                 move_reg(FUNC_RET_REG, gv());
+                move_reg(FUNC_RET_REG, gv());
 //             }
+            }
 //             vpop();
 //         }
         }
