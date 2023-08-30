@@ -53,16 +53,26 @@ print("i386-gen.js loading");
 // 
 // void g(int c)
 // {
+function g(c) {
 //     *(char *)ind++ = c;
+    wi8(ind++,c);
 // }
+}
 // 
 // void o(int c)
 // {
+function o(c) {
+// {
 //     while (c) {
+    while (c) {
 //         g(c);
+        g(c);
 //         c = c / 256;
+        c = c / 256;
 //     }
+    }
 // }
+}
 // 
 // void gen_le32(int c)
 // {
