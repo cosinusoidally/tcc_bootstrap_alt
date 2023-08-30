@@ -1484,8 +1484,9 @@ function next_nomacro1() {
          tok = ri32(ts+TokenSym_tok_o);
 //     } else if (isnum(ch) || ch == '.') {
     } else if (isnum(ch) || ch == mk_char('.')) {
-err();
 //         parse_number();
+        parse_number();
+err();
 //     } else if (ch == '\'') {
      } else if (ch == mk_char('\'')) {
 err();
@@ -3570,9 +3571,11 @@ err();
 //         next();
 //     } else if (tok == TOK_RETURN) {
     } else if (tok == TOK_RETURN) {
-err();
 //         next();
+        next();
 //         if (tok != ';') {
+        if (tok !== mk_char(';')) {
+err();
 //             gexpr();
 //             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 //                 /* if returning structure, must copy it to implicit
@@ -3588,6 +3591,8 @@ err();
 //             }
 //             vpop();
 //         }
+        }
+err();
 //         skip(';');
 //         rsym = gjmp(rsym); /* jmp */
 //     } else if (tok == TOK_BREAK) {
