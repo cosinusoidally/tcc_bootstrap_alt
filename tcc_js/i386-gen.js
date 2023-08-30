@@ -40,6 +40,7 @@ print("i386-gen.js loading");
 // 
 // /* integer return register for functions */
 // #define FUNC_RET_REG        0 
+var FUNC_RET_REG = 0;
 // 
 // /* pointer size, in bytes */
 // #define PTR_SIZE 4

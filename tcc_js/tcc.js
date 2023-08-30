@@ -2070,11 +2070,16 @@ err();
 //    if needed */
 // void move_reg(int r, int s)
 // {
+function move_reg(r, s) {
 //     if (r != s) {
+    if (r != s) {
+err();
 //         save_reg(r);
 //         load(r, s, 0);
 //     }
+    }
 // }
+ }
 // 
 // /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
 //    values. Cannot be used if cannot be converted to register value
