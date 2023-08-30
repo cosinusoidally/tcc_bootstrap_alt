@@ -4103,6 +4103,7 @@ err();
                 }
 //                 funcname = get_tok_str(v, NULL);
                 funcname = get_tok_str(v, NULL);
+print("funcname: "+mk_js_string(funcname));
 err();
 //                 /* push a dummy symbol to enable local sym storage */
 //                 sym_push1(&local_stack, 0, 0, 0);
