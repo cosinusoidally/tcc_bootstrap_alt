@@ -2858,7 +2858,6 @@ err();
         wi32(s+Sym_next_o , ri32(first));
 //         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
-err();
 //     } else if (tok == '[') {
     } else if (tok === mk_char('[')) {
 err();
