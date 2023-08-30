@@ -68,7 +68,7 @@ function o(c) {
 //         g(c);
         g(c);
 //         c = c / 256;
-        c = c / 256;
+        c = c >>> 8;
 //     }
     }
 // }
@@ -211,12 +211,19 @@ function o(c) {
 // /* instruction + 4 bytes data. Return the address of the data */
 // int oad(int c, int s)
 // {
+function oad(c, s) {
 //     o(c);
+    o(c);
 //     *(int *)ind = s;
+    wi32(ind, s);
 //     s = ind;
+    s = ind;
 //     ind = ind + 4;
+    ind = ind + 4;
 //     return s;
+    return s;
 // }
+}
 // 
 // int lt=0;
 // 
