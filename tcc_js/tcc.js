@@ -1323,6 +1323,8 @@ function define_symbol(sym) {
 // 
 // void parse_number(void)
 // {
+function parse_number() {
+err()
 //     int b, t, shift, frac_bits, s, exp_val;
 //     char *q;
 //     unsigned int n, n1;
@@ -1410,6 +1412,7 @@ function define_symbol(sym) {
 //     while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
 //         cinp();
 // }
+}
 // 
 // 
 // /* return next token without macro substitution */
