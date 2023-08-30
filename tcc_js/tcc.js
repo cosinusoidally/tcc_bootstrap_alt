@@ -4075,9 +4075,10 @@ err();
 //         while (1) { /* iterate thru each declaration */
          while (1) { /* iterate thru each declaration */
 //             t = type_decl(&v, b, TYPE_DIRECT);
-             t = type_decl(v, b, TYPE_DIRECT);
-err();
+            t = type_decl(v, b, TYPE_DIRECT);
 //             if (tok == '{') {
+            if (tok === mk_char('{')) {
+err();
 //                 if (l == VT_LOCAL)
 //                     error("cannot use local functions");
 //                 if (!(t & VT_FUNC))
@@ -4129,6 +4130,8 @@ err();
 //                 func_vt = VT_VOID; /* for safety */
 //                 break;
 //             } else {
+            } else {
+err();
 //                 if (b & VT_TYPEDEF) {
 //                     /* save typedefed type  */
 //                     /* XXX: test storage specifiers ? */
@@ -4179,6 +4182,7 @@ err();
 //                 }
 //                 next();
 //             }
+            }
 //         }
          }
 //     }
