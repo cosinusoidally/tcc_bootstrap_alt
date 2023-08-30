@@ -50,5 +50,7 @@ int main(void){
   printf("var VT_STRUCT_SHIFT=0x%x;\n",VT_STRUCT_SHIFT);
   printf("var VT_LOCAL=0x%x;\n",VT_LOCAL);
   printf("var TOK_IF=0x%x;\n",TOK_IF);
+  printf("var TOK_WHILE=0x%x;\n",TOK_WHILE);
+  printf("var TOK_RETURN=0x%x;\n",TOK_RETURN);
   return 0;
 }

@@ -3547,15 +3547,24 @@ err();
 //         gsym_addr(b, d);
 //     } else if (tok == '{') {
     } else if (tok == mk_char('{')) {
-err();
 //         next();
+        next();
 //         /* declarations */
 //         s = local_stack.top;
+        s = ri32(local_stack+SymStack_top_o);
 //         while (tok != '}') {
+        while (tok !== mk_char('}')) {
 //             decl(VT_LOCAL);
+            decl(VT_LOCAL);
 //             if (tok != '}')
+            if (tok !== mk_char('}')) {
 //                 block(bsym, csym, case_sym, def_sym, case_reg);
+                block(bsym, csym, case_sym, def_sym, case_reg);
+            }
 //         }
+err();
+        }
+err();
 //         /* pop locally defined symbols */
 //         sym_pop(&local_stack, s);
 //         next();
@@ -4097,18 +4106,25 @@ function decl(l) {
          b = ist();
 //         if (!b) {
          if (!b) {
-err();
 //             /* skip redundant ';' */
 //             /* XXX: find more elegant solution */
 //             if (tok == ';') {
+            if (tok === mk_char(';')) {
+err();
 //                 next();
 //                 continue;
 //             }
+            }
 //             /* special test for old K&R protos without explicit int
 //                type. Only accepted when defining global data */
 //             if (l == VT_LOCAL || tok < TOK_DEFINE)
+            if (l == VT_LOCAL || tok < TOK_DEFINE) {
 //                 break;
+                break;
+            }
 //             b = VT_INT;
+err();
+            b = VT_INT;
 //         }
          }
 //         if (((b & VT_BTYPE) == VT_ENUM ||
