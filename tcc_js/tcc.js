@@ -811,7 +811,6 @@ err();
         return sym_push1(local_stack, v, t, c);
 //     else
     } else {
-err();
 //         return sym_push1(&global_stack, v, t, c);
         return sym_push1(global_stack, v, t, c);
     }

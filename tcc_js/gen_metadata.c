@@ -39,12 +39,14 @@ int main(void){
   printf("var Sym_size=0x%x;\n",sizeof(Sym));
   printf("var IncludeFile_size=0x%x;\n",sizeof(IncludeFile));
   printf("var SValue_size=0x%x;\n",sizeof(SValue));
-  printf("var VT_BTYPE=0x%x;\n",sizeof(VT_BTYPE));
-  printf("var VT_ENUM=0x%x;\n",sizeof(VT_ENUM));
-  printf("var VT_STRUCT=0x%x;\n",sizeof(VT_STRUCT));
-  printf("var VT_VOID=0x%x;\n",sizeof(VT_VOID));
-  printf("var VT_TYPEDEF=0x%x;\n",sizeof(VT_TYPEDEF));
-  printf("var VT_STATIC=0x%x;\n",sizeof(VT_STATIC));
-  printf("var VT_EXTERN=0x%x;\n",sizeof(VT_EXTERN));
+  printf("var VT_BTYPE=0x%x;\n",VT_BTYPE);
+  printf("var VT_ENUM=0x%x;\n",VT_ENUM);
+  printf("var VT_STRUCT=0x%x;\n",VT_STRUCT);
+  printf("var VT_VOID=0x%x;\n",VT_VOID);
+  printf("var VT_TYPEDEF=0x%x;\n",VT_TYPEDEF);
+  printf("var VT_STATIC=0x%x;\n",VT_STATIC);
+  printf("var VT_EXTERN=0x%x;\n",VT_EXTERN);
+  printf("var VT_FUNC=0x%x;\n",VT_FUNC);
+  printf("var VT_STRUCT_SHIFT=0x%x;\n",VT_STRUCT_SHIFT);
   return 0;
 }
