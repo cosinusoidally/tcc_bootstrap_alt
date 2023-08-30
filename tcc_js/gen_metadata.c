@@ -43,5 +43,8 @@ int main(void){
   printf("var VT_ENUM=0x%x;\n",sizeof(VT_ENUM));
   printf("var VT_STRUCT=0x%x;\n",sizeof(VT_STRUCT));
   printf("var VT_VOID=0x%x;\n",sizeof(VT_VOID));
+  printf("var VT_TYPEDEF=0x%x;\n",sizeof(VT_TYPEDEF));
+  printf("var VT_STATIC=0x%x;\n",sizeof(VT_STATIC));
+  printf("var VT_EXTERN=0x%x;\n",sizeof(VT_EXTERN));
   return 0;
 }

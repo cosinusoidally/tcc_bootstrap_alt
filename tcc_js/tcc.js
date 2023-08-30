@@ -803,11 +803,20 @@ function sym_find(v) {
 // /* push a given symbol on the symbol stack */
 // Sym *sym_push(int v, int t, int c)
 // {
+function sym_push(v, t, c) {
 //     if (local_stack.top)
+    if (ri32(local_stack+SymStack_top_o)){
+err();
 //         return sym_push1(&local_stack, v, t, c);
+        return sym_push1(local_stack, v, t, c);
 //     else
+    } else {
+err();
 //         return sym_push1(&global_stack, v, t, c);
+        return sym_push1(global_stack, v, t, c);
+    }
 // }
+}
 // 
 // /* pop symbols until top reaches 'b' */
 // void sym_pop(SymStack *st, Sym *b)
@@ -2837,14 +2846,20 @@ err();
         }
 //         skip(')');
         skip(mk_char(')'));
-err();
 //         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
+        t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
 //         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
+        t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
 //         /* we push a anonymous symbol which will contain the function prototype */
 //         p = anon_sym++;
+        p = anon_sym++;
 //         s = sym_push(p, t, l);
+        s = sym_push(p, t, l);
 //         s->next = first;
+        wi32(s+Sym_next_o , ri32(first));
 //         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
+        t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
+err();
 //     } else if (tok == '[') {
     } else if (tok === mk_char('[')) {
 err();

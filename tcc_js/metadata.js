@@ -36,3 +36,6 @@ var VT_BTYPE=0x4;
 var VT_ENUM=0x4;
 var VT_STRUCT=0x4;
 var VT_VOID=0x4;
+var VT_TYPEDEF=0x4;
+var VT_STATIC=0x4;
+var VT_EXTERN=0x4;
