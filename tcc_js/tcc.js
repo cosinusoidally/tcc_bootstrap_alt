@@ -150,6 +150,8 @@ var ch1;
 var tok;
 var tok1;
 // CValue tokc, tok1c;
+var tokc=malloc(CValue_size);
+var tok1c=malloc(CValue_size);
 // 
 // /* loc : local variable index
 //    glo : global variable index
@@ -1324,18 +1326,33 @@ function define_symbol(sym) {
 // void parse_number(void)
 // {
 function parse_number() {
-err()
 //     int b, t, shift, frac_bits, s, exp_val;
+    var b;
+    var t;
+    var shift;
+    var frac_bits;
+    var s;
+    var exp_val;
 //     char *q;
+    var q;
 //     unsigned int n, n1;
+    var n;
+    var n1;
 // 
 //     /* number */
 //     q = token_buf;
+    q = token_buf;
 //     t = ch;
+    t = ch;
 //     cinp();
+    cinp();
 //     *q++ = t;
+    wi8(q++, t);
 //     b = 10;
+    b = 10;
 //     if (t == '.') {
+    if (t === mk_char('.')) {
+err()
 //         /* special dot handling */
 //         if (ch == '.') {
 //             cinp();
@@ -1349,6 +1366,8 @@ err()
 //         }
 //         return;
 //     } else if (t == '0') {
+    } else if (t === mk_char('0')) {
+err()
 //         if (ch == 'x' || ch == 'X') {
 //             q--;
 //             cinp();
@@ -1359,58 +1378,105 @@ err()
 //             b = 2;
 //         }
 //     }
+    }
 //     /* parse all digits. cannot check octal numbers at this stage
 //        because of floating point constants */
 //     while (1) {
+    while (1) {
 //         if (ch >= 'a' & ch <= 'f')
+        if (ch >= mk_char('a') & ch <= mk_char('f'))
 //             t = ch - 'a' + 10;
+            t = ch - mk_char('a') + 10;
 //         else if (ch >= 'A' & ch <= 'F')
+        else if (ch >= mk_char('A') & ch <= mk_char('F'))
 //             t = ch - 'A' + 10;
+            t = ch - mk_char('A') + 10;
 //         else if (isnum(ch))
+        else if (isnum(ch))
 //             t = ch - '0';
+            t = ch - mk_char('0');
 //         else
+        else
 //             break;
+            break;
 //         if (t >= b)
+        if (t >= b)
 //             break;
+            break;
 //         if (q >= token_buf + STRING_MAX_SIZE) {
+        if (q >= token_buf + STRING_MAX_SIZE) {
 //             error("number too long");
+            error("number too long");
 //         }
+        }
 //         *q++ = ch;
+        wi8(q++, ch);
 //         cinp();
+        cinp();
 //     }
+    }
 //     /* integer number */
 //     *q = '\0';
+    wi8(q, mk_char('\0'));
 //     q = token_buf;
+    q = token_buf;
 //     if (b == 10 && *q == '0') {
+    if (b === 10 && ri8(q) === mk_char('0')) {
+err()
 //         b = 8;
 //         q++;
 //     }
+    }
 //     n = 0;
+    n = 0;
 //     while(1) {
+    while(1) {
 //         t = *q++;
+        t = ri8(q++);
 //         /* no need for checks except for base 10 / 8 errors */
 //         if (t == '\0') {
+        if (t === mk_char('\0')) {
 //             break;
+            break;
 //         } else if (t >= 'a') {
+        } else if (t >= mk_char('a')) {
 //             t = t - 'a' + 10;
+            t = t - mk_char('a') + 10;
 //         } else if (t >= 'A') {
+        } else if (t >= mk_char('A')) {
 //             t = t - 'A' + 10;
+            t = t - mk_char('A') + 10;
 //         } else {
+        } else {
 //             t = t - '0';
+            t = t -  mk_char('0');
 //             if (t >= b)
+            if (t >= b)
 //                 error("invalid digit");
+                error("invalid digit");
 //         }
+        }
 //         n1 = n;
+        n1 = unsigned(n);
 //         n = n * b + t;
+        n = unsigned(n) * b + t;
 //         /* detect overflow */
+        /* detect overflow */
 //         if (n < n1)
+        if (n < n1)
 //             error("integer constant overflow");
+            error("integer constant overflow");
 //     }
+    }
 //     tokc.ui = n;
+    wi32(tokc, n);
 //     tok = TOK_NUM;
+    tok = TOK_NUM;
 //     /* XXX: add unsigned constant support (ANSI) */
 //     while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
+    while (ch === mk_char('L') || ch === mk_char('l') || ch === mk_char('U') || ch === mk_char('u'))
 //         cinp();
+        cinp();
 // }
 }
 // 
