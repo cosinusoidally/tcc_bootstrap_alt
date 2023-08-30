@@ -4141,13 +4141,19 @@ print("funcname: "+mk_js_string(funcname));
                 addr = 8;
 //                 /* if the function returns a structure, then add an
 //                    implicit pointer parameter */
-err();
 //                 func_vt = sym->t;
+                func_vt = ri32(sym+Sym_t_o);
+print("func_vt: "+func_vt);
 //                 if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+                if ((func_vt & VT_BTYPE) === VT_STRUCT) {
+err();
 //                     func_vc = addr;
 //                     addr += 4;
 //                 }
+                }
 //                 while (sym = sym->next) {
+                while (sym = ri32(sym+Sym_next_o)) {
+err();
 //                     u = sym->t;
 //                     sym_push(sym->v & ~SYM_FIELD, 
 //                              u | VT_LOCAL | VT_LVAL, 
@@ -4156,8 +4162,12 @@ err();
 //                     size = (size + 3) & ~3;
 //                     addr += size;
 //                 }
+                }
 //                 loc = 0;
+                loc = 0;
 //                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+                o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+err();
 //                 a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
 //                 rsym = 0;
 //                 block(NULL, NULL, NULL, NULL, 0);
