@@ -2045,24 +2045,44 @@ print("t: "+t+" v: "+v);
 // /* find a free register of class 'rc'. If none, save one register */
 // int get_reg(int rc)
 // {
+function get_reg(rc) {
+    enter();
 //     int r, i;
+    var r;
+    var i;
 //     int notfound;
+    var notfound;
 //     SValue *p;
+    var p=alloca(SValue_size);
 // 
 //     /* find a free register */
 //     for(r=0;r<NB_REGS;r++) {
+    for(r=0;r<NB_REGS;r++) {
 //         notfound=0;
+        notfound=0;
 //         if (reg_classes[r] & rc) {
+        if (ri32(reg_classes+(4*r)) & rc) {
 //             for(p=vstack;p<=vtop;p++) {
-//                 i = p->t & VT_VALMASK;
+            for(p=vstack;p<=vtop;p++) {
+//                i = p->t & VT_VALMASK;
+                i = ri32(p+SValue_t_o) & VT_VALMASK;
 //                 if (i == r)
+                if (i == r)
 //                     notfound=1;
+                    notfound=1;
 //             }
+            }
 //             if(!notfound){
+            if(!notfound){
 //             return r;
+            return leave(r);
 //             }
+            }
 //         }
+        }
 //     }
+    }
+err();
 //     
 //     /* no register left : free the first one on the stack (very
 //        important to start from the bottom to ensure that we don't
@@ -2076,6 +2096,8 @@ print("t: "+t+" v: "+v);
 //     }
 //     return r;
 // }
+    return leave(r);
+}
 // 
 // void save_regs()
 // {

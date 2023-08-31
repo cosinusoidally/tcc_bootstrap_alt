@@ -21,6 +21,7 @@ print("i386-gen.js loading");
 // 
 // /* number of available registers */
 // #define NB_REGS             3
+var NB_REGS = 3;
 // 
 // /* a register can belong to several classes */
 // #define REG_CLASS_INT    0x0001
@@ -38,6 +39,10 @@ var REG_CLASS_INT = 0x0001;
 //     REG_CLASS_INT,    /* ecx */
 //     REG_CLASS_INT,    /* edx */
 // };
+var reg_classes=malloc(4*3);
+wi32(reg_classes,REG_CLASS_INT);
+wi32(reg_classes+4,REG_CLASS_INT);
+wi32(reg_classes+4,REG_CLASS_INT);
 // 
 // /* integer return register for functions */
 // #define FUNC_RET_REG        0 
