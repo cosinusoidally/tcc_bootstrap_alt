@@ -75,7 +75,9 @@ var TokenSym_str_o=12;
 // /* value on stack */
 // typedef struct SValue {
 //     int t;
+var SValue_t_o=0;
 //     CValue c;
+var SValue_c_o=4;
 // } SValue;
 // 
 // /* symbol management */
@@ -227,6 +229,7 @@ var nb_include_paths=0;
 // 
 // /* The current value can be: */
 // #define VT_VALMASK 0x000f
+var VT_VALMASK = 0x000f;
 // #define VT_CONST   0x000a  /* constant in vc 
 var VT_CONST = 0x000a;
 //                               (must be first non register value) */
@@ -236,6 +239,7 @@ var VT_CONST = 0x000a;
 // #define VT_JMP     0x000e  /* value is the consequence of jmp true */
 // #define VT_JMPI    0x000f  /* value is the consequence of jmp false */
 // #define VT_LVAL    0x0010  /* var is an lvalue */
+var VT_LVAL = 0x0010;
 // #define VT_LVALN   -17         /* ~VT_LVAL */
 // #define VT_FORWARD 0x0020  /* value is forward reference 
 //                               (only used for functions) */
@@ -2086,18 +2090,34 @@ err();
 //    (such as structures). */
 // int gv(void)
 // {
+function gv() {
 //     int r, bit_pos, bit_size, rc, size, align, i;
+    var r;
+    var bit_pos;
+    var bit_size;
+    var rc;
+    var size;
+    var align;
+    var i;
 // 
 //     /* NOTE: get_reg can modify vstack[] */
 //     r = vtop->t & VT_VALMASK;
+    r = ri32(vtop+SValue_t_o) & VT_VALMASK;
 //     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
+    if (r >= VT_CONST || (ri32(vtop+SValue_t_o) & VT_LVAL)) {
+err();
 //         rc = REG_CLASS_INT;
 //         r = get_reg(rc);
 //     }
+    }
 //     load(r, vtop->t, vtop->c.ul);
+    _load(r, ri32(vtop+SValue_t_o), unsigned(ri32(vtop+SValue_c_o)));
+err();
 //     vtop->t = (vtop->t & VT_TYPE) | r;
 //     return r;
+    return r;
 // }
+}
 // 
 // /* handle constant optimizations and various machine independant opt */
 // void gen_opc(int op)
@@ -3420,6 +3440,7 @@ function sum(l) {
 //     else {
     } else {
 //         sum(--l);
+        sum(--l);
 //         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
         while ((l == 0 & (tok == mk_char('*') | tok == mk_char('/') | tok == mk_char('%'))) |
 //                (l == 1 & (tok == '+' | tok == '-')) |

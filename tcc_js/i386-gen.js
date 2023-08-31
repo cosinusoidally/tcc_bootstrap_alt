@@ -259,6 +259,10 @@ function oad(c, s) {
 // /* r = (ft, fc) */
 // void load(int r, int ft, int fc)
 // {
+// ljw have to call it _load as load is already a spidermonky function
+function _load(r, ft, fc) {
+print("load: r: "+r+" ft: "+ft+" fc: "+fc);
+err();
 //     int v, t;
 // 
 //     v = ft & VT_VALMASK;
@@ -314,6 +318,7 @@ function oad(c, s) {
 //         }
 //     }
 // }
+}
 // 
 // /* (ft, fc) = r */
 // /* WARNING: r must not be allocated on the stack */
