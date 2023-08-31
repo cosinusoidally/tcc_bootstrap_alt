@@ -268,11 +268,15 @@ function oad(c, s) {
 // ljw have to call it _load as load is already a spidermonky function
 function _load(r, ft, fc) {
 print("load: r: "+r+" ft: "+ft+" fc: "+fc);
-err();
 //     int v, t;
+    var v;
+    var t;
 // 
 //     v = ft & VT_VALMASK;
+    v = ft & VT_VALMASK;
 //     if (ft & VT_LVAL) {
+    if (ft & VT_LVAL) {
+err();
 //         if (v == VT_LLOCAL) {
 //             load(r, VT_LOCAL | VT_LVAL, fc);
 //             v = r;
@@ -294,36 +298,55 @@ err();
 // lt=1;
 //             gen_addr32(fc, ft);
 //         } else if (v == VT_LOCAL) {
+err();
 //             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
 //         } else {
+err();
 //             g(0x00 + r * 8 + v); /* (v), r */
 //         }
 //     } else {
+    } else {
 //         if (v == VT_CONST) {
+        if (v == VT_CONST) {
 //             o(0xb8 + r); /* mov $xx, r */
+            o(0xb8 + r); /* mov $xx, r */
 // printf("\n load2 %x\n",ind);
+print("\n load2 "+to_hex(ind));
 // lt=2;
+lt=2;
 //             gen_addr32(fc, ft);
+            gen_addr32(fc, ft);
 //         } else if (v == VT_LOCAL) {
+        } else if (v == VT_LOCAL) {
+err();
 //             o(0x8d);
 //             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
 //         } else if (v == VT_CMP) {
+        } else if (v == VT_CMP) {
+err();
 //             oad(0xb8 + r, 0); /* mov $0, r */
 //             o(0x0f); /* setxx %br */
 //             o(fc);
 //             o(0xc0 + r);
 //         } else if (v == VT_JMP || v == VT_JMPI) {
+        } else if (v == VT_JMP || v == VT_JMPI) {
+err();
 //             t = v & 1;
 //             oad(0xb8 + r, t); /* mov $1, r */
 //             oad(0xe9, 5); /* jmp after */
 //             gsym(fc);
 //             oad(0xb8 + r, t ^ 1); /* mov $0, r */
 //         } else if (v != r) {
+        } else if (v != r) {
+err();
 //             o(0x89);
 //             o(0xc0 + r + v * 8); /* mov v, r */
 //         }
+        }
 //     }
+    }
 // }
+err();
 }
 // 
 // /* (ft, fc) = r */
