@@ -62,6 +62,9 @@ int main(void){
   printf("var TOK_NE=0x%x;\n",TOK_NE);
   printf("var TOK_LAND=0x%x;\n",TOK_LAND);
   printf("var TOK_LOR=0x%x;\n",TOK_LOR);
+  printf("var TOK_INC=0x%x;\n",TOK_INC);
+  printf("var TOK_DEC=0x%x;\n",TOK_DEC);
+  printf("var TOK_ARROW=0x%x;\n",TOK_ARROW);
   printf("var VT_INT=0x%x;\n",VT_INT);
   printf("var VT_CMP=0x%x;\n",VT_CMP);
   return 0;

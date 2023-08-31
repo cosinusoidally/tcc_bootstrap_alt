@@ -1963,8 +1963,8 @@ err();
 //     vtop->t = t;
     wi32(vtop+SValue_t_o,t);
 //     vtop->c = *vc;
-err();
 //    vtop->c = *vc;
+   memcpy(vtop+SValue_c_o, vc,CValue_size);
 // }
 }
 // 
@@ -1977,7 +1977,7 @@ print("t: "+t+" v: "+v);
     var cval=malloc(CValue_size);
 // 
 //     cval.i = v;
-    ri32(cval, v);
+    wi32(cval, v);
 //     vsetc(t, &cval);
     vsetc(t, cval);
     leave();
@@ -3295,12 +3295,16 @@ err();
     }
 //     
 //     /* post operations */
-err();
 //     while (1) {
+    while (1) {
 //         if (tok == TOK_INC | tok == TOK_DEC) {
+        if (tok == TOK_INC | tok == TOK_DEC) {
+err();
 //             inc(1, tok);
 //             next();
 //         } else if (tok == '.' | tok == TOK_ARROW) {
+        } else if (tok == mk_char('.') | tok == TOK_ARROW) {
+err();
 //             /* field */ 
 //             if (tok == TOK_ARROW) 
 //                 indir();
@@ -3330,12 +3334,16 @@ err();
 //                 vtop->t |= VT_LVAL;
 //             next();
 //         } else if (tok == '[') {
+        } else if (tok == mk_char('[')) {
+err();
 //             next();
 //             gexpr();
 //             gen_op('+');
 //             indir();
 //             skip(']');
 //         } else if (tok == '(') {
+        } else if (tok == mk_char('(')) {
+err();
 //             int rett;
 //             CValue retc;
 //             Sym *sa;
@@ -3432,9 +3440,13 @@ err();
 //             /* return value */
 //             vsetc(rett, &retc);
 //         } else {
+        } else {
 //             break;
+            break;
 //         }
+        }
 //     }
+    }
 // }
     leave();
 }
