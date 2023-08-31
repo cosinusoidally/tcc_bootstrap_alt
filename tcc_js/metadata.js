@@ -55,3 +55,4 @@ var TOK_EQ=0x94;
 var TOK_NE=0x95;
 var TOK_LAND=0xa0;
 var TOK_LOR=0xa1;
+var VT_INT=0x0;

@@ -1945,6 +1945,8 @@ err();
 // 
 // void vsetc(int t, CValue *vc)
 // {
+function vsetc(t, vc) {
+err();
 //     if (vtop >= vstack + VSTACK_SIZE)
 //         error("memory full");
 //     /* cannot let cpu flags if other instruction are generated */
@@ -1955,14 +1957,19 @@ err();
 //     vtop->t = t;
 //     vtop->c = *vc;
 // }
+}
 // 
 // void vset(int t, int v)
 // {
+function vset(t, v) {
+print("t: "+t+" v: "+v);
+err();
 //     CValue cval;
 // 
 //     cval.i = v;
 //     vsetc(t, &cval);
 // }
+}
 // 
 // void vswap(void)
 // {
@@ -3132,16 +3139,20 @@ err();
 // void unary(void)
 // {
 function unary() {
-err();
     enter();
 //     int n, t, ft, fc, p, align, size;
 //     Sym *s;
 //     GFuncContext gf;
 // 
 //     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
+    if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
 //         vset(VT_CONST | VT_INT, tokc.i);
+        vset(VT_CONST | VT_INT, ri32(tokc));
 //         next();
+        next();
 //     } else if (tok == TOK___FUNC__) {
+    } else if (tok == TOK___FUNC__) {
+err();
 //         /* special function name identifier */
 //         /* generate (char *) type */
 //         vset(VT_CONST | mk_pointer(VT_BYTE), glo);
@@ -3149,6 +3160,8 @@ err();
 //         glo += strlen(funcname) + 1;
 //         next();
 //     } else if (tok == TOK_STR) {
+    } else if (tok == TOK_STR) {
+err();
 //         /* string parsing */
 //         t = VT_BYTE;
 //         type_size(t, &align);
@@ -3161,6 +3174,8 @@ err();
 //         /* put it as pointer */
 //         vset(t & ~VT_ARRAY, fc);
 //     } else {
+    } else {
+err();
 //         t = tok;
 //         next();
 //         if (t == '(') {
@@ -3264,8 +3279,10 @@ err();
 //                 vtop->c.sym = s;
 //         }
 //     }
+    }
 //     
 //     /* post operations */
+err();
 //     while (1) {
 //         if (tok == TOK_INC | tok == TOK_DEC) {
 //             inc(1, tok);
