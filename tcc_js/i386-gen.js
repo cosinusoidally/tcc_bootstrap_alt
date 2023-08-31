@@ -24,6 +24,7 @@ print("i386-gen.js loading");
 // 
 // /* a register can belong to several classes */
 // #define REG_CLASS_INT    0x0001
+var REG_CLASS_INT = 0x0001;
 // 
 // /* pretty names for the registers */
 // enum {

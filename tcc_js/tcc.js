@@ -2125,9 +2125,10 @@ function gv() {
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
 //     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
     if (r >= VT_CONST || (ri32(vtop+SValue_t_o) & VT_LVAL)) {
-err();
 //         rc = REG_CLASS_INT;
+        rc = REG_CLASS_INT;
 //         r = get_reg(rc);
+        r = get_reg(rc);
 //     }
     }
 //     load(r, vtop->t, vtop->c.ul);
@@ -3459,11 +3460,14 @@ function uneq() {
 //     
 //     unary();
     unary();
-err();
 //     if (tok == '=' ||
 //         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
 //         tok == TOK_A_XOR || tok == TOK_A_OR ||
 //         tok == TOK_A_SHL || tok == TOK_A_SAR) {
+    if (tok == '=' ||
+        (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
+        tok == TOK_A_XOR || tok == TOK_A_OR ||
+        tok == TOK_A_SHL || tok == TOK_A_SAR) {
 err();
 //         test_lvalue();
 //         t = tok;
@@ -3479,7 +3483,7 @@ err();
 //         }
 //         vstore();
 //     }
-err();
+    }
 // }
 }
 // 
