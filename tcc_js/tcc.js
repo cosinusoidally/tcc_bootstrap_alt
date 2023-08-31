@@ -3131,6 +3131,9 @@ err();
 // 
 // void unary(void)
 // {
+function unary() {
+err();
+    enter();
 //     int n, t, ft, fc, p, align, size;
 //     Sym *s;
 //     GFuncContext gf;
@@ -3403,29 +3406,40 @@ err();
 //         }
 //     }
 // }
+    leave();
+}
 // 
 // void uneq(void)
 // {
+function uneq() {
 //     int t;
+    var t;
 //     
 //     unary();
+    unary();
+err();
 //     if (tok == '=' ||
 //         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
 //         tok == TOK_A_XOR || tok == TOK_A_OR ||
 //         tok == TOK_A_SHL || tok == TOK_A_SAR) {
+err();
 //         test_lvalue();
 //         t = tok;
 //         next();
 //         if (t == '=') {
+err();
 //             expr_eq();
 //         } else {
+err();
 //             vdup();
 //             expr_eq();
 //             gen_op(t & 0x7f);
 //         }
 //         vstore();
 //     }
+err();
 // }
+}
 // 
 // void sum(int l)
 // {
