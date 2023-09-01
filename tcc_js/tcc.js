@@ -4676,18 +4676,23 @@ function tcc_compile_file(filename1) {
     next();
 //     decl(VT_CONST);
     decl(VT_CONST);
-err();
 //     if (tok != -1)
+    if (tok != -1)
 //         expect("declaration");
+        expect("declaration");
 //     fclose(file);
+    fclose(file);
 // 
 //     /* reset define stack, but leave -Dsymbols (may be incorrect if
 //        they are undefined) */
 //     sym_pop(&define_stack, define_start); 
+    sym_pop(define_stack, define_start);
 //     
 //     resolve_global_syms();
+    resolve_global_syms();
 //     
 //     sym_pop(&global_stack, NULL);
+    sym_pop(global_stack, NULL);
 //     
 //     return 0;
     return leave(0);
