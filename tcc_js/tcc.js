@@ -792,6 +792,7 @@ err();
 // Sym *sym_push1(SymStack *st, int v, int t, int c)
 // {
 function sym_push1(st, v, t, c) {
+print("v: "+v+" t: "+t+" c: "+c);
     enter();
 //     Sym *s, **ps;
     var s;
@@ -4605,7 +4606,7 @@ function resolve_global_syms() {
     var p;
 // 
 //     s = global_stack.top;
-    s = global_stack.top;
+    s = ri32(global_stack+SymStack_top_o);
 //     while (s != NULL) {
     while (s !== NULL) {
 //         s1 = s->prev;
@@ -4624,6 +4625,7 @@ function resolve_global_syms() {
 //                 /* if the symbol do not exist, we simply save it */
 //                 sym_push1(&extern_stack, s->v, s->t, s->c);
                 sym_push1(extern_stack, ri32(s+Sym_v_o), ri32(s+Sym_t_o), ri32(s+Sym_c_o));
+err();
 //             } else if (ext_sym->t & VT_FORWARD) {
             } else if (ri32(ext_sym+Sym_t_o) & VT_FORWARD) {
 err();
@@ -4745,9 +4747,11 @@ reloc_global=1;
     s = ri32(extern_stack+SymStack_top_o);
 //     while (s != NULL) {
     while (s != NULL) {
-err();
 //         s1 = s->prev;
+        s1 = ri32(s+Sym_prev_o);
 //         if (s->t & VT_FORWARD) {
+        if (ri32(s+Sym_t_o) & VT_FORWARD) {
+err();
 //             /* if there is at least one relocation to do, then find it
 //                and patch it */
 //             if (s->c) {
@@ -4765,7 +4769,9 @@ err();
 // }
 //             }
 //         }
+        }
 //         s = s1;
+        s = s1;
 //     }
     }
 // reloc_global=0;

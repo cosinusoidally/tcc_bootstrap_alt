@@ -77,5 +77,6 @@ int main(void){
   printf("var VT_TYPE=0x%x;\n",VT_TYPE);
   printf("var SYM_FIELD=0x%x;\n",SYM_FIELD);
   printf("var SYM_STRUCT=0x%x;\n",SYM_STRUCT);
+  printf("var TOK_MAIN=0x%x;\n",TOK_MAIN);
   return 0;
 }
