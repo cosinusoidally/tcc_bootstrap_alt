@@ -479,8 +479,11 @@ err();
 // 
 // int gjmp(int t)
 // {
+function gjmp(t) {
 //     return psym(0xe9, t);
+    return oad(0xe9, t);
 // }
+}
 // 
 // /* generate a test. set 'inv' to invert test. Stack entry is popped */
 // int gtst(int inv, int t)
@@ -596,8 +599,11 @@ err();
 // /* pop stack value */
 // void vpop(void)
 // {
+function vpop() {
 //     vtop--;
+    vtop=vtop-SValue_size;
 // }
+}
 // 
 // 
 // 

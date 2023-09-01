@@ -3826,12 +3826,12 @@ err();
                 block(bsym, csym, case_sym, def_sym, case_reg);
             }
 //         }
-err();
         }
-err();
 //         /* pop locally defined symbols */
 //         sym_pop(&local_stack, s);
+        sym_pop(local_stack, s);
 //         next();
+        next();
 //     } else if (tok == TOK_RETURN) {
     } else if (tok == TOK_RETURN) {
 //         next();
@@ -3859,6 +3859,7 @@ err();
 //             }
             }
 //             vpop();
+            vpop();
 //         }
         }
 //         skip(';');
