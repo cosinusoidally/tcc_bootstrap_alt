@@ -884,6 +884,9 @@ err();
 // /* no need to put that inline */
 // int handle_eof(void)
 // {
+function handle_eof() {
+return -1;
+err();
 //     if (include_stack_ptr == include_stack)
 //         return -1;
 //     /* pop include stack */
@@ -895,6 +898,7 @@ err();
 //     line_num = include_stack_ptr->line_num;
 //     return 0;
 // }
+}
 // 
 // /* read next char from current input file */
 // static inline void inp(void)
@@ -2155,8 +2159,8 @@ function gv() {
     }
 //     load(r, vtop->t, vtop->c.ul);
     _load(r, ri32(vtop+SValue_t_o), unsigned(ri32(vtop+SValue_c_o)));
-err();
 //     vtop->t = (vtop->t & VT_TYPE) | r;
+    wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
 //     return r;
     return r;
 // }
@@ -3855,9 +3859,10 @@ err();
 //             vpop();
 //         }
         }
-err();
 //         skip(';');
+        skip(mk_char(';'));
 //         rsym = gjmp(rsym); /* jmp */
+        rsym = gjmp(rsym);
 //     } else if (tok == TOK_BREAK) {
     } else if (tok == TOK_BREAK) {
 err();

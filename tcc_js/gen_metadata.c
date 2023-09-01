@@ -73,5 +73,6 @@ int main(void){
   printf("var VT_INT=0x%x;\n",VT_INT);
   printf("var VT_CMP=0x%x;\n",VT_CMP);
   printf("var VT_FORWARD=0x%x;\n",VT_FORWARD);
+  printf("var VT_TYPE=0x%x;\n",VT_TYPE);
   return 0;
 }
