@@ -766,18 +766,20 @@ function HASH_SYM(v) {
 // Sym *sym_find1(SymStack *st, int v)
 // {
 function sym_find1(st, v) {
+print("sym_find1: "+v);
 //     Sym *s;
     var s;
 // 
 //     s = st->hash[HASH_SYM(v)];
-    s = ri32(st+SymStack_hash_o+(4*HASH_SYM(v)));
+var h=HASH_SYM(v);
+print("sym_find1 hash: "+h);
+    s = ri32(st+SymStack_hash_o+(4*h));
 //     while (s) {
 print("s: "+s);
      while (s) {
 //         if (s->v == v)
          if (ri32(s+Sym_v_o) === v) {
 //             return s;
-err();
              return s;
          }
 //         s = s->hash_next;
@@ -803,7 +805,7 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //     if (v) {
     if (v) {
 //         ps = &st->hash[HASH_SYM(v)];
-        wi32(ps, st+SymStack_hash_o+4*(HASH_SYM(v)));
+        ps = st+SymStack_hash_o+4*(HASH_SYM(v));
 //         s->hash_next = *ps;
         wi32(s+Sym_hash_next_o, ps);
 //         *ps = s;
@@ -4798,6 +4800,8 @@ reloc_global=0;
 //   *(int *)o=v;
 // }
 // void gen_obj(int e){
+function gen_obj(e){
+err()
 //   printf("Generating object file\n");
 //   FILE *f;
 //   int text_len=ind-prog;
@@ -4849,6 +4853,7 @@ reloc_global=0;
 //   fwrite((void *)prog_rel,1,text_len,f);
 //   fclose(f);
 // }
+}
 // 
 // int prog_rel;
 // int data_rel;
@@ -5157,11 +5162,15 @@ relocs_base=relocs;
 //         error("main() not defined");
         error("main() not defined");
 // 
-err();
+print("main: "+to_hex(ri32(s+Sym_c_o)));
 // if(reloc){
+if(reloc){
 //   gen_obj(s->c);
+  gen_obj(ri32(s+Sym_c_o));
 // }
+}
 // 
+// ljw don't need this bit as we don't call the code
 //     t = (int (*)())s->c;
 //     return (*t)(argc - optind, argv + optind);
 // }
