@@ -851,20 +851,35 @@ err();
 // /* pop symbols until top reaches 'b' */
 // void sym_pop(SymStack *st, Sym *b)
 // {
+function sym_pop(st, b) {
 //     Sym *s, *ss;
+    var s;
+    var ss;
 // 
 //     s = st->top;
+    s = ri32(st+SymStack_top_o);
 //     while(s != b) {
+    while(s !== b) {
+err();
 //         ss = s->prev;
+        ss = ri32(s+Sym_prev_o);
 //         /* free hash table entry, except if symbol was freed (only
 //            used for #undef symbols) */
 //         if (s->v)
+        if (ri32(s+Sym_v_o)){
 //             st->hash[HASH_SYM(s->v)] = s->hash_next;
+            wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
+        }
 //         free(s);
+        free(s);
 //         s = ss;
+        s = ss;
 //     }
+    }
 //     st->top = b;
+    wi32(st+SymStack_top_o, b);
 // }
+}
 // 
 // /* undefined a hashed symbol (used for #undef). Its name is set to
 //    zero */
