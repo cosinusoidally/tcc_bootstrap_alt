@@ -70,6 +70,7 @@ int main(void){
   printf("var TOK_A_OR=0x%x;\n",TOK_A_OR);
   printf("var TOK_A_SHL=0x%x;\n",TOK_A_SHL);
   printf("var TOK_A_SAR=0x%x;\n",TOK_A_SAR);
+  printf("var TOK_DEFINE=0x%x;\n",TOK_DEFINE);
   printf("var VT_INT=0x%x;\n",VT_INT);
   printf("var VT_CMP=0x%x;\n",VT_CMP);
   printf("var VT_FORWARD=0x%x;\n",VT_FORWARD);

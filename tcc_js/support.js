@@ -272,3 +272,7 @@ function memcmp(s1,s2,n){
   }
   return r;
 }
+
+function free(x){
+  return 0;
+}

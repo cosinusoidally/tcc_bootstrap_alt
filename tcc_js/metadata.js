@@ -63,6 +63,7 @@ var TOK_A_XOR=0xde;
 var TOK_A_OR=0xfc;
 var TOK_A_SHL=0x81;
 var TOK_A_SAR=0x82;
+var TOK_DEFINE=0x123;
 var VT_INT=0x0;
 var VT_CMP=0xd;
 var VT_FORWARD=0x20;

@@ -860,7 +860,6 @@ function sym_pop(st, b) {
     s = ri32(st+SymStack_top_o);
 //     while(s != b) {
     while(s !== b) {
-err();
 //         ss = s->prev;
         ss = ri32(s+Sym_prev_o);
 //         /* free hash table entry, except if symbol was freed (only

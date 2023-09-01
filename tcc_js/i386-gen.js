@@ -204,18 +204,30 @@ function gen_le32(c) {
 // /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
 // {
+function gsym_addr(t, a) {
+//print("t: "+to_hex(t)+" a: "+to_hex(a));
 //     int n;
+    var n;
 //     while (t) {
+    while (t) {
 //         n = *(int *)t; /* next value */
+        n = ri32(t);
 //         *(int *)t = a - t - 4;
+        wi32(t,a - t - 4);
 //         t = n;
+        t = n;
 //     }
+    }
 // }
+}
 // 
 // void gsym(t)
 // {
+function gsym(t) {
 //     gsym_addr(t, ind);
+    gsym_addr(t, ind);
 // }
+}
 // 
 // /* psym is used to put an instruction with a data field which is a
 //    reference to a symbol. It is in fact the same as oad ! */
