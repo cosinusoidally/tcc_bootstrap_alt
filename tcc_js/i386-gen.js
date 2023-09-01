@@ -83,11 +83,17 @@ function o(c) {
 // 
 // void gen_le32(int c)
 // {
+function gen_le32(c) {
 //     g(c);
+    g(c);
 //     g(c >> 8);
+    g(c >> 8);
 //     g(c >> 16);
+    g(c >> 16);
 //     g(c >> 24);
+    g(c >> 24);
 // }
+}
 // 
 // /* add a new relocation entry to symbol 's' */
 // void greloc(Sym *s, int addr, int type)
@@ -278,7 +284,6 @@ err();
 //     }
     }
 // }
-err();
 }
 // 
 // /* XXX: generate correct pointer for forward references to functions */
