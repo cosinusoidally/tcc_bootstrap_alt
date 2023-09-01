@@ -4510,16 +4510,23 @@ err();
                 rsym = 0;
 //                 block(NULL, NULL, NULL, NULL, 0);
                 block(NULL, NULL, NULL, NULL, 0);
-err();
 //                 gsym(rsym);
+                gsym(rsym);
 //                 o(0xc3c9); /* leave, ret */
+                o(0xc3c9); /* leave, ret */
 //                 *a = (-loc + 3) & -4; /* align local size to word & 
 //                                          save local variables */
+                wi32(a, (-loc + 3) & -4);
+// FIXME ljw not needed
 //                 sym_pop(&label_stack, NULL); /* reset label stack */
 //                 sym_pop(&local_stack, NULL); /* reset local stack */
+                sym_pop(local_stack, NULL);
 //                 funcname = ""; /* for safety */
+                funcname = mk_c_string("");
 //                 func_vt = VT_VOID; /* for safety */
+                func_vt = VT_VOID;
 //                 break;
+                break;
 //             } else {
             } else {
 err();
