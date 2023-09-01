@@ -4727,14 +4727,25 @@ function tcc_compile_file(filename1) {
 // 
 // void resolve_extern_syms(void)
 // {
+function resolve_extern_syms() {
+    enter();
 // // HACK RELOC
 // reloc_global=1;
+reloc_global=1;
 //     Sym *s, *s1;
+    var s;
+    var s1;
 //     char *str;
+    var str=alloca(4);
 //     int addr;
+    var addr;
 // int count;
+    var count;
 //     s = extern_stack.top;
+    s = ri32(extern_stack+SymStack_top_o);
 //     while (s != NULL) {
+    while (s != NULL) {
+err();
 //         s1 = s->prev;
 //         if (s->t & VT_FORWARD) {
 //             /* if there is at least one relocation to do, then find it
@@ -4756,8 +4767,12 @@ function tcc_compile_file(filename1) {
 //         }
 //         s = s1;
 //     }
+    }
 // reloc_global=0;
+reloc_global=0;
+    leave();
 // }
+}
 // 
 // int show_help(void)
 // {
