@@ -65,3 +65,4 @@ var TOK_A_SHL=0x81;
 var TOK_A_SAR=0x82;
 var VT_INT=0x0;
 var VT_CMP=0xd;
+var VT_FORWARD=0x20;

@@ -237,29 +237,49 @@ function oad(c, s) {
 // /* output constant with relocation if 't & VT_FORWARD' is true */
 // void gen_addr32(int c, int t)
 // {
+function gen_addr32(c, t) {
 //     if (!(t & VT_FORWARD)) {
+    if (!(t & VT_FORWARD)) {
 // 
 // // RELOC HACK
 // if(reloc){
+if(reloc){
 // //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
 //   if((t==VT_CONST) || (t==138)){
+  if((t==VT_CONST) || (t==138)){
 //     printf("\nreloc2: integer constant or enum");
+    print("\nreloc2: integer constant or enum");
 //     printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
+    print("\nreloc3: at: "+to_hex(ind)+" to: "+to_hex(c));
 //   } else {
+  } else {
+err();
 //     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
 // if(reloc_global){
+if(reloc_global){
+err();
 // printf("relocs error\n");
 //   exit(1);
 // }
+}
 //     mk_reloc(ind,c);
+    mk_reloc(ind,c);
 //   }
+  }
 // }
+}
 //         gen_le32(c);
+        gen_le32(c);
 //     } else {
+    } else {
+err();
 //         greloc((Sym *)c, ind, RELOC_ADDR32);
 //         gen_le32(0);
 //     }
+    }
 // }
+err();
+}
 // 
 // /* XXX: generate correct pointer for forward references to functions */
 // /* r = (ft, fc) */
