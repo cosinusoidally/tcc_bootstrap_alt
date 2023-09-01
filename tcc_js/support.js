@@ -253,6 +253,11 @@ function fopen(f,mode){
   return file_num++;
 }
 
+function fclose(f){
+// FIXME ljw non-stub impl
+  return 0;
+}
+
 function getc_unlocked(file){
 // FIXME hack hack
   if(fbuf.length===0){
