@@ -68,3 +68,5 @@ var VT_INT=0x0;
 var VT_CMP=0xd;
 var VT_FORWARD=0x20;
 var VT_TYPE=0xfffffe00;
+var SYM_FIELD=0x20000000;
+var SYM_STRUCT=0x40000000;

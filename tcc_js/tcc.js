@@ -4594,21 +4594,36 @@ err();
 //    extern_stack too */
 // void resolve_global_syms(void)
 // {
+function resolve_global_syms() {
+    enter();
 //     Sym *s, *s1, *ext_sym;
+    var s;
+    var s1;
+    var ext_sym;
 //     Reloc **p;
+    var p;
 // 
 //     s = global_stack.top;
+    s = global_stack.top;
 //     while (s != NULL) {
+    while (s !== NULL) {
 //         s1 = s->prev;
+        s1 = ri32(s+Sym_prev_o);
 //         /* do not save static or typedefed symbols or types */
 //         if (!(s->t & (VT_STATIC | VT_TYPEDEF)) && 
 //             !(s->v & (SYM_FIELD | SYM_STRUCT)) &&
 //             (s->v < SYM_FIRST_ANOM)) {
+        if (!(ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) &&
+            !(ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) &&
+            (ri32(s+Sym_v_o) < SYM_FIRST_ANOM)) {
+err();
 //             ext_sym = sym_find1(&extern_stack, s->v);
 //             if (!ext_sym) {
+err();
 //                 /* if the symbol do not exist, we simply save it */
 //                 sym_push1(&extern_stack, s->v, s->t, s->c);
 //             } else if (ext_sym->t & VT_FORWARD) {
+err();
 //                 /* external symbol already exists, but only as forward
 //                    definition */
 //                 if (!(s->t & VT_FORWARD)) {
@@ -4622,6 +4637,7 @@ err();
 //                     *p = (Reloc *)s->c;
 //                 }
 //             } else {
+err();
 //                 /* external symbol already exists and is defined :
 //                    patch all references to it */
 //                 if (!(s->t & VT_FORWARD))
@@ -4629,9 +4645,14 @@ err();
 //                 greloc_patch(s, ext_sym->c);
 //             }
 //         } 
+        }
 //         s = s1;
+        s = s1;
 //     }
+    }
+    leave();
 // }
+}
 // 
 // /* compile a C file. Return non zero if errors. */
 // int tcc_compile_file(const char *filename1)

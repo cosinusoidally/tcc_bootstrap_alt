@@ -75,5 +75,7 @@ int main(void){
   printf("var VT_CMP=0x%x;\n",VT_CMP);
   printf("var VT_FORWARD=0x%x;\n",VT_FORWARD);
   printf("var VT_TYPE=0x%x;\n",VT_TYPE);
+  printf("var SYM_FIELD=0x%x;\n",SYM_FIELD);
+  printf("var SYM_STRUCT=0x%x;\n",SYM_STRUCT);
   return 0;
 }
