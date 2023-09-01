@@ -193,6 +193,7 @@ var funcname;
 var define_stack=malloc(SymStack_size);
 var local_stack=malloc(SymStack_size);
 var global_stack=malloc(SymStack_size);
+var extern_stack=malloc(SymStack_size);
 // 
 // SValue vstack[VSTACK_SIZE], *vtop;
 var vstack=malloc(SValue_size*VSTACK_SIZE);
@@ -4616,13 +4617,15 @@ function resolve_global_syms() {
         if (!(ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) &&
             !(ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) &&
             (ri32(s+Sym_v_o) < SYM_FIRST_ANOM)) {
-err();
 //             ext_sym = sym_find1(&extern_stack, s->v);
+            ext_sym = sym_find1(extern_stack, ri32(s+Sym_v_o));
 //             if (!ext_sym) {
-err();
+            if (!ext_sym) {
 //                 /* if the symbol do not exist, we simply save it */
 //                 sym_push1(&extern_stack, s->v, s->t, s->c);
+                sym_push1(extern_stack, ri32(s+Sym_v_o), ri32(s+Sym_t_o), ri32(s+Sym_c_o));
 //             } else if (ext_sym->t & VT_FORWARD) {
+            } else if (ri32(ext_sym+Sym_t_o) & VT_FORWARD) {
 err();
 //                 /* external symbol already exists, but only as forward
 //                    definition */
@@ -4637,6 +4640,7 @@ err();
 //                     *p = (Reloc *)s->c;
 //                 }
 //             } else {
+            } else {
 err();
 //                 /* external symbol already exists and is defined :
 //                    patch all references to it */
@@ -4644,6 +4648,7 @@ err();
 //                     error("'%s' defined twice", get_tok_str(s->v, NULL));
 //                 greloc_patch(s, ext_sym->c);
 //             }
+            }
 //         } 
         }
 //         s = s1;
@@ -5120,14 +5125,19 @@ relocs_base=relocs;
 // 
 //     tcc_compile_file(argv[optind]);
     tcc_compile_file(argv+(4*optind));
-err();
 //     puts("tcc 1_7 compile done");
+    puts("tcc 1_7 compile done");
 // 
 //     resolve_extern_syms();
+    resolve_extern_syms();
 //     s = sym_find1(&extern_stack, TOK_MAIN);
+    s = sym_find1(extern_stack, TOK_MAIN);
 //     if (!s || (s->t & VT_FORWARD))
+    if (!s || (ri32(s+Sym_t_o) & VT_FORWARD))
 //         error("main() not defined");
+        error("main() not defined");
 // 
+err();
 // if(reloc){
 //   gen_obj(s->c);
 // }
