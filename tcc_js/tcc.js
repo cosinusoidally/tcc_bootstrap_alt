@@ -885,10 +885,12 @@ err();
 // int handle_eof(void)
 // {
 function handle_eof() {
-return -1;
-err();
 //     if (include_stack_ptr == include_stack)
+    if (include_stack_ptr == include_stack) {
 //         return -1;
+        return -1;
+    }
+err();
 //     /* pop include stack */
 //     fclose(file);
 //     free(filename);
