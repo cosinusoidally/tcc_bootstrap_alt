@@ -130,7 +130,7 @@ function hd(o,n){
     d.push(": ");
     var r=[];
     for(var i=0;i<16;i++){
-      r.push(ri8(o+i));
+      r.push(fn(o+i));
     };
     for(var i=0;i<r.length;i=i+2){
       d.push(("0000"+(r[i].toString(16))).slice(-2));
