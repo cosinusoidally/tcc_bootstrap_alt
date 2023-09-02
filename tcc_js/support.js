@@ -242,15 +242,29 @@ function mk_char(c){
   return c.charCodeAt(0);
 }
 
-file_num=1;
+f_files={};
+
 function fopen(f,mode){
 // FIXME ljw non-dummy impl
   var filename=mk_js_string(ri32(f));
+  mode=mk_js_string(mode);
   print("fopen: filename: "+filename+" mode: "+mode);
 // FIXME hack hack
-  fbuf=read("test.c").split("").reverse();
-  fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
-  return file_num++;
+  var file_num=malloc(4);
+  file_o={};
+  file_o.filename=filename;
+  file_o.mode=mode;
+  file_o.o=0;
+  f_files[file_num]=file_o;
+  if(mode==="r"){
+    fbuf=read("test.c").split("").reverse();
+    fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
+    file_o.data=read(filename,"binary");
+  } else {
+    print("unsupported fopen file mode");
+err();
+  }
+  return file_num;
 }
 
 function fclose(f){

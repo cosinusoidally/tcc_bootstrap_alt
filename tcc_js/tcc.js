@@ -4679,7 +4679,7 @@ function tcc_compile_file(filename1) {
 //     funcname = "";
     funcname = "";
 //     file = fopen(filename, "r");
-    file = fopen(filename, "r");
+    file = fopen(filename, mk_c_string("r"));
 //     if (!file)
     if (!file) {
 //         error("file '%s' not found", filename);
