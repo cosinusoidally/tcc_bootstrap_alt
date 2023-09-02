@@ -318,3 +318,5 @@ function check() {
   }
   hd(fp,f.length);
 }
+
+load("sha256.js");
