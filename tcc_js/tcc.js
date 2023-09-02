@@ -2418,9 +2418,10 @@ err();
 //         }
 //     } else if (bt == VT_INT || bt == VT_ENUM ) {
     } else if (bt == VT_INT || bt == VT_ENUM ) {
-err();
 //         *a = 4;
+        wi32(a, 4);
 //         return 4;
+        return 4;
 //     } else if (bt == VT_SHORT) {
     } else if (bt == VT_SHORT) {
 err();
@@ -4182,12 +4183,30 @@ err();
 //    evaluation is wanted (only for arrays). */
 // void decl_initializer(int t, int c, int first, int size_only)
 // {
+function decl_initializer(t, c, first, size_only) {
+print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only);
+    enter();
 //     int index, array_length, n, no_oblock, nb, parlevel, i;
+    var index;
+    var array_length;
+    var n;
+    var no_oblockl
+    var nb;
+    var parlevel;
+    var i;
 //     int t1, size1, align1;
+    var t1;
+    var size1;
+    var align1=alloca(4);
 //     Sym *s, *f;
+    var s=alloca(4);
+    var f=alloca(4);
 //     TokenSym *ts;
+    var ts=alloca(4);
 // 
 //     if (t & VT_ARRAY) {
+    if (t & VT_ARRAY) {
+err();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
 //         n = s->c;
 //         array_length = 0;
@@ -4269,6 +4288,8 @@ err();
 //         if (n < 0)
 //             s->c = array_length;
 //     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
+    } else if ((t & VT_BTYPE) == VT_STRUCT && tok == mk_char('{')) {
+err();
 //         /* XXX: union needs only one init */
 //         next();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
@@ -4299,10 +4320,14 @@ err();
 //         }
 //         skip('}');
 //     } else if (tok == '{') {
+    } else if (tok == mk_char('{')) {
+err();
 //         next();
 //         decl_initializer(t, c, first, size_only);
 //         skip('}');
 //     } else if (size_only) {
+    } else if (size_only) {
+err();
 //         /* just skip expression */
 //         parlevel = 0;
 //         while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
@@ -4314,9 +4339,14 @@ err();
 //             next();
 //         }
 //     } else {
+    } else {
+err();
 //         init_putv(t, c, 0, 1);
 //     }
+    }
 // }
+   return leave();
+}
 // 
 // /* parse an initializer for type 't' if 'has_init' is true, and
 //    allocate space in local or global data space. The allocated address
@@ -4353,8 +4383,8 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     saved_macro_ptr = NULL;
 //     tok1 = 0;
     tok1 = 0;
-err();
 //     if (size < 0) {
+    if (size < 0) {
 err();
 //         if (!has_init) 
 //             error("unknown type size");
@@ -4391,11 +4421,15 @@ err();
 //         if (size < 0) 
 //             error("unknown type size");
 //     }
+    }
 //     if ((t & VT_VALMASK) == VT_LOCAL) {
-err();
+    if ((t & VT_VALMASK) == VT_LOCAL) {
 //         loc = (loc - size) & -align;
+        loc = (loc - size) & -(ri32(align));
 //         addr = loc;
+        addr = loc;
 //     } else {
+    } else {
 err();
 //         glo = (glo + align - 1) & -align;
 //         addr = glo;
@@ -4405,9 +4439,12 @@ err();
 //            initializers */
 //         glo += size;
 //     }
+    }
 //     if (has_init) {
-err();
+    if (has_init) {
 //         decl_initializer(t, addr, 1, 0);
+        decl_initializer(t, addr, 1, 0);
+err();
 //         /* restore parse state if needed */
 //         if (init_str) {
 //             free(init_str);
@@ -4415,6 +4452,7 @@ err();
 //             tok = tok1;
 //         }
 //     }
+    }
 //     return addr;
 // }
     return leave(addr);
