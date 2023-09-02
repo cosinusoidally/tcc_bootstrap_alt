@@ -273,11 +273,14 @@ function fclose(f){
 }
 
 function getc_unlocked(file){
-// FIXME hack hack
-  if(fbuf.length===0){
+  file_o=f_files[file];
+  print(JSON.stringify(file_o));
+  var c=file_o.data[file_o.o++];
+  // eof
+  if(c===undefined){
     return -1;
   }
-  return fbuf.pop();
+  return c;
 }
 
 function memcmp(s1,s2,n){
