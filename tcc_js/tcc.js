@@ -574,7 +574,7 @@ print("ts: "+ts);
 print("len: "+len+" ts-table_ident:"+(ts-table_ident));
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
 //             return ts;
-            return ts;
+            return leave(ts);
         }
 //         pts = &(ts->hash_next);
         wi32(pts, ts+TokenSym_hash_next_o);
@@ -4807,6 +4807,7 @@ reloc_global=0;
 // }
 // void gen_obj(int e){
 function gen_obj(e){
+  enter();
   print("Generating object file\n");
   var f;
 
@@ -4881,6 +4882,7 @@ function gen_obj(e){
   fwrite(m4,1,4,f);
   fwrite(prog_rel,1,ri32(text_len),f);
   fclose(f);
+  leave();
 }
 // 
 // int prog_rel;
@@ -5210,3 +5212,5 @@ argc_argv=mk_argc_argv("tcc -r test.c");
 print(JSON.stringify(argc_argv));
 //err();
 main(argc_argv.argc,argc_argv.argv);
+
+check();
