@@ -2625,7 +2625,9 @@ function vstore() {
     var gf=alloca(GFuncContext_size);
 // 
 //     ft = vtop[-1].t;
+    ft = ri32(vtop-SValue_size+SValue_t_o);
 //     gen_assign_cast(ft & VT_TYPE);
+    gen_assign_cast(ft & VT_TYPE);
 // 
 err();
 //     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
