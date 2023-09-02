@@ -4564,15 +4564,23 @@ err();
 //                         external_sym(v, t);
 //                     } else {
                     } else {
-err();
 //                         u = l;
+                        u = l;
 //                         if (t & VT_STATIC)
+                        if (t & VT_STATIC)
 //                             u = VT_CONST;
+                            u = VT_CONST;
 //                         u |= t;
+                        u |= t;
 //                         has_init = (tok == '=');
+                        has_init = (tok == '=');
 //                         if (has_init)
+                        if (has_init)
 //                             next();
+                            next();
 //                         addr = decl_initializer_alloc(u, has_init);
+                        addr = decl_initializer_alloc(u, has_init);
+err();
 //                         while(1){
 //                         if (l == VT_CONST) {
 //                             /* global scope: see if already defined */
