@@ -2610,12 +2610,24 @@ err();
 // /* store vtop in lvalue pushed on stack */
 // void vstore(void)
 // {
+function vstore() {
+    enter();
 //     int ft, fc, r, t, size, align, bit_size, bit_pos;
+    var ft;
+    var fc;
+    var r;
+    var t;
+    var size;
+    var align;
+    var bit_size;
+    var bit_pos;
 //     GFuncContext gf;
+    var gf=alloca(GFuncContext_size);
 // 
 //     ft = vtop[-1].t;
 //     gen_assign_cast(ft & VT_TYPE);
 // 
+err();
 //     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
 //         /* if structure, only generate pointer */
 //         /* structure assignment : generate memcpy */
@@ -2662,6 +2674,8 @@ err();
 //         vtop->c.i = 0;
 //     }
 // }
+    leave();
+}
 // 
 // /* post defines POST/PRE add. c is the token ++ or -- */
 // void inc(int post, int c)
@@ -4116,9 +4130,14 @@ err();
 // 
 // void init_putv(int t, int c, int v, int is_expr)
 // {
+function init_putv(t, c, v, is_expr) {
 //     int saved_global_expr, bt;
+    var saved_global_expr;
+    var bt;
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
+    if ((t & VT_VALMASK) == VT_CONST) {
+err();
 //         if (is_expr) {
 //             /* compound literals must be allocated globally in this case */
 //             saved_global_expr = global_expr;
@@ -4144,15 +4163,26 @@ err();
 //         }
 //         vpop();
 //     } else {
+    } else {
 //         vset(t, c);
+        vset(t, c);
 //         if (is_expr)
+        if (is_expr)
 //             expr_eq();
+            expr_eq();
 //         else
+        else
 //             vset(VT_CONST | VT_INT, v);
+            vset(VT_CONST | VT_INT, v);
 //         vstore();
+        vstore();
 //         vpop();
+        vpop();
+err();
 //     }
+    }
 // }
+}
 // 
 // /* put zeros for variable based init */
 // void init_putz(int t, int c, int size)
@@ -4340,8 +4370,8 @@ err();
 //         }
 //     } else {
     } else {
-err();
 //         init_putv(t, c, 0, 1);
+        init_putv(t, c, 0, 1);
 //     }
     }
 // }

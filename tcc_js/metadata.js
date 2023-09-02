@@ -3,6 +3,7 @@ var TOK_IDENT=0x100;
 var SYM_FIRST_ANOM=0x8000;
 var TokenSym_size=0x10;
 var CValue_size=0x4;
+var GFuncContext_size=0x4;
 var TOK_NUM=0xb3;
 var TOK_CCHAR=0xb4;
 var TOK_LCHAR=0xb7;

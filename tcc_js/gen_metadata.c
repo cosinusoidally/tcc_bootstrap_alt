@@ -10,6 +10,7 @@ int main(void){
   printf("var SYM_FIRST_ANOM=0x%x;\n",SYM_FIRST_ANOM);
   printf("var TokenSym_size=0x%x;\n",sizeof(TokenSym));
   printf("var CValue_size=0x%x;\n",sizeof(CValue));
+  printf("var GFuncContext_size=0x%x;\n",sizeof(GFuncContext));
   printf("var TOK_NUM=0x%x;\n",TOK_NUM);
   printf("var TOK_CCHAR=0x%x;\n",TOK_CCHAR);
   printf("var TOK_LCHAR=0x%x;\n",TOK_LCHAR);
