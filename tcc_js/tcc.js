@@ -220,13 +220,19 @@ var nb_include_paths=0;
 // int reloc_global=0;
 // 
 // int relocs;
+var relocs;
 // int relocs_base;
+var relocs_base;
 // 
 // int global_relocs;
+var global_relocs;
 // int global_relocs_base;
+var global_relocs_base;
 // 
 // int global_relocs_table;
+var global_relocs_table;
 // int global_relocs_table_base;
+var global_relocs_table_base;
 // 
 // /* The current value can be: */
 // #define VT_VALMASK 0x000f
@@ -4823,12 +4829,22 @@ function gen_obj(e){
   var data_rel;
   var entrypoint=alloca(4);
   wi32(entrypoint,e-prog);
+
   var m0=alloca(4);
   wi32(m0,0xdeadbe00);
-  var m1=0xdeadbe01;
-  var m2=0xdeadbe02;
-  var m3=0xdeadbe03;
-  var m4=0xdeadbe04;
+
+  var m1=alloca(4);
+  wi32(m1,0xdeadbe01);
+
+  var m2=alloca(4);
+  wi32(m2,0xdeadbe02);
+
+  var m3=alloca(4);
+  wi32(m3,0xdeadbe03);
+
+  var m4=alloca(4);
+  wi32(m4,0xdeadbe04);
+
   var i;
   f = fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
   fwrite(entrypoint,1,4,f);
@@ -4838,34 +4854,33 @@ function gen_obj(e){
   fwrite(global_reloc_len,1,4,f);
   fwrite(global_reloc_table_len,1,4,f);
   fwrite(m0,1,4,f);
-err();
-//   fwrite((void *)global_relocs_table_base,1,global_reloc_table_len,f);
-//   prog_rel=(int)malloc(text_len);
-//   data_rel=(int)malloc(data_len);
-// 
-//   memcpy((char *)prog_rel,(char *)prog,text_len);
-//   memcpy((char *)data_rel,(char *)glo_base,data_len);
-// 
-//   fwrite(&m1,1,4,f);
-//   fwrite((void *)relocs_base,1,reloc_len,f);
-// 
-//   fwrite(&m2,1,4,f);
-//   fwrite((void *)data_rel,1,data_len,f);
-// 
-//   fwrite(&m3,1,4,f);
-//   fwrite((void *)global_relocs_base,1,global_reloc_len,f);
-// 
-//   for(i=0;i<reloc_len;i=i+12){
-//     w32(prog_rel+r32(relocs_base+i),0); 
-//   }
-//   for(i=0;i<global_reloc_len;i=i+8){
-//     w32(prog_rel+r32(global_relocs_base+i+4),0); 
-//   }
-// 
-//   fwrite(&m4,1,4,f);
-//   fwrite((void *)prog_rel,1,text_len,f);
-//   fclose(f);
-// }
+  fwrite(global_relocs_table_base,1,ri32(global_reloc_table_len),f);
+
+  prog_rel=malloc(ri32(text_len));
+  data_rel=malloc(ri32(data_len));
+
+  memcpy(prog_rel,prog,ri32(text_len));
+  memcpy(data_rel,glo_base,ri32(data_len));
+
+  fwrite(m1,1,4,f);
+  fwrite(relocs_base,1,ri32(reloc_len),f);
+
+  fwrite(m2,1,4,f);
+  fwrite(data_rel,1,ri32(data_len),f);
+
+  fwrite(m3,1,4,f);
+  fwrite(global_relocs_base,1,ri32(global_reloc_len),f);
+
+  for(i=0;i<ri32(reloc_len);i=i+12){
+    wi32(prog_rel+ri32(relocs_base+i),0); 
+  }
+  for(i=0;i<ri32(global_reloc_len);i=i+8){
+    wi32(prog_rel+ri32(global_relocs_base+i+4),0); 
+  }
+
+  fwrite(m4,1,4,f);
+  fwrite(prog_rel,1,ri32(text_len),f);
+  fclose(f);
 }
 // 
 // int prog_rel;
