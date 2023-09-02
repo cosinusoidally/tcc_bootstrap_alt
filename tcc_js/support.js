@@ -247,7 +247,7 @@ vfs={};
 
 function fopen(f,mode){
 // FIXME ljw non-dummy impl
-  var filename=mk_js_string(ri32(f));
+  var filename=mk_js_string(f);
   mode=mk_js_string(mode);
   print("fopen: filename: "+filename+" mode: "+mode);
 // FIXME hack hack
@@ -285,6 +285,13 @@ function getc_unlocked(file){
     return -1;
   }
   return c;
+}
+
+function fwrite(ptr, size, nmemb, stream){
+  var f=f_files[stream];
+  for(var i=0;i<size*nmemb;i++){
+    f.data.push(ri8(ptr++)&0xFF);
+  }
 }
 
 function memcmp(s1,s2,n){

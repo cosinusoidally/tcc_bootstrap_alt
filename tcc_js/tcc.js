@@ -4672,7 +4672,7 @@ function tcc_compile_file(filename1) {
     var define_start;
 // 
 //     filename = (char *)filename1;
-    filename = filename1;
+    filename = ri32(filename1);
 // 
 //     line_num = 1;
     line_num = 1;
