@@ -4551,14 +4551,20 @@ err();
 //                     external_sym(v, t);
 //                 } else {
                 } else {
-err();
 //                     /* not lvalue if array */
 //                     if (!(t & VT_ARRAY))
+                    if (!(t & VT_ARRAY)) {
 //                         t |= VT_LVAL;
+                        t |= VT_LVAL;
+                    }
 //                     if (b & VT_EXTERN) {
+                    if (b & VT_EXTERN) {
+err();
 //                         /* external variable */
 //                         external_sym(v, t);
 //                     } else {
+                    } else {
+err();
 //                         u = l;
 //                         if (t & VT_STATIC)
 //                             u = VT_CONST;
@@ -4587,6 +4593,7 @@ err();
 //                         break;
 //                         }
 //                     }
+                    }
 //                 }
                 }
 //                 if (tok != ',') {
