@@ -268,7 +268,7 @@ err();
 }
 
 function fclose(f){
-// FIXME ljw non-stub impl
+  delete f_files[f];
   return 0;
 }
 
