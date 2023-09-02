@@ -310,13 +310,22 @@ function free(x){
   return 0;
 }
 
-function check() {
+function check(s) {
   f=vfs["tcc_boot.o"];
   fp=malloc(f.length);
   for(var i=0;i<f.length;i++){
     wi8(i+fp,f[i]);
   }
   hd(fp,f.length);
+  if(s){
+    var sha=root.sha256(vfs["tcc_boot.o"]);
+    print(sha);
+    if(sha===s){
+      print("OK");
+    } else {
+      print("BAD");
+    }
+  }
 }
 
 load("sha256.js");

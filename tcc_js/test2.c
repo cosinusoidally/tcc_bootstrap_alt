@@ -1,3 +1,4 @@
 int main(void){
-  return 3;
+  int r=2;
+  return r;
 }
