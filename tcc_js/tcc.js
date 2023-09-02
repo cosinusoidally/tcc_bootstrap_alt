@@ -702,7 +702,7 @@ err();
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
 //         return table_ident[v - TOK_IDENT]->str;
-        return ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o;
+        return leave(ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o);
 //     } else {
     } else {
 err();
