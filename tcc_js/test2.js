@@ -7,3 +7,4 @@ print(JSON.stringify(argc_argv));
 main(argc_argv.argc,argc_argv.argv);
 
 check();
+print(root.sha256(vfs["tcc_boot.o"]));
