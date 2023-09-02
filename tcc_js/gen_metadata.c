@@ -76,6 +76,7 @@ int main(void){
   printf("var VT_FORWARD=0x%x;\n",VT_FORWARD);
   printf("var VT_TYPE=0x%x;\n",VT_TYPE);
   printf("var VT_ARRAY=0x%x;\n",VT_ARRAY);
+  printf("var VT_PTR=0x%x;\n",VT_PTR);
   printf("var SYM_FIELD=0x%x;\n",SYM_FIELD);
   printf("var SYM_STRUCT=0x%x;\n",SYM_STRUCT);
   printf("var TOK_MAIN=0x%x;\n",TOK_MAIN);

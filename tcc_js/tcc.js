@@ -2391,16 +2391,24 @@ function gv() {
 // /* return type size. Put alignment at 'a' */
 // int type_size(int t, int *a)
 // {
+function type_size(t, a) {
 //     Sym *s;
+    var s;
 //     int bt;
+    var bt;
 // 
 //     bt = t & VT_BTYPE;
+    bt = t & VT_BTYPE;
 //     if (bt == VT_STRUCT) {
+    if (bt == VT_STRUCT) {
+err();
 //         /* struct/union */
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
 //         *a = 4; /* XXX: cannot store it yet. Doing that is safe */
 //         return s->c;
 //     } else if (bt == VT_PTR) {
+    } else if (bt == VT_PTR) {
+err();
 //         if (t & VT_ARRAY) {
 //             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
 //             return type_size(s->t, a) * s->c;
@@ -2409,17 +2417,25 @@ function gv() {
 //             return PTR_SIZE;
 //         }
 //     } else if (bt == VT_INT || bt == VT_ENUM ) {
+    } else if (bt == VT_INT || bt == VT_ENUM ) {
+err();
 //         *a = 4;
 //         return 4;
 //     } else if (bt == VT_SHORT) {
+    } else if (bt == VT_SHORT) {
+err();
 //         *a = 2;
 //         return 2;
 //     } else {
+    } else {
+err();
 //         /* char, void, function, _Bool */
 //         *a = 1;
 //         return 1;
 //     }
+    }
 // }
+}
 // 
 // /* return the pointed type of t */
 // int pointed_type(int t)
