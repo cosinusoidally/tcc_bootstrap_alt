@@ -4538,15 +4538,20 @@ err();
                 break;
 //             } else {
             } else {
-err();
 //                 if (b & VT_TYPEDEF) {
+                if (b & VT_TYPEDEF) {
+err();
 //                     /* save typedefed type  */
 //                     /* XXX: test storage specifiers ? */
 //                     sym_push(v, t | VT_TYPEDEF, 0);
 //                 } else if ((t & VT_BTYPE) == VT_FUNC) {
+                } else if ((t & VT_BTYPE) == VT_FUNC) {
+err();
 //                     /* external function definition */
 //                     external_sym(v, t);
 //                 } else {
+                } else {
+err();
 //                     /* not lvalue if array */
 //                     if (!(t & VT_ARRAY))
 //                         t |= VT_LVAL;
@@ -4583,11 +4588,17 @@ err();
 //                         }
 //                     }
 //                 }
+                }
 //                 if (tok != ',') {
+                if (tok !== mk_char(',')) {
+err();
 //                     skip(';');
 //                     break;
 //                 }
+                }
 //                 next();
+err();
+                next();
 //             }
             }
 //         }
