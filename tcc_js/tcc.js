@@ -4801,24 +4801,41 @@ reloc_global=0;
 // }
 // void gen_obj(int e){
 function gen_obj(e){
-err()
 //   printf("Generating object file\n");
+  print("Generating object file\n");
 //   FILE *f;
+  var f;
 //   int text_len=ind-prog;
+  var text_len=ind-prog;
 //   int data_len=glo-glo_base;
+  var data_len=glo-glo_base;
 //   int reloc_len=relocs-relocs_base;
+  var reloc_len=relocs-relocs_base;
 //   int global_reloc_len=global_relocs-global_relocs_base;
+  var global_reloc_len=global_relocs-global_relocs_base;
 //   int global_reloc_table_len=global_relocs_table-global_relocs_table_base;
+  var global_reloc_table_len=global_relocs_table-global_relocs_table_base;
 //   int prog_rel;
+  var prog_rel;
 //   int data_rel;
+  var data_rel;
 //   int entrypoint=e-prog;
+  var entrypoint=e-prog;
 //   int m0=0xdeadbe00;
+  var m0=0xdeadbe00;
 //   int m1=0xdeadbe01;
+  var m1=0xdeadbe01;
 //   int m2=0xdeadbe02;
+  var m2=0xdeadbe02;
 //   int m3=0xdeadbe03;
+  var m3=0xdeadbe03;
 //   int m4=0xdeadbe04;
+  var m4=0xdeadbe04;
 //   int i;
+  var i;
 //   f = fopen("tcc_boot.o", "wb");
+  f = fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
+err();
 //   fwrite(&entrypoint,1,4,f);
 //   fwrite(&text_len,1,4,f);
 //   fwrite(&data_len,1,4,f);
