@@ -130,7 +130,7 @@ function hd(o,n){
     d.push(": ");
     var r=[];
     for(var i=0;i<16;i++){
-      r.push(fn(o+i));
+      r.push(ri8(o+i));
     };
     for(var i=0;i<r.length;i=i+2){
       d.push(("0000"+(r[i].toString(16))).slice(-2));
@@ -308,4 +308,13 @@ function memcmp(s1,s2,n){
 
 function free(x){
   return 0;
+}
+
+function check() {
+  f=vfs["tcc_boot.o"];
+  fp=malloc(f.length);
+  for(var i=0;i<f.length;i++){
+    wi8(i+fp,f[i]);
+  }
+  hd(fp,f.length);
 }
