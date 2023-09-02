@@ -4309,12 +4309,20 @@ err();
 // {
 function decl_initializer_alloc(t, has_init) {
 print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
-err();
     enter();
 //     int size, align, addr, tok1;
+    var size;
+    var align=alloca(4);
+    var addr;
+    var tok1;
 //     int *init_str, init_len, level, *saved_macro_ptr;
+    var init_str=alloca(4);
+    var init_len=alloca(4);
+    var level=alloca(4);
+    var saved_macro_ptr;
 // 
 //     size = type_size(t, &align);
+    size = type_size(t, align);
 //     /* If unknown size, we must evaluate it before
 //        evaluating initializers because
 //        initializers can generate global data too
@@ -4322,10 +4330,16 @@ err();
 //        literals). It also simplifies local
 //        initializers handling */
 //     init_len = 0;
+    wi32(init_len, 0);
 //     init_str = NULL;
+    wi32(init_str, NULL);
 //     saved_macro_ptr = NULL; /* avoid warning */
+    saved_macro_ptr = NULL;
 //     tok1 = 0;
+    tok1 = 0;
+err();
 //     if (size < 0) {
+err();
 //         if (!has_init) 
 //             error("unknown type size");
 //         /* get all init string */
@@ -4362,9 +4376,11 @@ err();
 //             error("unknown type size");
 //     }
 //     if ((t & VT_VALMASK) == VT_LOCAL) {
+err();
 //         loc = (loc - size) & -align;
 //         addr = loc;
 //     } else {
+err();
 //         glo = (glo + align - 1) & -align;
 //         addr = glo;
 //         /* very important to increment global
@@ -4374,6 +4390,7 @@ err();
 //         glo += size;
 //     }
 //     if (has_init) {
+err();
 //         decl_initializer(t, addr, 1, 0);
 //         /* restore parse state if needed */
 //         if (init_str) {
