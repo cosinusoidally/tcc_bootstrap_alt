@@ -4307,6 +4307,10 @@ err();
 //    in returned */
 // int decl_initializer_alloc(int t, int has_init)
 // {
+function decl_initializer_alloc(t, has_init) {
+print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
+err();
+    enter();
 //     int size, align, addr, tok1;
 //     int *init_str, init_len, level, *saved_macro_ptr;
 // 
@@ -4380,6 +4384,8 @@ err();
 //     }
 //     return addr;
 // }
+    return leave(addr);
+}
 // 
 // 
 // /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
@@ -4573,7 +4579,7 @@ err();
 //                         u |= t;
                         u |= t;
 //                         has_init = (tok == '=');
-                        has_init = (tok == '=');
+                        has_init = (tok === mk_char('='));
 //                         if (has_init)
                         if (has_init)
 //                             next();
