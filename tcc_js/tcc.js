@@ -4820,7 +4820,8 @@ function gen_obj(e){
 //   int data_rel;
   var data_rel;
 //   int entrypoint=e-prog;
-  var entrypoint=e-prog;
+  var entrypoint=alloca(4);
+  wi32(entrypoint,e-prog);
 //   int m0=0xdeadbe00;
   var m0=0xdeadbe00;
 //   int m1=0xdeadbe01;
@@ -4835,8 +4836,9 @@ function gen_obj(e){
   var i;
 //   f = fopen("tcc_boot.o", "wb");
   f = fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
-err();
 //   fwrite(&entrypoint,1,4,f);
+  fwrite(entrypoint,1,4,f);
+err();
 //   fwrite(&text_len,1,4,f);
 //   fwrite(&data_len,1,4,f);
 //   fwrite(&reloc_len,1,4,f);

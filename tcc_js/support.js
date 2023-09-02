@@ -243,6 +243,7 @@ function mk_char(c){
 }
 
 f_files={};
+vfs={};
 
 function fopen(f,mode){
 // FIXME ljw non-dummy impl
@@ -260,6 +261,9 @@ function fopen(f,mode){
     fbuf=read("test.c").split("").reverse();
     fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
     file_o.data=read(filename,"binary");
+  } else if(mode==="wb"){
+    file_o.data=[];
+    vfs[filename]=file_o.data;
   } else {
     print("unsupported fopen file mode");
 err();
