@@ -847,7 +847,6 @@ function sym_find(v) {
 function sym_push(v, t, c) {
 //     if (local_stack.top)
     if (ri32(local_stack+SymStack_top_o)){
-err();
 //         return sym_push1(&local_stack, v, t, c);
         return sym_push1(local_stack, v, t, c);
 //     else
@@ -4746,9 +4745,11 @@ err();
                             next();
 //                         addr = decl_initializer_alloc(u, has_init);
                         addr = decl_initializer_alloc(u, has_init);
-err();
 //                         while(1){
+                        while(1){
 //                         if (l == VT_CONST) {
+                        if (l == VT_CONST) {
+err();
 //                             /* global scope: see if already defined */
 //                             sym = sym_find(v);
 //                             if (!sym) {
@@ -4762,19 +4763,25 @@ err();
 //                                 error("redefinition of '%s'", get_tok_str(v, NULL));
 //                             greloc_patch(sym, addr);
 //                         } else {
+                        } else {
 //                             sym_push(v, u, addr);
+                            sym_push(ri32(v), u, addr);
 //                         }
+                        }
 //                         break;
+                        break;
 //                         }
+                        }
 //                     }
                     }
 //                 }
                 }
 //                 if (tok != ',') {
                 if (tok !== mk_char(',')) {
-err();
 //                     skip(';');
+                    skip(mk_char(';'));
 //                     break;
+                    break;
 //                 }
                 }
 //                 next();
