@@ -2719,8 +2719,9 @@ err();
 //             ft = (ft & ~VT_VALMASK) | t;
 //         }
         }
-err();
 //         store(r, ft, fc);
+        store(r, ft, fc);
+err();
 //         vtop--;
 //         vtop->t = (ft & VT_TYPE) | r;
 //         vtop->c.i = 0;
