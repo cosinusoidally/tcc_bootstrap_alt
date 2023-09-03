@@ -579,6 +579,8 @@ function gjmp(t) {
 // /* generate an integer binary operation */
 // void gen_opi(int op)
 // {
+function gen_opi(op) {
+err();
 //     int t, r, fr;
 // 
 //     vswap();
@@ -648,6 +650,7 @@ function gjmp(t) {
 //         vset(VT_CMP, op);
 //     }
 // }
+}
 // 
 // /* pop stack value */
 // void vpop(void)
