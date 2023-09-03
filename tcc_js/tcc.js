@@ -2196,17 +2196,30 @@ print("gv r_ret: "+r)
 // /* handle constant optimizations and various machine independant opt */
 // void gen_opc(int op)
 // {
+function gen_opc(op) {
 //     int fc, c1, c2, n;
+    var fc;
+    var c1;
+    var c2;
+    var n;
 //     int general_case=0;
+    var general_case=0;
 //     SValue *v1, *v2;
+    var v1;
+    var v2;
 // 
 //     v1 = vtop - 1;
+    v1 = vtop - SValue_size;
 //     v2 = vtop;
+    v2 = vtop;
 //     /* currently, we cannot do computations with forward symbols */
 //     c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
 //     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
 //     while(1) {
+    while(1) {
 //     if (c1 && c2) {
+    if (c1 && c2) {
+err();
 //         fc = v2->c.i;
 //         switch(op) {
 //         case '+': v1->c.i += fc; break;
@@ -2243,9 +2256,12 @@ print("gv r_ret: "+r)
 //         if(general_case){break;}
 //         vtop--;
 //     } else {
+    } else {
+err();
 //         /* if commutative ops, put c2 as constant */
 //         if (c1 && (op == '+' || op == '&' || op == '^' || 
 //                    op == '|' || op == '*')) {
+err();
 //             vswap();
 //             swap(&c1, &c2);
 //         }
@@ -2258,9 +2274,11 @@ print("gv r_ret: "+r)
 //                     fc == 0) ||
 //                    (op == '&' && 
 //                     fc == -1))) {
+err();
 //             /* nothing to do */
 //             vtop--;
 //         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
+err();
 //             /* try to use shifts instead of muls or divs */
 //             if (fc > 0 && (fc & (fc - 1)) == 0) {
 //                 n = -1;
@@ -2278,17 +2296,23 @@ print("gv r_ret: "+r)
 //             }
 //             general_case=1;break;
 //         } else {
+err();
 //         general_case=1;
 //         }
 //     }
+    }
 //     break;
+    break;
 //     }
+    }
+err();
 //     if(general_case){
 //         /* call low level op generator */
 //         /* XXX: remove explicit registers */
 //         gen_opi(op);
 //     }
 // }
+}
 // 
 // int pointed_size(int t)
 // {
