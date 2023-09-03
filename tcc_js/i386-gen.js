@@ -342,19 +342,23 @@ err();
             o(0x8b);     /* movl */
         }
 // 
-err();
 //         if (v == VT_CONST) {
+        if (v == VT_CONST) {
+err();
 //             o(0x05 + r * 8); /* 0xXX, r */
 // printf("\n load1 %x\n",ind);
 // lt=1;
 //             gen_addr32(fc, ft);
 //         } else if (v == VT_LOCAL) {
-err();
+        } else if (v == VT_LOCAL) {
 //             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
+            oad(0x85 + r * 8, fc);
 //         } else {
+        } else {
 err();
 //             g(0x00 + r * 8 + v); /* (v), r */
 //         }
+        }
 //     } else {
     } else {
 //         if (v == VT_CONST) {
