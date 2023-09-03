@@ -2093,7 +2093,7 @@ function get_reg(rc) {
 //         if (reg_classes[r] & rc) {
         if (ri32(reg_classes+(4*r)) & rc) {
 //             for(p=vstack;p<=vtop;p++) {
-            for(p=vstack;p<=vtop;p++) {
+            for(p=vstack;p<=vtop;p=p+SValue_size) {
 //                i = p->t & VT_VALMASK;
                 i = ri32(p+SValue_t_o) & VT_VALMASK;
 //                 if (i == r)
@@ -2104,7 +2104,6 @@ function get_reg(rc) {
             }
 //             if(!notfound){
             if(!notfound){
-print("get_reg: "+r);
 //             return r;
             return leave(r);
 //             }

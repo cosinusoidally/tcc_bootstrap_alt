@@ -390,8 +390,6 @@ err();
 // void store(r, ft, fc)
 // {
 function store(r, ft, fc) {
-print(r);
-err();
 //     int fr, bt;
     var fr;
     var bt;
