@@ -2298,6 +2298,8 @@ print("gv r_ret: "+r)
 // /* generic gen_op: handles types problems */
 // void gen_op(int op)
 // {
+function gen_op(op) {
+err();
 //     int u, t1, t2, bt1, bt2, t;
 // 
 //     t1 = vtop[-1].t;
@@ -2355,6 +2357,7 @@ print("gv r_ret: "+r)
 //         gen_opc(op);
 //     }
 // }
+}
 // 
 // /* cast 'vtop' to 't' type */
 // void gen_cast(int t)
