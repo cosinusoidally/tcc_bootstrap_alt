@@ -2104,6 +2104,7 @@ function get_reg(rc) {
             }
 //             if(!notfound){
             if(!notfound){
+print("get_reg: "+r);
 //             return r;
             return leave(r);
 //             }
@@ -2175,6 +2176,7 @@ function gv() {
 //     /* NOTE: get_reg can modify vstack[] */
 //     r = vtop->t & VT_VALMASK;
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
+print("gv r_init: "+r)
 //     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
     if (r >= VT_CONST || (ri32(vtop+SValue_t_o) & VT_LVAL)) {
 //         rc = REG_CLASS_INT;
@@ -2183,6 +2185,7 @@ function gv() {
         r = get_reg(rc);
 //     }
     }
+print("gv r_ret: "+r)
 //     load(r, vtop->t, vtop->c.ul);
     _load(r, ri32(vtop+SValue_t_o), unsigned(ri32(vtop+SValue_c_o)));
 //     vtop->t = (vtop->t & VT_TYPE) | r;

@@ -389,30 +389,55 @@ err();
 // /* WARNING: r must not be allocated on the stack */
 // void store(r, ft, fc)
 // {
+function store(r, ft, fc) {
+print(r);
+err();
 //     int fr, bt;
+    var fr;
+    var bt;
 // 
 //     fr = ft & VT_VALMASK;
+    fr = ft & VT_VALMASK;
 //     bt = ft & VT_BTYPE;
+    bt = ft & VT_BTYPE;
 // 
 //     if (bt == VT_SHORT)
+    if (bt == VT_SHORT) {
 //         o(0x66);
+        o(0x66);
+    }
 //     if (bt == VT_BYTE)
+    if (bt == VT_BYTE) {
 //         o(0x88);
+        o(0x88);
 //     else
+    } else {
 //         o(0x89);
+        o(0x89);
+    }
 //     if (fr == VT_CONST) {
+    if (fr == VT_CONST) {
+err();
 //         o(0x05 + r * 8); /* mov r,xxx */
 // lt=1;
 // printf("\nstore 32 ind: %x\n",ind);
 //         gen_addr32(fc, ft);
 //     } else if (fr == VT_LOCAL) {
+    } else if (fr == VT_LOCAL) {
 //         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
+        oad(0x85 + r * 8, fc);
 //     } else if (ft & VT_LVAL) {
+    } else if (ft & VT_LVAL) {
+err();
 //         g(fr + r * 8); /* mov r, (fr) */
 //     } else if (fr != r) {
+    } else if (fr != r) {
+err();
 //         o(0xc0 + fr + r * 8); /* mov r, fr */
 //     }
+    }
 // }
+}
 // 
 // /* start function call and return function call context */
 // void gfunc_start(GFuncContext *c)
