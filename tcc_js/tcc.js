@@ -2456,6 +2456,8 @@ err();
 // 
 // int is_compatible_types(int t1, int t2)
 // {
+function is_compatible_types(t1, t2) {
+err();
 //     Sym *s1, *s2;
 //     int bt1, bt2;
 // 
@@ -2507,18 +2509,30 @@ err();
 //         return 1;
 //     }
 // }
+}
 // 
 // int check_assign_types(int t1, int t2)
 // {
+function check_assign_types(t1, t2){
 //     t1 &= VT_TYPE;
+    t1 &= VT_TYPE;
 //     t2 &= VT_TYPE;
+    t2 &= VT_TYPE;
 //     if ((t1 & VT_BTYPE) == VT_PTR && 
 //         (t2 & VT_BTYPE) == VT_FUNC) {
+    if ((t1 & VT_BTYPE) == VT_PTR &&
+        (t2 & VT_BTYPE) == VT_FUNC) {
+err();
 //         return is_compatible_types(pointed_type(t1), t2);
+        return is_compatible_types(pointed_type(t1), t2);
 //     } else {
+    } else {
 //         return is_compatible_types(t1, t2);
+        return is_compatible_types(t1, t2);
 //     }
+    }
 // }
+}
 // 
 // /* print a type. If 'varstr' is not NULL, then the variable is also
 //    printed in the type */
@@ -2595,16 +2609,27 @@ err();
 //    casts if needed */
 // void gen_assign_cast(int dt)
 // {
+function gen_assign_cast(dt) {
+    enter();
 //     int st;
+    var st;
 //     char buf1[256], buf2[256];
+    var buf1=alloca(256);
+    var buf2=alloca(256);
 // 
 //     st = vtop->t; /* destination type */
+    st = ri32(vtop+SValue_t_o);
 //     if (!check_assign_types(dt, st)) {
+    if (!check_assign_types(dt, st)) {
+err();
 //         type_to_str(buf1, sizeof(buf1), st, NULL);
 //         type_to_str(buf2, sizeof(buf2), dt, NULL);
 //         error("cannot cast '%s' to '%s'", buf1, buf2);
 //     }
+    }
+    leave();
 // }
+}
 // 
 // 
 // /* store vtop in lvalue pushed on stack */
