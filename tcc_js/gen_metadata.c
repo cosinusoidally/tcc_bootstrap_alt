@@ -81,5 +81,6 @@ int main(void){
   printf("var SYM_FIELD=0x%x;\n",SYM_FIELD);
   printf("var SYM_STRUCT=0x%x;\n",SYM_STRUCT);
   printf("var TOK_MAIN=0x%x;\n",TOK_MAIN);
+  printf("var VT_LLOCAL=0x%x;\n",VT_LLOCAL);
   return 0;
 }

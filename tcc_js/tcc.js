@@ -2704,16 +2704,22 @@ err();
 //         /* leave source on stack */
 //     } else {
     } else {
-err();
 //         r = gv();  /* generate value */
+        r = gv();
 //         ft = vtop[-1].t;
+        ft = ri32(vtop-SValue_size+SValue_t_o);
 //         fc = vtop[-1].c.i;
+        fc = ri32(vtop-SValue_size+SValue_c_o);
 //         /* if lvalue was saved on stack, must read it */
 //         if ((ft & VT_VALMASK) == VT_LLOCAL) {
+        if ((ft & VT_VALMASK) == VT_LLOCAL) {
+err();
 //             t = get_reg(REG_CLASS_INT);
 //             load(t, VT_LOCAL | VT_LVAL, fc);
 //             ft = (ft & ~VT_VALMASK) | t;
 //         }
+        }
+err();
 //         store(r, ft, fc);
 //         vtop--;
 //         vtop->t = (ft & VT_TYPE) | r;
