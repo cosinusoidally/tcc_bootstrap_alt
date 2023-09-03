@@ -2457,15 +2457,24 @@ err();
 // int is_compatible_types(int t1, int t2)
 // {
 function is_compatible_types(t1, t2) {
-err();
 //     Sym *s1, *s2;
+    var s1;
+    var s2;
 //     int bt1, bt2;
+    var bt1;
+    var bt2;
 // 
 //     t1 &= VT_TYPE;
+    t1 &= VT_TYPE;
 //     t2 &= VT_TYPE;
+    t2 &= VT_TYPE;
 //     bt1 = t1 & VT_BTYPE;
+    bt1 = t1 & VT_BTYPE;
 //     bt2 = t2 & VT_BTYPE;
+    bt2 = t2 & VT_BTYPE;
 //     if (bt1 == VT_PTR) {
+    if (bt1 == VT_PTR) {
+err();
 //         t1 = pointed_type(t1);
 //         /* if function, then convert implicitely to function pointer */
 //         if (bt2 != VT_FUNC) {
@@ -2480,8 +2489,12 @@ err();
 //             return 1;
 //         return is_compatible_types(t1, t2);
 //     } else if (bt1 == VT_STRUCT) {
+    } else if (bt1 == VT_STRUCT) {
+err();
 //         return (t2 == t1);
 //     } else if (bt1 == VT_FUNC) {
+    } else if (bt1 == VT_FUNC) {
+err();
 //         if (bt2 != VT_FUNC)
 //             return 0;
 //         s1 = sym_find(((unsigned)t1 >> VT_STRUCT_SHIFT));
@@ -2505,9 +2518,12 @@ err();
 //             return 0;
 //         return 1;
 //     } else {
+    } else {
 //         /* XXX: not complete */
 //         return 1;
+        return 1;
 //     }
+    }
 // }
 }
 // 
@@ -2654,8 +2670,9 @@ function vstore() {
 //     gen_assign_cast(ft & VT_TYPE);
     gen_assign_cast(ft & VT_TYPE);
 // 
-err();
 //     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
+    if ((ri32(vtop+SValue_t_o) & VT_BTYPE) == VT_STRUCT) {
+err();
 //         /* if structure, only generate pointer */
 //         /* structure assignment : generate memcpy */
 //         /* XXX: optimize if small size */
@@ -2686,6 +2703,8 @@ err();
 // }
 //         /* leave source on stack */
 //     } else {
+    } else {
+err();
 //         r = gv();  /* generate value */
 //         ft = vtop[-1].t;
 //         fc = vtop[-1].c.i;
@@ -2700,6 +2719,7 @@ err();
 //         vtop->t = (ft & VT_TYPE) | r;
 //         vtop->c.i = 0;
 //     }
+    }
 // }
     leave();
 }
