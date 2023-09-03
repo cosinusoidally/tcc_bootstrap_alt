@@ -2015,12 +2015,20 @@ print("t: "+t+" v: "+v);
 // 
 // void vswap(void)
 // {
+function vswap() {
+    enter();
 //     SValue tmp;
+    var tmp=alloca(SValue_size);
 // 
 //     tmp = vtop[0];
+    memcpy(tmp, vtop,SValue_size);
 //     vtop[0] = vtop[-1];
+    memcpy(vtop, vtop-SValue_size, SValue_size);
 //     vtop[-1] = tmp;
+    memcpy(vtop-SValue_size, tmp, SValue_size);
+    leave();
 // }
+}
 // 
 // void vdup(void)
 // {

@@ -580,34 +580,49 @@ function gjmp(t) {
 // void gen_opi(int op)
 // {
 function gen_opi(op) {
-err();
 //     int t, r, fr;
+    var t;
+    var r;
+    var fr;
 // 
 //     vswap();
+    vswap();
 //     r = gv();
+    r = gv();
 //     vswap();
+    vswap();
 //     fr = gv();
+    fr = gv();
 //     vtop--;
+    vtop=vtop-SValue_size;
 // 
+err();
 //     if (op == '+') {
+err();
 //         o(0x01);
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '-') {
+err();
 //         o(0x29);
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '&') {
+err();
 //         o(0x21);
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '^') {
+err();
 //         o(0x31);
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '|') {
+err();
 //         o(0x09);
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '*') {
+err();
 //         o(0xaf0f); /* imul fr, r */
 //         o(0xc0 + fr + r * 8);
 //     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
+err();
 //         /* op2 is %ecx */
 //         if (fr != 1) {
 //             if (r == 1) {
@@ -628,6 +643,7 @@ err();
 //         vtop->t = (vtop->t & VT_TYPE) | r;
 //     } else if (op == '/' | op == TOK_UDIV | op == TOK_PDIV | 
 //                op == '%' | op == TOK_UMOD) {
+err();
 //         save_reg(2); /* save edx */
 //         t = save_reg_forced(fr); /* save fr and get op2 location */
 //         move_reg(0, r); /* op1 is %eax */
@@ -644,6 +660,7 @@ err();
 //             r = 0;
 //         vtop->t = (vtop->t & VT_TYPE) | r;
 //     } else {
+err();
 //         vtop--;
 //         o(0x39);
 //         o(0xc0 + r + fr * 8); /* cmp fr, r */
