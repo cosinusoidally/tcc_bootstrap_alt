@@ -338,8 +338,8 @@ err();
 //             o(0xb70f);   /* movzwl */
 //         else
         } else {
-err();
 //             o(0x8b);     /* movl */
+            o(0x8b);     /* movl */
         }
 // 
 err();
