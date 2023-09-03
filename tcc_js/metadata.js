@@ -78,5 +78,7 @@ var VT_LLOCAL=0xb;
 var VT_SHORT=0x400;
 var VT_BYTE=0x200;
 var VT_UNSIGNED=0x2000;
+var VT_JMP=0xe;
+var VT_JMPI=0xf;
 var TOK___FUNC__=0x132;
 var TOK_SIZEOF=0x122;

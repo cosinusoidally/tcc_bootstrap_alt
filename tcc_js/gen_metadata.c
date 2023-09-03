@@ -85,6 +85,8 @@ int main(void){
   printf("var VT_SHORT=0x%x;\n",VT_SHORT);
   printf("var VT_BYTE=0x%x;\n",VT_BYTE);
   printf("var VT_UNSIGNED=0x%x;\n",VT_UNSIGNED);
+  printf("var VT_JMP=0x%x;\n",VT_JMP);
+  printf("var VT_JMPI=0x%x;\n",VT_JMPI);
   printf("var TOK___FUNC__=0x%x;\n",TOK___FUNC__);
   printf("var TOK_SIZEOF=0x%x;\n",TOK_SIZEOF);
   return 0;
