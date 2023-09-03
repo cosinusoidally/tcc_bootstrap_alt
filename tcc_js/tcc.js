@@ -3329,10 +3329,13 @@ err();
 //         vset(t & ~VT_ARRAY, fc);
 //     } else {
     } else {
-err();
 //         t = tok;
+        t = tok;
 //         next();
+        next();
 //         if (t == '(') {
+        if (t == mk_char('(')) {
+err();
 //             /* cast ? */
 //             if (t = ist()) {
 //                 ft = type_decl(&n, t, TYPE_ABSTRACT);
@@ -3358,9 +3361,13 @@ err();
 //                 skip(')');
 //             }
 //         } else if (t == '*') {
+        } else if (t == mk_char('*')) {
+err();
 //             unary();
 //             indir();
 //         } else if (t == '&') {
+        } else if (t == mk_char('&')) {
+err();
 //             unary();
 //             /* functions names must be treated as function pointers,
 //                except for unary '&' and sizeof. Since we consider that
@@ -3371,6 +3378,8 @@ err();
 //             vtop->t = mk_pointer(vtop->t & VT_LVALN);
 //         } else
 //         if (t == '!') {
+        } else if (t == mk_char('!')) {
+err();
 //             unary();
 //             if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) 
 //                 vtop->c.i = !vtop->c.i;
@@ -3380,14 +3389,20 @@ err();
 //                 vset(VT_JMP, gtst(1, 0));
 //         } else
 //         if (t == '~') {
+        } else if (t == mk_char('~')) {
+err();
 //             unary();
 //             vset(VT_CONST, -1);
 //             gen_op('^');
 //         } else 
 //         if (t == '+') {
+        } else if (t == mk_char('+')) {
+err();
 //             unary();
 //         } else 
 //         if (t == TOK_SIZEOF) {
+        } else if (t == TOK_SIZEOF) {
+err();
 //             if (tok == '(') {
 //                 next();
 //                 if (t = ist())
@@ -3408,14 +3423,20 @@ err();
 //             vset(VT_CONST, type_size(t, &t));
 //         } else
 //         if (t == TOK_INC || t == TOK_DEC) {
+        } else if (t == TOK_INC || t == TOK_DEC) {
+err();
 //             unary();
 //             inc(0, t);
 //         } else if (t == '-') {
+        } else if (t == mk_char('-')) {
+err();
 //             vset(VT_CONST, 0);
 //             unary();
 //             gen_op('-');
 //         } else 
 //         {
+        } else {
+err();
 //             s = sym_find(t);
 //             if (!s) {
 //                 if (tok != '(')
@@ -3432,6 +3453,7 @@ err();
 //             if (vtop->t & VT_FORWARD)
 //                 vtop->c.sym = s;
 //         }
+        }
 //     }
     }
 //     
