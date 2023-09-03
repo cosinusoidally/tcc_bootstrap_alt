@@ -2257,15 +2257,18 @@ err();
 //         vtop--;
 //     } else {
     } else {
-err();
 //         /* if commutative ops, put c2 as constant */
 //         if (c1 && (op == '+' || op == '&' || op == '^' || 
 //                    op == '|' || op == '*')) {
+        if (c1 && (op == mk_char('+') || op == mk_char('&') || op == mk_char('^') || 
+                   op == mk_char('|') || op == mk_char('*'))) {
 err();
 //             vswap();
 //             swap(&c1, &c2);
 //         }
+        }
 //         fc = vtop->c.i;
+        fc = ri32(vtop+SValue_c_o);
 //         if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV || 
 //                      op == TOK_PDIV) && 
 //                     fc == 1) ||
@@ -2274,10 +2277,19 @@ err();
 //                     fc == 0) ||
 //                    (op == '&' && 
 //                     fc == -1))) {
+        if (c2 && (((op == mk_char('*') || op == mk_char('/') || op == TOK_UDIV || 
+                     op == TOK_PDIV) && 
+                    fc == 1) ||
+                   ((op == mk_char('+') || op == mk_char('-') || op == mk_char('|') || op == mk_char('^') || 
+                     op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) && 
+                    fc == 0) ||
+                   (op == mk_char('&') && 
+                    fc == -1))) {
 err();
 //             /* nothing to do */
 //             vtop--;
 //         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
+        } else if (c2 && (op == mk_char('*') || op == TOK_PDIV || op == TOK_UDIV)) {
 err();
 //             /* try to use shifts instead of muls or divs */
 //             if (fc > 0 && (fc & (fc - 1)) == 0) {
@@ -2296,21 +2308,25 @@ err();
 //             }
 //             general_case=1;break;
 //         } else {
-err();
+        } else {
 //         general_case=1;
+        general_case=1;
 //         }
+        }
 //     }
     }
 //     break;
     break;
 //     }
     }
-err();
 //     if(general_case){
+    if(general_case){
 //         /* call low level op generator */
 //         /* XXX: remove explicit registers */
 //         gen_opi(op);
+        gen_opi(op);
 //     }
+    }
 // }
 }
 // 
