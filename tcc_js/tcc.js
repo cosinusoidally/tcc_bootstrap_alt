@@ -2299,17 +2299,30 @@ print("gv r_ret: "+r)
 // void gen_op(int op)
 // {
 function gen_op(op) {
-err();
 //     int u, t1, t2, bt1, bt2, t;
+    var u;
+    var t1;
+    var t2;
+    var bt1;
+    var bt2;
+    var t;
 // 
 //     t1 = vtop[-1].t;
+    t1 = ri32(vtop-SValue_size+SValue_t_o);
 //     t2 = vtop[0].t;
+    t2 = ri32(vtop+SValue_t_o);
 //     bt1 = t1 & VT_BTYPE;
+    bt1 = t1 & VT_BTYPE;
 //     bt2 = t2 & VT_BTYPE;
+    bt2 = t2 & VT_BTYPE;
 //         
 //     if (op == '+' || op == '-') {
+    if (op == mk_char('+') || op == mk_char('-')) {
 //         if ((t1 & VT_BTYPE) == VT_PTR && 
 //             (t2 & VT_BTYPE) == VT_PTR) {
+        if ((t1 & VT_BTYPE) == VT_PTR &&
+            (t2 & VT_BTYPE) == VT_PTR) {
+err();
 //             if (op != '-')
 //                 error("invalid type");
 //             /* XXX: check that types are compatible */
@@ -2321,6 +2334,9 @@ err();
 //             gen_op(TOK_PDIV);
 //         } else if ((t1 & VT_BTYPE) == VT_PTR ||
 //                    (t2 & VT_BTYPE) == VT_PTR) {
+        } else if ((t1 & VT_BTYPE) == VT_PTR ||
+                   (t2 & VT_BTYPE) == VT_PTR) {
+err();
 //             if ((t2 & VT_BTYPE) == VT_PTR) {
 //                 vswap();
 //                 swap(&t1, &t2);
@@ -2332,9 +2348,14 @@ err();
 //             /* put again type if gen_opc() swaped operands */
 //             vtop->t = (vtop->t & ~VT_TYPE) | (t1 & VT_TYPE);
 //         } else {
+        } else {
 //             gen_opc(op);
+            gen_opc(op);
 //         }
+        }
 //     } else {
+    } else {
+err();
 //         /* XXX: test types and compute returned value */
 //         if ((t1 | t2) & VT_UNSIGNED ||
 //             (t1 & VT_BTYPE) == VT_PTR ||
@@ -2356,6 +2377,7 @@ err();
 //         }
 //         gen_opc(op);
 //     }
+    }
 // }
 }
 // 
