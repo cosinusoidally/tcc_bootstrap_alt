@@ -3436,9 +3436,11 @@ err();
 //         } else 
 //         {
         } else {
-err();
 //             s = sym_find(t);
+            s = sym_find(t);
 //             if (!s) {
+            if (!s) {
+err();
 //                 if (tok != '(')
 //                     error("'%s' undeclared", get_tok_str(t, NULL));
 //                 /* for simple function calls, we tolerate undeclared
@@ -3448,10 +3450,15 @@ err();
 //                 /* int() function */
 //                 s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT)); 
 //             }
+            }
 //             vset(s->t, s->c);
+            vset(ri32(s+Sym_t_o), ri32(s+Sym_c_o));
 //             /* if forward reference, we must point to s */
 //             if (vtop->t & VT_FORWARD)
+            if (ri32(vtop+SValue_t_o) & VT_FORWARD) {
+err();
 //                 vtop->c.sym = s;
+            }
 //         }
         }
 //     }

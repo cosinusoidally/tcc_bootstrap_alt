@@ -313,22 +313,36 @@ print("load: r: "+r+" ft: "+ft+" fc: "+fc);
     v = ft & VT_VALMASK;
 //     if (ft & VT_LVAL) {
     if (ft & VT_LVAL) {
-err();
 //         if (v == VT_LLOCAL) {
+        if (v == VT_LLOCAL) {
+err();
 //             load(r, VT_LOCAL | VT_LVAL, fc);
 //             v = r;
 //         }
+        }
 //         if ((ft & VT_TYPE) == VT_BYTE)
+        if ((ft & VT_TYPE) == VT_BYTE) {
+err();
 //             o(0xbe0f);   /* movsbl */
 //         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
+        } else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED)) {
+err();
 //             o(0xb60f);   /* movzbl */
 //         else if ((ft & VT_TYPE) == VT_SHORT)
+        } else if ((ft & VT_TYPE) == VT_SHORT) {
+err();
 //             o(0xbf0f);   /* movswl */
 //         else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED))
+        } else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED)) {
+err();
 //             o(0xb70f);   /* movzwl */
 //         else
+        } else {
+err();
 //             o(0x8b);     /* movl */
+        }
 // 
+err();
 //         if (v == VT_CONST) {
 //             o(0x05 + r * 8); /* 0xXX, r */
 // printf("\n load1 %x\n",ind);
