@@ -2723,10 +2723,12 @@ err();
         }
 //         store(r, ft, fc);
         store(r, ft, fc);
-err();
 //         vtop--;
+        vtop=vtop-SValue_size;
 //         vtop->t = (ft & VT_TYPE) | r;
+        wi32(vtop+SValue_t_o, (ft & VT_TYPE) | r);
 //         vtop->c.i = 0;
+        wi32(vtop+SValue_c_o, 0);
 //     }
     }
 // }
@@ -4234,7 +4236,6 @@ err();
         vstore();
 //         vpop();
         vpop();
-err();
 //     }
     }
 // }
@@ -4530,13 +4531,15 @@ err();
     if (has_init) {
 //         decl_initializer(t, addr, 1, 0);
         decl_initializer(t, addr, 1, 0);
-err();
 //         /* restore parse state if needed */
 //         if (init_str) {
+        if (ri32(init_str)) {
+err();
 //             free(init_str);
 //             macro_ptr = saved_macro_ptr;
 //             tok = tok1;
 //         }
+        }
 //     }
     }
 //     return addr;
