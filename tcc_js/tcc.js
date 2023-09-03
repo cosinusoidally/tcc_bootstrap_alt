@@ -3673,7 +3673,7 @@ function sum(l) {
 //         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
         while ((l == 0 & (tok == mk_char('*') | tok == mk_char('/') | tok == mk_char('%'))) |
 //                (l == 1 & (tok == '+' | tok == '-')) |
-               (l == 1 & (tok == '+' | tok == mk_char('-'))) |
+               (l == 1 & (tok == mk_char('+') | tok == mk_char('-'))) |
 //                (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
                (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
 //                (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
