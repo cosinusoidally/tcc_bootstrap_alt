@@ -499,6 +499,9 @@ function gfunc_start(c) {
 //    context. Stack entry is popped */
 // void gfunc_call(GFuncContext *c)
 // {
+function gfunc_call(c) {
+print("c->arg_size "+(ri32(c+GFuncContext_args_size_o)))
+err();
 //     int r;
 //     if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
 //         /* constant case */
@@ -533,6 +536,7 @@ function gfunc_start(c) {
 //         oad(0xc481, c->args_size); /* add $xxx, %esp */
 //     vtop--;
 // }
+}
 // 
 // int gjmp(int t)
 // {

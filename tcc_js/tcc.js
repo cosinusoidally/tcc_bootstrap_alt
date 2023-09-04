@@ -3746,7 +3746,7 @@ err();
 //                 saved_macro_ptr = macro_ptr;
                 saved_macro_ptr = ri32(macro_ptr);
 //                 while (args) {
-                while (args) {
+                while (ri32(args)) {
 err();
 //                     macro_ptr = (int *)args->c;
 //                     next();
