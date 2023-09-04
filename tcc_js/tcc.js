@@ -3324,15 +3324,24 @@ err();
 // /* define a new external reference to a function 'v' of type 'u' */
 // Sym *external_sym(int v, int u)
 // {
+function external_sym(v, u) {
 //     Sym *s;
+    var s;
 //     s = sym_find(v);
+    s = sym_find(v);
 //     if (!s) {
+    if (!s) {
 //         /* push forward reference */
 //         s = sym_push1(&global_stack, 
 //                       v, u | VT_CONST | VT_FORWARD, 0);
+        s = sym_push1(global_stack, 
+                      v, u | VT_CONST | VT_FORWARD, 0);
 //     }
+    }
 //     return s;
+    return s;
 // }
+}
 // 
 // void indir(void)
 // {
@@ -3533,8 +3542,8 @@ err();
 //             /* if forward reference, we must point to s */
 //             if (vtop->t & VT_FORWARD)
             if (ri32(vtop+SValue_t_o) & VT_FORWARD) {
-err();
 //                 vtop->c.sym = s;
+                wi32(vtop+SValue_c_o, s);
             }
 //         }
         }
