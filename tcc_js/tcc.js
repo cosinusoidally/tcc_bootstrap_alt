@@ -3766,9 +3766,10 @@ err();
 //                 tok = ')';
                 tok = mk_char(')');
 //             }
-err();
 //             /* compute first implicit argument if a structure is returned */
 //             if ((s->t & VT_BTYPE) == VT_STRUCT) {
+            if ((ri32(s+Sym_t_o) & VT_BTYPE) == VT_STRUCT) {
+err();
 //                 /* get some space for the returned structure */
 //                 size = type_size(s->t, &align);
 //                 loc = (loc - size) & -align;
@@ -3779,15 +3780,24 @@ err();
 //                 retc = vtop->c;
 //                 gfunc_param(&gf);
 //             } else {
+            } else {
 //                 rett = s->t | FUNC_RET_REG; /* return in register */
+                rett = ri32(s+Sym_t_o) | FUNC_RET_REG;
 //                 retc.i = 0;
+                ri32(retc, 0);
 //             }
+            }
 //             if (sa)
+            if (sa)
 //                 error("too few arguments to function %x", sa->t);
+                error("too few arguments to function %x");
 //             skip(')');
+            skip(mk_char(')'));
 //             gfunc_call(&gf);
+            gfunc_call(gf);
 //             /* return value */
 //             vsetc(rett, &retc);
+            vsetc(rett, retc);
 //         } else {
         } else {
 //             break;
