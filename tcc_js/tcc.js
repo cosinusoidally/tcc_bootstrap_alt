@@ -199,7 +199,7 @@ var extern_stack=malloc(SymStack_size);
 var vstack=malloc(SValue_size*VSTACK_SIZE);
 var vtop;
 // int *macro_ptr, *macro_ptr_allocated;
-var macro_ptr=0;
+var macro_ptr=malloc(4);
 var macro_ptr_allocated=0;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
@@ -1696,7 +1696,7 @@ err();
 function next_nomacro() {
     enter();
 //     if (macro_ptr) {
-    if (macro_ptr) {
+    if (ri32(macro_ptr)) {
 err();
 //         tok = *macro_ptr;
 //         if (tok)
@@ -1830,7 +1830,7 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
 //     saved_macro_ptr = macro_ptr;
     saved_macro_ptr = macro_ptr;
 //     macro_ptr = macro_str;
-    macro_ptr = macro_str;
+    wi32(macro_ptr, macro_str);
 //     macro_str1 = NULL;
     macro_str1 = NULL;
 //     if (macro_str) {
@@ -1935,7 +1935,7 @@ err();
 //         redo=0;
         redo=0;
 //         if (!macro_ptr) {
-        if (!macro_ptr) {
+        if (!ri32(macro_ptr)) {
 //             /* if not reading from macro substuted string, then try to substitute */
 //             len = 0;
             wi32(len, 0);
@@ -3742,10 +3742,12 @@ err();
 //                     expect(")");
                     expect(")");
 //                 
-err();
 //                 /* now generate code in reverse order by reading the stack */
 //                 saved_macro_ptr = macro_ptr;
+                saved_macro_ptr = ri32(macro_ptr);
 //                 while (args) {
+                while (args) {
+err();
 //                     macro_ptr = (int *)args->c;
 //                     next();
 //                     expr_eq();
@@ -3757,10 +3759,14 @@ err();
 //                     free(args);
 //                     args = s1;
 //                 }
+                }
 //                 macro_ptr = saved_macro_ptr;
+                wi32(macro_ptr, saved_macro_ptr);
 //                 /* restore token */
 //                 tok = ')';
+                tok = mk_char(')');
 //             }
+err();
 //             /* compute first implicit argument if a structure is returned */
 //             if ((s->t & VT_BTYPE) == VT_STRUCT) {
 //                 /* get some space for the returned structure */
