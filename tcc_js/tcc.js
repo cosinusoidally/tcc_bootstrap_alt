@@ -1078,6 +1078,7 @@ function tok_ext_size(t) {
 // void tok_add(int **tok_str, int *tok_len, int t)
 // {
 function tok_add(tok_str, tok_len, t) {
+// FIXME ljw I don't think this is right
     enter();
 //     int len, *str;
     var len;
@@ -3711,6 +3712,7 @@ err();
 //                             parlevel--;
                             parlevel--;
 //                         tok_add2(&str, &len, tok, &tokc);
+debugger;
                         tok_add2(str, len, tok, tokc);
 //                         next();
                         next();
@@ -3720,6 +3722,9 @@ err();
                     tok_add(str, len, -1); /* end of file added */
 //                     tok_add(&str, &len, 0);
                     tok_add(str, len, 0);
+print("len: "+ri32(len)+" str "+ri32(str)+" str val "+ri32(ri32(str)));
+hd(ri32(ri32(str)),16);
+err();
 // FIXME ljw is this right
 //                     s1 = sym_push2(&args, 0, 0, (int)str);
                     s1 = sym_push2(args, 0, 0, ri32(str));
