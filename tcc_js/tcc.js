@@ -1697,10 +1697,13 @@ function next_nomacro() {
     enter();
 //     if (macro_ptr) {
     if (ri32(macro_ptr)) {
-err();
 //         tok = *macro_ptr;
+        tok = ri32(ri32(macro_ptr));
 //         if (tok)
+        if (tok)
 //             tok = tok_get(&macro_ptr, &tokc);
+            tok = tok_get(macro_ptr, tokc);
+err();
 //     } else {
     } else {
 //         next_nomacro1();
@@ -1965,8 +1968,9 @@ err();
               }
 //         } else {
         } else {
-err();
 //             next_nomacro();
+            next_nomacro();
+err();
 //             if (tok == 0) {
 //                 /* end of macro string: free it */
 //                 free(macro_ptr_allocated);
