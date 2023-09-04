@@ -54,6 +54,7 @@ var FUNC_RET_REG = 0;
 // /* function call context */
 // typedef struct GFuncContext {
 //     int args_size;
+var GFuncContext_args_size_o=0;
 // } GFuncContext;
 // 
 // /******************************************************/
@@ -458,8 +459,11 @@ err();
 // /* start function call and return function call context */
 // void gfunc_start(GFuncContext *c)
 // {
+function gfunc_start(c) {
 //     c->args_size = 0;
+    wi32(c+GFuncContext_args_size_o, 0);
 // }
+}
 // 
 // /* push function parameter which is in (vtop->t, vtop->c). Stack entry
 //    is then popped. */
