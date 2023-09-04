@@ -2138,16 +2138,26 @@ err();
 // 
 // void save_regs()
 // {
+function save_regs() {
 //     int r;
+    var r;
 //     SValue *p;
+    var p;
 // 
 //     for(p=vstack;p<=vtop;p++) {
+    for(p=vstack;p<=vtop;p=p+SValue_size) {
 //         r = p->t & VT_VALMASK;
+        r = ri32(p+SValue_t_o) & VT_VALMASK;
 //         if (r < VT_CONST) {
+        if (r < VT_CONST) {
 //             save_reg(r);
+            save_reg(r);
 //         }
+        }
 //     }
+    }
 // }
+}
 // 
 // /* move register 's' to 'r', and flush previous value of r to memory
 //    if needed */
