@@ -4199,7 +4199,7 @@ err();
 //         *def_sym = ind;
 //         block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else {
-//     } else {
+    } else {
 err();
 //         /* expression case */
 //         if (tok != ';') {
