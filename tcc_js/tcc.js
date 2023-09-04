@@ -1633,9 +1633,10 @@ err();
         }
 //         *q = '\0';
         wi8(q, 0);
-err();
 //         tokc.ts = tok_alloc(token_buf, q - token_buf);
+        wi32(tokc, tok_alloc(token_buf, q - token_buf));
 //         minp();
+        minp();
 //     } else {
     } else {
 //         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
@@ -3673,28 +3674,49 @@ err();
             gfunc_start(gf);
 //             next();
             next();
-err();
 //             sa = s->next; /* first parameter */
+            sa = ri32(s+Sym_next_o); /* first parameter */
 //             {
 //                 int *str, len, parlevel, *saved_macro_ptr;
+                var str=alloca(4);
+                var len=alloca(4);
+                var parlevel;
+                var saved_macro_ptr;
 //                 Sym *args, *s1;
+                var args;
+                var s1;
 // 
 //                 /* read each argument and store it on a stack */
 //                 /* XXX: merge it with macro args ? */
 //                 args = NULL;
+                args = NULL;
 //                 while (tok != ')') {
+                while (tok !== mk_char(')')) {
 //                     len = 0;
+                    wi32(len, 0);
 //                     str = NULL;
+                    wi32(str, NULL);
 //                     parlevel = 0;
+                    parlevel = 0;
 //                     while ((parlevel > 0 || (tok != ')' && tok != ',')) && 
 //                            tok != -1) {
+                    while ((parlevel > 0 || (tok != mk_char(')') && tok != mk_char(','))) && 
+                           tok != -1) {
 //                         if (tok == '(')
+                        if (tok == mk_char('('))
 //                             parlevel++;
+                            parlevel++;
 //                         else if (tok == ')')
+                        else if (tok == mk_char(')'))
 //                             parlevel--;
+                            parlevel--;
 //                         tok_add2(&str, &len, tok, &tokc);
+                        tok_add2(str, len, tok, tokc);
 //                         next();
+                        next();
 //                     }
+                    }
+err();
 //                     tok_add(&str, &len, -1); /* end of file added */
 //                     tok_add(&str, &len, 0);
 //                     s1 = sym_push2(&args, 0, 0, (int)str);
@@ -3705,6 +3727,8 @@ err();
 //                         break;
 //                     next();
 //                 }
+                }
+err();
 //                 if (tok != ')')
 //                     expect(")");
 //                 
