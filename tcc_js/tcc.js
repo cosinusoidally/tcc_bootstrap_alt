@@ -3716,22 +3716,33 @@ err();
                         next();
 //                     }
                     }
-err();
 //                     tok_add(&str, &len, -1); /* end of file added */
+                    tok_add(str, len, -1); /* end of file added */
 //                     tok_add(&str, &len, 0);
+                    tok_add(str, len, 0);
+// FIXME ljw is this right
 //                     s1 = sym_push2(&args, 0, 0, (int)str);
+                    s1 = sym_push2(args, 0, 0, ri32(str));
 //                     s1->next = sa; /* add reference to argument */
+                    wi32(s1+Sym_next_o, sa); /* add reference to argument */
 //                     if (sa)
+                    if (sa)
 //                         sa = sa->next;
+                        sa = ri32(sa+Sym_next_o);
 //                     if (tok != ',')
+                    if (tok != mk_char(','))
 //                         break;
+                        break;
 //                     next();
+                    next();
 //                 }
                 }
-err();
 //                 if (tok != ')')
+                if (tok != mk_char(')'))
 //                     expect(")");
+                    expect(")");
 //                 
+err();
 //                 /* now generate code in reverse order by reading the stack */
 //                 saved_macro_ptr = macro_ptr;
 //                 while (args) {
