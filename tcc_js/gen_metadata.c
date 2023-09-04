@@ -89,5 +89,11 @@ int main(void){
   printf("var VT_JMPI=0x%x;\n",VT_JMPI);
   printf("var TOK___FUNC__=0x%x;\n",TOK___FUNC__);
   printf("var TOK_SIZEOF=0x%x;\n",TOK_SIZEOF);
+  printf("var TOK_BREAK=0x%x;\n",TOK_BREAK);
+  printf("var TOK_CONTINUE=0x%x;\n",TOK_CONTINUE);
+  printf("var TOK_DO=0x%x;\n",TOK_DO);
+  printf("var TOK_SWITCH=0x%x;\n",TOK_SWITCH);
+  printf("var TOK_CASE=0x%x;\n",TOK_CASE);
+  printf("var TOK_DEFAULT=0x%x;\n",TOK_DEFAULT);
   return 0;
 }
