@@ -3513,15 +3513,19 @@ err();
             s = sym_find(t);
 //             if (!s) {
             if (!s) {
-err();
 //                 if (tok != '(')
+                if (tok !== mk_char('('))
 //                     error("'%s' undeclared", get_tok_str(t, NULL));
+                    error("'%s' undeclared", get_tok_str(t, NULL));
 //                 /* for simple function calls, we tolerate undeclared
 //                    external reference */
 //                 p = anon_sym++;        
+                p = anon_sym++;
 //                 sym_push1(&global_stack, p, 0, FUNC_OLD);
+                sym_push1(global_stack, p, 0, FUNC_OLD);
 //                 /* int() function */
 //                 s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT)); 
+                s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT));
 //             }
             }
 //             vset(s->t, s->c);
@@ -4200,13 +4204,17 @@ err();
 //         block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else {
     } else {
-err();
 //         /* expression case */
 //         if (tok != ';') {
+        if (tok !== mk_char(';')) {
 //             gexpr();
+            gexpr();
 //             vpop();
+            vpop();
 //         }
+        }
 //         skip(';');
+        skip(mk_char(';'));
 //     }
     }
 // }
