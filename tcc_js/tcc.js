@@ -3683,13 +3683,13 @@ err();
                 var parlevel;
                 var saved_macro_ptr;
 //                 Sym *args, *s1;
-                var args;
+                var args=alloca(4);
                 var s1;
 // 
 //                 /* read each argument and store it on a stack */
 //                 /* XXX: merge it with macro args ? */
 //                 args = NULL;
-                args = NULL;
+                wi32(args, NULL);
 //                 while (tok != ')') {
                 while (tok !== mk_char(')')) {
 //                     len = 0;
@@ -3747,13 +3747,23 @@ err();
                 saved_macro_ptr = ri32(macro_ptr);
 //                 while (args) {
                 while (ri32(args)) {
-err();
 //                     macro_ptr = (int *)args->c;
+                    wi32(macro_ptr, ri32(ri32(args)+Sym_c_o));
 //                     next();
+print("tok: "+tok+ " macro_ptr val: "+ri32(macro_ptr));
+err();
+                    next();
+print("tok: "+tok);
+err();
 //                     expr_eq();
+                    expr_eq();
 //                     if (tok != -1)
+                    if (tok != -1)
 //                         expect("',' or ')'");
+                        expect("',' or ')'");
 //                     gfunc_param_typed(&gf, s, args->next);
+                    gfunc_param_typed(gf, s, ri32(args+Sym_next_o));
+err();
 //                     s1 = args->prev;
 //                     free((int *)args->c);
 //                     free(args);
