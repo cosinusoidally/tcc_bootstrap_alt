@@ -1078,15 +1078,14 @@ function tok_ext_size(t) {
 // void tok_add(int **tok_str, int *tok_len, int t)
 // {
 function tok_add(tok_str, tok_len, t) {
-// FIXME ljw I don't think this is right
     enter();
 //     int len, *str;
     var len;
-    var str;
+    var str=alloca(4);
 //     len = *tok_len;
     len=ri32(tok_len);
 //     str = *tok_str;
-    str = ri32(tok_str);
+    wi32(str, ri32(tok_str));
 //     if ((len & 63) == 0) {
     if ((len & 63) == 0) {
 //         str = realloc(str, (len + 64) * sizeof(int));
@@ -1101,7 +1100,7 @@ function tok_add(tok_str, tok_len, t) {
 //     }
     }
 //     str[len++] = t;
-    wi32(str+((len++)*4), t);
+    wi32(ri32(str)+((len++)*4), t);
 //     *tok_len = len;
     wi32(tok_len, len);
 // }
@@ -3722,9 +3721,6 @@ debugger;
                     tok_add(str, len, -1); /* end of file added */
 //                     tok_add(&str, &len, 0);
                     tok_add(str, len, 0);
-print("len: "+ri32(len)+" str "+ri32(str)+" str val "+ri32(ri32(str)));
-hd(ri32(ri32(str)),16);
-err();
 // FIXME ljw is this right
 //                     s1 = sym_push2(&args, 0, 0, (int)str);
                     s1 = sym_push2(args, 0, 0, ri32(str));
@@ -3755,11 +3751,7 @@ err();
 //                     macro_ptr = (int *)args->c;
                     wi32(macro_ptr, ri32(ri32(args)+Sym_c_o));
 //                     next();
-print("tok: "+tok+ " macro_ptr val: "+ri32(macro_ptr));
-err();
                     next();
-print("tok: "+tok);
-err();
 //                     expr_eq();
                     expr_eq();
 //                     if (tok != -1)
