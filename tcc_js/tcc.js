@@ -1309,11 +1309,17 @@ function define_symbol(sym) {
 // /* read a character for string or char constant and eval escape codes */
 // int getq()
 // {
+function getq() {
 //     int c;
+    var c;
 // 
 //     c = ch;
+    c = ch;
 //     minp();
+    minp();
 //     if (c == '\\') {
+    if (c == mk_char('\\')) {
+err();
 //         if (isnum(ch)) {
 //             /* at most three octal digits */
 //             c = ch - '0';
@@ -1354,8 +1360,11 @@ function define_symbol(sym) {
 //             minp();
 //         }
 //     }
+    }
 //     return c;
+    return c;
 // }
+}
 // 
 // void parse_number(void)
 // {
@@ -1600,19 +1609,31 @@ err();
 //         minp();
 //     } else if (ch == '\"') {
     } else if (ch == mk_char('\"')) {
-err();
 //         tok = TOK_STR;
+        tok = TOK_STR;
 //         minp();
+        minp();
 //         q = token_buf;
+        q = token_buf;
 //         while (ch != '\"') {
+        while (ch !== mk_char('\"')) {
 //             b = getq();
+            b = getq();
 //             if (ch == -1)
+            if (ch == -1)
 //                 error("unterminated string");
+                error("unterminated string");
 //             if (q >= token_buf + STRING_MAX_SIZE)
+            if (q >= token_buf + STRING_MAX_SIZE)
 //                 error("string too long");
+                error("string too long");
 //             *q++ = b;
+            wi8(q++, b);
 //         }
+        }
 //         *q = '\0';
+        wi8(q, 0);
+err();
 //         tokc.ts = tok_alloc(token_buf, q - token_buf);
 //         minp();
 //     } else {
