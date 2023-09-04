@@ -3377,8 +3377,17 @@ function external_sym(v, u) {
 function unary() {
     enter();
 //     int n, t, ft, fc, p, align, size;
+    var n;
+    var t;
+    var ft;
+    var fc;
+    var p;
+    var align;
+    var size;
 //     Sym *s;
+    var s;
 //     GFuncContext gf;
+    var gf=alloca(4);
 // 
 //     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
@@ -3599,13 +3608,17 @@ err();
 //             skip(']');
 //         } else if (tok == '(') {
         } else if (tok == mk_char('(')) {
-err();
 //             int rett;
+            var rett;
 //             CValue retc;
+            retc=alloca(4);
 //             Sym *sa;
+            var sa;
 // 
 //             /* function call  */
 //             if ((vtop->t & VT_BTYPE) != VT_FUNC) {
+            if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
+err();
 //                 /* pointer test (no array accepted) */
 //                 if ((vtop->t & (VT_BTYPE | VT_ARRAY)) == VT_PTR) {
 //                     vtop->t = pointed_type(vtop->t);
@@ -3615,13 +3628,21 @@ err();
 //                     expect("function pointer");
 //                 }
 //             } else {
+            } else {
 //                 vtop->t &= ~VT_LVAL; /* no lvalue */
+                wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) & ~VT_LVAL);
 //             }
+            }
 //             /* get return type */
 //             s = sym_find((unsigned)vtop->t >> VT_STRUCT_SHIFT);
+            s = sym_find(ri32(vtop+SValue_t_o) >>> VT_STRUCT_SHIFT);
 //             save_regs(); /* save used temporary registers */
+            save_regs();
 //             gfunc_start(&gf);
+            gfunc_start(gf);
 //             next();
+            next();
+err();
 //             sa = s->next; /* first parameter */
 //             {
 //                 int *str, len, parlevel, *saved_macro_ptr;
