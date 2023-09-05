@@ -2573,11 +2573,17 @@ err();
 // 
 // int mk_pointer(int t)
 // {
+function mk_pointer(t) {
 //     int p;
+    var p;
 //     p = anon_sym++;
+    p = anon_sym++;
 //     sym_push(p, t, -1);
+    sym_push(p, t, -1);
 //     return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
+    return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
 // }
+}
 // 
 // int is_compatible_types(int t1, int t2)
 // {
