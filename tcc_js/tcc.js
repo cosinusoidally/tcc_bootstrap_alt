@@ -1131,16 +1131,29 @@ function tok_add2(tok_str, tok_len, t, cv) {
 // /* get a token from an integer array and increment pointer accordingly */
 // int tok_get(int **tok_str, CValue *cv)
 // {
+function tok_get(tok_str, cv) {
 //     int *p, t, n, i;
+     var p;
+     var t;
+     var n;
+     var i;
 // 
 //     p = *tok_str;
+    p = ri32(tok_str);
 //     t = *p++;
+    t = ri32(p++);
 //     n = tok_ext_size(t);
+    n = tok_ext_size(t);
 //     for(i=0;i<n;i++)
+    for(i=0;i<n;i++)
 //         cv->tab[i] = *p++;
+        wi32(cv+(i*4),ri32(p++));
 //     *tok_str = p;
+    wi32(tok_str, p);
 //     return t;
+    return t;
 // }
+}
 // 
 // /* XXX: should be more factorized */
 // void define_symbol(char *sym)
@@ -1703,7 +1716,6 @@ function next_nomacro() {
         if (tok)
 //             tok = tok_get(&macro_ptr, &tokc);
             tok = tok_get(macro_ptr, tokc);
-err();
 //     } else {
     } else {
 //         next_nomacro1();
@@ -1970,14 +1982,16 @@ err();
         } else {
 //             next_nomacro();
             next_nomacro();
-err();
 //             if (tok == 0) {
+            if (tok == 0) {
+err();
 //                 /* end of macro string: free it */
 //                 free(macro_ptr_allocated);
 //                 macro_ptr = NULL;
 //                 redo=1;
 //                 continue;
 //             }
+            }
 //         }
         }
 //         break;
@@ -2539,10 +2553,11 @@ err();
 //         return 2;
 //     } else {
     } else {
-err();
 //         /* char, void, function, _Bool */
 //         *a = 1;
+        wi32(a, 1);
 //         return 1;
+        return 1;
 //     }
     }
 // }
@@ -3418,7 +3433,7 @@ function unary() {
     var ft;
     var fc;
     var p;
-    var align;
+    var align=alloca(4);
     var size;
 //     Sym *s;
     var s;
@@ -3442,18 +3457,26 @@ err();
 //         next();
 //     } else if (tok == TOK_STR) {
     } else if (tok == TOK_STR) {
-err();
 //         /* string parsing */
 //         t = VT_BYTE;
+        t = VT_BYTE;
 //         type_size(t, &align);
+        type_size(t, align);
 //         glo = (glo + align - 1) & -align;
+        glo = (glo + ri32(align) - 1) & -ri32(align);
 //         fc = glo;
+        fc = glo;
 //         /* we must declare it as an array first to use initializer parser */
 //         t = VT_CONST | VT_ARRAY | mk_pointer(t);
+        t = VT_CONST | VT_ARRAY | mk_pointer(t);
 //         decl_initializer(t, glo, 1, 0);
+        decl_initializer(t, glo, 1, 0);
 //         glo += type_size(t, &align);
+        glo += type_size(t, ri32(align));
 //         /* put it as pointer */
 //         vset(t & ~VT_ARRAY, fc);
+        vset(t & ~VT_ARRAY, fc);
+err();
 //     } else {
     } else {
 //         t = tok;
