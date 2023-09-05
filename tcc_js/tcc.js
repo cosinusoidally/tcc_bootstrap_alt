@@ -4464,32 +4464,46 @@ function init_putv(t, c, v, is_expr) {
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
     if ((t & VT_VALMASK) == VT_CONST) {
-print("v: "+v);
-err();
 //         if (is_expr) {
+        if (is_expr) {
+err();
 //             /* compound literals must be allocated globally in this case */
 //             saved_global_expr = global_expr;
 //             global_expr = 1;
 //             expr_const1();
 //             global_expr = saved_global_expr;
 //         } else {
+        } else {
 //             vset(VT_CONST | VT_INT, v);
+            vset(VT_CONST | VT_INT, v);
 //         }
+        }
 //         /* XXX: do casting */
 //         /* XXX: not portable */
 //         bt = vtop->t & VT_BTYPE;
+        bt = ri32(vtop+SValue_t_o) & VT_BTYPE;
 //         switch(bt) {
+        switch(bt) {
 //         case VT_BYTE:
+        case VT_BYTE:
+err();
 //             *(char *)c = vtop->c.i;
 //             break;
 //         case VT_SHORT:
+        case VT_SHORT:
+err();
 //             *(short *)c = vtop->c.i;
 //             break;
 //         default:
+        default:
 //             *(int *)c = vtop->c.i;
+            wi32(c, ri32(vtop+SValue_c_o));
 //             break;
+            break;
 //         }
+        }
 //         vpop();
+        vpop();
 //     } else {
     } else {
 //         vset(t, c);
@@ -4566,7 +4580,7 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
         s = sym_find((t >>> VT_STRUCT_SHIFT));
 //         n = s->c;
-        n = wi32(s+Sym_c_o);
+        n = ri32(s+Sym_c_o);
 //         array_length = 0;
         array_length = 0;
 //         t1 = pointed_type(t);
@@ -4624,12 +4638,12 @@ err();
                     }
 //                 }
                 }
-err();
 //                 array_length += nb;
+                array_length += nb;
 //                 next();
+                next();
 //             }
             }
-err();
 //             /* only add trailing zero if enough storage (no
 //                warning in this case since it is standard) */
 //             if (n < 0 || array_length < n) {
