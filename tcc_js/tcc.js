@@ -1141,13 +1141,16 @@ function tok_get(tok_str, cv) {
 //     p = *tok_str;
     p = ri32(tok_str);
 //     t = *p++;
-    t = ri32(p++);
+    t = ri32(p);
+    p=p+4;
 //     n = tok_ext_size(t);
     n = tok_ext_size(t);
 //     for(i=0;i<n;i++)
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++) {
 //         cv->tab[i] = *p++;
-        wi32(cv+(i*4),ri32(p++));
+        wi32(cv+(i*4),ri32(p));
+        p=p+4;
+    }
 //     *tok_str = p;
     wi32(tok_str, p);
 //     return t;
