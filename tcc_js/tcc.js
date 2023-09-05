@@ -4582,15 +4582,20 @@ err();
 //         }
         }
 // 
-err();
 //         /* only parse strings here if correct type (otherwise: handle
 //            them as ((w)char *) expressions */
 //         if ((tok == TOK_LSTR && 
 //              (t1 & VT_BTYPE) == VT_INT) ||
 //             (tok == TOK_STR &&
 //              (t1 & VT_BTYPE) == VT_BYTE)) {
+        if ((tok == TOK_LSTR && 
+             (t1 & VT_BTYPE) == VT_INT) ||
+            (tok == TOK_STR &&
+             (t1 & VT_BTYPE) == VT_BYTE)) {
 //             /* XXX: move multiple string parsing in parser ? */
 //             while (tok == TOK_STR || tok == TOK_LSTR) {
+            while (tok == TOK_STR || tok == TOK_LSTR) {
+err();
 //                 ts = tokc.ts;
 //                 /* compute maximum number of chars wanted */
 //                 nb = ts->len;
@@ -4607,15 +4612,22 @@ err();
 //                 array_length += nb;
 //                 next();
 //             }
+            }
+err();
 //             /* only add trailing zero if enough storage (no
 //                warning in this case since it is standard) */
 //             if (n < 0 || array_length < n) {
+            if (n < 0 || array_length < n) {
+err();
 //                 if (!size_only) {
 //                     init_putv(t1, c + (array_length * size1), 0, 0);
 //                 }
 //                 array_length++;
 //             }
+            }
 //         } else {
+        } else {
+err();
 //             index = 0;
 //             while (tok != '}') {
 //                 decl_designator(t, c, &index, NULL, size_only);
@@ -4640,6 +4652,8 @@ err();
 //                 skip(',');
 //             }
 //         }
+        }
+err();
 //         if (!no_oblock)
 //             skip('}');
 //         /* put zeros at the end */
