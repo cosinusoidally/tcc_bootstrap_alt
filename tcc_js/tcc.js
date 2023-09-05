@@ -2566,10 +2566,15 @@ err();
 // /* return the pointed type of t */
 // int pointed_type(int t)
 // {
+function pointed_type(t) {
 //     Sym *s;
+    var s;
 //     s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+    s = sym_find(t >>> VT_STRUCT_SHIFT);
 //     return s->t | (t & ~VT_TYPE);
+    return ri32(s+Sym_t_o) | (t & ~VT_TYPE);
 // }
+}
 // 
 // int mk_pointer(int t)
 // {
@@ -4554,20 +4559,30 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 // 
 //     if (t & VT_ARRAY) {
     if (t & VT_ARRAY) {
-err();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+        s = sym_find((t >>> VT_STRUCT_SHIFT));
 //         n = s->c;
+        n = wi32(s+Sym_c_o);
 //         array_length = 0;
+        array_length = 0;
 //         t1 = pointed_type(t);
+        t1 = pointed_type(t);
 //         size1 = type_size(t1, &align1);
+        size1 = type_size(t1, align1);
 // 
 //         no_oblock = 1;
+        no_oblock = 1;
 //         if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
 //             tok == '{') {
+        if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
+            tok == mk_char('{')) {
+err();
 //             skip('{');
 //             no_oblock = 0;
 //         }
+        }
 // 
+err();
 //         /* only parse strings here if correct type (otherwise: handle
 //            them as ((w)char *) expressions */
 //         if ((tok == TOK_LSTR && 
