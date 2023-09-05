@@ -4464,6 +4464,7 @@ function init_putv(t, c, v, is_expr) {
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
     if ((t & VT_VALMASK) == VT_CONST) {
+print("v: "+v);
 err();
 //         if (is_expr) {
 //             /* compound literals must be allocated globally in this case */
@@ -4598,20 +4599,32 @@ err();
 //             /* XXX: move multiple string parsing in parser ? */
 //             while (tok == TOK_STR || tok == TOK_LSTR) {
             while (tok == TOK_STR || tok == TOK_LSTR) {
-err();
 //                 ts = tokc.ts;
+                ts = ri32(tokc);
 //                 /* compute maximum number of chars wanted */
 //                 nb = ts->len;
+                nb = ri32(ts+TokenSym_len_o);
 //                 if (n >= 0 && nb > (n - array_length))
+                if (n >= 0 && nb > (n - array_length))
 //                     nb = n - array_length;
+                    nb = n - array_length;
 //                 if (!size_only) {
+                if (!size_only) {
 //                     if (ts->len > nb)
+                    if (ri32(ts+TokenSym_len_o) > nb)
 //                         warning("initializer-string for array is too long");
+                        warning("initializer-string for array is too long");
 //                     for(i=0;i<nb;i++) {
+                    for(i=0;i<nb;i++) {
 //                         init_putv(t1, c + (array_length + i) * size1, 
 //                                   ts->str[i], 0);
+                        init_putv(t1, c + (array_length + i) * size1, 
+                                  ri8(ts+TokenSym_str_o+i), 0);
 //                     }
+                    }
 //                 }
+                }
+err();
 //                 array_length += nb;
 //                 next();
 //             }
