@@ -177,6 +177,9 @@ err();
 // /* patch each relocation entry with value 'val' */
 // int greloc_patch(Sym *s, int val)
 // {
+function greloc_patch(s, val) {
+return 1;
+err();
 //     Reloc *p, *p1;
 // int count=0;
 //     p = (Reloc *)s->c;
@@ -215,6 +218,7 @@ err();
 //     s->t &= ~VT_FORWARD;
 // return count;
 // }
+}
 // 
 // /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)

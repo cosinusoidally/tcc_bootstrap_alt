@@ -5305,7 +5305,7 @@ reloc_global=1;
     var s;
     var s1;
 //     char *str;
-    var str=alloca(4);
+    var str;
 //     int addr;
     var addr;
 // int count;
@@ -5318,23 +5318,34 @@ reloc_global=1;
         s1 = ri32(s+Sym_prev_o);
 //         if (s->t & VT_FORWARD) {
         if (ri32(s+Sym_t_o) & VT_FORWARD) {
-err();
 //             /* if there is at least one relocation to do, then find it
 //                and patch it */
 //             if (s->c) {
+            if (ri32(s+Sym_c_o)) {
 //                 str = get_tok_str(s->v, NULL);
+                str = get_tok_str(ri32(s+Sym_v_o), NULL);
+print("resolve_extern_syms str: "+mk_js_string(str));
+// ljw dummy address
+                addr=0x12345678;
+// FIXME ljw dlsym not needed
 //                 addr = (int)dlsym(NULL, str);
 //                 if (!addr)
 //                     error("unresolved external reference '%s'", str);
 //                 count=greloc_patch(s, addr);
+                count=greloc_patch(s, addr);
 // if(reloc){
+if(reloc){
 //   printf("resolve_extern_syms: %s %d\n",str,count);
+  print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count);
+err();
 //   strcpy((char *)global_relocs_table,str);
 //   global_relocs_table+=strlen(str)+1;
 //   *(int *)global_relocs_table=count;
 //   global_relocs_table+=4;
 // }
+}
 //             }
+            }
 //         }
         }
 //         s = s1;
