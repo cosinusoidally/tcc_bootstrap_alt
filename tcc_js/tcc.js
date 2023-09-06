@@ -179,6 +179,8 @@ var glo_base;
 var const_wanted=0;
 // int global_expr; /* true if compound literals must be allocated
 //                     globally (used during initializers parsing */
+var global_expr=0;
+//                     globally (used during initializers parsing */
 // int func_vt, func_vc; /* current function return type (used by
 //                          return instruction) */
 // int tok_ident;
@@ -4496,12 +4498,15 @@ function init_putv(t, c, v, is_expr) {
     if ((t & VT_VALMASK) == VT_CONST) {
 //         if (is_expr) {
         if (is_expr) {
-err();
 //             /* compound literals must be allocated globally in this case */
 //             saved_global_expr = global_expr;
+            saved_global_expr = global_expr;
 //             global_expr = 1;
+            global_expr = 1;
 //             expr_const1();
+            expr_const1();
 //             global_expr = saved_global_expr;
+            global_expr = saved_global_expr;
 //         } else {
         } else {
 //             vset(VT_CONST | VT_INT, v);
@@ -4877,14 +4882,16 @@ err();
         addr = loc;
 //     } else {
     } else {
-err();
 //         glo = (glo + align - 1) & -align;
+        glo = (glo + ri32(align) - 1) & -ri32(align);
 //         addr = glo;
+        addr = glo;
 //         /* very important to increment global
 //            pointer at this time because
 //            initializers themselves can create new
 //            initializers */
 //         glo += size;
+        glo += size;
 //     }
     }
 //     if (has_init) {
