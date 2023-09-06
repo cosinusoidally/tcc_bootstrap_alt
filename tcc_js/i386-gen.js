@@ -167,12 +167,15 @@ err();
 // 
 // void mk_reloc_global(int type,int addr){
 function mk_reloc_global(type,addr){
-err();
 // printf("mk_reloc_global: %d\n",global_relocs);
 //   *(int *)global_relocs=type;
+  wi32(global_relocs,type);
 //   global_relocs+=4;
+  global_relocs+=4;
 //   *(int *)global_relocs=addr-prog;
+  wi32(global_relocs,addr-prog);
 //   global_relocs+=4;
+  global_relocs+=4;
 // }
 }
 // 
@@ -218,9 +221,10 @@ mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
         free(p);
         p = p1;
     }
-err();
 //     s->c = val;
+    wi32(s+Sym_c_o, val);
 //     s->t &= ~VT_FORWARD;
+    wi32(s+Sym_t_o,ri32(s+Sym_t_o) & ~VT_FORWARD);
 return count;
 }
 // 

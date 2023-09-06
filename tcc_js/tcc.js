@@ -5337,11 +5337,14 @@ print("resolve_extern_syms str: "+mk_js_string(str));
 if(reloc){
 //   printf("resolve_extern_syms: %s %d\n",str,count);
   print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count);
-err();
 //   strcpy((char *)global_relocs_table,str);
+  strcpy(global_relocs_table,str);
 //   global_relocs_table+=strlen(str)+1;
+  global_relocs_table+=strlen(str)+1;
 //   *(int *)global_relocs_table=count;
+  ri32(global_relocs_table,count);
 //   global_relocs_table+=4;
+  global_relocs_table+=4;
 // }
 }
 //             }
