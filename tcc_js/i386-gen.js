@@ -99,16 +99,23 @@ function gen_le32(c) {
 // /* add a new relocation entry to symbol 's' */
 // void greloc(Sym *s, int addr, int type)
 function greloc(s, addr, type) {
-err();
 // {
 //     Reloc *p;
+    var p;
 //     p = malloc(sizeof(Reloc));
+    p = malloc(Reloc_size);
 //     if (!p)
+    if (!p)
 //         error("memory full");
+        error("memory full");
 //     p->type = type;
+    wi32(p+Reloc_type_o, type);
 //     p->addr = addr;
+    wi32(p+Reloc_addr_o, addr);
 //     p->next = (Reloc *)s->c;
+    wi32(p+Reloc_next_o, ri32(s+Sym_c_o));
 //     s->c = (int)p;
+    wi32(s+Sym_c_o, p);
 // }
 }
 // 
@@ -534,6 +541,7 @@ print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
 //             oad(0xe8, 0);
             oad(0xe8, 0);
 //         } else {
+        } else {
 err();
 // // HACK ljw
 // if(special) {
@@ -553,6 +561,7 @@ err();
 //         }
         }
 //     } else {
+    } else {
 err();
 //         /* otherwise, indirect call */
 //         r = gv();

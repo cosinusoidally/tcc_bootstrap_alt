@@ -106,8 +106,11 @@ var SymStack_hash_o=4;
 // /* relocation entry (currently only used for functions or variables */
 // typedef struct Reloc {
 //     int type;            /* type of relocation */
+var Reloc_type_o=0;
 //     int addr;            /* address of relocation */
+var Reloc_addr_o=4;
 //     struct Reloc *next;  /* next relocation */
+var Reloc_next_o=8;
 // } Reloc;
 // 
 // #define RELOC_ADDR32 1  /* 32 bits relocation */

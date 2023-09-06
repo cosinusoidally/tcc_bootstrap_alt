@@ -9,6 +9,7 @@ int main(void){
   printf("var TOK_IDENT=0x%x;\n",TOK_IDENT);
   printf("var SYM_FIRST_ANOM=0x%x;\n",SYM_FIRST_ANOM);
   printf("var TokenSym_size=0x%x;\n",sizeof(TokenSym));
+  printf("var Reloc_size=0x%x;\n",sizeof(Reloc));
   printf("var CValue_size=0x%x;\n",sizeof(CValue));
   printf("var GFuncContext_size=0x%x;\n",sizeof(GFuncContext));
   printf("var TOK_NUM=0x%x;\n",TOK_NUM);
