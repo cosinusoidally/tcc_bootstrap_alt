@@ -4648,11 +4648,14 @@ err();
 //                warning in this case since it is standard) */
 //             if (n < 0 || array_length < n) {
             if (n < 0 || array_length < n) {
-err();
 //                 if (!size_only) {
+                if (!size_only) {
 //                     init_putv(t1, c + (array_length * size1), 0, 0);
+                    init_putv(t1, c + (array_length * size1), 0, 0);
 //                 }
+                }
 //                 array_length++;
+                array_length++;
 //             }
             }
 //         } else {
@@ -4683,17 +4686,24 @@ err();
 //             }
 //         }
         }
-err();
 //         if (!no_oblock)
+        if (!no_oblock)
 //             skip('}');
+            skip(mk_char('}'));
 //         /* put zeros at the end */
 //         if (!size_only && n >= 0 && array_length < n) {
+        if (!size_only && n >= 0 && array_length < n) {
 //             init_putz(t1, c + array_length * size1, 
 //                       (n - array_length) * size1);
+            init_putz(t1, c + array_length * size1, 
+                      (n - array_length) * size1);
 //         }
+        }
 //         /* patch type size if needed */
 //         if (n < 0)
+        if (n < 0)
 //             s->c = array_length;
+            wi32(s+Sym_c_o, array_length);
 //     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == mk_char('{')) {
 err();
