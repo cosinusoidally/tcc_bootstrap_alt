@@ -111,7 +111,9 @@ var SymStack_hash_o=4;
 // } Reloc;
 // 
 // #define RELOC_ADDR32 1  /* 32 bits relocation */
+var RELOC_ADDR32 = 1;
 // #define RELOC_REL32  2  /* 32 bits relative relocation */
+var RELOC_REL32 = 2;
 // 
 // 
 // #define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */

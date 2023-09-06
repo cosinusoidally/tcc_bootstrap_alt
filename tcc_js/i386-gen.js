@@ -98,6 +98,8 @@ function gen_le32(c) {
 // 
 // /* add a new relocation entry to symbol 's' */
 // void greloc(Sym *s, int addr, int type)
+function greloc(s, addr, type) {
+err();
 // {
 //     Reloc *p;
 //     p = malloc(sizeof(Reloc));
@@ -108,6 +110,7 @@ function gen_le32(c) {
 //     p->next = (Reloc *)s->c;
 //     s->c = (int)p;
 // }
+}
 // 
 // int is_prog(int a){
 function is_prog(a){
