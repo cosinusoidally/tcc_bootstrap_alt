@@ -166,13 +166,15 @@ err();
 }
 // 
 // void mk_reloc_global(int type,int addr){
-// //return;
+function mk_reloc_global(type,addr){
+err();
 // printf("mk_reloc_global: %d\n",global_relocs);
 //   *(int *)global_relocs=type;
 //   global_relocs+=4;
 //   *(int *)global_relocs=addr-prog;
 //   global_relocs+=4;
 // }
+}
 // 
 // /* patch each relocation entry with value 'val' */
 // int greloc_patch(Sym *s, int val)
@@ -190,31 +192,27 @@ count++;
         p1 = ri32(p+Reloc_next_o);
         switch(ri32(p+Reloc_type_o)) {
         case RELOC_ADDR32:
+if(reloc){
+//  printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
+  print("reloc at: 0x%x to: 0x%x\n");
+  if(reloc_global){
+ mk_reloc_global(RELOC_ADDR32,ri32(p+Reloc_addr_o));
+  } else {
 err();
-// if(reloc){
-//   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
-//   if(reloc_global){
-// mk_reloc_global(RELOC_ADDR32,p->addr);
-// //    global_relocs=global_relocs+12;
-//   } else {
 // printf("shouldn't get here\n");
 // exit(1);
-// //    mk_reloc(p->addr,val);
-//   }
-// }
+   }
+}
+err();
 //             *(int *)p->addr = val;
 //             break;
 //         case RELOC_REL32:
         case RELOC_REL32:
-err();
-// if(reloc_global && relocs){
+if(reloc_global && relocs){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
-// mk_reloc_global(RELOC_REL32,p->addr);
-// //  global_relocs=global_relocs+12;
-// 
-// }
-//             *(int *)p->addr = val - p->addr - 4;
-//             break;
+mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
+}
+            wi32(ri32(p+Reloc_addr_o), val - ri32(p+Reloc_addr_o) - 4);
             break;
         }
         free(p);
