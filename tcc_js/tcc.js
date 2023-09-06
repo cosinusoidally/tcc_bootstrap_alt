@@ -5135,11 +5135,11 @@ err();
                         if (l == VT_CONST) {
 //                             /* global scope: see if already defined */
 //                             sym = sym_find(v);
-                            sym = sym_find(v);
+                            sym = sym_find(ri32(v));
 //                             if (!sym) {
                             if (!sym) {
 //                                 sym_push(v, u, addr);
-                                sym_push(v, u, addr);
+                                sym_push(ri32(v), u, addr);
 //                                 break;
                                 break;
 //                             }

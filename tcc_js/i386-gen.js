@@ -371,11 +371,14 @@ err();
 // 
 //         if (v == VT_CONST) {
         if (v == VT_CONST) {
-err();
 //             o(0x05 + r * 8); /* 0xXX, r */
+            o(0x05 + r * 8); /* 0xXX, r */
 // printf("\n load1 %x\n",ind);
+print("\n load1 %x\n",ind);
 // lt=1;
+lt=1;
 //             gen_addr32(fc, ft);
+            gen_addr32(fc, ft);
 //         } else if (v == VT_LOCAL) {
         } else if (v == VT_LOCAL) {
 //             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
