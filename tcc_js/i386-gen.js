@@ -125,31 +125,34 @@ function gen_le32(c) {
 // }
 // 
 // void mk_reloc(int addr,int val){
-//     if(val==0){
-//       return;
-//     }
-//     if(is_prog(addr)){
-//       *(int *)relocs=addr-prog;
-//       relocs=relocs+4;
-//     } else {
+function mk_reloc(addr,val){
+    if(val==0){
+      return;
+    }
+    if(is_prog(addr)){
+      wi32(relocs, addr-prog);
+      relocs=relocs+4;
+    } else {
+err();
 //       printf("Can't handle relocs in data\n");
 //       exit(1);
 //     }
-// 
-// 
-//     if(is_data(val)){
-//       *(int *)relocs=val-glo_base;
-//       relocs=relocs+4;
-//       *(int *)relocs=0;
-//       relocs=relocs+4;
-//     } else {
-//       *(int *)relocs=val-prog;
-//       relocs=relocs+4;
-//       *(int *)relocs=1;
-//       relocs=relocs+4;
-//     }
+    }
+
+
+    if(is_data(val)){
+      wi32(relocs, val-glo_base);
+      relocs=relocs+4;
+      wi32(relocs, 0);
+      relocs=relocs+4;
+    } else {
+      wi32(relocs, val-prog);
+      relocs=relocs+4;
+      wi32(relocs, 1);
+      relocs=relocs+4;
+    }
 // //   printf("val: %d %d\n",val,is_data(val));
-// }
+}
 // 
 // void mk_reloc_global(int type,int addr){
 // //return;
