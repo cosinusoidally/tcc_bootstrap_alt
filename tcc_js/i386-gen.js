@@ -518,15 +518,20 @@ err();
 // {
 function gfunc_call(c) {
 print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
-err();
 //     int r;
+    var r;
 //     if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+    if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
 //         /* constant case */
 //         /* forward reference */
 //         if (vtop->t & VT_FORWARD) {
+        if (ri32(vtop+SValue_t_o) & VT_FORWARD) {
 //             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
+            greloc(ri32(vtop+SValue_c_o), ind + 1, RELOC_REL32);
 //             oad(0xe8, 0);
+            oad(0xe8, 0);
 //         } else {
+err();
 // // HACK ljw
 // if(special) {
 // printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
@@ -543,12 +548,16 @@ err();
 // }
 //             oad(0xe8, vtop->c.ul - ind - 5);
 //         }
+        }
 //     } else {
+err();
 //         /* otherwise, indirect call */
 //         r = gv();
 //         o(0xff); /* call *r */
 //         o(0xd0 + r);
 //     }
+    }
+err();
 //     if (c->args_size)
 //         oad(0xc481, c->args_size); /* add $xxx, %esp */
 //     vtop--;
