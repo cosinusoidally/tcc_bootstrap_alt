@@ -2535,14 +2535,19 @@ err();
 //         return s->c;
 //     } else if (bt == VT_PTR) {
     } else if (bt == VT_PTR) {
-err();
 //         if (t & VT_ARRAY) {
+        if (t & VT_ARRAY) {
 //             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+            s = sym_find(t >>> VT_STRUCT_SHIFT);
 //             return type_size(s->t, a) * s->c;
+            return type_size(ri32(s+Sym_t_o), a) * ri32(s+Sym_c_o);
 //         } else {
+        } else {
+err();
 //             *a = PTR_SIZE;
 //             return PTR_SIZE;
 //         }
+        }
 //     } else if (bt == VT_INT || bt == VT_ENUM ) {
     } else if (bt == VT_INT || bt == VT_ENUM ) {
 //         *a = 4;
@@ -3490,7 +3495,6 @@ err();
 //         /* put it as pointer */
 //         vset(t & ~VT_ARRAY, fc);
         vset(t & ~VT_ARRAY, fc);
-err();
 //     } else {
     } else {
 //         t = tok;
