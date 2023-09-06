@@ -110,19 +110,20 @@ function gen_le32(c) {
 // }
 // 
 // int is_prog(int a){
-//   if(((unsigned int)(a-prog))<(TEXT_SIZE)){
-//     return 1;
-//   }
-//   return 0;
-// 
-// }
+function is_prog(a){
+  if(unsigned(a-prog)<(TEXT_SIZE)){
+    return 1;
+  }
+  return 0;
+}
 // 
 // int is_data(int a){
-//   if(((unsigned int)(a-glo_base))<(DATA_SIZE)){
-//     return 1;
-//   }
-//   return 0;
-// }
+function is_data(a){
+  if(unsigned(a-glo_base)<(DATA_SIZE)){
+    return 1;
+  }
+  return 0;
+}
 // 
 // void mk_reloc(int addr,int val){
 function mk_reloc(addr,val){
@@ -500,10 +501,10 @@ err();
 //         /* XXX: implicit cast ? */
 //         r = gv();
         r = gv();
-print("r: "+r);
-err();
 //         o(0x50 + r); /* push r */
+        o(0x50 + r); /* push r */
 //         c->args_size += 4;
+        wi32(c+GFuncContext_args_size_o, ri32(c+GFuncContext_args_size_o)+4);
 //     }
     }
 //     vtop--;

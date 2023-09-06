@@ -3824,11 +3824,13 @@ debugger;
                         expect("',' or ')'");
 //                     gfunc_param_typed(&gf, s, args->next);
                     gfunc_param_typed(gf, s, ri32(ri32(args)+Sym_next_o));
-err();
 //                     s1 = args->prev;
+                    s1 = ri32(ri32(args)+Sym_prev_o);
+// FIXME ljw should free
 //                     free((int *)args->c);
 //                     free(args);
 //                     args = s1;
+                    wi32(args, s1);
 //                 }
                 }
 //                 macro_ptr = saved_macro_ptr;
