@@ -17,4 +17,4 @@ print(JSON.stringify(argc_argv));
 //err();
 main(argc_argv.argc,argc_argv.argv);
 
-check();
+check("cf167a1b44d14de150c059664f46cfb9007b5c51d1b4d715aaa7316817bac133");

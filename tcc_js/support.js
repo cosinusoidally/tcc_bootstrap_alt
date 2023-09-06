@@ -331,7 +331,7 @@ function check(s) {
 function strcpy(dest,src){
   var c;
   while((c=ri8(src++))!==0){
-    wi8(dest,c);
+    wi8(dest++,c);
   }
 }
 
