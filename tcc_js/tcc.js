@@ -217,7 +217,9 @@ var nb_include_paths=0;
 // int tcc_ext = 1;
 // 
 // int reloc=0;
+var reloc=0;
 // int reloc_global=0;
+var reloc_global=0;
 // 
 // int relocs;
 var relocs;

@@ -272,8 +272,8 @@ if(reloc){
     print("\nreloc3: at: "+to_hex(ind)+" to: "+to_hex(c));
 //   } else {
   } else {
-err();
 //     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
+    print("\nreloc2: at: 0x%x to: 0x%x\n");
 // if(reloc_global){
 if(reloc_global){
 err();
@@ -469,9 +469,15 @@ function gfunc_start(c) {
 //    is then popped. */
 // void gfunc_param(GFuncContext *c)
 // {
+function gfunc_param(c) {
 //     int size, align, r;
+    var size;
+    var align=alloca(4);
+    var r;
 // 
 //     if ((vtop->t & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
+    if ((ri32(vtop+SValue_t_o) & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
+err();
 //         size = type_size(vtop->t, &align);
 //         /* align to stack align size */
 //         size = (size + 3) & ~3;
@@ -486,14 +492,21 @@ function gfunc_start(c) {
 //         vstore();
 //         c->args_size += size;
 //     } else {
+    } else {
 //         /* simple type (currently always same size) */
 //         /* XXX: implicit cast ? */
 //         r = gv();
+        r = gv();
+print("r: "+r);
+err();
 //         o(0x50 + r); /* push r */
 //         c->args_size += 4;
 //     }
+    }
 //     vtop--;
+    vtop=vtop-SValue_size;
 // }
+}
 // 
 // /* generate function call with address in (vtop->t, vtop->c) and free function
 //    context. Stack entry is popped */
