@@ -1344,8 +1344,9 @@ function getq() {
     minp();
 //     if (c == '\\') {
     if (c == mk_char('\\')) {
-err();
 //         if (isnum(ch)) {
+        if (isnum(ch)) {
+err();
 //             /* at most three octal digits */
 //             c = ch - '0';
 //             minp();
@@ -1359,31 +1360,34 @@ err();
 //             }
 //             return c;
 //         } else if (ch == 'x') {
+        } else if (ch == mk_char('x')) {
+err();
 //             minp();
 //             return getn(16);
 //         } else {
-//             if (ch == 'a')
-//                 c = '\a';
-//             else if (ch == 'b')
-//                 c = '\b';
-//             else if (ch == 'f')
-//                 c = '\f';
-//             else if (ch == 'n')
-//                 c = '\n';
-//             else if (ch == 'r')
-//                 c = '\r';
-//             else if (ch == 't')
-//                 c = '\t';
-//             else if (ch == 'v')
-//                 c = '\v';
-//             else if (ch == 'e' && gnu_ext)
-//                 c = 27;
-//             else if (ch == '\'' || ch == '\"' || ch == '\\' || ch == '?')
-//                 c = ch;
-//             else
-//                 error("invalid escaped char");
-//             minp();
-//         }
+        } else {
+            if (ch == mk_char('a'))
+                c = mk_char('\a');
+            else if (ch == mk_char('b'))
+                c = mk_char('\b');
+            else if (ch == mk_char('f'))
+                c = mk_char('\f');
+            else if (ch == mk_char('n'))
+                c = mk_char('\n');
+            else if (ch == mk_char('r'))
+                c = mk_char('\r');
+            else if (ch == mk_char('t'))
+                c = mk_char('\t');
+            else if (ch == mk_char('v'))
+                c = mk_char('\v');
+            else if (ch == mk_char('e') && gnu_ext)
+                c = 27;
+            else if (ch == mk_char('\'') || ch == mk_char('\"') || ch == mk_char('\\') || ch == mk_char('?'))
+                c = ch;
+            else
+                error("invalid escaped char");
+            minp();
+        }
 //     }
     }
 //     return c;
