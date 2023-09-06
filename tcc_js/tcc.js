@@ -3427,20 +3427,33 @@ function external_sym(v, u) {
 // /* pass a parameter to a function and do type checking and casting */
 // void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
 // {
+function gfunc_param_typed(gf, func, arg) {
 //     int func_type;
+    var func_type;
 //     func_type = func->c;
+    func_type = ri32(func+Sym_c_o);
 //     if (func_type == FUNC_OLD ||
 //         (func_type == FUNC_ELLIPSIS && arg == NULL)) {
+    if (func_type == FUNC_OLD ||
+        (func_type == FUNC_ELLIPSIS && arg == NULL)) {
+err();
 //         /* default casting : only need to convert float to double */
 //         if ((vtop->t & VT_BTYPE) == VT_FLOAT)
 //             gen_cast(VT_DOUBLE);
 //     } else if (arg == NULL) {
+    } else if (arg == NULL) {
+err();
 //         error("too many arguments to function");
 //     } else {
+    } else {
+err();
 //         gen_assign_cast(arg->t);
 //     }
+    }
+err();
 //     gfunc_param(gf);
 // }
+}
 // 
 // void unary(void)
 // {
@@ -3804,7 +3817,7 @@ debugger;
 //                         expect("',' or ')'");
                         expect("',' or ')'");
 //                     gfunc_param_typed(&gf, s, args->next);
-                    gfunc_param_typed(gf, s, ri32(args+Sym_next_o));
+                    gfunc_param_typed(gf, s, ri32(ri32(args)+Sym_next_o));
 err();
 //                     s1 = args->prev;
 //                     free((int *)args->c);
