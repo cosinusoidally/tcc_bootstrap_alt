@@ -178,15 +178,19 @@ err();
 // int greloc_patch(Sym *s, int val)
 // {
 function greloc_patch(s, val) {
-err();
 //     Reloc *p, *p1;
+    var p;
+    var p1;
 // int count=0;
+var count=0;
 //     p = (Reloc *)s->c;
-//     while (p != NULL) {
-// count++;
-//         p1 = p->next;
-//         switch(p->type) {
-//         case RELOC_ADDR32:
+    p = ri32(s+Sym_c_o);
+    while (p != NULL) {
+count++;
+        p1 = ri32(p+Reloc_next_o);
+        switch(ri32(p+Reloc_type_o)) {
+        case RELOC_ADDR32:
+err();
 // if(reloc){
 //   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
 //   if(reloc_global){
@@ -201,6 +205,8 @@ err();
 //             *(int *)p->addr = val;
 //             break;
 //         case RELOC_REL32:
+        case RELOC_REL32:
+err();
 // if(reloc_global && relocs){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
 // mk_reloc_global(RELOC_REL32,p->addr);
@@ -209,14 +215,15 @@ err();
 // }
 //             *(int *)p->addr = val - p->addr - 4;
 //             break;
-//         }
-//         free(p);
-//         p = p1;
-//     }
+            break;
+        }
+        free(p);
+        p = p1;
+    }
+err();
 //     s->c = val;
 //     s->t &= ~VT_FORWARD;
-// return count;
-// }
+return count;
 }
 // 
 // /* output a symbol and patch all calls to it */
