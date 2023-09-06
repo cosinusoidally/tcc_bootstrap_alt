@@ -4063,9 +4063,11 @@ function expr_eq() {
 // 
 //     if (const_wanted) {
     if (const_wanted) {
-err();
 //         sum(10);
+        sum(10);
 //         if (tok == '?') {
+        if (tok == mk_char('?')) {
+err();
 //             c = vtop->c.i;
 //             vpop();
 //             next();
@@ -4077,6 +4079,7 @@ err();
 //             if (c)
 //                 vtop->c.i = t;
 //         }
+        }
 //     } else {
     } else {
 //         eor();
@@ -4129,14 +4132,23 @@ function gexpr() {
 // /* parse a constant expression and return value in vtop */
 // void expr_const1(void)
 // {
+function expr_const1() {
 //     int a;
+    var a;
 //     a = const_wanted;
+    a = const_wanted;
 //     const_wanted = 1;
+    const_wanted = 1;
 //     expr_eq();
+    expr_eq();
 //     if ((vtop->t & (VT_CONST | VT_LVAL)) != VT_CONST)
+    if ((ri32(vtop+SValue_t_o) & (VT_CONST | VT_LVAL)) != VT_CONST)
 //         expect("constant");
+        expect("constant");
 //     const_wanted = a;
+    const_wanted = a;
 // }
+}
 // 
 // /* parse an integer constant and return its value */
 // int expr_const(void)
@@ -5117,19 +5129,29 @@ err();
                         while(1){
 //                         if (l == VT_CONST) {
                         if (l == VT_CONST) {
-err();
 //                             /* global scope: see if already defined */
 //                             sym = sym_find(v);
+                            sym = sym_find(v);
 //                             if (!sym) {
+                            if (!sym) {
 //                                 sym_push(v, u, addr);
+                                sym_push(v, u, addr);
 //                                 break;
+                                break;
 //                             }
+                            }
 //                             if (!is_compatible_types(sym->t, u))
+                            if (!is_compatible_types(ri32(sym+Sym_t_o), u))
 //                                 error("incompatible types for redefinition of '%s'", 
+                                error("incompatible types for redefinition of '%s'", 
 //                                       get_tok_str(v, NULL));
+                                      get_tok_str(v, NULL));
 //                             if (!(sym->t & VT_FORWARD))
+                            if (!(ri32(sym+Sym_t_o) & VT_FORWARD))
 //                                 error("redefinition of '%s'", get_tok_str(v, NULL));
+                                error("redefinition of '%s'", get_tok_str(v, NULL));
 //                             greloc_patch(sym, addr);
+                            greloc_patch(sym, addr);
 //                         } else {
                         } else {
 //                             sym_push(v, u, addr);
