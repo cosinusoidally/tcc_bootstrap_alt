@@ -517,7 +517,7 @@ err();
 // void gfunc_call(GFuncContext *c)
 // {
 function gfunc_call(c) {
-print("c->arg_size "+(ri32(c+GFuncContext_args_size_o)))
+print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
 err();
 //     int r;
 //     if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
