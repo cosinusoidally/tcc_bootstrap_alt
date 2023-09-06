@@ -5342,7 +5342,7 @@ if(reloc){
 //   global_relocs_table+=strlen(str)+1;
   global_relocs_table+=strlen(str)+1;
 //   *(int *)global_relocs_table=count;
-  ri32(global_relocs_table,count);
+  wi32(global_relocs_table,count);
 //   global_relocs_table+=4;
   global_relocs_table+=4;
 // }
