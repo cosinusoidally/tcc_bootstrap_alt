@@ -33,7 +33,7 @@ function puts(x){
 
 function err(){
 //  leave();
-  hd(prog,64);
+  hd(prog,ind-prog);
   backtrace();
   throw "error not impl";
 }
