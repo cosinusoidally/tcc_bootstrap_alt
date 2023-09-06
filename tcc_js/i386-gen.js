@@ -569,10 +569,14 @@ err();
 //         o(0xd0 + r);
 //     }
     }
-err();
 //     if (c->args_size)
+    if (ri32(c+GFuncContext_args_size_o)) {
 //         oad(0xc481, c->args_size); /* add $xxx, %esp */
+        oad(0xc481, ri32(c+GFuncContext_args_size_o)); /* add $xxx, %esp */
+
+    }
 //     vtop--;
+    vtop=vtop-SValue_size;
 // }
 }
 // 
