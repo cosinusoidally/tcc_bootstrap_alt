@@ -48,6 +48,10 @@ var malloc_base=4;
 
 function malloc(x){
   var r=malloc_base;
+// align to 4 bytes
+  if(x!==((x>>>2)<<2)){
+    x=4+(x>>>2) <<2;
+  }
   malloc_base=malloc_base+x;
   if(malloc_base>(heap_size-stack_size)){
     throw "oom malloc";
