@@ -178,7 +178,6 @@ err();
 // int greloc_patch(Sym *s, int val)
 // {
 function greloc_patch(s, val) {
-return 1;
 err();
 //     Reloc *p, *p1;
 // int count=0;
