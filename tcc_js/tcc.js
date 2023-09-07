@@ -128,6 +128,7 @@ var FUNC_NEW = 1;
 // #define FUNC_OLD       2 /* old function prototype */
 var FUNC_OLD = 2;
 // #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
+var FUNC_ELLIPSIS = 3;
 // 
 // /* field 'Sym.t' for macros */
 // #define MACRO_OBJ      0 /* object like macro */
@@ -3473,8 +3474,8 @@ err();
 //         error("too many arguments to function");
 //     } else {
     } else {
-err();
 //         gen_assign_cast(arg->t);
+        gen_assign_cast(ri32(arg+Sym_t_o));
 //     }
     }
 //     gfunc_param(gf);
@@ -5057,14 +5058,20 @@ err();
                 }
 //                 while (sym = sym->next) {
                 while (sym = ri32(sym+Sym_next_o)) {
-err();
 //                     u = sym->t;
+                    u = ri32(sym+Sym_t_o);
 //                     sym_push(sym->v & ~SYM_FIELD, 
 //                              u | VT_LOCAL | VT_LVAL, 
 //                              addr);
+                    sym_push(ri32(sym+Sym_v_o) & ~SYM_FIELD, 
+                             u | VT_LOCAL | VT_LVAL, 
+                             addr);
 //                     size = type_size(u, &align);
+                    size = type_size(u, align);
 //                     size = (size + 3) & ~3;
+                    size = (size + 3) & ~3;
 //                     addr += size;
+                    addr += size;
 //                 }
                 }
 //                 loc = 0;
