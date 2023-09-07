@@ -557,9 +557,10 @@ print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
             oad(0xe8, 0);
 //         } else {
         } else {
-err();
 // // HACK ljw
 // if(special) {
+if(special) {
+err();
 // printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
 //   char *str="memcpy";
 //   strcpy((char *)global_relocs_table,str);
@@ -572,7 +573,9 @@ err();
 //   global_relocs+=4;
 // 
 // }
+}
 //             oad(0xe8, vtop->c.ul - ind - 5);
+            oad(0xe8, ri32(vtop+SValue_c_o) - ind - 5);
 //         }
         }
 //     } else {

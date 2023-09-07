@@ -148,6 +148,7 @@ var TYPE_DIRECT = 2;
 // } IncludeFile;
 // 
 // int special=0;
+var special=0;
 // 
 // /* parser */
 // FILE *file;
