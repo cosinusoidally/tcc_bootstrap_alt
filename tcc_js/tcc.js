@@ -767,13 +767,21 @@ function sym_push2(ps, v, t, c) {
 //    of the symbol stack */
 // Sym *sym_find2(Sym *s, int v)
 // {
+function sym_find2(s, v) {
 //     while (s) {
+    while (s) {
 //         if (s->v == v)
+        if (ri32(s+Sym_v_o) == v)
 //             return s;
+            return s;
 //         s = s->prev;
+        s = ri32(s+Sym_prev_o);
 //     }
+    }
 //     return NULL;
+    return NULL;
 // }
+}
 // 
 // unsigned int HASH_SYM(int v) {
 function HASH_SYM(v) {
@@ -2004,12 +2012,17 @@ err();
          }
 //         if ((s = sym_find1(&define_stack, tok)) != NULL) {
          if ((s = sym_find1(define_stack, tok)) !== NULL) {
-err();
 //             /* if symbol is a macro, prepare substitution */
 //             /* if nested substitution, do nothing */
 //             if (sym_find2(*nested_list, tok))
+            if (sym_find2(ri32(nested_list), tok)) {
+err();
 //                 no_subst=1;
+                no_subst=1;
+            }
 //             if(no_subst==0){
+            if(no_subst==0){
+err();
 //                 mstr = (int *)s->c;
 //                 mstr_allocated = 0;
 //                 sym_push2(nested_list, s->v, 0, 0);
@@ -2021,6 +2034,8 @@ err();
 //                 if (mstr_allocated)
 //                 free(mstr);
 //             }
+            }
+err();
 //         } else {
          } else {
 //             no_subst=1;
