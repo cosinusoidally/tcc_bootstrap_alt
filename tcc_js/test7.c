@@ -1,3 +1,5 @@
+#include "test7.h"
+
 int z=100;
 
 int bar(int x){
