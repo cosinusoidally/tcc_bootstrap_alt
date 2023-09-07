@@ -1022,16 +1022,24 @@ function cinp() {
 // 
 //     if (ch1 == '/') {
     if (ch1 == mk_char('/')) {
-err();
 //         inp();
+        inp();
 //         if (ch1 == '/') {
+        if (ch1 == mk_char('/')) {
 //             /* single line C++ comments */
 //             inp();
+            inp();
 //             while (ch1 != '\n' && ch1 != -1)
+            while (ch1 != mk_char('\n') && ch1 != -1)
 //                 inp();
+                inp();
 //             inp();
+            inp();
 //             ch = ' '; /* return space */
+            ch = mk_char(' ');
 //         } else if (ch1 == '*') {
+        } else if (ch1 == mk_char('*')) {
+err();
 //             /* C comments */
 //             inp();
 //             while (ch1 != -1) {
@@ -1044,8 +1052,11 @@ err();
 //             }
 //             }
 //         } else {
+        } else {
+err();
 //             ch = '/';
 //         }
+        }
 //     } else {
     } else {
 //         minp();
