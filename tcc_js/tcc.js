@@ -1284,13 +1284,17 @@ err();
 //             *q = '\0';
 //         } else {
         } else {
-err();
 //             next();
+            next();
 //             if (tok != TOK_STR)
+            if (tok != TOK_STR)
 //                 error("#include syntax error");
+                error("#include syntax error");
 //             /* XXX: buffer overflow */
 //             strcpy(buf, get_tok_str(tok, &tokc));
+            strcpy(buf, get_tok_str(tok, tokc));
 //             c = '\"';
+            c = mk_char('\"');
 //         }
         }
 err();
