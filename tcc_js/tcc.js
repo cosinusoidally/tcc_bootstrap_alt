@@ -928,15 +928,21 @@ function handle_eof() {
 //         return -1;
         return -1;
     }
-err();
 //     /* pop include stack */
 //     fclose(file);
+    fclose(file);
 //     free(filename);
+    free(filename);
 //     include_stack_ptr--;
+    include_stack_ptr=IncludeFile_size;
 //     file = include_stack_ptr->file;
+    file = ri32(include_stack_ptr+IncludeFile_file_o);
 //     filename = include_stack_ptr->filename;
+    filename = ri32(include_stack_ptr+IncludeFile_filename_o);
 //     line_num = include_stack_ptr->line_num;
+    line_num = ri32(include_stack_ptr+IncludeFile_line_num_o);
 //     return 0;
+    return 0;
 // }
 }
 // 
@@ -1396,10 +1402,11 @@ err();
 //         error("#error");
 //     }
     }
-err();
 //     /* ignore other preprocess commands or #! for C scripts */
 //     while (ch != '\n' && ch != -1)
+    while (ch != mk_char('\n') && ch != -1)
 //         cinp();
+        cinp();
 // }
 }
 // 
