@@ -1385,6 +1385,7 @@ err();
         file = f;
 //         filename = strdup(buf1);
         filename = strdup(buf1);
+print("filename: "+mk_js_string(filename));
 //         line_num = 1;
         line_num = 1;
 //     }

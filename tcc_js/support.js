@@ -359,4 +359,14 @@ function strcat(dest,src){
   wi8(dest,0);
 }
 
+function strdup(src){
+  var l=strlen(src);
+  var dest=malloc(l+1);
+  for(var i=0;i<l;i++){
+    wi8(dest+i, ri8(src+i));
+  }
+  wi8(dest+l, 0);
+  return dest;
+}
+
 load("sha256.js");
