@@ -934,7 +934,7 @@ function handle_eof() {
 //     free(filename);
     free(filename);
 //     include_stack_ptr--;
-    include_stack_ptr=IncludeFile_size;
+    include_stack_ptr=include_stack_ptr-IncludeFile_size;
 //     file = include_stack_ptr->file;
     file = ri32(include_stack_ptr+IncludeFile_file_o);
 //     filename = include_stack_ptr->filename;
