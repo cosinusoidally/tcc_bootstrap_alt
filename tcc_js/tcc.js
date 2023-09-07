@@ -143,8 +143,11 @@ var TYPE_DIRECT = 2;
 // 
 // typedef struct {
 //     FILE *file;
+var IncludeFile_file_o=0;
 //     char *filename;
+var IncludeFile_char_o=4;
 //     int line_num;
+var IncludeFile_line_num_o=8;
 // } IncludeFile;
 // 
 // int special=0;
@@ -1309,30 +1312,48 @@ err();
             c = mk_char('\"');
 //         }
         }
-err();
 //         /* eat all spaces and comments after include */
 //         /* XXX: slightly incorrect */
 //         while (ch1 != '\n' && ch1 != -1)
+        while (ch1 != mk_char('\n') && ch1 != -1)
 //             inp();
+            inp();
 // 
 //         if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
+        if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
 //             error("memory full");
+            error("memory full");
 //         if (c == '\"') {
+        if (c == mk_char('\"')) {
 //             /* first search in current dir if "header.h" */
 //             /* XXX: buffer overflow */
 //             size = 0;
+            size = 0;
 //             p = strrchr(filename, '/');
+            p = strrchr(filename, mk_char('/'));
 //             if (p) 
+            if (p) 
 //                 size = p + 1 - filename;
+                size = p + 1 - filename;
 //             memcpy(buf1, filename, size);
+            memcpy(buf1, filename, size);
 //             buf1[size] = '\0';
+            wi8(buf1+size, 0);
 //             strcat(buf1, buf);
+            strcat(buf1, buf);
+print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf));
 //             f = fopen(buf1, "r");
+            f = fopen(buf1, mk_c_string("r"));
 //             if (f)
+            if (f)
 //                 found=1;
+                found=1;
 //         }
+        }
 //         /* now search in standard include path */
 //         if(!found){
+        if(!found){
+err();
 //             for(i=nb_include_paths - 1;i>=0;i--) {
 //                 strcpy(buf1, include_paths[i]);
 //                 strcat(buf1, "/");
@@ -1342,13 +1363,19 @@ err();
 //                     found=1;
 //             }
 //         }
+        }
 //         if(!found){
+        if(!found){
+err();
 //             error("include file '%s' not found", buf1);
 //             f = NULL;
 //         }
+        }
 //         /* push current file in stack */
 //         /* XXX: fix current line init */
 //         include_stack_ptr->file = file;
+        wi32(include_stack_ptr+ IncludeFile_file_o, file);
+err();
 //         include_stack_ptr->filename = filename;
 //         include_stack_ptr->line_num = line_num;
 //         include_stack_ptr++;

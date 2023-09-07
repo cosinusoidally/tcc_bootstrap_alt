@@ -339,4 +339,24 @@ function strcpy(dest,src){
   }
 }
 
+function strrchr(s,c){
+  var c1;
+  while(c1=ri8(s++)){
+    if(c1===c){
+      return s-1;
+    }
+  }
+  return 0;
+}
+
+function strcat(dest,src){
+  var c;
+  while(ri8(dest++));
+  dest--;
+  while(c=ri8(src++)){
+    wi8(dest++,c);
+  }
+  wi8(dest,0);
+}
+
 load("sha256.js");
