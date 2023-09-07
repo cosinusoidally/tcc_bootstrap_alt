@@ -1281,7 +1281,7 @@ err();
 //         if ((ch == '<') || (ch == '\"')) {
         if ((ch == mk_char('<')) || (ch == mk_char('\"'))) {
 //             c = mk_char('>');
-            c = '>';
+            c = mk_char('>');
 //         if (ch == '\"')
         if (ch == mk_char('\"'))
 //             c = ch;
@@ -1359,21 +1359,29 @@ print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf));
 //         /* now search in standard include path */
 //         if(!found){
         if(!found){
-err();
 //             for(i=nb_include_paths - 1;i>=0;i--) {
+            for(i=nb_include_paths - 1;i>=0;i--) {
 //                 strcpy(buf1, include_paths[i]);
+                strcpy(buf1, ri32(include_paths+(4*i)));
 //                 strcat(buf1, "/");
+                strcat(buf1, mk_char("/"));
 //                 strcat(buf1, buf);
+                strcat(buf1, buf);
 //                 f = fopen(buf1, "r");
+                f = fopen(buf1, mk_c_string("r"));
 //                 if (f)
+                if (f)
 //                     found=1;
+                    found=1;
 //             }
+            }
 //         }
         }
 //         if(!found){
         if(!found){
-err();
 //             error("include file '%s' not found", buf1);
+            print("include file "+mk_js_string(buf1)+" not found");
+err();
 //             f = NULL;
 //         }
         }

@@ -262,9 +262,14 @@ function fopen(f,mode){
   file_o.o=0;
   f_files[file_num]=file_o;
   if(mode==="r"){
-    fbuf=read("test.c").split("").reverse();
-    fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
-    file_o.data=read(filename,"binary");
+    try {
+      fbuf=read("test.c").split("").reverse();
+      fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
+      file_o.data=read(filename,"binary");
+    } catch (e){
+      fclose(file_num);
+      return 0;
+    }
   } else if(mode==="wb"){
     file_o.data=[];
     vfs[filename]=file_o.data;
@@ -350,6 +355,7 @@ function strrchr(s,c){
 }
 
 function strcat(dest,src){
+  var d=dest;
   var c;
   while(ri8(dest++));
   dest--;
@@ -357,6 +363,7 @@ function strcat(dest,src){
     wi8(dest++,c);
   }
   wi8(dest,0);
+  return d;
 }
 
 function strdup(src){
