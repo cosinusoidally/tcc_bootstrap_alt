@@ -3253,19 +3253,25 @@ err();
 //                 next();
 //             }
             }
-err();
 //             break;
+            break;
 //             }
             }
 //             if(foo){break;}
             if(foo){break;}
-err();
 //             /* array must be transformed to pointer according to ANSI C */
 //             pt &= ~VT_ARRAY;
+            pt &= ~VT_ARRAY;
 //             s = sym_push(n | SYM_FIELD, pt, 0);
+            s = sym_push(n | SYM_FIELD, pt, 0);
 //             *plast = s;
+            wi32(plast, s);
 //             plast = &s->next;
+// FIXME ljw is this right?
+            wi32(plast, s+Sym_next_o);
 //             if (tok == ',') {
+            if (tok == mk_char(',')) {
+err();
 //                 next();
 //                 if (l == FUNC_NEW && tok == TOK_DOTS) {
 //                     l = FUNC_ELLIPSIS;
@@ -3273,6 +3279,7 @@ err();
 //                     break;
 //                 }
 //             }
+            }
 //         }
         }
 //         /* if no parameters, then old type prototype */
