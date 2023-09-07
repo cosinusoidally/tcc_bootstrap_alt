@@ -136,6 +136,7 @@ var MACRO_OBJ = 0;
 // 
 // /* type_decl() types */
 // #define TYPE_ABSTRACT  1 /* type without variable */
+var TYPE_ABSTRACT = 1;
 // #define TYPE_DIRECT    2 /* type with variable */
 var TYPE_DIRECT = 2;
 // 
@@ -3238,10 +3239,12 @@ err();
                     break;
 //                 }
                 }
-err();
 //                 pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
+                pt = type_decl(n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
 //                 if ((pt & VT_BTYPE) == VT_VOID)
+                if ((pt & VT_BTYPE) == VT_VOID)
 //                     error("parameter declared as void");
+                    error("parameter declared as void");
 //             } else {
             } else {
 err();
