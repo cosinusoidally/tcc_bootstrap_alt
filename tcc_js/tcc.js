@@ -1048,9 +1048,14 @@ err();
 // 
 // void skip_spaces(void)
 // {
+function skip_spaces() {
+
 //     while (ch == ' ' || ch == '\t')
+    while (ch == mk_char(' ') || ch == mk_char('\t'))
 //         cinp();
+         cinp();
 // }
+}
 // 
 // /* return the number of additionnal 'ints' necessary to store the
 //    token */
@@ -1268,8 +1273,6 @@ err();
 err();
 //             c = '>';
 //         if (ch == '\"')
-        if (ch == '\"')
-err();
 //             c = ch;
 //             minp();
 //             q = buf;
