@@ -9,6 +9,7 @@ int bar(int x){
 int main(void){
   int r=2;
   int foo=3;
+  printf("blah: ",blah);
   printf("bar(7): %d\n",bar(7));
   printf("z: %d\n",z);
   puts("hello world");
