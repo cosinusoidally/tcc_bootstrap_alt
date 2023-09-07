@@ -1204,17 +1204,36 @@ function define_symbol(sym) {
 // void preprocess(void)
 // {
 function preprocess() {
-err();
 //     int size, i, c, v, t, *str, len;
+    var size;
+    var i;
+    var c;
+    var v;
+    var t;
+    var str;
+    var len;
 //     int found=0;
+    var found=0;
 //     char buf[1024], *q, *p;
+    var buf=alloca(1024);
+    var q;
+    var p;
 //     char buf1[1024];
+    var buf1=alloca(1024);
 //     FILE *f;
+    var f;
 //     Sym **ps, *first, *s;
+    var ps;
+    var first;
+    var s;
 // 
 //     cinp();
+    cinp();
 //     next_nomacro();
+    next_nomacro();
 //     if (tok == TOK_DEFINE) {
+    if (tok == TOK_DEFINE) {
+err();
 //         next_nomacro();
 //         v = tok;
 //         /* XXX: should check if same macro (ANSI) */
@@ -1233,12 +1252,16 @@ err();
 //         s = sym_push1(&define_stack, v, t, (int)str);
 //         s->next = first;
 //     } else if (tok == TOK_UNDEF) {
+    } else if (tok == TOK_UNDEF) {
+err();
 //         next_nomacro();
 //         s = sym_find1(&define_stack, tok);
 //         /* undefine symbol by putting an invalid name */
 //         if (s)
 //             sym_undef(&define_stack, s);
 //     } else if (tok == TOK_INCLUDE) {
+    } else if (tok == TOK_INCLUDE) {
+err();
 //         skip_spaces();
 //         if ((ch == '<') || (ch == '\"')) {
 //             c = '>';
@@ -1306,9 +1329,14 @@ err();
 //         filename = strdup(buf1);
 //         line_num = 1;
 //     }
+    }
 //     if (tok == TOK_ERROR) {
+    if (tok == TOK_ERROR) {
+err();
 //         error("#error");
 //     }
+    }
+err();
 //     /* ignore other preprocess commands or #! for C scripts */
 //     while (ch != '\n' && ch != -1)
 //         cinp();
