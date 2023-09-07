@@ -1220,11 +1220,12 @@ function preprocess() {
 //     int found=0;
     var found=0;
 //     char buf[1024], *q, *p;
-    var buf=alloca(1024);
+    var buf_size=1024;
+    var buf=alloca(buf_size);
     var q;
     var p;
 //     char buf1[1024];
-    var buf1=alloca(1024);
+    var buf1=alloca(buf_size);
 //     FILE *f;
     var f;
 //     Sym **ps, *first, *s;
@@ -1269,21 +1270,32 @@ err();
 //         skip_spaces();
         skip_spaces();
 //         if ((ch == '<') || (ch == '\"')) {
-        if ((ch == '<') || (ch == '\"')) {
-err();
-//             c = '>';
+        if ((ch == mk_char('<')) || (ch == mk_char('\"'))) {
+//             c = mk_char('>');
+            c = '>';
 //         if (ch == '\"')
+        if (ch == mk_char('\"'))
 //             c = ch;
+            c = ch;
 //             minp();
+            minp();
 //             q = buf;
+            q = buf;
 //             while (ch != c && ch != '\n' && ch != -1) {
+            while (ch != c && ch != mk_char('\n') && ch != -1) {
 //                 if ((q - buf) < sizeof(buf) - 1)
+                if ((q - buf) < buf_size - 1)
 //                     *q++ = ch;
+                    wi8(q++, ch);
 //                 minp();
+                minp();
 //             }
+            }
 //             *q = '\0';
+            wi8(q, 0);
 //         } else {
         } else {
+err();
 //             next();
             next();
 //             if (tok != TOK_STR)
