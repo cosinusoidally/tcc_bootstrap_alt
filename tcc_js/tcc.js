@@ -1203,6 +1203,8 @@ function define_symbol(sym) {
 // 
 // void preprocess(void)
 // {
+function preprocess() {
+err();
 //     int size, i, c, v, t, *str, len;
 //     int found=0;
 //     char buf[1024], *q, *p;
@@ -1311,6 +1313,7 @@ function define_symbol(sym) {
 //     while (ch != '\n' && ch != -1)
 //         cinp();
 // }
+}
 // 
 // /* read a number in base b */
 // int getn(b)
