@@ -145,7 +145,7 @@ var TYPE_DIRECT = 2;
 //     FILE *file;
 var IncludeFile_file_o=0;
 //     char *filename;
-var IncludeFile_char_o=4;
+var IncludeFile_filename_o=4;
 //     int line_num;
 var IncludeFile_line_num_o=8;
 // } IncludeFile;
@@ -1375,13 +1375,18 @@ err();
 //         /* XXX: fix current line init */
 //         include_stack_ptr->file = file;
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
-err();
 //         include_stack_ptr->filename = filename;
+        wi32(include_stack_ptr+IncludeFile_filename_o, filename);
 //         include_stack_ptr->line_num = line_num;
+        wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
 //         include_stack_ptr++;
+        include_stack_ptr = include_stack_ptr+IncludeFile_size;
 //         file = f;
+        file = f;
 //         filename = strdup(buf1);
+        filename = strdup(buf1);
 //         line_num = 1;
+        line_num = 1;
 //     }
     }
 //     if (tok == TOK_ERROR) {
