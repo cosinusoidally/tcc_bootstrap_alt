@@ -1039,18 +1039,27 @@ function cinp() {
             ch = mk_char(' ');
 //         } else if (ch1 == '*') {
         } else if (ch1 == mk_char('*')) {
-err();
 //             /* C comments */
 //             inp();
+            inp();
 //             while (ch1 != -1) {
+            while (ch1 != -1) {
 //                 c = ch1;
+                c = ch1;
 //                 inp();
+                inp();
 //             if (c == '*' && ch1 == '/') {
+            if (c == mk_char('*') && ch1 == mk_char('/')) {
 //                 inp();
+                inp();
 //                 ch = ' '; /* return space */
+                ch = mk_char(' ');
 //                 break;
+                break;
 //             }
+            }
 //             }
+            }
 //         } else {
         } else {
 err();

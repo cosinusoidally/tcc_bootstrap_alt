@@ -1,4 +1,8 @@
 // test comment
+/*
+multiline
+comment
+*/
 #include "test7.h"
 
 int z=100;
