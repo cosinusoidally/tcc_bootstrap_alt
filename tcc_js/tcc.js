@@ -1017,62 +1017,36 @@ function minp() {
 // void cinp(void)
 // {
 function cinp() {
-//     int c;
     var c;
-// 
-//     if (ch1 == '/') {
+
     if (ch1 == mk_char('/')) {
-//         inp();
         inp();
-//         if (ch1 == '/') {
         if (ch1 == mk_char('/')) {
-//             /* single line C++ comments */
-//             inp();
+            /* single line C++ comments */
             inp();
-//             while (ch1 != '\n' && ch1 != -1)
             while (ch1 != mk_char('\n') && ch1 != -1)
-//                 inp();
                 inp();
-//             inp();
             inp();
-//             ch = ' '; /* return space */
-            ch = mk_char(' ');
-//         } else if (ch1 == '*') {
+            ch = mk_char(' '); /* return space */
         } else if (ch1 == mk_char('*')) {
-//             /* C comments */
-//             inp();
+            /* C comments */
             inp();
-//             while (ch1 != -1) {
             while (ch1 != -1) {
-//                 c = ch1;
                 c = ch1;
-//                 inp();
                 inp();
-//             if (c == '*' && ch1 == '/') {
             if (c == mk_char('*') && ch1 == mk_char('/')) {
-//                 inp();
                 inp();
-//                 ch = ' '; /* return space */
-                ch = mk_char(' ');
-//                 break;
+                ch = mk_char(' '); /* return space */
                 break;
-//             }
             }
-//             }
             }
-//         } else {
         } else {
 err();
 //             ch = '/';
-//         }
         }
-//     } else {
     } else {
-//         minp();
         minp();
-//     }
     }
-// }
 }
 // 
 // void skip_spaces(void)
