@@ -97,5 +97,7 @@ int main(void){
   printf("var TOK_SWITCH=0x%x;\n",TOK_SWITCH);
   printf("var TOK_CASE=0x%x;\n",TOK_CASE);
   printf("var TOK_DEFAULT=0x%x;\n",TOK_DEFAULT);
+  printf("var TOK_UNDEF=0x%x;\n",TOK_UNDEF);
+  printf("var TOK_INCLUDE=0x%x;\n",TOK_INCLUDE);
   return 0;
 }

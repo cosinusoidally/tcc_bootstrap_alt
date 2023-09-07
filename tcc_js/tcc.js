@@ -1210,8 +1210,8 @@ function preprocess() {
     var c;
     var v;
     var t;
-    var str;
-    var len;
+    var str=alloca(4);
+    var len=alloca(4);
 //     int found=0;
     var found=0;
 //     char buf[1024], *q, *p;
@@ -1261,11 +1261,15 @@ err();
 //             sym_undef(&define_stack, s);
 //     } else if (tok == TOK_INCLUDE) {
     } else if (tok == TOK_INCLUDE) {
-err();
 //         skip_spaces();
+        skip_spaces();
 //         if ((ch == '<') || (ch == '\"')) {
+        if ((ch == '<') || (ch == '\"')) {
+err();
 //             c = '>';
 //         if (ch == '\"')
+        if (ch == '\"')
+err();
 //             c = ch;
 //             minp();
 //             q = buf;
@@ -1276,6 +1280,8 @@ err();
 //             }
 //             *q = '\0';
 //         } else {
+        } else {
+err();
 //             next();
 //             if (tok != TOK_STR)
 //                 error("#include syntax error");
@@ -1283,6 +1289,8 @@ err();
 //             strcpy(buf, get_tok_str(tok, &tokc));
 //             c = '\"';
 //         }
+        }
+err();
 //         /* eat all spaces and comments after include */
 //         /* XXX: slightly incorrect */
 //         while (ch1 != '\n' && ch1 != -1)
