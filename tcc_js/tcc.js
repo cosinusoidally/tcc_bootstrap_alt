@@ -3263,9 +3263,11 @@ err();
 //             pt &= ~VT_ARRAY;
             pt &= ~VT_ARRAY;
 //             s = sym_push(n | SYM_FIELD, pt, 0);
-            s = sym_push(n | SYM_FIELD, pt, 0);
+            s = sym_push(ri32(n) | SYM_FIELD, pt, 0);
 //             *plast = s;
-            wi32(plast, s);
+//print("pt: "+pt+" s: "+s+" n "+ri32(n));
+//err();
+            wi32(ri32(plast), s);
 //             plast = &s->next;
 // FIXME ljw is this right?
             wi32(plast, s+Sym_next_o);
