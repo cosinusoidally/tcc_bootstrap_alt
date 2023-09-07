@@ -3265,8 +3265,6 @@ err();
 //             s = sym_push(n | SYM_FIELD, pt, 0);
             s = sym_push(ri32(n) | SYM_FIELD, pt, 0);
 //             *plast = s;
-//print("pt: "+pt+" s: "+s+" n "+ri32(n));
-//err();
             wi32(ri32(plast), s);
 //             plast = &s->next;
 // FIXME ljw is this right?
