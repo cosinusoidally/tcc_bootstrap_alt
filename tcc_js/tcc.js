@@ -1934,24 +1934,45 @@ function next_nomacro() {
 // /* handle the '##' operator LJW HACK DELETED CODE*/
 // int *macro_twosharps(int *macro_str)
 // {
+function macro_twosharps(macro_str) {
+enter();
 //     TokenSym *ts;
+    var ts;
 //     int *macro_str1, macro_str1_len, *macro_ptr1;
+    var macro_str1=alloca(4);
+    var macro_str1_len=alloca(4);
+    var macro_ptr1=alloca(4);
 //     int t;
+    var t;
 //     char *p;
+    var p;
 //     CValue cval;
+    var cval;
 // 
 //     macro_str1 = NULL;
+    wi32(macro_str1, NULL);
 //     macro_str1_len = 0;
+    wi32(macro_str1_len, 0);
 //     tok = 0;
+    tok = 0;
 //     while (1) {
+    while (1) {
 //         next_nomacro();
+        next_nomacro();
 //         if (tok == 0)
+        if (tok == 0)
 //             break;
+            break;
 //         tok_add2(&macro_str1, &macro_str1_len, tok, &tokc);
+        tok_add2(macro_str1, macro_str1_len, tok, tokc);
 //     }
+    }
 //     tok_add(&macro_str1, &macro_str1_len, 0);
+    tok_add(macro_str1, macro_str1_len, 0);
 //     return macro_str1;
+    return leave(ri32(macro_str1));
 // }
+}
 // 
 // 
 // 
@@ -2036,7 +2057,7 @@ err();
 //                 sa1 = *nested_list;
                 sa1 = ri32(nested_list);
 //                 *nested_list = sa1->prev;
-                wi32(nested_list, ri32(sa1+Sym_prev_));
+                wi32(nested_list, ri32(sa1+Sym_prev_o));
 //                 free(sa1);
                 free(sa1);
 //                 if (mstr_allocated)
@@ -2045,7 +2066,6 @@ err();
                 free(mstr);
 //             }
             }
-err();
 //         } else {
          } else {
 //             no_subst=1;
@@ -2078,7 +2098,6 @@ err();
 //         free(macro_str1);
 // }
 }
-err();
     leave();
 }
 // 
@@ -2143,12 +2162,15 @@ err();
             next_nomacro();
 //             if (tok == 0) {
             if (tok == 0) {
-err();
 //                 /* end of macro string: free it */
 //                 free(macro_ptr_allocated);
+                free(macro_ptr_allocated);
 //                 macro_ptr = NULL;
+                wi32(macro_ptr, NULL);
 //                 redo=1;
+                redo=1;
 //                 continue;
+                continue;
 //             }
             }
 //         }
