@@ -2594,17 +2594,23 @@ err();
 //                    (t2 & VT_BTYPE) == VT_PTR) {
         } else if ((t1 & VT_BTYPE) == VT_PTR ||
                    (t2 & VT_BTYPE) == VT_PTR) {
-err();
 //             if ((t2 & VT_BTYPE) == VT_PTR) {
+            if ((t2 & VT_BTYPE) == VT_PTR) {
+err();
 //                 vswap();
 //                 swap(&t1, &t2);
 //             }
+            }
 //             /* stack-4 contains pointer, stack-2 value to add */
 //             vset(VT_CONST, pointed_size(vtop[-1].t));
+            vset(VT_CONST, pointed_size(ri32(vtop-SValue_size+SValue_t)));
 //             gen_op('*');
+            gen_op(mk_char('*'));
 //             gen_opc(op);
+            gen_opc(op);
 //             /* put again type if gen_opc() swaped operands */
 //             vtop->t = (vtop->t & ~VT_TYPE) | (t1 & VT_TYPE);
+            wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | (t1 & VT_TYPE));
 //         } else {
         } else {
 //             gen_opc(op);
@@ -3583,17 +3589,22 @@ err();
                 error("invalid array size");    
 //         }
         }
-err();
 //         skip(']');
+        skip(mk_char(']'));
 //         /* parse next post type */
 //         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
+        t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
 //         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
+        t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
 //         
 //         /* we push a anonymous symbol which will contain the array
 //            element type */
 //         p = anon_sym++;
+        p = anon_sym++;
 //         sym_push(p, t, n);
+        sym_push(p, t, n);
 //         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
+        t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
 //     }
     }
 //     return t;
@@ -3994,12 +4005,16 @@ err();
 //             next();
 //         } else if (tok == '[') {
         } else if (tok == mk_char('[')) {
-err();
 //             next();
+            next();
 //             gexpr();
+            gexpr();
 //             gen_op('+');
+            gen_op(mk_char('+'));
 //             indir();
+            indir();
 //             skip(']');
+            skip(mk_char(']'));
 //         } else if (tok == '(') {
         } else if (tok == mk_char('(')) {
 //             int rett;
@@ -4443,12 +4458,19 @@ function expr_const1() {
 // /* parse an integer constant and return its value */
 // int expr_const(void)
 // {
+function expr_const() {
 //     int c;
+    var c;
 //     expr_const1();
+    expr_const1();
 //     c = vtop->c.i;
+    c = ri32(vtop+SValue_c_o);
 //     vpop();
+    vpop();
 //     return c;
+    return c;
 // }
+}
 // 
 // /* return the label token if current token is a label, otherwise
 //    return zero */
