@@ -3112,10 +3112,12 @@ function struct_decl(u) {
 //         /* XXX: check consistency */
 //         if (s = sym_find(v | SYM_STRUCT)) {
         if (s = sym_find(ri32(v) | SYM_STRUCT)) {
-err();
 //             if (s->t != a)
+            if (ri32(s+Sym_t_o) != a)
 //                 error("invalid type");
+                error("invalid type");
 //             break;
+            break;
 //         }
         }
     } else {
@@ -3229,29 +3231,35 @@ err();
                         }
 //                         ss = sym_push(v | SYM_FIELD, t, offset);
                         ss = sym_push(v | SYM_FIELD, t, offset);
-err();
 //                         *ps = ss;
+                        wi32(ps, ss);
 //                         ps = &ss->next;
+                        ps, ss+Sym_next_o;
 //                     }
                     }
-err();
 //                     if (tok == ';' || tok == -1)
+                    if (tok == mk_char(';') || tok == -1)
 //                         break;
+                        break;
 //                     skip(',');
+                    skip(mk_char(','));
 //                 }
                 }
-err();
 //                 skip(';');
+                skip(mk_char(';'));
 //             }
             }
 //             if (tok == '}')
+            if (tok == mk_char('}'))
 //                 break;
+                break;
 //         }
         }
-err();
 //         skip('}');
+        skip(mk_char('}'));
 //         /* size for struct/union, dummy for enum */
 //         s->c = (c + maxalign - 1) & -maxalign; 
+        wi32(s+Sym_c_o, (c + maxalign - 1) & -maxalign);
 //     }
     }
 //     return u;
