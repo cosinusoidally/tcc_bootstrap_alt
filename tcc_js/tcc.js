@@ -1992,10 +1992,11 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
     macro_str1 = NULL;
 //     if (macro_str) {
     if (macro_str) {
-err();
 //         /* first scan for '##' operator handling */
 //         macro_str1 = macro_twosharps(macro_str);
+        macro_str1 = macro_twosharps(macro_str);
 //         macro_ptr = macro_str1;
+        macro_ptr = macro_str1;
 //     }
     }
 // 
@@ -2022,17 +2023,26 @@ err();
             }
 //             if(no_subst==0){
             if(no_subst==0){
-err();
+// FIXME ljw might not be right
 //                 mstr = (int *)s->c;
+                mstr = ri32(s+Sym_c_o);
 //                 mstr_allocated = 0;
+                mstr_allocated = 0;
 //                 sym_push2(nested_list, s->v, 0, 0);
+                sym_push2(nested_list, ri32(s+Sym_v_o), 0, 0);
 //                 macro_subst(tok_str, tok_len, nested_list, mstr);
+                macro_subst(tok_str, tok_len, nested_list, mstr);
 //                 /* pop nested defined symbol */
 //                 sa1 = *nested_list;
+                sa1 = ri32(nested_list);
 //                 *nested_list = sa1->prev;
+                wi32(nested_list, ri32(sa1+Sym_prev_));
 //                 free(sa1);
+                free(sa1);
 //                 if (mstr_allocated)
+                if (mstr_allocated)
 //                 free(mstr);
+                free(mstr);
 //             }
             }
 err();
