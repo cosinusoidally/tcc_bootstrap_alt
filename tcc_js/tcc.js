@@ -3154,8 +3154,9 @@ err();
         offset = 0;
 //         while (1) {
         while (1) {
-err();
 //             if (a == TOK_ENUM) {
+            if (a == TOK_ENUM) {
+err();
 //                 v = tok;
 //                 next();
 //                 if (tok == '=') {
@@ -3168,6 +3169,8 @@ err();
 //                     next();
 //                 c++;
 //             } else {
+            } else {
+err();
 //                 b = ist();
 //                 while (1) {
 //                     bit_size = -1;
@@ -3208,6 +3211,7 @@ err();
 //                 }
 //                 skip(';');
 //             }
+            }
 //             if (tok == '}')
 //                 break;
 //         }
