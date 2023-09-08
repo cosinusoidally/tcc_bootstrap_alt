@@ -50,6 +50,7 @@ var FUNC_RET_REG = 0;
 // 
 // /* pointer size, in bytes */
 // #define PTR_SIZE 4
+var PTR_SIZE = 4;
 // 
 // /* function call context */
 // typedef struct GFuncContext {

@@ -228,6 +228,7 @@ var nb_include_paths=0;
 // 
 // /* use Tiny C extensions */
 // int tcc_ext = 1;
+var tcc_ext = 1;
 // 
 // int reloc=0;
 var reloc=0;
@@ -1565,16 +1566,20 @@ err()
 //         return;
 //     } else if (t == '0') {
     } else if (t === mk_char('0')) {
-err()
 //         if (ch == 'x' || ch == 'X') {
+        if (ch == mk_char('x') || ch == mk_char('X')) {
+err();
 //             q--;
 //             cinp();
 //             b = 16;
 //         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+        } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+err();
 //             q--;
 //             cinp();
 //             b = 2;
 //         }
+        }
 //     }
     }
 //     /* parse all digits. cannot check octal numbers at this stage
@@ -1620,9 +1625,10 @@ err()
     q = token_buf;
 //     if (b == 10 && *q == '0') {
     if (b === 10 && ri8(q) === mk_char('0')) {
-err()
 //         b = 8;
+        b = 8;
 //         q++;
+        q++;
 //     }
     }
 //     n = 0;
@@ -2694,9 +2700,10 @@ err();
             return type_size(ri32(s+Sym_t_o), a) * ri32(s+Sym_c_o);
 //         } else {
         } else {
-err();
 //             *a = PTR_SIZE;
+            wi32(a, PTR_SIZE);
 //             return PTR_SIZE;
+            return PTR_SIZE;
 //         }
         }
 //     } else if (bt == VT_INT || bt == VT_ENUM ) {
@@ -3204,10 +3211,9 @@ function ist() {
 //             /* basic types */
 //         case TOK_CHAR:
         case TOK_CHAR:
-err();
-//             u = VT_BYTE;
-//             t=basic_type(t,u);
-//             break;
+            u = VT_BYTE;
+            t=basic_type(t,u);
+            break;
 //         case TOK_VOID:
         case TOK_VOID:
 //             u = VT_VOID;
