@@ -2006,7 +2006,7 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
     var cval=alloca(CValue_size);
 // 
 //     saved_macro_ptr = macro_ptr;
-    saved_macro_ptr = macro_ptr;
+    saved_macro_ptr = ri32(macro_ptr);
 //     macro_ptr = macro_str;
     wi32(macro_ptr, macro_str);
 //     macro_str1 = NULL;
@@ -2017,87 +2017,56 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
 //         macro_str1 = macro_twosharps(macro_str);
         macro_str1 = macro_twosharps(macro_str);
 //         macro_ptr = macro_str1;
-        macro_ptr = macro_str1;
+        wi32(macro_ptr, macro_str1);
 //     }
     }
 // 
-//     while (1) {
     while (1) {
-//         no_subst=0;
         no_subst=0;
-//         next_nomacro();
         next_nomacro();
-//         if (tok == 0)
          if (tok == 0) {
-//             break;
              break;
          }
-//         if ((s = sym_find1(&define_stack, tok)) != NULL) {
          if ((s = sym_find1(define_stack, tok)) !== NULL) {
 //             /* if symbol is a macro, prepare substitution */
 //             /* if nested substitution, do nothing */
-//             if (sym_find2(*nested_list, tok))
             if (sym_find2(ri32(nested_list), tok)) {
 err();
 //                 no_subst=1;
                 no_subst=1;
             }
-//             if(no_subst==0){
+debugger;
             if(no_subst==0){
 // FIXME ljw might not be right
-//                 mstr = (int *)s->c;
                 mstr = ri32(s+Sym_c_o);
-//                 mstr_allocated = 0;
                 mstr_allocated = 0;
-//                 sym_push2(nested_list, s->v, 0, 0);
                 sym_push2(nested_list, ri32(s+Sym_v_o), 0, 0);
-//                 macro_subst(tok_str, tok_len, nested_list, mstr);
                 macro_subst(tok_str, tok_len, nested_list, mstr);
 //                 /* pop nested defined symbol */
-//                 sa1 = *nested_list;
                 sa1 = ri32(nested_list);
-//                 *nested_list = sa1->prev;
                 wi32(nested_list, ri32(sa1+Sym_prev_o));
-//                 free(sa1);
                 free(sa1);
-//                 if (mstr_allocated)
                 if (mstr_allocated)
-//                 free(mstr);
                 free(mstr);
-//             }
             }
-//         } else {
          } else {
-//             no_subst=1;
              no_subst=1;
-//         }
          }
-//         if (no_subst) {
          if (no_subst) {
 //             /* no need to add if reading input stream */
-//             if (!macro_str)
-             if (!macro_str) {
-//                 return;
+             if (!macro_str) 
                  return leave();
-             }
-//             tok_add2(tok_str, tok_len, tok, &tokc);
-err();
              tok_add2(tok_str, tok_len, tok, tokc);
-//         }
          }
 //         /* only replace one macro while parsing input stream */
-//         if (!macro_str)
-         if (!macro_str) {
-//             return;
+         if (!macro_str)
              return leave();
-//     }
      }
-err();
-//     macro_ptr = saved_macro_ptr;
+    wi32(macro_ptr, saved_macro_ptr);
+// FIXME ljw should free
 //     if (macro_str1)
 //         free(macro_str1);
 // }
-}
     leave();
 }
 // 
@@ -2140,12 +2109,16 @@ err();
             macro_subst(ptr, len, nested_list, NULL);
 //             if (ptr) {
              if (ri32(ptr)) {
-err();
 //                 tok_add(&ptr, &len, 0);
+                tok_add(ptr, len, 0);
 //                 macro_ptr = ptr;
+                wi32(macro_ptr, ri32(ptr));
 //                 macro_ptr_allocated = ptr;
+                macro_ptr_allocated = ptr;
 //                 redo=1;
+                redo=1;
 //                 continue;
+                continue;
 //             }
              }
 //             if (tok == 0) {
