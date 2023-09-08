@@ -3264,10 +3264,12 @@ err();
 //             break;
 //         case TOK_UNSIGNED:
         case TOK_UNSIGNED:
-err();
 //             t |= VT_UNSIGNED;
+            t |= VT_UNSIGNED;
 //             next();
+            next();
 //             break;
+            break;
 // 
 //             /* storage */
 //         case TOK_EXTERN:
@@ -3284,10 +3286,12 @@ err();
 //             break;
 //         case TOK_TYPEDEF:
         case TOK_TYPEDEF:
-err();
 //             t |= VT_TYPEDEF;
+            t |= VT_TYPEDEF;
 //             next();
+            next();
 //             break;
+            break;
 //         default:
         default:
 //             s = sym_find(tok);
@@ -3302,7 +3306,6 @@ err();
 //             next();
           next();
 //             break;
-err();
           break;
 //         }
         }
@@ -3354,16 +3357,24 @@ function post_type(t) {
             if (ri32(l) !== FUNC_OLD) {
 //                 if (!(pt = ist())) {
                 if (!(pt = ist())) {
-err();
 //                     if (l) {
+                    if (l) {
+err();
 //                         error("invalid type");
 //                     } else {
+                    } else {
 //                         l = FUNC_OLD;
+                        l = FUNC_OLD;
 //                         n = tok;
+                        n = tok;
 //                         pt = VT_INT;
+                        pt = VT_INT;
 //                         next();
+                        next();
 //                         break;
+                        break;
 //                     }
+                    }
 //                 }
                 }
 //                 l = FUNC_NEW;
@@ -3485,7 +3496,6 @@ function  type_decl(v, t, td) {
     t = t & -3;
 //     while (tok == '*') {
     while (tok == mk_char('*')) {
-err();
 //         next();
        next();
 //         while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
@@ -5241,15 +5251,15 @@ err();
             } else {
 //                 if (b & VT_TYPEDEF) {
                 if (b & VT_TYPEDEF) {
-err();
 //                     /* save typedefed type  */
 //                     /* XXX: test storage specifiers ? */
 //                     sym_push(v, t | VT_TYPEDEF, 0);
+                    sym_push(ri32(v), t | VT_TYPEDEF, 0);
 //                 } else if ((t & VT_BTYPE) == VT_FUNC) {
                 } else if ((t & VT_BTYPE) == VT_FUNC) {
-err();
 //                     /* external function definition */
 //                     external_sym(v, t);
+                    external_sym(ri32(v), t);
 //                 } else {
                 } else {
 //                     /* not lvalue if array */
