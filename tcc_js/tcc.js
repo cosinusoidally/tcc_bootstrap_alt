@@ -2114,7 +2114,7 @@ err();
 //                 macro_ptr = ptr;
                 wi32(macro_ptr, ri32(ptr));
 //                 macro_ptr_allocated = ptr;
-                macro_ptr_allocated = ptr;
+                macro_ptr_allocated = ri32(ptr);
 //                 redo=1;
                 redo=1;
 //                 continue;
