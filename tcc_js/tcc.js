@@ -3548,7 +3548,6 @@ err();
 //         /* if no parameters, then old type prototype */
 //         if (l == 0)
         if (l === 0) {
-err();
 //             l = FUNC_OLD;
             l = FUNC_OLD;
         }
@@ -3626,10 +3625,12 @@ function  type_decl(v, t, td) {
 //     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
 //     if (tok == '(') {
     if (tok === mk_char('(')) {
-err();
 //         next();
+        next();
 //         u = type_decl(v, 0, td);
+        u = type_decl(v, 0, td);
 //         skip(')');
+        skip(mk_char(')'));
 //     } else {
     } else {
 //         u = 0;
@@ -3662,15 +3663,22 @@ print("tok: "+tok+" t: "+t);
     }
 //     p = u;
     p = u;
-err();
 //     while(1) {
+    while(1) {
 //         s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
+        s = sym_find(p >>> VT_STRUCT_SHIFT);
 //         p = s->t;
+        p = ri32(s+Sym_t_o);
 //         if (!p) {
+        if (!p) {
 //             s->t = t;
+            wi32(s+Sym_t_o, t);
 //             break;
+            break;
 //         }
+        }
 //     }
+    }
 //     return u;
     return leave(u);
 // }

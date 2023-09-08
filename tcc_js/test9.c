@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     puts("tcc 1_7 start");
     Sym *s;
 //    int (*t)();
+   int (*t)();
 //    char *p, *r, *outfile;
 //    int optind;
 //

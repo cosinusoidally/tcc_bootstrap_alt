@@ -6,4 +6,4 @@ print(JSON.stringify(argc_argv));
 //err();
 main(argc_argv.argc,argc_argv.argv);
 
-check("868b3079705709cc1518c6347664b6226bafb9bb6192dbc3d69dba3a6e7dd5a5");
+check("8c6c3e6be8d1061913e1b9d25668af834908ed0dc4ecc2dafad8f8d64928afa9");
