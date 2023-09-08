@@ -287,7 +287,7 @@ function fclose(f){
 
 function getc_unlocked(file){
   file_o=f_files[file];
-  print(JSON.stringify(file_o));
+//  print(JSON.stringify(file_o));
   var c=file_o.data[file_o.o++];
   // eof
   if(c===undefined){
