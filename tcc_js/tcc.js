@@ -3135,17 +3135,26 @@ err();
 //     
 //     if (tok == '{') {
     if (tok == mk_char('{')) {
-err();
 //         next();
+        next();
 //         if (s->c)
+        if (ri32(s+Sym_c_o))
 //             error("struct/union/enum already defined");
+            error("struct/union/enum already defined");
 //         /* cannot be empty */
 //         c = 0;
+        c = 0;
 //         maxalign = 0;
+        maxalign = 0;
 //         ps = &s->next;
+        ps = s+Sym_next_o;
 //         bit_pos = 0;
+        bit_pos = 0;
 //         offset = 0;
+        offset = 0;
 //         while (1) {
+        while (1) {
+err();
 //             if (a == TOK_ENUM) {
 //                 v = tok;
 //                 next();
@@ -3202,6 +3211,8 @@ err();
 //             if (tok == '}')
 //                 break;
 //         }
+        }
+err();
 //         skip('}');
 //         /* size for struct/union, dummy for enum */
 //         s->c = (c + maxalign - 1) & -maxalign; 
