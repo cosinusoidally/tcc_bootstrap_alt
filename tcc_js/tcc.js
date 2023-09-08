@@ -3252,13 +3252,14 @@ err();
 //             break;
 //         case TOK_STRUCT:
         case TOK_STRUCT:
-err();
 //         case TOK_UNION:
         case TOK_UNION:
-err();
 //             u = struct_decl(VT_STRUCT);
+            u = struct_decl(VT_STRUCT);
 //             t=basic_type1(t,u);
+            t=basic_type1(t,u);
 //             break;
+            break;
 // 
 //             /* type modifiers */
 //         case TOK_CONST:

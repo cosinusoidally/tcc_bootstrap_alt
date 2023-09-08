@@ -1,9 +1,19 @@
 #include "test9.h"
 
+/* symbol management */
+typedef struct Sym {
+    int v;    /* symbol token */
+    int t;    /* associated type */
+    int c;    /* associated number */
+    struct Sym *next; /* next related symbol */
+    struct Sym *prev; /* prev symbol in stack */
+    struct Sym *hash_next; /* next symbol in hash table */
+} Sym;
+
 int main(int argc, char **argv)
 {
     puts("tcc 1_7 start");
-//     Sym *s;
+    Sym *s;
 //    int (*t)();
 //    char *p, *r, *outfile;
 //    int optind;
