@@ -3192,30 +3192,49 @@ err();
                                   get_tok_str(v, NULL));
 //                     }
                     }
-err();
 //                     size = type_size(t, &align);
+                    size = type_size(t, align);
 //                     lbit_pos = 0;
+                    lbit_pos = 0;
 //                     bit_pos = 0;
+                    bit_pos = 0;
 //                     if (v) {
+                    if (ri32(v)) {
 //                         /* add new memory data only if starting
 //                            bit field */
 //                         if (lbit_pos == 0) {
+                        if (lbit_pos == 0) {
 //                             if (a == TOK_STRUCT) {
+                            if (a == TOK_STRUCT) {
 //                                 c = (c + align - 1) & -align;
+                                c = (c + ri32(align) - 1) & -ri32(align);
 //                                 offset = c;
+                                offset = c;
 //                                 c += size;
+                                c += size;
 //                             } else {
+                            } else {
+err();
 //                                 offset = 0;
 //                                 if (size > c)
 //                                     c = size;
 //                             }
+                            }
 //                             if (align > maxalign)
+                            if (ri32(align) > maxalign) {
 //                                 maxalign = align;
+                                maxalign = ri32(align);
+                            }
 //                         }
+                        }
 //                         ss = sym_push(v | SYM_FIELD, t, offset);
+                        ss = sym_push(v | SYM_FIELD, t, offset);
+err();
 //                         *ps = ss;
 //                         ps = &ss->next;
 //                     }
+                    }
+err();
 //                     if (tok == ';' || tok == -1)
 //                         break;
 //                     skip(',');
