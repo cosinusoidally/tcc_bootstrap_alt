@@ -3170,18 +3170,29 @@ err();
 //                 c++;
 //             } else {
             } else {
-err();
 //                 b = ist();
+                b = ist();
 //                 while (1) {
+                while (1) {
 //                     bit_size = -1;
+                    bit_size = -1;
 //                     v = 0;
+                    wi32(v, 0);
 //                     if (tok != ':') {
+                    if (tok != mk_char(':')) {
 //                         t = type_decl(&v, b, TYPE_DIRECT);
+                        t = type_decl(v, b, TYPE_DIRECT);
 //                         if ((t & VT_BTYPE) == VT_FUNC ||
 //                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
+                        if ((t & VT_BTYPE) == VT_FUNC ||
+                            (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
 //                             error("invalid type for '%s'", 
+                            error("invalid type for '%s'", 
 //                                   get_tok_str(v, NULL));
+                                  get_tok_str(v, NULL));
 //                     }
+                    }
+err();
 //                     size = type_size(t, &align);
 //                     lbit_pos = 0;
 //                     bit_pos = 0;
@@ -3209,6 +3220,8 @@ err();
 //                         break;
 //                     skip(',');
 //                 }
+                }
+err();
 //                 skip(';');
 //             }
             }
