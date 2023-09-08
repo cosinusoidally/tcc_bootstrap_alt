@@ -3568,15 +3568,22 @@ err();
         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
 //     } else if (tok == '[') {
     } else if (tok === mk_char('[')) {
-err();
 //         /* array definition */
 //         next();
+        next();
 //         n = -1;
+        n = -1;
 //         if (tok != ']') {
+        if (tok != mk_char(']')) {
 //             n = expr_const();
+            n = expr_const();
 //             if (n < 0)
+            if (n < 0)
 //                 error("invalid array size");    
+                error("invalid array size");    
 //         }
+        }
+err();
 //         skip(']');
 //         /* parse next post type */
 //         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
@@ -5464,7 +5471,6 @@ err();
 //                 }
                 }
 //                 next();
-err();
                 next();
 //             }
             }
