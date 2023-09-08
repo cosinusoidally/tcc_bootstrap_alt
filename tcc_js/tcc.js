@@ -2433,7 +2433,9 @@ print("gen_opc: "+op);
     v2 = vtop;
 //     /* currently, we cannot do computations with forward symbols */
 //     c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    c1 = (ri32(v1+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
 //     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    c2 = (ri32(v2+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
 //     while(1) {
     while(1) {
 //     if (c1 && c2) {

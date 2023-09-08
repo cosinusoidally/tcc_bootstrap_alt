@@ -101,5 +101,7 @@ int main(void){
   printf("var TOK_INCLUDE=0x%x;\n",TOK_INCLUDE);
   printf("var TOK_ERROR=0x%x;\n",TOK_ERROR);
   printf("var TOK_DOTS=0x%x;\n",TOK_DOTS);
+  printf("var TOK_UDIV=0x%x;\n",TOK_UDIV);
+  printf("var TOK_PDIV=0x%x;\n",TOK_PDIV);
   return 0;
 }

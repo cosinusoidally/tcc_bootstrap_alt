@@ -94,3 +94,5 @@ var TOK_UNDEF=0x12a;
 var TOK_INCLUDE=0x124;
 var TOK_ERROR=0x12b;
 var TOK_DOTS=0xa8;
+var TOK_UDIV=0xb0;
+var TOK_PDIV=0xb2;
