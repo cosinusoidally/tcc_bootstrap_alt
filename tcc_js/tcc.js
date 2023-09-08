@@ -3075,12 +3075,34 @@ err();
 // /* enum/struct/union declaration */
 // int struct_decl(int u)
 // {
+function struct_decl(u) {
+    enter();
 //     int a, t, b, v, size, align, maxalign, c, offset;
+    var a;
+    var t;
+    var b;
+    var v=alloca(4);
+    var size;
+    var align=alloca(4);
+    var maxalign;
+    var c;
+    var offset;
 //     int bit_size, bit_pos, bsize, bt, lbit_pos;
+    var bit_size;
+    var bit_pos;
+    var bsize;
+    var bt;
+    var lbit_pos;
 //     Sym *s, *ss, **ps;
+    var s;
+    var ss;
+    var ps;
 // 
 //     a = tok; /* save decl type */
+    a = tok;
 //     next();
+    next();
+err();
 //     while(1){
 //     if (tok != '{') {
 //         v = tok;
@@ -3173,7 +3195,9 @@ err();
 //         s->c = (c + maxalign - 1) & -maxalign; 
 //     }
 //     return u;
+    return leave(u);
 // }
+}
 // 
 // int basic_type1(int t,int u){
 function basic_type1(t,u){
