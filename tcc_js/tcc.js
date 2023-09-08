@@ -2776,20 +2776,30 @@ function is_compatible_types(t1, t2) {
     bt2 = t2 & VT_BTYPE;
 //     if (bt1 == VT_PTR) {
     if (bt1 == VT_PTR) {
-err();
 //         t1 = pointed_type(t1);
+        t1 = pointed_type(t1);
 //         /* if function, then convert implicitely to function pointer */
 //         if (bt2 != VT_FUNC) {
+        if (bt2 != VT_FUNC) {
 //             if (bt2 != VT_PTR)
+            if (bt2 != VT_PTR)
 //                 return 0;
+                return 0;
 //             t2 = pointed_type(t2);
+            t2 = pointed_type(t2);
 //         }
+        }
 //         /* void matches everything */
 //         t1 &= VT_TYPE;
+        t1 &= VT_TYPE;
 //         t2 &= VT_TYPE;
+        t2 &= VT_TYPE;
 //         if (t1 == VT_VOID || t2 == VT_VOID)
+        if (t1 == VT_VOID || t2 == VT_VOID)
 //             return 1;
+            return 1;
 //         return is_compatible_types(t1, t2);
+        return is_compatible_types(t1, t2);
 //     } else if (bt1 == VT_STRUCT) {
     } else if (bt1 == VT_STRUCT) {
 err();
@@ -3265,9 +3275,10 @@ err();
         case TOK_INLINE:
 //         case TOK_RESTRICT:
         case TOK_RESTRICT:
-err();
 //             next();
+            next();
 //             break;
+            break;
 //         case TOK_UNSIGNED:
         case TOK_UNSIGNED:
 //             t |= VT_UNSIGNED;
