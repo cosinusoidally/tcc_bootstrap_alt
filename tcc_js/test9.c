@@ -1,6 +1,8 @@
+#include "test9.h"
+
 int main(int argc, char **argv)
 {
-//     puts("tcc 1_7 start");
+    puts("tcc 1_7 start");
 //     Sym *s;
 //    int (*t)();
 //    char *p, *r, *outfile;
