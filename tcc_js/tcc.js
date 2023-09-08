@@ -3419,13 +3419,18 @@ err();
             wi32(plast, s+Sym_next_o);
 //             if (tok == ',') {
             if (tok == mk_char(',')) {
-err();
 //                 next();
+                next();
 //                 if (l == FUNC_NEW && tok == TOK_DOTS) {
+                if (l == FUNC_NEW && tok == TOK_DOTS) {
 //                     l = FUNC_ELLIPSIS;
+                    l = FUNC_ELLIPSIS;
 //                     next();
+                    next();
 //                     break;
+                    break;
 //                 }
+                }
 //             }
             }
 //         }
