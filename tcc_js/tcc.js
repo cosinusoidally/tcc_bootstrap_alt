@@ -3102,28 +3102,40 @@ function struct_decl(u) {
     a = tok;
 //     next();
     next();
-err();
-//     while(1){
-//     if (tok != '{') {
+    while(1){
+    if (tok != mk_char('{')) {
 //         v = tok;
+        wi32(v, tok);
 //         next();
+        next();
 //         /* struct already defined ? return it */
 //         /* XXX: check consistency */
 //         if (s = sym_find(v | SYM_STRUCT)) {
+        if (s = sym_find(ri32(v) | SYM_STRUCT)) {
+err();
 //             if (s->t != a)
 //                 error("invalid type");
 //             break;
 //         }
-//     } else {
+        }
+    } else {
+err();
 //         v = anon_sym++;
 //     }
+    }
 //     s = sym_push(v | SYM_STRUCT, a, 0);
+    s = sym_push(ri32(v) | SYM_STRUCT, a, 0);
 //     /* put struct/union/enum name in type */
 //     break;
+    break;
 //     }
+    }
 //     u = u | (v << VT_STRUCT_SHIFT);
+    u = u | (ri32(v) << VT_STRUCT_SHIFT);
 //     
 //     if (tok == '{') {
+    if (tok == mk_char('{')) {
+err();
 //         next();
 //         if (s->c)
 //             error("struct/union/enum already defined");
@@ -3194,6 +3206,7 @@ err();
 //         /* size for struct/union, dummy for enum */
 //         s->c = (c + maxalign - 1) & -maxalign; 
 //     }
+    }
 //     return u;
     return leave(u);
 // }
