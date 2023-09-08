@@ -2415,6 +2415,7 @@ print("gv r_ret: "+r)
 // void gen_opc(int op)
 // {
 function gen_opc(op) {
+print("gen_opc: "+op);
 //     int fc, c1, c2, n;
     var fc;
     var c1;
@@ -2622,11 +2623,14 @@ err();
         }
 //     } else {
     } else {
-err();
 //         /* XXX: test types and compute returned value */
 //         if ((t1 | t2) & VT_UNSIGNED ||
 //             (t1 & VT_BTYPE) == VT_PTR ||
 //             (t2 & VT_BTYPE) == VT_PTR) {
+        if ((t1 | t2) & VT_UNSIGNED ||
+            (t1 & VT_BTYPE) == VT_PTR ||
+            (t2 & VT_BTYPE) == VT_PTR) {
+err();
 //             if (op == TOK_SAR)
 //                 op = TOK_SHR;
 //             else if (op == '/')
@@ -2642,7 +2646,9 @@ err();
 //             else if (op == TOK_GE)
 //                 op = TOK_UGE;
 //         }
+        }
 //         gen_opc(op);
+        gen_opc(op);
 //     }
     }
 // }
