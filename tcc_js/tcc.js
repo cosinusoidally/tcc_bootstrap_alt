@@ -2550,8 +2550,11 @@ err();
 // 
 // int pointed_size(int t)
 // {
-//     return type_size(pointed_type(t), &t);
-// }
+// FIXME ljw had to pass in a pointer
+function pointed_size(t) {
+//    return type_size(pointed_type(t), &t);
+    return type_size(pointed_type(ri32(t)), t);
+}
 // 
 // /* generic gen_op: handles types problems */
 // void gen_op(int op)
@@ -2603,7 +2606,7 @@ err();
             }
 //             /* stack-4 contains pointer, stack-2 value to add */
 //             vset(VT_CONST, pointed_size(vtop[-1].t));
-            vset(VT_CONST, pointed_size(ri32(vtop-SValue_size+SValue_t)));
+            vset(VT_CONST, pointed_size(vtop-SValue_size+SValue_t_o));
 //             gen_op('*');
             gen_op(mk_char('*'));
 //             gen_opc(op);
