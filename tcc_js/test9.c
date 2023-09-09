@@ -29,6 +29,7 @@ char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
 
 int tok_ident;
+TokenSym *hash_ident[TOK_HASH_SIZE];
 
 TokenSym *tok_alloc(char *str, int len)
 {
