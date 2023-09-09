@@ -2616,7 +2616,6 @@ err();
             }
 //             /* stack-4 contains pointer, stack-2 value to add */
 //             vset(VT_CONST, pointed_size(vtop[-1].t));
-debugger;
             vset(VT_CONST, pointed_size(ri32(vtop-SValue_size+SValue_t_o)));
 //             gen_op('*');
             gen_op(mk_char('*'));
@@ -4047,6 +4046,7 @@ err();
 //             indir();
             indir();
 //             skip(']');
+debugger;
             skip(mk_char(']'));
 //         } else if (tok == '(') {
         } else if (tok == mk_char('(')) {
@@ -4240,7 +4240,7 @@ function uneq() {
 //         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
 //         tok == TOK_A_XOR || tok == TOK_A_OR ||
 //         tok == TOK_A_SHL || tok == TOK_A_SAR) {
-    if (tok == '=' ||
+    if (tok == mk_char('=') ||
         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
         tok == TOK_A_XOR || tok == TOK_A_OR ||
         tok == TOK_A_SHL || tok == TOK_A_SAR) {
