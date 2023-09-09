@@ -536,9 +536,13 @@ function skip(c) {
 // 
 // void test_lvalue(void)
 // {
+function test_lvalue() {
 //     if (!(vtop->t & VT_LVAL))
+    if (!(ri32(vtop+SValue_t_o) & VT_LVAL))
 //         expect("lvalue");
+        expect("lvalue");
 // }
+}
 // 
 // TokenSym *tok_alloc(char *str, int len)
 // {
@@ -4244,20 +4248,26 @@ function uneq() {
         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
         tok == TOK_A_XOR || tok == TOK_A_OR ||
         tok == TOK_A_SHL || tok == TOK_A_SAR) {
-err();
 //         test_lvalue();
+        test_lvalue();
 //         t = tok;
+        t = tok;
 //         next();
+        next();
 //         if (t == '=') {
-err();
+        if (t == mk_char('=')) {
 //             expr_eq();
+            expr_eq();
 //         } else {
+        } else {
 err();
 //             vdup();
 //             expr_eq();
 //             gen_op(t & 0x7f);
 //         }
+        }
 //         vstore();
+        vstore();
 //     }
     }
 // }

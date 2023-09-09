@@ -464,11 +464,14 @@ function store(r, ft, fc) {
     }
 //     if (fr == VT_CONST) {
     if (fr == VT_CONST) {
-err();
 //         o(0x05 + r * 8); /* mov r,xxx */
+        o(0x05 + r * 8);
 // lt=1;
+lt=1;
 // printf("\nstore 32 ind: %x\n",ind);
+print("\nstore 32 ind: %x\n",ind);
 //         gen_addr32(fc, ft);
+        gen_addr32(fc, ft);
 //     } else if (fr == VT_LOCAL) {
     } else if (fr == VT_LOCAL) {
 //         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
