@@ -4050,7 +4050,6 @@ err();
 //             indir();
             indir();
 //             skip(']');
-debugger;
             skip(mk_char(']'));
 //         } else if (tok == '(') {
         } else if (tok == mk_char('(')) {
