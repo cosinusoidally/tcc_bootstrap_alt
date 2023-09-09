@@ -1825,21 +1825,28 @@ err();
         while (ri8(q)) {
 //             if (*q == tok && q[1] == ch) {
             if (ri8(q) === tok && ri8(q+1) === ch) {
-err();
 //                 cinp();
+                cinp();
 //                 tok = q[2] & 0xff;
+                tok = ri8(q+2) & 0xff;
 //                 /* three chars tests */
 //                 if (tok == TOK_SHL | tok == TOK_SAR) {
+                if (tok == TOK_SHL | tok == TOK_SAR) {
+err();
 //                     if (ch == '=') {
 //                         tok = tok | 0x80;
 //                         cinp();
 //                     }
 //                 } else if (tok == TOK_DOTS) {
+                } else if (tok == TOK_DOTS) {
+err();
 //                     if (ch != '.')
 //                         error("parse error");
 //                     cinp();
 //                 }
+                }
 //                 return;
+                return leave();
 //             }
             }
 //             q = q + 3;
@@ -4015,9 +4022,10 @@ err();
     while (1) {
 //         if (tok == TOK_INC | tok == TOK_DEC) {
         if (tok == TOK_INC | tok == TOK_DEC) {
-err();
 //             inc(1, tok);
+            inc(1, tok);
 //             next();
+            next();
 //         } else if (tok == '.' | tok == TOK_ARROW) {
         } else if (tok == mk_char('.') | tok == TOK_ARROW) {
 err();
