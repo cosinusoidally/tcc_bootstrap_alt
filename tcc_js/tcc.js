@@ -4107,26 +4107,45 @@ err();
             next();
 //         } else if (tok == '.' | tok == TOK_ARROW) {
         } else if (tok == mk_char('.') | tok == TOK_ARROW) {
-err();
 //             /* field */ 
 //             if (tok == TOK_ARROW) 
+            if (tok == TOK_ARROW) {
 //                 indir();
+                indir();
+            }
 //             test_lvalue();
+            test_lvalue();
 //             vtop->t &= VT_LVALN;
+            wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) & VT_LVALN);
 //             next();
+            next();
 //             /* expect pointer on structure */
 //             if ((vtop->t & VT_BTYPE) != VT_STRUCT)
+            if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_STRUCT) {
+err();
 //                 expect("struct or union");
+                expect("struct or union");
+            }
 //             s = sym_find(((unsigned)vtop->t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+            s = sym_find((ri32(vtop+SValue_t_o) >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
 //             /* find field */
 //             tok |= SYM_FIELD;
+            tok |= SYM_FIELD;
 //             while (s = s->next) {
+            while (s = ri32(s+Sym_next_o)) {
 //                 if (s->v == tok)
+                if (ri32(s+Sym_v_o) == tok)
 //                     break;
+                    break;
 //             }
+            }
 //             if (!s)
+debugger;
+            if (!s)
 //                 error("field not found");
+                error("field not found");
 //             /* add field offset to pointer */
+err();
 //             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; /* change type to int */
 //             vset(VT_CONST, s->c);
 //             gen_op('+');
