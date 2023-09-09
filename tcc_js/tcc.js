@@ -2620,16 +2620,22 @@ function gen_op(op) {
 //             (t2 & VT_BTYPE) == VT_PTR) {
         if ((t1 & VT_BTYPE) == VT_PTR &&
             (t2 & VT_BTYPE) == VT_PTR) {
-err();
 //             if (op != '-')
+            if (op != mk_char('-'))
 //                 error("invalid type");
+                error("invalid type");
 //             /* XXX: check that types are compatible */
 //             u = pointed_size(t1);
+            u = pointed_size(t1);
 //             gen_opc(op);
+            gen_opc(op);
 //             /* set to integer type */
 //             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; 
+            wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT); 
 //             vset(VT_CONST, u);
+            vset(VT_CONST, u);
 //             gen_op(TOK_PDIV);
+            gen_op(TOK_PDIV);
 //         } else if ((t1 & VT_BTYPE) == VT_PTR ||
 //                    (t2 & VT_BTYPE) == VT_PTR) {
         } else if ((t1 & VT_BTYPE) == VT_PTR ||

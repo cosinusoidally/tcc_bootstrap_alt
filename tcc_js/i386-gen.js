@@ -699,9 +699,10 @@ function gen_opi(op) {
         o(0xc0 + r + fr * 8);
 //     } else if (op == '-') {
     } else if (op == mk_char('-')) {
-err();
 //         o(0x29);
+        o(0x29);
 //         o(0xc0 + r + fr * 8); 
+        o(0xc0 + r + fr * 8); 
 //     } else if (op == '&') {
     } else if (op == mk_char('&')) {
 err();
