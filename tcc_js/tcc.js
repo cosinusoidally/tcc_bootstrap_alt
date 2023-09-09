@@ -3247,7 +3247,7 @@ err();
 //         maxalign = 0;
         maxalign = 0;
 //         ps = &s->next;
-        ps = s+Sym_next_o;
+        wi32(ps, s+Sym_next_o);
 //         bit_pos = 0;
         bit_pos = 0;
 //         offset = 0;
@@ -3330,9 +3330,9 @@ err();
 //                         ss = sym_push(v | SYM_FIELD, t, offset);
                         ss = sym_push(v | SYM_FIELD, t, offset);
 //                         *ps = ss;
-                        wi32(ps, ss);
+                        wi32(ri32(ps), ss);
 //                         ps = &ss->next;
-                        ps, ss+Sym_next_o;
+                        wi32(ps, ss+Sym_next_o);
 //                     }
                     }
 //                     if (tok == ';' || tok == -1)
@@ -4140,7 +4140,6 @@ err();
 //             }
             }
 //             if (!s)
-debugger;
             if (!s)
 //                 error("field not found");
                 error("field not found");
