@@ -1,5 +1,13 @@
 #include "test9.h"
 
+/* token symbol management */
+typedef struct TokenSym {
+    struct TokenSym *hash_next;
+    int tok; /* token number */
+    int len;
+    char str[1];
+} TokenSym;
+
 /* symbol management */
 typedef struct Sym {
     int v;    /* symbol token */
@@ -20,6 +28,15 @@ int nb_include_paths;
 
 int tok_ident;
 
+/*
+TokenSym *tok_alloc(char *str, int len)
+{
+// FIXME ljw dummy impl
+    TokenSym *ts;
+    ts = malloc(sizeof(TokenSym) + len);
+    return ts;
+}
+*/
 
 int main(int argc, char **argv)
 {
