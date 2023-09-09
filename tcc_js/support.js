@@ -90,7 +90,11 @@ function ri8(o){
   return (v1>>>(s*8)) &0xff;
 };
 
-function ri32(o){
+function ri32(o,dummy){
+  if(dummy!==undefined){
+    print("wrong use of ri32");
+    err();
+  }
   var r=0;
   for(var i=0;i<4;i++){
      r=r|(ri8(o+i)<<(i*8));

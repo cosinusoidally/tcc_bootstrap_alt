@@ -4321,7 +4321,7 @@ err();
 //                 rett = s->t | FUNC_RET_REG; /* return in register */
                 rett = ri32(s+Sym_t_o) | FUNC_RET_REG;
 //                 retc.i = 0;
-                ri32(retc, 0);
+                wi32(retc, 0);
 //             }
             }
 //             if (sa)
