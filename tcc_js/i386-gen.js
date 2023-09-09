@@ -42,7 +42,7 @@ var REG_CLASS_INT = 0x0001;
 var reg_classes=malloc(4*3);
 wi32(reg_classes,REG_CLASS_INT);
 wi32(reg_classes+4,REG_CLASS_INT);
-wi32(reg_classes+4,REG_CLASS_INT);
+wi32(reg_classes+8,REG_CLASS_INT);
 // 
 // /* integer return register for functions */
 // #define FUNC_RET_REG        0 
