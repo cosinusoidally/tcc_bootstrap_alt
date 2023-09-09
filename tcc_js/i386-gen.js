@@ -426,9 +426,10 @@ err();
 //             oad(0xb8 + r, t ^ 1); /* mov $0, r */
 //         } else if (v != r) {
         } else if (v != r) {
-err();
 //             o(0x89);
+            o(0x89);
 //             o(0xc0 + r + v * 8); /* mov v, r */
+            o(0xc0 + r + v * 8); /* mov v, r */
 //         }
         }
 //     }

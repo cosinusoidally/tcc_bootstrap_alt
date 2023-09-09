@@ -103,5 +103,6 @@ int main(void){
   printf("var TOK_DOTS=0x%x;\n",TOK_DOTS);
   printf("var TOK_UDIV=0x%x;\n",TOK_UDIV);
   printf("var TOK_PDIV=0x%x;\n",TOK_PDIV);
+  printf("var TOK_MID=0x%x;\n",TOK_MID);
   return 0;
 }

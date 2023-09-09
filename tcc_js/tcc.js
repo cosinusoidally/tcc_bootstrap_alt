@@ -2252,11 +2252,17 @@ function vswap() {
 // 
 // void vdup(void)
 // {
+function vdup() {
 //     if (vtop >= vstack + VSTACK_SIZE)
+    if (vtop >= vstack + VSTACK_SIZE)
 //         error("memory full");
+        error("memory full");
 //     vtop++;
+    vtop=vtop+SValue_size;
 //     *vtop = vtop[-1];
+    memcpy(vtop, vtop-SValue_size,SValue_size);
 // }
+}
 // 
 // int save_reg_forced(int r)
 // {
@@ -3093,29 +3099,49 @@ err();
 // /* post defines POST/PRE add. c is the token ++ or -- */
 // void inc(int post, int c)
 // {
+function inc(post, c) {
 //     int r, r1;
+    var r;
+    var r1;
 // 
 //     test_lvalue();
+    test_lvalue();
 //     if (post)
+    if (post)
 //         vdup(); /* room for returned value */
+        vdup();
 //     vdup(); /* save lvalue */
+    vdup();
 //     r = gv();
+    r = gv();
 //     if (post) {
+    if (post) {
 //         /* duplicate value */
 //         /* XXX: handle floats */
 //         r1 = get_reg(REG_CLASS_INT);
+        r1 = get_reg(REG_CLASS_INT);
 //         load(r1, r, 0); /* move r to r1 */
+        _load(r1, r, 0);
 //         /* duplicates value */
 //         vtop[-2].t = (vtop->t & VT_TYPE) | r1;
+        wi32(vtop-(2*SValue_size)+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r1);
 //         vtop[-2].c.i = 0;
+        wi32(vtop-(2*SValue_size)+SValue_c_o, 0);
 //     }
+    }
 //     /* add constant */
 //     vset(VT_CONST, c - TOK_MID); 
+    vset(VT_CONST, c - TOK_MID); 
 //     gen_op('+');
+    gen_op(mk_char('+'));
 //     vstore(); /* store value */
+    vstore(); /* store value */
 //     if (post)
+    if (post)
 //         vpop(); /* if post op, return saved value */
+        vpop(); /* if post op, return saved value */
 // }
+}
 // 
 // /* enum/struct/union declaration */
 // int struct_decl(int u)
