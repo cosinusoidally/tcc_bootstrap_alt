@@ -1477,19 +1477,29 @@ function getq() {
     if (c == mk_char('\\')) {
 //         if (isnum(ch)) {
         if (isnum(ch)) {
-err();
 //             /* at most three octal digits */
 //             c = ch - '0';
+            c = ch - mk_char('0');
 //             minp();
+            minp();
 //             if (isnum(ch)) {
+            if (isnum(ch)) {
 //                 c = c * 8 + ch - '0';
+                c = c * 8 + ch - mk_char('0');
 //                 minp();
+                minp();
 //                 if (isnum(ch)) {
+                if (isnum(ch)) {
 //                     c = c * 8 + ch - '0';
+                    c = c * 8 + ch - mk_char('0');
 //                     minp();
+                    minp();
 //                 }
+                }
 //             }
+            }
 //             return c;
+            return c;
 //         } else if (ch == 'x') {
         } else if (ch == mk_char('x')) {
 err();
