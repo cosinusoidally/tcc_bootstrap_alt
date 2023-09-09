@@ -106,5 +106,6 @@ int main(void){
   printf("var TOK_MID=0x%x;\n",TOK_MID);
   printf("var TOK_SHR=0x%x;\n",TOK_SHR);
   printf("var TOK_UMOD=0x%x;\n",TOK_UMOD);
+  printf("var TOK_ELSE=0x%x;\n",TOK_ELSE);
   return 0;
 }

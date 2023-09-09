@@ -4651,10 +4651,9 @@ err();
 //             gsym(d); /* patch else jmp */
 //         } else
         } else {
-err();
 //             gsym(a);
+            gsym(a);
         }
-err();
 //     } else if (tok == TOK_WHILE) {
     } else if (tok == TOK_WHILE) {
 //         next();

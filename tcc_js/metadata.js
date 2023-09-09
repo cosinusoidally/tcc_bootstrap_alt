@@ -99,3 +99,4 @@ var TOK_PDIV=0xb2;
 var TOK_MID=0xa3;
 var TOK_SHR=0xa9;
 var TOK_UMOD=0xb1;
+var TOK_ELSE=0x104;
