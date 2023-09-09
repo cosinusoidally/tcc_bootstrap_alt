@@ -20,6 +20,8 @@ typedef struct Sym {
 
 #define INCLUDE_PATHS_MAX   32
 
+#define TOK_HASH_SIZE       521
+
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
 
@@ -36,9 +38,9 @@ TokenSym *tok_alloc(char *str, int len)
     if (len <= 0)
         len = strlen(str);
     h = 1;
-//    for(i=0;i<len;i++)
-//        h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
-//
+    for(i=0;i<len;i++)
+        h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
+
 //    pts = &hash_ident[h];
 //    while (1) {
 //        ts = *pts;
