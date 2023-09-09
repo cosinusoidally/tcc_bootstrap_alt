@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     int optind;
 
     include_paths[0] = "../tcc_1_7/";
-//    nb_include_paths = 1;
+    nb_include_paths = 1;
 
     /* add all tokens */
 //    tok_ident = TOK_IDENT;
