@@ -4754,25 +4754,43 @@ err();
 //         skip(';');
 //     } else if (tok == TOK_FOR) {
     } else if (tok == TOK_FOR) {
-err();
 //         int e;
+        var e;
 //         next();
+        next();
 //         skip('(');
+        skip(mk_char('('));
 //         if (tok != ';') {
+        if (tok != mk_char(';')) {
 //             gexpr();
+            gexpr();
 //             vpop();
+            vpop();
 //         }
+        }
 //         skip(';');
+        skip(mk_char(';'));
 //         d = ind;
+        d = ind;
 //         c = ind;
+        c = ind;
 //         a = 0;
+        wi32(a, 0);
 //         b = 0;
+        wi32(b, 0);
 //         if (tok != ';') {
+        if (tok != mk_char(';')) {
 //             gexpr();
+            gexpr();
 //             a = gtst(1, 0);
+            wi32(a, gtst(1, 0));
 //         }
+        }
 //         skip(';');
+        skip(mk_char(';'));
 //         if (tok != ')') {
+        if (tok != ')') {
+err();
 //             e = gjmp(0);
 //             c = ind;
 //             gexpr();
@@ -4780,6 +4798,8 @@ err();
 //             oad(0xe9, d - ind - 5); /* jmp */
 //             gsym(e);
 //         }
+        }
+err();
 //         skip(')');
 //         block(&a, &b, case_sym, def_sym, case_reg);
 //         oad(0xe9, c - ind - 5); /* jmp */
