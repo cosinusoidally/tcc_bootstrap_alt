@@ -32,7 +32,7 @@ TokenSym *tok_alloc(char *str, int len)
 {
 // FIXME ljw dummy impl
     TokenSym *ts;
-//    ts = malloc(sizeof(TokenSym) + len);
+    ts = malloc(sizeof(TokenSym) + len);
     return ts;
 }
 

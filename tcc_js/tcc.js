@@ -3733,10 +3733,12 @@ function  type_decl(v, t, td) {
             next();
 //         } else {
          } else {
-err();
 //             if (!(td & TYPE_ABSTRACT))
+            if (!(td & TYPE_ABSTRACT))
 //                 expect("identifier");
+                expect("identifier");
 //             *v = 0;
+            wi32(v, 0);
 //         }
          }
 //     }
@@ -3983,24 +3985,35 @@ err();
 //         } else 
 //         if (t == TOK_SIZEOF) {
         } else if (t == TOK_SIZEOF) {
-err();
 //             if (tok == '(') {
+            if (tok == mk_char('(')) {
 //                 next();
+                next();
 //                 if (t = ist())
+                if (t = ist()) {
 //                     t = type_decl(&n, t, TYPE_ABSTRACT);
+                    t = type_decl(n, t, TYPE_ABSTRACT);
 //                 else {
+                } else {
+err();
 //                     /* XXX: some code could be generated: add eval
 //                        flag */
 //                     gexpr();
 //                     t = vtop->t;
 //                     vpop();
 //                 }
+                }
 //                 skip(')');
+                skip(mk_char(')'));
 //             } else {
+            } else {
+err();
 //                 unary();
 //                 t = vtop->t;
 //                 vpop();
 //             }
+            }
+err();
 //             vset(VT_CONST, type_size(t, &t));
 //         } else
 //         if (t == TOK_INC || t == TOK_DEC) {
