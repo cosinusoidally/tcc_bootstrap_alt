@@ -2282,21 +2282,23 @@ function save_reg_forced(r) {
     loc = (loc - 4) & -3;
     store(r, VT_LOCAL, loc);
     l = loc;
-// 
-//     /* modify all stack values */
-//     for(p=vstack;p<=vtop;p++) {
-//         i = p->t & VT_VALMASK;
-//         if (i == r) {
-//             if (p->t & VT_LVAL)
-//                 t = VT_LLOCAL;
-//             else
-//                 t = VT_LOCAL;
-//             p->t = (p->t & VT_TYPE) | VT_LVAL | t;
-//             p->c.ul = l;
-//         }
-//     }
-//     return l;
-// }
+
+    /* modify all stack values */
+    for(p=vstack;p<=vtop;p=p+SValue_size) {
+        i = ri32(p+SValue_t_o) & VT_VALMASK;
+        if (i == r) {
+            if (ri32(p+SValue_t_o) & VT_LVAL) {
+err();
+                t = VT_LLOCAL;
+            } else {
+err();
+                t = VT_LOCAL;
+            }
+            wi32(p+SValue_t_o, (ri32(p+SValue_t_o) & VT_TYPE) | VT_LVAL | t);
+            wi32(p+SValue_c_o, l);
+        }
+    }
+    return l;
 }
 // 
 // /* save r to memory. and mark it as being free */

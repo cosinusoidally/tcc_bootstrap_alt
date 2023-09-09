@@ -319,13 +319,23 @@ function free(x){
   return 0;
 }
 
-function check(s) {
+function check(s,compare_file) {
   f=vfs["tcc_boot.o"];
   fp=malloc(f.length);
   for(var i=0;i<f.length;i++){
     wi8(i+fp,f[i]);
   }
   hd(fp,f.length);
+  if(compare_file){
+    print("comparing tcc_boot.o");
+    var t=read("tcc_boot.o","binary");
+    for(var i=0;i<t.length;i++) {
+      if(ri8(fp+i)!==t[i]){
+        print("diff: "+to_hex(fp+i)+ " i: "+to_hex(i));
+      }
+    }
+  }
+print(to_hex(ind));
   if(s){
     var sha=root.sha256(vfs["tcc_boot.o"]);
     print(sha);

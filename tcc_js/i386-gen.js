@@ -768,19 +768,28 @@ err();
         t = save_reg_forced(fr); /* save fr and get op2 location */
 //         move_reg(0, r); /* op1 is %eax */
         move_reg(0, r); /* op1 is %eax */
+        if (op == TOK_UDIV | op == TOK_UMOD) {
 err();
 //         if (op == TOK_UDIV | op == TOK_UMOD) {
 //             o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
 //             oad(0xb5, t);
 //         } else {
+        } else {
 //             o(0xf799); /* cltd, idiv t(%ebp), %eax */
+            o(0xf799); /* cltd, idiv t(%ebp), %eax */
 //             oad(0xbd, t);
+            oad(0xbd, t);
 //         }
+        }
 //         if (op == '%' | op == TOK_UMOD)
-//             r = 2;
+        if (op == mk_char('%') | op == TOK_UMOD) {
+            r = 2;
 //         else
-//             r = 0;
+        } else {
+            r = 0;
+        }
 //         vtop->t = (vtop->t & VT_TYPE) | r;
+        wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
 //     } else {
     } else {
 //         vtop--;
