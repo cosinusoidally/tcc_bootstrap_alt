@@ -706,9 +706,10 @@ function gen_opi(op) {
         o(0xc0 + r + fr * 8); 
 //     } else if (op == '&') {
     } else if (op == mk_char('&')) {
-err();
 //         o(0x21);
+        o(0x21);
 //         o(0xc0 + r + fr * 8); 
+        o(0xc0 + r + fr * 8); 
 //     } else if (op == '^') {
     } else if (op == mk_char('^')) {
 err();
@@ -716,9 +717,10 @@ err();
 //         o(0xc0 + r + fr * 8); 
 //     } else if (op == '|') {
     } else if (op == mk_char('|')) {
-err();
 //         o(0x09);
+        o(0x09);
 //         o(0xc0 + r + fr * 8); 
+        o(0xc0 + r + fr * 8); 
 //     } else if (op == '*') {
     } else if (op == mk_char('*')) {
 err();
@@ -760,10 +762,13 @@ err();
 //                op == '%' | op == TOK_UMOD) {
     } else if (op == mk_char('/') | op == TOK_UDIV | op == TOK_PDIV | 
                op == mk_char('%') | op == TOK_UMOD) {
-err();
 //         save_reg(2); /* save edx */
+        save_reg(2); /* save edx */
 //         t = save_reg_forced(fr); /* save fr and get op2 location */
+        t = save_reg_forced(fr); /* save fr and get op2 location */
 //         move_reg(0, r); /* op1 is %eax */
+        move_reg(0, r); /* op1 is %eax */
+err();
 //         if (op == TOK_UDIV | op == TOK_UMOD) {
 //             o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
 //             oad(0xb5, t);

@@ -1582,10 +1582,12 @@ err()
     } else if (t === mk_char('0')) {
 //         if (ch == 'x' || ch == 'X') {
         if (ch == mk_char('x') || ch == mk_char('X')) {
-err();
 //             q--;
+            q--;
 //             cinp();
+            cinp();
 //             b = 16;
+            b = 16;
 //         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
 err();
