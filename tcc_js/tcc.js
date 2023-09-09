@@ -2270,6 +2270,8 @@ function vdup() {
 // 
 // int save_reg_forced(int r)
 // {
+function save_reg_forced(r) {
+err();
 //     int i, l, t;
 //     SValue *p;
 // 
@@ -2292,22 +2294,24 @@ function vdup() {
 //     }
 //     return l;
 // }
+}
 // 
 // /* save r to memory. and mark it as being free */
 // void save_reg(int r)
 // {
-//     int i;
-//     SValue *p;
-// 
-//     /* modify all stack values */
-//     for(p=vstack;p<=vtop;p++) {
-//         i = p->t & VT_VALMASK;
-//         if (i == r) {
-//             save_reg_forced(r);
-//             break;
-//         }
-//     }
-// }
+function save_reg(r) {
+    var i;
+    var p;
+
+    /* modify all stack values */
+    for(p=vstack;p<=vtop;p=p+SValue_size) {
+        i = ri32(p+SValue_t_o) & VT_VALMASK;
+        if (i == r) {
+            save_reg_forced(r);
+            break;
+        }
+    }
+}
 // 
 // /* find a free register of class 'rc'. If none, save one register */
 // int get_reg(int rc)
