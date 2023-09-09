@@ -3923,9 +3923,10 @@ err();
         next();
 //         if (t == '(') {
         if (t == mk_char('(')) {
-err();
 //             /* cast ? */
 //             if (t = ist()) {
+            if (t = ist()) {
+err();
 //                 ft = type_decl(&n, t, TYPE_ABSTRACT);
 //                 skip(')');
 //                 /* check ISOC99 compound literal */
@@ -3945,9 +3946,13 @@ err();
 //                     gen_cast(ft);
 //                 }
 //             } else {
+            } else {
 //                 gexpr();
+                gexpr();
 //                 skip(')');
+                skip(mk_char(')'));
 //             }
+            }
 //         } else if (t == '*') {
         } else if (t == mk_char('*')) {
 //             unary();
