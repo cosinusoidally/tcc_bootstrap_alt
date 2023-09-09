@@ -4626,23 +4626,35 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
 // 
 //     if (tok == TOK_IF) {
     if (tok == TOK_IF) {
-err();
 //         /* if test */
 //         next();
+        next();
 //         skip('(');
+        skip(mk_char('('));
 //         gexpr();
+        gexpr();
 //         skip(')');
+        skip(mk_char(')'));
 //         a = gtst(1, 0);
+        a = gtst(1, 0);
 //         block(bsym, csym, case_sym, def_sym, case_reg);
+        block(bsym, csym, case_sym, def_sym, case_reg);
 //         c = tok;
+        c = tok;
 //         if (c == TOK_ELSE) {
+        if (c == TOK_ELSE) {
+err();
 //             next();
 //             d = gjmp(0);
 //             gsym(a);
 //             block(bsym, csym, case_sym, def_sym, case_reg);
 //             gsym(d); /* patch else jmp */
 //         } else
+        } else {
+err();
 //             gsym(a);
+        }
+err();
 //     } else if (tok == TOK_WHILE) {
     } else if (tok == TOK_WHILE) {
 //         next();

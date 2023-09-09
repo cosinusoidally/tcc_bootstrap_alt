@@ -104,5 +104,7 @@ int main(void){
   printf("var TOK_UDIV=0x%x;\n",TOK_UDIV);
   printf("var TOK_PDIV=0x%x;\n",TOK_PDIV);
   printf("var TOK_MID=0x%x;\n",TOK_MID);
+  printf("var TOK_SHR=0x%x;\n",TOK_SHR);
+  printf("var TOK_UMOD=0x%x;\n",TOK_UMOD);
   return 0;
 }

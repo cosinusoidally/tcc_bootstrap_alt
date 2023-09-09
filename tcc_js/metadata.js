@@ -97,3 +97,5 @@ var TOK_DOTS=0xa8;
 var TOK_UDIV=0xb0;
 var TOK_PDIV=0xb2;
 var TOK_MID=0xa3;
+var TOK_SHR=0xa9;
+var TOK_UMOD=0xb1;
