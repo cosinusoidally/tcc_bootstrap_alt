@@ -3761,7 +3761,6 @@ function external_sym(v, u) {
 function indir() {
 //     if (vtop->t & VT_LVAL)
     if (ri32(vtop+SValue_t_o) & VT_LVAL) {
-err();
 //         gv();
         gv();
     }
@@ -3904,9 +3903,10 @@ err();
 //             }
 //         } else if (t == '*') {
         } else if (t == mk_char('*')) {
-err();
 //             unary();
+            unary();
 //             indir();
+            indir();
 //         } else if (t == '&') {
         } else if (t == mk_char('&')) {
 err();
