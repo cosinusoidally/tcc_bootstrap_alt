@@ -30,9 +30,46 @@ int tok_ident;
 
 TokenSym *tok_alloc(char *str, int len)
 {
-// FIXME ljw dummy impl
-    TokenSym *ts;
+    TokenSym *ts, **pts, **ptable;
+//    int h, i;
+//
+//    if (len <= 0)
+//        len = strlen(str);
+//    h = 1;
+//    for(i=0;i<len;i++)
+//        h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
+//
+//    pts = &hash_ident[h];
+//    while (1) {
+//        ts = *pts;
+//        if (!ts)
+//            break;
+//        if (ts->len == len && !memcmp(ts->str, str, len))
+//            return ts;
+//        pts = &(ts->hash_next);
+//    }
+//
+//    if (tok_ident >= SYM_FIRST_ANOM)
+//        error("memory full");
+//
+//    /* expand token table if needed */
+//    i = tok_ident - TOK_IDENT;
+//    if ((i % TOK_ALLOC_INCR) == 0) {
+//        ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
+//        if (!ptable)
+//            error("memory full");
+//        table_ident = ptable;
+//    }
+//
     ts = malloc(sizeof(TokenSym) + len);
+//    if (!ts)
+//        error("memory full");
+//    table_ident[i] = ts;
+//    ts->tok = tok_ident++;
+//    ts->len = len;
+//    ts->hash_next = NULL;
+//    memcpy(ts->str, str, len + 1);
+//    *pts = ts;
     return ts;
 }
 
