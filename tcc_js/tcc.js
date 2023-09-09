@@ -2443,6 +2443,7 @@ print("gen_opc: "+op);
         fc =ri32( v2+SValue_c_o);
         switch(op) {
 //         case '+': v1->c.i += fc; break;
+        case mk_char('+'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) + fc); break;
 //         case '-': v1->c.i -= fc; break;
 //         case '&': v1->c.i &= fc; break;
 //         case '^': v1->c.i ^= fc; break;
