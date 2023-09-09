@@ -2440,9 +2440,9 @@ print("gen_opc: "+op);
     while(1) {
 //     if (c1 && c2) {
     if (c1 && c2) {
-err();
 //         fc = v2->c.i;
-//         switch(op) {
+        fc =ri32( v2+SValue_c_o);
+        switch(op) {
 //         case '+': v1->c.i += fc; break;
 //         case '-': v1->c.i -= fc; break;
 //         case '&': v1->c.i &= fc; break;
@@ -2471,11 +2471,15 @@ err();
 //             /* logical */
 //         case TOK_LAND: v1->c.i = v1->c.i && fc; break;
 //         case TOK_LOR: v1->c.i = v1->c.i || fc; break;
-//         default:
-//             general_case=1;
-//         }
-//         if(general_case){break;}
+        default:
+            general_case=1;
+        }
+        if(general_case){
+          err();
+          break;
+        }
 //         vtop--;
+        vtop=vtop-SValue_size;
 //     } else {
     } else {
 //         /* if commutative ops, put c2 as constant */
