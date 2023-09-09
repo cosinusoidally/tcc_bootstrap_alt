@@ -726,9 +726,10 @@ err();
 //         o(0xc0 + fr + r * 8);
 //     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
-err();
 //         /* op2 is %ecx */
 //         if (fr != 1) {
+        if (fr != 1) {
+err();
 //             if (r == 1) {
 //                 r = fr;
 //                 fr = 1;
@@ -737,14 +738,24 @@ err();
 //             } else
 //                 move_reg(1, fr);
 //         }
+        }
 //         o(0xd3); /* shl/shr/sar %cl, r */
+        o(0xd3); /* shl/shr/sar %cl, r */
 //         if (op == TOK_SHL) 
+        if (op == TOK_SHL) {
 //             o(0xe0 + r);
+            o(0xe0 + r);
 //         else if (op == TOK_SHR)
+        } else if (op == TOK_SHR) {
+err();
 //             o(0xe8 + r);
 //         else
+        } else {
+err();
 //             o(0xf8 + r);
+        }
 //         vtop->t = (vtop->t & VT_TYPE) | r;
+        wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
 //     } else if (op == '/' | op == TOK_UDIV | op == TOK_PDIV | 
 //                op == '%' | op == TOK_UMOD) {
     } else if (op == mk_char('/') | op == TOK_UDIV | op == TOK_PDIV | 

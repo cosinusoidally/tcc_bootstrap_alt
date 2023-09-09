@@ -1832,11 +1832,14 @@ err();
 //                 /* three chars tests */
 //                 if (tok == TOK_SHL | tok == TOK_SAR) {
                 if (tok == TOK_SHL | tok == TOK_SAR) {
-err();
 //                     if (ch == '=') {
+                    if (ch == mk_char('=')) {
 //                         tok = tok | 0x80;
+                        tok = tok | 0x80;
 //                         cinp();
+                        cinp();
 //                     }
+                    }
 //                 } else if (tok == TOK_DOTS) {
                 } else if (tok == TOK_DOTS) {
 err();

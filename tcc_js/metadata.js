@@ -102,3 +102,4 @@ var TOK_UMOD=0xb1;
 var TOK_ELSE=0x104;
 var TOK_LT=0x9c;
 var TOK_FOR=0x108;
+var TOK_SHL=0x1;
