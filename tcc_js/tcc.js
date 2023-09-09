@@ -2570,17 +2570,13 @@ print("gen_opc: "+op);
                     n++;
                 }
                 wi32(vtop+SValue_c_o, n);
-print("n: "+n);
-err();
-//                 if (op == '*')
-//                     op = TOK_SHL;
-//                 else if (op == TOK_PDIV)
-//                     op = TOK_SAR;
-//                 else
-//                     op = TOK_SHR;
-//             }
+                if (op == mk_char('*'))
+                    op = TOK_SHL;
+                else if (op == TOK_PDIV)
+                    op = TOK_SAR;
+                else
+                    op = TOK_SHR;
             }
-err();
 //             general_case=1;break;
             general_case=1;break;
 //         } else {
@@ -2884,8 +2880,8 @@ function is_compatible_types(t1, t2) {
         return is_compatible_types(t1, t2);
 //     } else if (bt1 == VT_STRUCT) {
     } else if (bt1 == VT_STRUCT) {
-err();
 //         return (t2 == t1);
+        return (t2 == t1);
 //     } else if (bt1 == VT_FUNC) {
     } else if (bt1 == VT_FUNC) {
 err();
@@ -3988,7 +3984,6 @@ err();
 //                there and in function calls. */
 //             if ((vtop->t & VT_BTYPE) != VT_FUNC)
             if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
-err();
 //                 test_lvalue();
                 test_lvalue();
             }
