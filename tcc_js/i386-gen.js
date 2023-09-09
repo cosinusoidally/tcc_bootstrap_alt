@@ -624,10 +624,11 @@ function gtst(inv, t) {
     v = ri32(vtop+SValue_t_o) & VT_VALMASK;
 //     if (v == VT_CMP) {
     if (v == VT_CMP) {
-err();
 //         /* fast case : can jump directly since flags are set */
 //         g(0x0f);
+        g(0x0f);
 //         t = psym((vtop->c.i - 16) ^ inv, t);
+        t = psym((ri32(vtop+SValue_c_o) - 16) ^ inv, t);
 //     } else if (v == VT_JMP || v == VT_JMPI) {
     } else if (v == VT_JMP || v == VT_JMPI) {
 err();
@@ -766,11 +767,14 @@ err();
 //         vtop->t = (vtop->t & VT_TYPE) | r;
 //     } else {
     } else {
-err();
 //         vtop--;
+        vtop=vtop-SValue_size;
 //         o(0x39);
+        o(0x39);
 //         o(0xc0 + r + fr * 8); /* cmp fr, r */
+        o(0xc0 + r + fr * 8); /* cmp fr, r */
 //         vset(VT_CMP, op);
+        vset(VT_CMP, op);
 //     }
     }
 // }
