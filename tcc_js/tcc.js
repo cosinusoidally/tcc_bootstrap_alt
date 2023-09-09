@@ -2041,7 +2041,6 @@ err();
 //                 no_subst=1;
                 no_subst=1;
             }
-debugger;
             if(no_subst==0){
 // FIXME ljw might not be right
                 mstr = ri32(s+Sym_c_o);
@@ -2449,6 +2448,7 @@ print("gen_opc: "+op);
 //         case '^': v1->c.i ^= fc; break;
 //         case '|': v1->c.i |= fc; break;
 //         case '*': v1->c.i *= fc; break;
+        case mk_char('*'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc); break;
 //         case TOK_PDIV:
 //         case '/': v1->c.i /= fc; break; /* XXX: zero case ? */
 //         case '%': v1->c.i %= fc; break; /* XXX: zero case ? */
