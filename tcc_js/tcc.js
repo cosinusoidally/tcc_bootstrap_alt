@@ -2515,8 +2515,9 @@ print("gen_opc: "+op);
 //                    op == '|' || op == '*')) {
         if (c1 && (op == mk_char('+') || op == mk_char('&') || op == mk_char('^') || 
                    op == mk_char('|') || op == mk_char('*'))) {
-err();
 //             vswap();
+            vswap();
+err();
 //             swap(&c1, &c2);
 //         }
         }
@@ -2742,11 +2743,13 @@ function type_size(t, a) {
     bt = t & VT_BTYPE;
 //     if (bt == VT_STRUCT) {
     if (bt == VT_STRUCT) {
-err();
 //         /* struct/union */
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        s = sym_find((t >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
 //         *a = 4; /* XXX: cannot store it yet. Doing that is safe */
+        wi32(a, 4);
 //         return s->c;
+        return ri32(s+Sym_c_o);
 //     } else if (bt == VT_PTR) {
     } else if (bt == VT_PTR) {
 //         if (t & VT_ARRAY) {
@@ -4013,8 +4016,9 @@ err();
 //                 vpop();
 //             }
             }
-err();
 //             vset(VT_CONST, type_size(t, &t));
+// FIXME ljw had to use dummy alloca
+            vset(VT_CONST, type_size(t, alloca(4)));
 //         } else
 //         if (t == TOK_INC || t == TOK_DEC) {
         } else if (t == TOK_INC || t == TOK_DEC) {
