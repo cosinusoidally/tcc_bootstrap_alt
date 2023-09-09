@@ -4555,8 +4555,9 @@ function expr_const() {
 // {
 function block(bsym, csym, case_sym, def_sym, case_reg) {
 //     int a, b, c, d;
-    var a;
-    var b;
+    enter();
+    var a=alloca(4);
+    var b=alloca(4);
     var c;
     var d;
 //     Sym *s;
@@ -4583,18 +4584,28 @@ err();
 //             gsym(a);
 //     } else if (tok == TOK_WHILE) {
     } else if (tok == TOK_WHILE) {
-err();
 //         next();
+        next();
 //         d = ind;
+        d = ind;
 //         skip('(');
+        skip(mk_char('('));
 //         gexpr();
+        gexpr();
 //         skip(')');
+        skip(mk_char(')'));
 //         a = gtst(1, 0);
+        wi32(a, gtst(1, 0));
 //         b = 0;
+        wi32(b, 0);
 //         block(&a, &b, case_sym, def_sym, case_reg);
+        block(a, b, case_sym, def_sym, case_reg);
 //         oad(0xe9, d - ind - 5); /* jmp */
+        oad(0xe9, d - ind - 5);
 //         gsym(a);
+        gsym(a);
 //         gsym_addr(b, d);
+        gsym_addr(b, d);
 //     } else if (tok == '{') {
     } else if (tok == mk_char('{')) {
 //         next();
@@ -4786,6 +4797,7 @@ err();
 //     }
     }
 // }
+    leave();
 }
 // 
 // /* t is the array or struct type. c is the array or struct
