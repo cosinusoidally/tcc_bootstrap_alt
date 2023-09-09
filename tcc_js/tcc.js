@@ -1856,7 +1856,6 @@ err();
 //         /* single char substitutions */
 //         if (tok == '<')
         if (tok === mk_char('<')){
-err();
 //             tok = TOK_LT;
             tok = TOK_LT;
 //         else if (tok == '>')
@@ -4754,6 +4753,8 @@ err();
 //         next();
 //         skip(';');
 //     } else if (tok == TOK_FOR) {
+    } else if (tok == TOK_FOR) {
+err();
 //         int e;
 //         next();
 //         skip('(');

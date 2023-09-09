@@ -107,5 +107,7 @@ int main(void){
   printf("var TOK_SHR=0x%x;\n",TOK_SHR);
   printf("var TOK_UMOD=0x%x;\n",TOK_UMOD);
   printf("var TOK_ELSE=0x%x;\n",TOK_ELSE);
+  printf("var TOK_LT=0x%x;\n",TOK_LT);
+  printf("var TOK_FOR=0x%x;\n",TOK_FOR);
   return 0;
 }
