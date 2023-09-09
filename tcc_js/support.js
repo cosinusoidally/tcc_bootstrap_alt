@@ -69,6 +69,10 @@ print("realloc x:"+x+" size:"+size);
 }
 
 function wi8(o,v){
+  if(v===undefined){
+    print("wrong use of wi8");
+    err();
+  }
   var o1=o>>>2;
   var s=o&3;
   var v1=heap[o1];
