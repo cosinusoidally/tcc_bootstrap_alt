@@ -2538,9 +2538,9 @@ err();
                     fc == 0) ||
                    (op == mk_char('&') && 
                     fc == -1))) {
-err();
 //             /* nothing to do */
 //             vtop--;
+            vtop=vtop - SValue_size;
 //         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
         } else if (c2 && (op == mk_char('*') || op == TOK_PDIV || op == TOK_UDIV)) {
 err();
