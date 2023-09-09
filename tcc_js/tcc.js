@@ -2452,6 +2452,7 @@ print("gen_opc: "+op);
 //     SValue *v1, *v2;
     var v1;
     var v2;
+    var tmp;
 // 
 //     v1 = vtop - 1;
     v1 = vtop - SValue_size;
@@ -2517,8 +2518,11 @@ print("gen_opc: "+op);
                    op == mk_char('|') || op == mk_char('*'))) {
 //             vswap();
             vswap();
-err();
 //             swap(&c1, &c2);
+// FIXME ljw can't do swap
+            tmp=c1;
+            c1=c2;
+            c2=tmp;
 //         }
         }
 //         fc = vtop->c.i;
