@@ -2481,7 +2481,6 @@ print("gen_opc: "+op);
         }
 //         vtop--;
         vtop=vtop-SValue_size;
-debugger;
 //     } else {
     } else {
 //         /* if commutative ops, put c2 as constant */
@@ -3746,14 +3745,28 @@ function external_sym(v, u) {
 // 
 // void indir(void)
 // {
+function indir() {
 //     if (vtop->t & VT_LVAL)
+    if (ri32(vtop+SValue_t_o) & VT_LVAL) {
+err();
 //         gv();
+        gv();
+    }
 //     if ((vtop->t & VT_BTYPE) != VT_PTR)
+    if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_PTR) {
+err();
 //         expect("pointer");
+        expect("pointer");
+}
 //     vtop->t = pointed_type(vtop->t);
+    wi32(vtop+SValue_t_o,pointed_type(ri32(vtop+SValue_t_o)));
 //     if (!(vtop->t & VT_ARRAY)) /* an array is never an lvalue */
+    if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
 //         vtop->t |= VT_LVAL;
+        wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
+    }
 // }
+}
 // 
 // /* pass a parameter to a function and do type checking and casting */
 // void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
