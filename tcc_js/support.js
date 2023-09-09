@@ -83,7 +83,11 @@ function wi32(o,v){
   }
 };
 
-function ri8(o){
+function ri8(o,dummy){
+  if(dummy!==undefined){
+    print("wrong use of ri8");
+    err();
+  }
   var o1=o>>>2;
   var s=o&3;
   var v1=heap[o1];
@@ -91,13 +95,9 @@ function ri8(o){
 };
 
 function ri32(o,dummy){
-  if(dummy!==undefined){
-    print("wrong use of ri32");
-    err();
-  }
   var r=0;
   for(var i=0;i<4;i++){
-     r=r|(ri8(o+i)<<(i*8));
+     r=r|(ri8(o+i,dummy)<<(i*8));
   };
   return r;
 };
