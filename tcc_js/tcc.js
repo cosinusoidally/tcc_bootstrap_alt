@@ -2271,14 +2271,17 @@ function vdup() {
 // int save_reg_forced(int r)
 // {
 function save_reg_forced(r) {
-err();
 //     int i, l, t;
+    var i;
+    var l;
+    var t;
 //     SValue *p;
-// 
-//     /* store register */
-//     loc = (loc - 4) & -3;
-//     store(r, VT_LOCAL, loc);
-//     l = loc;
+    var p;
+
+    /* store register */
+    loc = (loc - 4) & -3;
+    store(r, VT_LOCAL, loc);
+    l = loc;
 // 
 //     /* modify all stack values */
 //     for(p=vstack;p<=vtop;p++) {
