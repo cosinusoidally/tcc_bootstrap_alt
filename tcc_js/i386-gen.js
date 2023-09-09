@@ -277,6 +277,8 @@ function oad(c, s) {
     return s;
 // }
 }
+
+var psym = oad;
 // 
 // int lt=0;
 // 
@@ -350,8 +352,8 @@ err();
         }
 //         if ((ft & VT_TYPE) == VT_BYTE)
         if ((ft & VT_TYPE) == VT_BYTE) {
-err();
 //             o(0xbe0f);   /* movsbl */
+            o(0xbe0f);   /* movsbl */
 //         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
         } else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED)) {
 err();
@@ -386,8 +388,8 @@ lt=1;
             oad(0x85 + r * 8, fc);
 //         } else {
         } else {
-err();
 //             g(0x00 + r * 8 + v); /* (v), r */
+            g(0x00 + r * 8 + v); /* (v), r */
 //         }
         }
 //     } else {
@@ -613,13 +615,21 @@ function gjmp(t) {
 // /* generate a test. set 'inv' to invert test. Stack entry is popped */
 // int gtst(int inv, int t)
 // {
+function gtst(inv, t) {
 //     int v, *p;
+    var v;
+    var p;
 //     v = vtop->t & VT_VALMASK;
+    v = ri32(vtop+SValue_t_o) & VT_VALMASK;
 //     if (v == VT_CMP) {
+    if (v == VT_CMP) {
+err();
 //         /* fast case : can jump directly since flags are set */
 //         g(0x0f);
 //         t = psym((vtop->c.i - 16) ^ inv, t);
 //     } else if (v == VT_JMP || v == VT_JMPI) {
+    } else if (v == VT_JMP || v == VT_JMPI) {
+err();
 //         /* && or || optimization */
 //         if ((v & 1) == inv) {
 //             /* insert vtop->c jump list in t */
@@ -633,20 +643,32 @@ function gjmp(t) {
 //             gsym(vtop->c.i);
 //         }
 //     } else if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+    } else if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+err();
 //         /* constant jmp optimization */
 //         if ((vtop->c.i != 0) != inv) 
 //             t = gjmp(t);
 //     } else {
+    } else {
 //         /* XXX: floats */
 //         v = gv();
+        v = gv();
 //         o(0x85);
+        o(0x85);
 //         o(0xc0 + v * 9);
+        o(0xc0 + v * 9);
 //         g(0x0f);
+        g(0x0f);
 //         t = psym(0x85 ^ inv, t);
+        t = psym(0x85 ^ inv, t);
 //     }
+    }
 //     vtop--;
+    vtop=vtop-SValue_size;
 //     return t;
+    return t;
 // }
+}
 // 
 // /* generate an integer binary operation */
 // void gen_opi(int op)
