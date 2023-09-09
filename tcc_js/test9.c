@@ -42,7 +42,7 @@ TokenSym *tok_alloc(char *str, int len)
     for(i=0;i<len;i++)
         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
 
-//    pts = &hash_ident[h];
+    pts = &hash_ident[h];
 //    while (1) {
 //        ts = *pts;
 //        if (!ts)

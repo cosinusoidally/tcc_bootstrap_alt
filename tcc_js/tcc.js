@@ -2561,15 +2561,17 @@ print("gen_opc: "+op);
             vtop=vtop - SValue_size;
 //         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
         } else if (c2 && (op == mk_char('*') || op == TOK_PDIV || op == TOK_UDIV)) {
-err();
 //             /* try to use shifts instead of muls or divs */
 //             if (fc > 0 && (fc & (fc - 1)) == 0) {
-//                 n = -1;
-//                 while (fc) {
-//                     fc >>= 1;
-//                     n++;
-//                 }
-//                 vtop->c.i = n;
+            if (fc > 0 && (fc & (fc - 1)) == 0) {
+                n = -1;
+                while (fc) {
+                    fc >>>= 1;
+                    n++;
+                }
+                wi32(vtop+SValue_c_o, n);
+print("n: "+n);
+err();
 //                 if (op == '*')
 //                     op = TOK_SHL;
 //                 else if (op == TOK_PDIV)
@@ -2577,7 +2579,10 @@ err();
 //                 else
 //                     op = TOK_SHR;
 //             }
+            }
+err();
 //             general_case=1;break;
+            general_case=1;break;
 //         } else {
         } else {
 //         general_case=1;
@@ -3975,15 +3980,20 @@ err();
             indir();
 //         } else if (t == '&') {
         } else if (t == mk_char('&')) {
-err();
 //             unary();
+            unary();
 //             /* functions names must be treated as function pointers,
 //                except for unary '&' and sizeof. Since we consider that
 //                functions are not lvalues, we only have to handle it
 //                there and in function calls. */
 //             if ((vtop->t & VT_BTYPE) != VT_FUNC)
+            if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
+err();
 //                 test_lvalue();
+                test_lvalue();
+            }
 //             vtop->t = mk_pointer(vtop->t & VT_LVALN);
+            wi32(vtop+SValue_t_o, mk_pointer(ri32(vtop+SValue_t_o) & VT_LVALN));
 //         } else
 //         if (t == '!') {
         } else if (t == mk_char('!')) {
