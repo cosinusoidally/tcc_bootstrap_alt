@@ -31,11 +31,11 @@ int tok_ident;
 TokenSym *tok_alloc(char *str, int len)
 {
     TokenSym *ts, **pts, **ptable;
-//    int h, i;
-//
-//    if (len <= 0)
-//        len = strlen(str);
-//    h = 1;
+    int h, i;
+
+    if (len <= 0)
+        len = strlen(str);
+    h = 1;
 //    for(i=0;i<len;i++)
 //        h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
 //
