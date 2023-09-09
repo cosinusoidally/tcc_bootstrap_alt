@@ -3992,14 +3992,17 @@ err();
 //         } else
 //         if (t == '!') {
         } else if (t == mk_char('!')) {
-err();
 //             unary();
-//             if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) 
+            unary();
+            if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+err();
 //                 vtop->c.i = !vtop->c.i;
-//             else if ((vtop->t & VT_VALMASK) == VT_CMP)
+            } else if ((ri32(vtop+SValue_t_o) & VT_VALMASK) == VT_CMP) {
+err();
 //                 vtop->c.i = vtop->c.i ^ 1;
-//             else
-//                 vset(VT_JMP, gtst(1, 0));
+            } else {
+                vset(VT_JMP, gtst(1, 0));
+            }
 //         } else
 //         if (t == '~') {
         } else if (t == mk_char('~')) {
@@ -4760,13 +4763,17 @@ err();
         rsym = gjmp(rsym);
 //     } else if (tok == TOK_BREAK) {
     } else if (tok == TOK_BREAK) {
-err();
 //         /* compute jump */
 //         if (!bsym)
+        if (!bsym)
 //             error("cannot break");
+            error("cannot break");
 //         *bsym = gjmp(*bsym);
+        wi32(bsym, gjmp(ri32(bsym)));
 //         next();
+        next();
 //         skip(';');
+        skip(mk_char(';'));
 //     } else if (tok == TOK_CONTINUE) {
     } else if (tok == TOK_CONTINUE) {
 err();

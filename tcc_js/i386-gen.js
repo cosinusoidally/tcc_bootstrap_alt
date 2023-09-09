@@ -631,9 +631,10 @@ function gtst(inv, t) {
         t = psym((ri32(vtop+SValue_c_o) - 16) ^ inv, t);
 //     } else if (v == VT_JMP || v == VT_JMPI) {
     } else if (v == VT_JMP || v == VT_JMPI) {
-err();
 //         /* && or || optimization */
 //         if ((v & 1) == inv) {
+        if ((v & 1) == inv) {
+err();
 //             /* insert vtop->c jump list in t */
 //             p = &vtop->c.i;
 //             while (*p != 0)
@@ -641,15 +642,20 @@ err();
 //             *p = t;
 //             t = vtop->c.i;
 //         } else {
+        } else {
 //             t = gjmp(t);
+            t = gjmp(t);
 //             gsym(vtop->c.i);
+            gsym(ri32(vtop+SValue_c_o));
 //         }
+        }
 //     } else if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
     } else if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
-err();
 //         /* constant jmp optimization */
 //         if ((vtop->c.i != 0) != inv) 
+        if ((ri32(vtop+SValue_c_o) != 0) != inv) 
 //             t = gjmp(t);
+            t = gjmp(t);
 //     } else {
     } else {
 //         /* XXX: floats */
