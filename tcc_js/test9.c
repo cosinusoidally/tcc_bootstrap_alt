@@ -43,15 +43,15 @@ TokenSym *tok_alloc(char *str, int len)
         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
 
     pts = &hash_ident[h];
-//    while (1) {
-//        ts = *pts;
-//        if (!ts)
-//            break;
-//        if (ts->len == len && !memcmp(ts->str, str, len))
-//            return ts;
-//        pts = &(ts->hash_next);
-//    }
-//
+    while (1) {
+        ts = *pts;
+        if (!ts)
+            break;
+        if (ts->len == len && !memcmp(ts->str, str, len))
+            return ts;
+        pts = &(ts->hash_next);
+    }
+
 //    if (tok_ident >= SYM_FIRST_ANOM)
 //        error("memory full");
 //
