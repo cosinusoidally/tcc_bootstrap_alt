@@ -2480,6 +2480,7 @@ print("gen_opc: "+op);
         }
 //         vtop--;
         vtop=vtop-SValue_size;
+debugger;
 //     } else {
     } else {
 //         /* if commutative ops, put c2 as constant */
@@ -2557,10 +2558,12 @@ err();
 // 
 // int pointed_size(int t)
 // {
-// FIXME ljw had to pass in a pointer
 function pointed_size(t) {
+    enter();
+    var tmp=alloca(4);
+    wi32(tmp,t);
 //    return type_size(pointed_type(t), &t);
-    return type_size(pointed_type(ri32(t)), t);
+    return leave(type_size(pointed_type(ri32(tmp)), tmp));
 }
 // 
 // /* generic gen_op: handles types problems */
@@ -2613,7 +2616,8 @@ err();
             }
 //             /* stack-4 contains pointer, stack-2 value to add */
 //             vset(VT_CONST, pointed_size(vtop[-1].t));
-            vset(VT_CONST, pointed_size(vtop-SValue_size+SValue_t_o));
+debugger;
+            vset(VT_CONST, pointed_size(ri32(vtop-SValue_size+SValue_t_o)));
 //             gen_op('*');
             gen_op(mk_char('*'));
 //             gen_opc(op);
