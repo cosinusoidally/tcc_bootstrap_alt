@@ -3194,7 +3194,7 @@ function struct_decl(u) {
 //     Sym *s, *ss, **ps;
     var s;
     var ss;
-    var ps;
+    var ps=alloca(4);
 // 
 //     a = tok; /* save decl type */
     a = tok;
@@ -3328,7 +3328,7 @@ err();
 //                         }
                         }
 //                         ss = sym_push(v | SYM_FIELD, t, offset);
-                        ss = sym_push(v | SYM_FIELD, t, offset);
+                        ss = sym_push(ri32(v) | SYM_FIELD, t, offset);
 //                         *ps = ss;
                         wi32(ri32(ps), ss);
 //                         ps = &ss->next;
