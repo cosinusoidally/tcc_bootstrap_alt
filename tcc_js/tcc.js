@@ -451,27 +451,19 @@ var VT_LVAL = 0x0010;
 // 
 // #include "i386-gen.c"
 load("i386-gen.js");
-// 
+
 // static inline int isid(int c)
-// {
 function isid(c) {
-//     return (c >= 'a' && c <= 'z') ||
-//         (c >= 'A' && c <= 'Z') ||
-//         c == '_';
     return (c >= mk_char('a') && c <= mk_char('z')) ||
         (c >= mk_char('A') && c <= mk_char('Z')) ||
         c == mk_char('_');
-// }
 }
-// 
+
 // static inline int isnum(int c)
-// {
 function isnum(c) {
-//     return c >= '0' & c <= '9';
     return c >= mk_char('0') & c <= mk_char('9');
-// }
 }
-// 
+
 // static inline int toup(int c)
 // {
 //     if (ch >= 'a' && ch <= 'z')
@@ -520,32 +512,22 @@ function isnum(c) {
 //     printline();
 //     fprintf(stderr, "warning: %s\n", msg);
 // }
-// 
+
 // void skip(int c)
-// {
 function skip(c) {
-//     if (tok != c)
     if (tok !== c) {
-//         error("'%c' expected", c);
         error("'%c' expected", c);
     }
-//     next();
     next();
-// }
 }
-// 
+
 // void test_lvalue(void)
-// {
 function test_lvalue() {
-//     if (!(vtop->t & VT_LVAL))
     if (!(ri32(vtop+SValue_t_o) & VT_LVAL))
-//         expect("lvalue");
         expect("lvalue");
-// }
 }
-// 
+
 // TokenSym *tok_alloc(char *str, int len)
-// {
 function tok_alloc(str, len) {
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
@@ -556,10 +538,8 @@ function tok_alloc(str, len) {
 //     int h, i;
     var h;
     var i;
-//     
-//     if (len <= 0)
+
     if (len <= 0) {
-//         len = strlen(str);
         len = strlen(str);
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
     };
