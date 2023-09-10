@@ -21,6 +21,7 @@ typedef struct Sym {
 #define INCLUDE_PATHS_MAX   32
 
 #define TOK_HASH_SIZE       521
+#define TOK_ALLOC_INCR      256 /* must be a power of two */
 
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
@@ -29,6 +30,7 @@ char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
 
 int tok_ident;
+TokenSym **table_ident;
 TokenSym *hash_ident[TOK_HASH_SIZE];
 
 #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
@@ -59,15 +61,15 @@ TokenSym *tok_alloc(char *str, int len)
     if (tok_ident >= SYM_FIRST_ANOM)
         error("memory full");
 
-//    /* expand token table if needed */
-//    i = tok_ident - TOK_IDENT;
-//    if ((i % TOK_ALLOC_INCR) == 0) {
-//        ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
-//        if (!ptable)
-//            error("memory full");
-//        table_ident = ptable;
-//    }
-//
+    /* expand token table if needed */
+    i = tok_ident - TOK_IDENT;
+    if ((i % TOK_ALLOC_INCR) == 0) {
+        ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
+        if (!ptable)
+            error("memory full");
+        table_ident = ptable;
+    }
+
     ts = malloc(sizeof(TokenSym) + len);
 //    if (!ts)
 //        error("memory full");
