@@ -2486,6 +2486,7 @@ print("gen_opc: "+op);
 //         case '+': v1->c.i += fc; break;
         case mk_char('+'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) + fc); break;
 //         case '-': v1->c.i -= fc; break;
+        case mk_char('-'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) - fc); break;
 //         case '&': v1->c.i &= fc; break;
 //         case '^': v1->c.i ^= fc; break;
 //         case '|': v1->c.i |= fc; break;
@@ -2497,6 +2498,7 @@ print("gen_opc: "+op);
 //         case TOK_UDIV: v1->c.i = (unsigned)v1->c.i / fc; break; /* XXX: zero case ? */
 //         case TOK_UMOD: v1->c.i = (unsigned)v1->c.i % fc; break; /* XXX: zero case ? */
 //         case TOK_SHL: v1->c.i <<= fc; break;
+        case TOK_SHL: wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) << fc); break;
 //         case TOK_SHR: v1->c.i = (unsigned)v1->c.i >> fc; break;
 //         case TOK_SAR: v1->c.i >>= fc; break;
 //             /* tests */
@@ -2517,6 +2519,7 @@ print("gen_opc: "+op);
             general_case=1;
         }
         if(general_case){
+print("general gen_opc: "+op);
           err();
           break;
         }
