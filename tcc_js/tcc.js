@@ -4144,16 +4144,23 @@ err();
 //                 error("field not found");
                 error("field not found");
 //             /* add field offset to pointer */
-err();
 //             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; /* change type to int */
+            wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT);
 //             vset(VT_CONST, s->c);
+            vset(VT_CONST, ri32(s+Sym_c_o));
 //             gen_op('+');
+            gen_op(mk_char('+'));
 //             /* change type to field type, and set to lvalue */
 //             vtop->t = (vtop->t & ~VT_TYPE) | s->t;
+            wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | ri32(s+Sym_t_o));
 //             /* an array is never an lvalue */
 //             if (!(vtop->t & VT_ARRAY))
+            if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
 //                 vtop->t |= VT_LVAL;
+                wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
+            }
 //             next();
+            next();
 //         } else if (tok == '[') {
         } else if (tok == mk_char('[')) {
 //             next();
@@ -4466,7 +4473,6 @@ err();
             break;
 //         }
         }
-err();
 //         t = gtst(1, t);
         t = gtst(1, t);
 //         next();
