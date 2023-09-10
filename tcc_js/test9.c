@@ -31,6 +31,10 @@ int nb_include_paths;
 int tok_ident;
 TokenSym *hash_ident[TOK_HASH_SIZE];
 
+#define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
+
+#define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
+
 TokenSym *tok_alloc(char *str, int len)
 {
     TokenSym *ts, **pts, **ptable;
@@ -52,9 +56,9 @@ TokenSym *tok_alloc(char *str, int len)
         pts = &(ts->hash_next);
     }
 
-//    if (tok_ident >= SYM_FIRST_ANOM)
-//        error("memory full");
-//
+    if (tok_ident >= SYM_FIRST_ANOM)
+        error("memory full");
+
 //    /* expand token table if needed */
 //    i = tok_ident - TOK_IDENT;
 //    if ((i % TOK_ALLOC_INCR) == 0) {
