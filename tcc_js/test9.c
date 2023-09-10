@@ -134,8 +134,9 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 
     tok_add(tok_str, tok_len, t);
     n = tok_ext_size(t);
-    for(i=0;i<n;i++)
-        tok_add(tok_str, tok_len, cv->tab[i]);
+// FIXME uncomment
+//    for(i=0;i<n;i++)
+//        tok_add(tok_str, tok_len, cv->tab[i]);
 }
 
 
