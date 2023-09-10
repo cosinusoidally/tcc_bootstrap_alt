@@ -2726,6 +2726,8 @@ err();
 // /* cast 'vtop' to 't' type */
 // void gen_cast(int t)
 // {
+function gen_cast(t){
+err();
 //     int r, bits, sbt, dbt, sf, df, c, st1, dt1;
 // 
 //     r = vtop->t & VT_VALMASK;
@@ -2755,6 +2757,7 @@ err();
 //     }
 //     vtop->t = (vtop->t & ~VT_TYPE) | t;
 // }
+}
 // 
 // /* return type size. Put alignment at 'a' */
 // int type_size(int t, int *a)
@@ -3892,7 +3895,7 @@ err();
 function unary() {
     enter();
 //     int n, t, ft, fc, p, align, size;
-    var n;
+    var n=alloca(4);
     var t;
     var ft;
     var fc;
@@ -3951,11 +3954,14 @@ err();
 //             /* cast ? */
 //             if (t = ist()) {
             if (t = ist()) {
-err();
 //                 ft = type_decl(&n, t, TYPE_ABSTRACT);
+                ft = type_decl(n, t, TYPE_ABSTRACT);
 //                 skip(')');
+                skip(mk_char(')'));
 //                 /* check ISOC99 compound literal */
 //                 if (tok == '{') {
+                if (tok == mk_char('{')) {
+err();
 //                     /* data is allocated locally by default */
 //                     if (global_expr)
 //                         ft |= VT_CONST;
@@ -3967,9 +3973,13 @@ err();
 //                     fc = decl_initializer_alloc(ft, 1);
 //                     vset(ft, fc);
 //                 } else {
+                } else {
 //                     unary();
+                    unary();
 //                     gen_cast(ft);
+                    gen_cast(ft);
 //                 }
+                }
 //             } else {
             } else {
 //                 gexpr();
