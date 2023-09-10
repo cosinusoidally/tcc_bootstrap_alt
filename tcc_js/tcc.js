@@ -4462,7 +4462,6 @@ function eand() {
         if (tok != TOK_LAND) {
 //             if (t) {
             if (t) {
-err();
 //                 t = gtst(1, t);
                 t = gtst(1, t);
 //                 vset(VT_JMPI, t);

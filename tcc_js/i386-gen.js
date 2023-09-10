@@ -634,13 +634,18 @@ function gtst(inv, t) {
 //         /* && or || optimization */
 //         if ((v & 1) == inv) {
         if ((v & 1) == inv) {
-err();
 //             /* insert vtop->c jump list in t */
 //             p = &vtop->c.i;
+            p = vtop+SValue_c_o;
 //             while (*p != 0)
+            while (ri32(p) != 0) {
 //                 p = (int *)*p;
+                p = ri32(p);
+            }
 //             *p = t;
+            wi32(p, t);
 //             t = vtop->c.i;
+            t = ri32(vtop+SValue_c_o);
 //         } else {
         } else {
 //             t = gjmp(t);

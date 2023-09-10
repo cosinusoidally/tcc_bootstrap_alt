@@ -36,9 +36,6 @@ TokenSym *tok_alloc(char *str, int len)
     TokenSym *ts, **pts, **ptable;
     int h, i;
 
-// HACK TEST ljw
-    printf("foo: %d\n",ts->len);
-
     if (len <= 0)
         len = strlen(str);
     h = 1;
