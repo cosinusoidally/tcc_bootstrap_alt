@@ -481,8 +481,8 @@ print("\nstore 32 ind: %x\n",ind);
         oad(0x85 + r * 8, fc);
 //     } else if (ft & VT_LVAL) {
     } else if (ft & VT_LVAL) {
-err();
 //         g(fr + r * 8); /* mov r, (fr) */
+        g(fr + r * 8); /* mov r, (fr) */
 //     } else if (fr != r) {
     } else if (fr != r) {
 err();

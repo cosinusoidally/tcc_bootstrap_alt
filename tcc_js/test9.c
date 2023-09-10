@@ -71,9 +71,9 @@ TokenSym *tok_alloc(char *str, int len)
     }
 
     ts = malloc(sizeof(TokenSym) + len);
-//    if (!ts)
-//        error("memory full");
-//    table_ident[i] = ts;
+    if (!ts)
+        error("memory full");
+    table_ident[i] = ts;
 //    ts->tok = tok_ident++;
 //    ts->len = len;
 //    ts->hash_next = NULL;
