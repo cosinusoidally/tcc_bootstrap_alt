@@ -116,7 +116,8 @@ return 0;
 
 void tok_add(int **tok_str, int *tok_len, int t)
 {
-int *str;
+// FIXME uncommenting this line causes a failure
+// int *str;
 //    int len, *str;
 //    len = *tok_len;
 //    str = *tok_str;
