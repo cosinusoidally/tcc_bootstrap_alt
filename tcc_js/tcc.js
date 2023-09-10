@@ -1566,7 +1566,6 @@ function parse_number() {
 //     if (t == '.') {
     if (t === mk_char('.')) {
         /* special dot handling */
-debugger;
         if (ch == mk_char('.')) {
 err();
             cinp();

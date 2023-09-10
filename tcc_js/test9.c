@@ -110,24 +110,27 @@ static inline int tok_ext_size(int t)
 //    default:
 //        return 0;
 //    }
+// dummy return
+return 0;
 }
-
 
 void tok_add(int **tok_str, int *tok_len, int t)
 {
-    int len, *str;
-    len = *tok_len;
-    str = *tok_str;
-    if ((len & 63) == 0) {
-        str = realloc(str, (len + 64) * sizeof(int));
-        if (!str)
-            return;
-        *tok_str = str;
-    }
-    str[len++] = t;
-    *tok_len = len;
+int *str;
+//    int len, *str;
+//    len = *tok_len;
+//    str = *tok_str;
+//    if ((len & 63) == 0) {
+//        str = realloc(str, (len + 64) * sizeof(int));
+//        if (!str)
+//            return;
+//        *tok_str = str;
+//    }
+//    str[len++] = t;
+//    *tok_len = len;
 }
 
+/*
 void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 {
     int n, i;
@@ -138,7 +141,7 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 //    for(i=0;i<n;i++)
 //        tok_add(tok_str, tok_len, cv->tab[i]);
 }
-
+*/
 
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
