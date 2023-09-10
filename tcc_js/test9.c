@@ -82,6 +82,23 @@ TokenSym *tok_alloc(char *str, int len)
     return ts;
 }
 
+/* XXX: should be more factorized */
+void define_symbol(char *sym)
+{
+    TokenSym *ts;
+    int *str, len;
+//    CValue cval;
+
+    ts = tok_alloc(sym, 0);
+    str = NULL;
+    len = 0;
+//    cval.i = 1;
+//    tok_add2(&str, &len, TOK_NUM, &cval);
+//    tok_add(&str, &len, 0);
+//    sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
+}
+
+
 int main(int argc, char **argv)
 {
     puts("tcc 1_7 start");
@@ -103,12 +120,12 @@ int main(int argc, char **argv)
        p = r;
    }
 
-//    /* standard defines */
-//    define_symbol("__STDC__");
-//    define_symbol("__i386__");
-//    /* tiny C specific defines */
-//    define_symbol("__TINYC__");
-//    
+   /* standard defines */
+   define_symbol("__STDC__");
+   define_symbol("__i386__");
+   /* tiny C specific defines */
+   define_symbol("__TINYC__");
+
 //    glo = (int)mmap(NULL, DATA_SIZE,
 //                PROT_READ | PROT_WRITE,
 //                MAP_PRIVATE | MAP_ANONYMOUS,
