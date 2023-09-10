@@ -1565,19 +1565,18 @@ function parse_number() {
     b = 10;
 //     if (t == '.') {
     if (t === mk_char('.')) {
-err()
-//         /* special dot handling */
-//         if (ch == '.') {
-//             cinp();
-//             if (ch != '.')
-//                 expect("'.'");
-//             cinp();
-//             tok = TOK_DOTS;
-//         } else {
-//             /* dots */
-//             tok = t;
-//         }
-//         return;
+        /* special dot handling */
+        if (ch == mk_char('.')) {
+            cinp();
+            if (ch != mk_char('.'))
+                expect("'.'");
+            cinp();
+            tok = TOK_DOTS;
+        } else {
+            /* dots */
+            tok = t;
+        }
+        return;
 //     } else if (t == '0') {
     } else if (t === mk_char('0')) {
 //         if (ch == 'x' || ch == 'X') {
