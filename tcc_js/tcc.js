@@ -2727,17 +2727,33 @@ err();
 // void gen_cast(int t)
 // {
 function gen_cast(t){
-err();
 //     int r, bits, sbt, dbt, sf, df, c, st1, dt1;
+    var r;
+    var bits;
+    var sbt;
+    var dbt;
+    var sf;
+    var df;
+    var c;
+    var st1;
+    var dt1;
 // 
 //     r = vtop->t & VT_VALMASK;
+    r = ri32(vtop+SValue_t_o) & VT_VALMASK;
 //     if (!(t & VT_LVAL)) {
+    if (!(t & VT_LVAL)) {
 //         /* if not lvalue, then we convert now */
 //         dbt = t & VT_BTYPE;
+        dbt = t & VT_BTYPE;
 //         sbt = vtop->t & VT_BTYPE;
+        sbt = ri32(vtop+SValue_t_o) & VT_BTYPE;
 //         if (sbt != dbt) {
+        if (sbt != dbt) {
 //             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+            c = (ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
 //             if (dbt == VT_BYTE || dbt == VT_SHORT) {
+            if (dbt == VT_BYTE || dbt == VT_SHORT) {
+err();
 //                 if (dbt == VT_BYTE)
 //                     bits = 8;
 //                 else
@@ -2753,9 +2769,13 @@ err();
 //                     gen_op(TOK_SAR);
 //                 }
 //             }
+            }
 //         }
+        }
 //     }
+    }
 //     vtop->t = (vtop->t & ~VT_TYPE) | t;
+    wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | t);
 // }
 }
 // 
