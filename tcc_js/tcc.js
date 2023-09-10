@@ -3111,10 +3111,12 @@ err();
 //         /* if lvalue was saved on stack, must read it */
 //         if ((ft & VT_VALMASK) == VT_LLOCAL) {
         if ((ft & VT_VALMASK) == VT_LLOCAL) {
-err();
 //             t = get_reg(REG_CLASS_INT);
+            t = get_reg(REG_CLASS_INT);
 //             load(t, VT_LOCAL | VT_LVAL, fc);
+            _load(t, VT_LOCAL | VT_LVAL, fc);
 //             ft = (ft & ~VT_VALMASK) | t;
+            ft = (ft & ~VT_VALMASK) | t;
 //         }
         }
 //         store(r, ft, fc);
