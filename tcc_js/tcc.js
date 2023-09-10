@@ -3522,10 +3522,9 @@ err();
 //             break;
 //         case TOK_STATIC:
         case TOK_STATIC:
-err();
-//             t |= VT_STATIC;
-//             next();
-//             break;
+            t |= VT_STATIC;
+            next();
+            break;
 //         case TOK_TYPEDEF:
         case TOK_TYPEDEF:
 //             t |= VT_TYPEDEF;
