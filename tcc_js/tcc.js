@@ -3347,10 +3347,12 @@ err();
                                 c += size;
 //                             } else {
                             } else {
-err();
 //                                 offset = 0;
+                                offset = 0;
 //                                 if (size > c)
+                                if (size > c)
 //                                     c = size;
+                                    c = size;
 //                             }
                             }
 //                             if (align > maxalign)
