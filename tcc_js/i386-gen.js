@@ -742,15 +742,14 @@ err();
 //         /* op2 is %ecx */
 //         if (fr != 1) {
         if (fr != 1) {
-err();
-//             if (r == 1) {
-//                 r = fr;
-//                 fr = 1;
-//                 o(0x87); /* xchg r, %ecx */
-//                 o(0xc1 + r * 8);
-//             } else
-//                 move_reg(1, fr);
-//         }
+            if (r == 1) {
+                r = fr;
+                fr = 1;
+                o(0x87); /* xchg r, %ecx */
+                o(0xc1 + r * 8);
+            } else {
+                 move_reg(1, fr);
+            }
         }
 //         o(0xd3); /* shl/shr/sar %cl, r */
         o(0xd3); /* shl/shr/sar %cl, r */
