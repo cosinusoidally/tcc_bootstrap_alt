@@ -33,6 +33,26 @@ typedef struct Sym {
 #define TOK_HASH_SIZE       521
 #define TOK_ALLOC_INCR      256 /* must be a power of two */
 
+#define TOK_DEC   0xa2
+#define TOK_MID   0xa3 /* inc/dec, to void constant */
+#define TOK_INC   0xa4
+#define TOK_ARROW 0xa7
+#define TOK_DOTS  0xa8 /* three dots */
+#define TOK_SHR   0xa9 /* unsigned shift right */
+#define TOK_UDIV  0xb0 /* unsigned division */
+#define TOK_UMOD  0xb1 /* unsigned modulo */
+#define TOK_PDIV  0xb2 /* fast division with undefined rounding for pointers */
+#define TOK_NUM   0xb3 /* number in tokc */
+#define TOK_CCHAR 0xb4 /* char constant in tokc */
+#define TOK_STR   0xb5 /* pointer to string in tokc */
+#define TOK_TWOSHARPS 0xb6 /* ## preprocessing token */
+#define TOK_LCHAR 0xb7
+#define TOK_LSTR  0xb8
+#define TOK_CFLOAT   0xb9 /* float constant */
+#define TOK_CDOUBLE  0xc0 /* double constant */
+#define TOK_CLDOUBLE 0xc1 /* long double constant */
+
+
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
 
