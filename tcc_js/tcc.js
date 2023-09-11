@@ -1548,7 +1548,6 @@ function parse_number() {
     if (t === mk_char('.')) {
         /* special dot handling */
         if (ch == mk_char('.')) {
-err();
             cinp();
             if (ch != mk_char('.'))
                 expect("'.'");

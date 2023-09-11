@@ -268,8 +268,8 @@ int main(int argc, char **argv)
                 PROT_READ | PROT_WRITE,
                 MAP_PRIVATE | MAP_ANONYMOUS,
                 -1, 0);
-//    glo_base=glo;
-//    printf("glo: %x %x\n",glo,glo_base);
+    glo_base=glo;
+    printf("glo: %x %x\n",glo,glo_base);
 //    memset((void *)glo, 0, DATA_SIZE);
 //    prog = (int)mmap(NULL, TEXT_SIZE,
 //                PROT_EXEC | PROT_READ | PROT_WRITE,
