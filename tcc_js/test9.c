@@ -171,9 +171,9 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
         tok_add(tok_str, tok_len, cv->tab[i]);
 }
 
-//unsigned int HASH_SYM(int v) {
-//    return ((unsigned)(v) % SYM_HASH_SIZE);
-//}
+unsigned int HASH_SYM(int v) {
+    return ((unsigned)(v) % SYM_HASH_SIZE);
+}
 
 /* push, without hashing */
 Sym *sym_push2(Sym **ps, int v, int t, int c)
@@ -197,11 +197,11 @@ Sym *sym_push1(SymStack *st, int v, int t, int c)
     Sym *s, **ps;
     s = sym_push2(&st->top, v, t, c);
     /* add in hash table */
-//    if (v) {
-//        ps = &st->hash[HASH_SYM(v)];
-//        s->hash_next = *ps;
-//        *ps = s;
-//    }
+    if (v) {
+        ps = &st->hash[HASH_SYM(v)];
+        s->hash_next = *ps;
+        *ps = s;
+    }
     return s;
 }
 

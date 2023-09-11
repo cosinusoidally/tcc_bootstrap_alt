@@ -2271,7 +2271,6 @@ function save_reg_forced(r) {
             if (ri32(p+SValue_t_o) & VT_LVAL) {
                 t = VT_LLOCAL;
             } else {
-err();
                 t = VT_LOCAL;
             }
             wi32(p+SValue_t_o, (ri32(p+SValue_t_o) & VT_TYPE) | VT_LVAL | t);
@@ -2389,14 +2388,10 @@ function save_regs() {
 // void move_reg(int r, int s)
 // {
 function move_reg(r, s) {
-//     if (r != s) {
     if (r != s) {
-err();
-//         save_reg(r);
-//         load(r, s, 0);
-//     }
+        save_reg(r);
+        _load(r, s, 0);
     }
-// }
  }
 // 
 // /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
@@ -2680,22 +2675,20 @@ err();
         if ((t1 | t2) & VT_UNSIGNED ||
             (t1 & VT_BTYPE) == VT_PTR ||
             (t2 & VT_BTYPE) == VT_PTR) {
-err();
-//             if (op == TOK_SAR)
-//                 op = TOK_SHR;
-//             else if (op == '/')
-//                 op = TOK_UDIV;
-//             else if (op == '%')
-//                 op = TOK_UMOD;
-//             else if (op == TOK_LT)
-//                 op = TOK_ULT;
-//             else if (op == TOK_GT)
-//                 op = TOK_UGT;
-//             else if (op == TOK_LE)
-//                 op = TOK_ULE;
-//             else if (op == TOK_GE)
-//                 op = TOK_UGE;
-//         }
+            if (op == TOK_SAR)
+                op = TOK_SHR;
+            else if (op == mk_char('/'))
+                op = TOK_UDIV;
+            else if (op == mk_char('%'))
+                op = TOK_UMOD;
+            else if (op == TOK_LT)
+                op = TOK_ULT;
+            else if (op == TOK_GT)
+                op = TOK_UGT;
+            else if (op == TOK_LE)
+                op = TOK_ULE;
+            else if (op == TOK_GE)
+                op = TOK_UGE;
         }
 //         gen_opc(op);
         gen_opc(op);

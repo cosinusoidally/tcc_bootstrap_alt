@@ -779,11 +779,12 @@ err();
         t = save_reg_forced(fr); /* save fr and get op2 location */
 //         move_reg(0, r); /* op1 is %eax */
         move_reg(0, r); /* op1 is %eax */
-        if (op == TOK_UDIV | op == TOK_UMOD) {
-err();
 //         if (op == TOK_UDIV | op == TOK_UMOD) {
+        if (op == TOK_UDIV | op == TOK_UMOD) {
 //             o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
+            o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
 //             oad(0xb5, t);
+            oad(0xb5, t);
 //         } else {
         } else {
 //             o(0xf799); /* cltd, idiv t(%ebp), %eax */

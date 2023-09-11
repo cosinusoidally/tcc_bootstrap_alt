@@ -111,5 +111,7 @@ int main(void){
   printf("var TOK_FOR=0x%x;\n",TOK_FOR);
   printf("var TOK_SHL=0x%x;\n",TOK_SHL);
   printf("var VT_LVALN=0x%x;\n",VT_LVALN);
+  printf("var TOK_LE=0x%x;\n",TOK_LE);
+  printf("var TOK_GE=0x%x;\n",TOK_GE);
   return 0;
 }
