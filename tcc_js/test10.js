@@ -15,9 +15,11 @@ wi8=function(o,v){
 inp_orig=inp;
 
 inp=function(){
+/*
   if(line_num===154){
     err();
   }
+*/
   return inp_orig();
 }
 

@@ -395,3 +395,14 @@ function strdup(src){
 }
 
 load("sha256.js");
+
+function decode_Sym(sym){
+  s={};
+  s.v=ri32(sym+Sym_v_o);
+  s.t=ri32(sym+Sym_t_o);
+  s.c=ri32(sym+Sym_c_o);
+  s.next=ri32(sym+Sym_next_o);
+  s.prev=ri32(sym+Sym_prev_o);
+  s.hash_next=ri32(sym+Sym_hash_next_o);
+  return s;
+}
