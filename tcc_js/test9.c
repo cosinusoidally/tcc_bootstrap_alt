@@ -1,4 +1,4 @@
-#include "test9.h"
+#include "tcclib.h"
 
 /* these sizes are dummy for unix, because malloc() does not use
    memory when the pages are not used */

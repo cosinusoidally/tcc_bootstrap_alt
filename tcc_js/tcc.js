@@ -3491,10 +3491,9 @@ err();
 //             /* storage */
 //         case TOK_EXTERN:
         case TOK_EXTERN:
-err();
-//             t |= VT_EXTERN;
-//             next();
-//             break;
+            t |= VT_EXTERN;
+            next();
+            break;
 //         case TOK_STATIC:
         case TOK_STATIC:
             t |= VT_STATIC;
@@ -5678,9 +5677,8 @@ err();
                     }
 //                     if (b & VT_EXTERN) {
                     if (b & VT_EXTERN) {
-err();
-//                         /* external variable */
-//                         external_sym(v, t);
+                        /* external variable */
+                        external_sym(ri32(v), t);
 //                     } else {
                     } else {
 //                         u = l;
