@@ -1,5 +1,7 @@
 #include "test9.h"
 
+#define SYM_HASH_SIZE       263
+
 /* token symbol management */
 typedef struct TokenSym {
     struct TokenSym *hash_next;
@@ -28,6 +30,11 @@ typedef struct Sym {
     struct Sym *hash_next; /* next symbol in hash table */
 } Sym;
 
+typedef struct SymStack {
+  struct Sym *top;
+  struct Sym *hash[SYM_HASH_SIZE];
+} SymStack;
+
 #define INCLUDE_PATHS_MAX   32
 
 #define TOK_HASH_SIZE       521
@@ -52,6 +59,9 @@ typedef struct Sym {
 #define TOK_CDOUBLE  0xc0 /* double constant */
 #define TOK_CLDOUBLE 0xc1 /* long double constant */
 
+/* field 'Sym.t' for macros */
+#define MACRO_OBJ      0 /* object like macro */
+#define MACRO_FUNC     1 /* function like macro */
 
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
@@ -66,6 +76,10 @@ TokenSym *hash_ident[TOK_HASH_SIZE];
 #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
 
 #define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
+
+/* contains global symbols which remain between each translation unit */
+SymStack extern_stack;
+SymStack define_stack, global_stack, local_stack, label_stack;
 
 TokenSym *tok_alloc(char *str, int len)
 {
@@ -157,6 +171,23 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
         tok_add(tok_str, tok_len, cv->tab[i]);
 }
 
+//unsigned int HASH_SYM(int v) {
+//    return ((unsigned)(v) % SYM_HASH_SIZE);
+//}
+
+Sym *sym_push1(SymStack *st, int v, int t, int c)
+{
+    Sym *s, **ps;
+//    s = sym_push2(&st->top, v, t, c);
+//    /* add in hash table */
+//    if (v) {
+//        ps = &st->hash[HASH_SYM(v)];
+//        s->hash_next = *ps;
+//        *ps = s;
+//    }
+    return s;
+}
+
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
 {
@@ -169,8 +200,8 @@ void define_symbol(char *sym)
     len = 0;
     cval.i = 1;
     tok_add2(&str, &len, TOK_NUM, &cval);
-//    tok_add(&str, &len, 0);
-//    sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
+    tok_add(&str, &len, 0);
+    sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 }
 
 
