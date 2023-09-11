@@ -207,9 +207,10 @@ err();
 // exit(1);
    }
 }
-err();
 //             *(int *)p->addr = val;
+            wi32(p+Reloc_addr_o, val);
 //             break;
+            break;
 //         case RELOC_REL32:
         case RELOC_REL32:
 if(reloc_global && relocs){
@@ -320,9 +321,10 @@ err();
         gen_le32(c);
 //     } else {
     } else {
-err();
 //         greloc((Sym *)c, ind, RELOC_ADDR32);
+        greloc(c, ind, RELOC_ADDR32);
 //         gen_le32(0);
+        gen_le32(0);
 //     }
     }
 // }

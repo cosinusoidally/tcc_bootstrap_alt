@@ -2894,16 +2894,24 @@ function is_compatible_types(t1, t2) {
         return (t2 == t1);
 //     } else if (bt1 == VT_FUNC) {
     } else if (bt1 == VT_FUNC) {
-err();
 //         if (bt2 != VT_FUNC)
+        if (bt2 != VT_FUNC)
 //             return 0;
+            return 0;
 //         s1 = sym_find(((unsigned)t1 >> VT_STRUCT_SHIFT));
+        s1 = sym_find(t1 >>> VT_STRUCT_SHIFT);
 //         s2 = sym_find(((unsigned)t2 >> VT_STRUCT_SHIFT));
+        s2 = sym_find(t2 >>> VT_STRUCT_SHIFT);
 //         if (!is_compatible_types(s1->t, s2->t))
+        if (!is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)))
 //             return 0;
+            return 0;
 //         /* XXX: not complete */
 //         if (s1->c == FUNC_OLD || s2->c == FUNC_OLD)
+        if (ri32(s1+Sym_c_o) == FUNC_OLD || ri32(s2+Sym_c_o) == FUNC_OLD)
 //             return 1;
+            return 1;
+err();
 //         if (s1->c != s2->c)
 //             return 0;
 //         while (s1 != NULL) {
