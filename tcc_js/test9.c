@@ -96,7 +96,7 @@ TokenSym *tok_alloc(char *str, int len)
    token */
 static inline int tok_ext_size(int t)
 {
-//    switch(t) {
+    switch(t) {
 //        /* 4 bytes */
 //    case TOK_NUM:
 //    case TOK_CCHAR:
@@ -107,11 +107,9 @@ static inline int tok_ext_size(int t)
 //        return 1;
 //    case TOK_CDOUBLE:
 //        return 2;
-//    default:
-//        return 0;
-//    }
-// dummy return
-return 0;
+    default:
+        return 0;
+    }
 }
 
 void tok_add(int **tok_str, int *tok_len, int t)

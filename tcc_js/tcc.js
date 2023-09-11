@@ -4690,7 +4690,7 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
     enter();
     var a=alloca(4);
     var b=alloca(4);
-    var c;
+    var c=alloca(4);
     var d;
 //     Sym *s;
     var s;
@@ -4911,24 +4911,23 @@ err();
 //     } else
 //     if (tok == TOK_SWITCH) {
     } else if (tok == TOK_SWITCH) {
-err();
-//         next();
-//         skip('(');
-//         gexpr();
-//         case_reg = gv();
-//         vpop();
-//         skip(')');
-//         a = 0;
-//         b = gjmp(0); /* jump to first case */
-//         c = 0;
-//         block(&a, csym, &b, &c, case_reg);
-//         /* if no default, jmp after switch */
-//         if (c == 0)
-//             c = ind;
-//         /* default label */
-//         gsym_addr(b, c);
-//         /* break label */
-//         gsym(a);
+        next();
+        skip(mk_char('('));
+        gexpr();
+        case_reg = gv();
+        vpop();
+        skip(mk_char(')'));
+        wi32(a, 0);
+        wi32(b, gjmp(0)); /* jump to first case */
+        wi32(c, 0);
+        block(a, csym, b, c, case_reg);
+        /* if no default, jmp after switch */
+        if (ri32(c) == 0)
+            wi32(c, ind);
+        /* default label */
+        gsym_addr(ri32(b), ri32(c));
+        /* break label */
+        gsym(ri32(a));
 //     } else
 //     if (tok == TOK_CASE) {
     } else if (tok == TOK_CASE) {
