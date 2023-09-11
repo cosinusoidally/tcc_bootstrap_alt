@@ -2471,6 +2471,7 @@ print("gen_opc: "+op);
 //         case '&': v1->c.i &= fc; break;
 //         case '^': v1->c.i ^= fc; break;
 //         case '|': v1->c.i |= fc; break;
+        case mk_char('|'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc); break;
 //         case '*': v1->c.i *= fc; break;
         case mk_char('*'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc); break;
 //         case TOK_PDIV:
@@ -4072,10 +4073,12 @@ err();
 //             inc(0, t);
 //         } else if (t == '-') {
         } else if (t == mk_char('-')) {
-err();
 //             vset(VT_CONST, 0);
+            vset(VT_CONST, 0);
 //             unary();
+            unary();
 //             gen_op('-');
+            gen_op(mk_char('-'));
 //         } else 
 //         {
         } else {

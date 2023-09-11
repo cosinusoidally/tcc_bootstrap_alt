@@ -1,5 +1,10 @@
 #include "test9.h"
 
+/* these sizes are dummy for unix, because malloc() does not use
+   memory when the pages are not used */
+#define TEXT_SIZE           (256*1024)
+#define DATA_SIZE           (256*1024)
+
 #define SYM_HASH_SIZE       263
 
 /* token symbol management */
@@ -72,6 +77,16 @@ int nb_include_paths;
 int tok_ident;
 TokenSym **table_ident;
 TokenSym *hash_ident[TOK_HASH_SIZE];
+
+/* loc : local variable index
+   glo : global variable index
+   ind : output code ptr
+   rsym: return symbol
+   prog: output code
+   anon_sym: anonymous symbol index
+*/
+int rsym, anon_sym,
+    prog, ind, loc, glo, const_wanted, glo_base;
 
 #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
 
@@ -249,10 +264,10 @@ int main(int argc, char **argv)
    /* tiny C specific defines */
    define_symbol("__TINYC__");
 
-//    glo = (int)mmap(NULL, DATA_SIZE,
-//                PROT_READ | PROT_WRITE,
-//                MAP_PRIVATE | MAP_ANONYMOUS,
-//                -1, 0);
+    glo = (int)mmap(NULL, DATA_SIZE,
+                PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
 //    glo_base=glo;
 //    printf("glo: %x %x\n",glo,glo_base);
 //    memset((void *)glo, 0, DATA_SIZE);
