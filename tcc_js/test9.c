@@ -175,11 +175,28 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 //    return ((unsigned)(v) % SYM_HASH_SIZE);
 //}
 
+/* push, without hashing */
+Sym *sym_push2(Sym **ps, int v, int t, int c)
+{
+    Sym *s;
+    s = malloc(sizeof(Sym));
+    if (!s)
+        error("memory full");
+    s->v = v;
+    s->t = t;
+    s->c = c;
+    s->next = NULL;
+    /* add in stack */
+    s->prev = *ps;
+    *ps = s;
+    return s;
+}
+
 Sym *sym_push1(SymStack *st, int v, int t, int c)
 {
     Sym *s, **ps;
-//    s = sym_push2(&st->top, v, t, c);
-//    /* add in hash table */
+    s = sym_push2(&st->top, v, t, c);
+    /* add in hash table */
 //    if (v) {
 //        ps = &st->hash[HASH_SYM(v)];
 //        s->hash_next = *ps;
