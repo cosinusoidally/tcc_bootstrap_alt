@@ -4726,7 +4726,7 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
 //             d = gjmp(0);
             d = gjmp(0);
 //             gsym(a);
-            gsym(ri32(a));
+            gsym(a);
 //             block(bsym, csym, case_sym, def_sym, case_reg);
             block(bsym, csym, case_sym, def_sym, case_reg);
 //             gsym(d); /* patch else jmp */
