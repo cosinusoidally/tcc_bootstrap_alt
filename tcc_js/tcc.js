@@ -4949,15 +4949,22 @@ err();
 //     } else 
 //     if (tok == TOK_DEFAULT) {
     } else if (tok == TOK_DEFAULT) {
-err();
 //         next();
+        next();
 //         skip(':');
+        skip(mk_char(':'));
 //         if (!def_sym)
+        if (!def_sym)
 //             expect("switch");
+            expect("switch");
 //         if (*def_sym)
+        if (ri32(def_sym))
 //             error("too many 'default'");
+            error("too many 'default'");
 //         *def_sym = ind;
+        wi32(def_sym, ind);
 //         block(bsym, csym, case_sym, def_sym, case_reg);
+        block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else {
     } else {
 //         /* expression case */
