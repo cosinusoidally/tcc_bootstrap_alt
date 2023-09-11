@@ -406,9 +406,10 @@ lt=2;
             gen_addr32(fc, ft);
 //         } else if (v == VT_LOCAL) {
         } else if (v == VT_LOCAL) {
-err();
 //             o(0x8d);
+            o(0x8d);
 //             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
+            oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
 //         } else if (v == VT_CMP) {
         } else if (v == VT_CMP) {
 err();

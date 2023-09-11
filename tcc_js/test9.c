@@ -168,7 +168,7 @@ void define_symbol(char *sym)
     str = NULL;
     len = 0;
     cval.i = 1;
-//    tok_add2(&str, &len, TOK_NUM, &cval);
+    tok_add2(&str, &len, TOK_NUM, &cval);
 //    tok_add(&str, &len, 0);
 //    sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 }
