@@ -821,12 +821,13 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //         ps = &st->hash[HASH_SYM(v)];
         ps = st+SymStack_hash_o+4*(HASH_SYM(v));
 //         s->hash_next = *ps;
-        wi32(s+Sym_hash_next_o, ps);
+        wi32(s+Sym_hash_next_o, ri32(ps));
 //         *ps = s;
         wi32(ps,s);
 //     }
     }
 //     return s;
+print("sym_push1: "+JSON.stringify(decode_Sym(s)));
     return leave(s);
 // }
 }
@@ -5864,6 +5865,7 @@ function tcc_compile_file(filename1) {
         expect("declaration");
 //     fclose(file);
     fclose(file);
+
 // 
 //     /* reset define stack, but leave -Dsymbols (may be incorrect if
 //        they are undefined) */
