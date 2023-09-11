@@ -4931,21 +4931,34 @@ err();
 //     } else
 //     if (tok == TOK_CASE) {
     } else if (tok == TOK_CASE) {
-err();
 //         next();
+        next();
 //         a = expr_const();
+        a = expr_const();
 //         if (!case_sym)
+        if (!case_sym)
 //             expect("switch");
+            expect("switch");
 //         /* since a case is like a label, we must skip it with a jmp */
+        /* since a case is like a label, we must skip it with a jmp */
 //         b = gjmp(0);
+        b = gjmp(0);
 //         gsym(*case_sym);
+        gsym(ri32(case_sym));
 //         vset(case_reg, 0);
+        vset(case_reg, 0);
 //         vset(VT_CONST, a);
+        vset(VT_CONST, a);
 //         gen_op(TOK_EQ);
+        gen_op(TOK_EQ);
 //         *case_sym = gtst(1, 0);
+        wi32(case_sym, gtst(1, 0));
 //         gsym(b);
+        gsym(b);
 //         skip(':');
+        skip(mk_char(':'));
 //         block(bsym, csym, case_sym, def_sym, case_reg);
+        block(bsym, csym, case_sym, def_sym, case_reg);
 //     } else 
 //     if (tok == TOK_DEFAULT) {
     } else if (tok == TOK_DEFAULT) {

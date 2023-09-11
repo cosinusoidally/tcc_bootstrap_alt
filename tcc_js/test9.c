@@ -117,16 +117,16 @@ TokenSym *tok_alloc(char *str, int len)
 static inline int tok_ext_size(int t)
 {
     switch(t) {
-//        /* 4 bytes */
-//    case TOK_NUM:
-//    case TOK_CCHAR:
-//    case TOK_LCHAR:
-//    case TOK_STR:
-//    case TOK_LSTR:
-//    case TOK_CFLOAT:
-//        return 1;
-//    case TOK_CDOUBLE:
-//        return 2;
+       /* 4 bytes */
+    case TOK_NUM:
+    case TOK_CCHAR:
+    case TOK_LCHAR:
+    case TOK_STR:
+    case TOK_LSTR:
+    case TOK_CFLOAT:
+        return 1;
+    case TOK_CDOUBLE:
+        return 2;
     default:
         return 0;
     }
