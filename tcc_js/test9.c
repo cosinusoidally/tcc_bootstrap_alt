@@ -116,19 +116,17 @@ return 0;
 
 void tok_add(int **tok_str, int *tok_len, int t)
 {
-// FIXME uncommenting this line causes a failure
-// int *str;
-//    int len, *str;
-//    len = *tok_len;
-//    str = *tok_str;
-//    if ((len & 63) == 0) {
-//        str = realloc(str, (len + 64) * sizeof(int));
-//        if (!str)
-//            return;
-//        *tok_str = str;
-//    }
-//    str[len++] = t;
-//    *tok_len = len;
+    int len, *str;
+    len = *tok_len;
+    str = *tok_str;
+    if ((len & 63) == 0) {
+        str = realloc(str, (len + 64) * sizeof(int));
+        if (!str)
+            return;
+        *tok_str = str;
+    }
+    str[len++] = t;
+    *tok_len = len;
 }
 
 /*
