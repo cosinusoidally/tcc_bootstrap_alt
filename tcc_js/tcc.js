@@ -1757,13 +1757,18 @@ function next_nomacro1() {
         parse_number();
 //     } else if (ch == '\'') {
      } else if (ch == mk_char('\'')) {
-err();
 //         tok = TOK_CCHAR;
+        tok = TOK_CCHAR;
 //         minp();
+        minp();
 //         tokc.i = getq();
+        wi32(tokc, getq());
 //         if (ch != '\'')
+        if (ch != mk_char('\''))
 //             expect("\'");
+            expect("\'");
 //         minp();
+        minp();
 //     } else if (ch == '\"') {
     } else if (ch == mk_char('\"')) {
 //         tok = TOK_STR;
@@ -4708,12 +4713,16 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
         c = tok;
 //         if (c == TOK_ELSE) {
         if (c == TOK_ELSE) {
-err();
 //             next();
+            next();
 //             d = gjmp(0);
+            d = gjmp(0);
 //             gsym(a);
+            gsym(ri32(a));
 //             block(bsym, csym, case_sym, def_sym, case_reg);
+            block(bsym, csym, case_sym, def_sym, case_reg);
 //             gsym(d); /* patch else jmp */
+            gsym(d); /* patch else jmp */
 //         } else
         } else {
 //             gsym(a);

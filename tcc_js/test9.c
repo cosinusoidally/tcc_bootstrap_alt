@@ -96,6 +96,18 @@ int rsym, anon_sym,
 SymStack extern_stack;
 SymStack define_stack, global_stack, local_stack, label_stack;
 
+int reloc=0;
+int reloc_global=0;
+
+int relocs;
+int relocs_base;
+
+int global_relocs;
+int global_relocs_base;
+
+int global_relocs_table;
+int global_relocs_table_base;
+
 TokenSym *tok_alloc(char *str, int len)
 {
     TokenSym *ts, **pts, **ptable;
@@ -236,6 +248,17 @@ void define_symbol(char *sym)
     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 }
 
+int load_obj(){
+// dummy impl
+  return 0;
+}
+
+int show_help(void)
+{
+    printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
+           "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
+    return 1;
+}
 
 int main(int argc, char **argv)
 {
@@ -270,46 +293,46 @@ int main(int argc, char **argv)
                 -1, 0);
     glo_base=glo;
     printf("glo: %x %x\n",glo,glo_base);
-//    memset((void *)glo, 0, DATA_SIZE);
-//    prog = (int)mmap(NULL, TEXT_SIZE,
-//                PROT_EXEC | PROT_READ | PROT_WRITE,
-//                MAP_PRIVATE | MAP_ANONYMOUS,
-//                -1, 0);
-//    ind = prog;
-//    printf("prog: %x \n",prog);
-//
-//    optind = 1;
-//    outfile = NULL;
-//int loader=0;
-//    while (1) {
-//printf("argc %d\n",argc);
-//        if (optind >= argc) {
-//        return show_help();
-//        }
-//        r = argv[optind];
-//        if (r[0] != '-')
-//            break;
-//        optind++;
-//        if (r[1] == 'I') {
-//            if (nb_include_paths >= INCLUDE_PATHS_MAX)
-//                error("too many include paths");
-//            include_paths[nb_include_paths++] = r + 2;
-//        } else if (r[1] == 'D') {
-//            define_symbol(r + 2);
-//        } else if (r[1] == 'i') {
-//            if (optind >= argc)
-//                return show_help();
+    memset((void *)glo, 0, DATA_SIZE);
+    prog = (int)mmap(NULL, TEXT_SIZE,
+                PROT_EXEC | PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
+    ind = prog;
+    printf("prog: %x \n",prog);
+
+    optind = 1;
+    outfile = NULL;
+int loader=0;
+    while (1) {
+printf("argc %d\n",argc);
+        if (optind >= argc) {
+        return show_help();
+        }
+        r = argv[optind];
+        if (r[0] != '-')
+            break;
+        optind++;
+        if (r[1] == 'I') {
+            if (nb_include_paths >= INCLUDE_PATHS_MAX)
+                error("too many include paths");
+            include_paths[nb_include_paths++] = r + 2;
+        } else if (r[1] == 'D') {
+            define_symbol(r + 2);
+        } else if (r[1] == 'i') {
+            if (optind >= argc)
+                return show_help();
 //            tcc_compile_file(argv[optind++]);
-//        } else if (r[1] == 'r') {
-//            reloc=1;
-//        } else if (r[1] == 'R') {
-//            t=(int (*)())load_obj();
-//            loader=1;
-//        } else {
-//            fprintf(stderr, "invalid option -- '%s'\n", r);
-//            exit(1);
-//        }
-//    }
+        } else if (r[1] == 'r') {
+            reloc=1;
+        } else if (r[1] == 'R') {
+            t=(int (*)())load_obj();
+            loader=1;
+        } else {
+            fprintf(stderr, "invalid option -- '%s'\n", r);
+            exit(1);
+        }
+    }
 //
 //if(loader){
 //  printf("running loader\n");
