@@ -129,18 +129,15 @@ void tok_add(int **tok_str, int *tok_len, int t)
     *tok_len = len;
 }
 
-/*
 void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 {
     int n, i;
 
     tok_add(tok_str, tok_len, t);
     n = tok_ext_size(t);
-// FIXME uncomment
-//    for(i=0;i<n;i++)
-//        tok_add(tok_str, tok_len, cv->tab[i]);
+    for(i=0;i<n;i++)
+        tok_add(tok_str, tok_len, cv->tab[i]);
 }
-*/
 
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
