@@ -177,27 +177,31 @@ mk_reloc_global(RELOC_REL32,p->addr);
 return count;
 }
 
+// FIXME ljw function decl issue?
 // /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
-// {
-//     int n;
-//     while (t) {
-//         n = *(int *)t; /* next value */
-//         *(int *)t = a - t - 4;
-//         t = n;
-//     }
-// }
-// 
+void gsym_addr(int t, int a)
+{
+    int n;
+    while (t) {
+        n = *(int *)t; /* next value */
+        *(int *)t = a - t - 4;
+        t = n;
+    }
+}
+
+// FIXME function decl issue?
 // void gsym(t)
-// {
-//     gsym_addr(t, ind);
-// }
-// 
-// /* psym is used to put an instruction with a data field which is a
-//    reference to a symbol. It is in fact the same as oad ! */
-// #define psym oad
-// 
-// /* instruction + 4 bytes data. Return the address of the data */
+void gsym(int t)
+{
+    gsym_addr(t, ind);
+}
+
+/* psym is used to put an instruction with a data field which is a
+   reference to a symbol. It is in fact the same as oad ! */
+#define psym oad
+
+/* instruction + 4 bytes data. Return the address of the data */
 // int oad(int c, int s)
 // {
 //     o(c);
