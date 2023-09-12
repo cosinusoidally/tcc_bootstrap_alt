@@ -85,10 +85,10 @@ typedef struct Sym {
 // #define RELOC_REL32  2  /* 32 bits relative relocation */
 // 
 // 
-// #define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */
-// #define SYM_FIELD      0x20000000 /* struct/union field symbol space */
-// #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
-// 
+#define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */
+#define SYM_FIELD      0x20000000 /* struct/union field symbol space */
+#define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
+
 // #define FUNC_NEW       1 /* ansi function prototype */
 // #define FUNC_OLD       2 /* old function prototype */
 // #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
@@ -129,11 +129,11 @@ int global_expr; /* true if compound literals must be allocated
 int func_vt, func_vc; /* current function return type (used by
                          return instruction) */
 int tok_ident;
-// TokenSym **table_ident;
-// TokenSym *hash_ident[TOK_HASH_SIZE];
-// char token_buf[STRING_MAX_SIZE + 1];
-// char *filename, *funcname;
-// /* contains global symbols which remain between each translation unit */
+TokenSym **table_ident;
+TokenSym *hash_ident[TOK_HASH_SIZE];
+char token_buf[STRING_MAX_SIZE + 1];
+char *filename, *funcname;
+/* contains global symbols which remain between each translation unit */
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
 // 
@@ -179,10 +179,10 @@ int nb_include_paths;
 // #define VT_EXTERN  0x00000040  /* extern definition */
 // #define VT_STATIC  0x00000080  /* static variable */
 // #define VT_TYPEDEF 0x00000100  /* typedef definition */
-// 
-// /* types */
-// #define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
-// 
+
+/* types */
+#define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
+
 // #define VT_BTYPE_SHIFT 9
 // #define VT_INT        (0 << VT_BTYPE_SHIFT)  /* integer type */
 // #define VT_BYTE       (1 << VT_BTYPE_SHIFT)  /* signed byte type */
@@ -437,48 +437,48 @@ int nb_include_paths;
 TokenSym *tok_alloc(char *str, int len)
 {
     TokenSym *ts, **pts, **ptable;
-//     int h, i;
-//     
-//     if (len <= 0)
-//         len = strlen(str);
-//     h = 1;
-//     for(i=0;i<len;i++)
-//         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
-// 
-//     pts = &hash_ident[h];
-//     while (1) {
-//         ts = *pts;
-//         if (!ts)
-//             break;
-//         if (ts->len == len && !memcmp(ts->str, str, len))
-//             return ts;
-//         pts = &(ts->hash_next);
-//     }
-// 
-//     if (tok_ident >= SYM_FIRST_ANOM) 
-//         error("memory full");
-// 
-//     /* expand token table if needed */
-//     i = tok_ident - TOK_IDENT;
-//     if ((i % TOK_ALLOC_INCR) == 0) {
-//         ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
-//         if (!ptable)
-//             error("memory full");
-//         table_ident = ptable;
-//     }
-// 
-//     ts = malloc(sizeof(TokenSym) + len);
-//     if (!ts)
-//         error("memory full");
-//     table_ident[i] = ts;
-//     ts->tok = tok_ident++;
-//     ts->len = len;
-//     ts->hash_next = NULL;
-//     memcpy(ts->str, str, len + 1);
-//     *pts = ts;
+    int h, i;
+  
+    if (len <= 0)
+        len = strlen(str);
+    h = 1;
+    for(i=0;i<len;i++)
+        h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
+
+    pts = &hash_ident[h];
+    while (1) {
+        ts = *pts;
+        if (!ts)
+            break;
+        if (ts->len == len && !memcmp(ts->str, str, len))
+            return ts;
+        pts = &(ts->hash_next);
+    }
+
+    if (tok_ident >= SYM_FIRST_ANOM) 
+        error("memory full");
+
+    /* expand token table if needed */
+    i = tok_ident - TOK_IDENT;
+    if ((i % TOK_ALLOC_INCR) == 0) {
+        ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
+        if (!ptable)
+            error("memory full");
+        table_ident = ptable;
+    }
+
+    ts = malloc(sizeof(TokenSym) + len);
+    if (!ts)
+        error("memory full");
+    table_ident[i] = ts;
+    ts->tok = tok_ident++;
+    ts->len = len;
+    ts->hash_next = NULL;
+    memcpy(ts->str, str, len + 1);
+    *pts = ts;
     return ts;
 }
-// 
+
 // void add_char(char **pp, int c)
 // {
 //     char *p;
@@ -3917,18 +3917,18 @@ int main(int argc, char **argv)
                 MAP_PRIVATE | MAP_ANONYMOUS,
                 -1, 0);
     glo_base=glo;
-//     printf("glo: %x %x\n",glo,glo_base);
-//     memset((void *)glo, 0, DATA_SIZE);
-//     prog = (int)mmap(NULL, TEXT_SIZE,
-//                 PROT_EXEC | PROT_READ | PROT_WRITE,
-//                 MAP_PRIVATE | MAP_ANONYMOUS,
-//                 -1, 0);
-//     ind = prog;
-//     printf("prog: %x \n",prog);
-// 
-//     optind = 1;
-//     outfile = NULL;
-// int loader=0;
+    printf("glo: %x %x\n",glo,glo_base);
+    memset((void *)glo, 0, DATA_SIZE);
+    prog = (int)mmap(NULL, TEXT_SIZE,
+                PROT_EXEC | PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
+    ind = prog;
+    printf("prog: %x \n",prog);
+
+    optind = 1;
+    outfile = NULL;
+int loader=0;
 //     while (1) {
 // printf("argc %d\n",argc);
 //         if (optind >= argc) {
