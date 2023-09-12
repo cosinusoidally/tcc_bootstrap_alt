@@ -89,17 +89,17 @@ typedef struct Reloc {
 #define SYM_FIELD      0x20000000 /* struct/union field symbol space */
 #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
 
-// #define FUNC_NEW       1 /* ansi function prototype */
-// #define FUNC_OLD       2 /* old function prototype */
-// #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
+#define FUNC_NEW       1 /* ansi function prototype */
+#define FUNC_OLD       2 /* old function prototype */
+#define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
 
 /* field 'Sym.t' for macros */
 #define MACRO_OBJ      0 /* object like macro */
 #define MACRO_FUNC     1 /* function like macro */
 
-// /* type_decl() types */
-// #define TYPE_ABSTRACT  1 /* type without variable */
-// #define TYPE_DIRECT    2 /* type with variable */
+/* type_decl() types */
+#define TYPE_ABSTRACT  1 /* type without variable */
+#define TYPE_DIRECT    2 /* type with variable */
 
 typedef struct {
     FILE *file;
@@ -162,44 +162,44 @@ int global_relocs_base;
 int global_relocs_table;
 int global_relocs_table_base;
 
-// /* The current value can be: */
-// #define VT_VALMASK 0x000f
-// #define VT_CONST   0x000a  /* constant in vc 
-//                               (must be first non register value) */
-// #define VT_LLOCAL  0x000b  /* lvalue, offset on stack */
-// #define VT_LOCAL   0x000c  /* offset on stack */
-// #define VT_CMP     0x000d  /* the value is stored in processor flags (in vc) */
-// #define VT_JMP     0x000e  /* value is the consequence of jmp true */
-// #define VT_JMPI    0x000f  /* value is the consequence of jmp false */
-// #define VT_LVAL    0x0010  /* var is an lvalue */
-// #define VT_LVALN   -17         /* ~VT_LVAL */
+/* The current value can be: */
+#define VT_VALMASK 0x000f
+#define VT_CONST   0x000a  /* constant in vc 
+                              (must be first non register value) */
+#define VT_LLOCAL  0x000b  /* lvalue, offset on stack */
+#define VT_LOCAL   0x000c  /* offset on stack */
+#define VT_CMP     0x000d  /* the value is stored in processor flags (in vc) */
+#define VT_JMP     0x000e  /* value is the consequence of jmp true */
+#define VT_JMPI    0x000f  /* value is the consequence of jmp false */
+#define VT_LVAL    0x0010  /* var is an lvalue */
+#define VT_LVALN   -17         /* ~VT_LVAL */
 #define VT_FORWARD 0x0020  /* value is forward reference 
                               (only used for functions) */
-// /* storage */
-// #define VT_EXTERN  0x00000040  /* extern definition */
-// #define VT_STATIC  0x00000080  /* static variable */
-// #define VT_TYPEDEF 0x00000100  /* typedef definition */
+/* storage */
+#define VT_EXTERN  0x00000040  /* extern definition */
+#define VT_STATIC  0x00000080  /* static variable */
+#define VT_TYPEDEF 0x00000100  /* typedef definition */
 
 /* types */
 #define VT_STRUCT_SHIFT 16   /* structure/enum name shift (16 bits left) */
 
-// #define VT_BTYPE_SHIFT 9
-// #define VT_INT        (0 << VT_BTYPE_SHIFT)  /* integer type */
-// #define VT_BYTE       (1 << VT_BTYPE_SHIFT)  /* signed byte type */
-// #define VT_SHORT      (2 << VT_BTYPE_SHIFT)  /* short type */
-// #define VT_VOID       (3 << VT_BTYPE_SHIFT)  /* void type */
-// #define VT_PTR        (4 << VT_BTYPE_SHIFT)  /* pointer increment */
-// #define VT_ENUM       (5 << VT_BTYPE_SHIFT)  /* enum definition */
-// #define VT_FUNC       (6 << VT_BTYPE_SHIFT)  /* function type */
-// #define VT_STRUCT     (7 << VT_BTYPE_SHIFT)  /* struct/union definition */
-// #define VT_FLOAT      (8 << VT_BTYPE_SHIFT)  /* IEEE float */
-// #define VT_DOUBLE     (9 << VT_BTYPE_SHIFT)  /* IEEE double */
-// #define VT_LDOUBLE   (10 << VT_BTYPE_SHIFT)  /* IEEE long double */
-// #define VT_BOOL      (11 << VT_BTYPE_SHIFT)  /* ISOC99 boolean type */
-// #define VT_LLONG     (12 << VT_BTYPE_SHIFT)  /* 64 bit integer */
-// #define VT_LONG      (13 << VT_BTYPE_SHIFT)  /* long integer (NEVER
-//                                                 USED as type, only
-//                                                 during parsing) */
+#define VT_BTYPE_SHIFT 9
+#define VT_INT        (0 << VT_BTYPE_SHIFT)  /* integer type */
+#define VT_BYTE       (1 << VT_BTYPE_SHIFT)  /* signed byte type */
+#define VT_SHORT      (2 << VT_BTYPE_SHIFT)  /* short type */
+#define VT_VOID       (3 << VT_BTYPE_SHIFT)  /* void type */
+#define VT_PTR        (4 << VT_BTYPE_SHIFT)  /* pointer increment */
+#define VT_ENUM       (5 << VT_BTYPE_SHIFT)  /* enum definition */
+#define VT_FUNC       (6 << VT_BTYPE_SHIFT)  /* function type */
+#define VT_STRUCT     (7 << VT_BTYPE_SHIFT)  /* struct/union definition */
+#define VT_FLOAT      (8 << VT_BTYPE_SHIFT)  /* IEEE float */
+#define VT_DOUBLE     (9 << VT_BTYPE_SHIFT)  /* IEEE double */
+#define VT_LDOUBLE   (10 << VT_BTYPE_SHIFT)  /* IEEE long double */
+#define VT_BOOL      (11 << VT_BTYPE_SHIFT)  /* ISOC99 boolean type */
+#define VT_LLONG     (12 << VT_BTYPE_SHIFT)  /* 64 bit integer */
+#define VT_LONG      (13 << VT_BTYPE_SHIFT)  /* long integer (NEVER
+                                                USED as type, only
+                                                during parsing) */
 // #define VT_BTYPE      (0xf << VT_BTYPE_SHIFT) /* mask for basic type */
 // #define VT_UNSIGNED   (0x10 << VT_BTYPE_SHIFT)  /* unsigned type */
 // #define VT_ARRAY      (0x20 << VT_BTYPE_SHIFT)  /* array type (also has VT_PTR) */
