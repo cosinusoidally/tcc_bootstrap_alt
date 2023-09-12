@@ -5054,6 +5054,9 @@ err();
 //                      int *cur_index, Sym **cur_field, 
 //                      int size_only)
 // {
+function decl_designator(t, c, cur_index, cur_field, size_only) {
+err();
+    enter();
 //     Sym *s, *f;
 //     int notfirst, index, align, l;
 // 
@@ -5118,6 +5121,8 @@ err();
 //     }
 //     decl_initializer(t, c, 0, size_only);
 // }
+    leave();
+}
 // 
 // /* store a value or an expression directly in global data or in local array */
 // 
@@ -5227,7 +5232,7 @@ function decl_initializer(t, c, first, size_only) {
 print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only);
     enter();
 //     int index, array_length, n, no_oblock, nb, parlevel, i;
-    var index;
+    var index=alloca(4);
     var array_length;
     var n;
     var no_oblockl
@@ -5263,9 +5268,10 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //             tok == '{') {
         if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
             tok == mk_char('{')) {
-err();
 //             skip('{');
+            skip(mk_char('{'));
 //             no_oblock = 0;
+            no_oblock = 0;
 //         }
         }
 // 
@@ -5329,18 +5335,26 @@ err();
             }
 //         } else {
         } else {
-err();
 //             index = 0;
+            wi32(index, 0);
 //             while (tok != '}') {
+             while (tok != mk_char('}')) {
 //                 decl_designator(t, c, &index, NULL, size_only);
+                decl_designator(t, c, index, NULL, size_only);
 //                 if (n >= 0 && index >= n)
+                if (n >= 0 && ri32(index) >= n)
 //                     error("index too large");
+                    error("index too large");
 //                 /* must put zero in holes (note that doing it that way
 //                    ensures that it even works with designators) */
 //                 if (!size_only && array_length < index) {
+                if (!size_only && array_length < ri32(index)) {
+err();
 //                     init_putz(t1, c + array_length * size1, 
 //                               (index - array_length) * size1);
 //                 }
+                }
+err();
 //                 index++;
 //                 if (index > array_length)
 //                     array_length = index;
@@ -5353,6 +5367,7 @@ err();
 //                     break;
 //                 skip(',');
 //             }
+            }
 //         }
         }
 //         if (!no_oblock)

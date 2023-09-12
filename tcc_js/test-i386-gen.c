@@ -1,55 +1,55 @@
-// /*
-//  *  X86 code generator for TCC
-//  * 
-//  *  Copyright (c) 2001 Fabrice Bellard
-//  *
-//  *  This program is free software; you can redistribute it and/or modify
-//  *  it under the terms of the GNU General Public License as published by
-//  *  the Free Software Foundation; either version 2 of the License, or
-//  *  (at your option) any later version.
-//  *
-//  *  This program is distributed in the hope that it will be useful,
-//  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  *  GNU General Public License for more details.
-//  *
-//  *  You should have received a copy of the GNU General Public License
-//  *  along with this program; if not, write to the Free Software
-//  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//  */
-// 
-// /* number of available registers */
-// #define NB_REGS             3
-// 
-// /* a register can belong to several classes */
-// #define REG_CLASS_INT    0x0001
-// 
-// /* pretty names for the registers */
-// enum {
-//     REG_EAX = 0,
-//     REG_ECX,
-//     REG_EDX,
-// };
-// 
-// int reg_classes[NB_REGS] = {
-//     REG_CLASS_INT,    /* eax */
-//     REG_CLASS_INT,    /* ecx */
-//     REG_CLASS_INT,    /* edx */
-// };
-// 
-// /* integer return register for functions */
-// #define FUNC_RET_REG        0 
-// 
-// /* pointer size, in bytes */
-// #define PTR_SIZE 4
-// 
-// /* function call context */
-// typedef struct GFuncContext {
-//     int args_size;
-// } GFuncContext;
-// 
-// /******************************************************/
-// 
+/*
+ *  X86 code generator for TCC
+ * 
+ *  Copyright (c) 2001 Fabrice Bellard
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+/* number of available registers */
+#define NB_REGS             3
+
+/* a register can belong to several classes */
+#define REG_CLASS_INT    0x0001
+
+/* pretty names for the registers */
+enum {
+    REG_EAX = 0,
+    REG_ECX,
+    REG_EDX,
+};
+
+int reg_classes[NB_REGS] = {
+    REG_CLASS_INT,    /* eax */
+    REG_CLASS_INT,    /* ecx */
+    REG_CLASS_INT,    /* edx */
+};
+
+/* integer return register for functions */
+#define FUNC_RET_REG        0 
+
+/* pointer size, in bytes */
+#define PTR_SIZE 4
+
+/* function call context */
+typedef struct GFuncContext {
+    int args_size;
+} GFuncContext;
+
+/******************************************************/
+
 // void g(int c)
 // {
 //     *(char *)ind++ = c;
