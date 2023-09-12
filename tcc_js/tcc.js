@@ -5055,14 +5055,22 @@ err();
 //                      int size_only)
 // {
 function decl_designator(t, c, cur_index, cur_field, size_only) {
-err();
     enter();
 //     Sym *s, *f;
+    var s;
+    var f;
 //     int notfirst, index, align, l;
+    var notfirst;
+    var index;
+    var align;
+    var l;
 // 
 //     notfirst = 0;
+    notfirst = 0;
 // 
 //     while (tok == '[' || tok == '.') {
+    while (tok == mk_char('[') || tok == mk_char('.')) {
+err();
 //         if (tok == '[') {
 //             if (!(t & VT_ARRAY))
 //                 expect("array type");
@@ -5099,7 +5107,10 @@ err();
 //         }
 //         notfirst = 1;
 //     }
+    }
 //     if (notfirst) {
+    if (notfirst) {
+err();
 //         if (tok == '=') {
 //             next();
 //         } else {
@@ -5107,19 +5118,29 @@ err();
 //                 expect("=");
 //         }
 //     } else {
+    } else {
 //         if (t & VT_ARRAY) {
+        if (t & VT_ARRAY) {
 //             index = *cur_index;
+            index = ri32(cur_index);
 //             t = pointed_type(t);
+            t = pointed_type(t);
 //             c += index * type_size(t, &align);
+            c += index * type_size(t, align);
 //         } else {
+        } else {
+err();
 //             f = *cur_field;
 //             if (!f)
 //                 error("too many field init");
 //             t = f->t | (t & ~VT_TYPE);
 //             c += f->c;
 //         }
+        }
 //     }
+    }
 //     decl_initializer(t, c, 0, size_only);
+    decl_initializer(t, c, 0, size_only);
 // }
     leave();
 }
@@ -5354,18 +5375,28 @@ err();
 //                               (index - array_length) * size1);
 //                 }
                 }
-err();
 //                 index++;
+                wi32(index,ri32(index)+1);
 //                 if (index > array_length)
+                if (ri32(index) > array_length) {
 //                     array_length = index;
+                    array_length = ri32(index);
+}
 //                 /* special test for multi dimensional arrays (may not
 //                    be strictly correct if designators are used at the
 //                    same time) */
 //                 if (index >= n && no_oblock)
+                if (ri32(index) >= n && no_oblock) {
+err();
 //                     break;
+                    break;
+                }
 //                 if (tok == '}')
+                if (tok == mk_char('}'))
 //                     break;
+                    break;
 //                 skip(',');
+                skip(mk_char(','));
 //             }
             }
 //         }
