@@ -200,39 +200,39 @@ int global_relocs_table_base;
 #define VT_LONG      (13 << VT_BTYPE_SHIFT)  /* long integer (NEVER
                                                 USED as type, only
                                                 during parsing) */
-// #define VT_BTYPE      (0xf << VT_BTYPE_SHIFT) /* mask for basic type */
-// #define VT_UNSIGNED   (0x10 << VT_BTYPE_SHIFT)  /* unsigned type */
-// #define VT_ARRAY      (0x20 << VT_BTYPE_SHIFT)  /* array type (also has VT_PTR) */
-// #define VT_BITFIELD   (0x40 << VT_BTYPE_SHIFT)  /* bitfield modifier */
-// 
-// #define VT_TYPE    0xfffffe00  /* type mask */
-// 
-// /* token values */
-// 
-// /* warning: the following compare tokens depend on i386 asm code */
-// #define TOK_ULT 0x92
-// #define TOK_UGE 0x93
-// #define TOK_EQ  0x94
-// #define TOK_NE  0x95
-// #define TOK_ULE 0x96
-// #define TOK_UGT 0x97
-// #define TOK_LT  0x9c
-// #define TOK_GE  0x9d
-// #define TOK_LE  0x9e
-// #define TOK_GT  0x9f
-// 
-// #define TOK_LAND  0xa0
-// #define TOK_LOR   0xa1
-// 
-// #define TOK_DEC   0xa2
-// #define TOK_MID   0xa3 /* inc/dec, to void constant */
-// #define TOK_INC   0xa4
-// #define TOK_ARROW 0xa7 
-// #define TOK_DOTS  0xa8 /* three dots */
-// #define TOK_SHR   0xa9 /* unsigned shift right */
-// #define TOK_UDIV  0xb0 /* unsigned division */
-// #define TOK_UMOD  0xb1 /* unsigned modulo */
-// #define TOK_PDIV  0xb2 /* fast division with undefined rounding for pointers */
+#define VT_BTYPE      (0xf << VT_BTYPE_SHIFT) /* mask for basic type */
+#define VT_UNSIGNED   (0x10 << VT_BTYPE_SHIFT)  /* unsigned type */
+#define VT_ARRAY      (0x20 << VT_BTYPE_SHIFT)  /* array type (also has VT_PTR) */
+#define VT_BITFIELD   (0x40 << VT_BTYPE_SHIFT)  /* bitfield modifier */
+
+#define VT_TYPE    0xfffffe00  /* type mask */
+
+/* token values */
+
+/* warning: the following compare tokens depend on i386 asm code */
+#define TOK_ULT 0x92
+#define TOK_UGE 0x93
+#define TOK_EQ  0x94
+#define TOK_NE  0x95
+#define TOK_ULE 0x96
+#define TOK_UGT 0x97
+#define TOK_LT  0x9c
+#define TOK_GE  0x9d
+#define TOK_LE  0x9e
+#define TOK_GT  0x9f
+
+#define TOK_LAND  0xa0
+#define TOK_LOR   0xa1
+
+#define TOK_DEC   0xa2
+#define TOK_MID   0xa3 /* inc/dec, to void constant */
+#define TOK_INC   0xa4
+#define TOK_ARROW 0xa7 
+#define TOK_DOTS  0xa8 /* three dots */
+#define TOK_SHR   0xa9 /* unsigned shift right */
+#define TOK_UDIV  0xb0 /* unsigned division */
+#define TOK_UMOD  0xb1 /* unsigned modulo */
+#define TOK_PDIV  0xb2 /* fast division with undefined rounding for pointers */
 #define TOK_NUM   0xb3 /* number in tokc */
 #define TOK_CCHAR 0xb4 /* char constant in tokc */
 #define TOK_STR   0xb5 /* pointer to string in tokc */
@@ -243,9 +243,9 @@ int global_relocs_table_base;
 #define TOK_CDOUBLE  0xc0 /* double constant */
 #define TOK_CLDOUBLE 0xc1 /* long double constant */
 
-//  #define TOK_SHL   0x01 /* shift left */
-// #define TOK_SAR   0x02 /* signed shift right */
-//   
+#define TOK_SHL   0x01 /* shift left */
+#define TOK_SAR   0x02 /* signed shift right */
+ 
 // /* assignement operators : normal operator or 0x80 */
 // #define TOK_A_MOD 0xa5
 // #define TOK_A_AND 0xa6
@@ -341,7 +341,7 @@ void decl_initializer(int t, int c, int first, int size_only);
 // void vpop(void);
 // void vswap(void);
 // void vdup(void);
-// int get_reg(int rc);
+int get_reg(int rc);
 
 void macro_subst(int **tok_str, int *tok_len, 
                  Sym **nested_list, int *macro_str);
@@ -349,16 +349,16 @@ void macro_subst(int **tok_str, int *tok_len,
 // void gen_op(int op);
 // void gen_cast(int t);
 // void vstore(void);
-// int type_size(int t, int *a);
+int type_size(int t, int *a);
 // int pointed_type(int t);
 // int pointed_size(int t);
 // int ist(void);
 // int type_decl(int *v, int t, int td);
 // void error(const char *fmt, ...);
-// void vset(int t, int v);
+void vset(int t, int v);
 // void printline2(void);
 // 
-// #include "i386-gen.c"
+#include "test-i386-gen.c"
 // 
 // static inline int isid(int c)
 // {
@@ -1419,24 +1419,24 @@ void swap(int *p, int *q)
 //     vtop->t = t;
 //     vtop->c = *vc;
 // }
-// 
-// void vset(int t, int v)
-// {
+
+void vset(int t, int v)
+{
 //     CValue cval;
 // 
 //     cval.i = v;
 //     vsetc(t, &cval);
-// }
-// 
-// void vswap(void)
-// {
+}
+
+void vswap(void)
+{
 //     SValue tmp;
 // 
 //     tmp = vtop[0];
 //     vtop[0] = vtop[-1];
 //     vtop[-1] = tmp;
-// }
-// 
+}
+
 // void vdup(void)
 // {
 //     if (vtop >= vstack + VSTACK_SIZE)
@@ -1485,10 +1485,10 @@ void swap(int *p, int *q)
 //         }
 //     }
 // }
-// 
-// /* find a free register of class 'rc'. If none, save one register */
-// int get_reg(int rc)
-// {
+
+/* find a free register of class 'rc'. If none, save one register */
+int get_reg(int rc)
+{
 //     int r, i;
 //     int notfound;
 //     SValue *p;
@@ -1519,8 +1519,8 @@ void swap(int *p, int *q)
 //         }
 //     }
 //     return r;
-// }
-// 
+}
+
 // void save_regs()
 // {
 //     int r;
@@ -1758,9 +1758,9 @@ void swap(int *p, int *q)
 //     vtop->t = (vtop->t & ~VT_TYPE) | t;
 // }
 // 
-// /* return type size. Put alignment at 'a' */
-// int type_size(int t, int *a)
-// {
+/* return type size. Put alignment at 'a' */
+int type_size(int t, int *a)
+{
 //     Sym *s;
 //     int bt;
 // 
@@ -1789,8 +1789,8 @@ void swap(int *p, int *q)
 //         *a = 1;
 //         return 1;
 //     }
-// }
-// 
+}
+
 // /* return the pointed type of t */
 // int pointed_type(int t)
 // {
@@ -1958,11 +1958,11 @@ void swap(int *p, int *q)
 //         error("cannot cast '%s' to '%s'", buf1, buf2);
 //     }
 // }
-// 
-// 
-// /* store vtop in lvalue pushed on stack */
-// void vstore(void)
-// {
+
+
+/* store vtop in lvalue pushed on stack */
+void vstore(void)
+{
 //     int ft, fc, r, t, size, align, bit_size, bit_pos;
 //     GFuncContext gf;
 // 
@@ -2014,8 +2014,8 @@ void swap(int *p, int *q)
 //         vtop->t = (ft & VT_TYPE) | r;
 //         vtop->c.i = 0;
 //     }
-// }
-// 
+}
+
 // /* post defines POST/PRE add. c is the token ++ or -- */
 // void inc(int post, int c)
 // {
