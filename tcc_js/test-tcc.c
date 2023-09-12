@@ -1,74 +1,74 @@
-// /*
-//  *  TCC - Tiny C Compiler
-//  * 
-//  *  Copyright (c) 2001 Fabrice Bellard
-//  *
-//  *  This program is free software; you can redistribute it and/or modify
-//  *  it under the terms of the GNU General Public License as published by
-//  *  the Free Software Foundation; either version 2 of the License, or
-//  *  (at your option) any later version.
-//  *
-//  *  This program is distributed in the hope that it will be useful,
-//  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  *  GNU General Public License for more details.
-//  *
-//  *  You should have received a copy of the GNU General Public License
-//  *  along with this program; if not, write to the Free Software
-//  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//  */
-// 
-// #include <tcclib.h>
-// 
-// /* these sizes are dummy for unix, because malloc() does not use
-//    memory when the pages are not used */
-// #define TEXT_SIZE           (256*1024)
-// #define DATA_SIZE           (256*1024)
-// 
-// #define INCLUDE_STACK_SIZE  32
-// #define IFDEF_STACK_SIZE    64
-// #define VSTACK_SIZE         64
-// #define STRING_MAX_SIZE     1024
-// #define INCLUDE_PATHS_MAX   32
-// 
-// #define TOK_HASH_SIZE       521
-// #define TOK_ALLOC_INCR      256 /* must be a power of two */
-// #define SYM_HASH_SIZE       263
-// 
-// /* token symbol management */
-// typedef struct TokenSym {
-//     struct TokenSym *hash_next;
-//     int tok; /* token number */
-//     int len;
-//     char str[1];
-// } TokenSym;
-// 
-// /* constant value */
-// typedef union CValue {
-//     int i;
-//     unsigned int ui;
-//     unsigned int ul; /* address (should be unsigned long on 64 bit cpu) */
-//     struct TokenSym *ts;
-//     int tab[1];
-//     struct Sym *sym;
-// } CValue;
-// 
-// /* value on stack */
-// typedef struct SValue {
-//     int t;
-//     CValue c;
-// } SValue;
-// 
-// /* symbol management */
-// typedef struct Sym {
-//     int v;    /* symbol token */
-//     int t;    /* associated type */
-//     int c;    /* associated number */
-//     struct Sym *next; /* next related symbol */
-//     struct Sym *prev; /* prev symbol in stack */
-//     struct Sym *hash_next; /* next symbol in hash table */
-// } Sym;
-// 
+/*
+ *  TCC - Tiny C Compiler
+ * 
+ *  Copyright (c) 2001 Fabrice Bellard
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <tcclib.h>
+
+/* these sizes are dummy for unix, because malloc() does not use
+   memory when the pages are not used */
+#define TEXT_SIZE           (256*1024)
+#define DATA_SIZE           (256*1024)
+
+#define INCLUDE_STACK_SIZE  32
+#define IFDEF_STACK_SIZE    64
+#define VSTACK_SIZE         64
+#define STRING_MAX_SIZE     1024
+#define INCLUDE_PATHS_MAX   32
+
+#define TOK_HASH_SIZE       521
+#define TOK_ALLOC_INCR      256 /* must be a power of two */
+#define SYM_HASH_SIZE       263
+
+/* token symbol management */
+typedef struct TokenSym {
+    struct TokenSym *hash_next;
+    int tok; /* token number */
+    int len;
+    char str[1];
+} TokenSym;
+
+/* constant value */
+typedef union CValue {
+    int i;
+    unsigned int ui;
+    unsigned int ul; /* address (should be unsigned long on 64 bit cpu) */
+    struct TokenSym *ts;
+    int tab[1];
+    struct Sym *sym;
+} CValue;
+
+/* value on stack */
+typedef struct SValue {
+    int t;
+    CValue c;
+} SValue;
+
+/* symbol management */
+typedef struct Sym {
+    int v;    /* symbol token */
+    int t;    /* associated type */
+    int c;    /* associated number */
+    struct Sym *next; /* next related symbol */
+    struct Sym *prev; /* prev symbol in stack */
+    struct Sym *hash_next; /* next symbol in hash table */
+} Sym;
+
 // typedef struct SymStack {
 //   struct Sym *top;
 //   struct Sym *hash[SYM_HASH_SIZE];
@@ -128,7 +128,7 @@
 //                     globally (used during initializers parsing */
 // int func_vt, func_vc; /* current function return type (used by
 //                          return instruction) */
-// int tok_ident;
+int tok_ident;
 // TokenSym **table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
 // char token_buf[STRING_MAX_SIZE + 1];
@@ -141,8 +141,8 @@
 // int *macro_ptr, *macro_ptr_allocated;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 // int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
-// char *include_paths[INCLUDE_PATHS_MAX];
-// int nb_include_paths;
+char *include_paths[INCLUDE_PATHS_MAX];
+int nb_include_paths;
 // 
 // /* use GNU C extensions */
 // int gnu_ext = 0;
@@ -257,10 +257,10 @@
 // #define TOK_A_OR  0xfc
 // #define TOK_A_SHL 0x81
 // #define TOK_A_SAR 0x82
-// 
-// /* all identificators and strings have token above that */
-// #define TOK_IDENT 256
-// 
+
+/* all identificators and strings have token above that */
+#define TOK_IDENT 256
+
 // enum {
 //     TOK_INT = TOK_IDENT,
 //     TOK_VOID,
@@ -3885,19 +3885,19 @@
 //   return prog+entrypoint;
 // }
 // 
-// int main(int argc, char **argv)
-// {
-//     puts("tcc 1_7 start");
-//     Sym *s;
-//     int (*t)();
-//     char *p, *r, *outfile;
-//     int optind;
-// 
-//     include_paths[0] = "../tcc_1_7/";
-//     nb_include_paths = 1;
-// 
-//     /* add all tokens */
-//     tok_ident = TOK_IDENT;
+int main(int argc, char **argv)
+{
+    puts("tcc 1_7 start");
+    Sym *s;
+    int (*t)();
+    char *p, *r, *outfile;
+    int optind;
+
+    include_paths[0] = "../tcc_1_7/";
+    nb_include_paths = 1;
+
+    /* add all tokens */
+    tok_ident = TOK_IDENT;
 //     p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
 //     while (*p) {
 //         r = p;
@@ -3991,4 +3991,4 @@
 // 
 //     t = (int (*)())s->c;
 //     return (*t)(argc - optind, argv + optind);
-// }
+}
