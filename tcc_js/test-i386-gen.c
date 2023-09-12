@@ -242,64 +242,64 @@ printf("relocs error\n");
 
 /* XXX: generate correct pointer for forward references to functions */
 /* r = (ft, fc) */
-// void load(int r, int ft, int fc)
-// {
-//     int v, t;
-// 
-//     v = ft & VT_VALMASK;
-//     if (ft & VT_LVAL) {
-//         if (v == VT_LLOCAL) {
-//             load(r, VT_LOCAL | VT_LVAL, fc);
-//             v = r;
-//         }
-//         if ((ft & VT_TYPE) == VT_BYTE)
-//             o(0xbe0f);   /* movsbl */
-//         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
-//             o(0xb60f);   /* movzbl */
-//         else if ((ft & VT_TYPE) == VT_SHORT)
-//             o(0xbf0f);   /* movswl */
-//         else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED))
-//             o(0xb70f);   /* movzwl */
-//         else
-//             o(0x8b);     /* movl */
-// 
-//         if (v == VT_CONST) {
-//             o(0x05 + r * 8); /* 0xXX, r */
-// printf("\n load1 %x\n",ind);
-// lt=1;
-//             gen_addr32(fc, ft);
-//         } else if (v == VT_LOCAL) {
-//             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
-//         } else {
-//             g(0x00 + r * 8 + v); /* (v), r */
-//         }
-//     } else {
-//         if (v == VT_CONST) {
-//             o(0xb8 + r); /* mov $xx, r */
-// printf("\n load2 %x\n",ind);
-// lt=2;
-//             gen_addr32(fc, ft);
-//         } else if (v == VT_LOCAL) {
-//             o(0x8d);
-//             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
-//         } else if (v == VT_CMP) {
-//             oad(0xb8 + r, 0); /* mov $0, r */
-//             o(0x0f); /* setxx %br */
-//             o(fc);
-//             o(0xc0 + r);
-//         } else if (v == VT_JMP || v == VT_JMPI) {
-//             t = v & 1;
-//             oad(0xb8 + r, t); /* mov $1, r */
-//             oad(0xe9, 5); /* jmp after */
-//             gsym(fc);
-//             oad(0xb8 + r, t ^ 1); /* mov $0, r */
-//         } else if (v != r) {
-//             o(0x89);
-//             o(0xc0 + r + v * 8); /* mov v, r */
-//         }
-//     }
-// }
-// 
+void load(int r, int ft, int fc)
+{
+    int v, t;
+
+    v = ft & VT_VALMASK;
+    if (ft & VT_LVAL) {
+        if (v == VT_LLOCAL) {
+            load(r, VT_LOCAL | VT_LVAL, fc);
+            v = r;
+        }
+        if ((ft & VT_TYPE) == VT_BYTE)
+            o(0xbe0f);   /* movsbl */
+        else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
+            o(0xb60f);   /* movzbl */
+        else if ((ft & VT_TYPE) == VT_SHORT)
+            o(0xbf0f);   /* movswl */
+        else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED))
+            o(0xb70f);   /* movzwl */
+        else
+            o(0x8b);     /* movl */
+
+        if (v == VT_CONST) {
+            o(0x05 + r * 8); /* 0xXX, r */
+printf("\n load1 %x\n",ind);
+lt=1;
+            gen_addr32(fc, ft);
+        } else if (v == VT_LOCAL) {
+            oad(0x85 + r * 8, fc); /* xx(%ebp), r */
+        } else {
+            g(0x00 + r * 8 + v); /* (v), r */
+        }
+    } else {
+        if (v == VT_CONST) {
+            o(0xb8 + r); /* mov $xx, r */
+printf("\n load2 %x\n",ind);
+lt=2;
+            gen_addr32(fc, ft);
+        } else if (v == VT_LOCAL) {
+            o(0x8d);
+            oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
+        } else if (v == VT_CMP) {
+            oad(0xb8 + r, 0); /* mov $0, r */
+            o(0x0f); /* setxx %br */
+            o(fc);
+            o(0xc0 + r);
+        } else if (v == VT_JMP || v == VT_JMPI) {
+            t = v & 1;
+            oad(0xb8 + r, t); /* mov $1, r */
+            oad(0xe9, 5); /* jmp after */
+            gsym(fc);
+            oad(0xb8 + r, t ^ 1); /* mov $0, r */
+        } else if (v != r) {
+            o(0x89);
+            o(0xc0 + r + v * 8); /* mov v, r */
+        }
+    }
+}
+
 // /* (ft, fc) = r */
 // /* WARNING: r must not be allocated on the stack */
 // void store(r, ft, fc)
