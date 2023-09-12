@@ -261,70 +261,70 @@ int global_relocs_table_base;
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
 
-// enum {
-//     TOK_INT = TOK_IDENT,
-//     TOK_VOID,
-//     TOK_CHAR,
-//     TOK_IF,
-//     TOK_ELSE,
-//     TOK_WHILE,
-//     TOK_BREAK,
-//     TOK_RETURN,
-//     TOK_FOR,
-//     TOK_EXTERN,
-//     TOK_STATIC,
-//     TOK_UNSIGNED,
-//     TOK_GOTO,
-//     TOK_DO,
-//     TOK_CONTINUE,
-//     TOK_SWITCH,
-//     TOK_CASE,
-// 
-//     /* ignored types Must have contiguous values */
-//     TOK_CONST,
-//     TOK_VOLATILE,
-//     TOK_LONG,
-//     TOK_REGISTER,
-//     TOK_SIGNED,
-//     TOK_AUTO,
-//     TOK_INLINE,
-//     TOK_RESTRICT,
-// 
-//     /* unsupported type */
-//     TOK_FLOAT,
-//     TOK_DOUBLE,
-//     TOK_BOOL,
-// 
-//     TOK_SHORT,
-//     TOK_STRUCT,
-//     TOK_UNION,
-//     TOK_TYPEDEF,
-//     TOK_DEFAULT,
-//     TOK_ENUM,
-//     TOK_SIZEOF,
-// 
-//     /* preprocessor only */
-//     TOK_UIDENT, /* first "user" ident (not keyword) */
-//     TOK_DEFINE = TOK_UIDENT,
-//     TOK_INCLUDE,
-//     TOK_IFDEF,
-//     TOK_IFNDEF,
-//     TOK_ELIF,
-//     TOK_ENDIF,
-//     TOK_DEFINED,
-//     TOK_UNDEF,
-//     TOK_ERROR,
-//     TOK_LINE,
-//     TOK___LINE__,
-//     TOK___FILE__,
-//     TOK___DATE__,
-//     TOK___TIME__,
-//     TOK___VA_ARGS__,
-// 
-//     /* special identifiers */
-//     TOK___FUNC__,
-//     TOK_MAIN,
-// };
+enum {
+    TOK_INT = TOK_IDENT,
+    TOK_VOID,
+    TOK_CHAR,
+    TOK_IF,
+    TOK_ELSE,
+    TOK_WHILE,
+    TOK_BREAK,
+    TOK_RETURN,
+    TOK_FOR,
+    TOK_EXTERN,
+    TOK_STATIC,
+    TOK_UNSIGNED,
+    TOK_GOTO,
+    TOK_DO,
+    TOK_CONTINUE,
+    TOK_SWITCH,
+    TOK_CASE,
+
+    /* ignored types Must have contiguous values */
+    TOK_CONST,
+    TOK_VOLATILE,
+    TOK_LONG,
+    TOK_REGISTER,
+    TOK_SIGNED,
+    TOK_AUTO,
+    TOK_INLINE,
+    TOK_RESTRICT,
+
+    /* unsupported type */
+    TOK_FLOAT,
+    TOK_DOUBLE,
+    TOK_BOOL,
+
+    TOK_SHORT,
+    TOK_STRUCT,
+    TOK_UNION,
+    TOK_TYPEDEF,
+    TOK_DEFAULT,
+    TOK_ENUM,
+    TOK_SIZEOF,
+
+    /* preprocessor only */
+    TOK_UIDENT, /* first "user" ident (not keyword) */
+    TOK_DEFINE = TOK_UIDENT,
+    TOK_INCLUDE,
+    TOK_IFDEF,
+    TOK_IFNDEF,
+    TOK_ELIF,
+    TOK_ENDIF,
+    TOK_DEFINED,
+    TOK_UNDEF,
+    TOK_ERROR,
+    TOK_LINE,
+    TOK___LINE__,
+    TOK___FILE__,
+    TOK___DATE__,
+    TOK___TIME__,
+    TOK___VA_ARGS__,
+
+    /* special identifiers */
+    TOK___FUNC__,
+    TOK_MAIN,
+};
 
 void sum(int l);
 void next(void);
@@ -3981,8 +3981,7 @@ relocs_base=relocs;
     puts("tcc 1_7 compile done");
 
     resolve_extern_syms();
-// FIXME ljw
-//    s = sym_find1(&extern_stack, TOK_MAIN);
+   s = sym_find1(&extern_stack, TOK_MAIN);
     if (!s || (s->t & VT_FORWARD))
         error("main() not defined");
 

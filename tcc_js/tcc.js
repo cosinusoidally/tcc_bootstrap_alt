@@ -3276,18 +3276,27 @@ function struct_decl(u) {
         while (1) {
 //             if (a == TOK_ENUM) {
             if (a == TOK_ENUM) {
-err();
 //                 v = tok;
+                wi32(v, tok);
 //                 next();
+                next();
 //                 if (tok == '=') {
+                if (tok == mk_char('=')) {
 //                     next();
+                    next();
 //                     c = expr_const();
+                    c = expr_const();
 //                 }
+                }
 //                 /* enum symbols have static storage */
 //                 sym_push(v, VT_CONST | VT_STATIC, c);
+                sym_push(ri32(v), VT_CONST | VT_STATIC, c);
 //                 if (tok == ',')
+                if (tok == mk_char(','))
 //                     next();
+                    next();
 //                 c++;
+                c++;
 //             } else {
             } else {
 //                 b = ist();
@@ -3458,10 +3467,9 @@ err();
             break;
 //         case TOK_ENUM:
         case TOK_ENUM:
-err();
-//             u = struct_decl(VT_ENUM);
-//             t=basic_type1(t,u);
-//             break;
+            u = struct_decl(VT_ENUM);
+            t=basic_type1(t,u);
+            break;
 //         case TOK_STRUCT:
         case TOK_STRUCT:
 //         case TOK_UNION:
@@ -5567,7 +5575,6 @@ err();
 //             next();
              next();
 //             continue;
-err();
              continue;
 //         }
 err();
