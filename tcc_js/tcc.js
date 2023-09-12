@@ -3080,35 +3080,55 @@ function vstore() {
 // 
 //     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
     if ((ri32(vtop+SValue_t_o) & VT_BTYPE) == VT_STRUCT) {
-err();
 //         /* if structure, only generate pointer */
 //         /* structure assignment : generate memcpy */
 //         /* XXX: optimize if small size */
 // 
 //         vdup();
+        vdup();
 //         gfunc_start(&gf);
+        gfunc_start(gf);
 //         /* type size */
 //         size = type_size(vtop->t, &align);
+        size = type_size(ri32(vtop+SValue_t_o), align);
 //         vset(VT_CONST, size);
+        vset(VT_CONST, size);
 //         gfunc_param(&gf);
+        gfunc_param(gf);
 //         /* source */
 //         vtop->t &= ~VT_LVAL;
+        wi32(vtop+SValue_t_o,ri32(vtop+SValue_t_o) & ~VT_LVAL);
 //         gfunc_param(&gf);
+        gfunc_param(gf);
 //         /* destination */
 //         vswap();
+        vswap();
 //         vtop->t &= ~VT_LVAL;
+        wi32(vtop+SValue_t_o,ri32(vtop+SValue_t_o) & ~VT_LVAL);
 //         gfunc_param(&gf);
+        gfunc_param(gf);
 // 
 //         save_regs();
+        save_regs();
 //         vset(VT_CONST, (int)&memcpy);
+// FIXME ljw dummy value
+        vset(VT_CONST, 0x12345678);
 // if(reloc){
+if(reloc){
 // special=1;
+special=1;
 //   printf("memcpy function pointer stuff\n");
+  print("memcpy function pointer stuff\n");
 // }
+}
 //         gfunc_call(&gf);
+        gfunc_call(gf);
 // if(reloc){
+if(reloc){
 // special=0;
+special=0;
 // }
+}
 //         /* leave source on stack */
 //     } else {
     } else {
