@@ -69,11 +69,11 @@ typedef struct Sym {
     struct Sym *hash_next; /* next symbol in hash table */
 } Sym;
 
-// typedef struct SymStack {
-//   struct Sym *top;
-//   struct Sym *hash[SYM_HASH_SIZE];
-// } SymStack;
-// 
+typedef struct SymStack {
+  struct Sym *top;
+  struct Sym *hash[SYM_HASH_SIZE];
+} SymStack;
+
 // /* relocation entry (currently only used for functions or variables */
 // typedef struct Reloc {
 //     int type;            /* type of relocation */
@@ -92,11 +92,11 @@ typedef struct Sym {
 // #define FUNC_NEW       1 /* ansi function prototype */
 // #define FUNC_OLD       2 /* old function prototype */
 // #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
-// 
-// /* field 'Sym.t' for macros */
-// #define MACRO_OBJ      0 /* object like macro */
-// #define MACRO_FUNC     1 /* function like macro */
-// 
+
+/* field 'Sym.t' for macros */
+#define MACRO_OBJ      0 /* object like macro */
+#define MACRO_FUNC     1 /* function like macro */
+
 // /* type_decl() types */
 // #define TYPE_ABSTRACT  1 /* type without variable */
 // #define TYPE_DIRECT    2 /* type with variable */
@@ -134,9 +134,9 @@ TokenSym *hash_ident[TOK_HASH_SIZE];
 char token_buf[STRING_MAX_SIZE + 1];
 char *filename, *funcname;
 /* contains global symbols which remain between each translation unit */
-// SymStack extern_stack;
-// SymStack define_stack, global_stack, local_stack, label_stack;
-// 
+SymStack extern_stack;
+SymStack define_stack, global_stack, local_stack, label_stack;
+
 // SValue vstack[VSTACK_SIZE], *vtop;
 // int *macro_ptr, *macro_ptr_allocated;
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
@@ -233,16 +233,16 @@ int nb_include_paths;
 // #define TOK_UDIV  0xb0 /* unsigned division */
 // #define TOK_UMOD  0xb1 /* unsigned modulo */
 // #define TOK_PDIV  0xb2 /* fast division with undefined rounding for pointers */
-// #define TOK_NUM   0xb3 /* number in tokc */
-// #define TOK_CCHAR 0xb4 /* char constant in tokc */
-// #define TOK_STR   0xb5 /* pointer to string in tokc */
-// #define TOK_TWOSHARPS 0xb6 /* ## preprocessing token */
-// #define TOK_LCHAR 0xb7
-// #define TOK_LSTR  0xb8
-// #define TOK_CFLOAT   0xb9 /* float constant */
-// #define TOK_CDOUBLE  0xc0 /* double constant */
-// #define TOK_CLDOUBLE 0xc1 /* long double constant */
-// 
+#define TOK_NUM   0xb3 /* number in tokc */
+#define TOK_CCHAR 0xb4 /* char constant in tokc */
+#define TOK_STR   0xb5 /* pointer to string in tokc */
+#define TOK_TWOSHARPS 0xb6 /* ## preprocessing token */
+#define TOK_LCHAR 0xb7
+#define TOK_LSTR  0xb8
+#define TOK_CFLOAT   0xb9 /* float constant */
+#define TOK_CDOUBLE  0xc0 /* double constant */
+#define TOK_CLDOUBLE 0xc1 /* long double constant */
+
 //  #define TOK_SHL   0x01 /* shift left */
 // #define TOK_SAR   0x02 /* signed shift right */
 //   
@@ -541,24 +541,24 @@ TokenSym *tok_alloc(char *str, int len)
 //         return NULL;
 //     }
 // }
-// 
-// /* push, without hashing */
-// Sym *sym_push2(Sym **ps, int v, int t, int c)
-// {
-//     Sym *s;
-//     s = malloc(sizeof(Sym));
-//     if (!s)
-//         error("memory full");
-//     s->v = v;
-//     s->t = t;
-//     s->c = c;
-//     s->next = NULL;
-//     /* add in stack */
-//     s->prev = *ps;
-//     *ps = s;
-//     return s;
-// }
-// 
+
+/* push, without hashing */
+Sym *sym_push2(Sym **ps, int v, int t, int c)
+{
+    Sym *s;
+    s = malloc(sizeof(Sym));
+    if (!s)
+        error("memory full");
+    s->v = v;
+    s->t = t;
+    s->c = c;
+    s->next = NULL;
+    /* add in stack */
+    s->prev = *ps;
+    *ps = s;
+    return s;
+}
+
 // /* find a symbol and return its associated structure. 's' is the top
 //    of the symbol stack */
 // Sym *sym_find2(Sym *s, int v)
@@ -570,39 +570,39 @@ TokenSym *tok_alloc(char *str, int len)
 //     }
 //     return NULL;
 // }
-// 
-// unsigned int HASH_SYM(int v) {
-//     return ((unsigned)(v) % SYM_HASH_SIZE);
-// }
-// 
-// /* find a symbol and return its associated structure. 'st' is the
-//    symbol stack */
-// Sym *sym_find1(SymStack *st, int v)
-// {
-//     Sym *s;
-// 
-//     s = st->hash[HASH_SYM(v)];
-//     while (s) {
-//         if (s->v == v)
-//             return s;
-//         s = s->hash_next;
-//     }
-//     return 0;
-// }
-// 
-// Sym *sym_push1(SymStack *st, int v, int t, int c)
-// {
-//     Sym *s, **ps;
-//     s = sym_push2(&st->top, v, t, c);
-//     /* add in hash table */
-//     if (v) {
-//         ps = &st->hash[HASH_SYM(v)];
-//         s->hash_next = *ps;
-//         *ps = s;
-//     }
-//     return s;
-// }
-// 
+
+unsigned int HASH_SYM(int v) {
+    return ((unsigned)(v) % SYM_HASH_SIZE);
+}
+
+/* find a symbol and return its associated structure. 'st' is the
+   symbol stack */
+Sym *sym_find1(SymStack *st, int v)
+{
+    Sym *s;
+
+    s = st->hash[HASH_SYM(v)];
+    while (s) {
+        if (s->v == v)
+            return s;
+        s = s->hash_next;
+    }
+    return 0;
+}
+
+Sym *sym_push1(SymStack *st, int v, int t, int c)
+{
+    Sym *s, **ps;
+   s = sym_push2(&st->top, v, t, c);
+     /* add in hash table */
+    if (v) {
+        ps = &st->hash[HASH_SYM(v)];
+        s->hash_next = *ps;
+        *ps = s;
+    }
+    return s;
+}
+
 // /* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
 // {
@@ -747,52 +747,52 @@ TokenSym *tok_alloc(char *str, int len)
 //     while (ch == ' ' || ch == '\t')
 //         cinp();
 // }
-// 
-// /* return the number of additionnal 'ints' necessary to store the
-//    token */
-// static inline int tok_ext_size(int t)
-// {
-//     switch(t) {
-//         /* 4 bytes */
-//     case TOK_NUM:
-//     case TOK_CCHAR:
-//     case TOK_LCHAR:
-//     case TOK_STR:
-//     case TOK_LSTR:
-//     case TOK_CFLOAT:
-//         return 1;
-//     case TOK_CDOUBLE:
-//         return 2;
-//     default:
-//         return 0;
-//     }
-// }
-// 
-// void tok_add(int **tok_str, int *tok_len, int t)
-// {
-//     int len, *str;
-//     len = *tok_len;
-//     str = *tok_str;
-//     if ((len & 63) == 0) {
-//         str = realloc(str, (len + 64) * sizeof(int));
-//         if (!str)
-//             return;
-//         *tok_str = str;
-//     }
-//     str[len++] = t;
-//     *tok_len = len;
-// }
-// 
-// void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
-// {
-//     int n, i;
-// 
-//     tok_add(tok_str, tok_len, t);
-//     n = tok_ext_size(t);
-//     for(i=0;i<n;i++)
-//         tok_add(tok_str, tok_len, cv->tab[i]);
-// }
-// 
+
+/* return the number of additionnal 'ints' necessary to store the
+   token */
+static inline int tok_ext_size(int t)
+{
+    switch(t) {
+        /* 4 bytes */
+    case TOK_NUM:
+    case TOK_CCHAR:
+    case TOK_LCHAR:
+    case TOK_STR:
+    case TOK_LSTR:
+    case TOK_CFLOAT:
+        return 1;
+    case TOK_CDOUBLE:
+        return 2;
+    default:
+        return 0;
+    }
+}
+
+void tok_add(int **tok_str, int *tok_len, int t)
+{
+    int len, *str;
+    len = *tok_len;
+    str = *tok_str;
+    if ((len & 63) == 0) {
+        str = realloc(str, (len + 64) * sizeof(int));
+        if (!str)
+            return;
+        *tok_str = str;
+    }
+    str[len++] = t;
+    *tok_len = len;
+}
+
+void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
+{
+    int n, i;
+
+    tok_add(tok_str, tok_len, t);
+    n = tok_ext_size(t);
+    for(i=0;i<n;i++)
+        tok_add(tok_str, tok_len, cv->tab[i]);
+}
+
 // /* get a token from an integer array and increment pointer accordingly */
 // int tok_get(int **tok_str, CValue *cv)
 // {
@@ -810,17 +810,17 @@ TokenSym *tok_alloc(char *str, int len)
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
 {
-//     TokenSym *ts;
-//     int *str, len;
-//     CValue cval;
-// 
-//     ts = tok_alloc(sym, 0);
-//     str = NULL;
-//     len = 0;
-//     cval.i = 1;
-//     tok_add2(&str, &len, TOK_NUM, &cval);
-//     tok_add(&str, &len, 0);
-//     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
+    TokenSym *ts;
+    int *str, len;
+    CValue cval;
+
+    ts = tok_alloc(sym, 0);
+    str = NULL;
+    len = 0;
+    cval.i = 1;
+    tok_add2(&str, &len, TOK_NUM, &cval);
+    tok_add(&str, &len, 0);
+    sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 }
 
 // void preprocess(void)
