@@ -3611,7 +3611,7 @@ function post_type(t) {
 //             while(1){
             while(1){
 //             if (l != FUNC_OLD) {
-            if (ri32(l) !== FUNC_OLD) {
+            if (l !== FUNC_OLD) {
 //                 if (!(pt = ist())) {
                 if (!(pt = ist())) {
 //                     if (l) {
@@ -3652,10 +3652,12 @@ err();
                     error("parameter declared as void");
 //             } else {
             } else {
-err();
 //                 n = tok;
+                wi32(n, tok);
 //                 pt = VT_INT;
+                pt = VT_INT;
 //                 next();
+                next();
 //             }
             }
 //             break;

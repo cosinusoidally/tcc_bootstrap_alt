@@ -300,10 +300,10 @@ lt=2;
     }
 }
 
-// /* (ft, fc) = r */
-// /* WARNING: r must not be allocated on the stack */
-// void store(r, ft, fc)
-// {
+/* (ft, fc) = r */
+/* WARNING: r must not be allocated on the stack */
+void store(r, ft, fc)
+{
 //     int fr, bt;
 // 
 //     fr = ft & VT_VALMASK;
@@ -327,8 +327,8 @@ lt=2;
 //     } else if (fr != r) {
 //         o(0xc0 + fr + r * 8); /* mov r, fr */
 //     }
-// }
-// 
+}
+
 // /* start function call and return function call context */
 // void gfunc_start(GFuncContext *c)
 // {
