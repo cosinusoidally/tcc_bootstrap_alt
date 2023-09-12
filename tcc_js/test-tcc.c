@@ -336,8 +336,8 @@ void decl(int l);
 void decl_initializer(int t, int c, int first, int size_only);
 // int decl_initializer_alloc(int t, int has_init);
 int gv(void);
-// void move_reg(int r, int s);
-// void save_reg(int r);
+void move_reg(int r, int s);
+void save_reg(int r);
 // void vpop(void);
 // void vswap(void);
 // void vdup(void);
@@ -345,7 +345,7 @@ int get_reg(int rc);
 
 void macro_subst(int **tok_str, int *tok_len, 
                  Sym **nested_list, int *macro_str);
-// int save_reg_forced(int r);
+int save_reg_forced(int r);
 // void gen_op(int op);
 // void gen_cast(int t);
 // void vstore(void);
@@ -1445,8 +1445,8 @@ void vswap(void)
 //     *vtop = vtop[-1];
 // }
 // 
-// int save_reg_forced(int r)
-// {
+int save_reg_forced(int r)
+{
 //     int i, l, t;
 //     SValue *p;
 // 
@@ -1468,11 +1468,11 @@ void vswap(void)
 //         }
 //     }
 //     return l;
-// }
+}
 // 
 // /* save r to memory. and mark it as being free */
-// void save_reg(int r)
-// {
+void save_reg(int r)
+{
 //     int i;
 //     SValue *p;
 // 
@@ -1484,7 +1484,7 @@ void vswap(void)
 //             break;
 //         }
 //     }
-// }
+}
 
 /* find a free register of class 'rc'. If none, save one register */
 int get_reg(int rc)
@@ -1521,8 +1521,8 @@ int get_reg(int rc)
 //     return r;
 }
 
-// void save_regs()
-// {
+void save_regs()
+{
 //     int r;
 //     SValue *p;
 // 
@@ -1532,18 +1532,18 @@ int get_reg(int rc)
 //             save_reg(r);
 //         }
 //     }
-// }
-// 
-// /* move register 's' to 'r', and flush previous value of r to memory
-//    if needed */
-// void move_reg(int r, int s)
-// {
+}
+
+/* move register 's' to 'r', and flush previous value of r to memory
+   if needed */
+void move_reg(int r, int s)
+{
 //     if (r != s) {
 //         save_reg(r);
 //         load(r, s, 0);
 //     }
-// }
-// 
+}
+
 // /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
 //    values. Cannot be used if cannot be converted to register value
 //    (such as structures). */

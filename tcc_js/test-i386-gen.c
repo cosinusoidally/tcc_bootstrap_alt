@@ -450,86 +450,86 @@ int gtst(int inv, int t)
 }
 
 /* generate an integer binary operation */
-// void gen_opi(int op)
-// {
-//     int t, r, fr;
-// 
-//     vswap();
-//     r = gv();
-//     vswap();
-//     fr = gv();
-//     vtop--;
-// 
-//     if (op == '+') {
-//         o(0x01);
-//         o(0xc0 + r + fr * 8); 
-//     } else if (op == '-') {
-//         o(0x29);
-//         o(0xc0 + r + fr * 8); 
-//     } else if (op == '&') {
-//         o(0x21);
-//         o(0xc0 + r + fr * 8); 
-//     } else if (op == '^') {
-//         o(0x31);
-//         o(0xc0 + r + fr * 8); 
-//     } else if (op == '|') {
-//         o(0x09);
-//         o(0xc0 + r + fr * 8); 
-//     } else if (op == '*') {
-//         o(0xaf0f); /* imul fr, r */
-//         o(0xc0 + fr + r * 8);
-//     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
-//         /* op2 is %ecx */
-//         if (fr != 1) {
-//             if (r == 1) {
-//                 r = fr;
-//                 fr = 1;
-//                 o(0x87); /* xchg r, %ecx */
-//                 o(0xc1 + r * 8);
-//             } else
-//                 move_reg(1, fr);
-//         }
-//         o(0xd3); /* shl/shr/sar %cl, r */
-//         if (op == TOK_SHL) 
-//             o(0xe0 + r);
-//         else if (op == TOK_SHR)
-//             o(0xe8 + r);
-//         else
-//             o(0xf8 + r);
-//         vtop->t = (vtop->t & VT_TYPE) | r;
-//     } else if (op == '/' | op == TOK_UDIV | op == TOK_PDIV | 
-//                op == '%' | op == TOK_UMOD) {
-//         save_reg(2); /* save edx */
-//         t = save_reg_forced(fr); /* save fr and get op2 location */
-//         move_reg(0, r); /* op1 is %eax */
-//         if (op == TOK_UDIV | op == TOK_UMOD) {
-//             o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
-//             oad(0xb5, t);
-//         } else {
-//             o(0xf799); /* cltd, idiv t(%ebp), %eax */
-//             oad(0xbd, t);
-//         }
-//         if (op == '%' | op == TOK_UMOD)
-//             r = 2;
-//         else
-//             r = 0;
-//         vtop->t = (vtop->t & VT_TYPE) | r;
-//     } else {
-//         vtop--;
-//         o(0x39);
-//         o(0xc0 + r + fr * 8); /* cmp fr, r */
-//         vset(VT_CMP, op);
-//     }
-// }
-// 
-// /* pop stack value */
-// void vpop(void)
-// {
-//     vtop--;
-// }
-// 
-// 
-// 
-// /* end of X86 code generator */
-// /*************************************************************/
-// 
+void gen_opi(int op)
+{
+    int t, r, fr;
+
+    vswap();
+    r = gv();
+    vswap();
+    fr = gv();
+    vtop--;
+
+    if (op == '+') {
+        o(0x01);
+        o(0xc0 + r + fr * 8); 
+    } else if (op == '-') {
+        o(0x29);
+        o(0xc0 + r + fr * 8); 
+    } else if (op == '&') {
+        o(0x21);
+        o(0xc0 + r + fr * 8); 
+    } else if (op == '^') {
+        o(0x31);
+        o(0xc0 + r + fr * 8); 
+    } else if (op == '|') {
+        o(0x09);
+        o(0xc0 + r + fr * 8); 
+    } else if (op == '*') {
+        o(0xaf0f); /* imul fr, r */
+        o(0xc0 + fr + r * 8);
+    } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
+        /* op2 is %ecx */
+        if (fr != 1) {
+            if (r == 1) {
+                r = fr;
+                fr = 1;
+                o(0x87); /* xchg r, %ecx */
+                o(0xc1 + r * 8);
+            } else
+                move_reg(1, fr);
+        }
+        o(0xd3); /* shl/shr/sar %cl, r */
+        if (op == TOK_SHL) 
+            o(0xe0 + r);
+        else if (op == TOK_SHR)
+            o(0xe8 + r);
+        else
+            o(0xf8 + r);
+        vtop->t = (vtop->t & VT_TYPE) | r;
+    } else if (op == '/' | op == TOK_UDIV | op == TOK_PDIV | 
+               op == '%' | op == TOK_UMOD) {
+        save_reg(2); /* save edx */
+        t = save_reg_forced(fr); /* save fr and get op2 location */
+        move_reg(0, r); /* op1 is %eax */
+        if (op == TOK_UDIV | op == TOK_UMOD) {
+            o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
+            oad(0xb5, t);
+        } else {
+            o(0xf799); /* cltd, idiv t(%ebp), %eax */
+            oad(0xbd, t);
+        }
+        if (op == '%' | op == TOK_UMOD)
+            r = 2;
+        else
+            r = 0;
+        vtop->t = (vtop->t & VT_TYPE) | r;
+    } else {
+        vtop--;
+        o(0x39);
+        o(0xc0 + r + fr * 8); /* cmp fr, r */
+        vset(VT_CMP, op);
+    }
+}
+
+/* pop stack value */
+void vpop(void)
+{
+    vtop--;
+}
+
+
+
+/* end of X86 code generator */
+/*************************************************************/
+
