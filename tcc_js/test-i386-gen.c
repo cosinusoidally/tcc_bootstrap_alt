@@ -369,43 +369,43 @@ void gfunc_param(GFuncContext *c)
 
 /* generate function call with address in (vtop->t, vtop->c) and free function
    context. Stack entry is popped */
-// void gfunc_call(GFuncContext *c)
-// {
-//     int r;
-//     if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
-//         /* constant case */
-//         /* forward reference */
-//         if (vtop->t & VT_FORWARD) {
-//             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
-//             oad(0xe8, 0);
-//         } else {
-// // HACK ljw
-// if(special) {
-// printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
-//   char *str="memcpy";
-//   strcpy((char *)global_relocs_table,str);
-//   global_relocs_table+=strlen(str)+1;
-//   *(int *)global_relocs_table=1;
-//   global_relocs_table+=4;
-//   *(int *)global_relocs=RELOC_REL32;
-//   global_relocs+=4;
-//   *(int *)global_relocs=ind+1-prog;
-//   global_relocs+=4;
-// 
-// }
-//             oad(0xe8, vtop->c.ul - ind - 5);
-//         }
-//     } else {
-//         /* otherwise, indirect call */
-//         r = gv();
-//         o(0xff); /* call *r */
-//         o(0xd0 + r);
-//     }
-//     if (c->args_size)
-//         oad(0xc481, c->args_size); /* add $xxx, %esp */
-//     vtop--;
-// }
-// 
+void gfunc_call(GFuncContext *c)
+{
+    int r;
+    if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
+        /* constant case */
+        /* forward reference */
+        if (vtop->t & VT_FORWARD) {
+            greloc(vtop->c.sym, ind + 1, RELOC_REL32);
+            oad(0xe8, 0);
+        } else {
+// HACK ljw
+if(special) {
+printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
+  char *str="memcpy";
+  strcpy((char *)global_relocs_table,str);
+  global_relocs_table+=strlen(str)+1;
+  *(int *)global_relocs_table=1;
+  global_relocs_table+=4;
+  *(int *)global_relocs=RELOC_REL32;
+  global_relocs+=4;
+  *(int *)global_relocs=ind+1-prog;
+  global_relocs+=4;
+
+}
+            oad(0xe8, vtop->c.ul - ind - 5);
+        }
+    } else {
+        /* otherwise, indirect call */
+        r = gv();
+        o(0xff); /* call *r */
+        o(0xd0 + r);
+    }
+    if (c->args_size)
+        oad(0xc481, c->args_size); /* add $xxx, %esp */
+    vtop--;
+}
+
 // int gjmp(int t)
 // {
 //     return psym(0xe9, t);

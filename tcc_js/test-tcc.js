@@ -8,4 +8,4 @@ print(JSON.stringify(argc_argv));
 //err();
 main(argc_argv.argc,argc_argv.argv);
 
-check("58d7f54584a5518a0ddfc9782c92a5244350a7082d050b8b809094b5cc81b303",true);
+check("1241f2a1a490687908859617f8895eacabc3dd29e8b8c149ad494fe1fd1ef921",true);
