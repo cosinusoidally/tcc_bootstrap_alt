@@ -100,21 +100,21 @@ typedef struct SymStack {
 // /* type_decl() types */
 // #define TYPE_ABSTRACT  1 /* type without variable */
 // #define TYPE_DIRECT    2 /* type with variable */
-// 
-// typedef struct {
-//     FILE *file;
-//     char *filename;
-//     int line_num;
-// } IncludeFile;
-// 
-// int special=0;
-// 
-// /* parser */
-// FILE *file;
-// int line_num;
-// int ch, ch1, tok, tok1;
-// CValue tokc, tok1c;
-// 
+
+typedef struct {
+    FILE *file;
+    char *filename;
+    int line_num;
+} IncludeFile;
+
+int special=0;
+
+/* parser */
+FILE *file;
+int line_num;
+int ch, ch1, tok, tok1;
+CValue tokc, tok1c;
+
 /* loc : local variable index
    glo : global variable index
    ind : output code ptr
@@ -139,8 +139,8 @@ SymStack define_stack, global_stack, local_stack, label_stack;
 
 // SValue vstack[VSTACK_SIZE], *vtop;
 // int *macro_ptr, *macro_ptr_allocated;
-// IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
-// int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
+IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
+int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
 
@@ -3614,18 +3614,18 @@ void define_symbol(char *sym)
 /* compile a C file. Return non zero if errors. */
 int tcc_compile_file(const char *filename1)
 {
-//     Sym *define_start;
-// 
-//     filename = (char *)filename1;
-// 
-//     line_num = 1;
-//     funcname = "";
-//     file = fopen(filename, "r");
-//     if (!file)
-//         error("file '%s' not found", filename);
-//     include_stack_ptr = include_stack;
-//     ifdef_stack_ptr = ifdef_stack;
-// 
+    Sym *define_start;
+
+    filename = (char *)filename1;
+
+    line_num = 1;
+    funcname = "";
+    file = fopen(filename, "r");
+    if (!file)
+        error("file '%s' not found", filename);
+    include_stack_ptr = include_stack;
+    ifdef_stack_ptr = ifdef_stack;
+
 //     vtop = vstack - 1;
 //     anon_sym = SYM_FIRST_ANOM; 
 //     

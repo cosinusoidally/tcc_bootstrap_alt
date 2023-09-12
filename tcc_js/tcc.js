@@ -3239,8 +3239,8 @@ function struct_decl(u) {
 //         }
         }
     } else {
-err();
 //         v = anon_sym++;
+        wi32(v, anon_sym++);
 //     }
     }
 //     s = sym_push(v | SYM_STRUCT, a, 0);
