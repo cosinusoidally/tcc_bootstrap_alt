@@ -559,17 +559,17 @@ Sym *sym_push2(Sym **ps, int v, int t, int c)
     return s;
 }
 
-// /* find a symbol and return its associated structure. 's' is the top
-//    of the symbol stack */
-// Sym *sym_find2(Sym *s, int v)
-// {
+/* find a symbol and return its associated structure. 's' is the top
+   of the symbol stack */
+Sym *sym_find2(Sym *s, int v)
+{
 //     while (s) {
 //         if (s->v == v)
 //             return s;
 //         s = s->prev;
 //     }
 //     return NULL;
-// }
+}
 
 unsigned int HASH_SYM(int v) {
     return ((unsigned)(v) % SYM_HASH_SIZE);
@@ -1265,10 +1265,10 @@ void next_nomacro()
 //     tok_add(&str, &len, 0);
 //     return str;
 // }
-// 
-// /* handle the '##' operator LJW HACK DELETED CODE*/
-// int *macro_twosharps(int *macro_str)
-// {
+
+/* handle the '##' operator LJW HACK DELETED CODE*/
+int *macro_twosharps(int *macro_str)
+{
 //     TokenSym *ts;
 //     int *macro_str1, macro_str1_len, *macro_ptr1;
 //     int t;
@@ -1286,7 +1286,7 @@ void next_nomacro()
 //     }
 //     tok_add(&macro_str1, &macro_str1_len, 0);
 //     return macro_str1;
-// }
+}
 
 
 
@@ -1297,59 +1297,59 @@ void next_nomacro()
 void macro_subst(int **tok_str, int *tok_len, 
                  Sym **nested_list, int *macro_str)
 {
-//     Sym *s, *args, *sa, *sa1;
-//     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
-//     int mstr_allocated, *macro_str1;
-//     int no_subst;
-//     CValue cval;
-// 
-//     saved_macro_ptr = macro_ptr;
-//     macro_ptr = macro_str;
-//     macro_str1 = NULL;
-//     if (macro_str) {
-//         /* first scan for '##' operator handling */
-//         macro_str1 = macro_twosharps(macro_str);
-//         macro_ptr = macro_str1;
-//     }
-// 
-//     while (1) {
-//         no_subst=0;
-//         next_nomacro();
-//         if (tok == 0)
-//             break;
-//         if ((s = sym_find1(&define_stack, tok)) != NULL) {
-//             /* if symbol is a macro, prepare substitution */
-//             /* if nested substitution, do nothing */
-//             if (sym_find2(*nested_list, tok))
-//                 no_subst=1;
-//             if(no_subst==0){
-//                 mstr = (int *)s->c;
-//                 mstr_allocated = 0;
-//                 sym_push2(nested_list, s->v, 0, 0);
-//                 macro_subst(tok_str, tok_len, nested_list, mstr);
-//                 /* pop nested defined symbol */
-//                 sa1 = *nested_list;
-//                 *nested_list = sa1->prev;
-//                 free(sa1);
-//                 if (mstr_allocated)
-//                 free(mstr);
-//             }
-//         } else {
-//             no_subst=1;
-//         }
-//         if (no_subst) {
-//             /* no need to add if reading input stream */
-//             if (!macro_str)
-//                 return;
-//             tok_add2(tok_str, tok_len, tok, &tokc);
-//         }
-//         /* only replace one macro while parsing input stream */
-//         if (!macro_str)
-//             return;
-//     }
-//     macro_ptr = saved_macro_ptr;
-//     if (macro_str1)
-//         free(macro_str1);
+    Sym *s, *args, *sa, *sa1;
+    int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
+    int mstr_allocated, *macro_str1;
+    int no_subst;
+    CValue cval;
+
+    saved_macro_ptr = macro_ptr;
+    macro_ptr = macro_str;
+    macro_str1 = NULL;
+    if (macro_str) {
+        /* first scan for '##' operator handling */
+        macro_str1 = macro_twosharps(macro_str);
+        macro_ptr = macro_str1;
+    }
+
+    while (1) {
+        no_subst=0;
+        next_nomacro();
+        if (tok == 0)
+            break;
+        if ((s = sym_find1(&define_stack, tok)) != NULL) {
+            /* if symbol is a macro, prepare substitution */
+            /* if nested substitution, do nothing */
+            if (sym_find2(*nested_list, tok))
+                no_subst=1;
+            if(no_subst==0){
+                mstr = (int *)s->c;
+                mstr_allocated = 0;
+                sym_push2(nested_list, s->v, 0, 0);
+                macro_subst(tok_str, tok_len, nested_list, mstr);
+                /* pop nested defined symbol */
+                sa1 = *nested_list;
+                *nested_list = sa1->prev;
+                free(sa1);
+                if (mstr_allocated)
+                free(mstr);
+            }
+        } else {
+            no_subst=1;
+        }
+        if (no_subst) {
+            /* no need to add if reading input stream */
+            if (!macro_str)
+                return;
+            tok_add2(tok_str, tok_len, tok, &tokc);
+        }
+        /* only replace one macro while parsing input stream */
+        if (!macro_str)
+            return;
+    }
+    macro_ptr = saved_macro_ptr;
+    if (macro_str1)
+        free(macro_str1);
 }
 
 /* return next token with macro substitution */
