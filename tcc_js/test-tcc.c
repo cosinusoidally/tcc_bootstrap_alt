@@ -1444,33 +1444,33 @@ void vswap(void)
 //     vtop++;
 //     *vtop = vtop[-1];
 // }
-// 
+
 int save_reg_forced(int r)
 {
-//     int i, l, t;
-//     SValue *p;
-// 
-//     /* store register */
-//     loc = (loc - 4) & -3;
-//     store(r, VT_LOCAL, loc);
-//     l = loc;
-// 
-//     /* modify all stack values */
-//     for(p=vstack;p<=vtop;p++) {
-//         i = p->t & VT_VALMASK;
-//         if (i == r) {
-//             if (p->t & VT_LVAL)
-//                 t = VT_LLOCAL;
-//             else
-//                 t = VT_LOCAL;
-//             p->t = (p->t & VT_TYPE) | VT_LVAL | t;
-//             p->c.ul = l;
-//         }
-//     }
-//     return l;
+    int i, l, t;
+    SValue *p;
+
+    /* store register */
+    loc = (loc - 4) & -3;
+    store(r, VT_LOCAL, loc);
+    l = loc;
+
+    /* modify all stack values */
+    for(p=vstack;p<=vtop;p++) {
+        i = p->t & VT_VALMASK;
+        if (i == r) {
+            if (p->t & VT_LVAL)
+                t = VT_LLOCAL;
+            else
+                t = VT_LOCAL;
+            p->t = (p->t & VT_TYPE) | VT_LVAL | t;
+            p->c.ul = l;
+        }
+    }
+    return l;
 }
-// 
-// /* save r to memory. and mark it as being free */
+
+/* save r to memory. and mark it as being free */
 void save_reg(int r)
 {
 //     int i;
