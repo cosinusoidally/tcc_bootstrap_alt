@@ -1473,52 +1473,52 @@ int save_reg_forced(int r)
 /* save r to memory. and mark it as being free */
 void save_reg(int r)
 {
-//     int i;
-//     SValue *p;
-// 
-//     /* modify all stack values */
-//     for(p=vstack;p<=vtop;p++) {
-//         i = p->t & VT_VALMASK;
-//         if (i == r) {
-//             save_reg_forced(r);
-//             break;
-//         }
-//     }
+    int i;
+    SValue *p;
+
+    /* modify all stack values */
+    for(p=vstack;p<=vtop;p++) {
+        i = p->t & VT_VALMASK;
+        if (i == r) {
+            save_reg_forced(r);
+            break;
+        }
+    }
 }
 
 /* find a free register of class 'rc'. If none, save one register */
 int get_reg(int rc)
 {
-//     int r, i;
-//     int notfound;
-//     SValue *p;
-// 
-//     /* find a free register */
-//     for(r=0;r<NB_REGS;r++) {
-//         notfound=0;
-//         if (reg_classes[r] & rc) {
-//             for(p=vstack;p<=vtop;p++) {
-//                 i = p->t & VT_VALMASK;
-//                 if (i == r)
-//                     notfound=1;
-//             }
-//             if(!notfound){
-//             return r;
-//             }
-//         }
-//     }
-//     
-//     /* no register left : free the first one on the stack (very
-//        important to start from the bottom to ensure that we don't
-//        spill registers used in gen_op()) */
-//     for(p=vstack;p<=vtop;p++) {
-//         r = p->t & VT_VALMASK;
-//         if (r < VT_CONST && (reg_classes[r] & rc)) {
-//             save_reg(r);
-//             break;
-//         }
-//     }
-//     return r;
+    int r, i;
+    int notfound;
+    SValue *p;
+
+    /* find a free register */
+    for(r=0;r<NB_REGS;r++) {
+        notfound=0;
+        if (reg_classes[r] & rc) {
+            for(p=vstack;p<=vtop;p++) {
+                i = p->t & VT_VALMASK;
+                if (i == r)
+                    notfound=1;
+            }
+            if(!notfound){
+            return r;
+            }
+        }
+    }
+    
+    /* no register left : free the first one on the stack (very
+       important to start from the bottom to ensure that we don't
+       spill registers used in gen_op()) */
+    for(p=vstack;p<=vtop;p++) {
+        r = p->t & VT_VALMASK;
+        if (r < VT_CONST && (reg_classes[r] & rc)) {
+            save_reg(r);
+            break;
+        }
+    }
+    return r;
 }
 
 void save_regs()
