@@ -1523,30 +1523,30 @@ int get_reg(int rc)
 
 void save_regs()
 {
-//     int r;
-//     SValue *p;
-// 
-//     for(p=vstack;p<=vtop;p++) {
-//         r = p->t & VT_VALMASK;
-//         if (r < VT_CONST) {
-//             save_reg(r);
-//         }
-//     }
+    int r;
+    SValue *p;
+
+    for(p=vstack;p<=vtop;p++) {
+        r = p->t & VT_VALMASK;
+        if (r < VT_CONST) {
+            save_reg(r);
+        }
+    }
 }
 
 /* move register 's' to 'r', and flush previous value of r to memory
    if needed */
 void move_reg(int r, int s)
 {
-//     if (r != s) {
-//         save_reg(r);
-//         load(r, s, 0);
-//     }
+    if (r != s) {
+        save_reg(r);
+        load(r, s, 0);
+    }
 }
 
-// /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
-//    values. Cannot be used if cannot be converted to register value
-//    (such as structures). */
+/* convert a (vtop->t, vtop->c) in register. lvalues are converted as
+   values. Cannot be used if cannot be converted to register value
+   (such as structures). */
 int gv(void)
 {
     int r, bit_pos, bit_size, rc, size, align, i;
