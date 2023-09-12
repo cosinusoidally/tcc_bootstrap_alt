@@ -1361,9 +1361,9 @@ void next(void)
 
     /* special 'ungettok' case for label parsing */
     if (tok1) {
-//        tok = tok1;
-//        tokc = tok1c;
-        tok1 = 0;
+       tok = tok1;
+//       tokc = tok1c;
+       tok1 = 0;
     } else {
     while(redo){
         redo=0;
