@@ -137,8 +137,8 @@ char *filename, *funcname;
 SymStack extern_stack;
 SymStack define_stack, global_stack, local_stack, label_stack;
 
-// SValue vstack[VSTACK_SIZE], *vtop;
-// int *macro_ptr, *macro_ptr_allocated;
+SValue vstack[VSTACK_SIZE], *vtop;
+int *macro_ptr, *macro_ptr_allocated;
 IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 char *include_paths[INCLUDE_PATHS_MAX];
@@ -654,43 +654,43 @@ Sym *sym_push1(SymStack *st, int v, int t, int c)
 //     *ss = s->hash_next;
 //     s->v = 0;
 // }
-// 
-// /* no need to put that inline */
-// int handle_eof(void)
-// {
-//     if (include_stack_ptr == include_stack)
-//         return -1;
-//     /* pop include stack */
-//     fclose(file);
-//     free(filename);
-//     include_stack_ptr--;
-//     file = include_stack_ptr->file;
-//     filename = include_stack_ptr->filename;
-//     line_num = include_stack_ptr->line_num;
-//     return 0;
-// }
-// 
-// /* read next char from current input file */
-// static inline void inp(void)
-// {
-//     int redo=1;
-//     while(redo){
-//         redo=0;
-//         /* faster than fgetc */
-//         ch1 = getc_unlocked(file);
-//         if (ch1 == -1) {
-//             if (handle_eof() < 0)
-//                 return;
-//             else
-//                 redo=1;
-//         }
-//     }
-//     printf("%c",ch1);
-//     if (ch1 == '\n')
-//         line_num++;
-//     //    printf("ch1=%c 0x%x\n", ch1, ch1);
-// }
-// 
+
+/* no need to put that inline */
+int handle_eof(void)
+{
+    if (include_stack_ptr == include_stack)
+        return -1;
+    /* pop include stack */
+    fclose(file);
+    free(filename);
+    include_stack_ptr--;
+    file = include_stack_ptr->file;
+    filename = include_stack_ptr->filename;
+    line_num = include_stack_ptr->line_num;
+    return 0;
+}
+
+/* read next char from current input file */
+static inline void inp(void)
+{
+    int redo=1;
+    while(redo){
+        redo=0;
+        /* faster than fgetc */
+        ch1 = getc_unlocked(file);
+        if (ch1 == -1) {
+            if (handle_eof() < 0)
+                return;
+            else
+                redo=1;
+        }
+    }
+    printf("%c",ch1);
+    if (ch1 == '\n')
+        line_num++;
+    //    printf("ch1=%c 0x%x\n", ch1, ch1);
+}
+
 // /* input with '\\n' handling */
 // static inline void minp(void)
 // {
@@ -3626,13 +3626,13 @@ int tcc_compile_file(const char *filename1)
     include_stack_ptr = include_stack;
     ifdef_stack_ptr = ifdef_stack;
 
-//     vtop = vstack - 1;
-//     anon_sym = SYM_FIRST_ANOM; 
-//     
-//     define_start = define_stack.top;
-//     inp();
-//     ch = '\n'; /* needed to parse correctly first preprocessor command */
-//     next();
+    vtop = vstack - 1;
+    anon_sym = SYM_FIRST_ANOM; 
+    
+    define_start = define_stack.top;
+    inp();
+    ch = '\n'; /* needed to parse correctly first preprocessor command */
+//    next();
 //     decl(VT_CONST);
 //     if (tok != -1)
 //         expect("declaration");
