@@ -1355,17 +1355,17 @@ void define_symbol(char *sym)
 /* return next token with macro substitution */
 void next(void)
 {
-//     int len, *ptr;
-//     int redo=1;
-//     Sym *nested_list;
-// 
-//     /* special 'ungettok' case for label parsing */
-//     if (tok1) {
-//         tok = tok1;
-//         tokc = tok1c;
-//         tok1 = 0;
-//     } else {
-//     while(redo){
+    int len, *ptr;
+    int redo=1;
+    Sym *nested_list;
+
+    /* special 'ungettok' case for label parsing */
+    if (tok1) {
+//        tok = tok1;
+//        tokc = tok1c;
+        tok1 = 0;
+    } else {
+    while(redo){
 //         redo=0;
 //         if (!macro_ptr) {
 //             /* if not reading from macro substuted string, then try to substitute */
@@ -1395,8 +1395,8 @@ void next(void)
 //             }
 //         }
 //         break;
-//     }
-//     }
+    }
+    }
 }
 
 // void swap(int *p, int *q)
