@@ -115,19 +115,19 @@ typedef struct Sym {
 // int ch, ch1, tok, tok1;
 // CValue tokc, tok1c;
 // 
-// /* loc : local variable index
-//    glo : global variable index
-//    ind : output code ptr
-//    rsym: return symbol
-//    prog: output code
-//    anon_sym: anonymous symbol index
-// */
-// int rsym, anon_sym,
-//     prog, ind, loc, glo, const_wanted, glo_base;
-// int global_expr; /* true if compound literals must be allocated
-//                     globally (used during initializers parsing */
-// int func_vt, func_vc; /* current function return type (used by
-//                          return instruction) */
+/* loc : local variable index
+   glo : global variable index
+   ind : output code ptr
+   rsym: return symbol
+   prog: output code
+   anon_sym: anonymous symbol index
+*/
+int rsym, anon_sym,
+    prog, ind, loc, glo, const_wanted, glo_base;
+int global_expr; /* true if compound literals must be allocated
+                    globally (used during initializers parsing */
+int func_vt, func_vc; /* current function return type (used by
+                         return instruction) */
 int tok_ident;
 // TokenSym **table_ident;
 // TokenSym *hash_ident[TOK_HASH_SIZE];
@@ -434,9 +434,9 @@ int nb_include_paths;
 //         expect("lvalue");
 // }
 // 
-// TokenSym *tok_alloc(char *str, int len)
-// {
-//     TokenSym *ts, **pts, **ptable;
+TokenSym *tok_alloc(char *str, int len)
+{
+    TokenSym *ts, **pts, **ptable;
 //     int h, i;
 //     
 //     if (len <= 0)
@@ -476,8 +476,8 @@ int nb_include_paths;
 //     ts->hash_next = NULL;
 //     memcpy(ts->str, str, len + 1);
 //     *pts = ts;
-//     return ts;
-// }
+    return ts;
+}
 // 
 // void add_char(char **pp, int c)
 // {
@@ -806,10 +806,10 @@ int nb_include_paths;
 //     *tok_str = p;
 //     return t;
 // }
-// 
-// /* XXX: should be more factorized */
-// void define_symbol(char *sym)
-// {
+
+/* XXX: should be more factorized */
+void define_symbol(char *sym)
+{
 //     TokenSym *ts;
 //     int *str, len;
 //     CValue cval;
@@ -821,8 +821,8 @@ int nb_include_paths;
 //     tok_add2(&str, &len, TOK_NUM, &cval);
 //     tok_add(&str, &len, 0);
 //     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
-// }
-// 
+}
+
 // void preprocess(void)
 // {
 //     int size, i, c, v, t, *str, len;
@@ -3898,25 +3898,25 @@ int main(int argc, char **argv)
 
     /* add all tokens */
     tok_ident = TOK_IDENT;
-//     p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
-//     while (*p) {
-//         r = p;
-//         while (*r++);
-//         tok_alloc(p, r - p - 1);
-//         p = r;
-//     }
-// 
-//     /* standard defines */
-//     define_symbol("__STDC__");
-//     define_symbol("__i386__");
-//     /* tiny C specific defines */
-//     define_symbol("__TINYC__");
-//     
-//     glo = (int)mmap(NULL, DATA_SIZE,
-//                 PROT_READ | PROT_WRITE,
-//                 MAP_PRIVATE | MAP_ANONYMOUS,
-//                 -1, 0);
-//     glo_base=glo;
+    p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
+    while (*p) {
+        r = p;
+        while (*r++);
+        tok_alloc(p, r - p - 1);
+        p = r;
+    }
+
+    /* standard defines */
+    define_symbol("__STDC__");
+    define_symbol("__i386__");
+    /* tiny C specific defines */
+    define_symbol("__TINYC__");
+    
+    glo = (int)mmap(NULL, DATA_SIZE,
+                PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
+    glo_base=glo;
 //     printf("glo: %x %x\n",glo,glo_base);
 //     memset((void *)glo, 0, DATA_SIZE);
 //     prog = (int)mmap(NULL, TEXT_SIZE,
