@@ -135,48 +135,48 @@ printf("mk_reloc_global: %d\n",global_relocs);
   global_relocs+=4;
 }
 
-// /* patch each relocation entry with value 'val' */
-// int greloc_patch(Sym *s, int val)
-// {
-//     Reloc *p, *p1;
-// int count=0;
-//     p = (Reloc *)s->c;
-//     while (p != NULL) {
-// count++;
-//         p1 = p->next;
-//         switch(p->type) {
-//         case RELOC_ADDR32:
-// if(reloc){
-//   printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
-//   if(reloc_global){
-// mk_reloc_global(RELOC_ADDR32,p->addr);
-// //    global_relocs=global_relocs+12;
-//   } else {
-// printf("shouldn't get here\n");
-// exit(1);
-// //    mk_reloc(p->addr,val);
-//   }
-// }
-//             *(int *)p->addr = val;
-//             break;
-//         case RELOC_REL32:
-// if(reloc_global && relocs){
-//   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
-// mk_reloc_global(RELOC_REL32,p->addr);
-// //  global_relocs=global_relocs+12;
-// 
-// }
-//             *(int *)p->addr = val - p->addr - 4;
-//             break;
-//         }
-//         free(p);
-//         p = p1;
-//     }
-//     s->c = val;
-//     s->t &= ~VT_FORWARD;
-// return count;
-// }
-// 
+/* patch each relocation entry with value 'val' */
+int greloc_patch(Sym *s, int val)
+{
+    Reloc *p, *p1;
+int count=0;
+    p = (Reloc *)s->c;
+    while (p != NULL) {
+count++;
+        p1 = p->next;
+        switch(p->type) {
+        case RELOC_ADDR32:
+if(reloc){
+  printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
+  if(reloc_global){
+mk_reloc_global(RELOC_ADDR32,p->addr);
+//    global_relocs=global_relocs+12;
+  } else {
+printf("shouldn't get here\n");
+exit(1);
+//    mk_reloc(p->addr,val);
+  }
+}
+            *(int *)p->addr = val;
+            break;
+        case RELOC_REL32:
+if(reloc_global && relocs){
+  printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
+mk_reloc_global(RELOC_REL32,p->addr);
+//  global_relocs=global_relocs+12;
+
+}
+            *(int *)p->addr = val - p->addr - 4;
+            break;
+        }
+        free(p);
+        p = p1;
+    }
+    s->c = val;
+    s->t &= ~VT_FORWARD;
+return count;
+}
+
 // /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
 // {

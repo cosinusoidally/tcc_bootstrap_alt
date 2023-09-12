@@ -2474,6 +2474,7 @@ print("gen_opc: "+op);
         case mk_char('-'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) - fc); break;
 //         case '&': v1->c.i &= fc; break;
 //         case '^': v1->c.i ^= fc; break;
+        case mk_char('^'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) ^ fc); break;
 //         case '|': v1->c.i |= fc; break;
         case mk_char('|'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc); break;
 //         case '*': v1->c.i *= fc; break;
@@ -4061,10 +4062,12 @@ err();
 //         } else
 //         if (t == '~') {
         } else if (t == mk_char('~')) {
-err();
 //             unary();
+            unary();
 //             vset(VT_CONST, -1);
+            vset(VT_CONST, -1);
 //             gen_op('^');
+            gen_op(mk_char('^'));
 //         } else 
 //         if (t == '+') {
         } else if (t == mk_char('+')) {
