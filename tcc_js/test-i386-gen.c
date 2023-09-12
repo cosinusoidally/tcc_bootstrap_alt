@@ -202,46 +202,46 @@ void gsym(int t)
 #define psym oad
 
 /* instruction + 4 bytes data. Return the address of the data */
-// int oad(int c, int s)
-// {
-//     o(c);
-//     *(int *)ind = s;
-//     s = ind;
-//     ind = ind + 4;
-//     return s;
-// }
-// 
-// int lt=0;
-// 
-// /* output constant with relocation if 't & VT_FORWARD' is true */
-// void gen_addr32(int c, int t)
-// {
-//     if (!(t & VT_FORWARD)) {
-// 
-// // RELOC HACK
-// if(reloc){
-// //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
-//   if((t==VT_CONST) || (t==138)){
-//     printf("\nreloc2: integer constant or enum");
-//     printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
-//   } else {
-//     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
-// if(reloc_global){
-// printf("relocs error\n");
-//   exit(1);
-// }
-//     mk_reloc(ind,c);
-//   }
-// }
-//         gen_le32(c);
-//     } else {
-//         greloc((Sym *)c, ind, RELOC_ADDR32);
-//         gen_le32(0);
-//     }
-// }
-// 
-// /* XXX: generate correct pointer for forward references to functions */
-// /* r = (ft, fc) */
+int oad(int c, int s)
+{
+    o(c);
+    *(int *)ind = s;
+    s = ind;
+    ind = ind + 4;
+    return s;
+}
+
+int lt=0;
+
+/* output constant with relocation if 't & VT_FORWARD' is true */
+void gen_addr32(int c, int t)
+{
+    if (!(t & VT_FORWARD)) {
+
+// RELOC HACK
+if(reloc){
+//  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
+  if((t==VT_CONST) || (t==138)){
+    printf("\nreloc2: integer constant or enum");
+    printf("\nreloc3: at: 0x%x to: 0x%x\n",ind,c);
+  } else {
+    printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
+if(reloc_global){
+printf("relocs error\n");
+  exit(1);
+}
+    mk_reloc(ind,c);
+  }
+}
+        gen_le32(c);
+    } else {
+        greloc((Sym *)c, ind, RELOC_ADDR32);
+        gen_le32(0);
+    }
+}
+
+/* XXX: generate correct pointer for forward references to functions */
+/* r = (ft, fc) */
 // void load(int r, int ft, int fc)
 // {
 //     int v, t;
