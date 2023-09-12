@@ -84,57 +84,57 @@ void greloc(Sym *s, int addr, int type)
     s->c = (int)p;
 }
 
-// int is_prog(int a){
-//   if(((unsigned int)(a-prog))<(TEXT_SIZE)){
-//     return 1;
-//   }
-//   return 0;
-// 
-// }
-// 
-// int is_data(int a){
-//   if(((unsigned int)(a-glo_base))<(DATA_SIZE)){
-//     return 1;
-//   }
-//   return 0;
-// }
-// 
-// void mk_reloc(int addr,int val){
-//     if(val==0){
-//       return;
-//     }
-//     if(is_prog(addr)){
-//       *(int *)relocs=addr-prog;
-//       relocs=relocs+4;
-//     } else {
-//       printf("Can't handle relocs in data\n");
-//       exit(1);
-//     }
-// 
-// 
-//     if(is_data(val)){
-//       *(int *)relocs=val-glo_base;
-//       relocs=relocs+4;
-//       *(int *)relocs=0;
-//       relocs=relocs+4;
-//     } else {
-//       *(int *)relocs=val-prog;
-//       relocs=relocs+4;
-//       *(int *)relocs=1;
-//       relocs=relocs+4;
-//     }
-// //   printf("val: %d %d\n",val,is_data(val));
-// }
-// 
-// void mk_reloc_global(int type,int addr){
-// //return;
-// printf("mk_reloc_global: %d\n",global_relocs);
-//   *(int *)global_relocs=type;
-//   global_relocs+=4;
-//   *(int *)global_relocs=addr-prog;
-//   global_relocs+=4;
-// }
-// 
+int is_prog(int a){
+  if(((unsigned int)(a-prog))<(TEXT_SIZE)){
+    return 1;
+  }
+  return 0;
+
+}
+
+int is_data(int a){
+  if(((unsigned int)(a-glo_base))<(DATA_SIZE)){
+    return 1;
+  }
+  return 0;
+}
+
+void mk_reloc(int addr,int val){
+    if(val==0){
+      return;
+    }
+    if(is_prog(addr)){
+      *(int *)relocs=addr-prog;
+      relocs=relocs+4;
+    } else {
+      printf("Can't handle relocs in data\n");
+      exit(1);
+    }
+
+
+    if(is_data(val)){
+      *(int *)relocs=val-glo_base;
+      relocs=relocs+4;
+      *(int *)relocs=0;
+      relocs=relocs+4;
+    } else {
+      *(int *)relocs=val-prog;
+      relocs=relocs+4;
+      *(int *)relocs=1;
+       relocs=relocs+4;
+    }
+//   printf("val: %d %d\n",val,is_data(val));
+}
+
+void mk_reloc_global(int type,int addr){
+//return;
+printf("mk_reloc_global: %d\n",global_relocs);
+  *(int *)global_relocs=type;
+  global_relocs+=4;
+  *(int *)global_relocs=addr-prog;
+  global_relocs+=4;
+}
+
 // /* patch each relocation entry with value 'val' */
 // int greloc_patch(Sym *s, int val)
 // {
