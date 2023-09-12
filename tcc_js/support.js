@@ -271,8 +271,6 @@ function fopen(f,mode){
   f_files[file_num]=file_o;
   if(mode==="r"){
     try {
-      fbuf=read("test.c").split("").reverse();
-      fbuf=fbuf.map(function(x){return x.charCodeAt(0)});
       file_o.data=read(filename,"binary");
     } catch (e){
       fclose(file_num);

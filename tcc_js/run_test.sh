@@ -1,5 +1,5 @@
-for i in test*js
+for i in $(seq 9)
 do
-echo $i
-js $i|tail -n 1|grep "OK\|BAD"
+echo test$i
+js test$i.js|tail -n 1|grep "OK\|BAD"
 done
