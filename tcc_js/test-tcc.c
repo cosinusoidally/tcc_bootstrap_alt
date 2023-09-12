@@ -173,8 +173,8 @@ int global_relocs_table_base;
 // #define VT_JMPI    0x000f  /* value is the consequence of jmp false */
 // #define VT_LVAL    0x0010  /* var is an lvalue */
 // #define VT_LVALN   -17         /* ~VT_LVAL */
-// #define VT_FORWARD 0x0020  /* value is forward reference 
-//                               (only used for functions) */
+#define VT_FORWARD 0x0020  /* value is forward reference 
+                              (only used for functions) */
 // /* storage */
 // #define VT_EXTERN  0x00000040  /* extern definition */
 // #define VT_STATIC  0x00000080  /* static variable */
@@ -3649,8 +3649,8 @@ int tcc_compile_file(const char *filename1)
     return 0;
 }
 // 
-// void resolve_extern_syms(void)
-// {
+void resolve_extern_syms(void)
+{
 // // HACK RELOC
 // reloc_global=1;
 //     Sym *s, *s1;
@@ -3681,7 +3681,7 @@ int tcc_compile_file(const char *filename1)
 //         s = s1;
 //     }
 // reloc_global=0;
-// }
+}
 
 int show_help(void)
 {
@@ -3701,7 +3701,7 @@ int show_help(void)
 // // return 0;
 //   *(int *)o=v;
 // }
-// void gen_obj(int e){
+void gen_obj(int e){
 //   printf("Generating object file\n");
 //   FILE *f;
 //   int text_len=ind-prog;
@@ -3752,10 +3752,10 @@ int show_help(void)
 //   fwrite(&m4,1,4,f);
 //   fwrite((void *)prog_rel,1,text_len,f);
 //   fclose(f);
-// }
-// 
-// int prog_rel;
-// int data_rel;
+}
+
+int prog_rel;
+int data_rel;
 
 int load_obj(void){
 //   printf("Loading object file\n");
@@ -3959,36 +3959,37 @@ printf("argc %d\n",argc);
         }
     }
 
-// if(loader){
-//   printf("running loader\n");
-//   return (*t)(argc - optind, argv + optind);
-// }
-// if(reloc){
-// global_relocs=(int)malloc(64*1024);
-// global_relocs_base=global_relocs;
-// 
-// printf("global_relocs %d\n",global_relocs);
-// 
-// global_relocs_table=(int)malloc(64*1024);
-// global_relocs_table_base=global_relocs_table;
-// 
-// relocs=(int)malloc(64*1024);
-// relocs_base=relocs;
-// 
-// };
-// 
-//     tcc_compile_file(argv[optind]);
-//     puts("tcc 1_7 compile done");
-// 
-//     resolve_extern_syms();
-//     s = sym_find1(&extern_stack, TOK_MAIN);
-//     if (!s || (s->t & VT_FORWARD))
-//         error("main() not defined");
-// 
-// if(reloc){
-//   gen_obj(s->c);
-// }
-// 
-//     t = (int (*)())s->c;
+if(loader){
+  printf("running loader\n");
+  return (*t)(argc - optind, argv + optind);
+}
+if(reloc){
+global_relocs=(int)malloc(64*1024);
+global_relocs_base=global_relocs;
+
+printf("global_relocs %d\n",global_relocs);
+
+global_relocs_table=(int)malloc(64*1024);
+global_relocs_table_base=global_relocs_table;
+
+relocs=(int)malloc(64*1024);
+relocs_base=relocs;
+
+};
+
+    tcc_compile_file(argv[optind]);
+    puts("tcc 1_7 compile done");
+
+    resolve_extern_syms();
+// FIXME ljw
+//    s = sym_find1(&extern_stack, TOK_MAIN);
+    if (!s || (s->t & VT_FORWARD))
+        error("main() not defined");
+
+if(reloc){
+  gen_obj(s->c);
+}
+
+    t = (int (*)())s->c;
 //     return (*t)(argc - optind, argv + optind);
 }

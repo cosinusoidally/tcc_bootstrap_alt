@@ -4528,19 +4528,22 @@ function eor() {
         if (tok != TOK_LOR) {
 //             if (t) {
             if (t) {
-err();
 //                 t = gtst(0, t);
+                t = gtst(0, t);
 //                 vset(VT_JMP, t);
+                vset(VT_JMP, t);
 //             }
             }
 //             break;
             break;
 //         }
         }
-err();
 //         t = gtst(0, t);
+        t = gtst(0, t);
 //         next();
+        next();
 //         eand();
+        eand();
 //     }
     }
 // }
@@ -5539,10 +5542,8 @@ function decl(l) {
 //             /* XXX: find more elegant solution */
 //             if (tok == ';') {
             if (tok === mk_char(';')) {
-err();
-//                 next();
-//                 continue;
-//             }
+                next();
+                continue;
             }
 //             /* special test for old K&R protos without explicit int
 //                type. Only accepted when defining global data */

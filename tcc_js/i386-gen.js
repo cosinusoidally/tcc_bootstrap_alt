@@ -590,12 +590,10 @@ err();
         }
 //     } else {
     } else {
-err();
-//         /* otherwise, indirect call */
-//         r = gv();
-//         o(0xff); /* call *r */
-//         o(0xd0 + r);
-//     }
+        /* otherwise, indirect call */
+        r = gv();
+        o(0xff); /* call *r */
+        o(0xd0 + r);
     }
 //     if (c->args_size)
     if (ri32(c+GFuncContext_args_size_o)) {
