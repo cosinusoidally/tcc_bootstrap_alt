@@ -342,9 +342,9 @@ void decl_initializer(int t, int c, int first, int size_only);
 // void vswap(void);
 // void vdup(void);
 // int get_reg(int rc);
-// 
-// void macro_subst(int **tok_str, int *tok_len, 
-//                  Sym **nested_list, int *macro_str);
+
+void macro_subst(int **tok_str, int *tok_len, 
+                 Sym **nested_list, int *macro_str);
 // int save_reg_forced(int r);
 // void gen_op(int op);
 // void gen_cast(int t);
@@ -1189,11 +1189,11 @@ void define_symbol(char *sym)
 //             tok = TOK_GT;
 //     }
 // }
-// 
-// /* return next token without macro substitution. Can read input from
-//    macro_ptr buffer */
-// void next_nomacro()
-// {
+
+/* return next token without macro substitution. Can read input from
+   macro_ptr buffer */
+void next_nomacro()
+{
 //     if (macro_ptr) {
 //         tok = *macro_ptr;
 //         if (tok)
@@ -1201,8 +1201,8 @@ void define_symbol(char *sym)
 //     } else {
 //         next_nomacro1();
 //     }
-// }
-// 
+}
+
 // /* substitute args in macro_str and return allocated string */
 // int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
 // {
@@ -1287,16 +1287,16 @@ void define_symbol(char *sym)
 //     tok_add(&macro_str1, &macro_str1_len, 0);
 //     return macro_str1;
 // }
-// 
-// 
-// 
-// /* do macro substitution of macro_str and add result to
-//    (tok_str,tok_len). If macro_str is NULL, then input stream token is
-//    substituted. 'nested_list' is the list of all macros we got inside
-//    to avoid recursing. */
-// void macro_subst(int **tok_str, int *tok_len, 
-//                  Sym **nested_list, int *macro_str)
-// {
+
+
+
+/* do macro substitution of macro_str and add result to
+   (tok_str,tok_len). If macro_str is NULL, then input stream token is
+   substituted. 'nested_list' is the list of all macros we got inside
+   to avoid recursing. */
+void macro_subst(int **tok_str, int *tok_len, 
+                 Sym **nested_list, int *macro_str)
+{
 //     Sym *s, *args, *sa, *sa1;
 //     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
 //     int mstr_allocated, *macro_str1;
@@ -1350,7 +1350,7 @@ void define_symbol(char *sym)
 //     macro_ptr = saved_macro_ptr;
 //     if (macro_str1)
 //         free(macro_str1);
-// }
+}
 
 /* return next token with macro substitution */
 void next(void)
@@ -1366,35 +1366,35 @@ void next(void)
         tok1 = 0;
     } else {
     while(redo){
-//         redo=0;
-//         if (!macro_ptr) {
-//             /* if not reading from macro substuted string, then try to substitute */
-//             len = 0;
-//             ptr = NULL;
-//             nested_list = NULL;
-//             macro_subst(&ptr, &len, &nested_list, NULL);
-//             if (ptr) {
-//                 tok_add(&ptr, &len, 0);
-//                 macro_ptr = ptr;
-//                 macro_ptr_allocated = ptr;
-//                 redo=1;
-//                 continue;
-//             }
-//             if (tok == 0) {
-//                 redo=1;
-//                 continue;
-//              }
-//         } else {
-//             next_nomacro();
-//             if (tok == 0) {
-//                 /* end of macro string: free it */
-//                 free(macro_ptr_allocated);
-//                 macro_ptr = NULL;
-//                 redo=1;
-//                 continue;
-//             }
-//         }
-//         break;
+        redo=0;
+        if (!macro_ptr) {
+            /* if not reading from macro substuted string, then try to substitute */
+            len = 0;
+            ptr = NULL;
+            nested_list = NULL;
+            macro_subst(&ptr, &len, &nested_list, NULL);
+            if (ptr) {
+                tok_add(&ptr, &len, 0);
+               macro_ptr = ptr;
+                macro_ptr_allocated = ptr;
+                redo=1;
+                continue;
+            }
+            if (tok == 0) {
+                redo=1;
+                continue;
+             }
+        } else {
+            next_nomacro();
+            if (tok == 0) {
+                /* end of macro string: free it */
+                free(macro_ptr_allocated);
+                macro_ptr = NULL;
+                redo=1;
+                continue;
+            }
+        }
+        break;
     }
     }
 }

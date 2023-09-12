@@ -4843,13 +4843,18 @@ err();
         skip(mk_char(';'));
 //     } else if (tok == TOK_CONTINUE) {
     } else if (tok == TOK_CONTINUE) {
-err();
 //         /* compute jump */
+        /* compute jump */
 //         if (!csym)
+        if (!csym)
 //             error("cannot continue");
+            error("cannot continue");
 //         *csym = gjmp(*csym);
+        wi32(csym, gjmp(ri32(csym)));
 //         next();
+        next();
 //         skip(';');
+        skip(mk_char(';'));
 //     } else if (tok == TOK_FOR) {
     } else if (tok == TOK_FOR) {
 //         int e;
