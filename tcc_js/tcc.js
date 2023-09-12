@@ -1035,8 +1035,8 @@ function cinp() {
             }
             }
         } else {
-err();
 //             ch = '/';
+            ch = mk_char('/');
         }
     } else {
         minp();

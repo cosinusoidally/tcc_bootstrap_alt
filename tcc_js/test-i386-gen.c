@@ -50,19 +50,19 @@ typedef struct GFuncContext {
 
 /******************************************************/
 
-// void g(int c)
-// {
-//     *(char *)ind++ = c;
-// }
-// 
-// void o(int c)
-// {
-//     while (c) {
-//         g(c);
-//         c = c / 256;
-//     }
-// }
-// 
+void g(int c)
+{
+    *(char *)ind++ = c;
+}
+
+void o(int c)
+{
+    while (c) {
+        g(c);
+        c = c / 256;
+    }
+}
+
 // void gen_le32(int c)
 // {
 //     g(c);
