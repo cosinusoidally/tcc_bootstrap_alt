@@ -113,5 +113,6 @@ int main(void){
   printf("var VT_LVALN=0x%x;\n",VT_LVALN);
   printf("var TOK_LE=0x%x;\n",TOK_LE);
   printf("var TOK_GE=0x%x;\n",TOK_GE);
+  printf("var TOK_A_DIV=0x%x;\n",TOK_A_DIV);
   return 0;
 }

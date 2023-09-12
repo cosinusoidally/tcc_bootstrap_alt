@@ -106,3 +106,4 @@ var TOK_SHL=0x1;
 var VT_LVALN=0xffffffef;
 var TOK_LE=0x9e;
 var TOK_GE=0x9d;
+var TOK_A_DIV=0xaf;

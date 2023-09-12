@@ -4438,10 +4438,12 @@ function uneq() {
             expr_eq();
 //         } else {
         } else {
-err();
 //             vdup();
+            vdup();
 //             expr_eq();
+            expr_eq();
 //             gen_op(t & 0x7f);
+            gen_op(t & 0x7f);
 //         }
         }
 //         vstore();
