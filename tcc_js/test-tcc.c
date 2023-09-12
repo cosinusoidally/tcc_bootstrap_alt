@@ -338,9 +338,9 @@ void decl_initializer(int t, int c, int first, int size_only);
 int gv(void);
 void move_reg(int r, int s);
 void save_reg(int r);
-// void vpop(void);
-// void vswap(void);
-// void vdup(void);
+void vpop(void);
+void vswap(void);
+void vdup(void);
 int get_reg(int rc);
 
 void macro_subst(int **tok_str, int *tok_len, 
@@ -348,7 +348,7 @@ void macro_subst(int **tok_str, int *tok_len,
 int save_reg_forced(int r);
 // void gen_op(int op);
 // void gen_cast(int t);
-// void vstore(void);
+void vstore(void);
 int type_size(int t, int *a);
 // int pointed_type(int t);
 // int pointed_size(int t);
