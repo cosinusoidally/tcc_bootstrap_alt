@@ -5591,9 +5591,10 @@ err();
 //                 /* patch forward references */
 //                 if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
                 if ((sym = sym_find(ri32(v))) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
-err();
 //                     greloc_patch(sym, ind);
+                    greloc_patch(sym, ind);
 //                     sym->t = VT_CONST | t;
+                    wi32(sym+Sym_t_o, VT_CONST | t);
 //                 } else {
                 } else {
 //                     /* put function address */
