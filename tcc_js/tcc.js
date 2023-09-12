@@ -2193,8 +2193,8 @@ function vsetc(t, vc) {
 //     /* XXX: VT_JMP test too ? */
 //     if ((vtop->t & VT_VALMASK) == VT_CMP)
     if ((ri32(vtop+SValue_t_o) & VT_VALMASK) == VT_CMP) {
-err();
 //         gv();
+        gv();
     }
 //     vtop++;
     vtop=vtop+SValue_size;

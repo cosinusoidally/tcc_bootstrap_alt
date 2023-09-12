@@ -414,11 +414,14 @@ lt=2;
             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
 //         } else if (v == VT_CMP) {
         } else if (v == VT_CMP) {
-err();
 //             oad(0xb8 + r, 0); /* mov $0, r */
+            oad(0xb8 + r, 0); /* mov $0, r */
 //             o(0x0f); /* setxx %br */
+            o(0x0f); /* setxx %br */
 //             o(fc);
+            o(fc);
 //             o(0xc0 + r);
+            o(0xc0 + r);
 //         } else if (v == VT_JMP || v == VT_JMPI) {
         } else if (v == VT_JMP || v == VT_JMPI) {
 err();
@@ -745,9 +748,10 @@ function gen_opi(op) {
         o(0xc0 + r + fr * 8); 
 //     } else if (op == '*') {
     } else if (op == mk_char('*')) {
-err();
 //         o(0xaf0f); /* imul fr, r */
+        o(0xaf0f); /* imul fr, r */
 //         o(0xc0 + fr + r * 8);
+        o(0xc0 + fr + r * 8);
 //     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
 //         /* op2 is %ecx */
