@@ -143,25 +143,25 @@ SymStack define_stack, global_stack, local_stack, label_stack;
 // int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
 char *include_paths[INCLUDE_PATHS_MAX];
 int nb_include_paths;
-// 
-// /* use GNU C extensions */
-// int gnu_ext = 0;
-// 
-// /* use Tiny C extensions */
-// int tcc_ext = 1;
-// 
-// int reloc=0;
-// int reloc_global=0;
-// 
-// int relocs;
-// int relocs_base;
-// 
-// int global_relocs;
-// int global_relocs_base;
-// 
-// int global_relocs_table;
-// int global_relocs_table_base;
-// 
+
+/* use GNU C extensions */
+int gnu_ext = 0;
+
+/* use Tiny C extensions */
+int tcc_ext = 1;
+
+int reloc=0;
+int reloc_global=0;
+
+int relocs;
+int relocs_base;
+
+int global_relocs;
+int global_relocs_base;
+
+int global_relocs_table;
+int global_relocs_table_base;
+
 // /* The current value can be: */
 // #define VT_VALMASK 0x000f
 // #define VT_CONST   0x000a  /* constant in vc 
@@ -3610,10 +3610,10 @@ void define_symbol(char *sym)
 //         s = s1;
 //     }
 // }
-// 
-// /* compile a C file. Return non zero if errors. */
-// int tcc_compile_file(const char *filename1)
-// {
+
+/* compile a C file. Return non zero if errors. */
+int tcc_compile_file(const char *filename1)
+{
 //     Sym *define_start;
 // 
 //     filename = (char *)filename1;
@@ -3646,8 +3646,8 @@ void define_symbol(char *sym)
 //     
 //     sym_pop(&global_stack, NULL);
 //     
-//     return 0;
-// }
+    return 0;
+}
 // 
 // void resolve_extern_syms(void)
 // {
@@ -3682,14 +3682,14 @@ void define_symbol(char *sym)
 //     }
 // reloc_global=0;
 // }
-// 
-// int show_help(void)
-// {
-//     printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
-//            "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
-//     return 1;
-// }
-// 
+
+int show_help(void)
+{
+    printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
+           "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
+    return 1;
+}
+
 // int r32(int o){
 //   int r;
 //   r=((int *)(o))[0];
@@ -3756,8 +3756,8 @@ void define_symbol(char *sym)
 // 
 // int prog_rel;
 // int data_rel;
-// 
-// int load_obj(void){
+
+int load_obj(void){
 //   printf("Loading object file\n");
 //   FILE *f;
 //   int text_len;
@@ -3883,8 +3883,8 @@ void define_symbol(char *sym)
 //     }
 //   }
 //   return prog+entrypoint;
-// }
-// 
+}
+
 int main(int argc, char **argv)
 {
     puts("tcc 1_7 start");
@@ -3929,36 +3929,36 @@ int main(int argc, char **argv)
     optind = 1;
     outfile = NULL;
 int loader=0;
-//     while (1) {
-// printf("argc %d\n",argc);
-//         if (optind >= argc) {
-//         return show_help();
-//         }
-//         r = argv[optind];
-//         if (r[0] != '-')
-//             break;
-//         optind++;
-//         if (r[1] == 'I') {
-//             if (nb_include_paths >= INCLUDE_PATHS_MAX)
-//                 error("too many include paths");
-//             include_paths[nb_include_paths++] = r + 2;
-//         } else if (r[1] == 'D') {
-//             define_symbol(r + 2);
-//         } else if (r[1] == 'i') {
-//             if (optind >= argc)
-//                 return show_help();
-//             tcc_compile_file(argv[optind++]);
-//         } else if (r[1] == 'r') {
-//             reloc=1;
-//         } else if (r[1] == 'R') {
-//             t=(int (*)())load_obj();
-//             loader=1;
-//         } else {
-//             fprintf(stderr, "invalid option -- '%s'\n", r);
-//             exit(1);
-//         }
-//     }
-// 
+    while (1) {
+printf("argc %d\n",argc);
+        if (optind >= argc) {
+        return show_help();
+        }
+        r = argv[optind];
+        if (r[0] != '-')
+            break;
+        optind++;
+        if (r[1] == 'I') {
+            if (nb_include_paths >= INCLUDE_PATHS_MAX)
+                error("too many include paths");
+            include_paths[nb_include_paths++] = r + 2;
+        } else if (r[1] == 'D') {
+            define_symbol(r + 2);
+        } else if (r[1] == 'i') {
+            if (optind >= argc)
+                return show_help();
+            tcc_compile_file(argv[optind++]);
+        } else if (r[1] == 'r') {
+            reloc=1;
+        } else if (r[1] == 'R') {
+            t=(int (*)())load_obj();
+            loader=1;
+        } else {
+            fprintf(stderr, "invalid option -- '%s'\n", r);
+            exit(1);
+        }
+    }
+
 // if(loader){
 //   printf("running loader\n");
 //   return (*t)(argc - optind, argv + optind);
