@@ -74,12 +74,12 @@ typedef struct SymStack {
   struct Sym *hash[SYM_HASH_SIZE];
 } SymStack;
 
-// /* relocation entry (currently only used for functions or variables */
-// typedef struct Reloc {
-//     int type;            /* type of relocation */
-//     int addr;            /* address of relocation */
-//     struct Reloc *next;  /* next relocation */
-// } Reloc;
+/* relocation entry (currently only used for functions or variables */
+typedef struct Reloc {
+    int type;            /* type of relocation */
+    int addr;            /* address of relocation */
+    struct Reloc *next;  /* next relocation */
+} Reloc;
 
 #define RELOC_ADDR32 1  /* 32 bits relocation */
 #define RELOC_REL32  2  /* 32 bits relative relocation */
