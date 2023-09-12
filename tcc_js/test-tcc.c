@@ -563,12 +563,12 @@ Sym *sym_push2(Sym **ps, int v, int t, int c)
    of the symbol stack */
 Sym *sym_find2(Sym *s, int v)
 {
-//     while (s) {
-//         if (s->v == v)
-//             return s;
-//         s = s->prev;
-//     }
-//     return NULL;
+    while (s) {
+        if (s->v == v)
+            return s;
+        s = s->prev;
+    }
+    return NULL;
 }
 
 unsigned int HASH_SYM(int v) {
@@ -793,19 +793,19 @@ void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
         tok_add(tok_str, tok_len, cv->tab[i]);
 }
 
-// /* get a token from an integer array and increment pointer accordingly */
-// int tok_get(int **tok_str, CValue *cv)
-// {
-//     int *p, t, n, i;
-// 
-//     p = *tok_str;
-//     t = *p++;
-//     n = tok_ext_size(t);
-//     for(i=0;i<n;i++)
-//         cv->tab[i] = *p++;
-//     *tok_str = p;
-//     return t;
-// }
+/* get a token from an integer array and increment pointer accordingly */
+int tok_get(int **tok_str, CValue *cv)
+{
+    int *p, t, n, i;
+
+    p = *tok_str;
+    t = *p++;
+    n = tok_ext_size(t);
+    for(i=0;i<n;i++)
+        cv->tab[i] = *p++;
+    *tok_str = p;
+    return t;
+}
 
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
@@ -1098,12 +1098,12 @@ void define_symbol(char *sym)
 // }
 // 
 // 
-// /* return next token without macro substitution */
-// void next_nomacro1(void)
-// {
-//     int b;
-//     char *q;
-//     TokenSym *ts;
+/* return next token without macro substitution */
+void next_nomacro1(void)
+{
+    int b;
+    char *q;
+    TokenSym *ts;
 // 
 //     /* skip spaces */
 //     while(1) {
@@ -1188,19 +1188,19 @@ void define_symbol(char *sym)
 //         else if (tok == '>')
 //             tok = TOK_GT;
 //     }
-// }
+}
 
 /* return next token without macro substitution. Can read input from
    macro_ptr buffer */
 void next_nomacro()
 {
-//     if (macro_ptr) {
-//         tok = *macro_ptr;
-//         if (tok)
-//             tok = tok_get(&macro_ptr, &tokc);
-//     } else {
-//         next_nomacro1();
-//     }
+    if (macro_ptr) {
+        tok = *macro_ptr;
+        if (tok)
+            tok = tok_get(&macro_ptr, &tokc);
+    } else {
+        next_nomacro1();
+    }
 }
 
 // /* substitute args in macro_str and return allocated string */
