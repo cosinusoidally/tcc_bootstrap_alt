@@ -773,8 +773,8 @@ err();
 //             o(0xe8 + r);
 //         else
         } else {
-err();
 //             o(0xf8 + r);
+            o(0xf8 + r);
         }
 //         vtop->t = (vtop->t & VT_TYPE) | r;
         wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);

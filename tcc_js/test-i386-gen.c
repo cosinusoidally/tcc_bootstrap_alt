@@ -63,27 +63,27 @@ void o(int c)
     }
 }
 
-// void gen_le32(int c)
-// {
-//     g(c);
-//     g(c >> 8);
-//     g(c >> 16);
-//     g(c >> 24);
-// }
-// 
-// /* add a new relocation entry to symbol 's' */
-// void greloc(Sym *s, int addr, int type)
-// {
-//     Reloc *p;
-//     p = malloc(sizeof(Reloc));
-//     if (!p)
-//         error("memory full");
-//     p->type = type;
-//     p->addr = addr;
-//     p->next = (Reloc *)s->c;
-//     s->c = (int)p;
-// }
-// 
+void gen_le32(int c)
+{
+    g(c);
+    g(c >> 8);
+    g(c >> 16);
+    g(c >> 24);
+}
+
+/* add a new relocation entry to symbol 's' */
+void greloc(Sym *s, int addr, int type)
+{
+    Reloc *p;
+    p = malloc(sizeof(Reloc));
+    if (!p)
+        error("memory full");
+    p->type = type;
+    p->addr = addr;
+    p->next = (Reloc *)s->c;
+    s->c = (int)p;
+}
+
 // int is_prog(int a){
 //   if(((unsigned int)(a-prog))<(TEXT_SIZE)){
 //     return 1;
