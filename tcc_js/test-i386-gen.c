@@ -302,31 +302,33 @@ lt=2;
 
 /* (ft, fc) = r */
 /* WARNING: r must not be allocated on the stack */
-void store(r, ft, fc)
+// FIXME ljw decl issue?
+// void store(r, ft, fc)
+void store(int r, int ft, int fc)
 {
-//     int fr, bt;
-// 
-//     fr = ft & VT_VALMASK;
-//     bt = ft & VT_BTYPE;
-// 
-//     if (bt == VT_SHORT)
-//         o(0x66);
-//     if (bt == VT_BYTE)
-//         o(0x88);
-//     else
-//         o(0x89);
-//     if (fr == VT_CONST) {
-//         o(0x05 + r * 8); /* mov r,xxx */
-// lt=1;
-// printf("\nstore 32 ind: %x\n",ind);
-//         gen_addr32(fc, ft);
-//     } else if (fr == VT_LOCAL) {
-//         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
-//     } else if (ft & VT_LVAL) {
-//         g(fr + r * 8); /* mov r, (fr) */
-//     } else if (fr != r) {
-//         o(0xc0 + fr + r * 8); /* mov r, fr */
-//     }
+    int fr, bt;
+
+    fr = ft & VT_VALMASK;
+    bt = ft & VT_BTYPE;
+
+    if (bt == VT_SHORT)
+        o(0x66);
+    if (bt == VT_BYTE)
+        o(0x88);
+    else
+        o(0x89);
+    if (fr == VT_CONST) {
+        o(0x05 + r * 8); /* mov r,xxx */
+lt=1;
+printf("\nstore 32 ind: %x\n",ind);
+        gen_addr32(fc, ft);
+    } else if (fr == VT_LOCAL) {
+        oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
+    } else if (ft & VT_LVAL) {
+        g(fr + r * 8); /* mov r, (fr) */
+    } else if (fr != r) {
+        o(0xc0 + fr + r * 8); /* mov r, fr */
+    }
 }
 
 // /* start function call and return function call context */
