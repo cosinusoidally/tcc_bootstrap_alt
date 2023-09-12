@@ -335,7 +335,7 @@ void gexpr(void);
 void decl(int l);
 void decl_initializer(int t, int c, int first, int size_only);
 // int decl_initializer_alloc(int t, int has_init);
-// int gv(void);
+int gv(void);
 // void move_reg(int r, int s);
 // void save_reg(int r);
 // void vpop(void);
@@ -1547,20 +1547,20 @@ int get_reg(int rc)
 // /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
 //    values. Cannot be used if cannot be converted to register value
 //    (such as structures). */
-// int gv(void)
-// {
-//     int r, bit_pos, bit_size, rc, size, align, i;
-// 
-//     /* NOTE: get_reg can modify vstack[] */
-//     r = vtop->t & VT_VALMASK;
-//     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
-//         rc = REG_CLASS_INT;
-//         r = get_reg(rc);
-//     }
-//     load(r, vtop->t, vtop->c.ul);
-//     vtop->t = (vtop->t & VT_TYPE) | r;
-//     return r;
-// }
+int gv(void)
+{
+    int r, bit_pos, bit_size, rc, size, align, i;
+
+    /* NOTE: get_reg can modify vstack[] */
+    r = vtop->t & VT_VALMASK;
+    if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
+        rc = REG_CLASS_INT;
+        r = get_reg(rc);
+    }
+    load(r, vtop->t, vtop->c.ul);
+    vtop->t = (vtop->t & VT_TYPE) | r;
+    return r;
+}
 // 
 // /* handle constant optimizations and various machine independant opt */
 // void gen_opc(int op)

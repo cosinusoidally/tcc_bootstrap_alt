@@ -331,44 +331,44 @@ printf("\nstore 32 ind: %x\n",ind);
     }
 }
 
-// /* start function call and return function call context */
-// void gfunc_start(GFuncContext *c)
-// {
-//     c->args_size = 0;
-// }
-// 
-// /* push function parameter which is in (vtop->t, vtop->c). Stack entry
-//    is then popped. */
-// void gfunc_param(GFuncContext *c)
-// {
-//     int size, align, r;
-// 
-//     if ((vtop->t & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
-//         size = type_size(vtop->t, &align);
-//         /* align to stack align size */
-//         size = (size + 3) & ~3;
-//         /* allocate the necessary size on stack */
-//         oad(0xec81, size); /* sub $xxx, %esp */
-//         /* generate structure store */
-//         r = get_reg(REG_CLASS_INT);
-//         o(0x89); /* mov %esp, r */
-//         o(0xe0 + r);
-//         vset(VT_INT | r, 0);
-//         vswap();
-//         vstore();
-//         c->args_size += size;
-//     } else {
-//         /* simple type (currently always same size) */
-//         /* XXX: implicit cast ? */
-//         r = gv();
-//         o(0x50 + r); /* push r */
-//         c->args_size += 4;
-//     }
-//     vtop--;
-// }
-// 
-// /* generate function call with address in (vtop->t, vtop->c) and free function
-//    context. Stack entry is popped */
+/* start function call and return function call context */
+void gfunc_start(GFuncContext *c)
+{
+    c->args_size = 0;
+}
+
+/* push function parameter which is in (vtop->t, vtop->c). Stack entry
+   is then popped. */
+void gfunc_param(GFuncContext *c)
+{
+    int size, align, r;
+
+    if ((vtop->t & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
+        size = type_size(vtop->t, &align);
+        /* align to stack align size */
+        size = (size + 3) & ~3;
+        /* allocate the necessary size on stack */
+        oad(0xec81, size); /* sub $xxx, %esp */
+        /* generate structure store */
+        r = get_reg(REG_CLASS_INT);
+        o(0x89); /* mov %esp, r */
+        o(0xe0 + r);
+        vset(VT_INT | r, 0);
+        vswap();
+        vstore();
+        c->args_size += size;
+    } else {
+        /* simple type (currently always same size) */
+        /* XXX: implicit cast ? */
+        r = gv();
+        o(0x50 + r); /* push r */
+        c->args_size += 4;
+    }
+    vtop--;
+}
+
+/* generate function call with address in (vtop->t, vtop->c) and free function
+   context. Stack entry is popped */
 // void gfunc_call(GFuncContext *c)
 // {
 //     int r;
