@@ -1399,14 +1399,14 @@ void next(void)
     }
 }
 
-// void swap(int *p, int *q)
-// {
-//     int t;
-//     t = *p;
-//     *p = *q;
-//     *q = t;
-// }
-// 
+void swap(int *p, int *q)
+{
+    int t;
+    t = *p;
+    *p = *q;
+    *q = t;
+}
+
 // void vsetc(int t, CValue *vc)
 // {
 //     if (vtop >= vstack + VSTACK_SIZE)
