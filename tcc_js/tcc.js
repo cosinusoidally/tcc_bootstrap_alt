@@ -4053,8 +4053,8 @@ err();
 err();
 //                 vtop->c.i = !vtop->c.i;
             } else if ((ri32(vtop+SValue_t_o) & VT_VALMASK) == VT_CMP) {
-err();
 //                 vtop->c.i = vtop->c.i ^ 1;
+                wi32(vtop+SValue_c_o, ri32(vtop+SValue_c_o) ^ 1);
             } else {
                 vset(VT_JMP, gtst(1, 0));
             }
