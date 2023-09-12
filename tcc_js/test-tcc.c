@@ -691,62 +691,62 @@ static inline void inp(void)
     //    printf("ch1=%c 0x%x\n", ch1, ch1);
 }
 
-// /* input with '\\n' handling */
-// static inline void minp(void)
-// {
-//     int redo=1;
-//     while(redo){
-//         redo=0;
-//         ch = ch1;
-//         inp();
-//         if (ch == '\\' && ch1 == '\n') {
-//             inp();
-//             redo=1;
-//         }
-//     }
-//     //printf("ch=%c 0x%x\n", ch, ch);
-// }
-// 
-// 
-// /* same as minp, but also skip comments */
-// void cinp(void)
-// {
-//     int c;
-// 
-//     if (ch1 == '/') {
-//         inp();
-//         if (ch1 == '/') {
-//             /* single line C++ comments */
-//             inp();
-//             while (ch1 != '\n' && ch1 != -1)
-//                 inp();
-//             inp();
-//             ch = ' '; /* return space */
-//         } else if (ch1 == '*') {
-//             /* C comments */
-//             inp();
-//             while (ch1 != -1) {
-//                 c = ch1;
-//                 inp();
-//             if (c == '*' && ch1 == '/') {
-//                 inp();
-//                 ch = ' '; /* return space */
-//                 break;
-//             }
-//             }
-//         } else {
-//             ch = '/';
-//         }
-//     } else {
-//         minp();
-//     }
-// }
-// 
-// void skip_spaces(void)
-// {
-//     while (ch == ' ' || ch == '\t')
-//         cinp();
-// }
+/* input with '\\n' handling */
+static inline void minp(void)
+{
+    int redo=1;
+    while(redo){
+        redo=0;
+        ch = ch1;
+        inp();
+        if (ch == '\\' && ch1 == '\n') {
+            inp();
+            redo=1;
+        }
+    }
+    //printf("ch=%c 0x%x\n", ch, ch);
+}
+
+
+/* same as minp, but also skip comments */
+void cinp(void)
+{
+    int c;
+
+    if (ch1 == '/') {
+        inp();
+        if (ch1 == '/') {
+            /* single line C++ comments */
+            inp();
+            while (ch1 != '\n' && ch1 != -1)
+                inp();
+            inp();
+            ch = ' '; /* return space */
+        } else if (ch1 == '*') {
+            /* C comments */
+            inp();
+            while (ch1 != -1) {
+                c = ch1;
+                inp();
+            if (c == '*' && ch1 == '/') {
+                inp();
+                ch = ' '; /* return space */
+                break;
+            }
+            }
+        } else {
+            ch = '/';
+        }
+    } else {
+        minp();
+    }
+}
+
+void skip_spaces(void)
+{
+    while (ch == ' ' || ch == '\t')
+        cinp();
+}
 
 /* return the number of additionnal 'ints' necessary to store the
    token */
@@ -823,8 +823,8 @@ void define_symbol(char *sym)
     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
 }
 
-// void preprocess(void)
-// {
+void preprocess(void)
+{
 //     int size, i, c, v, t, *str, len;
 //     int found=0;
 //     char buf[1024], *q, *p;
@@ -932,7 +932,7 @@ void define_symbol(char *sym)
 //     /* ignore other preprocess commands or #! for C scripts */
 //     while (ch != '\n' && ch != -1)
 //         cinp();
-// }
+}
 // 
 // /* read a number in base b */
 // int getn(b)
@@ -1104,23 +1104,23 @@ void next_nomacro1(void)
     int b;
     char *q;
     TokenSym *ts;
-// 
-//     /* skip spaces */
-//     while(1) {
-//         while (ch == '\n') {
-//             cinp();
-//             while (ch == ' ' || ch == 9)
-//                 cinp();
-//             if (ch == '#') {
-//                 /* preprocessor command if # at start of line after
-//                    spaces */
-//                 preprocess();
-//             }
-//         }
-//         if (ch != ' ' && ch != '\t' && ch != '\f')
-//             break;
-//         cinp();
-//     }
+
+    /* skip spaces */
+    while(1) {
+        while (ch == '\n') {
+            cinp();
+            while (ch == ' ' || ch == 9)
+                cinp();
+            if (ch == '#') {
+                /* preprocessor command if # at start of line after
+                   spaces */
+                preprocess();
+            }
+        }
+        if (ch != ' ' && ch != '\t' && ch != '\f')
+            break;
+        cinp();
+    }
 //     if (isid(ch)) {
 //         q = token_buf;
 //         *q++ = ch;
@@ -1158,7 +1158,7 @@ void next_nomacro1(void)
 //         *q = '\0';
 //         tokc.ts = tok_alloc(token_buf, q - token_buf);
 //         minp();
-//     } else {
+//    } else {
 //         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
 //         /* two chars */
 //         tok = ch;
@@ -1187,7 +1187,7 @@ void next_nomacro1(void)
 //             tok = TOK_LT;
 //         else if (tok == '>')
 //             tok = TOK_GT;
-//     }
+//    }
 }
 
 /* return next token without macro substitution. Can read input from
