@@ -2621,55 +2621,55 @@ void unary(void)
             next();
             sa = s->next; /* first parameter */
             {
-//                 int *str, len, parlevel, *saved_macro_ptr;
-//                 Sym *args, *s1;
-// 
-//                 /* read each argument and store it on a stack */
-//                 /* XXX: merge it with macro args ? */
-//                 args = NULL;
-//                 while (tok != ')') {
-//                     len = 0;
-//                     str = NULL;
-//                     parlevel = 0;
-//                     while ((parlevel > 0 || (tok != ')' && tok != ',')) && 
-//                            tok != -1) {
-//                         if (tok == '(')
-//                             parlevel++;
-//                         else if (tok == ')')
-//                             parlevel--;
-//                         tok_add2(&str, &len, tok, &tokc);
-//                         next();
-//                     }
-//                     tok_add(&str, &len, -1); /* end of file added */
-//                     tok_add(&str, &len, 0);
-//                     s1 = sym_push2(&args, 0, 0, (int)str);
-//                     s1->next = sa; /* add reference to argument */
-//                     if (sa)
-//                         sa = sa->next;
-//                     if (tok != ',')
-//                         break;
-//                     next();
-//                 }
-//                 if (tok != ')')
-//                     expect(")");
-//                 
-//                 /* now generate code in reverse order by reading the stack */
-//                 saved_macro_ptr = macro_ptr;
-//                 while (args) {
-//                     macro_ptr = (int *)args->c;
-//                     next();
-//                     expr_eq();
-//                     if (tok != -1)
-//                         expect("',' or ')'");
-//                     gfunc_param_typed(&gf, s, args->next);
-//                     s1 = args->prev;
-//                     free((int *)args->c);
-//                     free(args);
-//                     args = s1;
-//                 }
-//                 macro_ptr = saved_macro_ptr;
-//                 /* restore token */
-//                 tok = ')';
+                int *str, len, parlevel, *saved_macro_ptr;
+                Sym *args, *s1;
+
+                /* read each argument and store it on a stack */
+                /* XXX: merge it with macro args ? */
+                args = NULL;
+                while (tok != ')') {
+                    len = 0;
+                    str = NULL;
+                    parlevel = 0;
+                    while ((parlevel > 0 || (tok != ')' && tok != ',')) && 
+                           tok != -1) {
+                        if (tok == '(')
+                            parlevel++;
+                        else if (tok == ')')
+                            parlevel--;
+                        tok_add2(&str, &len, tok, &tokc);
+                        next();
+                    }
+                    tok_add(&str, &len, -1); /* end of file added */
+                    tok_add(&str, &len, 0);
+                    s1 = sym_push2(&args, 0, 0, (int)str);
+                    s1->next = sa; /* add reference to argument */
+                    if (sa)
+                        sa = sa->next;
+                    if (tok != ',')
+                        break;
+                    next();
+                }
+                if (tok != ')')
+                    expect(")");
+                
+                /* now generate code in reverse order by reading the stack */
+                saved_macro_ptr = macro_ptr;
+                while (args) {
+                    macro_ptr = (int *)args->c;
+                    next();
+                    expr_eq();
+                    if (tok != -1)
+                        expect("',' or ')'");
+                    gfunc_param_typed(&gf, s, args->next);
+                    s1 = args->prev;
+                    free((int *)args->c);
+                    free(args);
+                    args = s1;
+                }
+                macro_ptr = saved_macro_ptr;
+                /* restore token */
+                tok = ')';
             }
             /* compute first implicit argument if a structure is returned */
             if ((s->t & VT_BTYPE) == VT_STRUCT) {
