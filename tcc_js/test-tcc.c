@@ -1009,97 +1009,97 @@ int getq()
     return c;
 }
 
-// void parse_number(void)
-// {
-//     int b, t, shift, frac_bits, s, exp_val;
-//     char *q;
-//     unsigned int n, n1;
-// 
-//     /* number */
-//     q = token_buf;
-//     t = ch;
-//     cinp();
-//     *q++ = t;
-//     b = 10;
-//     if (t == '.') {
-//         /* special dot handling */
-//         if (ch == '.') {
-//             cinp();
-//             if (ch != '.')
-//                 expect("'.'");
-//             cinp();
-//             tok = TOK_DOTS;
-//         } else {
-//             /* dots */
-//             tok = t;
-//         }
-//         return;
-//     } else if (t == '0') {
-//         if (ch == 'x' || ch == 'X') {
-//             q--;
-//             cinp();
-//             b = 16;
-//         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
-//             q--;
-//             cinp();
-//             b = 2;
-//         }
-//     }
-//     /* parse all digits. cannot check octal numbers at this stage
-//        because of floating point constants */
-//     while (1) {
-//         if (ch >= 'a' & ch <= 'f')
-//             t = ch - 'a' + 10;
-//         else if (ch >= 'A' & ch <= 'F')
-//             t = ch - 'A' + 10;
-//         else if (isnum(ch))
-//             t = ch - '0';
-//         else
-//             break;
-//         if (t >= b)
-//             break;
-//         if (q >= token_buf + STRING_MAX_SIZE) {
-//             error("number too long");
-//         }
-//         *q++ = ch;
-//         cinp();
-//     }
-//     /* integer number */
-//     *q = '\0';
-//     q = token_buf;
-//     if (b == 10 && *q == '0') {
-//         b = 8;
-//         q++;
-//     }
-//     n = 0;
-//     while(1) {
-//         t = *q++;
-//         /* no need for checks except for base 10 / 8 errors */
-//         if (t == '\0') {
-//             break;
-//         } else if (t >= 'a') {
-//             t = t - 'a' + 10;
-//         } else if (t >= 'A') {
-//             t = t - 'A' + 10;
-//         } else {
-//             t = t - '0';
-//             if (t >= b)
-//                 error("invalid digit");
-//         }
-//         n1 = n;
-//         n = n * b + t;
-//         /* detect overflow */
-//         if (n < n1)
-//             error("integer constant overflow");
-//     }
-//     tokc.ui = n;
-//     tok = TOK_NUM;
-//     /* XXX: add unsigned constant support (ANSI) */
-//     while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
-//         cinp();
-// }
-// 
-// 
+void parse_number(void)
+{
+    int b, t, shift, frac_bits, s, exp_val;
+    char *q;
+    unsigned int n, n1;
+
+    /* number */
+    q = token_buf;
+    t = ch;
+    cinp();
+    *q++ = t;
+    b = 10;
+    if (t == '.') {
+        /* special dot handling */
+        if (ch == '.') {
+            cinp();
+            if (ch != '.')
+                expect("'.'");
+            cinp();
+            tok = TOK_DOTS;
+        } else {
+            /* dots */
+            tok = t;
+        }
+        return;
+    } else if (t == '0') {
+        if (ch == 'x' || ch == 'X') {
+            q--;
+            cinp();
+            b = 16;
+        } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+            q--;
+            cinp();
+            b = 2;
+        }
+    }
+    /* parse all digits. cannot check octal numbers at this stage
+       because of floating point constants */
+    while (1) {
+        if (ch >= 'a' & ch <= 'f')
+            t = ch - 'a' + 10;
+        else if (ch >= 'A' & ch <= 'F')
+            t = ch - 'A' + 10;
+        else if (isnum(ch))
+            t = ch - '0';
+        else
+            break;
+        if (t >= b)
+            break;
+        if (q >= token_buf + STRING_MAX_SIZE) {
+            error("number too long");
+        }
+        *q++ = ch;
+        cinp();
+    }
+    /* integer number */
+    *q = '\0';
+    q = token_buf;
+    if (b == 10 && *q == '0') {
+        b = 8;
+        q++;
+    }
+    n = 0;
+    while(1) {
+        t = *q++;
+        /* no need for checks except for base 10 / 8 errors */
+        if (t == '\0') {
+            break;
+        } else if (t >= 'a') {
+            t = t - 'a' + 10;
+        } else if (t >= 'A') {
+            t = t - 'A' + 10;
+        } else {
+            t = t - '0';
+            if (t >= b)
+                error("invalid digit");
+        }
+        n1 = n;
+        n = n * b + t;
+        /* detect overflow */
+        if (n < n1)
+            error("integer constant overflow");
+    }
+    tokc.ui = n;
+    tok = TOK_NUM;
+    /* XXX: add unsigned constant support (ANSI) */
+    while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
+        cinp();
+}
+
+
 /* return next token without macro substitution */
 void next_nomacro1(void)
 {
