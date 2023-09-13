@@ -1205,68 +1205,68 @@ void next_nomacro()
     }
 }
 
-// /* substitute args in macro_str and return allocated string */
-// int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
-// {
-//     int *st, last_tok, t, notfirst, *str, len;
-//     Sym *s;
-//     TokenSym *ts;
-//     CValue cval;
-// 
-//     str = NULL;
-//     len = 0;
-//     last_tok = 0;
-//     while(1) {
-//         t = tok_get(&macro_str, &cval);
-//         if (!t)
-//             break;
-//         if (t == '#') {
-//             /* stringize */
-//             t = tok_get(&macro_str, &cval);
-//             if (!t)
-//                 break;
-//             s = sym_find2(args, t);
-//             if (s) {
-//                 token_buf[0] = '\0';
-//                 st = (int *)s->c;
-//                 /* XXX: buffer overflow */
-//                 notfirst = 0;
-//                 while (*st) {
-//                     if (notfirst)
-//                         strcat(token_buf, " ");
-//                     t = tok_get(&st, &cval);
-//                     strcat(token_buf, get_tok_str(t, &cval));
-//                     notfirst = 1;
-//                 }
-//                 /* add string */
-//                 ts = tok_alloc(token_buf, 0);
-//                 cval.ts = ts;
-//                 tok_add2(&str, &len, TOK_STR, &cval);
-//             } else {
-//                 tok_add2(&str, &len, t, &cval);
-//             }
-//         } else if (t >= TOK_IDENT) {
-//             s = sym_find2(args, t);
-//             if (s) {
-//                 st = (int *)s->c;
-//                 /* if '##' is present before or after , no arg substitution */
-//                 if (*macro_str == TOK_TWOSHARPS || last_tok == TOK_TWOSHARPS) {
-//                     while (*st)
-//                         tok_add(&str, &len, *st++);
-//                 } else {
-//                     macro_subst(&str, &len, nested_list, st);
-//                 }
-//             } else {
-//                 tok_add(&str, &len, t);
-//             }
-//         } else {
-//             tok_add2(&str, &len, t, &cval);
-//         }
-//         last_tok = t;
-//     }
-//     tok_add(&str, &len, 0);
-//     return str;
-// }
+/* substitute args in macro_str and return allocated string */
+int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
+{
+    int *st, last_tok, t, notfirst, *str, len;
+    Sym *s;
+    TokenSym *ts;
+    CValue cval;
+
+    str = NULL;
+    len = 0;
+    last_tok = 0;
+    while(1) {
+        t = tok_get(&macro_str, &cval);
+        if (!t)
+            break;
+        if (t == '#') {
+            /* stringize */
+            t = tok_get(&macro_str, &cval);
+            if (!t)
+                break;
+            s = sym_find2(args, t);
+            if (s) {
+                token_buf[0] = '\0';
+                st = (int *)s->c;
+                /* XXX: buffer overflow */
+                notfirst = 0;
+                while (*st) {
+                    if (notfirst)
+                        strcat(token_buf, " ");
+                    t = tok_get(&st, &cval);
+                    strcat(token_buf, get_tok_str(t, &cval));
+                    notfirst = 1;
+                }
+                /* add string */
+                ts = tok_alloc(token_buf, 0);
+                cval.ts = ts;
+                tok_add2(&str, &len, TOK_STR, &cval);
+            } else {
+                tok_add2(&str, &len, t, &cval);
+            }
+        } else if (t >= TOK_IDENT) {
+            s = sym_find2(args, t);
+            if (s) {
+                st = (int *)s->c;
+                /* if '##' is present before or after , no arg substitution */
+                if (*macro_str == TOK_TWOSHARPS || last_tok == TOK_TWOSHARPS) {
+                    while (*st)
+                        tok_add(&str, &len, *st++);
+                } else {
+                    macro_subst(&str, &len, nested_list, st);
+                }
+            } else {
+                tok_add(&str, &len, t);
+            }
+        } else {
+            tok_add2(&str, &len, t, &cval);
+        }
+        last_tok = t;
+    }
+    tok_add(&str, &len, 0);
+    return str;
+}
 
 /* handle the '##' operator LJW HACK DELETED CODE*/
 int *macro_twosharps(int *macro_str)
