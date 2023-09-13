@@ -2892,51 +2892,51 @@ int is_label(void)
 
 void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 {
-//     int a, b, c, d;
-//     Sym *s;
-// 
-//     if (tok == TOK_IF) {
-//         /* if test */
-//         next();
-//         skip('(');
-//         gexpr();
-//         skip(')');
-//         a = gtst(1, 0);
-//         block(bsym, csym, case_sym, def_sym, case_reg);
-//         c = tok;
-//         if (c == TOK_ELSE) {
-//             next();
-//             d = gjmp(0);
-//             gsym(a);
-//             block(bsym, csym, case_sym, def_sym, case_reg);
-//             gsym(d); /* patch else jmp */
-//         } else
-//             gsym(a);
-//     } else if (tok == TOK_WHILE) {
-//         next();
-//         d = ind;
-//         skip('(');
-//         gexpr();
-//         skip(')');
-//         a = gtst(1, 0);
-//         b = 0;
-//         block(&a, &b, case_sym, def_sym, case_reg);
-//         oad(0xe9, d - ind - 5); /* jmp */
-//         gsym(a);
-//         gsym_addr(b, d);
-//     } else if (tok == '{') {
-//         next();
-//         /* declarations */
-//         s = local_stack.top;
-//         while (tok != '}') {
-//             decl(VT_LOCAL);
-//             if (tok != '}')
-//                 block(bsym, csym, case_sym, def_sym, case_reg);
-//         }
-//         /* pop locally defined symbols */
-//         sym_pop(&local_stack, s);
-//         next();
-//     } else if (tok == TOK_RETURN) {
+    int a, b, c, d;
+    Sym *s;
+
+    if (tok == TOK_IF) {
+        /* if test */
+        next();
+        skip('(');
+        gexpr();
+        skip(')');
+        a = gtst(1, 0);
+        block(bsym, csym, case_sym, def_sym, case_reg);
+        c = tok;
+        if (c == TOK_ELSE) {
+            next();
+            d = gjmp(0);
+            gsym(a);
+            block(bsym, csym, case_sym, def_sym, case_reg);
+            gsym(d); /* patch else jmp */
+        } else
+            gsym(a);
+    } else if (tok == TOK_WHILE) {
+        next();
+        d = ind;
+        skip('(');
+        gexpr();
+        skip(')');
+        a = gtst(1, 0);
+        b = 0;
+        block(&a, &b, case_sym, def_sym, case_reg);
+        oad(0xe9, d - ind - 5); /* jmp */
+        gsym(a);
+        gsym_addr(b, d);
+    } else if (tok == '{') {
+        next();
+        /* declarations */
+        s = local_stack.top;
+        while (tok != '}') {
+            decl(VT_LOCAL);
+            if (tok != '}')
+                block(bsym, csym, case_sym, def_sym, case_reg);
+        }
+        /* pop locally defined symbols */
+        sym_pop(&local_stack, s);
+        next();
+    } else if (tok == TOK_RETURN) {
 //         next();
 //         if (tok != ';') {
 //             gexpr();
@@ -2956,21 +2956,21 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //         }
 //         skip(';');
 //         rsym = gjmp(rsym); /* jmp */
-//     } else if (tok == TOK_BREAK) {
+    } else if (tok == TOK_BREAK) {
 //         /* compute jump */
 //         if (!bsym)
 //             error("cannot break");
 //         *bsym = gjmp(*bsym);
 //         next();
 //         skip(';');
-//     } else if (tok == TOK_CONTINUE) {
+    } else if (tok == TOK_CONTINUE) {
 //         /* compute jump */
 //         if (!csym)
 //             error("cannot continue");
 //         *csym = gjmp(*csym);
 //         next();
 //         skip(';');
-//     } else if (tok == TOK_FOR) {
+    } else if (tok == TOK_FOR) {
 //         int e;
 //         next();
 //         skip('(');
@@ -3001,8 +3001,8 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //         oad(0xe9, c - ind - 5); /* jmp */
 //         gsym(a);
 //         gsym_addr(b, c);
-//     } else 
-//     if (tok == TOK_DO) {
+    } else 
+    if (tok == TOK_DO) {
 //         next();
 //         a = 0;
 //         b = 0;
@@ -3017,8 +3017,8 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //         skip(')');
 //         gsym(a);
 //         skip(';');
-//     } else
-//     if (tok == TOK_SWITCH) {
+    } else
+    if (tok == TOK_SWITCH) {
 //         next();
 //         skip('(');
 //         gexpr();
@@ -3036,8 +3036,8 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //         gsym_addr(b, c);
 //         /* break label */
 //         gsym(a);
-//     } else
-//     if (tok == TOK_CASE) {
+    } else
+    if (tok == TOK_CASE) {
 //         next();
 //         a = expr_const();
 //         if (!case_sym)
@@ -3052,8 +3052,8 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //         gsym(b);
 //         skip(':');
 //         block(bsym, csym, case_sym, def_sym, case_reg);
-//     } else 
-//     if (tok == TOK_DEFAULT) {
+    } else 
+    if (tok == TOK_DEFAULT) {
 //         next();
 //         skip(':');
 //         if (!def_sym)
@@ -3062,14 +3062,14 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 //             error("too many 'default'");
 //         *def_sym = ind;
 //         block(bsym, csym, case_sym, def_sym, case_reg);
-//     } else {
+    } else {
 //         /* expression case */
 //         if (tok != ';') {
 //             gexpr();
 //             vpop();
 //         }
 //         skip(';');
-//     }
+    }
 }
 
 /* t is the array or struct type. c is the array or struct
