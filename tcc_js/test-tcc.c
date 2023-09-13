@@ -359,14 +359,14 @@ void vset(int t, int v);
 void printline2(void);
 
 #include "test-i386-gen.c"
-// 
-// static inline int isid(int c)
-// {
-//     return (c >= 'a' && c <= 'z') ||
-//         (c >= 'A' && c <= 'Z') ||
-//         c == '_';
-// }
-// 
+
+static inline int isid(int c)
+{
+    return (c >= 'a' && c <= 'z') ||
+        (c >= 'A' && c <= 'Z') ||
+        c == '_';
+}
+
 // static inline int isnum(int c)
 // {
 //     return c >= '0' & c <= '9';

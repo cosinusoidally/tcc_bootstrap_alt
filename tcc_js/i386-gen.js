@@ -424,12 +424,16 @@ lt=2;
             o(0xc0 + r);
 //         } else if (v == VT_JMP || v == VT_JMPI) {
         } else if (v == VT_JMP || v == VT_JMPI) {
-err();
 //             t = v & 1;
+            t = v & 1;
 //             oad(0xb8 + r, t); /* mov $1, r */
+            oad(0xb8 + r, t); /* mov $1, r */
 //             oad(0xe9, 5); /* jmp after */
+            oad(0xe9, 5); /* jmp after */
 //             gsym(fc);
+            gsym(fc);
 //             oad(0xb8 + r, t ^ 1); /* mov $0, r */
+            oad(0xb8 + r, t ^ 1); /* mov $0, r */
 //         } else if (v != r) {
         } else if (v != r) {
 //             o(0x89);
