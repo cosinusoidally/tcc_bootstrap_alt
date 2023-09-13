@@ -3054,21 +3054,21 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
         block(bsym, csym, case_sym, def_sym, case_reg);
     } else 
     if (tok == TOK_DEFAULT) {
-//         next();
-//         skip(':');
-//         if (!def_sym)
-//             expect("switch");
-//         if (*def_sym)
-//             error("too many 'default'");
-//         *def_sym = ind;
-//         block(bsym, csym, case_sym, def_sym, case_reg);
+        next();
+        skip(':');
+        if (!def_sym)
+            expect("switch");
+        if (*def_sym)
+            error("too many 'default'");
+        *def_sym = ind;
+        block(bsym, csym, case_sym, def_sym, case_reg);
     } else {
-//         /* expression case */
-//         if (tok != ';') {
-//             gexpr();
-//             vpop();
-//         }
-//         skip(';');
+        /* expression case */
+        if (tok != ';') {
+            gexpr();
+            vpop();
+        }
+        skip(';');
     }
 }
 
