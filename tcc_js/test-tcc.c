@@ -3435,12 +3435,12 @@ int decl_initializer_alloc(int t, int has_init)
 /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
 void decl(int l)
 {
-//     int *a, t, b, v, u, addr, has_init, size, align;
-//     Sym *sym;
-//     
-//     while (1) {
+    int *a, t, b, v, u, addr, has_init, size, align;
+    Sym *sym;
+    
+    while (1) {
 //         b = ist();
-//         if (!b) {
+        if (!b) {
 //             /* skip redundant ';' */
 //             /* XXX: find more elegant solution */
 //             if (tok == ';') {
@@ -3452,17 +3452,17 @@ void decl(int l)
 //             if (l == VT_LOCAL || tok < TOK_DEFINE)
 //                 break;
 //             b = VT_INT;
-//         }
-//         if (((b & VT_BTYPE) == VT_ENUM ||
-//              (b & VT_BTYPE) == VT_STRUCT) && 
-//             tok == ';') {
-//             /* we accept no variable after */
-//             next();
-//             continue;
-//         }
-//         while (1) { /* iterate thru each declaration */
-//             t = type_decl(&v, b, TYPE_DIRECT);
-//             if (tok == '{') {
+        }
+        if (((b & VT_BTYPE) == VT_ENUM ||
+             (b & VT_BTYPE) == VT_STRUCT) && 
+            tok == ';') {
+            /* we accept no variable after */
+            next();
+            continue;
+        }
+        while (1) { /* iterate thru each declaration */
+            t = type_decl(&v, b, TYPE_DIRECT);
+            if (tok == '{') {
 //                 if (l == VT_LOCAL)
 //                     error("cannot use local functions");
 //                 if (!(t & VT_FUNC))
@@ -3513,59 +3513,59 @@ void decl(int l)
 //                 funcname = ""; /* for safety */
 //                 func_vt = VT_VOID; /* for safety */
 //                 break;
-//             } else {
-//                 if (b & VT_TYPEDEF) {
-//                     /* save typedefed type  */
-//                     /* XXX: test storage specifiers ? */
-//                     sym_push(v, t | VT_TYPEDEF, 0);
-//                 } else if ((t & VT_BTYPE) == VT_FUNC) {
-//                     /* external function definition */
-//                     external_sym(v, t);
-//                 } else {
-//                     /* not lvalue if array */
-//                     if (!(t & VT_ARRAY))
-//                         t |= VT_LVAL;
-//                     if (b & VT_EXTERN) {
-//                         /* external variable */
-//                         external_sym(v, t);
-//                     } else {
-//                         u = l;
-//                         if (t & VT_STATIC)
-//                             u = VT_CONST;
-//                         u |= t;
-//                         has_init = (tok == '=');
-//                         if (has_init)
-//                             next();
-//                         addr = decl_initializer_alloc(u, has_init);
-//                         while(1){
-//                         if (l == VT_CONST) {
-//                             /* global scope: see if already defined */
-//                             sym = sym_find(v);
-//                             if (!sym) {
-//                                 sym_push(v, u, addr);
-//                                 break;
-//                             }
-//                             if (!is_compatible_types(sym->t, u))
-//                                 error("incompatible types for redefinition of '%s'", 
-//                                       get_tok_str(v, NULL));
-//                             if (!(sym->t & VT_FORWARD))
-//                                 error("redefinition of '%s'", get_tok_str(v, NULL));
-//                             greloc_patch(sym, addr);
-//                         } else {
-//                             sym_push(v, u, addr);
-//                         }
-//                         break;
-//                         }
-//                     }
-//                 }
-//                 if (tok != ',') {
-//                     skip(';');
-//                     break;
-//                 }
-//                 next();
-//             }
-//         }
-//     }
+            } else {
+                if (b & VT_TYPEDEF) {
+                    /* save typedefed type  */
+                    /* XXX: test storage specifiers ? */
+                    sym_push(v, t | VT_TYPEDEF, 0);
+                } else if ((t & VT_BTYPE) == VT_FUNC) {
+                    /* external function definition */
+                    external_sym(v, t);
+                } else {
+                    /* not lvalue if array */
+                    if (!(t & VT_ARRAY))
+                        t |= VT_LVAL;
+                    if (b & VT_EXTERN) {
+                        /* external variable */
+                        external_sym(v, t);
+                    } else {
+                        u = l;
+                        if (t & VT_STATIC)
+                            u = VT_CONST;
+                        u |= t;
+                        has_init = (tok == '=');
+                        if (has_init)
+                            next();
+                        addr = decl_initializer_alloc(u, has_init);
+                        while(1){
+                        if (l == VT_CONST) {
+                            /* global scope: see if already defined */
+                            sym = sym_find(v);
+                            if (!sym) {
+                                sym_push(v, u, addr);
+                                break;
+                            }
+                            if (!is_compatible_types(sym->t, u))
+                                error("incompatible types for redefinition of '%s'", 
+                                      get_tok_str(v, NULL));
+                            if (!(sym->t & VT_FORWARD))
+                                error("redefinition of '%s'", get_tok_str(v, NULL));
+                            greloc_patch(sym, addr);
+                        } else {
+                            sym_push(v, u, addr);
+                        }
+                        break;
+                        }
+                    }
+                }
+                if (tok != ',') {
+                    skip(';');
+                    break;
+                }
+                next();
+            }
+        }
+    }
 }
 
 /* put all global symbols in the extern stack and do all the
