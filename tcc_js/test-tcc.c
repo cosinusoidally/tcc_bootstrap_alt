@@ -1271,23 +1271,23 @@ int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
 /* handle the '##' operator LJW HACK DELETED CODE*/
 int *macro_twosharps(int *macro_str)
 {
-//     TokenSym *ts;
-//     int *macro_str1, macro_str1_len, *macro_ptr1;
-//     int t;
-//     char *p;
-//     CValue cval;
-// 
-//     macro_str1 = NULL;
-//     macro_str1_len = 0;
-//     tok = 0;
-//     while (1) {
-//         next_nomacro();
-//         if (tok == 0)
-//             break;
-//         tok_add2(&macro_str1, &macro_str1_len, tok, &tokc);
-//     }
-//     tok_add(&macro_str1, &macro_str1_len, 0);
-//     return macro_str1;
+    TokenSym *ts;
+    int *macro_str1, macro_str1_len, *macro_ptr1;
+    int t;
+    char *p;
+    CValue cval;
+
+    macro_str1 = NULL;
+    macro_str1_len = 0;
+    tok = 0;
+    while (1) {
+        next_nomacro();
+        if (tok == 0)
+            break;
+        tok_add2(&macro_str1, &macro_str1_len, tok, &tokc);
+    }
+    tok_add(&macro_str1, &macro_str1_len, 0);
+    return macro_str1;
 }
 
 
