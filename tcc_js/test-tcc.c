@@ -880,51 +880,51 @@ void preprocess(void)
             strcpy(buf, get_tok_str(tok, &tokc));
             c = '\"';
         }
-//         /* eat all spaces and comments after include */
-//         /* XXX: slightly incorrect */
-//         while (ch1 != '\n' && ch1 != -1)
-//             inp();
-// 
-//         if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
-//             error("memory full");
-//         if (c == '\"') {
-//             /* first search in current dir if "header.h" */
-//             /* XXX: buffer overflow */
-//             size = 0;
-//             p = strrchr(filename, '/');
-//             if (p) 
-//                 size = p + 1 - filename;
-//             memcpy(buf1, filename, size);
-//             buf1[size] = '\0';
-//             strcat(buf1, buf);
-//             f = fopen(buf1, "r");
-//             if (f)
-//                 found=1;
-//        }
-//         /* now search in standard include path */
-//         if(!found){
-//             for(i=nb_include_paths - 1;i>=0;i--) {
-//                 strcpy(buf1, include_paths[i]);
-//                 strcat(buf1, "/");
-//                 strcat(buf1, buf);
-//                 f = fopen(buf1, "r");
-//                 if (f)
-//                     found=1;
-//             }
-//         }
-//         if(!found){
-//             error("include file '%s' not found", buf1);
-//             f = NULL;
-//         }
-//         /* push current file in stack */
-//         /* XXX: fix current line init */
-//         include_stack_ptr->file = file;
-//         include_stack_ptr->filename = filename;
-//         include_stack_ptr->line_num = line_num;
-//         include_stack_ptr++;
-//         file = f;
-//         filename = strdup(buf1);
-//         line_num = 1;
+        /* eat all spaces and comments after include */
+        /* XXX: slightly incorrect */
+        while (ch1 != '\n' && ch1 != -1)
+            inp();
+
+        if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
+            error("memory full");
+        if (c == '\"') {
+            /* first search in current dir if "header.h" */
+            /* XXX: buffer overflow */
+            size = 0;
+            p = strrchr(filename, '/');
+            if (p) 
+                size = p + 1 - filename;
+            memcpy(buf1, filename, size);
+            buf1[size] = '\0';
+            strcat(buf1, buf);
+            f = fopen(buf1, "r");
+            if (f)
+                found=1;
+       }
+       /* now search in standard include path */
+        if(!found){
+            for(i=nb_include_paths - 1;i>=0;i--) {
+                strcpy(buf1, include_paths[i]);
+                strcat(buf1, "/");
+                strcat(buf1, buf);
+                f = fopen(buf1, "r");
+                if (f)
+                    found=1;
+            }
+        }
+        if(!found){
+            error("include file '%s' not found", buf1);
+            f = NULL;
+        }
+        /* push current file in stack */
+        /* XXX: fix current line init */
+        include_stack_ptr->file = file;
+        include_stack_ptr->filename = filename;
+        include_stack_ptr->line_num = line_num;
+        include_stack_ptr++;
+        file = f;
+        filename = strdup(buf1);
+        line_num = 1;
     }
     if (tok == TOK_ERROR) {
         error("#error");
