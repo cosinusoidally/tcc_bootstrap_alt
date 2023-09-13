@@ -2098,45 +2098,45 @@ int struct_decl(int u)
                     next();
                 c++;
             } else {
-//                 b = ist();
-//                 while (1) {
-//                     bit_size = -1;
-//                     v = 0;
-//                     if (tok != ':') {
-//                         t = type_decl(&v, b, TYPE_DIRECT);
-//                         if ((t & VT_BTYPE) == VT_FUNC ||
-//                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
-//                             error("invalid type for '%s'", 
-//                                   get_tok_str(v, NULL));
-//                     }
-//                     size = type_size(t, &align);
-//                     lbit_pos = 0;
-//                     bit_pos = 0;
-//                     if (v) {
-//                         /* add new memory data only if starting
-//                            bit field */
-//                         if (lbit_pos == 0) {
-//                             if (a == TOK_STRUCT) {
-//                                 c = (c + align - 1) & -align;
-//                                 offset = c;
-//                                 c += size;
-//                             } else {
-//                                 offset = 0;
-//                                 if (size > c)
-//                                     c = size;
-//                             }
-//                             if (align > maxalign)
-//                                 maxalign = align;
-//                         }
-//                         ss = sym_push(v | SYM_FIELD, t, offset);
-//                         *ps = ss;
-//                         ps = &ss->next;
-//                     }
-//                     if (tok == ';' || tok == -1)
-//                         break;
-//                     skip(',');
-//                 }
-//                 skip(';');
+                b = ist();
+                while (1) {
+                    bit_size = -1;
+                    v = 0;
+                    if (tok != ':') {
+                        t = type_decl(&v, b, TYPE_DIRECT);
+                        if ((t & VT_BTYPE) == VT_FUNC ||
+                            (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
+                            error("invalid type for '%s'", 
+                                  get_tok_str(v, NULL));
+                    }
+                    size = type_size(t, &align);
+                    lbit_pos = 0;
+                    bit_pos = 0;
+                    if (v) {
+                        /* add new memory data only if starting
+                           bit field */
+                        if (lbit_pos == 0) {
+                            if (a == TOK_STRUCT) {
+                                c = (c + align - 1) & -align;
+                                offset = c;
+                                c += size;
+                            } else {
+                                offset = 0;
+                                if (size > c)
+                                    c = size;
+                            }
+                            if (align > maxalign)
+                                maxalign = align;
+                        }
+                        ss = sym_push(v | SYM_FIELD, t, offset);
+                        *ps = ss;
+                        ps = &ss->next;
+                    }
+                    if (tok == ';' || tok == -1)
+                        break;
+                    skip(',');
+                }
+                skip(';');
             }
             if (tok == '}')
                 break;
