@@ -1730,67 +1730,67 @@ void gen_op(int op)
 /* cast 'vtop' to 't' type */
 void gen_cast(int t)
 {
-//     int r, bits, sbt, dbt, sf, df, c, st1, dt1;
-// 
-//     r = vtop->t & VT_VALMASK;
-//     if (!(t & VT_LVAL)) {
-//         /* if not lvalue, then we convert now */
-//         dbt = t & VT_BTYPE;
-//         sbt = vtop->t & VT_BTYPE;
-//         if (sbt != dbt) {
-//             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-//             if (dbt == VT_BYTE || dbt == VT_SHORT) {
-//                 if (dbt == VT_BYTE)
-//                     bits = 8;
-//                 else
-//                     bits = 16;
-//                 if (t & VT_UNSIGNED) {
-//                     vset(VT_CONST, (1 << bits) - 1);
-//                     gen_op('&');
-//                 } else {
-//                     bits = 32 - bits;
-//                     vset(VT_CONST, bits);
-//                     gen_op(TOK_SHL);
-//                     vset(VT_CONST, bits);
-//                     gen_op(TOK_SAR);
-//                 }
-//             }
-//         }
-//     }
-//     vtop->t = (vtop->t & ~VT_TYPE) | t;
+    int r, bits, sbt, dbt, sf, df, c, st1, dt1;
+
+    r = vtop->t & VT_VALMASK;
+    if (!(t & VT_LVAL)) {
+        /* if not lvalue, then we convert now */
+        dbt = t & VT_BTYPE;
+        sbt = vtop->t & VT_BTYPE;
+        if (sbt != dbt) {
+            c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+            if (dbt == VT_BYTE || dbt == VT_SHORT) {
+                if (dbt == VT_BYTE)
+                    bits = 8;
+                else
+                    bits = 16;
+                if (t & VT_UNSIGNED) {
+                    vset(VT_CONST, (1 << bits) - 1);
+                    gen_op('&');
+                } else {
+                    bits = 32 - bits;
+                    vset(VT_CONST, bits);
+                    gen_op(TOK_SHL);
+                    vset(VT_CONST, bits);
+                    gen_op(TOK_SAR);
+                }
+            }
+        }
+    }
+    vtop->t = (vtop->t & ~VT_TYPE) | t;
 }
 
 /* return type size. Put alignment at 'a' */
 int type_size(int t, int *a)
 {
-//     Sym *s;
-//     int bt;
-// 
-//     bt = t & VT_BTYPE;
-//     if (bt == VT_STRUCT) {
-//         /* struct/union */
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-//         *a = 4; /* XXX: cannot store it yet. Doing that is safe */
-//         return s->c;
-//     } else if (bt == VT_PTR) {
-//         if (t & VT_ARRAY) {
-//             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-//             return type_size(s->t, a) * s->c;
-//         } else {
-//             *a = PTR_SIZE;
-//             return PTR_SIZE;
-//         }
-//     } else if (bt == VT_INT || bt == VT_ENUM ) {
-//         *a = 4;
-//         return 4;
-//     } else if (bt == VT_SHORT) {
-//         *a = 2;
-//         return 2;
-//     } else {
-//         /* char, void, function, _Bool */
-//         *a = 1;
-//         return 1;
-//     }
+    Sym *s;
+    int bt;
+
+    bt = t & VT_BTYPE;
+    if (bt == VT_STRUCT) {
+        /* struct/union */
+        s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        *a = 4; /* XXX: cannot store it yet. Doing that is safe */
+        return s->c;
+    } else if (bt == VT_PTR) {
+        if (t & VT_ARRAY) {
+            s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+            return type_size(s->t, a) * s->c;
+        } else {
+            *a = PTR_SIZE;
+            return PTR_SIZE;
+        }
+    } else if (bt == VT_INT || bt == VT_ENUM ) {
+        *a = 4;
+        return 4;
+    } else if (bt == VT_SHORT) {
+        *a = 2;
+        return 2;
+    } else {
+        /* char, void, function, _Bool */
+        *a = 1;
+        return 1;
+    }
 }
 
 /* return the pointed type of t */
