@@ -3190,24 +3190,24 @@ void init_putv(int t, int c, int v, int is_expr)
 /* put zeros for variable based init */
 void init_putz(int t, int c, int size)
 {
-//     GFuncContext gf;
-// 
-//     if ((t & VT_VALMASK) == VT_CONST) {
-//         /* nothing to do because global are already set to zero */
-//     } else {
-//         gfunc_start(&gf);
-//         vset(VT_CONST, size);
-//         gfunc_param(&gf);
-//         vset(VT_CONST, 0);
-//         gfunc_param(&gf);
-//         vset(VT_LOCAL, c);
-//         gfunc_param(&gf);
-//         vset(VT_CONST, (int)&memset);
-// if(reloc){
-//   printf("memset function point stuff\n");
-// }
-//         gfunc_call(&gf);
-//     }
+    GFuncContext gf;
+
+    if ((t & VT_VALMASK) == VT_CONST) {
+        /* nothing to do because global are already set to zero */
+    } else {
+        gfunc_start(&gf);
+        vset(VT_CONST, size);
+        gfunc_param(&gf);
+        vset(VT_CONST, 0);
+        gfunc_param(&gf);
+        vset(VT_LOCAL, c);
+        gfunc_param(&gf);
+        vset(VT_CONST, (int)&memset);
+if(reloc){
+  printf("memset function point stuff\n");
+}
+        gfunc_call(&gf);
+    }
 }
 
 /* 't' contains the type and storage info. c is the address of the
