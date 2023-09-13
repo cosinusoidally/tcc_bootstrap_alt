@@ -3168,9 +3168,10 @@ void init_putv(int t, int c, int v, int is_expr)
         case VT_BYTE:
             *(char *)c = vtop->c.i;
             break;
-//         case VT_SHORT:
+        case VT_SHORT:
+// FIXME ljw
 //             *(short *)c = vtop->c.i;
-//             break;
+            break;
         default:
             *(int *)c = vtop->c.i;
             break;
