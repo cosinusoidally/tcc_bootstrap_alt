@@ -2021,28 +2021,28 @@ special=0;
 /* post defines POST/PRE add. c is the token ++ or -- */
 void inc(int post, int c)
 {
-//     int r, r1;
-// 
-//     test_lvalue();
-//     if (post)
-//         vdup(); /* room for returned value */
-//     vdup(); /* save lvalue */
-//     r = gv();
-//     if (post) {
-//         /* duplicate value */
-//         /* XXX: handle floats */
-//         r1 = get_reg(REG_CLASS_INT);
-//         load(r1, r, 0); /* move r to r1 */
-//         /* duplicates value */
-//         vtop[-2].t = (vtop->t & VT_TYPE) | r1;
-//         vtop[-2].c.i = 0;
-//     }
-//     /* add constant */
-//     vset(VT_CONST, c - TOK_MID); 
-//     gen_op('+');
-//     vstore(); /* store value */
-//     if (post)
-//         vpop(); /* if post op, return saved value */
+    int r, r1;
+
+    test_lvalue();
+    if (post)
+        vdup(); /* room for returned value */
+    vdup(); /* save lvalue */
+    r = gv();
+    if (post) {
+        /* duplicate value */
+        /* XXX: handle floats */
+        r1 = get_reg(REG_CLASS_INT);
+        load(r1, r, 0); /* move r to r1 */
+        /* duplicates value */
+        vtop[-2].t = (vtop->t & VT_TYPE) | r1;
+        vtop[-2].c.i = 0;
+    }
+    /* add constant */
+    vset(VT_CONST, c - TOK_MID); 
+    gen_op('+');
+    vstore(); /* store value */
+    if (post)
+        vpop(); /* if post op, return saved value */
 }
 
 /* enum/struct/union declaration */
