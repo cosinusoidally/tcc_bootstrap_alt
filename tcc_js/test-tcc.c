@@ -3357,78 +3357,78 @@ void decl_initializer(int t, int c, int first, int size_only)
    in returned */
 int decl_initializer_alloc(int t, int has_init)
 {
-//     int size, align, addr, tok1;
-//     int *init_str, init_len, level, *saved_macro_ptr;
-// 
-//     size = type_size(t, &align);
-//     /* If unknown size, we must evaluate it before
-//        evaluating initializers because
-//        initializers can generate global data too
-//        (e.g. string pointers or ISOC99 compound
-//        literals). It also simplifies local
-//        initializers handling */
-//     init_len = 0;
-//     init_str = NULL;
-//     saved_macro_ptr = NULL; /* avoid warning */
-//     tok1 = 0;
-//     if (size < 0) {
-//         if (!has_init) 
-//             error("unknown type size");
-//         /* get all init string */
-//         level = 0;
-//         while (level > 0 || (tok != ',' && tok != ';')) {
-//             if (tok < 0)
-//                 error("unexpect end of file in initializer");
-//             tok_add2(&init_str, &init_len, tok, &tokc);
-//             if (tok == '{')
-//                 level++;
-//             else if (tok == '}') {
-//                 if (level == 0)
-//                     break;
-//                 level--;
-//             }
-//             next();
-//         }
-//         tok1 = tok;
-//         tok_add(&init_str, &init_len, -1);
-//         tok_add(&init_str, &init_len, 0);
-//         
-//         /* compute size */
-//         saved_macro_ptr = macro_ptr;
-//         macro_ptr = init_str;
-//         next();
-//         decl_initializer(t, 0, 1, 1);
-//         /* prepare second initializer parsing */
-//         macro_ptr = init_str;
-//         next();
-//         
-//         /* if still unknown size, error */
-//         size = type_size(t, &align);
-//         if (size < 0) 
-//             error("unknown type size");
-//     }
-//     if ((t & VT_VALMASK) == VT_LOCAL) {
-//         loc = (loc - size) & -align;
-//         addr = loc;
-//     } else {
-//         glo = (glo + align - 1) & -align;
-//         addr = glo;
-//         /* very important to increment global
-//            pointer at this time because
-//            initializers themselves can create new
-//            initializers */
-//         glo += size;
-//     }
-//     if (has_init) {
-//         decl_initializer(t, addr, 1, 0);
-//         /* restore parse state if needed */
-//         if (init_str) {
-//             free(init_str);
-//             macro_ptr = saved_macro_ptr;
-//             tok = tok1;
-//         }
-//     }
-//     return addr;
+    int size, align, addr, tok1;
+    int *init_str, init_len, level, *saved_macro_ptr;
+
+    size = type_size(t, &align);
+    /* If unknown size, we must evaluate it before
+       evaluating initializers because
+       initializers can generate global data too
+       (e.g. string pointers or ISOC99 compound
+       literals). It also simplifies local
+       initializers handling */
+    init_len = 0;
+    init_str = NULL;
+    saved_macro_ptr = NULL; /* avoid warning */
+    tok1 = 0;
+    if (size < 0) {
+        if (!has_init) 
+            error("unknown type size");
+        /* get all init string */
+        level = 0;
+        while (level > 0 || (tok != ',' && tok != ';')) {
+            if (tok < 0)
+                error("unexpect end of file in initializer");
+            tok_add2(&init_str, &init_len, tok, &tokc);
+            if (tok == '{')
+                level++;
+            else if (tok == '}') {
+                if (level == 0)
+                    break;
+                level--;
+            }
+            next();
+        }
+        tok1 = tok;
+        tok_add(&init_str, &init_len, -1);
+        tok_add(&init_str, &init_len, 0);
+        
+        /* compute size */
+        saved_macro_ptr = macro_ptr;
+        macro_ptr = init_str;
+        next();
+        decl_initializer(t, 0, 1, 1);
+        /* prepare second initializer parsing */
+        macro_ptr = init_str;
+        next();
+        
+        /* if still unknown size, error */
+        size = type_size(t, &align);
+        if (size < 0) 
+            error("unknown type size");
+    }
+    if ((t & VT_VALMASK) == VT_LOCAL) {
+        loc = (loc - size) & -align;
+        addr = loc;
+    } else {
+        glo = (glo + align - 1) & -align;
+        addr = glo;
+        /* very important to increment global
+           pointer at this time because
+           initializers themselves can create new
+           initializers */
+        glo += size;
+    }
+    if (has_init) {
+        decl_initializer(t, addr, 1, 0);
+        /* restore parse state if needed */
+        if (init_str) {
+            free(init_str);
+            macro_ptr = saved_macro_ptr;
+            tok = tok1;
+        }
+    }
+    return addr;
 }
 
 
