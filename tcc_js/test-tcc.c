@@ -2769,125 +2769,125 @@ void eand(void)
     }
 }
 
-// void eor(void)
-// {
-//     int t;
-// 
-//     eand();
-//     t = 0;
-//     while (1) {
-//         if (tok != TOK_LOR) {
-//             if (t) {
-//                 t = gtst(0, t);
-//                 vset(VT_JMP, t);
-//             }
-//             break;
-//         }
-//         t = gtst(0, t);
-//         next();
-//         eand();
-//     }
-// }
+void eor(void)
+{
+    int t;
+
+    eand();
+    t = 0;
+    while (1) {
+        if (tok != TOK_LOR) {
+            if (t) {
+                t = gtst(0, t);
+                vset(VT_JMP, t);
+            }
+            break;
+        }
+        t = gtst(0, t);
+        next();
+        eand();
+    }
+}
 
 /* XXX: better constant handling */
 void expr_eq(void)
 {
-//     int t, u, c, r1, r2;
-// 
-//     if (const_wanted) {
-//         sum(10);
-//         if (tok == '?') {
-//             c = vtop->c.i;
-//             vpop();
-//             next();
-//             gexpr();
-//             t = vtop->c.i;
-//             vpop();
-//             skip(':');
-//             expr_eq();
-//             if (c)
-//                 vtop->c.i = t;
-//         }
-//     } else {
-//         eor();
-//         if (tok == '?') {
-//             next();
-//             t = gtst(1, 0);
-// 
-//             gexpr();
-//             r1 = gv();
-//             vpop();
-//             skip(':');
-//             u = gjmp(0);
-// 
-//             gsym(t);
-//             expr_eq();
-//             r2 = gv();
-//             move_reg(r1, r2);
-//             vtop->t = (vtop->t & VT_TYPE) | r1;
-//             gsym(u);
-//         }
-//     }
+    int t, u, c, r1, r2;
+
+    if (const_wanted) {
+        sum(10);
+        if (tok == '?') {
+            c = vtop->c.i;
+            vpop();
+            next();
+            gexpr();
+            t = vtop->c.i;
+            vpop();
+            skip(':');
+            expr_eq();
+            if (c)
+                vtop->c.i = t;
+        }
+    } else {
+        eor();
+        if (tok == '?') {
+            next();
+            t = gtst(1, 0);
+
+            gexpr();
+            r1 = gv();
+            vpop();
+            skip(':');
+            u = gjmp(0);
+
+            gsym(t);
+            expr_eq();
+            r2 = gv();
+            move_reg(r1, r2);
+            vtop->t = (vtop->t & VT_TYPE) | r1;
+            gsym(u);
+        }
+    }
 }
 
 void gexpr(void)
 {
-//     while (1) {
-//         expr_eq();
-//         if (tok != ',')
-//             break;
-//         vpop();
-//         next();
-//     }
+    while (1) {
+        expr_eq();
+        if (tok != ',')
+            break;
+        vpop();
+        next();
+    }
 }
 
 /* parse a constant expression and return value in vtop */
 void expr_const1(void)
 {
-//     int a;
-//     a = const_wanted;
-//     const_wanted = 1;
-//     expr_eq();
-//     if ((vtop->t & (VT_CONST | VT_LVAL)) != VT_CONST)
-//         expect("constant");
-//     const_wanted = a;
+    int a;
+    a = const_wanted;
+    const_wanted = 1;
+    expr_eq();
+    if ((vtop->t & (VT_CONST | VT_LVAL)) != VT_CONST)
+        expect("constant");
+    const_wanted = a;
 }
 
 /* parse an integer constant and return its value */
 int expr_const(void)
 {
-//     int c;
-//     expr_const1();
-//     c = vtop->c.i;
-//     vpop();
-//     return c;
+    int c;
+    expr_const1();
+    c = vtop->c.i;
+    vpop();
+    return c;
 }
 
 /* return the label token if current token is a label, otherwise
    return zero */
 int is_label(void)
 {
-//     int t;
-//     CValue c;
-// 
-//     /* fast test first */
-//     if (tok < TOK_UIDENT)
-//         return 0;
-//     /* no need to save tokc since we expect an identifier */
-//     t = tok;
-//     c = tokc;
-//     next();
-//     if (tok == ':') {
-//         next();
-//         return t;
-//     } else {
-//         /* XXX: may not work in all cases (macros ?) */
-//         tok1 = tok;
-//         tok1c = tokc;
-//         tok = t;
-//         tokc = c;
-//         return 0;
-//     }
+    int t;
+    CValue c;
+
+    /* fast test first */
+    if (tok < TOK_UIDENT)
+        return 0;
+    /* no need to save tokc since we expect an identifier */
+    t = tok;
+    c = tokc;
+    next();
+    if (tok == ':') {
+        next();
+        return t;
+    } else {
+        /* XXX: may not work in all cases (macros ?) */
+        tok1 = tok;
+        tok1c = tokc;
+        tok = t;
+        tokc = c;
+        return 0;
+    }
 }
 
 void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
