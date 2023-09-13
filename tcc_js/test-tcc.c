@@ -2048,56 +2048,56 @@ void inc(int post, int c)
 /* enum/struct/union declaration */
 int struct_decl(int u)
 {
-//     int a, t, b, v, size, align, maxalign, c, offset;
-//     int bit_size, bit_pos, bsize, bt, lbit_pos;
-//     Sym *s, *ss, **ps;
-// 
-//     a = tok; /* save decl type */
-//     next();
-//     while(1){
-//     if (tok != '{') {
-//         v = tok;
-//         next();
-//         /* struct already defined ? return it */
-//         /* XXX: check consistency */
-//         if (s = sym_find(v | SYM_STRUCT)) {
-//             if (s->t != a)
-//                 error("invalid type");
-//             break;
-//         }
-//     } else {
-//         v = anon_sym++;
-//     }
-//     s = sym_push(v | SYM_STRUCT, a, 0);
-//     /* put struct/union/enum name in type */
-//     break;
-//     }
-//     u = u | (v << VT_STRUCT_SHIFT);
-//     
-//     if (tok == '{') {
-//         next();
-//         if (s->c)
-//             error("struct/union/enum already defined");
-//         /* cannot be empty */
-//         c = 0;
-//         maxalign = 0;
-//         ps = &s->next;
-//         bit_pos = 0;
-//         offset = 0;
-//         while (1) {
-//             if (a == TOK_ENUM) {
-//                 v = tok;
-//                 next();
-//                 if (tok == '=') {
-//                     next();
-//                     c = expr_const();
-//                 }
-//                 /* enum symbols have static storage */
-//                 sym_push(v, VT_CONST | VT_STATIC, c);
-//                 if (tok == ',')
-//                     next();
-//                 c++;
-//             } else {
+    int a, t, b, v, size, align, maxalign, c, offset;
+    int bit_size, bit_pos, bsize, bt, lbit_pos;
+    Sym *s, *ss, **ps;
+
+    a = tok; /* save decl type */
+    next();
+    while(1){
+    if (tok != '{') {
+        v = tok;
+        next();
+        /* struct already defined ? return it */
+        /* XXX: check consistency */
+        if (s = sym_find(v | SYM_STRUCT)) {
+            if (s->t != a)
+                error("invalid type");
+            break;
+        }
+    } else {
+        v = anon_sym++;
+    }
+    s = sym_push(v | SYM_STRUCT, a, 0);
+    /* put struct/union/enum name in type */
+    break;
+    }
+    u = u | (v << VT_STRUCT_SHIFT);
+    
+    if (tok == '{') {
+        next();
+        if (s->c)
+            error("struct/union/enum already defined");
+        /* cannot be empty */
+        c = 0;
+        maxalign = 0;
+        ps = &s->next;
+        bit_pos = 0;
+        offset = 0;
+        while (1) {
+            if (a == TOK_ENUM) {
+                v = tok;
+                next();
+                if (tok == '=') {
+                    next();
+                    c = expr_const();
+                }
+                /* enum symbols have static storage */
+                sym_push(v, VT_CONST | VT_STATIC, c);
+                if (tok == ',')
+                    next();
+                c++;
+            } else {
 //                 b = ist();
 //                 while (1) {
 //                     bit_size = -1;
@@ -2137,15 +2137,15 @@ int struct_decl(int u)
 //                     skip(',');
 //                 }
 //                 skip(';');
-//             }
-//             if (tok == '}')
-//                 break;
-//         }
-//         skip('}');
-//         /* size for struct/union, dummy for enum */
-//         s->c = (c + maxalign - 1) & -maxalign; 
-//     }
-//     return u;
+            }
+            if (tok == '}')
+                break;
+        }
+        skip('}');
+        /* size for struct/union, dummy for enum */
+        s->c = (c + maxalign - 1) & -maxalign; 
+    }
+    return u;
 }
 
 int basic_type1(int t,int u){
