@@ -3476,10 +3476,9 @@ function ist() {
             break;
 //         case TOK_SHORT:
         case TOK_SHORT:
-err();
-//             u = VT_SHORT;
-//             t=basic_type(t,u);
-//             break;
+            u = VT_SHORT;
+            t=basic_type(t,u);
+            break;
 //         case TOK_INT:
         case TOK_INT:
 //             next();
