@@ -2336,49 +2336,49 @@ int post_type(int t)
    type. If v is true, then also put variable name in 'vtop->c' */
 int type_decl(int *v, int t, int td)
 {
-//     int u, p;
-//     Sym *s;
-// 
-//     t = t & -3; /* suppress the ored '2' */
-//     while (tok == '*') {
-//         next();
-//         while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
-//             next();
-//         t = mk_pointer(t);
-//     }
-//     
-//     /* recursive type */
-//     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
-//     if (tok == '(') {
-//         next();
-//         u = type_decl(v, 0, td);
-//         skip(')');
-//     } else {
-//         u = 0;
-//         /* type identifier */
-//         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
-//             *v = tok;
-//             next();
-//         } else {
-//             if (!(td & TYPE_ABSTRACT))
-//                 expect("identifier");
-//             *v = 0;
-//         }
-//     }
-//     /* append t at the end of u */
-//     t = post_type(t);
-//     if (!u) 
-//         return t;
-//     p = u;
-//     while(1) {
-//         s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
-//         p = s->t;
-//         if (!p) {
-//             s->t = t;
-//             break;
-//         }
-//     }
-//     return u;
+    int u, p;
+    Sym *s;
+
+    t = t & -3; /* suppress the ored '2' */
+    while (tok == '*') {
+        next();
+        while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
+            next();
+        t = mk_pointer(t);
+    }
+    
+    /* recursive type */
+    /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
+    if (tok == '(') {
+        next();
+        u = type_decl(v, 0, td);
+        skip(')');
+    } else {
+        u = 0;
+        /* type identifier */
+        if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+            *v = tok;
+            next();
+        } else {
+            if (!(td & TYPE_ABSTRACT))
+                expect("identifier");
+            *v = 0;
+        }
+    }
+    /* append t at the end of u */
+    t = post_type(t);
+    if (!u) 
+        return t;
+    p = u;
+    while(1) {
+        s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
+        p = s->t;
+        if (!p) {
+            s->t = t;
+            break;
+        }
+    }
+    return u;
 }
 
 /* define a new external reference to a function 'v' of type 'u' */
