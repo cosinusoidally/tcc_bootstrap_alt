@@ -2167,77 +2167,77 @@ int basic_type(int t, int u){
  */
 int ist(void)
 {
-//     int t, u;
-//     Sym *s;
-// 
-//     t = 0;
-//     while(1) {
-//         switch(tok) {
-//             /* basic types */
-//         case TOK_CHAR:
-//             u = VT_BYTE;
-//             t=basic_type(t,u);
-//             break;
-//         case TOK_VOID:
-//             u = VT_VOID;
-//             t=basic_type(t,u);
-//             break;
-//         case TOK_SHORT:
-//             u = VT_SHORT;
-//             t=basic_type(t,u);
-//             break;
-//         case TOK_INT:
-//             next();
-//             break;
-//         case TOK_ENUM:
-//             u = struct_decl(VT_ENUM);
-//             t=basic_type1(t,u);
-//             break;
-//         case TOK_STRUCT:
-//         case TOK_UNION:
-//             u = struct_decl(VT_STRUCT);
-//             t=basic_type1(t,u);
-//             break;
-// 
-//             /* type modifiers */
-//         case TOK_CONST:
-//         case TOK_VOLATILE:
-//         case TOK_REGISTER:
-//         case TOK_SIGNED:
-//         case TOK_AUTO:
-//         case TOK_INLINE:
-//         case TOK_RESTRICT:
-//             next();
-//             break;
-//         case TOK_UNSIGNED:
-//             t |= VT_UNSIGNED;
-//             next();
-//             break;
-// 
-//             /* storage */
-//         case TOK_EXTERN:
-//             t |= VT_EXTERN;
-//             next();
-//             break;
-//         case TOK_STATIC:
-//             t |= VT_STATIC;
-//             next();
-//             break;
-//         case TOK_TYPEDEF:
-//             t |= VT_TYPEDEF;
-//             next();
-//             break;
-//         default:
-//             s = sym_find(tok);
-//             if (!s || !(s->t & VT_TYPEDEF))
-//                 return t;
-//             t |= (s->t & ~VT_TYPEDEF);
-//             next();
-//             break;
-//         }
-//         t |= 2;
-//     }
-//     return t;
+    int t, u;
+    Sym *s;
+
+    t = 0;
+    while(1) {
+        switch(tok) {
+            /* basic types */
+        case TOK_CHAR:
+            u = VT_BYTE;
+            t=basic_type(t,u);
+            break;
+        case TOK_VOID:
+            u = VT_VOID;
+            t=basic_type(t,u);
+            break;
+        case TOK_SHORT:
+            u = VT_SHORT;
+            t=basic_type(t,u);
+            break;
+        case TOK_INT:
+            next();
+            break;
+        case TOK_ENUM:
+            u = struct_decl(VT_ENUM);
+            t=basic_type1(t,u);
+            break;
+        case TOK_STRUCT:
+        case TOK_UNION:
+            u = struct_decl(VT_STRUCT);
+            t=basic_type1(t,u);
+            break;
+
+            /* type modifiers */
+        case TOK_CONST:
+        case TOK_VOLATILE:
+        case TOK_REGISTER:
+        case TOK_SIGNED:
+        case TOK_AUTO:
+        case TOK_INLINE:
+        case TOK_RESTRICT:
+            next();
+            break;
+        case TOK_UNSIGNED:
+            t |= VT_UNSIGNED;
+            next();
+            break;
+
+            /* storage */
+        case TOK_EXTERN:
+            t |= VT_EXTERN;
+            next();
+            break;
+        case TOK_STATIC:
+            t |= VT_STATIC;
+            next();
+            break;
+        case TOK_TYPEDEF:
+            t |= VT_TYPEDEF;
+            next();
+            break;
+        default:
+            s = sym_find(tok);
+            if (!s || !(s->t & VT_TYPEDEF))
+                return t;
+            t |= (s->t & ~VT_TYPEDEF);
+            next();
+            break;
+        }
+        t |= 2;
+    }
+    return t;
 }
 
 int post_type(int t)
