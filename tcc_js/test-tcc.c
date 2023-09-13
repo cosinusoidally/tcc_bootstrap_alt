@@ -1123,73 +1123,73 @@ void next_nomacro1(void)
             break;
         cinp();
     }
-//     if (isid(ch)) {
-//         q = token_buf;
-//         *q++ = ch;
-//         cinp();
-//         while (isid(ch) || isnum(ch)) {
-//             if (q >= token_buf + STRING_MAX_SIZE)
-//                 error("ident too long");
-//             *q++ = ch;
-//             cinp();
-//         }
-//         *q = '\0';
-//         ts = tok_alloc(token_buf, q - token_buf);
-//         tok = ts->tok;
-//     } else if (isnum(ch) || ch == '.') {
-//         parse_number();
-//     } else if (ch == '\'') {
-//         tok = TOK_CCHAR;
-//         minp();
-//         tokc.i = getq();
-//         if (ch != '\'')
-//             expect("\'");
-//         minp();
-//     } else if (ch == '\"') {
-//         tok = TOK_STR;
-//         minp();
-//         q = token_buf;
-//         while (ch != '\"') {
-//             b = getq();
-//             if (ch == -1)
-//                 error("unterminated string");
-//             if (q >= token_buf + STRING_MAX_SIZE)
-//                 error("string too long");
-//             *q++ = b;
-//         }
-//         *q = '\0';
-//         tokc.ts = tok_alloc(token_buf, q - token_buf);
-//         minp();
-//    } else {
-//         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
-//         /* two chars */
-//         tok = ch;
-//         cinp();
-//         while (*q) {
-//             if (*q == tok && q[1] == ch) {
-//                 cinp();
-//                 tok = q[2] & 0xff;
-//                 /* three chars tests */
-//                 if (tok == TOK_SHL | tok == TOK_SAR) {
-//                     if (ch == '=') {
-//                         tok = tok | 0x80;
-//                         cinp();
-//                     }
-//                 } else if (tok == TOK_DOTS) {
-//                     if (ch != '.')
-//                         error("parse error");
-//                     cinp();
-//                 }
-//                 return;
-//             }
-//             q = q + 3;
-//         }
-//         /* single char substitutions */
-//         if (tok == '<')
-//             tok = TOK_LT;
-//         else if (tok == '>')
-//             tok = TOK_GT;
-//    }
+    if (isid(ch)) {
+        q = token_buf;
+        *q++ = ch;
+        cinp();
+        while (isid(ch) || isnum(ch)) {
+            if (q >= token_buf + STRING_MAX_SIZE)
+                error("ident too long");
+            *q++ = ch;
+            cinp();
+        }
+        *q = '\0';
+        ts = tok_alloc(token_buf, q - token_buf);
+        tok = ts->tok;
+    } else if (isnum(ch) || ch == '.') {
+        parse_number();
+    } else if (ch == '\'') {
+        tok = TOK_CCHAR;
+        minp();
+        tokc.i = getq();
+        if (ch != '\'')
+            expect("\'");
+        minp();
+    } else if (ch == '\"') {
+        tok = TOK_STR;
+        minp();
+        q = token_buf;
+        while (ch != '\"') {
+            b = getq();
+            if (ch == -1)
+                error("unterminated string");
+            if (q >= token_buf + STRING_MAX_SIZE)
+                error("string too long");
+            *q++ = b;
+        }
+        *q = '\0';
+        tokc.ts = tok_alloc(token_buf, q - token_buf);
+        minp();
+   } else {
+        q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
+        /* two chars */
+        tok = ch;
+        cinp();
+        while (*q) {
+            if (*q == tok && q[1] == ch) {
+                cinp();
+                tok = q[2] & 0xff;
+                /* three chars tests */
+                if (tok == TOK_SHL | tok == TOK_SAR) {
+                    if (ch == '=') {
+                        tok = tok | 0x80;
+                        cinp();
+                    }
+                } else if (tok == TOK_DOTS) {
+                    if (ch != '.')
+                        error("parse error");
+                    cinp();
+                }
+                return;
+            }
+            q = q + 3;
+        }
+        /* single char substitutions */
+        if (tok == '<')
+            tok = TOK_LT;
+        else if (tok == '>')
+            tok = TOK_GT;
+   }
 }
 
 /* return next token without macro substitution. Can read input from
