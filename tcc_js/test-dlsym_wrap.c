@@ -75,9 +75,7 @@ void *dlsym_wrap(void *handle, char *symbol)
   // TCCSyms must be defined here, I think there is a bug around global data
   // relocations
 
-// FIXME ljw correctly populate list
-TCCSyms *tcc_syms;
-//  TCCSyms tcc_syms[] = {
+  TCCSyms tcc_syms[] = {
 //      { "atoi", &atoi, },
 //      { "close", &close, },
 //       { "dlerror", &dlerror_wrap, },
@@ -128,7 +126,7 @@ TCCSyms *tcc_syms;
 //       { "vfprintf", &vfprintf, },
 //       { "blah", &blah_wrap, },
 //       { NULL, NULL },
-//  };
+  };
 
   TCCSyms *s;
   s=tcc_syms;

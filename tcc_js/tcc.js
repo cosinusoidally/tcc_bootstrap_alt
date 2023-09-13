@@ -5524,41 +5524,68 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     tok1 = 0;
 //     if (size < 0) {
     if (size < 0) {
-err();
 //         if (!has_init) 
+        if (!has_init) 
 //             error("unknown type size");
+            error("unknown type size");
 //         /* get all init string */
 //         level = 0;
+        level = 0;
 //         while (level > 0 || (tok != ',' && tok != ';')) {
+        while (level > 0 || (tok != mk_char(',') && tok != mk_char(';'))) {
 //             if (tok < 0)
+            if (tok < 0)
 //                 error("unexpect end of file in initializer");
+                error("unexpect end of file in initializer");
 //             tok_add2(&init_str, &init_len, tok, &tokc);
+            tok_add2(init_str, init_len, tok, tokc);
 //             if (tok == '{')
+            if (tok == mk_char('{'))
 //                 level++;
+                level++;
 //             else if (tok == '}') {
+            else if (tok == mk_char('}')) {
 //                 if (level == 0)
+                if (level == 0)
 //                     break;
+                    break;
 //                 level--;
+                level--;
 //             }
+            }
 //             next();
+            next();
 //         }
+        }
 //         tok1 = tok;
+        tok1 = tok;
 //         tok_add(&init_str, &init_len, -1);
+        tok_add(init_str, init_len, -1);
 //         tok_add(&init_str, &init_len, 0);
+        tok_add(init_str, init_len, 0);
 //         
 //         /* compute size */
 //         saved_macro_ptr = macro_ptr;
+        saved_macro_ptr = ri32(macro_ptr);
 //         macro_ptr = init_str;
+        wi32(macro_ptr, ri32(init_str));
 //         next();
+        next();
 //         decl_initializer(t, 0, 1, 1);
+        decl_initializer(t, 0, 1, 1);
 //         /* prepare second initializer parsing */
 //         macro_ptr = init_str;
+        wi32(macro_ptr, ri32(init_str));
 //         next();
+        next();
 //         
 //         /* if still unknown size, error */
 //         size = type_size(t, &align);
+        size = type_size(t, align);
 //         if (size < 0) 
+        if (size < 0) 
 //             error("unknown type size");
+            error("unknown type size");
 //     }
     }
 //     if ((t & VT_VALMASK) == VT_LOCAL) {
@@ -5588,10 +5615,12 @@ err();
 //         /* restore parse state if needed */
 //         if (init_str) {
         if (ri32(init_str)) {
-err();
 //             free(init_str);
+            free(ri32(init_str));
 //             macro_ptr = saved_macro_ptr;
+            wi32(macro_ptr, saved_macro_ptr);
 //             tok = tok1;
+            tok = tok1;
 //         }
         }
 //     }
