@@ -2788,10 +2788,10 @@ void eand(void)
 //         eand();
 //     }
 // }
-// 
-// /* XXX: better constant handling */
-// void expr_eq(void)
-// {
+
+/* XXX: better constant handling */
+void expr_eq(void)
+{
 //     int t, u, c, r1, r2;
 // 
 //     if (const_wanted) {
@@ -2828,10 +2828,10 @@ void eand(void)
 //             gsym(u);
 //         }
 //     }
-// }
-// 
-// void gexpr(void)
-// {
+}
+
+void gexpr(void)
+{
 //     while (1) {
 //         expr_eq();
 //         if (tok != ',')
@@ -2839,11 +2839,11 @@ void eand(void)
 //         vpop();
 //         next();
 //     }
-// }
-// 
-// /* parse a constant expression and return value in vtop */
-// void expr_const1(void)
-// {
+}
+
+/* parse a constant expression and return value in vtop */
+void expr_const1(void)
+{
 //     int a;
 //     a = const_wanted;
 //     const_wanted = 1;
@@ -2851,22 +2851,22 @@ void eand(void)
 //     if ((vtop->t & (VT_CONST | VT_LVAL)) != VT_CONST)
 //         expect("constant");
 //     const_wanted = a;
-// }
-// 
-// /* parse an integer constant and return its value */
-// int expr_const(void)
-// {
+}
+
+/* parse an integer constant and return its value */
+int expr_const(void)
+{
 //     int c;
 //     expr_const1();
 //     c = vtop->c.i;
 //     vpop();
 //     return c;
-// }
-// 
-// /* return the label token if current token is a label, otherwise
-//    return zero */
-// int is_label(void)
-// {
+}
+
+/* return the label token if current token is a label, otherwise
+   return zero */
+int is_label(void)
+{
 //     int t;
 //     CValue c;
 // 
@@ -2888,10 +2888,10 @@ void eand(void)
 //         tokc = c;
 //         return 0;
 //     }
-// }
-// 
-// void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
-// {
+}
+
+void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
+{
 //     int a, b, c, d;
 //     Sym *s;
 // 
@@ -3070,16 +3070,16 @@ void eand(void)
 //         }
 //         skip(';');
 //     }
-// }
-// 
-// /* t is the array or struct type. c is the array or struct
-//    address. cur_index/cur_field is the pointer to the current
-//    value. 'size_only' is true if only size info is needed (only used
-//    in arrays) */
-// void decl_designator(int t, int c, 
-//                      int *cur_index, Sym **cur_field, 
-//                      int size_only)
-// {
+}
+
+/* t is the array or struct type. c is the array or struct
+   address. cur_index/cur_field is the pointer to the current
+   value. 'size_only' is true if only size info is needed (only used
+   in arrays) */
+void decl_designator(int t, int c, 
+                     int *cur_index, Sym **cur_field, 
+                     int size_only)
+{
 //     Sym *s, *f;
 //     int notfirst, index, align, l;
 // 
@@ -3143,12 +3143,12 @@ void eand(void)
 //         }
 //     }
 //     decl_initializer(t, c, 0, size_only);
-// }
-// 
-// /* store a value or an expression directly in global data or in local array */
-// 
-// void init_putv(int t, int c, int v, int is_expr)
-// {
+}
+
+/* store a value or an expression directly in global data or in local array */
+
+void init_putv(int t, int c, int v, int is_expr)
+{
 //     int saved_global_expr, bt;
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
@@ -3185,11 +3185,11 @@ void eand(void)
 //         vstore();
 //         vpop();
 //     }
-// }
-// 
-// /* put zeros for variable based init */
-// void init_putz(int t, int c, int size)
-// {
+}
+
+/* put zeros for variable based init */
+void init_putz(int t, int c, int size)
+{
 //     GFuncContext gf;
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
@@ -3208,14 +3208,14 @@ void eand(void)
 // }
 //         gfunc_call(&gf);
 //     }
-// }
-// 
-// /* 't' contains the type and storage info. c is the address of the
-//    object. 'first' is true if array '{' must be read (multi dimension
-//    implicit array init handling). 'size_only' is true if size only
-//    evaluation is wanted (only for arrays). */
-// void decl_initializer(int t, int c, int first, int size_only)
-// {
+}
+
+/* 't' contains the type and storage info. c is the address of the
+   object. 'first' is true if array '{' must be read (multi dimension
+   implicit array init handling). 'size_only' is true if size only
+   evaluation is wanted (only for arrays). */
+void decl_initializer(int t, int c, int first, int size_only)
+{
 //     int index, array_length, n, no_oblock, nb, parlevel, i;
 //     int t1, size1, align1;
 //     Sym *s, *f;
@@ -3350,13 +3350,13 @@ void eand(void)
 //     } else {
 //         init_putv(t, c, 0, 1);
 //     }
-// }
-// 
-// /* parse an initializer for type 't' if 'has_init' is true, and
-//    allocate space in local or global data space. The allocated address
-//    in returned */
-// int decl_initializer_alloc(int t, int has_init)
-// {
+}
+ 
+/* parse an initializer for type 't' if 'has_init' is true, and
+   allocate space in local or global data space. The allocated address
+   in returned */
+int decl_initializer_alloc(int t, int has_init)
+{
 //     int size, align, addr, tok1;
 //     int *init_str, init_len, level, *saved_macro_ptr;
 // 
@@ -3429,12 +3429,12 @@ void eand(void)
 //         }
 //     }
 //     return addr;
-// }
-// 
-// 
-// /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
-// void decl(int l)
-// {
+}
+
+
+/* 'l' is VT_LOCAL or VT_CONST to define default storage type */
+void decl(int l)
+{
 //     int *a, t, b, v, u, addr, has_init, size, align;
 //     Sym *sym;
 //     
@@ -3566,14 +3566,14 @@ void eand(void)
 //             }
 //         }
 //     }
-// }
-// 
-// /* put all global symbols in the extern stack and do all the
-//    resolving which can be done without using external symbols from DLLs */
-// /* XXX: could try to verify types, but would not to save them in
-//    extern_stack too */
-// void resolve_global_syms(void)
-// {
+}
+
+/* put all global symbols in the extern stack and do all the
+   resolving which can be done without using external symbols from DLLs */
+/* XXX: could try to verify types, but would not to save them in
+   extern_stack too */
+void resolve_global_syms(void)
+{
 //     Sym *s, *s1, *ext_sym;
 //     Reloc **p;
 // 
@@ -3611,7 +3611,7 @@ void eand(void)
 //         } 
 //         s = s1;
 //     }
-// }
+}
 
 /* compile a C file. Return non zero if errors. */
 int tcc_compile_file(const char *filename1)
@@ -3635,22 +3635,22 @@ int tcc_compile_file(const char *filename1)
     inp();
     ch = '\n'; /* needed to parse correctly first preprocessor command */
     next();
-//     decl(VT_CONST);
-//     if (tok != -1)
-//         expect("declaration");
-//     fclose(file);
-// 
-//     /* reset define stack, but leave -Dsymbols (may be incorrect if
-//        they are undefined) */
-//     sym_pop(&define_stack, define_start); 
-//     
-//     resolve_global_syms();
-//     
-//     sym_pop(&global_stack, NULL);
-//     
+    decl(VT_CONST);
+    if (tok != -1)
+        expect("declaration");
+    fclose(file);
+
+    /* reset define stack, but leave -Dsymbols (may be incorrect if
+       they are undefined) */
+    sym_pop(&define_stack, define_start); 
+    
+    resolve_global_syms();
+ 
+    sym_pop(&global_stack, NULL);
+   
     return 0;
 }
-// 
+
 void resolve_extern_syms(void)
 {
 // HACK RELOC
@@ -3992,5 +3992,5 @@ if(reloc){
 }
 
     t = (int (*)())s->c;
-//     return (*t)(argc - optind, argv + optind);
+    return (*t)(argc - optind, argv + optind);
 }
