@@ -5398,7 +5398,6 @@ err();
 //                    same time) */
 //                 if (index >= n && no_oblock)
                 if (ri32(index) >= n && no_oblock) {
-err();
 //                     break;
                     break;
                 }
