@@ -3574,43 +3574,43 @@ void decl(int l)
    extern_stack too */
 void resolve_global_syms(void)
 {
-//     Sym *s, *s1, *ext_sym;
-//     Reloc **p;
-// 
-//     s = global_stack.top;
-//     while (s != NULL) {
-//         s1 = s->prev;
-//         /* do not save static or typedefed symbols or types */
-//         if (!(s->t & (VT_STATIC | VT_TYPEDEF)) && 
-//             !(s->v & (SYM_FIELD | SYM_STRUCT)) &&
-//             (s->v < SYM_FIRST_ANOM)) {
-//             ext_sym = sym_find1(&extern_stack, s->v);
-//             if (!ext_sym) {
-//                 /* if the symbol do not exist, we simply save it */
-//                 sym_push1(&extern_stack, s->v, s->t, s->c);
-//             } else if (ext_sym->t & VT_FORWARD) {
-//                 /* external symbol already exists, but only as forward
-//                    definition */
-//                 if (!(s->t & VT_FORWARD)) {
-//                     /* s is not forward, so we can relocate all symbols */
-//                     greloc_patch(ext_sym, s->c);
-//                 } else {
-//                     /* the two symbols are forward: merge them */
-//                     p = (Reloc **)&ext_sym->c;
-//                     while (*p != NULL)
-//                         p = &(*p)->next;
-//                     *p = (Reloc *)s->c;
-//                 }
-//             } else {
-//                 /* external symbol already exists and is defined :
-//                    patch all references to it */
-//                 if (!(s->t & VT_FORWARD))
-//                     error("'%s' defined twice", get_tok_str(s->v, NULL));
-//                 greloc_patch(s, ext_sym->c);
-//             }
-//         } 
-//         s = s1;
-//     }
+    Sym *s, *s1, *ext_sym;
+    Reloc **p;
+
+    s = global_stack.top;
+    while (s != NULL) {
+        s1 = s->prev;
+        /* do not save static or typedefed symbols or types */
+        if (!(s->t & (VT_STATIC | VT_TYPEDEF)) && 
+            !(s->v & (SYM_FIELD | SYM_STRUCT)) &&
+            (s->v < SYM_FIRST_ANOM)) {
+            ext_sym = sym_find1(&extern_stack, s->v);
+            if (!ext_sym) {
+                /* if the symbol do not exist, we simply save it */
+                sym_push1(&extern_stack, s->v, s->t, s->c);
+            } else if (ext_sym->t & VT_FORWARD) {
+                /* external symbol already exists, but only as forward
+                   definition */
+                if (!(s->t & VT_FORWARD)) {
+                    /* s is not forward, so we can relocate all symbols */
+                    greloc_patch(ext_sym, s->c);
+                } else {
+                    /* the two symbols are forward: merge them */
+                    p = (Reloc **)&ext_sym->c;
+                    while (*p != NULL)
+                        p = &(*p)->next;
+                    *p = (Reloc *)s->c;
+                }
+            } else {
+                /* external symbol already exists and is defined :
+                   patch all references to it */
+                if (!(s->t & VT_FORWARD))
+                    error("'%s' defined twice", get_tok_str(s->v, NULL));
+                greloc_patch(s, ext_sym->c);
+            }
+        } 
+        s = s1;
+    }
 }
 
 /* compile a C file. Return non zero if errors. */
