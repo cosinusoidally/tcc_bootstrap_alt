@@ -1811,68 +1811,68 @@ int mk_pointer(int t)
 
 int is_compatible_types(int t1, int t2)
 {
-//     Sym *s1, *s2;
-//     int bt1, bt2;
-// 
-//     t1 &= VT_TYPE;
-//     t2 &= VT_TYPE;
-//     bt1 = t1 & VT_BTYPE;
-//     bt2 = t2 & VT_BTYPE;
-//     if (bt1 == VT_PTR) {
-//         t1 = pointed_type(t1);
-//         /* if function, then convert implicitely to function pointer */
-//         if (bt2 != VT_FUNC) {
-//             if (bt2 != VT_PTR)
-//                 return 0;
-//             t2 = pointed_type(t2);
-//         }
-//         /* void matches everything */
-//         t1 &= VT_TYPE;
-//         t2 &= VT_TYPE;
-//         if (t1 == VT_VOID || t2 == VT_VOID)
-//             return 1;
-//         return is_compatible_types(t1, t2);
-//     } else if (bt1 == VT_STRUCT) {
-//         return (t2 == t1);
-//     } else if (bt1 == VT_FUNC) {
-//         if (bt2 != VT_FUNC)
-//             return 0;
-//         s1 = sym_find(((unsigned)t1 >> VT_STRUCT_SHIFT));
-//         s2 = sym_find(((unsigned)t2 >> VT_STRUCT_SHIFT));
-//         if (!is_compatible_types(s1->t, s2->t))
-//             return 0;
-//         /* XXX: not complete */
-//         if (s1->c == FUNC_OLD || s2->c == FUNC_OLD)
-//             return 1;
-//         if (s1->c != s2->c)
-//             return 0;
-//         while (s1 != NULL) {
-//             if (s2 == NULL)
-//                 return 0;
-//             if (!is_compatible_types(s1->t, s2->t))
-//                 return 0;
-//             s1 = s1->next;
-//             s2 = s2->next;
-//         }
-//         if (s2)
-//             return 0;
-//         return 1;
-//     } else {
-//         /* XXX: not complete */
-//         return 1;
-//     }
+    Sym *s1, *s2;
+    int bt1, bt2;
+
+    t1 &= VT_TYPE;
+    t2 &= VT_TYPE;
+    bt1 = t1 & VT_BTYPE;
+    bt2 = t2 & VT_BTYPE;
+    if (bt1 == VT_PTR) {
+        t1 = pointed_type(t1);
+        /* if function, then convert implicitely to function pointer */
+        if (bt2 != VT_FUNC) {
+            if (bt2 != VT_PTR)
+                return 0;
+            t2 = pointed_type(t2);
+        }
+        /* void matches everything */
+        t1 &= VT_TYPE;
+        t2 &= VT_TYPE;
+        if (t1 == VT_VOID || t2 == VT_VOID)
+            return 1;
+        return is_compatible_types(t1, t2);
+    } else if (bt1 == VT_STRUCT) {
+        return (t2 == t1);
+    } else if (bt1 == VT_FUNC) {
+        if (bt2 != VT_FUNC)
+            return 0;
+        s1 = sym_find(((unsigned)t1 >> VT_STRUCT_SHIFT));
+        s2 = sym_find(((unsigned)t2 >> VT_STRUCT_SHIFT));
+        if (!is_compatible_types(s1->t, s2->t))
+            return 0;
+        /* XXX: not complete */
+        if (s1->c == FUNC_OLD || s2->c == FUNC_OLD)
+            return 1;
+        if (s1->c != s2->c)
+            return 0;
+        while (s1 != NULL) {
+            if (s2 == NULL)
+                return 0;
+            if (!is_compatible_types(s1->t, s2->t))
+                return 0;
+            s1 = s1->next;
+            s2 = s2->next;
+        }
+        if (s2)
+            return 0;
+        return 1;
+    } else {
+        /* XXX: not complete */
+        return 1;
+    }
 }
 
 int check_assign_types(int t1, int t2)
 {
-//     t1 &= VT_TYPE;
-//     t2 &= VT_TYPE;
-//     if ((t1 & VT_BTYPE) == VT_PTR && 
-//         (t2 & VT_BTYPE) == VT_FUNC) {
-//         return is_compatible_types(pointed_type(t1), t2);
-//     } else {
-//         return is_compatible_types(t1, t2);
-//     }
+    t1 &= VT_TYPE;
+    t2 &= VT_TYPE;
+    if ((t1 & VT_BTYPE) == VT_PTR && 
+        (t2 & VT_BTYPE) == VT_FUNC) {
+        return is_compatible_types(pointed_type(t1), t2);
+    } else {
+        return is_compatible_types(t1, t2);
+    }
 }
 
 /* print a type. If 'varstr' is not NULL, then the variable is also
