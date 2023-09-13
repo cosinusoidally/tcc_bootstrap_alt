@@ -2408,19 +2408,19 @@ void indir(void)
 /* pass a parameter to a function and do type checking and casting */
 void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
 {
-//     int func_type;
-//     func_type = func->c;
-//     if (func_type == FUNC_OLD ||
-//         (func_type == FUNC_ELLIPSIS && arg == NULL)) {
-//         /* default casting : only need to convert float to double */
-//         if ((vtop->t & VT_BTYPE) == VT_FLOAT)
-//             gen_cast(VT_DOUBLE);
-//     } else if (arg == NULL) {
-//         error("too many arguments to function");
-//     } else {
-//         gen_assign_cast(arg->t);
-//     }
-//     gfunc_param(gf);
+    int func_type;
+    func_type = func->c;
+    if (func_type == FUNC_OLD ||
+       (func_type == FUNC_ELLIPSIS && arg == NULL)) {
+        /* default casting : only need to convert float to double */
+        if ((vtop->t & VT_BTYPE) == VT_FLOAT)
+            gen_cast(VT_DOUBLE);
+    } else if (arg == NULL) {
+        error("too many arguments to function");
+    } else {
+        gen_assign_cast(arg->t);
+    }
+    gfunc_param(gf);
 }
 
 void unary(void)
