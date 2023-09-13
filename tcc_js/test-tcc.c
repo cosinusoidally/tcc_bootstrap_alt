@@ -1563,10 +1563,10 @@ int gv(void)
     vtop->t = (vtop->t & VT_TYPE) | r;
     return r;
 }
-// 
-// /* handle constant optimizations and various machine independant opt */
-// void gen_opc(int op)
-// {
+
+/* handle constant optimizations and various machine independant opt */
+void gen_opc(int op)
+{
 //     int fc, c1, c2, n;
 //     int general_case=0;
 //     SValue *v1, *v2;
@@ -1659,14 +1659,14 @@ int gv(void)
 //         /* XXX: remove explicit registers */
 //         gen_opi(op);
 //     }
-// }
-// 
-// int pointed_size(int t)
-// {
-//     return type_size(pointed_type(t), &t);
-// }
-// 
-// /* generic gen_op: handles types problems */
+}
+
+int pointed_size(int t)
+{
+    return type_size(pointed_type(t), &t);
+}
+
+/* generic gen_op: handles types problems */
 // void gen_op(int op)
 // {
 //     int u, t1, t2, bt1, bt2, t;
@@ -1793,24 +1793,24 @@ int type_size(int t, int *a)
 //     }
 }
 
-// /* return the pointed type of t */
-// int pointed_type(int t)
-// {
-//     Sym *s;
-//     s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-//     return s->t | (t & ~VT_TYPE);
-// }
-// 
-// int mk_pointer(int t)
-// {
+/* return the pointed type of t */
+int pointed_type(int t)
+{
+    Sym *s;
+    s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+    return s->t | (t & ~VT_TYPE);
+}
+
+int mk_pointer(int t)
+{
 //     int p;
 //     p = anon_sym++;
 //     sym_push(p, t, -1);
 //     return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
-// }
-// 
-// int is_compatible_types(int t1, int t2)
-// {
+}
+
+int is_compatible_types(int t1, int t2)
+{
 //     Sym *s1, *s2;
 //     int bt1, bt2;
 // 
@@ -1861,10 +1861,10 @@ int type_size(int t, int *a)
 //         /* XXX: not complete */
 //         return 1;
 //     }
-// }
-// 
-// int check_assign_types(int t1, int t2)
-// {
+}
+
+int check_assign_types(int t1, int t2)
+{
 //     t1 &= VT_TYPE;
 //     t2 &= VT_TYPE;
 //     if ((t1 & VT_BTYPE) == VT_PTR && 
@@ -1873,12 +1873,12 @@ int type_size(int t, int *a)
 //     } else {
 //         return is_compatible_types(t1, t2);
 //     }
-// }
-// 
-// /* print a type. If 'varstr' is not NULL, then the variable is also
-//    printed in the type */
-// /* XXX: add array and function pointers */
-// /* XXX: buffer overflows */
+}
+
+/* print a type. If 'varstr' is not NULL, then the variable is also
+   printed in the type */
+/* XXX: add array and function pointers */
+/* XXX: buffer overflows */
 // void type_to_str(char *buf, int buf_size, 
 //                  int t, const char *varstr)
 // {

@@ -778,8 +778,8 @@ function gen_opi(op) {
             o(0xe0 + r);
 //         else if (op == TOK_SHR)
         } else if (op == TOK_SHR) {
-err();
 //             o(0xe8 + r);
+            o(0xe8 + r);
 //         else
         } else {
 //             o(0xf8 + r);
