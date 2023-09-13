@@ -3216,31 +3216,31 @@ if(reloc){
    evaluation is wanted (only for arrays). */
 void decl_initializer(int t, int c, int first, int size_only)
 {
-//     int index, array_length, n, no_oblock, nb, parlevel, i;
-//     int t1, size1, align1;
-//     Sym *s, *f;
-//     TokenSym *ts;
-// 
-//     if (t & VT_ARRAY) {
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-//         n = s->c;
-//         array_length = 0;
-//         t1 = pointed_type(t);
-//         size1 = type_size(t1, &align1);
-// 
-//         no_oblock = 1;
-//         if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
-//             tok == '{') {
-//             skip('{');
-//             no_oblock = 0;
-//         }
-// 
-//         /* only parse strings here if correct type (otherwise: handle
-//            them as ((w)char *) expressions */
-//         if ((tok == TOK_LSTR && 
-//              (t1 & VT_BTYPE) == VT_INT) ||
-//             (tok == TOK_STR &&
-//              (t1 & VT_BTYPE) == VT_BYTE)) {
+    int index, array_length, n, no_oblock, nb, parlevel, i;
+    int t1, size1, align1;
+    Sym *s, *f;
+    TokenSym *ts;
+
+    if (t & VT_ARRAY) {
+        s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+        n = s->c;
+        array_length = 0;
+        t1 = pointed_type(t);
+        size1 = type_size(t1, &align1);
+
+        no_oblock = 1;
+        if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
+            tok == '{') {
+            skip('{');
+            no_oblock = 0;
+        }
+
+        /* only parse strings here if correct type (otherwise: handle
+           them as ((w)char *) expressions */
+        if ((tok == TOK_LSTR && 
+             (t1 & VT_BTYPE) == VT_INT) ||
+            (tok == TOK_STR &&
+             (t1 & VT_BTYPE) == VT_BYTE)) {
 //             /* XXX: move multiple string parsing in parser ? */
 //             while (tok == TOK_STR || tok == TOK_LSTR) {
 //                 ts = tokc.ts;
@@ -3267,7 +3267,7 @@ void decl_initializer(int t, int c, int first, int size_only)
 //                 }
 //                 array_length++;
 //             }
-//         } else {
+        } else {
 //             index = 0;
 //             while (tok != '}') {
 //                 decl_designator(t, c, &index, NULL, size_only);
@@ -3291,18 +3291,18 @@ void decl_initializer(int t, int c, int first, int size_only)
 //                     break;
 //                 skip(',');
 //             }
-//         }
-//         if (!no_oblock)
-//             skip('}');
-//         /* put zeros at the end */
-//         if (!size_only && n >= 0 && array_length < n) {
-//             init_putz(t1, c + array_length * size1, 
-//                       (n - array_length) * size1);
-//         }
-//         /* patch type size if needed */
-//         if (n < 0)
-//             s->c = array_length;
-//     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
+        }
+        if (!no_oblock)
+            skip('}');
+        /* put zeros at the end */
+        if (!size_only && n >= 0 && array_length < n) {
+            init_putz(t1, c + array_length * size1, 
+                      (n - array_length) * size1);
+        }
+        /* patch type size if needed */
+        if (n < 0)
+            s->c = array_length;
+    } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
 //         /* XXX: union needs only one init */
 //         next();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
@@ -3332,11 +3332,11 @@ void decl_initializer(int t, int c, int first, int size_only)
 //                       n - array_length);
 //         }
 //         skip('}');
-//     } else if (tok == '{') {
-//         next();
-//         decl_initializer(t, c, first, size_only);
-//         skip('}');
-//     } else if (size_only) {
+    } else if (tok == '{') {
+        next();
+        decl_initializer(t, c, first, size_only);
+        skip('}');
+    } else if (size_only) {
 //         /* just skip expression */
 //         parlevel = 0;
 //         while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
@@ -3347,9 +3347,9 @@ void decl_initializer(int t, int c, int first, int size_only)
 //                 parlevel--;
 //             next();
 //         }
-//     } else {
-//         init_putv(t, c, 0, 1);
-//     }
+    } else {
+        init_putv(t, c, 0, 1);
+    }
 }
  
 /* parse an initializer for type 't' if 'has_init' is true, and
