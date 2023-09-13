@@ -398,42 +398,42 @@ void printline2(void)
     fprintf(stdout, "%s:%d: ", filename, line_num);
 }
 
-// void error(const char *fmt, ...)
-// {
-//     va_list ap;
-// //    va_start(ap, fmt);
-//     ap = ((char *)&(fmt)) + sizeof(int);
-//     printline();
-//     vfprintf(stderr, fmt, ap);
-//     fprintf(stderr, "\n");
-//     exit(1);
-// //    va_end(ap);
-// }
-// 
-// void expect(const char *msg)
-// {
-//     error("%s expected", msg);
-// }
-// 
-// void warning(const char *msg)
-// {
-//     printline();
-//     fprintf(stderr, "warning: %s\n", msg);
-// }
-// 
-// void skip(int c)
-// {
-//     if (tok != c)
-//         error("'%c' expected", c);
-//     next();
-// }
-// 
-// void test_lvalue(void)
-// {
-//     if (!(vtop->t & VT_LVAL))
-//         expect("lvalue");
-// }
-// 
+void error(const char *fmt, ...)
+{
+    va_list ap;
+//    va_start(ap, fmt);
+    ap = ((char *)&(fmt)) + sizeof(int);
+    printline();
+    vfprintf(stderr, fmt, ap);
+    fprintf(stderr, "\n");
+    exit(1);
+//    va_end(ap);
+}
+
+void expect(const char *msg)
+{
+    error("%s expected", msg);
+}
+
+void warning(const char *msg)
+{
+    printline();
+    fprintf(stderr, "warning: %s\n", msg);
+}
+
+void skip(int c)
+{
+    if (tok != c)
+        error("'%c' expected", c);
+    next();
+}
+
+void test_lvalue(void)
+{
+    if (!(vtop->t & VT_LVAL))
+        expect("lvalue");
+}
+
 TokenSym *tok_alloc(char *str, int len)
 {
     TokenSym *ts, **pts, **ptable;
