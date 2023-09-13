@@ -2452,111 +2452,111 @@ void unary(void)
         /* put it as pointer */
         vset(t & ~VT_ARRAY, fc);
     } else {
-//         t = tok;
-//         next();
+        t = tok;
+        next();
         if (t == '(') {
-//             /* cast ? */
-//             if (t = ist()) {
-//                 ft = type_decl(&n, t, TYPE_ABSTRACT);
-//                 skip(')');
-//                 /* check ISOC99 compound literal */
-//                 if (tok == '{') {
-//                     /* data is allocated locally by default */
-//                     if (global_expr)
-//                         ft |= VT_CONST;
-//                     else
-//                         ft |= VT_LOCAL;
-//                     /* all except arrays are lvalues */
-//                     if (!(ft & VT_ARRAY))
-//                         ft |= VT_LVAL;
-//                     fc = decl_initializer_alloc(ft, 1);
-//                     vset(ft, fc);
-//                 } else {
-//                     unary();
-//                     gen_cast(ft);
-//                 }
-//             } else {
-//                 gexpr();
-//                 skip(')');
-//             }
+            /* cast ? */
+            if (t = ist()) {
+                ft = type_decl(&n, t, TYPE_ABSTRACT);
+                skip(')');
+                /* check ISOC99 compound literal */
+                if (tok == '{') {
+                    /* data is allocated locally by default */
+                    if (global_expr)
+                        ft |= VT_CONST;
+                    else
+                        ft |= VT_LOCAL;
+                    /* all except arrays are lvalues */
+                    if (!(ft & VT_ARRAY))
+                        ft |= VT_LVAL;
+                    fc = decl_initializer_alloc(ft, 1);
+                    vset(ft, fc);
+                } else {
+                    unary();
+                    gen_cast(ft);
+                }
+            } else {
+                gexpr();
+                skip(')');
+            }
         } else if (t == '*') {
-//             unary();
-//             indir();
+            unary();
+            indir();
         } else if (t == '&') {
-//             unary();
-//             /* functions names must be treated as function pointers,
-//                except for unary '&' and sizeof. Since we consider that
-//                functions are not lvalues, we only have to handle it
-//                there and in function calls. */
-//             if ((vtop->t & VT_BTYPE) != VT_FUNC)
-//                 test_lvalue();
-//             vtop->t = mk_pointer(vtop->t & VT_LVALN);
+            unary();
+            /* functions names must be treated as function pointers,
+               except for unary '&' and sizeof. Since we consider that
+               functions are not lvalues, we only have to handle it
+               there and in function calls. */
+            if ((vtop->t & VT_BTYPE) != VT_FUNC)
+                test_lvalue();
+            vtop->t = mk_pointer(vtop->t & VT_LVALN);
         } else
         if (t == '!') {
-//             unary();
-//             if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) 
-//                 vtop->c.i = !vtop->c.i;
-//             else if ((vtop->t & VT_VALMASK) == VT_CMP)
-//                 vtop->c.i = vtop->c.i ^ 1;
-//             else
-//                 vset(VT_JMP, gtst(1, 0));
+            unary();
+            if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) 
+                vtop->c.i = !vtop->c.i;
+            else if ((vtop->t & VT_VALMASK) == VT_CMP)
+                vtop->c.i = vtop->c.i ^ 1;
+            else
+                vset(VT_JMP, gtst(1, 0));
         } else
         if (t == '~') {
-//             unary();
-//             vset(VT_CONST, -1);
-//             gen_op('^');
+            unary();
+            vset(VT_CONST, -1);
+            gen_op('^');
         } else 
         if (t == '+') {
-//             unary();
+            unary();
         } else 
         if (t == TOK_SIZEOF) {
-//             if (tok == '(') {
-//                 next();
-//                 if (t = ist())
-//                     t = type_decl(&n, t, TYPE_ABSTRACT);
-//                 else {
-//                     /* XXX: some code could be generated: add eval
-//                        flag */
-//                     gexpr();
-//                     t = vtop->t;
-//                     vpop();
-//                 }
-//                 skip(')');
-//             } else {
-//                 unary();
-//                 t = vtop->t;
-//                 vpop();
-//             }
-//             vset(VT_CONST, type_size(t, &t));
+            if (tok == '(') {
+                next();
+                if (t = ist())
+                    t = type_decl(&n, t, TYPE_ABSTRACT);
+                else {
+                    /* XXX: some code could be generated: add eval
+                       flag */
+                    gexpr();
+                    t = vtop->t;
+                    vpop();
+                }
+                skip(')');
+            } else {
+                unary();
+                t = vtop->t;
+                vpop();
+            }
+            vset(VT_CONST, type_size(t, &t));
         } else
         if (t == TOK_INC || t == TOK_DEC) {
-//             unary();
-//             inc(0, t);
+            unary();
+            inc(0, t);
         } else if (t == '-') {
-//             vset(VT_CONST, 0);
-//             unary();
-//             gen_op('-');
+            vset(VT_CONST, 0);
+            unary();
+            gen_op('-');
         } else 
         {
-//             s = sym_find(t);
-//             if (!s) {
-//                 if (tok != '(')
-//                     error("'%s' undeclared", get_tok_str(t, NULL));
-//                 /* for simple function calls, we tolerate undeclared
-//                    external reference */
-//                 p = anon_sym++;        
-//                 sym_push1(&global_stack, p, 0, FUNC_OLD);
-//                 /* int() function */
-//                 s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT)); 
-//             }
-//             vset(s->t, s->c);
-//             /* if forward reference, we must point to s */
-//             if (vtop->t & VT_FORWARD)
-//                 vtop->c.sym = s;
+            s = sym_find(t);
+            if (!s) {
+                if (tok != '(')
+                    error("'%s' undeclared", get_tok_str(t, NULL));
+                /* for simple function calls, we tolerate undeclared
+                   external reference */
+                p = anon_sym++;        
+                sym_push1(&global_stack, p, 0, FUNC_OLD);
+                /* int() function */
+                s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT)); 
+            }
+            vset(s->t, s->c);
+            /* if forward reference, we must point to s */
+            if (vtop->t & VT_FORWARD)
+                vtop->c.sym = s;
         }
     }
-//     
-//     /* post operations */
+    
+    /* post operations */
     while (1) {
         if (tok == TOK_INC | tok == TOK_DEC) {
 //             inc(1, tok);
