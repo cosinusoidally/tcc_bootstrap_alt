@@ -1667,65 +1667,65 @@ int pointed_size(int t)
 }
 
 /* generic gen_op: handles types problems */
-// void gen_op(int op)
-// {
-//     int u, t1, t2, bt1, bt2, t;
-// 
-//     t1 = vtop[-1].t;
-//     t2 = vtop[0].t;
-//     bt1 = t1 & VT_BTYPE;
-//     bt2 = t2 & VT_BTYPE;
-//         
-//     if (op == '+' || op == '-') {
-//         if ((t1 & VT_BTYPE) == VT_PTR && 
-//             (t2 & VT_BTYPE) == VT_PTR) {
-//             if (op != '-')
-//                 error("invalid type");
-//             /* XXX: check that types are compatible */
-//             u = pointed_size(t1);
-//             gen_opc(op);
-//             /* set to integer type */
-//             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; 
-//             vset(VT_CONST, u);
-//             gen_op(TOK_PDIV);
-//         } else if ((t1 & VT_BTYPE) == VT_PTR ||
-//                    (t2 & VT_BTYPE) == VT_PTR) {
-//             if ((t2 & VT_BTYPE) == VT_PTR) {
-//                 vswap();
-//                 swap(&t1, &t2);
-//             }
-//             /* stack-4 contains pointer, stack-2 value to add */
-//             vset(VT_CONST, pointed_size(vtop[-1].t));
-//             gen_op('*');
-//             gen_opc(op);
-//             /* put again type if gen_opc() swaped operands */
-//             vtop->t = (vtop->t & ~VT_TYPE) | (t1 & VT_TYPE);
-//         } else {
-//             gen_opc(op);
-//         }
-//     } else {
-//         /* XXX: test types and compute returned value */
-//         if ((t1 | t2) & VT_UNSIGNED ||
-//             (t1 & VT_BTYPE) == VT_PTR ||
-//             (t2 & VT_BTYPE) == VT_PTR) {
-//             if (op == TOK_SAR)
-//                 op = TOK_SHR;
-//             else if (op == '/')
-//                 op = TOK_UDIV;
-//             else if (op == '%')
-//                 op = TOK_UMOD;
-//             else if (op == TOK_LT)
-//                 op = TOK_ULT;
-//             else if (op == TOK_GT)
-//                 op = TOK_UGT;
-//             else if (op == TOK_LE)
-//                 op = TOK_ULE;
-//             else if (op == TOK_GE)
-//                 op = TOK_UGE;
-//         }
-//         gen_opc(op);
-//     }
-// }
+void gen_op(int op)
+{
+    int u, t1, t2, bt1, bt2, t;
+
+    t1 = vtop[-1].t;
+    t2 = vtop[0].t;
+    bt1 = t1 & VT_BTYPE;
+    bt2 = t2 & VT_BTYPE;
+        
+    if (op == '+' || op == '-') {
+        if ((t1 & VT_BTYPE) == VT_PTR && 
+            (t2 & VT_BTYPE) == VT_PTR) {
+            if (op != '-')
+                 error("invalid type");
+            /* XXX: check that types are compatible */
+            u = pointed_size(t1);
+            gen_opc(op);
+            /* set to integer type */
+            vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; 
+            vset(VT_CONST, u);
+            gen_op(TOK_PDIV);
+        } else if ((t1 & VT_BTYPE) == VT_PTR ||
+                   (t2 & VT_BTYPE) == VT_PTR) {
+            if ((t2 & VT_BTYPE) == VT_PTR) {
+                vswap();
+                swap(&t1, &t2);
+            }
+            /* stack-4 contains pointer, stack-2 value to add */
+            vset(VT_CONST, pointed_size(vtop[-1].t));
+            gen_op('*');
+            gen_opc(op);
+            /* put again type if gen_opc() swaped operands */
+            vtop->t = (vtop->t & ~VT_TYPE) | (t1 & VT_TYPE);
+        } else {
+            gen_opc(op);
+        }
+    } else {
+        /* XXX: test types and compute returned value */
+        if ((t1 | t2) & VT_UNSIGNED ||
+            (t1 & VT_BTYPE) == VT_PTR ||
+            (t2 & VT_BTYPE) == VT_PTR) {
+            if (op == TOK_SAR)
+                op = TOK_SHR;
+            else if (op == '/')
+                op = TOK_UDIV;
+            else if (op == '%')
+                op = TOK_UMOD;
+            else if (op == TOK_LT)
+                op = TOK_ULT;
+            else if (op == TOK_GT)
+                op = TOK_UGT;
+            else if (op == TOK_LE)
+                op = TOK_ULE;
+            else if (op == TOK_GE)
+                op = TOK_UGE;
+        }
+        gen_opc(op);
+    }
+}
 
 /* cast 'vtop' to 't' type */
 void gen_cast(int t)
