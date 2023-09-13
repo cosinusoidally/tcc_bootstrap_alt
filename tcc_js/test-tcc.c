@@ -367,37 +367,37 @@ static inline int isid(int c)
         c == '_';
 }
 
-// static inline int isnum(int c)
-// {
-//     return c >= '0' & c <= '9';
-// }
-// 
-// static inline int toup(int c)
-// {
-//     if (ch >= 'a' && ch <= 'z')
-//         return ch - 'a' + 'A';
-//     else
-//         return ch;
-// }
-// 
-// void printline(void)
-// {
-//     IncludeFile *f;
-//     for(f = include_stack; f < include_stack_ptr; f++)
-//         fprintf(stderr, "In file included from %s:%d:\n", 
-//                 f->filename, f->line_num);
-//     fprintf(stderr, "%s:%d: ", filename, line_num);
-// }
-// 
-// void printline2(void)
-// {
-//     IncludeFile *f;
-//     for(f = include_stack; f < include_stack_ptr; f++)
-//         fprintf(stdout, "In file included from %s:%d:\n", 
-//                 f->filename, f->line_num);
-//     fprintf(stdout, "%s:%d: ", filename, line_num);
-// }
-// 
+static inline int isnum(int c)
+{
+    return c >= '0' & c <= '9';
+}
+
+static inline int toup(int c)
+{
+    if (ch >= 'a' && ch <= 'z')
+        return ch - 'a' + 'A';
+    else
+        return ch;
+}
+
+void printline(void)
+{
+    IncludeFile *f;
+    for(f = include_stack; f < include_stack_ptr; f++)
+        fprintf(stderr, "In file included from %s:%d:\n", 
+                f->filename, f->line_num);
+    fprintf(stderr, "%s:%d: ", filename, line_num);
+}
+
+void printline2(void)
+{
+    IncludeFile *f;
+    for(f = include_stack; f < include_stack_ptr; f++)
+        fprintf(stdout, "In file included from %s:%d:\n", 
+                f->filename, f->line_num);
+    fprintf(stdout, "%s:%d: ", filename, line_num);
+}
+
 // void error(const char *fmt, ...)
 // {
 //     va_list ap;
