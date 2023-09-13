@@ -2937,70 +2937,70 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
         sym_pop(&local_stack, s);
         next();
     } else if (tok == TOK_RETURN) {
-//         next();
-//         if (tok != ';') {
-//             gexpr();
-//             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
-//                 /* if returning structure, must copy it to implicit
-//                    first pointer arg location */
-//                 vset(mk_pointer(func_vt) | VT_LOCAL | VT_LVAL, func_vc);
-//                 indir();
-//                 vswap();
-//                 /* copy structure value to pointer */
-//                 vstore();
-//             } else {
-//                 /* move return value to standard return register */
-//                 move_reg(FUNC_RET_REG, gv());
-//             }
-//             vpop();
-//         }
-//         skip(';');
-//         rsym = gjmp(rsym); /* jmp */
+        next();
+        if (tok != ';') {
+            gexpr();
+            if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+                /* if returning structure, must copy it to implicit
+                   first pointer arg location */
+                vset(mk_pointer(func_vt) | VT_LOCAL | VT_LVAL, func_vc);
+                indir();
+                vswap();
+                /* copy structure value to pointer */
+                vstore();
+            } else {
+                /* move return value to standard return register */
+                move_reg(FUNC_RET_REG, gv());
+            }
+            vpop();
+        }
+        skip(';');
+        rsym = gjmp(rsym); /* jmp */
     } else if (tok == TOK_BREAK) {
-//         /* compute jump */
-//         if (!bsym)
-//             error("cannot break");
-//         *bsym = gjmp(*bsym);
-//         next();
-//         skip(';');
+        /* compute jump */
+        if (!bsym)
+            error("cannot break");
+        *bsym = gjmp(*bsym);
+        next();
+        skip(';');
     } else if (tok == TOK_CONTINUE) {
-//         /* compute jump */
-//         if (!csym)
-//             error("cannot continue");
-//         *csym = gjmp(*csym);
-//         next();
-//         skip(';');
+        /* compute jump */
+        if (!csym)
+            error("cannot continue");
+        *csym = gjmp(*csym);
+        next();
+        skip(';');
     } else if (tok == TOK_FOR) {
-//         int e;
-//         next();
-//         skip('(');
-//         if (tok != ';') {
-//             gexpr();
-//             vpop();
-//         }
-//         skip(';');
-//         d = ind;
-//         c = ind;
-//         a = 0;
-//         b = 0;
-//         if (tok != ';') {
-//             gexpr();
-//             a = gtst(1, 0);
-//         }
-//         skip(';');
-//         if (tok != ')') {
-//             e = gjmp(0);
-//             c = ind;
-//             gexpr();
-//             vpop();
-//             oad(0xe9, d - ind - 5); /* jmp */
-//             gsym(e);
-//         }
-//         skip(')');
-//         block(&a, &b, case_sym, def_sym, case_reg);
-//         oad(0xe9, c - ind - 5); /* jmp */
-//         gsym(a);
-//         gsym_addr(b, c);
+        int e;
+        next();
+        skip('(');
+        if (tok != ';') {
+            gexpr();
+            vpop();
+        }
+        skip(';');
+        d = ind;
+        c = ind;
+        a = 0;
+        b = 0;
+        if (tok != ';') {
+            gexpr();
+            a = gtst(1, 0);
+        }
+        skip(';');
+        if (tok != ')') {
+            e = gjmp(0);
+            c = ind;
+            gexpr();
+            vpop();
+            oad(0xe9, d - ind - 5); /* jmp */
+            gsym(e);
+        }
+        skip(')');
+        block(&a, &b, case_sym, def_sym, case_reg);
+        oad(0xe9, c - ind - 5); /* jmp */
+        gsym(a);
+        gsym_addr(b, c);
     } else 
     if (tok == TOK_DO) {
 //         next();
