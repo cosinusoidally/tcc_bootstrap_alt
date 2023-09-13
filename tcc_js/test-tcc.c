@@ -3003,55 +3003,55 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
         gsym_addr(b, c);
     } else 
     if (tok == TOK_DO) {
-//         next();
-//         a = 0;
-//         b = 0;
-//         d = ind;
-//         block(&a, &b, case_sym, def_sym, case_reg);
-//         skip(TOK_WHILE);
-//         skip('(');
-//         gsym(b);
-//         gexpr();
-//         c = gtst(0, 0);
-//         gsym_addr(c, d);
-//         skip(')');
-//         gsym(a);
-//         skip(';');
+        next();
+        a = 0;
+        b = 0;
+        d = ind;
+        block(&a, &b, case_sym, def_sym, case_reg);
+        skip(TOK_WHILE);
+        skip('(');
+        gsym(b);
+        gexpr();
+        c = gtst(0, 0);
+        gsym_addr(c, d);
+        skip(')');
+        gsym(a);
+        skip(';');
     } else
     if (tok == TOK_SWITCH) {
-//         next();
-//         skip('(');
-//         gexpr();
-//         case_reg = gv();
-//         vpop();
-//         skip(')');
-//         a = 0;
-//         b = gjmp(0); /* jump to first case */
-//         c = 0;
-//         block(&a, csym, &b, &c, case_reg);
-//         /* if no default, jmp after switch */
-//         if (c == 0)
-//             c = ind;
-//         /* default label */
-//         gsym_addr(b, c);
-//         /* break label */
-//         gsym(a);
+        next();
+        skip('(');
+        gexpr();
+        case_reg = gv();
+        vpop();
+        skip(')');
+        a = 0;
+        b = gjmp(0); /* jump to first case */
+        c = 0;
+        block(&a, csym, &b, &c, case_reg);
+        /* if no default, jmp after switch */
+        if (c == 0)
+            c = ind;
+        /* default label */
+        gsym_addr(b, c);
+        /* break label */
+        gsym(a);
     } else
     if (tok == TOK_CASE) {
-//         next();
-//         a = expr_const();
-//         if (!case_sym)
-//             expect("switch");
-//         /* since a case is like a label, we must skip it with a jmp */
-//         b = gjmp(0);
-//         gsym(*case_sym);
-//         vset(case_reg, 0);
-//         vset(VT_CONST, a);
-//         gen_op(TOK_EQ);
-//         *case_sym = gtst(1, 0);
-//         gsym(b);
-//         skip(':');
-//         block(bsym, csym, case_sym, def_sym, case_reg);
+        next();
+        a = expr_const();
+        if (!case_sym)
+            expect("switch");
+        /* since a case is like a label, we must skip it with a jmp */
+        b = gjmp(0);
+        gsym(*case_sym);
+        vset(case_reg, 0);
+        vset(VT_CONST, a);
+        gen_op(TOK_EQ);
+        *case_sym = gtst(1, 0);
+        gsym(b);
+        skip(':');
+        block(bsym, csym, case_sym, def_sym, case_reg);
     } else 
     if (tok == TOK_DEFAULT) {
 //         next();
