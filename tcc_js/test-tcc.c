@@ -2046,8 +2046,8 @@ void inc(int post, int c)
 }
 
 /* enum/struct/union declaration */
-// int struct_decl(int u)
-// {
+int struct_decl(int u)
+{
 //     int a, t, b, v, size, align, maxalign, c, offset;
 //     int bit_size, bit_pos, bsize, bt, lbit_pos;
 //     Sym *s, *ss, **ps;
@@ -2146,27 +2146,27 @@ void inc(int post, int c)
 //         s->c = (c + maxalign - 1) & -maxalign; 
 //     }
 //     return u;
-// }
-// 
-// int basic_type1(int t,int u){
-//     if ((t & VT_BTYPE) != 0)
-//         error("too many basic types %x", t);
-//     t |= u;
-//     return t;
-// }
-// 
-// int basic_type(int t, int u){
-//     next();
-//     return basic_type1(t,u);
-// }
-// 
-// 
-// /* return 0 if no type declaration. otherwise, return the basic type
-//    and skip it. 
-//    XXX: A '2' is ored to ensure non zero return if int type.
-//  */
-// int ist(void)
-// {
+}
+
+int basic_type1(int t,int u){
+    if ((t & VT_BTYPE) != 0)
+        error("too many basic types %x", t);
+    t |= u;
+    return t;
+}
+
+int basic_type(int t, int u){
+    next();
+    return basic_type1(t,u);
+}
+
+
+/* return 0 if no type declaration. otherwise, return the basic type
+   and skip it. 
+   XXX: A '2' is ored to ensure non zero return if int type.
+ */
+int ist(void)
+{
 //     int t, u;
 //     Sym *s;
 // 
@@ -2238,10 +2238,10 @@ void inc(int post, int c)
 //         t |= 2;
 //     }
 //     return t;
-// }
-// 
-// int post_type(int t)
-// {
+}
+
+int post_type(int t)
+{
 //     int p, n, pt, l, t1;
 //     int foo;
 //     Sym **plast, *s, *first;
@@ -2330,12 +2330,12 @@ void inc(int post, int c)
 //         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
 //     }
 //     return t;
-// }
-// 
-// /* Read a type declaration (except basic type), and return the
-//    type. If v is true, then also put variable name in 'vtop->c' */
-// int type_decl(int *v, int t, int td)
-// {
+}
+
+/* Read a type declaration (except basic type), and return the
+   type. If v is true, then also put variable name in 'vtop->c' */
+int type_decl(int *v, int t, int td)
+{
 //     int u, p;
 //     Sym *s;
 // 
@@ -2379,9 +2379,9 @@ void inc(int post, int c)
 //         }
 //     }
 //     return u;
-// }
-// 
-// /* define a new external reference to a function 'v' of type 'u' */
+}
+
+/* define a new external reference to a function 'v' of type 'u' */
 // Sym *external_sym(int v, int u)
 // {
 //     Sym *s;
