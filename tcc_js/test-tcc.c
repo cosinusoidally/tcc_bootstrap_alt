@@ -2242,94 +2242,94 @@ int ist(void)
 
 int post_type(int t)
 {
-//     int p, n, pt, l, t1;
-//     int foo;
-//     Sym **plast, *s, *first;
-// 
-//     if (tok == '(') {
-//         /* function declaration */
-//         next();
-//         l = 0;
-//         first = NULL;
-//         plast = &first;
-//         while (tok != ')') {
-//             foo=0;
-//             /* read param name and compute offset */
-//             while(1){
-//             if (l != FUNC_OLD) {
-//                 if (!(pt = ist())) {
-//                     if (l) {
-//                         error("invalid type");
-//                     } else {
-//                         l = FUNC_OLD;
-//                         n = tok;
-//                         pt = VT_INT;
-//                         next();
-//                         break;
-//                     }
-//                 }
-//                 l = FUNC_NEW;
-//                 if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
-//                     foo=1;
-//                     break;
-//                 }
-//                 pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
-//                 if ((pt & VT_BTYPE) == VT_VOID)
-//                     error("parameter declared as void");
-//             } else {
-//                 n = tok;
-//                 pt = VT_INT;
-//                 next();
-//             }
-//             break;
-//             }
-//             if(foo){break;}
-//             /* array must be transformed to pointer according to ANSI C */
-//             pt &= ~VT_ARRAY;
-//             s = sym_push(n | SYM_FIELD, pt, 0);
-//             *plast = s;
-//             plast = &s->next;
-//             if (tok == ',') {
-//                 next();
-//                 if (l == FUNC_NEW && tok == TOK_DOTS) {
-//                     l = FUNC_ELLIPSIS;
-//                     next();
-//                     break;
-//                 }
-//             }
-//         }
-//         /* if no parameters, then old type prototype */
-//         if (l == 0)
-//             l = FUNC_OLD;
-//         skip(')');
-//         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
-//         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
-//         /* we push a anonymous symbol which will contain the function prototype */
-//         p = anon_sym++;
-//         s = sym_push(p, t, l);
-//         s->next = first;
-//         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
-//     } else if (tok == '[') {
-//         /* array definition */
-//         next();
-//         n = -1;
-//         if (tok != ']') {
-//             n = expr_const();
-//             if (n < 0)
-//                 error("invalid array size");    
-//         }
-//         skip(']');
-//         /* parse next post type */
-//         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
-//         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
-//         
-//         /* we push a anonymous symbol which will contain the array
-//            element type */
-//         p = anon_sym++;
-//         sym_push(p, t, n);
-//         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
-//     }
-//     return t;
+    int p, n, pt, l, t1;
+    int foo;
+    Sym **plast, *s, *first;
+
+    if (tok == '(') {
+        /* function declaration */
+        next();
+        l = 0;
+        first = NULL;
+        plast = &first;
+        while (tok != ')') {
+            foo=0;
+            /* read param name and compute offset */
+            while(1){
+            if (l != FUNC_OLD) {
+                if (!(pt = ist())) {
+                    if (l) {
+                        error("invalid type");
+                    } else {
+                        l = FUNC_OLD;
+                        n = tok;
+                        pt = VT_INT;
+                        next();
+                        break;
+                    }
+                }
+                l = FUNC_NEW;
+                if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
+                    foo=1;
+                    break;
+                }
+                pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
+                if ((pt & VT_BTYPE) == VT_VOID)
+                    error("parameter declared as void");
+            } else {
+                n = tok;
+                pt = VT_INT;
+                next();
+            }
+            break;
+            }
+            if(foo){break;}
+            /* array must be transformed to pointer according to ANSI C */
+            pt &= ~VT_ARRAY;
+            s = sym_push(n | SYM_FIELD, pt, 0);
+            *plast = s;
+            plast = &s->next;
+            if (tok == ',') {
+                next();
+                if (l == FUNC_NEW && tok == TOK_DOTS) {
+                    l = FUNC_ELLIPSIS;
+                    next();
+                    break;
+                }
+            }
+        }
+        /* if no parameters, then old type prototype */
+        if (l == 0)
+            l = FUNC_OLD;
+        skip(')');
+        t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
+        t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
+        /* we push a anonymous symbol which will contain the function prototype */
+        p = anon_sym++;
+        s = sym_push(p, t, l);
+        s->next = first;
+        t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
+    } else if (tok == '[') {
+        /* array definition */
+        next();
+        n = -1;
+        if (tok != ']') {
+            n = expr_const();
+            if (n < 0)
+                error("invalid array size");    
+        }
+        skip(']');
+        /* parse next post type */
+        t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
+        t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
+        
+        /* we push a anonymous symbol which will contain the array
+           element type */
+        p = anon_sym++;
+        sym_push(p, t, n);
+        t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
+    }
+    return t;
 }
 
 /* Read a type declaration (except basic type), and return the
