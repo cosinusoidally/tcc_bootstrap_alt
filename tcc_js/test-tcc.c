@@ -2425,36 +2425,36 @@ void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
 
 void unary(void)
 {
-//     int n, t, ft, fc, p, align, size;
-//     Sym *s;
-//     GFuncContext gf;
-// 
-//     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
-//         vset(VT_CONST | VT_INT, tokc.i);
-//         next();
-//     } else if (tok == TOK___FUNC__) {
-//         /* special function name identifier */
-//         /* generate (char *) type */
-//         vset(VT_CONST | mk_pointer(VT_BYTE), glo);
-//         strcpy((void *)glo, funcname);
-//         glo += strlen(funcname) + 1;
-//         next();
-//     } else if (tok == TOK_STR) {
-//         /* string parsing */
-//         t = VT_BYTE;
-//         type_size(t, &align);
-//         glo = (glo + align - 1) & -align;
-//         fc = glo;
-//         /* we must declare it as an array first to use initializer parser */
-//         t = VT_CONST | VT_ARRAY | mk_pointer(t);
-//         decl_initializer(t, glo, 1, 0);
-//         glo += type_size(t, &align);
-//         /* put it as pointer */
-//         vset(t & ~VT_ARRAY, fc);
-//     } else {
+    int n, t, ft, fc, p, align, size;
+    Sym *s;
+    GFuncContext gf;
+
+    if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
+        vset(VT_CONST | VT_INT, tokc.i);
+        next();
+    } else if (tok == TOK___FUNC__) {
+        /* special function name identifier */
+        /* generate (char *) type */
+        vset(VT_CONST | mk_pointer(VT_BYTE), glo);
+        strcpy((void *)glo, funcname);
+        glo += strlen(funcname) + 1;
+        next();
+    } else if (tok == TOK_STR) {
+        /* string parsing */
+        t = VT_BYTE;
+        type_size(t, &align);
+        glo = (glo + align - 1) & -align;
+        fc = glo;
+        /* we must declare it as an array first to use initializer parser */
+        t = VT_CONST | VT_ARRAY | mk_pointer(t);
+        decl_initializer(t, glo, 1, 0);
+        glo += type_size(t, &align);
+        /* put it as pointer */
+        vset(t & ~VT_ARRAY, fc);
+    } else {
 //         t = tok;
 //         next();
-//         if (t == '(') {
+        if (t == '(') {
 //             /* cast ? */
 //             if (t = ist()) {
 //                 ft = type_decl(&n, t, TYPE_ABSTRACT);
@@ -2479,10 +2479,10 @@ void unary(void)
 //                 gexpr();
 //                 skip(')');
 //             }
-//         } else if (t == '*') {
+        } else if (t == '*') {
 //             unary();
 //             indir();
-//         } else if (t == '&') {
+        } else if (t == '&') {
 //             unary();
 //             /* functions names must be treated as function pointers,
 //                except for unary '&' and sizeof. Since we consider that
@@ -2491,8 +2491,8 @@ void unary(void)
 //             if ((vtop->t & VT_BTYPE) != VT_FUNC)
 //                 test_lvalue();
 //             vtop->t = mk_pointer(vtop->t & VT_LVALN);
-//         } else
-//         if (t == '!') {
+        } else
+        if (t == '!') {
 //             unary();
 //             if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) 
 //                 vtop->c.i = !vtop->c.i;
@@ -2500,16 +2500,16 @@ void unary(void)
 //                 vtop->c.i = vtop->c.i ^ 1;
 //             else
 //                 vset(VT_JMP, gtst(1, 0));
-//         } else
-//         if (t == '~') {
+        } else
+        if (t == '~') {
 //             unary();
 //             vset(VT_CONST, -1);
 //             gen_op('^');
-//         } else 
-//         if (t == '+') {
+        } else 
+        if (t == '+') {
 //             unary();
-//         } else 
-//         if (t == TOK_SIZEOF) {
+        } else 
+        if (t == TOK_SIZEOF) {
 //             if (tok == '(') {
 //                 next();
 //                 if (t = ist())
@@ -2528,16 +2528,16 @@ void unary(void)
 //                 vpop();
 //             }
 //             vset(VT_CONST, type_size(t, &t));
-//         } else
-//         if (t == TOK_INC || t == TOK_DEC) {
+        } else
+        if (t == TOK_INC || t == TOK_DEC) {
 //             unary();
 //             inc(0, t);
-//         } else if (t == '-') {
+        } else if (t == '-') {
 //             vset(VT_CONST, 0);
 //             unary();
 //             gen_op('-');
-//         } else 
-//         {
+        } else 
+        {
 //             s = sym_find(t);
 //             if (!s) {
 //                 if (tok != '(')
@@ -2553,15 +2553,15 @@ void unary(void)
 //             /* if forward reference, we must point to s */
 //             if (vtop->t & VT_FORWARD)
 //                 vtop->c.sym = s;
-//         }
-//     }
+        }
+    }
 //     
 //     /* post operations */
-//     while (1) {
-//         if (tok == TOK_INC | tok == TOK_DEC) {
+    while (1) {
+        if (tok == TOK_INC | tok == TOK_DEC) {
 //             inc(1, tok);
 //             next();
-//         } else if (tok == '.' | tok == TOK_ARROW) {
+        } else if (tok == '.' | tok == TOK_ARROW) {
 //             /* field */ 
 //             if (tok == TOK_ARROW) 
 //                 indir();
@@ -2590,13 +2590,13 @@ void unary(void)
 //             if (!(vtop->t & VT_ARRAY))
 //                 vtop->t |= VT_LVAL;
 //             next();
-//         } else if (tok == '[') {
+        } else if (tok == '[') {
 //             next();
 //             gexpr();
 //             gen_op('+');
 //             indir();
 //             skip(']');
-//         } else if (tok == '(') {
+        } else if (tok == '(') {
 //             int rett;
 //             CValue retc;
 //             Sym *sa;
@@ -2692,10 +2692,10 @@ void unary(void)
 //             gfunc_call(&gf);
 //             /* return value */
 //             vsetc(rett, &retc);
-//         } else {
-//             break;
-//         }
-//     }
+        } else {
+            break;
+        }
+    }
 }
 
 void uneq(void)
