@@ -2730,12 +2730,11 @@ void sum(int l)
     else {
         sum(--l);
         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
-// FIXME ljw
-//               (l == 1 & (tok == '+' | tok == '-')) |
-//               (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
-//               (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
-//                          tok == TOK_ULT | tok == TOK_UGE)) |
-//               (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
+               (l == 1 & (tok == '+' | tok == '-')) |
+               (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
+               (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
+                          tok == TOK_ULT | tok == TOK_UGE)) |
+               (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
                (l == 5 & tok == '&') |
                (l == 6 & tok == '^') |
                (l == 7 & tok == '|') |

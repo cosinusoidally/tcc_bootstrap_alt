@@ -2346,7 +2346,7 @@ function get_reg(rc) {
 //        important to start from the bottom to ensure that we don't
 //        spill registers used in gen_op()) */
 //     for(p=vstack;p<=vtop;p++) {
-    for(p=vstack;p<=vtop;p+SValue_size) {
+    for(p=vstack;p<=vtop;p=p+SValue_size) {
 //         r = p->t & VT_VALMASK;
         r = ri32(p+SValue_t_o) & VT_VALMASK;
 //         if (r < VT_CONST && (reg_classes[r] & rc)) {
