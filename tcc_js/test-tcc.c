@@ -1879,75 +1879,75 @@ int check_assign_types(int t1, int t2)
    printed in the type */
 /* XXX: add array and function pointers */
 /* XXX: buffer overflows */
-// void type_to_str(char *buf, int buf_size, 
-//                  int t, const char *varstr)
-// {
-//     int bt, v;
-//     Sym *s, *sa;
-//     char buf1[256];
-// 
-//     t = t & VT_TYPE;
-//     bt = t & VT_BTYPE;
-//     buf[0] = '\0';
-//     if (t & VT_UNSIGNED)
-//         strcat(buf, "unsigned ");
-//     switch(bt) {
-//     case VT_VOID:
-//         strcat(buf, "void");
-//         break;
-//     case VT_BYTE:
-//         strcat(buf, "char");
-//         break;
-//     case VT_SHORT:
-//         strcat(buf, "short");
-//         break;
-//     case VT_INT:
-//         strcat(buf, "int");
-//         break;
-//     case VT_ENUM:
-//     case VT_STRUCT:
-//         if (bt == VT_STRUCT)
-//             strcat(buf, "struct ");
-//         else
-//             strcat(buf, "enum ");
-//         v = (unsigned)t >> VT_STRUCT_SHIFT;
-//         if (v >= SYM_FIRST_ANOM)
-//             strcat(buf, "<anonymous>");
-//         else
-//             strcat(buf, get_tok_str(v, NULL));
-//         break;
-//     case VT_FUNC:
-//         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
-//         type_to_str(buf, buf_size, s->t, varstr);
-//         strcat(buf, "(");
-//         sa = s->next;
-//         while (sa != NULL) {
-//             type_to_str(buf1, sizeof(buf1), sa->t, NULL);
-//             strcat(buf, buf1);
-//             sa = sa->next;
-//             if (sa)
-//                 strcat(buf, ", ");
-//         }
-//         strcat(buf, ")");
-//         return;
-//     case VT_PTR:
-//         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
-//         strcpy(buf1, "*");
-//         if (varstr)
-//             strcat(buf1, varstr);
-//         type_to_str(buf, buf_size, s->t, buf1);
-//         return;
-//     }
-//     if (varstr) {
-//         strcat(buf, " ");
-//         strcat(buf, varstr);
-//     }
-// }
-// 
-//                  
-// 
-// /* verify type compatibility to store vtop in 'st' type, and generate
-//    casts if needed */
+void type_to_str(char *buf, int buf_size, 
+                 int t, const char *varstr)
+{
+    int bt, v;
+    Sym *s, *sa;
+    char buf1[256];
+
+    t = t & VT_TYPE;
+    bt = t & VT_BTYPE;
+    buf[0] = '\0';
+    if (t & VT_UNSIGNED)
+        strcat(buf, "unsigned ");
+    switch(bt) {
+    case VT_VOID:
+        strcat(buf, "void");
+        break;
+    case VT_BYTE:
+        strcat(buf, "char");
+        break;
+    case VT_SHORT:
+        strcat(buf, "short");
+        break;
+    case VT_INT:
+        strcat(buf, "int");
+        break;
+    case VT_ENUM:
+    case VT_STRUCT:
+        if (bt == VT_STRUCT)
+            strcat(buf, "struct ");
+        else
+            strcat(buf, "enum ");
+        v = (unsigned)t >> VT_STRUCT_SHIFT;
+        if (v >= SYM_FIRST_ANOM)
+            strcat(buf, "<anonymous>");
+        else
+            strcat(buf, get_tok_str(v, NULL));
+        break;
+    case VT_FUNC:
+        s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
+        type_to_str(buf, buf_size, s->t, varstr);
+        strcat(buf, "(");
+        sa = s->next;
+        while (sa != NULL) {
+            type_to_str(buf1, sizeof(buf1), sa->t, NULL);
+            strcat(buf, buf1);
+            sa = sa->next;
+            if (sa)
+                strcat(buf, ", ");
+        }
+        strcat(buf, ")");
+        return;
+    case VT_PTR:
+        s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
+        strcpy(buf1, "*");
+        if (varstr)
+            strcat(buf1, varstr);
+        type_to_str(buf, buf_size, s->t, buf1);
+        return;
+    }
+    if (varstr) {
+        strcat(buf, " ");
+        strcat(buf, varstr);
+    }
+}
+
+                 
+
+/* verify type compatibility to store vtop in 'st' type, and generate
+   casts if needed */
 // void gen_assign_cast(int dt)
 // {
 //     int st;
