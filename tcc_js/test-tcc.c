@@ -603,57 +603,57 @@ Sym *sym_push1(SymStack *st, int v, int t, int c)
     return s;
 }
 
-// /* find a symbol in the right symbol space */
-// Sym *sym_find(int v)
-// {
-//     Sym *s;
-//     s = sym_find1(&local_stack, v);
-//     if (!s)
-//         s = sym_find1(&global_stack, v);
-//     return s;
-// }
-// 
-// /* push a given symbol on the symbol stack */
-// Sym *sym_push(int v, int t, int c)
-// {
-//     if (local_stack.top)
-//         return sym_push1(&local_stack, v, t, c);
-//     else
-//         return sym_push1(&global_stack, v, t, c);
-// }
-// 
-// /* pop symbols until top reaches 'b' */
-// void sym_pop(SymStack *st, Sym *b)
-// {
-//     Sym *s, *ss;
-// 
-//     s = st->top;
-//     while(s != b) {
-//         ss = s->prev;
-//         /* free hash table entry, except if symbol was freed (only
-//            used for #undef symbols) */
-//         if (s->v)
-//             st->hash[HASH_SYM(s->v)] = s->hash_next;
-//         free(s);
-//         s = ss;
-//     }
-//     st->top = b;
-// }
-// 
-// /* undefined a hashed symbol (used for #undef). Its name is set to
-//    zero */
-// void sym_undef(SymStack *st, Sym *s)
-// {
-//     Sym **ss;
-//     ss = &st->hash[HASH_SYM(s->v)];
-//     while (*ss != NULL) {
-//         if (*ss == s)
-//             break;
-//         ss = &(*ss)->hash_next;
-//     }
-//     *ss = s->hash_next;
-//     s->v = 0;
-// }
+/* find a symbol in the right symbol space */
+Sym *sym_find(int v)
+{
+    Sym *s;
+    s = sym_find1(&local_stack, v);
+    if (!s)
+        s = sym_find1(&global_stack, v);
+    return s;
+}
+
+/* push a given symbol on the symbol stack */
+Sym *sym_push(int v, int t, int c)
+{
+    if (local_stack.top)
+        return sym_push1(&local_stack, v, t, c);
+    else
+        return sym_push1(&global_stack, v, t, c);
+}
+
+/* pop symbols until top reaches 'b' */
+void sym_pop(SymStack *st, Sym *b)
+{
+    Sym *s, *ss;
+
+    s = st->top;
+    while(s != b) {
+        ss = s->prev;
+        /* free hash table entry, except if symbol was freed (only
+           used for #undef symbols) */
+        if (s->v)
+            st->hash[HASH_SYM(s->v)] = s->hash_next;
+        free(s);
+        s = ss;
+    }
+    st->top = b;
+}
+
+/* undefined a hashed symbol (used for #undef). Its name is set to
+   zero */
+void sym_undef(SymStack *st, Sym *s)
+{
+    Sym **ss;
+    ss = &st->hash[HASH_SYM(s->v)];
+    while (*ss != NULL) {
+        if (*ss == s)
+            break;
+        ss = &(*ss)->hash_next;
+    }
+    *ss = s->hash_next;
+    s->v = 0;
+}
 
 /* no need to put that inline */
 int handle_eof(void)
