@@ -825,40 +825,40 @@ void define_symbol(char *sym)
 
 void preprocess(void)
 {
-//     int size, i, c, v, t, *str, len;
-//     int found=0;
-//     char buf[1024], *q, *p;
-//     char buf1[1024];
-//     FILE *f;
-//     Sym **ps, *first, *s;
-// 
-//     cinp();
-//     next_nomacro();
-//     if (tok == TOK_DEFINE) {
-//         next_nomacro();
-//         v = tok;
-//         /* XXX: should check if same macro (ANSI) */
-//         first = NULL;
-//         t = MACRO_OBJ;
-//         str = NULL;
-//         len = 0;
-//         while (1) {
-//             skip_spaces();
-//             if (ch == '\n' || ch == -1)
-//                 break;
-//             next_nomacro();
-//             tok_add2(&str, &len, tok, &tokc);
-//         }
-//         tok_add(&str, &len, 0);
-//         s = sym_push1(&define_stack, v, t, (int)str);
-//         s->next = first;
-//     } else if (tok == TOK_UNDEF) {
-//         next_nomacro();
-//         s = sym_find1(&define_stack, tok);
-//         /* undefine symbol by putting an invalid name */
-//         if (s)
-//             sym_undef(&define_stack, s);
-//     } else if (tok == TOK_INCLUDE) {
+    int size, i, c, v, t, *str, len;
+    int found=0;
+    char buf[1024], *q, *p;
+    char buf1[1024];
+    FILE *f;
+    Sym **ps, *first, *s;
+
+    cinp();
+    next_nomacro();
+    if (tok == TOK_DEFINE) {
+        next_nomacro();
+        v = tok;
+        /* XXX: should check if same macro (ANSI) */
+        first = NULL;
+        t = MACRO_OBJ;
+        str = NULL;
+        len = 0;
+        while (1) {
+            skip_spaces();
+            if (ch == '\n' || ch == -1)
+                break;
+            next_nomacro();
+            tok_add2(&str, &len, tok, &tokc);
+        }
+        tok_add(&str, &len, 0);
+        s = sym_push1(&define_stack, v, t, (int)str);
+        s->next = first;
+    } else if (tok == TOK_UNDEF) {
+        next_nomacro();
+        s = sym_find1(&define_stack, tok);
+        /* undefine symbol by putting an invalid name */
+        if (s)
+            sym_undef(&define_stack, s);
+    } else if (tok == TOK_INCLUDE) {
 //         skip_spaces();
 //         if ((ch == '<') || (ch == '\"')) {
 //             c = '>';
@@ -925,13 +925,13 @@ void preprocess(void)
 //         file = f;
 //         filename = strdup(buf1);
 //         line_num = 1;
-//     }
-//     if (tok == TOK_ERROR) {
-//         error("#error");
-//     }
-//     /* ignore other preprocess commands or #! for C scripts */
-//     while (ch != '\n' && ch != -1)
-//         cinp();
+    }
+    if (tok == TOK_ERROR) {
+        error("#error");
+    }
+    /* ignore other preprocess commands or #! for C scripts */
+    while (ch != '\n' && ch != -1)
+        cinp();
 }
 // 
 // /* read a number in base b */
