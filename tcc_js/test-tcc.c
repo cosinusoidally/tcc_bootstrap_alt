@@ -1409,43 +1409,43 @@ void swap(int *p, int *q)
     *q = t;
 }
 
-// void vsetc(int t, CValue *vc)
-// {
-//     if (vtop >= vstack + VSTACK_SIZE)
-//         error("memory full");
-//     /* cannot let cpu flags if other instruction are generated */
-//     /* XXX: VT_JMP test too ? */
-//     if ((vtop->t & VT_VALMASK) == VT_CMP)
-//         gv();
-//     vtop++;
-//     vtop->t = t;
-//     vtop->c = *vc;
-// }
+void vsetc(int t, CValue *vc)
+{
+    if (vtop >= vstack + VSTACK_SIZE)
+        error("memory full");
+    /* cannot let cpu flags if other instruction are generated */
+    /* XXX: VT_JMP test too ? */
+    if ((vtop->t & VT_VALMASK) == VT_CMP)
+        gv();
+    vtop++;
+    vtop->t = t;
+    vtop->c = *vc;
+}
 
 void vset(int t, int v)
 {
-//     CValue cval;
-// 
-//     cval.i = v;
-//     vsetc(t, &cval);
+    CValue cval;
+
+    cval.i = v;
+    vsetc(t, &cval);
 }
 
 void vswap(void)
 {
-//     SValue tmp;
-// 
-//     tmp = vtop[0];
-//     vtop[0] = vtop[-1];
-//     vtop[-1] = tmp;
+    SValue tmp;
+
+    tmp = vtop[0];
+    vtop[0] = vtop[-1];
+    vtop[-1] = tmp;
 }
 
-// void vdup(void)
-// {
-//     if (vtop >= vstack + VSTACK_SIZE)
-//         error("memory full");
-//     vtop++;
-//     *vtop = vtop[-1];
-// }
+void vdup(void)
+{
+    if (vtop >= vstack + VSTACK_SIZE)
+        error("memory full");
+    vtop++;
+    *vtop = vtop[-1];
+}
 
 int save_reg_forced(int r)
 {
