@@ -3439,19 +3439,19 @@ void decl(int l)
     Sym *sym;
     
     while (1) {
-//         b = ist();
+        b = ist();
         if (!b) {
-//             /* skip redundant ';' */
-//             /* XXX: find more elegant solution */
-//             if (tok == ';') {
-//                 next();
-//                 continue;
-//             }
-//             /* special test for old K&R protos without explicit int
-//                type. Only accepted when defining global data */
-//             if (l == VT_LOCAL || tok < TOK_DEFINE)
-//                 break;
-//             b = VT_INT;
+            /* skip redundant ';' */
+            /* XXX: find more elegant solution */
+            if (tok == ';') {
+                next();
+                continue;
+            }
+            /* special test for old K&R protos without explicit int
+               type. Only accepted when defining global data */
+            if (l == VT_LOCAL || tok < TOK_DEFINE)
+                break;
+            b = VT_INT;
         }
         if (((b & VT_BTYPE) == VT_ENUM ||
              (b & VT_BTYPE) == VT_STRUCT) && 
@@ -3463,56 +3463,56 @@ void decl(int l)
         while (1) { /* iterate thru each declaration */
             t = type_decl(&v, b, TYPE_DIRECT);
             if (tok == '{') {
-//                 if (l == VT_LOCAL)
-//                     error("cannot use local functions");
-//                 if (!(t & VT_FUNC))
-//                     expect("function definition");
-//                 /* patch forward references */
-//                 if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
-//                     greloc_patch(sym, ind);
-//                     sym->t = VT_CONST | t;
-//                 } else {
-//                     /* put function address */
-//                     sym_push1(&global_stack, v, VT_CONST | t, ind);
-//                 }
-//                 funcname = get_tok_str(v, NULL);
-//                 /* push a dummy symbol to enable local sym storage */
-//                 sym_push1(&local_stack, 0, 0, 0);
-//                 /* define parameters */
-//                 sym = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
-//                 /* XXX: the following is x86 dependant -> move it to
-//                    x86 code gen */
-//                 addr = 8;
-//                 /* if the function returns a structure, then add an
-//                    implicit pointer parameter */
-//                 func_vt = sym->t;
-//                 if ((func_vt & VT_BTYPE) == VT_STRUCT) {
-//                     func_vc = addr;
-//                     addr += 4;
-//                 }
-//                 while (sym = sym->next) {
-//                     u = sym->t;
-//                     sym_push(sym->v & ~SYM_FIELD, 
-//                              u | VT_LOCAL | VT_LVAL, 
-//                              addr);
-//                     size = type_size(u, &align);
-//                     size = (size + 3) & ~3;
-//                     addr += size;
-//                 }
-//                 loc = 0;
-//                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
-//                 a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
-//                 rsym = 0;
-//                 block(NULL, NULL, NULL, NULL, 0);
-//                 gsym(rsym);
-//                 o(0xc3c9); /* leave, ret */
-//                 *a = (-loc + 3) & -4; /* align local size to word & 
-//                                          save local variables */
-//                 sym_pop(&label_stack, NULL); /* reset label stack */
-//                 sym_pop(&local_stack, NULL); /* reset local stack */
-//                 funcname = ""; /* for safety */
-//                 func_vt = VT_VOID; /* for safety */
-//                 break;
+                if (l == VT_LOCAL)
+                    error("cannot use local functions");
+                if (!(t & VT_FUNC))
+                    expect("function definition");
+                /* patch forward references */
+                if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
+                    greloc_patch(sym, ind);
+                    sym->t = VT_CONST | t;
+                } else {
+                    /* put function address */
+                    sym_push1(&global_stack, v, VT_CONST | t, ind);
+                }
+                funcname = get_tok_str(v, NULL);
+                /* push a dummy symbol to enable local sym storage */
+                sym_push1(&local_stack, 0, 0, 0);
+                /* define parameters */
+                sym = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
+                /* XXX: the following is x86 dependant -> move it to
+                   x86 code gen */
+                addr = 8;
+                /* if the function returns a structure, then add an
+                   implicit pointer parameter */
+                func_vt = sym->t;
+                if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+                    func_vc = addr;
+                    addr += 4;
+                }
+                while (sym = sym->next) {
+                    u = sym->t;
+                    sym_push(sym->v & ~SYM_FIELD, 
+                             u | VT_LOCAL | VT_LVAL, 
+                             addr);
+                    size = type_size(u, &align);
+                    size = (size + 3) & ~3;
+                    addr += size;
+                }
+                loc = 0;
+                o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+                a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
+                rsym = 0;
+                block(NULL, NULL, NULL, NULL, 0);
+                gsym(rsym);
+                o(0xc3c9); /* leave, ret */
+                *a = (-loc + 3) & -4; /* align local size to word & 
+                                         save local variables */
+                sym_pop(&label_stack, NULL); /* reset label stack */
+                sym_pop(&local_stack, NULL); /* reset local stack */
+                funcname = ""; /* for safety */
+                func_vt = VT_VOID; /* for safety */
+                break;
             } else {
                 if (b & VT_TYPEDEF) {
                     /* save typedefed type  */
