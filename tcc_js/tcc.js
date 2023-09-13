@@ -4088,12 +4088,14 @@ err();
                     t = type_decl(n, t, TYPE_ABSTRACT);
 //                 else {
                 } else {
-err();
 //                     /* XXX: some code could be generated: add eval
 //                        flag */
 //                     gexpr();
+                    gexpr();
 //                     t = vtop->t;
+                    t = ri32(vtop+SValue_t_o);
 //                     vpop();
+                    vpop();
 //                 }
                 }
 //                 skip(')');

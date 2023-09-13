@@ -859,27 +859,27 @@ void preprocess(void)
         if (s)
             sym_undef(&define_stack, s);
     } else if (tok == TOK_INCLUDE) {
-//         skip_spaces();
-//         if ((ch == '<') || (ch == '\"')) {
-//             c = '>';
-//         if (ch == '\"')
-//             c = ch;
-//             minp();
-//             q = buf;
-//             while (ch != c && ch != '\n' && ch != -1) {
-//                 if ((q - buf) < sizeof(buf) - 1)
-//                     *q++ = ch;
-//                 minp();
-//             }
-//             *q = '\0';
-//         } else {
-//             next();
-//             if (tok != TOK_STR)
-//                 error("#include syntax error");
-//             /* XXX: buffer overflow */
-//             strcpy(buf, get_tok_str(tok, &tokc));
-//             c = '\"';
-//         }
+        skip_spaces();
+        if ((ch == '<') || (ch == '\"')) {
+            c = '>';
+        if (ch == '\"')
+            c = ch;
+            minp();
+            q = buf;
+            while (ch != c && ch != '\n' && ch != -1) {
+                if ((q - buf) < sizeof(buf) - 1)
+                    *q++ = ch;
+                minp();
+            }
+            *q = '\0';
+        } else {
+            next();
+            if (tok != TOK_STR)
+                error("#include syntax error");
+            /* XXX: buffer overflow */
+            strcpy(buf, get_tok_str(tok, &tokc));
+            c = '\"';
+        }
 //         /* eat all spaces and comments after include */
 //         /* XXX: slightly incorrect */
 //         while (ch1 != '\n' && ch1 != -1)
@@ -900,7 +900,7 @@ void preprocess(void)
 //             f = fopen(buf1, "r");
 //             if (f)
 //                 found=1;
-//         }
+//        }
 //         /* now search in standard include path */
 //         if(!found){
 //             for(i=nb_include_paths - 1;i>=0;i--) {
