@@ -2559,43 +2559,43 @@ void unary(void)
     /* post operations */
     while (1) {
         if (tok == TOK_INC | tok == TOK_DEC) {
-//             inc(1, tok);
-//             next();
+            inc(1, tok);
+            next();
         } else if (tok == '.' | tok == TOK_ARROW) {
-//             /* field */ 
-//             if (tok == TOK_ARROW) 
-//                 indir();
-//             test_lvalue();
-//             vtop->t &= VT_LVALN;
-//             next();
-//             /* expect pointer on structure */
-//             if ((vtop->t & VT_BTYPE) != VT_STRUCT)
-//                 expect("struct or union");
-//             s = sym_find(((unsigned)vtop->t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-//             /* find field */
-//             tok |= SYM_FIELD;
-//             while (s = s->next) {
-//                 if (s->v == tok)
-//                     break;
-//             }
-//             if (!s)
-//                 error("field not found");
-//             /* add field offset to pointer */
-//             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; /* change type to int */
-//             vset(VT_CONST, s->c);
-//             gen_op('+');
-//             /* change type to field type, and set to lvalue */
-//             vtop->t = (vtop->t & ~VT_TYPE) | s->t;
-//             /* an array is never an lvalue */
-//             if (!(vtop->t & VT_ARRAY))
-//                 vtop->t |= VT_LVAL;
-//             next();
+            /* field */ 
+            if (tok == TOK_ARROW) 
+                indir();
+            test_lvalue();
+            vtop->t &= VT_LVALN;
+            next();
+            /* expect pointer on structure */
+            if ((vtop->t & VT_BTYPE) != VT_STRUCT)
+                expect("struct or union");
+            s = sym_find(((unsigned)vtop->t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+            /* find field */
+            tok |= SYM_FIELD;
+            while (s = s->next) {
+                if (s->v == tok)
+                    break;
+            }
+            if (!s)
+                error("field not found");
+            /* add field offset to pointer */
+            vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; /* change type to int */
+            vset(VT_CONST, s->c);
+            gen_op('+');
+            /* change type to field type, and set to lvalue */
+            vtop->t = (vtop->t & ~VT_TYPE) | s->t;
+            /* an array is never an lvalue */
+            if (!(vtop->t & VT_ARRAY))
+                vtop->t |= VT_LVAL;
+            next();
         } else if (tok == '[') {
-//             next();
-//             gexpr();
-//             gen_op('+');
-//             indir();
-//             skip(']');
+            next();
+            gexpr();
+            gen_op('+');
+            indir();
+            skip(']');
         } else if (tok == '(') {
 //             int rett;
 //             CValue retc;
