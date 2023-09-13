@@ -933,54 +933,56 @@ void preprocess(void)
     while (ch != '\n' && ch != -1)
         cinp();
 }
-// 
-// /* read a number in base b */
+
+/* read a number in base b */
+// FIXME ljw handle decl
 // int getn(b)
-// {
-//     int n, t;
-//     n = 0;
-//     while (1) {
-//         if (ch >= 'a' & ch <= 'f')
-//             t = ch - 'a' + 10;
-//         else if (ch >= 'A' & ch <= 'F')
-//             t = ch - 'A' + 10;
-//         else if (isnum(ch))
-//             t = ch - '0';
-//         else
-//             break;
-//         if (t < 0 | t >= b)
-//             break;
-//         n = n * b + t;
-//         cinp();
-//     }
-//     return n;
-// }
-// 
-// /* read a character for string or char constant and eval escape codes */
-// int getq()
-// {
-//     int c;
-// 
-//     c = ch;
-//     minp();
-//     if (c == '\\') {
-//         if (isnum(ch)) {
-//             /* at most three octal digits */
-//             c = ch - '0';
-//             minp();
-//             if (isnum(ch)) {
-//                 c = c * 8 + ch - '0';
-//                 minp();
-//                 if (isnum(ch)) {
-//                     c = c * 8 + ch - '0';
-//                     minp();
-//                 }
-//             }
-//             return c;
-//         } else if (ch == 'x') {
-//             minp();
-//             return getn(16);
-//         } else {
+int getn(int b)
+{
+    int n, t;
+    n = 0;
+    while (1) {
+        if (ch >= 'a' & ch <= 'f')
+            t = ch - 'a' + 10;
+        else if (ch >= 'A' & ch <= 'F')
+            t = ch - 'A' + 10;
+        else if (isnum(ch))
+            t = ch - '0';
+        else
+            break;
+        if (t < 0 | t >= b)
+            break;
+        n = n * b + t;
+        cinp();
+    }
+    return n;
+}
+
+/* read a character for string or char constant and eval escape codes */
+int getq()
+{
+    int c;
+
+    c = ch;
+    minp();
+    if (c == '\\') {
+        if (isnum(ch)) {
+            /* at most three octal digits */
+            c = ch - '0';
+            minp();
+            if (isnum(ch)) {
+                c = c * 8 + ch - '0';
+                minp();
+                if (isnum(ch)) {
+                    c = c * 8 + ch - '0';
+                    minp();
+                }
+            }
+            return c;
+        } else if (ch == 'x') {
+            minp();
+            return getn(16);
+        } else {
 //             if (ch == 'a')
 //                 c = '\a';
 //             else if (ch == 'b')
@@ -1002,11 +1004,11 @@ void preprocess(void)
 //             else
 //                 error("invalid escaped char");
 //             minp();
-//         }
-//     }
-//     return c;
-// }
-// 
+        }
+    }
+    return c;
+}
+
 // void parse_number(void)
 // {
 //     int b, t, shift, frac_bits, s, exp_val;
