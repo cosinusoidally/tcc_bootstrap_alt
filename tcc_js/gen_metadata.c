@@ -114,5 +114,6 @@ int main(void){
   printf("var TOK_LE=0x%x;\n",TOK_LE);
   printf("var TOK_GE=0x%x;\n",TOK_GE);
   printf("var TOK_A_DIV=0x%x;\n",TOK_A_DIV);
+  printf("var TOK_UGT=0x%x;\n",TOK_UGT);
   return 0;
 }

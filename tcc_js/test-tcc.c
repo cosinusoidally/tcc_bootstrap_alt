@@ -1578,41 +1578,41 @@ void gen_opc(int op)
     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     while(1) {
     if (c1 && c2) {
-//         fc = v2->c.i;
-//         switch(op) {
-//         case '+': v1->c.i += fc; break;
-//         case '-': v1->c.i -= fc; break;
-//         case '&': v1->c.i &= fc; break;
-//         case '^': v1->c.i ^= fc; break;
-//         case '|': v1->c.i |= fc; break;
-//         case '*': v1->c.i *= fc; break;
-//         case TOK_PDIV:
-//         case '/': v1->c.i /= fc; break; /* XXX: zero case ? */
-//         case '%': v1->c.i %= fc; break; /* XXX: zero case ? */
-//         case TOK_UDIV: v1->c.i = (unsigned)v1->c.i / fc; break; /* XXX: zero case ? */
-//         case TOK_UMOD: v1->c.i = (unsigned)v1->c.i % fc; break; /* XXX: zero case ? */
-//         case TOK_SHL: v1->c.i <<= fc; break;
-//         case TOK_SHR: v1->c.i = (unsigned)v1->c.i >> fc; break;
-//         case TOK_SAR: v1->c.i >>= fc; break;
-//             /* tests */
-//         case TOK_ULT: v1->c.i = (unsigned)v1->c.i < (unsigned)fc; break;
-//         case TOK_UGE: v1->c.i = (unsigned)v1->c.i >= (unsigned)fc; break;
-//         case TOK_EQ: v1->c.i = v1->c.i == fc; break;
-//         case TOK_NE: v1->c.i = v1->c.i != fc; break;
-//         case TOK_ULE: v1->c.i = (unsigned)v1->c.i <= (unsigned)fc; break;
-//         case TOK_UGT: v1->c.i = (unsigned)v1->c.i > (unsigned)fc; break;
-//         case TOK_LT: v1->c.i = v1->c.i < fc; break;
-//         case TOK_GE: v1->c.i = v1->c.i >= fc; break;
-//         case TOK_LE: v1->c.i = v1->c.i <= fc; break;
-//         case TOK_GT: v1->c.i = v1->c.i > fc; break;
-//             /* logical */
-//         case TOK_LAND: v1->c.i = v1->c.i && fc; break;
-//         case TOK_LOR: v1->c.i = v1->c.i || fc; break;
-//         default:
-//             general_case=1;
-//         }
-//         if(general_case){break;}
-//         vtop--;
+        fc = v2->c.i;
+        switch(op) {
+        case '+': v1->c.i += fc; break;
+        case '-': v1->c.i -= fc; break;
+        case '&': v1->c.i &= fc; break;
+        case '^': v1->c.i ^= fc; break;
+        case '|': v1->c.i |= fc; break;
+        case '*': v1->c.i *= fc; break;
+        case TOK_PDIV:
+        case '/': v1->c.i /= fc; break; /* XXX: zero case ? */
+        case '%': v1->c.i %= fc; break; /* XXX: zero case ? */
+        case TOK_UDIV: v1->c.i = (unsigned)v1->c.i / fc; break; /* XXX: zero case ? */
+        case TOK_UMOD: v1->c.i = (unsigned)v1->c.i % fc; break; /* XXX: zero case ? */
+        case TOK_SHL: v1->c.i <<= fc; break;
+        case TOK_SHR: v1->c.i = (unsigned)v1->c.i >> fc; break;
+        case TOK_SAR: v1->c.i >>= fc; break;
+            /* tests */
+        case TOK_ULT: v1->c.i = (unsigned)v1->c.i < (unsigned)fc; break;
+        case TOK_UGE: v1->c.i = (unsigned)v1->c.i >= (unsigned)fc; break;
+        case TOK_EQ: v1->c.i = v1->c.i == fc; break;
+        case TOK_NE: v1->c.i = v1->c.i != fc; break;
+        case TOK_ULE: v1->c.i = (unsigned)v1->c.i <= (unsigned)fc; break;
+        case TOK_UGT: v1->c.i = (unsigned)v1->c.i > (unsigned)fc; break;
+        case TOK_LT: v1->c.i = v1->c.i < fc; break;
+        case TOK_GE: v1->c.i = v1->c.i >= fc; break;
+        case TOK_LE: v1->c.i = v1->c.i <= fc; break;
+        case TOK_GT: v1->c.i = v1->c.i > fc; break;
+            /* logical */
+        case TOK_LAND: v1->c.i = v1->c.i && fc; break;
+        case TOK_LOR: v1->c.i = v1->c.i || fc; break;
+        default:
+            general_case=1;
+        }
+        if(general_case){break;}
+        vtop--;
     } else {
         /* if commutative ops, put c2 as constant */
         if (c1 && (op == '+' || op == '&' || op == '^' || 
