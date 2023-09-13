@@ -2723,29 +2723,30 @@ void uneq(void)
 
 void sum(int l)
 {
-//     int t;
-// 
-//     if (l == 0)
-//         uneq();
-//     else {
-//         sum(--l);
-//         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
-//                (l == 1 & (tok == '+' | tok == '-')) |
-//                (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
-//                (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
-//                           tok == TOK_ULT | tok == TOK_UGE)) |
-//                (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
-//                (l == 5 & tok == '&') |
-//                (l == 6 & tok == '^') |
-//                (l == 7 & tok == '|') |
-//                (l == 8 & tok == TOK_LAND) |
-//                (l == 9 & tok == TOK_LOR)) {
-//             t = tok;
-//             next();
-//             sum(l);
-//             gen_op(t);
-//        }
-//     }
+    int t;
+
+    if (l == 0)
+        uneq();
+    else {
+        sum(--l);
+        while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
+// FIXME ljw
+//               (l == 1 & (tok == '+' | tok == '-')) |
+//               (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
+//               (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
+//                          tok == TOK_ULT | tok == TOK_UGE)) |
+//               (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
+               (l == 5 & tok == '&') |
+               (l == 6 & tok == '^') |
+               (l == 7 & tok == '|') |
+               (l == 8 & tok == TOK_LAND) |
+               (l == 9 & tok == TOK_LOR)) {
+            t = tok;
+            next();
+            sum(l);
+            gen_op(t);
+       }
+    }
 }
 
 /* only used if non constant */

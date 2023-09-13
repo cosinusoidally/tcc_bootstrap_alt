@@ -4114,9 +4114,10 @@ err();
 //         } else
 //         if (t == TOK_INC || t == TOK_DEC) {
         } else if (t == TOK_INC || t == TOK_DEC) {
-err();
 //             unary();
+            unary();
 //             inc(0, t);
+            inc(0, t);
 //         } else if (t == '-') {
         } else if (t == mk_char('-')) {
 //             vset(VT_CONST, 0);
