@@ -3149,42 +3149,42 @@ void decl_designator(int t, int c,
 
 void init_putv(int t, int c, int v, int is_expr)
 {
-//     int saved_global_expr, bt;
-// 
-//     if ((t & VT_VALMASK) == VT_CONST) {
-//         if (is_expr) {
-//             /* compound literals must be allocated globally in this case */
-//             saved_global_expr = global_expr;
-//             global_expr = 1;
-//             expr_const1();
-//             global_expr = saved_global_expr;
-//         } else {
-//             vset(VT_CONST | VT_INT, v);
-//         }
-//         /* XXX: do casting */
-//         /* XXX: not portable */
-//         bt = vtop->t & VT_BTYPE;
-//         switch(bt) {
-//         case VT_BYTE:
-//             *(char *)c = vtop->c.i;
-//             break;
+    int saved_global_expr, bt;
+
+    if ((t & VT_VALMASK) == VT_CONST) {
+        if (is_expr) {
+            /* compound literals must be allocated globally in this case */
+            saved_global_expr = global_expr;
+            global_expr = 1;
+            expr_const1();
+            global_expr = saved_global_expr;
+        } else {
+            vset(VT_CONST | VT_INT, v);
+        }
+        /* XXX: do casting */
+        /* XXX: not portable */
+        bt = vtop->t & VT_BTYPE;
+        switch(bt) {
+        case VT_BYTE:
+            *(char *)c = vtop->c.i;
+            break;
 //         case VT_SHORT:
 //             *(short *)c = vtop->c.i;
 //             break;
-//         default:
-//             *(int *)c = vtop->c.i;
-//             break;
-//         }
-//         vpop();
-//     } else {
-//         vset(t, c);
-//         if (is_expr)
-//             expr_eq();
-//         else
-//             vset(VT_CONST | VT_INT, v);
-//         vstore();
-//         vpop();
-//     }
+        default:
+            *(int *)c = vtop->c.i;
+            break;
+        }
+        vpop();
+    } else {
+        vset(t, c);
+        if (is_expr)
+            expr_eq();
+        else
+            vset(VT_CONST | VT_INT, v);
+        vstore();
+        vpop();
+    }
 }
 
 /* put zeros for variable based init */
