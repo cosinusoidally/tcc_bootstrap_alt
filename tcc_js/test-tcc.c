@@ -3241,56 +3241,56 @@ void decl_initializer(int t, int c, int first, int size_only)
              (t1 & VT_BTYPE) == VT_INT) ||
             (tok == TOK_STR &&
              (t1 & VT_BTYPE) == VT_BYTE)) {
-//             /* XXX: move multiple string parsing in parser ? */
-//             while (tok == TOK_STR || tok == TOK_LSTR) {
-//                 ts = tokc.ts;
-//                 /* compute maximum number of chars wanted */
-//                 nb = ts->len;
-//                 if (n >= 0 && nb > (n - array_length))
-//                     nb = n - array_length;
-//                 if (!size_only) {
-//                     if (ts->len > nb)
-//                         warning("initializer-string for array is too long");
-//                     for(i=0;i<nb;i++) {
-//                         init_putv(t1, c + (array_length + i) * size1, 
-//                                   ts->str[i], 0);
-//                     }
-//                 }
-//                 array_length += nb;
-//                 next();
-//             }
-//             /* only add trailing zero if enough storage (no
-//                warning in this case since it is standard) */
-//             if (n < 0 || array_length < n) {
-//                 if (!size_only) {
-//                     init_putv(t1, c + (array_length * size1), 0, 0);
-//                 }
-//                 array_length++;
-//             }
+            /* XXX: move multiple string parsing in parser ? */
+            while (tok == TOK_STR || tok == TOK_LSTR) {
+                ts = tokc.ts;
+                /* compute maximum number of chars wanted */
+                nb = ts->len;
+                if (n >= 0 && nb > (n - array_length))
+                    nb = n - array_length;
+                if (!size_only) {
+                    if (ts->len > nb)
+                        warning("initializer-string for array is too long");
+                    for(i=0;i<nb;i++) {
+                        init_putv(t1, c + (array_length + i) * size1, 
+                                  ts->str[i], 0);
+                    }
+                }
+                array_length += nb;
+                next();
+            }
+            /* only add trailing zero if enough storage (no
+               warning in this case since it is standard) */
+            if (n < 0 || array_length < n) {
+                if (!size_only) {
+                    init_putv(t1, c + (array_length * size1), 0, 0);
+                }
+                array_length++;
+            }
         } else {
-//             index = 0;
-//             while (tok != '}') {
-//                 decl_designator(t, c, &index, NULL, size_only);
-//                 if (n >= 0 && index >= n)
-//                     error("index too large");
-//                 /* must put zero in holes (note that doing it that way
-//                    ensures that it even works with designators) */
-//                 if (!size_only && array_length < index) {
-//                     init_putz(t1, c + array_length * size1, 
-//                               (index - array_length) * size1);
-//                 }
-//                 index++;
-//                 if (index > array_length)
-//                     array_length = index;
-//                 /* special test for multi dimensional arrays (may not
-//                    be strictly correct if designators are used at the
-//                    same time) */
-//                 if (index >= n && no_oblock)
-//                     break;
-//                 if (tok == '}')
-//                     break;
-//                 skip(',');
-//             }
+            index = 0;
+            while (tok != '}') {
+                decl_designator(t, c, &index, NULL, size_only);
+                if (n >= 0 && index >= n)
+                    error("index too large");
+                /* must put zero in holes (note that doing it that way
+                   ensures that it even works with designators) */
+                if (!size_only && array_length < index) {
+                    init_putz(t1, c + array_length * size1, 
+                              (index - array_length) * size1);
+                }
+                index++;
+                if (index > array_length)
+                    array_length = index;
+                /* special test for multi dimensional arrays (may not
+                   be strictly correct if designators are used at the
+                   same time) */
+                if (index >= n && no_oblock)
+                    break;
+                if (tok == '}')
+                    break;
+                skip(',');
+            }
         }
         if (!no_oblock)
             skip('}');
@@ -3303,50 +3303,50 @@ void decl_initializer(int t, int c, int first, int size_only)
         if (n < 0)
             s->c = array_length;
     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
-//         /* XXX: union needs only one init */
-//         next();
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-//         f = s->next;
-//         array_length = 0;
-//         index = 0;
-//         n = s->c;
-//         while (tok != '}') {
-//             decl_designator(t, c, NULL, &f, size_only);
-//             /* fill with zero between fields */
-//             index = f->c;
-//             if (!size_only && array_length < index) {
-//                 init_putz(t, c + array_length, 
-//                           index - array_length);
-//             }
-//             index = index + type_size(f->t, &align1);
-//             if (index > array_length)
-//                 array_length = index;
-//             if (tok == '}')
-//                 break;
-//             skip(',');
-//             f = f->next;
-//         }
-//         /* put zeros at the end */
-//         if (!size_only && array_length < n) {
-//             init_putz(t, c + array_length, 
-//                       n - array_length);
-//         }
-//         skip('}');
+        /* XXX: union needs only one init */
+        next();
+        s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        f = s->next;
+        array_length = 0;
+        index = 0;
+        n = s->c;
+        while (tok != '}') {
+            decl_designator(t, c, NULL, &f, size_only);
+            /* fill with zero between fields */
+            index = f->c;
+            if (!size_only && array_length < index) {
+                init_putz(t, c + array_length, 
+                          index - array_length);
+            }
+            index = index + type_size(f->t, &align1);
+            if (index > array_length)
+                array_length = index;
+            if (tok == '}')
+                break;
+            skip(',');
+            f = f->next;
+        }
+        /* put zeros at the end */
+        if (!size_only && array_length < n) {
+            init_putz(t, c + array_length, 
+                      n - array_length);
+        }
+        skip('}');
     } else if (tok == '{') {
         next();
         decl_initializer(t, c, first, size_only);
         skip('}');
     } else if (size_only) {
-//         /* just skip expression */
-//         parlevel = 0;
-//         while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
-//                tok != -1) {
-//             if (tok == '(')
-//                 parlevel++;
-//             else if (tok == ')')
-//                 parlevel--;
-//             next();
-//         }
+        /* just skip expression */
+        parlevel = 0;
+        while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
+               tok != -1) {
+            if (tok == '(')
+                parlevel++;
+            else if (tok == ')')
+                parlevel--;
+            next();
+        }
     } else {
         init_putv(t, c, 0, 1);
     }
