@@ -985,25 +985,27 @@ int getq()
         } else {
 //             if (ch == 'a')
 //                 c = '\a';
+// FIXME can't handle \a
 //             else if (ch == 'b')
-//                 c = '\b';
-//             else if (ch == 'f')
-//                 c = '\f';
-//             else if (ch == 'n')
-//                 c = '\n';
-//             else if (ch == 'r')
-//                 c = '\r';
-//             else if (ch == 't')
-//                 c = '\t';
-//             else if (ch == 'v')
-//                 c = '\v';
-//             else if (ch == 'e' && gnu_ext)
-//                 c = 27;
-//             else if (ch == '\'' || ch == '\"' || ch == '\\' || ch == '?')
-//                 c = ch;
-//             else
-//                 error("invalid escaped char");
-//             minp();
+            if (ch == 'b')
+                c = '\b';
+            else if (ch == 'f')
+                c = '\f';
+            else if (ch == 'n')
+                c = '\n';
+            else if (ch == 'r')
+                c = '\r';
+            else if (ch == 't')
+                c = '\t';
+            else if (ch == 'v')
+                c = '\v';
+            else if (ch == 'e' && gnu_ext)
+                c = 27;
+            else if (ch == '\'' || ch == '\"' || ch == '\\' || ch == '?')
+                c = ch;
+            else
+                error("invalid escaped char");
+            minp();
         }
     }
     return c;
