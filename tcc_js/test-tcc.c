@@ -246,17 +246,17 @@ int global_relocs_table_base;
 #define TOK_SHL   0x01 /* shift left */
 #define TOK_SAR   0x02 /* signed shift right */
  
-// /* assignement operators : normal operator or 0x80 */
-// #define TOK_A_MOD 0xa5
-// #define TOK_A_AND 0xa6
-// #define TOK_A_MUL 0xaa
-// #define TOK_A_ADD 0xab
-// #define TOK_A_SUB 0xad
-// #define TOK_A_DIV 0xaf
-// #define TOK_A_XOR 0xde
-// #define TOK_A_OR  0xfc
-// #define TOK_A_SHL 0x81
-// #define TOK_A_SAR 0x82
+/* assignement operators : normal operator or 0x80 */
+#define TOK_A_MOD 0xa5
+#define TOK_A_AND 0xa6
+#define TOK_A_MUL 0xaa
+#define TOK_A_ADD 0xab
+#define TOK_A_SUB 0xad
+#define TOK_A_DIV 0xaf
+#define TOK_A_XOR 0xde
+#define TOK_A_OR  0xfc
+#define TOK_A_SHL 0x81
+#define TOK_A_SAR 0x82
 
 /* all identificators and strings have token above that */
 #define TOK_IDENT 256
@@ -2700,25 +2700,25 @@ void unary(void)
 
 void uneq(void)
 {
-//     int t;
-//     
-//     unary();
-//     if (tok == '=' ||
-//         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
-//         tok == TOK_A_XOR || tok == TOK_A_OR ||
-//         tok == TOK_A_SHL || tok == TOK_A_SAR) {
-//         test_lvalue();
-//         t = tok;
-//         next();
-//         if (t == '=') {
-//             expr_eq();
-//         } else {
-//             vdup();
-//             expr_eq();
-//             gen_op(t & 0x7f);
-//         }
-//         vstore();
-//     }
+    int t;
+    
+    unary();
+    if (tok == '=' ||
+        (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
+        tok == TOK_A_XOR || tok == TOK_A_OR ||
+        tok == TOK_A_SHL || tok == TOK_A_SAR) {
+        test_lvalue();
+        t = tok;
+        next();
+        if (t == '=') {
+            expr_eq();
+        } else {
+            vdup();
+            expr_eq();
+            gen_op(t & 0x7f);
+        }
+        vstore();
+    }
 }
 
 void sum(int l)
