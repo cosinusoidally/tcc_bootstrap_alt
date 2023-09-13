@@ -2597,30 +2597,30 @@ void unary(void)
             indir();
             skip(']');
         } else if (tok == '(') {
-//             int rett;
-//             CValue retc;
-//             Sym *sa;
-// 
-//             /* function call  */
-//             if ((vtop->t & VT_BTYPE) != VT_FUNC) {
-//                 /* pointer test (no array accepted) */
-//                 if ((vtop->t & (VT_BTYPE | VT_ARRAY)) == VT_PTR) {
-//                     vtop->t = pointed_type(vtop->t);
-//                     if ((vtop->t & VT_BTYPE) != VT_FUNC)
-//                         expect("function pointer");
-//                 } else {
-//                     expect("function pointer");
-//                 }
-//             } else {
-//                 vtop->t &= ~VT_LVAL; /* no lvalue */
-//             }
-//             /* get return type */
-//             s = sym_find((unsigned)vtop->t >> VT_STRUCT_SHIFT);
-//             save_regs(); /* save used temporary registers */
-//             gfunc_start(&gf);
-//             next();
-//             sa = s->next; /* first parameter */
-//             {
+            int rett;
+            CValue retc;
+            Sym *sa;
+
+            /* function call  */
+            if ((vtop->t & VT_BTYPE) != VT_FUNC) {
+                /* pointer test (no array accepted) */
+                if ((vtop->t & (VT_BTYPE | VT_ARRAY)) == VT_PTR) {
+                    vtop->t = pointed_type(vtop->t);
+                    if ((vtop->t & VT_BTYPE) != VT_FUNC)
+                        expect("function pointer");
+                } else {
+                    expect("function pointer");
+                }
+            } else {
+                vtop->t &= ~VT_LVAL; /* no lvalue */
+            }
+            /* get return type */
+            s = sym_find((unsigned)vtop->t >> VT_STRUCT_SHIFT);
+            save_regs(); /* save used temporary registers */
+            gfunc_start(&gf);
+            next();
+            sa = s->next; /* first parameter */
+            {
 //                 int *str, len, parlevel, *saved_macro_ptr;
 //                 Sym *args, *s1;
 // 
@@ -2670,28 +2670,28 @@ void unary(void)
 //                 macro_ptr = saved_macro_ptr;
 //                 /* restore token */
 //                 tok = ')';
-//             }
-//             /* compute first implicit argument if a structure is returned */
-//             if ((s->t & VT_BTYPE) == VT_STRUCT) {
-//                 /* get some space for the returned structure */
-//                 size = type_size(s->t, &align);
-//                 loc = (loc - size) & -align;
-//                 rett = s->t | VT_LOCAL | VT_LVAL;
-//                 /* pass it as 'int' to avoid structure arg passing
-//                    problems */
-//                 vset(VT_INT | VT_LOCAL, loc);
-//                 retc = vtop->c;
-//                 gfunc_param(&gf);
-//             } else {
-//                 rett = s->t | FUNC_RET_REG; /* return in register */
-//                 retc.i = 0;
-//             }
-//             if (sa)
-//                 error("too few arguments to function %x", sa->t);
-//             skip(')');
-//             gfunc_call(&gf);
-//             /* return value */
-//             vsetc(rett, &retc);
+            }
+            /* compute first implicit argument if a structure is returned */
+            if ((s->t & VT_BTYPE) == VT_STRUCT) {
+                /* get some space for the returned structure */
+                size = type_size(s->t, &align);
+                loc = (loc - size) & -align;
+                rett = s->t | VT_LOCAL | VT_LVAL;
+                /* pass it as 'int' to avoid structure arg passing
+                   problems */
+                vset(VT_INT | VT_LOCAL, loc);
+                retc = vtop->c;
+                gfunc_param(&gf);
+            } else {
+                rett = s->t | FUNC_RET_REG; /* return in register */
+                retc.i = 0;
+            }
+            if (sa)
+                error("too few arguments to function %x", sa->t);
+            skip(')');
+            gfunc_call(&gf);
+            /* return value */
+            vsetc(rett, &retc);
         } else {
             break;
         }
