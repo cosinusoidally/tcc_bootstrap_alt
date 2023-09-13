@@ -1948,79 +1948,79 @@ void type_to_str(char *buf, int buf_size,
 
 /* verify type compatibility to store vtop in 'st' type, and generate
    casts if needed */
-// void gen_assign_cast(int dt)
-// {
-//     int st;
-//     char buf1[256], buf2[256];
-// 
-//     st = vtop->t; /* destination type */
-//     if (!check_assign_types(dt, st)) {
-//         type_to_str(buf1, sizeof(buf1), st, NULL);
-//         type_to_str(buf2, sizeof(buf2), dt, NULL);
-//         error("cannot cast '%s' to '%s'", buf1, buf2);
-//     }
-// }
+void gen_assign_cast(int dt)
+{
+    int st;
+    char buf1[256], buf2[256];
+
+    st = vtop->t; /* destination type */
+    if (!check_assign_types(dt, st)) {
+        type_to_str(buf1, sizeof(buf1), st, NULL);
+        type_to_str(buf2, sizeof(buf2), dt, NULL);
+        error("cannot cast '%s' to '%s'", buf1, buf2);
+    }
+}
 
 
 /* store vtop in lvalue pushed on stack */
 void vstore(void)
 {
-//     int ft, fc, r, t, size, align, bit_size, bit_pos;
-//     GFuncContext gf;
-// 
-//     ft = vtop[-1].t;
-//     gen_assign_cast(ft & VT_TYPE);
-// 
-//     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
-//         /* if structure, only generate pointer */
-//         /* structure assignment : generate memcpy */
-//         /* XXX: optimize if small size */
-// 
-//         vdup();
-//         gfunc_start(&gf);
-//         /* type size */
-//         size = type_size(vtop->t, &align);
-//         vset(VT_CONST, size);
-//         gfunc_param(&gf);
-//         /* source */
-//         vtop->t &= ~VT_LVAL;
-//         gfunc_param(&gf);
-//         /* destination */
-//         vswap();
-//         vtop->t &= ~VT_LVAL;
-//         gfunc_param(&gf);
-// 
-//         save_regs();
-//         vset(VT_CONST, (int)&memcpy);
-// if(reloc){
-// special=1;
-//   printf("memcpy function pointer stuff\n");
-// }
-//         gfunc_call(&gf);
-// if(reloc){
-// special=0;
-// }
-//         /* leave source on stack */
-//     } else {
-//         r = gv();  /* generate value */
-//         ft = vtop[-1].t;
-//         fc = vtop[-1].c.i;
-//         /* if lvalue was saved on stack, must read it */
-//         if ((ft & VT_VALMASK) == VT_LLOCAL) {
-//             t = get_reg(REG_CLASS_INT);
-//             load(t, VT_LOCAL | VT_LVAL, fc);
-//             ft = (ft & ~VT_VALMASK) | t;
-//         }
-//         store(r, ft, fc);
-//         vtop--;
-//         vtop->t = (ft & VT_TYPE) | r;
-//         vtop->c.i = 0;
-//     }
+    int ft, fc, r, t, size, align, bit_size, bit_pos;
+    GFuncContext gf;
+
+    ft = vtop[-1].t;
+    gen_assign_cast(ft & VT_TYPE);
+
+    if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
+        /* if structure, only generate pointer */
+        /* structure assignment : generate memcpy */
+        /* XXX: optimize if small size */
+
+        vdup();
+        gfunc_start(&gf);
+        /* type size */
+        size = type_size(vtop->t, &align);
+        vset(VT_CONST, size);
+        gfunc_param(&gf);
+        /* source */
+        vtop->t &= ~VT_LVAL;
+        gfunc_param(&gf);
+        /* destination */
+        vswap();
+        vtop->t &= ~VT_LVAL;
+        gfunc_param(&gf);
+
+        save_regs();
+        vset(VT_CONST, (int)&memcpy);
+if(reloc){
+special=1;
+  printf("memcpy function pointer stuff\n");
+}
+        gfunc_call(&gf);
+if(reloc){
+special=0;
+}
+        /* leave source on stack */
+    } else {
+        r = gv();  /* generate value */
+        ft = vtop[-1].t;
+        fc = vtop[-1].c.i;
+        /* if lvalue was saved on stack, must read it */
+        if ((ft & VT_VALMASK) == VT_LLOCAL) {
+            t = get_reg(REG_CLASS_INT);
+            load(t, VT_LOCAL | VT_LVAL, fc);
+            ft = (ft & ~VT_VALMASK) | t;
+        }
+        store(r, ft, fc);
+        vtop--;
+        vtop->t = (ft & VT_TYPE) | r;
+        vtop->c.i = 0;
+    }
 }
 
-// /* post defines POST/PRE add. c is the token ++ or -- */
-// void inc(int post, int c)
-// {
+/* post defines POST/PRE add. c is the token ++ or -- */
+void inc(int post, int c)
+{
 //     int r, r1;
 // 
 //     test_lvalue();
@@ -2043,9 +2043,9 @@ void vstore(void)
 //     vstore(); /* store value */
 //     if (post)
 //         vpop(); /* if post op, return saved value */
-// }
-// 
-// /* enum/struct/union declaration */
+}
+
+/* enum/struct/union declaration */
 // int struct_decl(int u)
 // {
 //     int a, t, b, v, size, align, maxalign, c, offset;
