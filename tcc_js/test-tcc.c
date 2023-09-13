@@ -2382,8 +2382,8 @@ int type_decl(int *v, int t, int td)
 }
 
 /* define a new external reference to a function 'v' of type 'u' */
-// Sym *external_sym(int v, int u)
-// {
+Sym *external_sym(int v, int u)
+{
 //     Sym *s;
 //     s = sym_find(v);
 //     if (!s) {
@@ -2392,10 +2392,10 @@ int type_decl(int *v, int t, int td)
 //                       v, u | VT_CONST | VT_FORWARD, 0);
 //     }
 //     return s;
-// }
-// 
-// void indir(void)
-// {
+}
+
+void indir(void)
+{
 //     if (vtop->t & VT_LVAL)
 //         gv();
 //     if ((vtop->t & VT_BTYPE) != VT_PTR)
@@ -2403,11 +2403,11 @@ int type_decl(int *v, int t, int td)
 //     vtop->t = pointed_type(vtop->t);
 //     if (!(vtop->t & VT_ARRAY)) /* an array is never an lvalue */
 //         vtop->t |= VT_LVAL;
-// }
-// 
-// /* pass a parameter to a function and do type checking and casting */
-// void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
-// {
+}
+
+/* pass a parameter to a function and do type checking and casting */
+void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
+{
 //     int func_type;
 //     func_type = func->c;
 //     if (func_type == FUNC_OLD ||
@@ -2421,10 +2421,10 @@ int type_decl(int *v, int t, int td)
 //         gen_assign_cast(arg->t);
 //     }
 //     gfunc_param(gf);
-// }
-// 
-// void unary(void)
-// {
+}
+
+void unary(void)
+{
 //     int n, t, ft, fc, p, align, size;
 //     Sym *s;
 //     GFuncContext gf;
@@ -2696,10 +2696,10 @@ int type_decl(int *v, int t, int td)
 //             break;
 //         }
 //     }
-// }
-// 
-// void uneq(void)
-// {
+}
+
+void uneq(void)
+{
 //     int t;
 //     
 //     unary();
@@ -2719,10 +2719,10 @@ int type_decl(int *v, int t, int td)
 //         }
 //         vstore();
 //     }
-// }
-// 
-// void sum(int l)
-// {
+}
+
+void sum(int l)
+{
 //     int t;
 // 
 //     if (l == 0)
@@ -2746,29 +2746,29 @@ int type_decl(int *v, int t, int td)
 //             gen_op(t);
 //        }
 //     }
-// }
-// 
-// /* only used if non constant */
-// void eand(void)
-// {
-//     int t;
-// 
-//     sum(8);
-//     t = 0;
-//     while (1) {
-//         if (tok != TOK_LAND) {
-//             if (t) {
-//                 t = gtst(1, t);
-//                 vset(VT_JMPI, t);
-//             }
-//             break;
-//         }
-//         t = gtst(1, t);
-//         next();
-//         sum(8);
-//     }
-// }
-// 
+}
+
+/* only used if non constant */
+void eand(void)
+{
+    int t;
+
+    sum(8);
+    t = 0;
+    while (1) {
+        if (tok != TOK_LAND) {
+            if (t) {
+                t = gtst(1, t);
+                vset(VT_JMPI, t);
+            }
+            break;
+        }
+        t = gtst(1, t);
+        next();
+        sum(8);
+    }
+}
+
 // void eor(void)
 // {
 //     int t;
