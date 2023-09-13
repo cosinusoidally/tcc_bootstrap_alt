@@ -3653,36 +3653,36 @@ int tcc_compile_file(const char *filename1)
 // 
 void resolve_extern_syms(void)
 {
-// // HACK RELOC
-// reloc_global=1;
-//     Sym *s, *s1;
-//     char *str;
-//     int addr;
-// int count;
-//     s = extern_stack.top;
-//     while (s != NULL) {
-//         s1 = s->prev;
-//         if (s->t & VT_FORWARD) {
-//             /* if there is at least one relocation to do, then find it
-//                and patch it */
-//             if (s->c) {
-//                 str = get_tok_str(s->v, NULL);
-//                 addr = (int)dlsym(NULL, str);
-//                 if (!addr)
-//                     error("unresolved external reference '%s'", str);
-//                 count=greloc_patch(s, addr);
-// if(reloc){
-//   printf("resolve_extern_syms: %s %d\n",str,count);
-//   strcpy((char *)global_relocs_table,str);
-//   global_relocs_table+=strlen(str)+1;
-//   *(int *)global_relocs_table=count;
-//   global_relocs_table+=4;
-// }
-//             }
-//         }
-//         s = s1;
-//     }
-// reloc_global=0;
+// HACK RELOC
+reloc_global=1;
+    Sym *s, *s1;
+    char *str;
+    int addr;
+int count;
+    s = extern_stack.top;
+    while (s != NULL) {
+        s1 = s->prev;
+        if (s->t & VT_FORWARD) {
+            /* if there is at least one relocation to do, then find it
+               and patch it */
+            if (s->c) {
+                str = get_tok_str(s->v, NULL);
+                addr = (int)dlsym(NULL, str);
+                if (!addr)
+                    error("unresolved external reference '%s'", str);
+                count=greloc_patch(s, addr);
+if(reloc){
+  printf("resolve_extern_syms: %s %d\n",str,count);
+  strcpy((char *)global_relocs_table,str);
+  global_relocs_table+=strlen(str)+1;
+  *(int *)global_relocs_table=count;
+  global_relocs_table+=4;
+}
+            }
+        }
+        s = s1;
+    }
+reloc_global=0;
 }
 
 int show_help(void)
