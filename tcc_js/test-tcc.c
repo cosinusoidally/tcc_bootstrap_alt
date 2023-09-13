@@ -3080,69 +3080,69 @@ void decl_designator(int t, int c,
                      int *cur_index, Sym **cur_field, 
                      int size_only)
 {
-//     Sym *s, *f;
-//     int notfirst, index, align, l;
-// 
-//     notfirst = 0;
-// 
-//     while (tok == '[' || tok == '.') {
-//         if (tok == '[') {
-//             if (!(t & VT_ARRAY))
-//                 expect("array type");
-//             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-//             next();
-//             index = expr_const();
-//             if (index < 0 || (s->c >= 0 && index >= s->c))
-//                 expect("invalid index");
-//             skip(']');
-//             if (!notfirst)
-//                 *cur_index = index;
-//             t = pointed_type(t);
-//             c += index * type_size(t, &align);
-//         } else {
-//             next();
-//             l = tok;
-//             next();
-//             if ((t & VT_BTYPE) != VT_STRUCT)
-//                 expect("struct/union type");
-//             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-//             l |= SYM_FIELD;
-//             f = s->next;
-//             while (f) {
-//                 if (f->v == l)
-//                     break;
-//                 f = f->next;
-//             }
-//             if (!f)
-//                 expect("field");
-//             if (!notfirst)
-//                 *cur_field = f;
-//             t = f->t | (t & ~VT_TYPE);
-//             c += f->c;
-//         }
-//         notfirst = 1;
-//     }
-//     if (notfirst) {
-//         if (tok == '=') {
-//             next();
-//         } else {
-//             if (!gnu_ext)
-//                 expect("=");
-//         }
-//     } else {
-//         if (t & VT_ARRAY) {
-//             index = *cur_index;
-//             t = pointed_type(t);
-//             c += index * type_size(t, &align);
-//         } else {
-//             f = *cur_field;
-//             if (!f)
-//                 error("too many field init");
-//             t = f->t | (t & ~VT_TYPE);
-//             c += f->c;
-//         }
-//     }
-//     decl_initializer(t, c, 0, size_only);
+    Sym *s, *f;
+    int notfirst, index, align, l;
+
+    notfirst = 0;
+
+    while (tok == '[' || tok == '.') {
+        if (tok == '[') {
+            if (!(t & VT_ARRAY))
+                expect("array type");
+            s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
+            next();
+            index = expr_const();
+            if (index < 0 || (s->c >= 0 && index >= s->c))
+                expect("invalid index");
+            skip(']');
+            if (!notfirst)
+                *cur_index = index;
+            t = pointed_type(t);
+            c += index * type_size(t, &align);
+        } else {
+            next();
+            l = tok;
+            next();
+            if ((t & VT_BTYPE) != VT_STRUCT)
+                expect("struct/union type");
+            s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+            l |= SYM_FIELD;
+            f = s->next;
+            while (f) {
+                if (f->v == l)
+                    break;
+                f = f->next;
+            }
+            if (!f)
+                expect("field");
+            if (!notfirst)
+                *cur_field = f;
+            t = f->t | (t & ~VT_TYPE);
+            c += f->c;
+        }
+        notfirst = 1;
+    }
+    if (notfirst) {
+        if (tok == '=') {
+            next();
+        } else {
+            if (!gnu_ext)
+                expect("=");
+        }
+    } else {
+        if (t & VT_ARRAY) {
+            index = *cur_index;
+            t = pointed_type(t);
+            c += index * type_size(t, &align);
+        } else {
+            f = *cur_field;
+            if (!f)
+                error("too many field init");
+            t = f->t | (t & ~VT_TYPE);
+            c += f->c;
+        }
+    }
+    decl_initializer(t, c, 0, size_only);
 }
 
 /* store a value or an expression directly in global data or in local array */
