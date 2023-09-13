@@ -479,68 +479,68 @@ TokenSym *tok_alloc(char *str, int len)
     return ts;
 }
 
-// void add_char(char **pp, int c)
-// {
-//     char *p;
-//     p = *pp;
-//     if (c == '\'' || c == '\"' || c == '\\') {
-//         /* XXX: could be more precise if char or string */
-//         *p++ = '\\';
-//     }
-//     if (c >= 32 && c <= 126) {
-//         *p++ = c;
-//     } else {
-//         *p++ = '\\';
-//         if (c == '\n') {
-//             *p++ = 'n';
-//         } else {
-//             *p++ = '0' + ((c >> 6) & 7);
-//             *p++ = '0' + ((c >> 3) & 7);
-//             *p++ = '0' + (c & 7);
-//         }
-//     }
-//     *pp = p;
-// }
-// 
-// /* XXX: buffer overflow */
-// char *get_tok_str(int v, CValue *cv)
-// {
-//     static char buf[STRING_MAX_SIZE + 1];
-//     TokenSym *ts;
-//     char *p;
-//     int i;
-// 
-//     if (v == TOK_NUM) {
-//         sprintf(buf, "%u", cv->ui);
-//         return buf;
-//     } else if (v == TOK_CCHAR || v == TOK_LCHAR) {
-//         p = buf;
-//         *p++ = '\'';
-//         add_char(&p, cv->i);
-//         *p++ = '\'';
-//         *p = '\0';
-//         return buf;
-//     } else if (v == TOK_STR || v == TOK_LSTR) {
-//         ts = cv->ts;
-//         p = buf;
-//         *p++ = '\"';
-//         for(i=0;i<ts->len;i++)
-//             add_char(&p, ts->str[i]);
-//         *p++ = '\"';
-//         *p = '\0';
-//         return buf;
-//     } else if (v < TOK_IDENT) {
-//         p = buf;
-//         *p++ = v;
-//         *p = '\0';
-//         return buf;
-//     } else if (v < tok_ident) {
-//         return table_ident[v - TOK_IDENT]->str;
-//     } else {
-//         /* should never happen */
-//         return NULL;
-//     }
-// }
+void add_char(char **pp, int c)
+{
+    char *p;
+    p = *pp;
+    if (c == '\'' || c == '\"' || c == '\\') {
+        /* XXX: could be more precise if char or string */
+        *p++ = '\\';
+    }
+    if (c >= 32 && c <= 126) {
+        *p++ = c;
+    } else {
+        *p++ = '\\';
+        if (c == '\n') {
+            *p++ = 'n';
+        } else {
+            *p++ = '0' + ((c >> 6) & 7);
+            *p++ = '0' + ((c >> 3) & 7);
+            *p++ = '0' + (c & 7);
+        }
+    }
+    *pp = p;
+}
+
+/* XXX: buffer overflow */
+char *get_tok_str(int v, CValue *cv)
+{
+    static char buf[STRING_MAX_SIZE + 1];
+    TokenSym *ts;
+    char *p;
+    int i;
+
+    if (v == TOK_NUM) {
+        sprintf(buf, "%u", cv->ui);
+        return buf;
+    } else if (v == TOK_CCHAR || v == TOK_LCHAR) {
+        p = buf;
+        *p++ = '\'';
+        add_char(&p, cv->i);
+        *p++ = '\'';
+        *p = '\0';
+        return buf;
+    } else if (v == TOK_STR || v == TOK_LSTR) {
+        ts = cv->ts;
+        p = buf;
+        *p++ = '\"';
+        for(i=0;i<ts->len;i++)
+            add_char(&p, ts->str[i]);
+        *p++ = '\"';
+        *p = '\0';
+        return buf;
+    } else if (v < TOK_IDENT) {
+        p = buf;
+        *p++ = v;
+        *p = '\0';
+        return buf;
+    } else if (v < tok_ident) {
+        return table_ident[v - TOK_IDENT]->str;
+    } else {
+        /* should never happen */
+        return NULL;
+    }
+}
 
 /* push, without hashing */
 Sym *sym_push2(Sym **ps, int v, int t, int c)
