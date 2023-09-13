@@ -1489,7 +1489,8 @@ err();
 //         } else {
         } else {
             if (ch == mk_char('a'))
-                c = mk_char('\a');
+// JS doesn't support the a escape code
+                c = 7;
             else if (ch == mk_char('b'))
                 c = mk_char('\b');
             else if (ch == mk_char('f'))

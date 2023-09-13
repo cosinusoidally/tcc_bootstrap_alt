@@ -983,11 +983,9 @@ int getq()
             minp();
             return getn(16);
         } else {
-//             if (ch == 'a')
-//                 c = '\a';
-// FIXME can't handle \a
-//             else if (ch == 'b')
-            if (ch == 'b')
+            if (ch == 'a')
+                c = '\a';
+            else if (ch == 'b')
                 c = '\b';
             else if (ch == 'f')
                 c = '\f';
