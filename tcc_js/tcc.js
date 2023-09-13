@@ -5136,12 +5136,16 @@ err();
             c += index * type_size(t, align);
 //         } else {
         } else {
-err();
 //             f = *cur_field;
+            f = ri32(cur_field);
 //             if (!f)
+            if (!f)
 //                 error("too many field init");
+                error("too many field init");
 //             t = f->t | (t & ~VT_TYPE);
+            t = ri32(f+Sym_t_o) | (t & ~VT_TYPE);
 //             c += f->c;
+            c += ri32(f+Sym_c_o);
 //         }
         }
 //     }
@@ -5428,36 +5432,59 @@ err();
             wi32(s+Sym_c_o, array_length);
 //     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == mk_char('{')) {
-err();
 //         /* XXX: union needs only one init */
 //         next();
+        next();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        s = sym_find((t >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
 //         f = s->next;
+        wi32(f, ri32(s+Sym_next_o));
 //         array_length = 0;
+        array_length = 0;
 //         index = 0;
+        index = 0;
 //         n = s->c;
+        n = ri32(s+Sym_c_o);
 //         while (tok != '}') {
+        while (tok != mk_char('}')) {
 //             decl_designator(t, c, NULL, &f, size_only);
+            decl_designator(t, c, NULL, f, size_only);
 //             /* fill with zero between fields */
 //             index = f->c;
+            index = ri32(ri32(f)+Sym_c_o);
 //             if (!size_only && array_length < index) {
+            if (!size_only && array_length < index) {
+err();
 //                 init_putz(t, c + array_length, 
 //                           index - array_length);
 //             }
+            }
 //             index = index + type_size(f->t, &align1);
+            index = index + type_size(ri32(ri32(f)+Sym_t_o), align1);
 //             if (index > array_length)
+            if (index > array_length)
 //                 array_length = index;
+                array_length = index;
 //             if (tok == '}')
+            if (tok == mk_char('}'))
 //                 break;
+                break;
 //             skip(',');
+            skip(mk_char(','));
 //             f = f->next;
+            wi32(f, ri32(ri32(f)+Sym_next_o));
 //         }
+        }
 //         /* put zeros at the end */
 //         if (!size_only && array_length < n) {
+        if (!size_only && array_length < n) {
+err();
 //             init_putz(t, c + array_length, 
 //                       n - array_length);
 //         }
+        }
 //         skip('}');
+        skip(mk_char('}'));
 //     } else if (tok == '{') {
     } else if (tok == mk_char('{')) {
 err();
@@ -5466,17 +5493,25 @@ err();
 //         skip('}');
 //     } else if (size_only) {
     } else if (size_only) {
-err();
 //         /* just skip expression */
 //         parlevel = 0;
+        parlevel = 0;
 //         while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
 //                tok != -1) {
+        while ((parlevel > 0 || (tok != mk_char('}') && tok != mk_char(','))) && 
+               tok != -1) {
 //             if (tok == '(')
+             if (tok == mk_char('('))
 //                 parlevel++;
+                parlevel++;
 //             else if (tok == ')')
+            else if (tok == mk_char(')'))
 //                 parlevel--;
+                parlevel--;
 //             next();
+            next();
 //         }
+        }
 //     } else {
     } else {
 //         init_putv(t, c, 0, 1);

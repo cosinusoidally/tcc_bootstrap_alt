@@ -76,7 +76,7 @@ void *dlsym_wrap(void *handle, char *symbol)
   // relocations
 
   TCCSyms tcc_syms[] = {
-//      { "atoi", &atoi, },
+     { "atoi", &atoi, },
 //      { "close", &close, },
 //       { "dlerror", &dlerror_wrap, },
 //       { "dlopen", &dlopen_wrap, },
