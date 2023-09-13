@@ -346,18 +346,18 @@ int get_reg(int rc);
 void macro_subst(int **tok_str, int *tok_len, 
                  Sym **nested_list, int *macro_str);
 int save_reg_forced(int r);
-// void gen_op(int op);
-// void gen_cast(int t);
+void gen_op(int op);
+void gen_cast(int t);
 void vstore(void);
 int type_size(int t, int *a);
-// int pointed_type(int t);
-// int pointed_size(int t);
-// int ist(void);
-// int type_decl(int *v, int t, int td);
-// void error(const char *fmt, ...);
+int pointed_type(int t);
+int pointed_size(int t);
+int ist(void);
+int type_decl(int *v, int t, int td);
+void error(const char *fmt, ...);
 void vset(int t, int v);
-// void printline2(void);
-// 
+void printline2(void);
+
 #include "test-i386-gen.c"
 // 
 // static inline int isid(int c)
