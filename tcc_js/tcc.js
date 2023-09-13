@@ -1851,7 +1851,6 @@ err();
             tok = TOK_LT;
 //         else if (tok == '>')
         } else if (tok == mk_char('>')) {
-err();
 //             tok = TOK_GT;
             tok = TOK_GT;
         }

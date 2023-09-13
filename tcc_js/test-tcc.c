@@ -1567,17 +1567,17 @@ int gv(void)
 /* handle constant optimizations and various machine independant opt */
 void gen_opc(int op)
 {
-//     int fc, c1, c2, n;
-//     int general_case=0;
-//     SValue *v1, *v2;
-// 
-//     v1 = vtop - 1;
-//     v2 = vtop;
-//     /* currently, we cannot do computations with forward symbols */
-//     c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-//     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-//     while(1) {
-//     if (c1 && c2) {
+    int fc, c1, c2, n;
+    int general_case=0;
+    SValue *v1, *v2;
+
+    v1 = vtop - 1;
+    v2 = vtop;
+    /* currently, we cannot do computations with forward symbols */
+    c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    while(1) {
+    if (c1 && c2) {
 //         fc = v2->c.i;
 //         switch(op) {
 //         case '+': v1->c.i += fc; break;
@@ -1613,52 +1613,52 @@ void gen_opc(int op)
 //         }
 //         if(general_case){break;}
 //         vtop--;
-//     } else {
-//         /* if commutative ops, put c2 as constant */
-//         if (c1 && (op == '+' || op == '&' || op == '^' || 
-//                    op == '|' || op == '*')) {
-//             vswap();
-//             swap(&c1, &c2);
-//         }
-//         fc = vtop->c.i;
-//         if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV || 
-//                      op == TOK_PDIV) && 
-//                     fc == 1) ||
-//                    ((op == '+' || op == '-' || op == '|' || op == '^' || 
-//                      op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) && 
-//                     fc == 0) ||
-//                    (op == '&' && 
-//                     fc == -1))) {
-//             /* nothing to do */
-//             vtop--;
-//         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
-//             /* try to use shifts instead of muls or divs */
-//             if (fc > 0 && (fc & (fc - 1)) == 0) {
-//                 n = -1;
-//                 while (fc) {
-//                     fc >>= 1;
-//                     n++;
-//                 }
-//                 vtop->c.i = n;
-//                 if (op == '*')
-//                     op = TOK_SHL;
-//                 else if (op == TOK_PDIV)
-//                     op = TOK_SAR;
-//                 else
-//                     op = TOK_SHR;
-//             }
-//             general_case=1;break;
-//         } else {
-//         general_case=1;
-//         }
-//     }
-//     break;
-//     }
-//     if(general_case){
-//         /* call low level op generator */
-//         /* XXX: remove explicit registers */
-//         gen_opi(op);
-//     }
+    } else {
+        /* if commutative ops, put c2 as constant */
+        if (c1 && (op == '+' || op == '&' || op == '^' || 
+                   op == '|' || op == '*')) {
+            vswap();
+            swap(&c1, &c2);
+        }
+        fc = vtop->c.i;
+        if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV || 
+                     op == TOK_PDIV) && 
+                    fc == 1) ||
+                   ((op == '+' || op == '-' || op == '|' || op == '^' || 
+                     op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) && 
+                    fc == 0) ||
+                   (op == '&' && 
+                    fc == -1))) {
+            /* nothing to do */
+            vtop--;
+        } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
+            /* try to use shifts instead of muls or divs */
+            if (fc > 0 && (fc & (fc - 1)) == 0) {
+                n = -1;
+                while (fc) {
+                    fc >>= 1;
+                    n++;
+                }
+                vtop->c.i = n;
+                if (op == '*')
+                    op = TOK_SHL;
+                else if (op == TOK_PDIV)
+                    op = TOK_SAR;
+                else
+                    op = TOK_SHR;
+            }
+            general_case=1;break;
+        } else {
+        general_case=1;
+        }
+    }
+    break;
+    }
+    if(general_case){
+        /* call low level op generator */
+        /* XXX: remove explicit registers */
+        gen_opi(op);
+    }
 }
 
 int pointed_size(int t)
