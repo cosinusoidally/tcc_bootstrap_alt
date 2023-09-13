@@ -2384,25 +2384,25 @@ int type_decl(int *v, int t, int td)
 /* define a new external reference to a function 'v' of type 'u' */
 Sym *external_sym(int v, int u)
 {
-//     Sym *s;
-//     s = sym_find(v);
-//     if (!s) {
-//         /* push forward reference */
-//         s = sym_push1(&global_stack, 
-//                       v, u | VT_CONST | VT_FORWARD, 0);
-//     }
-//     return s;
+    Sym *s;
+    s = sym_find(v);
+    if (!s) {
+        /* push forward reference */
+        s = sym_push1(&global_stack, 
+                      v, u | VT_CONST | VT_FORWARD, 0);
+    }
+    return s;
 }
 
 void indir(void)
 {
-//     if (vtop->t & VT_LVAL)
-//         gv();
-//     if ((vtop->t & VT_BTYPE) != VT_PTR)
-//         expect("pointer");
-//     vtop->t = pointed_type(vtop->t);
-//     if (!(vtop->t & VT_ARRAY)) /* an array is never an lvalue */
-//         vtop->t |= VT_LVAL;
+    if (vtop->t & VT_LVAL)
+        gv();
+    if ((vtop->t & VT_BTYPE) != VT_PTR)
+        expect("pointer");
+    vtop->t = pointed_type(vtop->t);
+    if (!(vtop->t & VT_ARRAY)) /* an array is never an lvalue */
+        vtop->t |= VT_LVAL;
 }
 
 /* pass a parameter to a function and do type checking and casting */
