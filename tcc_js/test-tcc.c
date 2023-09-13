@@ -1726,10 +1726,10 @@ int pointed_size(int t)
 //         gen_opc(op);
 //     }
 // }
-// 
-// /* cast 'vtop' to 't' type */
-// void gen_cast(int t)
-// {
+
+/* cast 'vtop' to 't' type */
+void gen_cast(int t)
+{
 //     int r, bits, sbt, dbt, sf, df, c, st1, dt1;
 // 
 //     r = vtop->t & VT_VALMASK;
@@ -1758,8 +1758,8 @@ int pointed_size(int t)
 //         }
 //     }
 //     vtop->t = (vtop->t & ~VT_TYPE) | t;
-// }
-// 
+}
+
 /* return type size. Put alignment at 'a' */
 int type_size(int t, int *a)
 {
@@ -1803,10 +1803,10 @@ int pointed_type(int t)
 
 int mk_pointer(int t)
 {
-//     int p;
-//     p = anon_sym++;
-//     sym_push(p, t, -1);
-//     return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
+    int p;
+    p = anon_sym++;
+    sym_push(p, t, -1);
+    return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
 }
 
 int is_compatible_types(int t1, int t2)
