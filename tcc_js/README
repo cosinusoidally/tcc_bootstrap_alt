@@ -1,0 +1,10 @@
+This is a JS port of tcc_1_7. Easiest way to run is via node.js is from the
+parent directory ie:
+
+cd ..
+./mk_tcc_js
+
+This port runs under Spidermonkey, node.js and Duktape. Note currently you need
+node.js to actually output the binary to disk. When running under other js VMs
+it will compile into memory and then check the sha256sum is the known correct
+value.
