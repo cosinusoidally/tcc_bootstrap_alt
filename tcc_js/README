@@ -87,4 +87,23 @@ function foo(a,b){
   return leave(ri32(c)+a); // frees the stack frame and returns its argument
 }
 
-Code was converted incrementally from C to JS.
+Code was converted incrementally from C to JS. To allow this I use a function
+called "err" to stub out unimplemented code. err simply prints a backtrace and
+throws an error eg:
+
+function bar(){
+  if(foo){
+err(); // this branch of the if has not been ported
+//  commented out C code
+//  return 3;
+  } else {
+    return 7;
+  }
+}
+
+Any file writes will go to an in memory virtual filesystem (just an object
+called vfs). eg to read out tcc_boot.o just do vfs["tcc_boot.o"]
+
+The "check" function in support.js will check the sha256sum of tcc_boot.o and
+optionally check if the in memory file matches the on disk file. If there is a
+mismatch it will print out where the files differ.
