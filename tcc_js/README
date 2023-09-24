@@ -141,3 +141,99 @@ and then foo would do something like:
 function foo(s){
   wi32(s,100);
 }
+
+The general porting process was as follows:
+
+Starting with main
+port the function declaration
+add err() to the first line of the function
+run the program
+when you hit err, move it forwards in the file, porting more code
+rinse and repeat
+
+use check to verify that the sha256sum matches the output of the native code
+version
+
+eg
+
+// int main(int argc, char **argv)
+// {
+// int a=100;
+// int b;
+// b=a+argc;
+// return 7;
+// }
+
+then:
+
+// int main(int argc, char **argv)
+// {
+function main(argc, argv){
+err();
+// int a=100;
+// int b;
+// b=a+argc;
+// return 7;
+// }
+}
+
+then:
+
+// int main(int argc, char **argv)
+// {
+function main(argc, argv){
+// int a=100;
+  var a=100;
+// int b;
+  var b;
+err();
+// b=a+argc;
+// return 7;
+// }
+}
+
+then:
+
+// int main(int argc, char **argv)
+// {
+function main(argc, argv){
+// int a=100;
+  var a=100;
+// int b;
+  var b;
+// b=a+argc;
+  b=a+argc;
+err();
+// return 7;
+// }
+}
+
+then:
+
+// int main(int argc, char **argv)
+// {
+function main(argc, argv){
+// int a=100;
+  var a=100;
+// int b;
+  var b;
+// b=a+argc;
+  b=a+argc;
+// return 7;
+  return 7;
+// }
+}
+
+then final tidy up:
+
+// leave C function declaration as a comment
+// int main(int argc, char **argv)
+function main(argc, argv){
+  var a=100;
+  var b;
+  b=a+argc;
+  return 7;
+}
+
+This process would repeat recursively until enough functions were ported to
+allow tcc to compile itself.
