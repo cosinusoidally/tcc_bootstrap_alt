@@ -1,5 +1,7 @@
 rm artifacts/tcc_27_boot.exe
 
+rm tcc_js/tcc_boot.o
+
 rm tcc_1_7/a.out
 rm tcc_1_7/tcc.o
 rm tcc_1_7/loader.exe
