@@ -47,3 +47,18 @@ as the only reason it fails under SM is because SM doesn't have fs.writeFileSync
  . At some point I'll add a fs.writeFileSync for SM. To run build-tcc.js:
 
 node node_compat_min.js build-tcc.js
+
+dev notes:
+==========
+
+The compiler itself consists of tcc.js and i386-gen.js . These were created by
+commenting out every line of the c version and then manually porting line by
+line to JS. support.js contains a bunch of support functions along with a
+primitive minimal libc implementation.
+
+gen_metadata.c and mk_metadata.sh are just a convenient way to convert
+enum/defines into JS variables in metadata.js . These could have been converted
+manually, but it was easier to just autogenerate. The 110 line metadata.js file
+is checked into the repo.
+
+
