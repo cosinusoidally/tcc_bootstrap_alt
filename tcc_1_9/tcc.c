@@ -20,14 +20,10 @@
 
 #include <tcclib.h>
 
-//#define DEBUG
-/* preprocessor debug */
-//#define PP_DEBUG
-
 /* these sizes are dummy for unix, because malloc() does not use
    memory when the pages are not used */
-#define TEXT_SIZE           (4*1024*1024)
-#define DATA_SIZE           (4*1024*1024)
+#define TEXT_SIZE           (1*1024*1024)
+#define DATA_SIZE           (1*1024*1024)
 
 #define INCLUDE_STACK_SIZE  32
 #define IFDEF_STACK_SIZE    64
@@ -49,14 +45,9 @@ typedef struct TokenSym {
 
 /* constant value */
 typedef union CValue {
-    long double ld;
-    double d;
-    float f;
     int i;
     unsigned int ui;
     unsigned int ul; /* address (should be unsigned long on 64 bit cpu) */
-    long long ll;
-    unsigned long long ull;
     struct TokenSym *ts;
     int tab[1];
     struct Sym *sym;
@@ -321,10 +312,6 @@ enum {
     TOK_MAIN,
 };
 
-/* XXX: need to define this to use them in non ISOC99 context */
-extern float strtof (const char *__nptr, char **__endptr);
-extern long double strtold (const char *__nptr, char **__endptr);
-
 void sum(int l);
 void next(void);
 void next_nomacro(void);
@@ -355,14 +342,6 @@ int ist(void);
 int type_decl(int *v, int t, int td);
 void error(const char *fmt, ...);
 void vset(int t, int v);
-
-/* true if float/double/long double type */
-static inline int is_float(int t)
-{
-    int bt;
-    bt = t & VT_BTYPE;
-    return bt == VT_LDOUBLE || bt == VT_DOUBLE || bt == VT_FLOAT;
-}
 
 #include "i386-gen.c"
 
@@ -398,12 +377,13 @@ void printline(void)
 void error(const char *fmt, ...)
 {
     va_list ap;
-    va_start(ap, fmt);
+//    va_start(ap, fmt);
+    ap = ((char *)&(fmt)) + sizeof(int);
     printline();
     vfprintf(stderr, fmt, ap);
     fprintf(stderr, "\n");
     exit(1);
-    va_end(ap);
+//    va_end(ap);
 }
 
 void expect(const char *msg)
@@ -567,7 +547,9 @@ Sym *sym_find2(Sym *s, int v)
     return NULL;
 }
 
-#define HASH_SYM(v) ((unsigned)(v) % SYM_HASH_SIZE)
+unsigned int HASH_SYM(int v) {
+    return ((unsigned)(v) % SYM_HASH_SIZE);
+}
 
 /* find a symbol and return its associated structure. 'st' is the
    symbol stack */
@@ -778,8 +760,6 @@ static inline int tok_ext_size(int t)
         return 1;
     case TOK_CDOUBLE:
         return 2;
-    case TOK_CLDOUBLE:
-        return LDOUBLE_SIZE / 4;
     default:
         return 0;
     }
@@ -864,22 +844,6 @@ int expr_preprocess(void)
     return c != 0;
 }
 
-#if defined(DEBUG)
-void tok_print(int *str)
-{
-    int t;
-    CValue cval;
-
-    while (1) {
-        t = tok_get(&str, &cval);
-        if (!t)
-            break;
-        printf(" %s", get_tok_str(t, &cval));
-    }
-    printf("\n");
-}
-#endif
-
 /* XXX: should be more factorized */
 void define_symbol(char *sym)
 {
@@ -941,10 +905,6 @@ void preprocess(void)
             tok_add2(&str, &len, tok, &tokc);
         }
         tok_add(&str, &len, 0);
-#ifdef PP_DEBUG
-        printf("define %s %d: ", get_tok_str(v, NULL), t);
-        tok_print(str);
-#endif
         s = sym_push1(&define_stack, v, t, (int)str);
         s->next = first;
     } else if (tok == TOK_UNDEF) {
@@ -1150,35 +1110,11 @@ int getq()
     return c;
 }
 
-/* we use 64 bit numbers */
-#define BN_SIZE 2
-
-/* bn = (bn << shift) | or_val */
-void bn_lshift(unsigned int *bn, int shift, int or_val)
-{
-    int i;
-    unsigned int v;
-    for(i=0;i<BN_SIZE;i++) {
-        v = bn[i];
-        bn[i] = (v << shift) | or_val;
-        or_val = v >> (32 - shift);
-    }
-}
-
-void bn_zero(unsigned int *bn)
-{
-    int i;
-    for(i=0;i<BN_SIZE;i++) {
-        bn[i] = 0;
-    }
-}
-
 void parse_number(void)
 {
     int b, t, shift, frac_bits, s, exp_val;
     char *q;
     unsigned int n, n1;
-    unsigned int bn[BN_SIZE];
 
     /* number */
     q = token_buf;
@@ -1188,9 +1124,7 @@ void parse_number(void)
     b = 10;
     if (t == '.') {
         /* special dot handling */
-        if (ch >= '0' && ch <= '9') {
-            goto float_frac_parse;
-        } else if (ch == '.') {
+        if (ch == '.') {
             cinp();
             if (ch != '.')
                 expect("'.'");
@@ -1232,169 +1166,39 @@ void parse_number(void)
         *q++ = ch;
         cinp();
     }
-    if (ch == '.' || 
-        ((ch == 'e' || ch == 'E') && b == 10) ||
-        ((ch == 'p' || ch == 'P') && (b == 16 || b == 2))) {
-        if (b != 10) {
-            /* NOTE: strtox should support that for hexa numbers, but
-               non ISOC99 libcs do not support it, so we prefer to do
-               it by hand */
-            /* hexadecimal or binary floats */
-            /* XXX: handle overflows */
-            *q = '\0';
-            if (b == 16)
-                shift = 4;
-            else 
-                shift = 2;
-            bn_zero(bn);
-            q = token_buf;
-            while (1) {
-                t = *q++;
-                if (t == '\0') {
-                    break;
-                } else if (t >= 'a') {
-                    t = t - 'a' + 10;
-                } else if (t >= 'A') {
-                    t = t - 'A' + 10;
-                } else {
-                    t = t - '0';
-                }
-                bn_lshift(bn, shift, t);
-            }
-            frac_bits = 0;
-            if (ch == '.') {
-                cinp();
-                while (1) {
-                    t = ch;
-                    if (t >= 'a' && t <= 'f') {
-                        t = t - 'a' + 10;
-                    } else if (t >= 'A' && t <= 'F') {
-                        t = t - 'A' + 10;
-                    } else if (t >= '0' && t <= '9') {
-                        t = t - '0';
-                    } else {
-                        break;
-                    }
-                    if (t >= b)
-                        error("invalid digit");
-                    bn_lshift(bn, shift, t);
-                    frac_bits += shift;
-                    cinp();
-                }
-            }
-            if (ch != 'p' && ch != 'P')
-                error("exponent expected");
-            cinp();
-            s = 1;
-            exp_val = 0;
-            if (ch == '+') {
-                cinp();
-            } else if (ch == '-') {
-                s = -1;
-                cinp();
-            }
-            if (ch < '0' || ch > '9')
-                error("exponent digits expected");
-            while (ch >= '0' && ch <= '9') {
-                exp_val = exp_val * 10 + ch - '0';
-                cinp();
-            }
-            exp_val = exp_val * s;
-            
-            t = toup(ch);
-            if (t == 'F') {
-                cinp();
-                tok = TOK_CFLOAT;
-                /* float : should handle overflow */
-            } else if (t == 'L') {
-                cinp();
-                tok = TOK_CLDOUBLE;
-                /* XXX: not large enough */
-            } else {
-                tok = TOK_CDOUBLE;
-            }
-        } else {
-            /* decimal floats */
-            if (ch == '.') {
-                if (q >= token_buf + STRING_MAX_SIZE)
-                    goto num_too_long;
-                *q++ = ch;
-                cinp();
-            float_frac_parse:
-                while (ch >= '0' && ch <= '9') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-            }
-            if (ch == 'e' || ch == 'E') {
-                if (q >= token_buf + STRING_MAX_SIZE)
-                    goto num_too_long;
-                *q++ = ch;
-                cinp();
-                if (ch == '-' || ch == '+') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-                if (ch < '0' || ch > '9')
-                    error("exponent digits expected");
-                while (ch >= '0' && ch <= '9') {
-                    if (q >= token_buf + STRING_MAX_SIZE)
-                        goto num_too_long;
-                    *q++ = ch;
-                    cinp();
-                }
-            }
-            *q = '\0';
-            t = toup(ch);
-            if (t == 'F') {
-                cinp();
-                tok = TOK_CFLOAT;
-            } else if (t == 'L') {
-                cinp();
-                tok = TOK_CLDOUBLE;
-            } else {
-                tok = TOK_CDOUBLE;
-            }
-        }
-    } else {
-        /* integer number */
-        *q = '\0';
-        q = token_buf;
-        if (b == 10 && *q == '0') {
-            b = 8;
-            q++;
-        }
-        n = 0;
-        while(1) {
-            t = *q++;
-            /* no need for checks except for base 10 / 8 errors */
-            if (t == '\0') {
-                break;
-            } else if (t >= 'a') {
-                t = t - 'a' + 10;
-            } else if (t >= 'A') {
-                t = t - 'A' + 10;
-            } else {
-                t = t - '0';
-                if (t >= b)
-                    error("invalid digit");
-            }
-            n1 = n;
-            n = n * b + t;
-            /* detect overflow */
-            if (n < n1)
-                error("integer constant overflow");
-        }
-        tokc.ui = n;
-        tok = TOK_NUM;
-        /* XXX: add unsigned constant support (ANSI) */
-        while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
-            cinp();
+    /* integer number */
+    *q = '\0';
+    q = token_buf;
+    if (b == 10 && *q == '0') {
+        b = 8;
+        q++;
     }
+    n = 0;
+    while(1) {
+        t = *q++;
+        /* no need for checks except for base 10 / 8 errors */
+        if (t == '\0') {
+            break;
+        } else if (t >= 'a') {
+            t = t - 'a' + 10;
+        } else if (t >= 'A') {
+            t = t - 'A' + 10;
+        } else {
+            t = t - '0';
+            if (t >= b)
+                error("invalid digit");
+        }
+        n1 = n;
+        n = n * b + t;
+        /* detect overflow */
+        if (n < n1)
+            error("integer constant overflow");
+    }
+    tokc.ui = n;
+    tok = TOK_NUM;
+    /* XXX: add unsigned constant support (ANSI) */
+    while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
+        cinp();
 }
 
 
@@ -1548,9 +1352,6 @@ int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
                     strcat(token_buf, get_tok_str(t, &cval));
                     notfirst = 1;
                 }
-#ifdef PP_DEBUG
-                printf("stringize: %s\n", token_buf);
-#endif
                 /* add string */
                 ts = tok_alloc(token_buf, 0);
                 cval.ts = ts;
@@ -1654,20 +1455,7 @@ void macro_subst(int **tok_str, int *tok_len,
         next_nomacro();
         if (tok == 0)
             break;
-        /* special macros */
-        if (tok == TOK___LINE__) {
-            cval.i = line_num;
-            tok_add2(tok_str, tok_len, TOK_NUM, &cval);
-        } else if (tok == TOK___FILE__) {
-            cval.ts = tok_alloc(filename, 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if (tok == TOK___DATE__) {
-            cval.ts = tok_alloc("Jan  1 1970", 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if (tok == TOK___TIME__) {
-            cval.ts = tok_alloc("00:00:00", 0);
-            tok_add2(tok_str, tok_len, TOK_STR, &cval);
-        } else if ((s = sym_find1(&define_stack, tok)) != NULL) {
+        if ((s = sym_find1(&define_stack, tok)) != NULL) {
             /* if symbol is a macro, prepare substitution */
             /* if nested substitution, do nothing */
             if (sym_find2(*nested_list, tok))
@@ -1790,9 +1578,6 @@ void next(void)
             }
         }
     }
-#if defined(DEBUG)
-    printf("token = %s\n", get_tok_str(tok, tokc));
-#endif
 }
 
 void swap(int *p, int *q)
@@ -1958,25 +1743,9 @@ int gv(void)
         gen_op(TOK_SAR);
         r = gv();
     } else {
-        if (is_float(vtop->t) && (vtop->t & (VT_CONST | VT_LVAL)) == VT_CONST) {
-            /* CPUs usually cannot use float constants, so we store them
-               generically in data segment */
-            size = type_size(vtop->t, &align);
-            glo = (glo + align - 1) & -align;
-            /* XXX: not portable yet */
-            size = size >> 2;
-            for(i=0;i<size;i++)
-                ((int *)glo)[i] = vtop->c.tab[i];
-            vtop->t |= VT_LVAL;
-            vtop->c.ul = glo;
-            glo += size << 2;
-        }
         r = vtop->t & VT_VALMASK;
         if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
-            if (is_float(vtop->t))
-                rc = REG_CLASS_FLOAT;
-            else
-                rc = REG_CLASS_INT;
+            rc = REG_CLASS_INT;
             r = get_reg(rc);
         }
         load(r, vtop->t, vtop->c.ul);
@@ -2090,34 +1859,7 @@ void gen_op(int op)
     bt1 = t1 & VT_BTYPE;
     bt2 = t2 & VT_BTYPE;
         
-    if (is_float(bt1) || is_float(bt2)) {
-        /* compute bigger type and do implicit casts */
-        if (bt1 == VT_LDOUBLE || bt2 == VT_LDOUBLE) {
-            t = VT_LDOUBLE;
-        } else if (bt1 == VT_DOUBLE || bt2 == VT_DOUBLE) {
-            t = VT_DOUBLE;
-        } else {
-            t = VT_FLOAT;
-        }
-        if (op != '+' && op != '-' && op != '*' && op != '/' &&
-            op < TOK_EQ || op > TOK_GT)
-            error("invalid operands for binary operation");
-        if (bt1 != t) {
-            vswap();
-            gen_cast(t);
-            vswap();
-        }
-        if (bt2 != t) {
-            gen_cast(t);
-        }
-        gen_opf(op);
-        if (op >= TOK_EQ && op <= TOK_GT) {
-            /* the result is an int */
-            vtop->t = (vtop->t & ~VT_TYPE) | VT_INT;
-        } else {
-            vtop->t = (vtop->t & ~VT_TYPE) | t;
-        }
-    } else if (op == '+' || op == '-') {
+    if (op == '+' || op == '-') {
         if ((t1 & VT_BTYPE) == VT_PTR && 
             (t2 & VT_BTYPE) == VT_PTR) {
             if (op != '-')
@@ -2179,75 +1921,8 @@ void gen_cast(int t)
         dbt = t & VT_BTYPE;
         sbt = vtop->t & VT_BTYPE;
         if (sbt != dbt) {
-            sf = is_float(sbt);
-            df = is_float(dbt);
             c = (vtop->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-            if (sf && df) {
-                /* convert from fp to fp */
-                if (c) {
-puts("got here\n");exit(1);
-// LJW HACK deleted code
-                } else {
-                    /* non constant case: generate code */
-                    gen_cvt_ftof(dbt);
-                }
-            } else if (df) {
-                /* convert int to fp */
-                /* XXX: add const cases */
-                st1 = vtop->t & (VT_BTYPE | VT_UNSIGNED);
-                if (c) {
-                    switch(st1) {
-                    case VT_LLONG | VT_UNSIGNED:
-                    case VT_LLONG:
-                        /* well, currently not needed */
-                        goto do_itof;
-                    case VT_INT | VT_UNSIGNED:
-                        switch(dbt) {
-                        }
-                        break;
-                    default:
-                        switch(dbt) {
-                        }
-                        break;
-                    }
-                } else {
-                do_itof:
-                    gen_cvt_itof(dbt);
-                }
-            } else if (sf) {
-                /* convert fp to int */
-                dt1 = t & (VT_BTYPE | VT_UNSIGNED);
-                /* we handle char/short/etc... with generic code */
-                if (dt1 != VT_INT | VT_UNSIGNED &&
-                    dt1 != VT_LLONG | VT_UNSIGNED &&
-                    dt1 != VT_LLONG)
-                    dt1 = VT_INT;
-                if (c) {
-                    switch(dt1) {
-                    case VT_LLONG | VT_UNSIGNED:
-                    case VT_LLONG:
-                        /* well, currently not needed */
-                        goto do_ftoi;
-                    case VT_INT | VT_UNSIGNED:
-                        switch(sbt) {
-                        }
-                        break;
-                    default:
-                        /* int case */
-                        switch(sbt) {
-                        }
-                        break;
-                    }
-                } else {
-                do_ftoi:
-                    gen_cvt_ftoi(dt1);
-                }
-                if (dt1 == VT_INT && (t & (VT_TYPE | VT_UNSIGNED)) != dt1) {
-                    /* additionnal cast for char/short/bool... */
-                    vtop->t = (vtop->t & ~VT_TYPE) | dt1;
-                    gen_cast(t);
-                }
-            } else if (dbt == VT_BOOL) {
+            if (dbt == VT_BOOL) {
                 vset(VT_CONST, 0);
                 gen_op(TOK_NE);
             } else if (dbt == VT_BYTE || dbt == VT_SHORT) {
@@ -2291,13 +1966,7 @@ int type_size(int t, int *a)
             *a = PTR_SIZE;
             return PTR_SIZE;
         }
-    } else if (bt == VT_LDOUBLE) {
-        *a = LDOUBLE_ALIGN;
-        return LDOUBLE_SIZE;
-    } else if (bt == VT_DOUBLE || bt == VT_LLONG) {
-        *a = 8;
-        return 8;
-    } else if (bt == VT_INT || bt == VT_ENUM || bt == VT_FLOAT) {
+    } else if (bt == VT_INT || bt == VT_ENUM ) {
         *a = 4;
         return 4;
     } else if (bt == VT_SHORT) {
@@ -2424,21 +2093,6 @@ void type_to_str(char *buf, int buf_size,
     case VT_INT:
         strcat(buf, "int");
         break;
-    case VT_LONG:
-        strcat(buf, "long");
-        break;
-    case VT_LLONG:
-        strcat(buf, "long long");
-        break;
-    case VT_FLOAT:
-        strcat(buf, "float");
-        break;
-    case VT_DOUBLE:
-        strcat(buf, "double");
-        break;
-    case VT_LDOUBLE:
-        strcat(buf, "long double");
-        break;
     case VT_ENUM:
     case VT_STRUCT:
         if (bt == VT_STRUCT)
@@ -2495,7 +2149,7 @@ void gen_assign_cast(int dt)
         type_to_str(buf2, sizeof(buf2), dt, NULL);
         error("cannot cast '%s' to '%s'", buf1, buf2);
     }
-    if ((dt & VT_BTYPE) == VT_BOOL || is_float(dt)) {
+    if ((dt & VT_BTYPE) == VT_BOOL ) {
         gen_cast(dt & VT_BTYPE);
     }
 }
@@ -2533,29 +2187,6 @@ void vstore(void)
         vset(VT_CONST, (int)&memcpy);
         gfunc_call(&gf);
         /* leave source on stack */
-    } else if (ft & VT_BITFIELD) {
-        /* bitfield store handling */
-        bit_pos = (ft >> VT_STRUCT_SHIFT) & 0x3f;
-        bit_size = (ft >> (VT_STRUCT_SHIFT + 6)) & 0x3f;
-        /* remove bit field info to avoid loops */
-        vtop[-1].t = ft & ~(VT_BITFIELD | (-1 << VT_STRUCT_SHIFT));
-
-        /* duplicate destination */
-        vdup();
-        vtop[-1] = vtop[-2];
-
-        /* mask and shift source */
-        vset(VT_CONST, (1 << bit_size) - 1);
-        gen_op('&');
-        vset(VT_CONST, bit_pos);
-        gen_op(TOK_SHL);
-        /* load destination, mask and or with source */
-        vswap();
-        vset(VT_CONST, ~(((1 << bit_size) - 1) << bit_pos));
-        gen_op('&');
-        gen_op('|');
-        /* store result */
-        vstore();
     } else {
         r = gv();  /* generate value */
         ft = vtop[-1].t;
@@ -2661,55 +2292,10 @@ int struct_decl(int u)
                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
                             error("invalid type for '%s'", 
                                   get_tok_str(v, NULL));
-                    } else {
-                        t = b;
-                    }
-                    if (tok == ':') {
-                        next();
-                        bit_size = expr_const();
-                        /* XXX: handle v = 0 case for messages */
-                        if (bit_size < 0)
-                            error("negative width in bit-field '%s'", 
-                                  get_tok_str(v, NULL));
-                        if (v && bit_size == 0)
-                            error("zero width for bit-field '%s'", 
-                                  get_tok_str(v, NULL));
                     }
                     size = type_size(t, &align);
                     lbit_pos = 0;
-                    if (bit_size >= 0) {
-                        bt = t & VT_BTYPE;
-                        if (bt != VT_INT && 
-                            bt != VT_BYTE && 
-                            bt != VT_SHORT)
-                            error("bitfields must have scalar type");
-                        bsize = size * 8;
-                        if (bit_size > bsize) {
-                            error("width of '%s' exceeds its type",
-                                  get_tok_str(v, NULL));
-                        } else if (bit_size == bsize) {
-                            /* no need for bit fields */
-                            bit_pos = 0;
-                        } else if (bit_size == 0) {
-                            /* XXX: what to do if only padding in a
-                               structure ? */
-                            /* zero size: means to pad */
-                            if (bit_pos > 0)
-                                bit_pos = bsize;
-                        } else {
-                            /* we do not have enough room ? */
-                            if ((bit_pos + bit_size) > bsize)
-                                bit_pos = 0;
-                            lbit_pos = bit_pos;
-                            /* XXX: handle LSB first */
-                            t |= VT_BITFIELD | 
-                                (bit_pos << VT_STRUCT_SHIFT) |
-                                (bit_size << (VT_STRUCT_SHIFT + 6));
-                            bit_pos += bit_size;
-                        }
-                    } else {
-                        bit_pos = 0;
-                    }
+                    bit_pos = 0;
                     if (v) {
                         /* add new memory data only if starting
                            bit field */
@@ -2726,16 +2312,6 @@ int struct_decl(int u)
                             if (align > maxalign)
                                 maxalign = align;
                         }
-#if 0
-                        printf("add field %s offset=%d", 
-                               get_tok_str(v, NULL), offset);
-                        if (t & VT_BITFIELD) {
-                            printf(" pos=%d size=%d", 
-                                   (t >> VT_STRUCT_SHIFT) & 0x3f,
-                                   (t >> (VT_STRUCT_SHIFT + 6)) & 0x3f);
-                        }
-                        printf("\n");
-#endif
                         ss = sym_push(v | SYM_FIELD, t, offset);
                         *ps = ss;
                         ps = &ss->next;
@@ -3048,15 +2624,6 @@ void unary(void)
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
         vset(VT_CONST | VT_INT, tokc.i);
         next();
-    } else if (tok == TOK_CFLOAT) {
-        vsetc(VT_CONST | VT_FLOAT, &tokc);
-        next();
-    } else if (tok == TOK_CDOUBLE) {
-        vsetc(VT_CONST | VT_DOUBLE, &tokc);
-        next();
-    } else if (tok == TOK_CLDOUBLE) {
-        vsetc(VT_CONST | VT_LDOUBLE, &tokc);
-        next();
     } else if (tok == TOK___FUNC__) {
         /* special function name identifier */
         /* generate (char *) type */
@@ -3250,7 +2817,6 @@ void unary(void)
             gfunc_start(&gf);
             next();
             sa = s->next; /* first parameter */
-#ifdef INVERT_FUNC_PARAMS
             {
                 int *str, len, parlevel, *saved_macro_ptr;
                 Sym *args, *s1;
@@ -3302,7 +2868,6 @@ void unary(void)
                 /* restore token */
                 tok = ')';
             }
-#endif
             /* compute first implicit argument if a structure is returned */
             if ((s->t & VT_BTYPE) == VT_STRUCT) {
                 /* get some space for the returned structure */
@@ -3318,16 +2883,6 @@ void unary(void)
                 rett = s->t | FUNC_RET_REG; /* return in register */
                 retc.i = 0;
             }
-#ifndef INVERT_FUNC_PARAMS
-            while (tok != ')') {
-                expr_eq();
-                gfunc_param_typed(&gf, s, sa);
-                if (sa)
-                    sa = sa->next;
-                if (tok == ',')
-                    next();
-            }
-#endif
             if (sa)
                 error("too few arguments to function %x", sa->t);
             skip(')');
@@ -3590,9 +3145,6 @@ void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
                 vswap();
                 /* copy structure value to pointer */
                 vstore();
-            } else if (is_float(func_vt)) {
-                /* move return value to float return register */
-                move_reg(FUNC_RET_FREG, gv());
             } else {
                 /* move return value to standard return register */
                 move_reg(FUNC_RET_REG, gv());
@@ -3852,10 +3404,6 @@ void init_putv(int t, int c, int v, int is_expr)
             break;
         case VT_SHORT:
             *(short *)c = vtop->c.i;
-            break;
-        case VT_DOUBLE:
-            break;
-        case VT_LDOUBLE:
             break;
         default:
             *(int *)c = vtop->c.i;
@@ -4145,13 +3693,6 @@ void decl(int l)
         }
         while (1) { /* iterate thru each declaration */
             t = type_decl(&v, b, TYPE_DIRECT);
-#if 0
-            {
-                char buf[500];
-                type_to_str(buf, sizeof(buf), t, get_tok_str(v, NULL));
-                printf("type = '%s'\n", buf);
-            }
-#endif
             if (tok == '{') {
                 if (l == VT_LOCAL)
                     error("cannot use local functions");
@@ -4187,12 +3728,6 @@ void decl(int l)
                              addr);
                     size = type_size(u, &align);
                     size = (size + 3) & ~3;
-#ifdef FUNC_STRUCT_PARAM_AS_PTR
-                    /* structs are passed as pointer */
-                    if ((u & VT_BTYPE) == VT_STRUCT) {
-                        size = 4;
-                    }
-#endif
                     addr += size;
                 }
                 loc = 0;
@@ -4343,19 +3878,6 @@ int tcc_compile_file(const char *filename1)
     return 0;
 }
 
-/* open a dynamic library so that its symbol are available for
-   compiled programs */
-void open_dll(char *libname)
-{
-    char buf[1024];
-    void *h;
-
-    snprintf(buf, sizeof(buf), "lib%s.so", libname);
-    h = dlopen(buf, RTLD_GLOBAL | RTLD_LAZY);
-    if (!h)
-        error((char *)dlerror());
-}
-
 void resolve_extern_syms(void)
 {
     Sym *s, *s1;
@@ -4380,26 +3902,16 @@ void resolve_extern_syms(void)
     }
 }
 
-/* output a binary file (for testing) */
-void build_exe(char *filename)
-{ 
-    FILE *f;
-    f = fopen(filename, "w");
-    fwrite((void *)prog, 1, ind - prog, f);
-    fclose(f);
-}
-
 int main(int argc, char **argv)
 {
-    puts("tcc 2m start");
+    puts("tcc 1_9 start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
     int optind;
 
-    include_paths[0] = "../woody/usr/include/";
-    include_paths[1] = "../tcc_2m/";
-    nb_include_paths = 2;
+    include_paths[0] = "../tcc_1_9/";
+    nb_include_paths = 1;
 
     /* add all tokens */
     tok_ident = TOK_IDENT;
@@ -4413,9 +3925,7 @@ int main(int argc, char **argv)
 
     /* standard defines */
     define_symbol("__STDC__");
-#ifdef __i386__
     define_symbol("__i386__");
-#endif
     /* tiny C specific defines */
     define_symbol("__TINYC__");
     
@@ -4446,17 +3956,10 @@ int main(int argc, char **argv)
             include_paths[nb_include_paths++] = r + 2;
         } else if (r[1] == 'D') {
             define_symbol(r + 2);
-        } else if (r[1] == 'l') {
-            open_dll(r + 2);
         } else if (r[1] == 'i') {
             if (optind >= argc)
                 goto show_help;
             tcc_compile_file(argv[optind++]);
-        } else if (r[1] == 'o') {
-            /* currently, only for testing, so not documented */
-            if (optind >= argc)
-                goto show_help;
-            outfile = argv[optind++];
         } else {
             fprintf(stderr, "invalid option -- '%s'\n", r);
             exit(1);
@@ -4464,18 +3967,12 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
-    puts("tcc 2m compile done");
+    puts("tcc 1_9 compile done");
 
     resolve_extern_syms();
-
-    if (outfile) {
-        build_exe(outfile);
-        return 0;
-    } else {
-        s = sym_find1(&extern_stack, TOK_MAIN);
-        if (!s || (s->t & VT_FORWARD))
-            error("main() not defined");
-        t = (int (*)())s->c;
-        return (*t)(argc - optind, argv + optind);
-    }
+    s = sym_find1(&extern_stack, TOK_MAIN);
+    if (!s || (s->t & VT_FORWARD))
+        error("main() not defined");
+    t = (int (*)())s->c;
+    return (*t)(argc - optind, argv + optind);
 }

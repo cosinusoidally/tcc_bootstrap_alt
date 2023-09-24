@@ -1,5 +1,18 @@
 rm artifacts/tcc_27_boot.exe
 
+rm tcc_js/tcc_boot.o
+
+rm tcc_1_7/a.out
+rm tcc_1_7/tcc.o
+rm tcc_1_7/loader.exe
+rm tcc_1_7/loader.o
+
+rm tcc_1_8/a.out
+rm tcc_1_8/tcc.o
+
+rm tcc_1_9/a.out
+rm tcc_1_9/tcc.o
+
 rm tcc_2m/a.out
 rm tcc_2m/tcc.o
 
@@ -11,6 +24,7 @@ rm tcc_3/tcc.o
 
 rm tcc_10/a.out
 rm tcc_10/tcc.o
+rm tcc_10/tcc_boot.o
 
 rm tcc_23/a.out
 rm tcc_23/libtcc1.o

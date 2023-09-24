@@ -25,6 +25,7 @@
 #ifndef CONFIG_TCC_STATIC
 #include <dlfcn.h>
 #endif
+#include <sys/mman.h>
 
 //#define DEBUG
 /* preprocessor debug */
@@ -1411,7 +1412,6 @@ void parse_number(void)
             }
             *q = '\0';
             t = toup(ch);
-            errno = 0;
             if (t == 'F') {
                 cinp();
                 tok = TOK_CFLOAT;
@@ -4487,6 +4487,7 @@ void build_exe(char *filename)
 
 int main(int argc, char **argv)
 {
+    puts("tcc 2 start");
     Sym *s;
     int (*t)();
     char *p, *r, *outfile;
@@ -4516,7 +4517,10 @@ int main(int argc, char **argv)
     
     glo = (int)malloc(DATA_SIZE);
     memset((void *)glo, 0, DATA_SIZE);
-    prog = (int)malloc(TEXT_SIZE);
+    prog = (int)mmap(NULL, TEXT_SIZE,
+                PROT_EXEC | PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS,
+                -1, 0);
     ind = prog;
 
     optind = 1;
@@ -4556,6 +4560,7 @@ int main(int argc, char **argv)
     }
     
     tcc_compile_file(argv[optind]);
+    puts("tcc 2 compile done");
 
     resolve_extern_syms();
 

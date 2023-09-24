@@ -14,8 +14,7 @@ void *malloc(size_t size);
 void free(void *ptr);
 void *realloc(void *ptr, size_t size);
 int atoi(const char *nptr);
-long int strtol(const char *nptr, char **endptr, int base);
-unsigned long int strtoul(const char *nptr, char **endptr, int base);
+void exit(int status);
 
 /* stdio.h */
 typedef struct __FILE FILE;
@@ -32,10 +31,12 @@ size_t  fwrite(void *ptr, size_t size, size_t nmemb, FILE *stream);
 int fgetc(FILE *stream);
 char *fgets(char *s, int size, FILE *stream);
 int getc(FILE *stream);
+int getc_unlocked(FILE *stream);
 int getchar(void);
 char *gets(char *s);
 int ungetc(int c, FILE *stream);
 int fflush(FILE *stream);
+int puts(const char *s);
 
 int printf(const char *format, ...);
 int fprintf(FILE *stream, const char *format, ...);
@@ -55,11 +56,14 @@ void perror(const char *s);
 /* string.h */
 char *strcat(char *dest, const char *src);
 char *strchr(const char *s, int c);
+int strcmp(char *s1, char *s2);
 char *strrchr(const char *s, int c);
 char *strcpy(char *dest, const char *src);
+int memcmp(const void *s1, const void *s2, size_t n);
 void *memcpy(void *dest, const void *src, size_t n);
 void *memset(void *s, int c, size_t n);
 char *strdup(const char *s);
+size_t strlen(const char *s);
 
 /* dlfcn.h */
 #define RTLD_LAZY       0x001
@@ -76,3 +80,5 @@ int dlclose(void *handle);
 #define PROT_EXEC      0x4
 #define MAP_PRIVATE    0x02
 #define MAP_ANONYMOUS  0x20
+
+void *mmap(void *addr, size_t len, int prot, int flags, int fildes, int off);

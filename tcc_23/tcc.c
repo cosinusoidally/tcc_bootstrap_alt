@@ -3363,7 +3363,6 @@ void parse_number(const char *p)
             }
             *q = '\0';
             t = toup(ch);
-            errno = 0;
             if (t == 'F') {
                 ch = *p++;
                 tok = TOK_CFLOAT;
@@ -10687,4 +10686,8 @@ int main(int argc, char **argv)
     return ret;
 }
 
+#endif
+
+#ifdef FOO
+#include "libtcc1_min.c"
 #endif
