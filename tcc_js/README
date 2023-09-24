@@ -107,3 +107,37 @@ called vfs). eg to read out tcc_boot.o just do vfs["tcc_boot.o"]
 The "check" function in support.js will check the sha256sum of tcc_boot.o and
 optionally check if the in memory file matches the on disk file. If there is a
 mismatch it will print out where the files differ.
+
+In the JS port there are some inconsistencies between whether a variable is a
+int or memory location. eg some local variables are ints and others are alloca
+allocated stack variables. There are pros and cons to this approach. I may
+eventually port to something more consistent.
+
+Structs are implemented by having named variable offsets eg:
+
+    Sym *s;
+...
+    s->next = NULL;
+
+becomes:
+
+    var s=alloca(4);
+...
+    wi32(ri32(s)+Sym_next_o, 0);
+
+In this case we note that s is a memory location in JS (allocated on the stack)
+so we need to access the value stored in s by reading it from memory.
+
+In this case if a function took the address of s, eg:
+
+foo(&s);
+
+we would then have to port to:
+
+foo(s);
+
+and then foo would do something like:
+
+function foo(s){
+  wi32(s,100);
+}
