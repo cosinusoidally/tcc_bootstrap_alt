@@ -70,3 +70,21 @@ gdb. For this we need a native version built with gcc. To build with gcc:
 
 cd ../tcc_1_7
 gcc -m32 -g -nostdinc -I . dlsym_wrap.c
+
+The dialect of JS used in tcc.js is a subset of JS that is pretty close to a
+subset of c. There are no objects, only functions, integers, and memory
+operations. All memory operations go via memory access functions (ri8, wi8,
+ri32, wi32) to a virtual heap. There is also the concept of a virtual stack and
+virtual frames. Function local stack allocations can be done via alloca. In
+order to allocate and free stack frames we must explicitly enter and exit stack
+frames via the enter and leave functions. eg:
+
+function foo(a,b){
+  enter(); // this allocates a stack frame
+  var c=alloca(4); // this allocates a value on the stack
+  var d;
+  wi32(c,b); // copy value of b into c
+  return leave(ri32(c)+a); // frees the stack frame and returns its argument
+}
+
+Code was converted incrementally from C to JS.
