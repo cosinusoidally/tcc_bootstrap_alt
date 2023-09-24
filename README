@@ -61,7 +61,9 @@ bootstrap scripts:
 
 Just a note on notation, you'll see many tcc_X directories, these directories
 correspond to tcc 0.9.X just for briefness (pretty redundant saying 0.9.X when
-tcc has been on 0.9.x for 20+ years).
+tcc has been on 0.9.x for 20+ years). Note that the tcc_1_X directories are
+actually cut down versions of tcc_2 since the real tcc_1 cannot actually build
+tcc_2.
 
 There are also serveral partial bootstrap chains that bootstrap up to certain
 points and then verify that the hashes of the binaries that are generated match

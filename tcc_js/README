@@ -61,4 +61,12 @@ enum/defines into JS variables in metadata.js . These could have been converted
 manually, but it was easier to just autogenerate. The 110 line metadata.js file
 is checked into the repo.
 
+When developing it is useful to have a native version of tcc_1_7 in order to
+compare behaviour between the c version and the js version. It is also useful to
+be able to compare the binary output (the js version should produce bit
+identical output). When building a native version it is also useful to have good
+debug info so you can step through the code and compare data structures using
+gdb. For this we need a native version built with gcc. To build with gcc:
 
+cd ../tcc_1_7
+gcc -m32 -g -nostdinc -I . dlsym_wrap.c
