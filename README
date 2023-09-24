@@ -229,7 +229,7 @@ possible to get rid of more versions, eg I have a hacked up version that can go
 from v3 to v23 (which eliminated v10). This reduces the number of versions of
 tcc that I will need to maintain. Currently the bootstrap goes:
 
-2m->2->3->10->23->24->26->27
+tcc_js->1_7->1_8->1_9->2m->2->3->10->23->24->26->27
 
 As mentioned removing v10 should be fairly straight forward. v23 to v24 may be
 more tricky. My guess is that v24 is probably the one to try and eliminate, but
