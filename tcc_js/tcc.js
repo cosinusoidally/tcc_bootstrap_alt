@@ -5111,9 +5111,7 @@ function init_putv(t, c, v, is_expr) {
 //         /* XXX: not portable */
 //         bt = vtop->t & VT_BTYPE;
         bt = ri32(vtop+SValue_t_o) & VT_BTYPE;
-//         switch(bt) {
         switch(bt) {
-//         case VT_BYTE:
         case VT_BYTE:
 err();
 //             *(char *)c = vtop->c.i;
@@ -5123,15 +5121,11 @@ err();
 err();
 //             *(short *)c = vtop->c.i;
 //             break;
-//         default:
         default:
 //             *(int *)c = vtop->c.i;
             wi32(c, ri32(vtop+SValue_c_o));
-//             break;
             break;
-//         }
         }
-//         vpop();
         vpop();
 //     } else {
     } else {
