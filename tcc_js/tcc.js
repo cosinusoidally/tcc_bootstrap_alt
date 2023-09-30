@@ -3443,31 +3443,54 @@ function ist() {
     var s;
     t = 0;
     while(1) {
+        if(tok==TOK_CHAR) {
+//             /* basic types */
+            u = VT_BYTE;
+            t=basic_type(t,u);
+        } else if(tok==TOK_VOID) {
+            u = VT_VOID;
+            t=basic_type(t,u);
+        } else if(tok==TOK_SHORT) {
+            u = VT_SHORT;
+            t=basic_type(t,u);
+        } else if(tok==TOK_INT) {
+            next();
+t |= 2;
+break;
+        } else if(tok==TOK_ENUM) {
+            u = struct_decl(VT_ENUM);
+            t=basic_type1(t,u);
+        } else if(tok==TOK_STRUCT|
+                  tok==TOK_UNION) {
+//             /* type modifiers */
+            u = struct_decl(VT_STRUCT);
+            t=basic_type1(t,u);
+        } else if(tok==TOK_CONST|
+                  tok==TOK_VOLATILE|
+                  tok==TOK_REGISTER|
+                  tok==TOK_SIGNED|
+                  tok==TOK_AUTO|
+                  tok==TOK_INLINE|
+                  tok==TOK_RESTRICT) {
+//            next();
+//t |= 2;
+//break;
+        } else {
+        }
         switch(tok) {
 //             /* basic types */
         case TOK_CHAR:
-            u = VT_BYTE;
-            t=basic_type(t,u);
             break;
         case TOK_VOID:
-            u = VT_VOID;
-            t=basic_type(t,u);
             break;
         case TOK_SHORT:
-            u = VT_SHORT;
-            t=basic_type(t,u);
             break;
         case TOK_INT:
-            next();
             break;
         case TOK_ENUM:
-            u = struct_decl(VT_ENUM);
-            t=basic_type1(t,u);
             break;
         case TOK_STRUCT:
         case TOK_UNION:
-            u = struct_decl(VT_STRUCT);
-            t=basic_type1(t,u);
             break;
 //             /* type modifiers */
         case TOK_CONST:
