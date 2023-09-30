@@ -6102,19 +6102,19 @@ function gen_obj(e){
   wi32(entrypoint,e-prog);
 
   var m0=alloca(4);
-  wi32(m0,0xdeadbe00);
+  wi32(m0,0xDEADBE00);
 
   var m1=alloca(4);
-  wi32(m1,0xdeadbe01);
+  wi32(m1,0xDEADBE01);
 
   var m2=alloca(4);
-  wi32(m2,0xdeadbe02);
+  wi32(m2,0xDEADBE02);
 
   var m3=alloca(4);
-  wi32(m3,0xdeadbe03);
+  wi32(m3,0xDEADBE03);
 
   var m4=alloca(4);
-  wi32(m4,0xdeadbe04);
+  wi32(m4,0xDEADBE04);
 
   var i;
   f = fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
