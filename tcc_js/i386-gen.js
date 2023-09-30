@@ -59,15 +59,13 @@ var GFuncContext_args_size_o=0;
 // } GFuncContext;
 // 
 // /******************************************************/
-// 
+
 // void g(int c)
-// {
 function g(c) {
-//     *(char *)ind++ = c;
-    wi8(ind++,c);
-// }
+    wi8(ind,c);
+    ind=ind+1;
 }
-// 
+
 // void o(int c)
 // {
 function o(c) {
@@ -195,7 +193,7 @@ function greloc_patch(s, val) {
 //     p = (Reloc *)s->c;
     p = ri32(s+Sym_c_o);
     while (p != NULL) {
-        count++;
+        count=count+1;
         p1 = ri32(p+Reloc_next_o);
         rt=ri32(p+Reloc_type_o);
         if(rt==RELOC_ADDR32) {
