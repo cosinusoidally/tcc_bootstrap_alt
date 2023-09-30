@@ -5276,7 +5276,7 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //                         warning("initializer-string for array is too long");
                         warning("initializer-string for array is too long");
 //                     for(i=0;i<nb;i++) {
-                    for(i=0;i<nb;i++) {
+                    for(i=0;i<nb;i=i+1) {
 //                         init_putv(t1, c + (array_length + i) * size1, 
 //                                   ts->str[i], 0);
                         init_putv(t1, c + (array_length + i) * size1, 
@@ -5302,7 +5302,7 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //                 }
                 }
 //                 array_length++;
-                array_length++;
+                array_length=array_length+1;
 //             }
             }
 //         } else {
@@ -5442,7 +5442,7 @@ err();
 //             if (tok == '(')
              if (tok == mk_char('('))
 //                 parlevel++;
-                parlevel++;
+                parlevel=parlevel+1;
 //             else if (tok == ')')
             else if (tok == mk_char(')'))
 //                 parlevel--;
@@ -5516,7 +5516,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
 //             if (tok == '{')
             if (tok == mk_char('{'))
 //                 level++;
-                level++;
+                level=level+1;
 //             else if (tok == '}') {
             else if (tok == mk_char('}')) {
 //                 if (level == 0)
