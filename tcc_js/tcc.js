@@ -3455,16 +3455,14 @@ function ist() {
             t=basic_type(t,u);
         } else if(tok==TOK_INT) {
             next();
-t |= 2;
-continue;
         } else if(tok==TOK_ENUM) {
             u = struct_decl(VT_ENUM);
             t=basic_type1(t,u);
         } else if(tok==TOK_STRUCT|
                   tok==TOK_UNION) {
-//             /* type modifiers */
             u = struct_decl(VT_STRUCT);
             t=basic_type1(t,u);
+//             /* type modifiers */
         } else if(tok==TOK_CONST|
                   tok==TOK_VOLATILE|
                   tok==TOK_REGISTER|
@@ -3473,69 +3471,26 @@ continue;
                   tok==TOK_INLINE|
                   tok==TOK_RESTRICT) {
             next();
-t |= 2;
-continue;
         } else if(tok==TOK_UNSIGNED) {
             t |= VT_UNSIGNED;
             next();
-t |= 2;
-continue;
         } else if(tok==TOK_EXTERN) {
 //             /* storage */
             t |= VT_EXTERN;
             next();
-t |= 2;
-continue;
         } else if(tok==TOK_STATIC) {
             t |= VT_STATIC;
             next();
-t |= 2;
-continue;
-        } else {
-        }
-        switch(tok) {
-//             /* basic types */
-        case TOK_CHAR:
-            break;
-        case TOK_VOID:
-            break;
-        case TOK_SHORT:
-            break;
-        case TOK_INT:
-            break;
-        case TOK_ENUM:
-            break;
-        case TOK_STRUCT:
-        case TOK_UNION:
-            break;
-//             /* type modifiers */
-        case TOK_CONST:
-        case TOK_VOLATILE:
-        case TOK_REGISTER:
-        case TOK_SIGNED:
-        case TOK_AUTO:
-        case TOK_INLINE:
-        case TOK_RESTRICT:
-            break;
-        case TOK_UNSIGNED:
-            break;
-//             /* storage */
-        case TOK_EXTERN:
-            break;
-        case TOK_STATIC:
-            break;
-        case TOK_TYPEDEF:
+        } else if(tok==TOK_TYPEDEF) {
             t |= VT_TYPEDEF;
             next();
-            break;
-        default:
+        } else {
           s = sym_find(tok);
           if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
                return leave(t);
           }
           t |= (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
           next();
-          break;
         }
         t |= 2;
     }
