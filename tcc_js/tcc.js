@@ -1148,7 +1148,7 @@ function tok_get(tok_str, cv) {
 //     n = tok_ext_size(t);
     n = tok_ext_size(t);
 //     for(i=0;i<n;i++)
-    for(i=0;i<n;i++) {
+    for(i=0;i<n;i=i+1) {
 //         cv->tab[i] = *p++;
         wi32(cv+(i*4),ri32(p));
         p=p+4;
@@ -1286,7 +1286,8 @@ err();
 //                 if ((q - buf) < sizeof(buf) - 1)
                 if ((q - buf) < buf_size - 1)
 //                     *q++ = ch;
-                    wi8(q++, ch);
+                    wi8(q, ch);
+                    q=q+1;
 //                 minp();
                 minp();
 //             }
@@ -1530,7 +1531,8 @@ function parse_number() {
 //     cinp();
     cinp();
 //     *q++ = t;
-    wi8(q++, t);
+    wi8(q, t);
+    q=q+1;
 //     b = 10;
     b = 10;
 //     if (t == '.') {
@@ -1598,7 +1600,8 @@ err();
 //         }
         }
 //         *q++ = ch;
-        wi8(q++, ch);
+        wi8(q, ch);
+        q=q+1;
 //         cinp();
         cinp();
 //     }
@@ -1613,7 +1616,7 @@ err();
 //         b = 8;
         b = 8;
 //         q++;
-        q++;
+        q=q+1;
 //     }
     }
 //     n = 0;
@@ -1621,7 +1624,8 @@ err();
 //     while(1) {
     while(1) {
 //         t = *q++;
-        t = ri8(q++);
+        t = ri8(q);
+        q=q+1;
 //         /* no need for checks except for base 10 / 8 errors */
 //         if (t == '\0') {
         if (t === mk_char('\0')) {
@@ -1720,7 +1724,8 @@ function next_nomacro1() {
 //         q = token_buf;
         q = token_buf;
 //         *q++ = ch;
-        wi8(q++, ch);
+        wi8(q, ch);
+        q=q+1;
 //         cinp();
         cinp();
 //         while (isid(ch) || isnum(ch)) {
