@@ -1061,34 +1061,20 @@ function skip_spaces() {
 // static inline int tok_ext_size(int t)
 // {
 function tok_ext_size(t) {
-//     switch(t) {
     switch(t) {
 //         /* 4 bytes */
-//     case TOK_NUM:
     case TOK_NUM:
-//     case TOK_CCHAR:
     case TOK_CCHAR:
-//     case TOK_LCHAR:
     case TOK_LCHAR:
-//     case TOK_STR:
     case TOK_STR:
-//     case TOK_LSTR:
     case TOK_LSTR:
-//     case TOK_CFLOAT:
     case TOK_CFLOAT:
-//         return 1;
         return 1;
-//     case TOK_CDOUBLE:
     case TOK_CDOUBLE:
-//         return 2;
         return 2;
-//     default:
     default:
-//         return 0;
         return 0;
-//     }
     }
-// }
 }
 // 
 // void tok_add(int **tok_str, int *tok_len, int t)
