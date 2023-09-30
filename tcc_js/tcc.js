@@ -3456,7 +3456,7 @@ function ist() {
         } else if(tok==TOK_INT) {
             next();
 t |= 2;
-break;
+continue;
         } else if(tok==TOK_ENUM) {
             u = struct_decl(VT_ENUM);
             t=basic_type1(t,u);
@@ -3472,9 +3472,14 @@ break;
                   tok==TOK_AUTO|
                   tok==TOK_INLINE|
                   tok==TOK_RESTRICT) {
-//            next();
-//t |= 2;
-//break;
+            next();
+t |= 2;
+continue;
+        } else if(tok==TOK_UNSIGNED) {
+            t |= VT_UNSIGNED;
+            next();
+t |= 2;
+continue;
         } else {
         }
         switch(tok) {
@@ -3500,11 +3505,8 @@ break;
         case TOK_AUTO:
         case TOK_INLINE:
         case TOK_RESTRICT:
-            next();
             break;
         case TOK_UNSIGNED:
-            t |= VT_UNSIGNED;
-            next();
             break;
 //             /* storage */
         case TOK_EXTERN:
