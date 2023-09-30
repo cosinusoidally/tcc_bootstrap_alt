@@ -2849,7 +2849,8 @@ function mk_pointer(t) {
 //     int p;
     var p;
 //     p = anon_sym++;
-    p = anon_sym++;
+    p = anon_sym;
+    anon_sym=anon_sym+1;
 //     sym_push(p, t, -1);
     sym_push(p, t, -1);
 //     return VT_PTR | (p << VT_STRUCT_SHIFT) | (t & ~VT_TYPE);
@@ -3273,7 +3274,8 @@ function struct_decl(u) {
         }
     } else {
 //         v = anon_sym++;
-        wi32(v, anon_sym++);
+        wi32(v, anon_sym);
+        anon_sym=anon_sym+1;
 //     }
     }
 //     s = sym_push(v | SYM_STRUCT, a, 0);
@@ -3329,7 +3331,7 @@ function struct_decl(u) {
 //                     next();
                     next();
 //                 c++;
-                c++;
+                c=c+1;
 //             } else {
             } else {
 //                 b = ist();
@@ -3653,7 +3655,8 @@ err();
         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
 //         /* we push a anonymous symbol which will contain the function prototype */
 //         p = anon_sym++;
-        p = anon_sym++;
+        p = anon_sym;
+        anon_sym=anon_sym+1;
 //         s = sym_push(p, t, l);
         s = sym_push(p, t, l);
 //         s->next = first;
@@ -3688,7 +3691,8 @@ err();
 //         /* we push a anonymous symbol which will contain the array
 //            element type */
 //         p = anon_sym++;
-        p = anon_sym++;
+        p = anon_sym;
+        anon_sym=anon_sym+1;
 //         sym_push(p, t, n);
         sym_push(p, t, n);
 //         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
@@ -4085,7 +4089,8 @@ err();
 //                 /* for simple function calls, we tolerate undeclared
 //                    external reference */
 //                 p = anon_sym++;        
-                p = anon_sym++;
+                p = anon_sym;
+                anon_sym=anon_sym+1;
 //                 sym_push1(&global_stack, p, 0, FUNC_OLD);
                 sym_push1(global_stack, p, 0, FUNC_OLD);
 //                 /* int() function */
@@ -4250,7 +4255,7 @@ err();
 //                         if (tok == '(')
                         if (tok == mk_char('('))
 //                             parlevel++;
-                            parlevel++;
+                            parlevel=parlevel+1;
 //                         else if (tok == ')')
                         else if (tok == mk_char(')'))
 //                             parlevel--;
