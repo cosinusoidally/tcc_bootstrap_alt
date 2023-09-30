@@ -2456,25 +2456,33 @@ print("gen_opc: "+op);
     if (c1 && c2) {
 //         fc = v2->c.i;
         fc =ri32( v2+SValue_c_o);
+
+//  NOTE ljw full original switch statement is after this if else chain. When
+// porting convert case statements from the switch/case statements
         switch(op) {
-//         case '+': v1->c.i += fc; break;
         case mk_char('+'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) + fc); break;
-//         case '-': v1->c.i -= fc; break;
         case mk_char('-'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) - fc); break;
+        case mk_char('^'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) ^ fc); break;
+        case mk_char('|'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc); break;
+        case mk_char('*'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc); break;
+        case TOK_SHL: wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) << fc); break;
+        default:
+            general_case=1;
+        }
+
+//        switch(op) {
+//         case '+': v1->c.i += fc; break;
+//         case '-': v1->c.i -= fc; break;
 //         case '&': v1->c.i &= fc; break;
 //         case '^': v1->c.i ^= fc; break;
-        case mk_char('^'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) ^ fc); break;
 //         case '|': v1->c.i |= fc; break;
-        case mk_char('|'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc); break;
 //         case '*': v1->c.i *= fc; break;
-        case mk_char('*'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc); break;
 //         case TOK_PDIV:
 //         case '/': v1->c.i /= fc; break; /* XXX: zero case ? */
 //         case '%': v1->c.i %= fc; break; /* XXX: zero case ? */
 //         case TOK_UDIV: v1->c.i = (unsigned)v1->c.i / fc; break; /* XXX: zero case ? */
 //         case TOK_UMOD: v1->c.i = (unsigned)v1->c.i % fc; break; /* XXX: zero case ? */
 //         case TOK_SHL: v1->c.i <<= fc; break;
-        case TOK_SHL: wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) << fc); break;
 //         case TOK_SHR: v1->c.i = (unsigned)v1->c.i >> fc; break;
 //         case TOK_SAR: v1->c.i >>= fc; break;
 //             /* tests */
@@ -2491,9 +2499,10 @@ print("gen_opc: "+op);
 //             /* logical */
 //         case TOK_LAND: v1->c.i = v1->c.i && fc; break;
 //         case TOK_LOR: v1->c.i = v1->c.i || fc; break;
-        default:
-            general_case=1;
-        }
+//        default:
+//            general_case=1;
+//        }
+
         if(general_case){
 print("general gen_opc: "+op);
           err();
