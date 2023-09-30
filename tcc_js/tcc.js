@@ -3437,132 +3437,79 @@ function basic_type(t, u){
 // {
 function ist() {
     enter();
-//     int t, u;
     var t;
     var u;
 //     Sym *s;
     var s;
-// 
-//     t = 0;
     t = 0;
-//     while(1) {
     while(1) {
-//         switch(tok) {
         switch(tok) {
 //             /* basic types */
-//         case TOK_CHAR:
         case TOK_CHAR:
             u = VT_BYTE;
             t=basic_type(t,u);
             break;
-//         case TOK_VOID:
         case TOK_VOID:
-//             u = VT_VOID;
             u = VT_VOID;
-//             t=basic_type(t,u);
             t=basic_type(t,u);
-//             break;
             break;
-//         case TOK_SHORT:
         case TOK_SHORT:
             u = VT_SHORT;
             t=basic_type(t,u);
             break;
-//         case TOK_INT:
         case TOK_INT:
-//             next();
             next();
-//             break;
             break;
-//         case TOK_ENUM:
         case TOK_ENUM:
             u = struct_decl(VT_ENUM);
             t=basic_type1(t,u);
             break;
-//         case TOK_STRUCT:
         case TOK_STRUCT:
-//         case TOK_UNION:
         case TOK_UNION:
-//             u = struct_decl(VT_STRUCT);
             u = struct_decl(VT_STRUCT);
-//             t=basic_type1(t,u);
             t=basic_type1(t,u);
-//             break;
             break;
-// 
 //             /* type modifiers */
-//         case TOK_CONST:
         case TOK_CONST:
-//         case TOK_VOLATILE:
         case TOK_VOLATILE:
-//         case TOK_REGISTER:
         case TOK_REGISTER:
-//         case TOK_SIGNED:
         case TOK_SIGNED:
-//         case TOK_AUTO:
         case TOK_AUTO:
-//         case TOK_INLINE:
         case TOK_INLINE:
-//         case TOK_RESTRICT:
         case TOK_RESTRICT:
-//             next();
             next();
-//             break;
             break;
-//         case TOK_UNSIGNED:
         case TOK_UNSIGNED:
-//             t |= VT_UNSIGNED;
             t |= VT_UNSIGNED;
-//             next();
             next();
-//             break;
             break;
-// 
 //             /* storage */
-//         case TOK_EXTERN:
         case TOK_EXTERN:
             t |= VT_EXTERN;
             next();
             break;
-//         case TOK_STATIC:
         case TOK_STATIC:
             t |= VT_STATIC;
             next();
             break;
-//         case TOK_TYPEDEF:
         case TOK_TYPEDEF:
-//             t |= VT_TYPEDEF;
             t |= VT_TYPEDEF;
-//             next();
             next();
-//             break;
             break;
-//         default:
         default:
-//             s = sym_find(tok);
           s = sym_find(tok);
-//             if (!s || !(s->t & VT_TYPEDEF))
           if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
-//                 return t;
                return leave(t);
           }
-//             t |= (s->t & ~VT_TYPEDEF);
           t |= (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
-//             next();
           next();
-//             break;
           break;
-//         }
         }
-//         t |= 2;
         t |= 2;
-//     }
     }
-//     return t;
     return leave(t);
-// }
 }
-// 
+
 // int post_type(int t)
 // {
 function post_type(t) {
