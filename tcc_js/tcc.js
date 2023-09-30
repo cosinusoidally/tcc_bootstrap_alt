@@ -1352,7 +1352,7 @@ print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf));
 //         if(!found){
         if(!found){
 //             for(i=nb_include_paths - 1;i>=0;i--) {
-            for(i=nb_include_paths - 1;i>=0;i--) {
+            for(i=nb_include_paths - 1;i>=0;i=i-1) {
 //                 strcpy(buf1, include_paths[i]);
                 strcpy(buf1, ri32(include_paths+(4*i)));
 //                 strcat(buf1, "/");
@@ -1554,7 +1554,7 @@ function parse_number() {
 //         if (ch == 'x' || ch == 'X') {
         if (ch == mk_char('x') || ch == mk_char('X')) {
 //             q--;
-            q--;
+            q=q-1;
 //             cinp();
             cinp();
 //             b = 16;
@@ -4259,7 +4259,7 @@ err();
 //                         else if (tok == ')')
                         else if (tok == mk_char(')'))
 //                             parlevel--;
-                            parlevel--;
+                            parlevel=parlevel-1;
 //                         tok_add2(&str, &len, tok, &tokc);
                         tok_add2(str, len, tok, tokc);
 //                         next();
@@ -4424,7 +4424,7 @@ function sum(l) {
 //     else {
     } else {
 //         sum(--l);
-        sum(--l);
+        sum(l=l-1);
 //         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
         while ((l == 0 & (tok == mk_char('*') | tok == mk_char('/') | tok == mk_char('%'))) |
 //                (l == 1 & (tok == '+' | tok == '-')) |
@@ -5446,7 +5446,7 @@ err();
 //             else if (tok == ')')
             else if (tok == mk_char(')'))
 //                 parlevel--;
-                parlevel--;
+                parlevel=parlevel-1;
 //             next();
             next();
 //         }
@@ -5524,7 +5524,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
 //                     break;
                     break;
 //                 level--;
-                level--;
+                level=level-1;
 //             }
             }
 //             next();
