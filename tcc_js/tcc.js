@@ -1736,7 +1736,8 @@ function next_nomacro1() {
                 error("ident too long");
             }
 //             *q++ = ch;
-               wi8(q++, ch);
+               wi8(q, ch);
+               q=q+1;
 //             cinp();
             cinp();
 //         }
@@ -1786,7 +1787,8 @@ function next_nomacro1() {
 //                 error("string too long");
                 error("string too long");
 //             *q++ = b;
-            wi8(q++, b);
+            wi8(q, b);
+            q=q+1;
 //         }
         }
 //         *q = '\0';
@@ -2311,7 +2313,7 @@ function get_reg(rc) {
 // 
 //     /* find a free register */
 //     for(r=0;r<NB_REGS;r++) {
-    for(r=0;r<NB_REGS;r++) {
+    for(r=0;r<NB_REGS;r=r+1) {
 //         notfound=0;
         notfound=0;
 //         if (reg_classes[r] & rc) {
@@ -2567,7 +2569,7 @@ print("general gen_opc: "+op);
                 n = -1;
                 while (fc) {
                     fc = urs(fc,1);
-                    n++;
+                    n=n+1;
                 }
                 wi32(vtop+SValue_c_o, n);
                 if (op == mk_char('*'))
