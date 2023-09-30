@@ -775,11 +775,11 @@ function gen_opi(op) {
 //         else if (op == TOK_SHR)
         } else if (op == TOK_SHR) {
 //             o(0xe8 + r);
-            o(0xe8 + r);
+            o(0xE8 + r);
 //         else
         } else {
 //             o(0xf8 + r);
-            o(0xf8 + r);
+            o(0xF8 + r);
         }
 //         vtop->t = (vtop->t & VT_TYPE) | r;
         wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
@@ -796,15 +796,15 @@ function gen_opi(op) {
 //         if (op == TOK_UDIV | op == TOK_UMOD) {
         if (op == TOK_UDIV | op == TOK_UMOD) {
 //             o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
-            o(0xf7d231); /* xor %edx, %edx, div t(%ebp), %eax */
+            o(0xF7D231); /* xor %edx, %edx, div t(%ebp), %eax */
 //             oad(0xb5, t);
-            oad(0xb5, t);
+            oad(0xB5, t);
 //         } else {
         } else {
 //             o(0xf799); /* cltd, idiv t(%ebp), %eax */
-            o(0xf799); /* cltd, idiv t(%ebp), %eax */
+            o(0xF799); /* cltd, idiv t(%ebp), %eax */
 //             oad(0xbd, t);
-            oad(0xbd, t);
+            oad(0xBD, t);
 //         }
         }
 //         if (op == '%' | op == TOK_UMOD)
@@ -823,7 +823,7 @@ function gen_opi(op) {
 //         o(0x39);
         o(0x39);
 //         o(0xc0 + r + fr * 8); /* cmp fr, r */
-        o(0xc0 + r + fr * 8); /* cmp fr, r */
+        o(0xC0 + r + fr * 8); /* cmp fr, r */
 //         vset(VT_CMP, op);
         vset(VT_CMP, op);
 //     }
