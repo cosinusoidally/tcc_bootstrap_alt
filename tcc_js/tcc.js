@@ -2560,7 +2560,7 @@ print("general gen_opc: "+op);
             if (fc > 0 && (fc & (fc - 1)) == 0) {
                 n = -1;
                 while (fc) {
-                    fc >>>= 1;
+                    fc = urs(fc,1);
                     n++;
                 }
                 wi32(vtop+SValue_c_o, n);
@@ -2778,7 +2778,7 @@ function type_size(t, a) {
     if (bt == VT_STRUCT) {
 //         /* struct/union */
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-        s = sym_find((t >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        s = sym_find((urs(t, VT_STRUCT_SHIFT)) | SYM_STRUCT);
 //         *a = 4; /* XXX: cannot store it yet. Doing that is safe */
         wi32(a, 4);
 //         return s->c;
@@ -2788,7 +2788,7 @@ function type_size(t, a) {
 //         if (t & VT_ARRAY) {
         if (t & VT_ARRAY) {
 //             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-            s = sym_find(t >>> VT_STRUCT_SHIFT);
+            s = sym_find(urs(t, VT_STRUCT_SHIFT));
 //             return type_size(s->t, a) * s->c;
             return type_size(ri32(s+Sym_t_o), a) * ri32(s+Sym_c_o);
 //         } else {
@@ -2829,7 +2829,7 @@ function pointed_type(t) {
 //     Sym *s;
     var s;
 //     s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-    s = sym_find(t >>> VT_STRUCT_SHIFT);
+    s = sym_find(urs(t, VT_STRUCT_SHIFT));
 //     return s->t | (t & ~VT_TYPE);
     return ri32(s+Sym_t_o) | (t & ~VT_TYPE);
 // }
@@ -2904,9 +2904,9 @@ function is_compatible_types(t1, t2) {
 //             return 0;
             return 0;
 //         s1 = sym_find(((unsigned)t1 >> VT_STRUCT_SHIFT));
-        s1 = sym_find(t1 >>> VT_STRUCT_SHIFT);
+        s1 = sym_find(urs(t1, VT_STRUCT_SHIFT));
 //         s2 = sym_find(((unsigned)t2 >> VT_STRUCT_SHIFT));
-        s2 = sym_find(t2 >>> VT_STRUCT_SHIFT);
+        s2 = sym_find(urs(t2, VT_STRUCT_SHIFT));
 //         if (!is_compatible_types(s1->t, s2->t))
         if (!is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)))
 //             return 0;
@@ -3832,7 +3832,7 @@ print("tok: "+tok+" t: "+t);
 //     while(1) {
     while(1) {
 //         s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
-        s = sym_find(p >>> VT_STRUCT_SHIFT);
+        s = sym_find(urs(p, VT_STRUCT_SHIFT));
 //         p = s->t;
         p = ri32(s+Sym_t_o);
 //         if (!p) {

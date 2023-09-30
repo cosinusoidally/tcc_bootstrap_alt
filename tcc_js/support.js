@@ -406,3 +406,8 @@ function decode_Sym(sym){
   s.hash_next=ri32(sym+Sym_hash_next_o);
   return s;
 }
+
+function urs(v,n){
+// refactoring unsigned right shift into a function
+  return v >>> n;
+}
