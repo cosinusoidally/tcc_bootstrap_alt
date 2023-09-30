@@ -183,39 +183,34 @@ function mk_reloc_global(type,addr){
   global_relocs+=4;
 // }
 }
-// 
+
 // /* patch each relocation entry with value 'val' */
 // int greloc_patch(Sym *s, int val)
-// {
 function greloc_patch(s, val) {
 //     Reloc *p, *p1;
     var p;
     var p1;
-// int count=0;
-var count=0;
+    var count=0;
 //     p = (Reloc *)s->c;
     p = ri32(s+Sym_c_o);
     while (p != NULL) {
-count++;
+        count++;
         p1 = ri32(p+Reloc_next_o);
         switch(ri32(p+Reloc_type_o)) {
-        case RELOC_ADDR32:
-if(reloc){
+            case RELOC_ADDR32:
+                if(reloc){
 //  printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
-  print("reloc at: 0x%x to: 0x%x\n");
-  if(reloc_global){
- mk_reloc_global(RELOC_ADDR32,ri32(p+Reloc_addr_o));
-  } else {
+                    print("reloc at: 0x%x to: 0x%x\n");
+                    if(reloc_global){
+                        mk_reloc_global(RELOC_ADDR32,ri32(p+Reloc_addr_o));
+                    } else {
 err();
 // printf("shouldn't get here\n");
 // exit(1);
-   }
-}
-//             *(int *)p->addr = val;
+                    }
+                }
             wi32(p+Reloc_addr_o, val);
-//             break;
             break;
-//         case RELOC_REL32:
         case RELOC_REL32:
 if(reloc_global && relocs){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
@@ -227,13 +222,11 @@ mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
         free(p);
         p = p1;
     }
-//     s->c = val;
     wi32(s+Sym_c_o, val);
-//     s->t &= ~VT_FORWARD;
     wi32(s+Sym_t_o,ri32(s+Sym_t_o) & ~VT_FORWARD);
-return count;
+    return count;
 }
-// 
+
 // /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
 // {
