@@ -5724,10 +5724,10 @@ err();
                 }
 //                 loc = 0;
                 loc = 0;
-//                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+//                 o(0xE58955); /* push   %ebp, mov    %esp, %ebp */
                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
 //                 a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
-                a = oad(0xec81, 0);
+                a = oad(0xEC81, 0);
 //                 rsym = 0;
                 rsym = 0;
 //                 block(NULL, NULL, NULL, NULL, 0);
@@ -5735,7 +5735,7 @@ err();
 //                 gsym(rsym);
                 gsym(rsym);
 //                 o(0xc3c9); /* leave, ret */
-                o(0xc3c9); /* leave, ret */
+                o(0xC3C9); /* leave, ret */
 //                 *a = (-loc + 3) & -4; /* align local size to word & 
 //                                          save local variables */
                 wi32(a, (-loc + 3) & -4);
