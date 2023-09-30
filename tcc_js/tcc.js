@@ -4195,7 +4195,7 @@ err();
                 expect("struct or union");
             }
 //             s = sym_find(((unsigned)vtop->t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-            s = sym_find((ri32(vtop+SValue_t_o) >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
+            s = sym_find((urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT)) | SYM_STRUCT);
 //             /* find field */
 //             tok |= SYM_FIELD;
             tok |= SYM_FIELD;
@@ -4270,7 +4270,7 @@ err();
             }
 //             /* get return type */
 //             s = sym_find((unsigned)vtop->t >> VT_STRUCT_SHIFT);
-            s = sym_find(ri32(vtop+SValue_t_o) >>> VT_STRUCT_SHIFT);
+            s = sym_find(urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT));
 //             save_regs(); /* save used temporary registers */
             save_regs();
 //             gfunc_start(&gf);
@@ -5288,7 +5288,7 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //     if (t & VT_ARRAY) {
     if (t & VT_ARRAY) {
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
-        s = sym_find((t >>> VT_STRUCT_SHIFT));
+        s = sym_find((urs(t, VT_STRUCT_SHIFT)));
 //         n = s->c;
         n = ri32(s+Sym_c_o);
 //         array_length = 0;
@@ -5439,7 +5439,7 @@ err();
 //         next();
         next();
 //         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
-        s = sym_find((t >>> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        s = sym_find((urs(t, VT_STRUCT_SHIFT)) | SYM_STRUCT);
 //         f = s->next;
         wi32(f, ri32(s+Sym_next_o));
 //         array_length = 0;
@@ -5765,7 +5765,7 @@ print("funcname: "+mk_js_string(funcname));
                 sym_push1(local_stack, 0, 0, 0);
 //                 /* define parameters */
 //                 sym = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
-                sym = sym_find(t >>> VT_STRUCT_SHIFT);
+                sym = sym_find(urs(t, VT_STRUCT_SHIFT));
 //                 /* XXX: the following is x86 dependant -> move it to
 //                    x86 code gen */
 //                 addr = 8;
