@@ -721,37 +721,37 @@ function gen_opi(op) {
 //         o(0x01);
         o(0x01);
 //         o(0xc0 + r + fr * 8); 
-        o(0xc0 + r + fr * 8);
+        o(0xC0 + r + fr * 8);
 //     } else if (op == '-') {
     } else if (op == mk_char('-')) {
 //         o(0x29);
         o(0x29);
 //         o(0xc0 + r + fr * 8); 
-        o(0xc0 + r + fr * 8); 
+        o(0xC0 + r + fr * 8); 
 //     } else if (op == '&') {
     } else if (op == mk_char('&')) {
 //         o(0x21);
         o(0x21);
 //         o(0xc0 + r + fr * 8); 
-        o(0xc0 + r + fr * 8); 
+        o(0xC0 + r + fr * 8); 
 //     } else if (op == '^') {
     } else if (op == mk_char('^')) {
 //         o(0x31);
         o(0x31);
 //         o(0xc0 + r + fr * 8); 
-        o(0xc0 + r + fr * 8); 
+        o(0xC0 + r + fr * 8); 
 //     } else if (op == '|') {
     } else if (op == mk_char('|')) {
 //         o(0x09);
         o(0x09);
 //         o(0xc0 + r + fr * 8); 
-        o(0xc0 + r + fr * 8); 
+        o(0xC0 + r + fr * 8); 
 //     } else if (op == '*') {
     } else if (op == mk_char('*')) {
 //         o(0xaf0f); /* imul fr, r */
-        o(0xaf0f); /* imul fr, r */
+        o(0xAF0F); /* imul fr, r */
 //         o(0xc0 + fr + r * 8);
-        o(0xc0 + fr + r * 8);
+        o(0xC0 + fr + r * 8);
 //     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
 //         /* op2 is %ecx */
@@ -761,17 +761,17 @@ function gen_opi(op) {
                 r = fr;
                 fr = 1;
                 o(0x87); /* xchg r, %ecx */
-                o(0xc1 + r * 8);
+                o(0xC1 + r * 8);
             } else {
                  move_reg(1, fr);
             }
         }
 //         o(0xd3); /* shl/shr/sar %cl, r */
-        o(0xd3); /* shl/shr/sar %cl, r */
+        o(0xD3); /* shl/shr/sar %cl, r */
 //         if (op == TOK_SHL) 
         if (op == TOK_SHL) {
 //             o(0xe0 + r);
-            o(0xe0 + r);
+            o(0xE0 + r);
 //         else if (op == TOK_SHR)
         } else if (op == TOK_SHR) {
 //             o(0xe8 + r);
