@@ -3480,6 +3480,17 @@ continue;
             next();
 t |= 2;
 continue;
+        } else if(tok==TOK_EXTERN) {
+//             /* storage */
+            t |= VT_EXTERN;
+            next();
+t |= 2;
+continue;
+        } else if(tok==TOK_STATIC) {
+            t |= VT_STATIC;
+            next();
+t |= 2;
+continue;
         } else {
         }
         switch(tok) {
@@ -3510,12 +3521,8 @@ continue;
             break;
 //             /* storage */
         case TOK_EXTERN:
-            t |= VT_EXTERN;
-            next();
             break;
         case TOK_STATIC:
-            t |= VT_STATIC;
-            next();
             break;
         case TOK_TYPEDEF:
             t |= VT_TYPEDEF;
