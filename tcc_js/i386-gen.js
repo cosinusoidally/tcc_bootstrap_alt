@@ -597,20 +597,20 @@ print("gfunc_call: %x %x\n");
 // }
 }
 //             oad(0xe8, vtop->c.ul - ind - 5);
-            oad(0xe8, ri32(vtop+SValue_c_o) - ind - 5);
+            oad(0xE8, ri32(vtop+SValue_c_o) - ind - 5);
 //         }
         }
 //     } else {
     } else {
         /* otherwise, indirect call */
         r = gv();
-        o(0xff); /* call *r */
-        o(0xd0 + r);
+        o(0xFF); /* call *r */
+        o(0xD0 + r);
     }
 //     if (c->args_size)
     if (ri32(c+GFuncContext_args_size_o)) {
 //         oad(0xc481, c->args_size); /* add $xxx, %esp */
-        oad(0xc481, ri32(c+GFuncContext_args_size_o)); /* add $xxx, %esp */
+        oad(0xC481, ri32(c+GFuncContext_args_size_o)); /* add $xxx, %esp */
 
     }
 //     vtop--;
@@ -622,7 +622,7 @@ print("gfunc_call: %x %x\n");
 // {
 function gjmp(t) {
 //     return psym(0xe9, t);
-    return oad(0xe9, t);
+    return oad(0xE9, t);
 // }
 }
 // 
@@ -639,7 +639,7 @@ function gtst(inv, t) {
     if (v == VT_CMP) {
 //         /* fast case : can jump directly since flags are set */
 //         g(0x0f);
-        g(0x0f);
+        g(0x0F);
 //         t = psym((vtop->c.i - 16) ^ inv, t);
         t = psym((ri32(vtop+SValue_c_o) - 16) ^ inv, t);
 //     } else if (v == VT_JMP || v == VT_JMPI) {
@@ -682,9 +682,9 @@ function gtst(inv, t) {
 //         o(0x85);
         o(0x85);
 //         o(0xc0 + v * 9);
-        o(0xc0 + v * 9);
+        o(0xC0 + v * 9);
 //         g(0x0f);
-        g(0x0f);
+        g(0x0F);
 //         t = psym(0x85 ^ inv, t);
         t = psym(0x85 ^ inv, t);
 //     }
