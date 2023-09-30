@@ -771,7 +771,8 @@ function sym_find2(s, v) {
 // unsigned int HASH_SYM(int v) {
 function HASH_SYM(v) {
 //     return ((unsigned)(v) % SYM_HASH_SIZE);
-    return (unsigned(v) % SYM_HASH_SIZE);
+// FIXME ljw is unsigned needed?
+    return (v % SYM_HASH_SIZE);
 // }
 }
 // 
@@ -1658,9 +1659,11 @@ err();
 //         }
         }
 //         n1 = n;
-        n1 = unsigned(n);
+// FIXME ljw is unsigned needed?
+        n1 = n;
 //         n = n * b + t;
-        n = unsigned(n) * b + t;
+// FIXME ljw is unsigned needed?
+        n = n * b + t;
 //         /* detect overflow */
         /* detect overflow */
 //         if (n < n1)
@@ -2427,7 +2430,8 @@ print("gv r_init: "+r)
     }
 print("gv r_ret: "+r)
 //     load(r, vtop->t, vtop->c.ul);
-    _load(r, ri32(vtop+SValue_t_o), unsigned(ri32(vtop+SValue_c_o)));
+// FIXME ljw is unsigned needed?
+    _load(r, ri32(vtop+SValue_t_o), ri32(vtop+SValue_c_o));
 //     vtop->t = (vtop->t & VT_TYPE) | r;
     wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
 //     return r;

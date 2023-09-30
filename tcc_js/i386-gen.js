@@ -122,7 +122,9 @@ function greloc(s, addr, type) {
 // 
 // int is_prog(int a){
 function is_prog(a){
-  if(unsigned(a-prog)<(TEXT_SIZE)){
+// FIXME ljw is unsigned needed?
+//  if(unsigned(a-prog)<(TEXT_SIZE)){
+  if(a-prog<(TEXT_SIZE)){
     return 1;
   }
   return 0;
@@ -130,7 +132,9 @@ function is_prog(a){
 // 
 // int is_data(int a){
 function is_data(a){
-  if(unsigned(a-glo_base)<(DATA_SIZE)){
+// FIXME ljw is unsigned needed?
+//  if(unsigned(a-glo_base)<(DATA_SIZE)){
+  if(a-glo_base<(DATA_SIZE)){
     return 1;
   }
   return 0;
