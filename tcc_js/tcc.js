@@ -6332,7 +6332,8 @@ function main(argc,argv){
 //         r = p;
          r = p;
 //         while (*r++);
-         while (c=ri8(r++));
+         while (c=ri8(r)){r=r+1;}
+         r=r+1;
 //         tok_alloc(p, r - p - 1);
          tok_alloc(p, r - p - 1);
 //         p = r;
@@ -6396,7 +6397,7 @@ print("r[0]:"+ri8(r));
              break;
          }
 //         optind++;
-         optind++;
+         optind=optind+1;
 //         if (r[1] == 'I') {
          if (ri8(r+1) === mk_char('I')) {
 err();
