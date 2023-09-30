@@ -2,6 +2,11 @@ load("tcc.js");
 
 wi8_orig=wi8;
 
+unsigned=function(){
+// we don't want to allow the use of unsigned ints
+err();
+}
+
 // dummy main call:
 argc_argv=mk_argc_argv("tcc -r test-dlsym_wrap.c");
 print(JSON.stringify(argc_argv));

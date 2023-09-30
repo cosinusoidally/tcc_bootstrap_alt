@@ -227,8 +227,6 @@ function strlen(s){
 }
 
 function unsigned(x){
-// trying to remove use of unsigned
-err();
   return x>>>0;
 }
 
