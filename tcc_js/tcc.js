@@ -252,9 +252,9 @@ var global_relocs_table_base;
 // 
 // /* The current value can be: */
 // #define VT_VALMASK 0x000f
-var VT_VALMASK = 0x000f;
+var VT_VALMASK = 0x000F;
 // #define VT_CONST   0x000a  /* constant in vc 
-var VT_CONST = 0x000a;
+var VT_CONST = 0x000A;
 //                               (must be first non register value) */
 // #define VT_LLOCAL  0x000b  /* lvalue, offset on stack */
 // #define VT_LOCAL   0x000c  /* offset on stack */
@@ -549,7 +549,7 @@ print("len: "+len);
 //     for(i=0;i<len;i++)
     for(i=0;i<len;i++) {
 //         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
-        h = ((h << 8) | (ri8(str+i) & 0xff)) % TOK_HASH_SIZE;
+        h = ((h << 8) | (ri8(str+i) & 0xFF)) % TOK_HASH_SIZE;
     };
 // 
 print("h: "+h);
@@ -1804,7 +1804,7 @@ function next_nomacro1() {
 //                 cinp();
                 cinp();
 //                 tok = q[2] & 0xff;
-                tok = ri8(q+2) & 0xff;
+                tok = ri8(q+2) & 0xFF;
 //                 /* three chars tests */
 //                 if (tok == TOK_SHL | tok == TOK_SAR) {
                 if (tok == TOK_SHL | tok == TOK_SAR) {
@@ -4387,7 +4387,7 @@ function uneq() {
 //             expr_eq();
             expr_eq();
 //             gen_op(t & 0x7f);
-            gen_op(t & 0x7f);
+            gen_op(t & 0x7F);
 //         }
         }
 //         vstore();
@@ -4732,7 +4732,7 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
 //         block(&a, &b, case_sym, def_sym, case_reg);
         block(a, b, case_sym, def_sym, case_reg);
 //         oad(0xe9, d - ind - 5); /* jmp */
-        oad(0xe9, d - ind - 5);
+        oad(0xE9, d - ind - 5);
 //         gsym(a);
         gsym(a);
 //         gsym_addr(b, d);
@@ -4868,7 +4868,7 @@ err();
 //             vpop();
             vpop();
 //             oad(0xe9, d - ind - 5); /* jmp */
-            oad(0xe9, d - ind - 5); /* jmp */
+            oad(0xE9, d - ind - 5); /* jmp */
             gsym(e);
 //             gsym(e);
 //         }
@@ -4878,7 +4878,7 @@ err();
 //         block(&a, &b, case_sym, def_sym, case_reg);
         block(a, b, case_sym, def_sym, case_reg);
 //         oad(0xe9, c - ind - 5); /* jmp */
-        oad(0xe9, c - ind - 5); /* jmp */
+        oad(0xE9, c - ind - 5); /* jmp */
 //         gsym(a);
         gsym(ri32(a));
 //         gsym_addr(b, c);
