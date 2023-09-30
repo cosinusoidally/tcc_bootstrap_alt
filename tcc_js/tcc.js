@@ -2462,22 +2462,16 @@ print("gen_opc: "+op);
 	if(op==mk_char('+')) {
             wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) + fc);
         } else if(op==mk_char('-')) {
-        } else if(op==mk_char('-')) {
+            wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) - fc);
         } else if(op==mk_char('^')) {
+            wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) ^ fc);
         } else if(op==mk_char('|')) {
+            wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc);
         } else if(op==mk_char('*')) {
+            wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc);
         } else if(op==TOK_SHL) {
+            wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) << fc);
         } else {
-            general_case=1;
-        }
-        switch(op) {
-        case mk_char('+'): break;
-        case mk_char('-'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) - fc); break;
-        case mk_char('^'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) ^ fc); break;
-        case mk_char('|'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) | fc); break;
-        case mk_char('*'): wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) * fc); break;
-        case TOK_SHL: wi32(v1+SValue_c_o, ri32(v1+SValue_c_o) << fc); break;
-        default:
             general_case=1;
         }
 
