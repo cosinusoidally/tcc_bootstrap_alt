@@ -547,7 +547,7 @@ print("len: "+len);
 //     h = 1;
     h = 1;
 //     for(i=0;i<len;i++)
-    for(i=0;i<len;i++) {
+    for(i=0;i<len;i=i+1) {
 //         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
         h = ((h << 8) | (ri8(str+i) & 0xFF)) % TOK_HASH_SIZE;
     };
@@ -614,7 +614,8 @@ print("len: "+len+" ts-table_ident:"+(ts-table_ident));
 //     table_ident[i] = ts;
     wi32(table_ident+(i*4), ts);
 //     ts->tok = tok_ident++;
-    wi32(ts+TokenSym_tok_o , tok_ident++);
+    wi32(ts+TokenSym_tok_o , tok_ident);
+    tok_ident=tok_ident+1;
 //     ts->len = len;
     wi32(ts+TokenSym_len_o, len);
 //     ts->hash_next = NULL;
