@@ -975,7 +975,7 @@ function inp(){
 //     if (ch1 == '\n')
     if (ch1 === mk_char('\n')){
 //         line_num++;
-        line_num++;
+        line_num=line_num+1;
     }
 //     //    printf("ch1=%c 0x%x\n", ch1, ch1);
 // }
@@ -1101,7 +1101,8 @@ function tok_add(tok_str, tok_len, t) {
 //     }
     }
 //     str[len++] = t;
-    wi32(ri32(str)+((len++)*4), t);
+    wi32(ri32(str)+((len)*4), t);
+    len=len+1;
 //     *tok_len = len;
     wi32(tok_len, len);
 // }
@@ -1121,7 +1122,7 @@ function tok_add2(tok_str, tok_len, t, cv) {
 //     n = tok_ext_size(t);
     n = tok_ext_size(t);
 //     for(i=0;i<n;i++)
-    for(i=0;i<n;i++) {
+    for(i=0;i<n;i=i+1) {
 //         tok_add(tok_str, tok_len, cv->tab[i]);
         tok_add(tok_str, tok_len, ri32(cv+(i*4)));
     }
