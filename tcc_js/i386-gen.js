@@ -191,12 +191,14 @@ function greloc_patch(s, val) {
     var p;
     var p1;
     var count=0;
+    var rt=0;
 //     p = (Reloc *)s->c;
     p = ri32(s+Sym_c_o);
     while (p != NULL) {
         count++;
         p1 = ri32(p+Reloc_next_o);
-        switch(ri32(p+Reloc_type_o)) {
+        rt=ri32(p+Reloc_type_o);
+        switch(rt) {
             case RELOC_ADDR32:
                 if(reloc){
 //  printf("reloc at: 0x%x to: 0x%x\n",p->addr,val);
@@ -204,20 +206,19 @@ function greloc_patch(s, val) {
                     if(reloc_global){
                         mk_reloc_global(RELOC_ADDR32,ri32(p+Reloc_addr_o));
                     } else {
-err();
-// printf("shouldn't get here\n");
-// exit(1);
+                        print("shouldn't get here");
+                        err();
                     }
                 }
-            wi32(p+Reloc_addr_o, val);
-            break;
-        case RELOC_REL32:
-if(reloc_global && relocs){
+                wi32(p+Reloc_addr_o, val);
+                break;
+            case RELOC_REL32:
+                if(reloc_global && relocs){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
-mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
-}
-            wi32(ri32(p+Reloc_addr_o), val - ri32(p+Reloc_addr_o) - 4);
-            break;
+                    mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
+                }
+                wi32(ri32(p+Reloc_addr_o), val - ri32(p+Reloc_addr_o) - 4);
+                break;
         }
         free(p);
         p = p1;
