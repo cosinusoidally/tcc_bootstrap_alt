@@ -351,7 +351,7 @@ err();
 //         if ((ft & VT_TYPE) == VT_BYTE)
         if ((ft & VT_TYPE) == VT_BYTE) {
 //             o(0xbe0f);   /* movsbl */
-            o(0xbe0f);   /* movsbl */
+            o(0xBE0F);   /* movsbl */
 //         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
         } else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED)) {
 err();
@@ -367,7 +367,7 @@ err();
 //         else
         } else {
 //             o(0x8b);     /* movl */
-            o(0x8b);     /* movl */
+            o(0x8B);     /* movl */
         }
 // 
 //         if (v == VT_CONST) {
@@ -395,7 +395,7 @@ lt=1;
 //         if (v == VT_CONST) {
         if (v == VT_CONST) {
 //             o(0xb8 + r); /* mov $xx, r */
-            o(0xb8 + r); /* mov $xx, r */
+            o(0xB8 + r); /* mov $xx, r */
 // printf("\n load2 %x\n",ind);
 print("\n load2 "+to_hex(ind));
 // lt=2;
@@ -405,37 +405,37 @@ lt=2;
 //         } else if (v == VT_LOCAL) {
         } else if (v == VT_LOCAL) {
 //             o(0x8d);
-            o(0x8d);
+            o(0x8D);
 //             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
 //         } else if (v == VT_CMP) {
         } else if (v == VT_CMP) {
 //             oad(0xb8 + r, 0); /* mov $0, r */
-            oad(0xb8 + r, 0); /* mov $0, r */
+            oad(0xB8 + r, 0); /* mov $0, r */
 //             o(0x0f); /* setxx %br */
-            o(0x0f); /* setxx %br */
+            o(0x0F); /* setxx %br */
 //             o(fc);
             o(fc);
 //             o(0xc0 + r);
-            o(0xc0 + r);
+            o(0xC0 + r);
 //         } else if (v == VT_JMP || v == VT_JMPI) {
         } else if (v == VT_JMP || v == VT_JMPI) {
 //             t = v & 1;
             t = v & 1;
 //             oad(0xb8 + r, t); /* mov $1, r */
-            oad(0xb8 + r, t); /* mov $1, r */
+            oad(0xB8 + r, t); /* mov $1, r */
 //             oad(0xe9, 5); /* jmp after */
-            oad(0xe9, 5); /* jmp after */
+            oad(0xE9, 5); /* jmp after */
 //             gsym(fc);
             gsym(fc);
 //             oad(0xb8 + r, t ^ 1); /* mov $0, r */
-            oad(0xb8 + r, t ^ 1); /* mov $0, r */
+            oad(0xB8 + r, t ^ 1); /* mov $0, r */
 //         } else if (v != r) {
         } else if (v != r) {
 //             o(0x89);
             o(0x89);
 //             o(0xc0 + r + v * 8); /* mov v, r */
-            o(0xc0 + r + v * 8); /* mov v, r */
+            o(0xC0 + r + v * 8); /* mov v, r */
 //         }
         }
 //     }
@@ -567,7 +567,7 @@ print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
 //             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
             greloc(ri32(vtop+SValue_c_o), ind + 1, RELOC_REL32);
 //             oad(0xe8, 0);
-            oad(0xe8, 0);
+            oad(0xE8, 0);
 //         } else {
         } else {
 // // HACK ljw
