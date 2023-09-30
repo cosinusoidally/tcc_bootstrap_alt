@@ -407,5 +407,21 @@ function decode_Sym(sym){
 
 function urs(v,n){
 // refactoring unsigned right shift into a function
-  return v >>> n;
+//  return v >>> n;
+
+// refactoring into a form that doesn't rely on non-sign extending right
+// shifts since the mechanical C translation will only have signed int types.
+
+  if(n===0) {
+    return v;
+  }
+  var m=0x80000000;
+  var m2=0x40000000;
+  var t=v&m;
+  v=v & ~m;
+  v=v >> n;
+  if(t){
+    v=v | (m2 >> (n-1));
+  }
+  return v;
 }

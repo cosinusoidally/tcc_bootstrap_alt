@@ -786,7 +786,8 @@ print("sym_find1: "+v);
     var s;
 // 
 //     s = st->hash[HASH_SYM(v)];
-var h=HASH_SYM(v);
+    var h;
+    h=HASH_SYM(v);
 print("sym_find1 hash: "+h);
     s = ri32(st+SymStack_hash_o+(4*h));
 //     while (s) {
