@@ -4007,56 +4007,36 @@ err();
              next();
              continue;
          }
-//         while (1) { /* iterate thru each declaration */
          while (1) { /* iterate thru each declaration */
-//             t = type_decl(&v, b, TYPE_DIRECT);
             t = type_decl(v, b, TYPE_DIRECT);
-//             if (tok == '{') {
             if (tok === mk_char('{')) {
-//                 if (l == VT_LOCAL)
                 if (l === VT_LOCAL) {
-//                     error("cannot use local functions");
                     error("cannot use local functions");
                 }
-//                 if (!(t & VT_FUNC))
                 if (!(t & VT_FUNC)) {
-//                     expect("function definition");
                     expect("function definition");
                 }
-//                 /* patch forward references */
-//                 if ((sym = sym_find(v)) && (sym->t & VT_FORWARD)) {
+                /* patch forward references */
                 if ((sym = sym_find(ri32(v))) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
-//                     greloc_patch(sym, ind);
                     greloc_patch(sym, ind);
-//                     sym->t = VT_CONST | t;
                     wi32(sym+Sym_t_o, VT_CONST | t);
-//                 } else {
                 } else {
-//                     /* put function address */
-//                     sym_push1(&global_stack, v, VT_CONST | t, ind);
+                    /* put function address */
                     sym_push1(global_stack, ri32(v), VT_CONST | t, ind);
-//                 }
                 }
-//                 funcname = get_tok_str(v, NULL);
                 funcname = get_tok_str(ri32(v), NULL);
-print("funcname: "+mk_js_string(funcname));
-// hd(funcname,64);
-//                 /* push a dummy symbol to enable local sym storage */
-//                 sym_push1(&local_stack, 0, 0, 0);
+                print("funcname: "+mk_js_string(funcname)); /* dbg log */
+                /* push a dummy symbol to enable local sym storage */
                 sym_push1(local_stack, 0, 0, 0);
-//                 /* define parameters */
-//                 sym = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
+                /* define parameters */
                 sym = sym_find(urs(t, VT_STRUCT_SHIFT));
-//                 /* XXX: the following is x86 dependant -> move it to
-//                    x86 code gen */
-//                 addr = 8;
+                /* XXX: the following is x86 dependant -> move it to
+                   x86 code gen */
                 addr = 8;
-//                 /* if the function returns a structure, then add an
-//                    implicit pointer parameter */
-//                 func_vt = sym->t;
+                /* if the function returns a structure, then add an
+                   implicit pointer parameter */
                 func_vt = ri32(sym+Sym_t_o);
-print("func_vt: "+func_vt);
-//                 if ((func_vt & VT_BTYPE) == VT_STRUCT) {
+                print("func_vt: "+func_vt); /* dbg log */
                 if ((func_vt & VT_BTYPE) === VT_STRUCT) {
 err();
 //                     func_vc = addr;
