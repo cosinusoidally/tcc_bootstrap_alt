@@ -3727,7 +3727,7 @@ function decl_initializer(t, c, first, size_only) {
     var nb;
     var parlevel;
     var i;
-//     int t1, size1, align1;
+
     var t1;
     var size1;
     var align1=alloca(4);
@@ -3736,39 +3736,23 @@ function decl_initializer(t, c, first, size_only) {
     var f=alloca(4);
 //     TokenSym *ts;
     var ts=alloca(4);
-// 
-//     if (t & VT_ARRAY) {
+
     if (t & VT_ARRAY) {
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
         s = sym_find((urs(t, VT_STRUCT_SHIFT)));
-//         n = s->c;
         n = ri32(s+Sym_c_o);
-//         array_length = 0;
         array_length = 0;
-//         t1 = pointed_type(t);
         t1 = pointed_type(t);
-//         size1 = type_size(t1, &align1);
         size1 = type_size(t1, align1);
-// 
-//         no_oblock = 1;
+
         no_oblock = 1;
-//         if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
-//             tok == '{') {
         if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
             tok == mk_char('{')) {
-//             skip('{');
             skip(mk_char('{'));
-//             no_oblock = 0;
             no_oblock = 0;
-//         }
         }
-// 
-//         /* only parse strings here if correct type (otherwise: handle
-//            them as ((w)char *) expressions */
-//         if ((tok == TOK_LSTR && 
-//              (t1 & VT_BTYPE) == VT_INT) ||
-//             (tok == TOK_STR &&
-//              (t1 & VT_BTYPE) == VT_BYTE)) {
+
+        /* only parse strings here if correct type (otherwise: handle
+           them as ((w)char *) expressions */
         if ((tok == TOK_LSTR && 
              (t1 & VT_BTYPE) == VT_INT) ||
             (tok == TOK_STR &&
