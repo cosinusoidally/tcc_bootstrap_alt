@@ -2780,70 +2780,42 @@ function  type_decl(v, t, td) {
     /* recursive type */
     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
     if (tok === mk_char('(')) {
-//         next();
         next();
-//         u = type_decl(v, 0, td);
         u = type_decl(v, 0, td);
-//         skip(')');
         skip(mk_char(')'));
-//     } else {
     } else {
-//         u = 0;
         u = 0;
-//         /* type identifier */
-//         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+        /* type identifier */
         if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
-//             *v = tok;
             wi32(v, tok);
-//             next();
             next();
-//         } else {
          } else {
-//             if (!(td & TYPE_ABSTRACT))
             if (!(td & TYPE_ABSTRACT))
-//                 expect("identifier");
                 expect("identifier");
-//             *v = 0;
             wi32(v, 0);
-//         }
          }
-//     }
     }
-//     /* append t at the end of u */
-//     t = post_type(t);
-print("tok: "+tok+" t: "+t);
+
+    /* append t at the end of u */
+    print("tok: "+tok+" t: "+t); /* dbg log */
     t = post_type(t);
-//     if (!u) 
     if (!u) {
-//         return t;
         return leave(t);
     }
-//     p = u;
     p = u;
-//     while(1) {
     while(1) {
-//         s = sym_find((unsigned)p >> VT_STRUCT_SHIFT);
         s = sym_find(urs(p, VT_STRUCT_SHIFT));
-//         p = s->t;
         p = ri32(s+Sym_t_o);
-//         if (!p) {
         if (!p) {
-//             s->t = t;
             wi32(s+Sym_t_o, t);
-//             break;
             break;
-//         }
         }
-//     }
     }
-//     return u;
     return leave(u);
-// }
 }
-// 
-// /* define a new external reference to a function 'v' of type 'u' */
+
+/* define a new external reference to a function 'v' of type 'u' */
 // Sym *external_sym(int v, int u)
-// {
 function external_sym(v, u) {
 //     Sym *s;
     var s;
