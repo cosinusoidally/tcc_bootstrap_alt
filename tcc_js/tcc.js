@@ -837,72 +837,44 @@ function handle_eof() {
 /* read next char from current input file */
 // static inline void inp(void)
 function inp(){
-//     int redo=1;
     var redo=1;
-//     while(redo){
     while(redo){
-//         redo=0;
         redo=0;
-//         /* faster than fgetc */
-//         ch1 = getc_unlocked(file);
+        /* faster than fgetc */
         ch1 = getc_unlocked(file);
-//         if (ch1 == -1) {
         if (ch1 == -1) {
-//             if (handle_eof() < 0)
             if (handle_eof() < 0)
-//                 return;
                 return;
-//             else
             else
-//                 redo=1;
                 redo=1;
-//         }
         }
-//     }
     }
 //     printf("%c",ch1);
-    print(String.fromCharCode(ch1));
-//     if (ch1 == '\n')
+    print(String.fromCharCode(ch1)); /* dbg log */
     if (ch1 === mk_char('\n')){
-//         line_num++;
         line_num=line_num+1;
     }
-//     //    printf("ch1=%c 0x%x\n", ch1, ch1);
-// }
+    //    printf("ch1=%c 0x%x\n", ch1, ch1);
 }
-// 
-// /* input with '\\n' handling */
+
+/* input with '\\n' handling */
 // static inline void minp(void)
-// {
 function minp() {
-//     int redo=1;
     var redo=1;
-//     while(redo){
     while(redo){
-//         redo=0;
         redo=0;
-//         ch = ch1;
         ch = ch1;
-//         inp();
         inp();
-//         if (ch == '\\' && ch1 == '\n') {
         if (ch == mk_char('\\') && ch1 == mk_char('\n')) {
-//             inp();
             inp();
-//             redo=1;
             redo=1;
-//         }
         }
-//     }
     }
-//     //printf("ch=%c 0x%x\n", ch, ch);
-// }
+    //printf("ch=%c 0x%x\n", ch, ch);
 }
-// 
-// 
-// /* same as minp, but also skip comments */
+
+/* same as minp, but also skip comments */
 // void cinp(void)
-// {
 function cinp() {
     var c;
 
@@ -928,14 +900,13 @@ function cinp() {
             }
             }
         } else {
-//             ch = '/';
             ch = mk_char('/');
         }
     } else {
         minp();
     }
 }
-// 
+
 // void skip_spaces(void)
 // {
 function skip_spaces() {
