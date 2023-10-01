@@ -559,71 +559,45 @@ function tok_alloc(str, len) {
     print("pts: "+to_hex(pts));
     while (1) {
         ts = ri32(ri32(pts));
-print("ts: "+ts);
-//         if (!ts)
+        print("ts: "+ts); /* debug logging */
         if (!ts) {
-//             break;
             break;
         };
-//         if (ts->len == len && !memcmp(ts->str, str, len))
-print("len: "+len+" ts-table_ident:"+(ts-table_ident));
+        print("len: "+len+" ts-table_ident:"+(ts-table_ident)); /* dbg log */
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
-//             return ts;
             return leave(ts);
         }
-//         pts = &(ts->hash_next);
         wi32(pts, ts+TokenSym_hash_next_o);
-//     }
     }
-// 
-//     if (tok_ident >= SYM_FIRST_ANOM) 
+
     if (tok_ident >= SYM_FIRST_ANOM) {
-//         error("memory full");
         error("memory full");
     };
-// 
-//     /* expand token table if needed */
-//     i = tok_ident - TOK_IDENT;
+
+    /* expand token table if needed */
     i = tok_ident - TOK_IDENT;
-//     if ((i % TOK_ALLOC_INCR) == 0) {
     if ((i % TOK_ALLOC_INCR) == 0) {
-//         ptable = realloc(table_ident, (i + TOK_ALLOC_INCR) * sizeof(TokenSym *));
         wi32(ptable, realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
-//         if (!ptable)
         if (!ptable) {
-//             error("memory full");
             error("memory full");
         };
-//         table_ident = ptable;
         table_ident = ri32(ptable);
-//     }
     }
-// 
-//     ts = malloc(sizeof(TokenSym) + len);
+
     ts = malloc(TokenSym_size + len);
-//     if (!ts)
      if (!ts) {
-//         error("memory full");
          error("memory full");
      };
-//     table_ident[i] = ts;
     wi32(table_ident+(i*4), ts);
-//     ts->tok = tok_ident++;
     wi32(ts+TokenSym_tok_o , tok_ident);
     tok_ident=tok_ident+1;
-//     ts->len = len;
     wi32(ts+TokenSym_len_o, len);
-//     ts->hash_next = NULL;
     wi32(ts+TokenSym_hash_next_o,0);
-//     memcpy(ts->str, str, len + 1);
     memcpy(ts+TokenSym_str_o, str, len + 1);
-//     *pts = ts;
     wi32(ri32(pts),ts);
-//     return ts;
     return leave(ts);
-// }
 }
-// 
+
 // void add_char(char **pp, int c)
 // {
 //     char *p;
