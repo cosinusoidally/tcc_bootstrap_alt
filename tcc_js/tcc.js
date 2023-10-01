@@ -3530,75 +3530,41 @@ err();
         gsym_addr(ri32(b), ri32(c));
         /* break label */
         gsym(ri32(a));
-//     } else
-//     if (tok == TOK_CASE) {
     } else if (tok == TOK_CASE) {
-//         next();
         next();
-//         a = expr_const();
         a = expr_const();
-//         if (!case_sym)
         if (!case_sym)
-//             expect("switch");
             expect("switch");
-//         /* since a case is like a label, we must skip it with a jmp */
         /* since a case is like a label, we must skip it with a jmp */
-//         b = gjmp(0);
         b = gjmp(0);
-//         gsym(*case_sym);
         gsym(ri32(case_sym));
-//         vset(case_reg, 0);
         vset(case_reg, 0);
-//         vset(VT_CONST, a);
         vset(VT_CONST, a);
-//         gen_op(TOK_EQ);
         gen_op(TOK_EQ);
-//         *case_sym = gtst(1, 0);
         wi32(case_sym, gtst(1, 0));
-//         gsym(b);
         gsym(b);
-//         skip(':');
         skip(mk_char(':'));
-//         block(bsym, csym, case_sym, def_sym, case_reg);
         block(bsym, csym, case_sym, def_sym, case_reg);
-//     } else 
-//     if (tok == TOK_DEFAULT) {
     } else if (tok == TOK_DEFAULT) {
-//         next();
         next();
-//         skip(':');
         skip(mk_char(':'));
-//         if (!def_sym)
         if (!def_sym)
-//             expect("switch");
             expect("switch");
-//         if (*def_sym)
         if (ri32(def_sym))
-//             error("too many 'default'");
             error("too many 'default'");
-//         *def_sym = ind;
         wi32(def_sym, ind);
-//         block(bsym, csym, case_sym, def_sym, case_reg);
         block(bsym, csym, case_sym, def_sym, case_reg);
-//     } else {
     } else {
-//         /* expression case */
-//         if (tok != ';') {
+        /* expression case */
         if (tok !== mk_char(';')) {
-//             gexpr();
             gexpr();
-//             vpop();
             vpop();
-//         }
         }
-//         skip(';');
         skip(mk_char(';'));
-//     }
     }
-// }
     leave();
 }
-// 
+
 // /* t is the array or struct type. c is the array or struct
 //    address. cur_index/cur_field is the pointer to the current
 //    value. 'size_only' is true if only size info is needed (only used
