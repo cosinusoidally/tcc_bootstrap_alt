@@ -68,8 +68,8 @@ var SValue_t_o=0;
 //     CValue c;
 var SValue_c_o=4;
 // } SValue;
-// 
-// /* symbol management */
+
+/* symbol management */
 // typedef struct Sym {
 //     int v;    /* symbol token */
 var Sym_v_o=0;
@@ -84,15 +84,15 @@ var Sym_prev_o=16;
 //     struct Sym *hash_next; /* next symbol in hash table */
 var Sym_hash_next_o=20;
 // } Sym;
-// 
+
 // typedef struct SymStack {
 //   struct Sym *top;
 var SymStack_top_o=0;
 //   struct Sym *hash[SYM_HASH_SIZE];
 var SymStack_hash_o=4;
 // } SymStack;
-// 
-// /* relocation entry (currently only used for functions or variables */
+
+/* relocation entry (currently only used for functions or variables */
 // typedef struct Reloc {
 //     int type;            /* type of relocation */
 var Reloc_type_o=0;
@@ -101,12 +101,10 @@ var Reloc_addr_o=4;
 //     struct Reloc *next;  /* next relocation */
 var Reloc_next_o=8;
 // } Reloc;
-// 
-// #define RELOC_ADDR32 1  /* 32 bits relocation */
-var RELOC_ADDR32 = 1;
-// #define RELOC_REL32  2  /* 32 bits relative relocation */
-var RELOC_REL32 = 2;
-// 
+
+var RELOC_ADDR32 = 1; /* 32 bits relocation */
+var RELOC_REL32 = 2;  /* 32 bits relative relocation */
+
 // 
 // #define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */
 // #define SYM_FIELD      0x20000000 /* struct/union field symbol space */
