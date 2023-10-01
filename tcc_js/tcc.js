@@ -136,38 +136,38 @@ var special=0;
 var file;
 var line_num=0;
 
-// int ch, ch1, tok, tok1;
 var ch;
 var ch1;
 var tok;
 var tok1;
+
 // CValue tokc, tok1c;
 var tokc=malloc(CValue_size);
 var tok1c=malloc(CValue_size);
-// 
-// /* loc : local variable index
-//    glo : global variable index
-//    ind : output code ptr
-//    rsym: return symbol
-//    prog: output code
-//    anon_sym: anonymous symbol index
-// */
-// int rsym, anon_sym,
+
+/* loc : local variable index
+   glo : global variable index
+   ind : output code ptr
+   rsym: return symbol
+   prog: output code
+   anon_sym: anonymous symbol index
+*/
 var rsym;
 var anon_sym;
-//     prog, ind, loc, glo, const_wanted, glo_base;
+
 var prog;
 var ind;
 var loc;
 var glo;
 var glo_base;
 var const_wanted=0;
-// int global_expr; /* true if compound literals must be allocated
-//                     globally (used during initializers parsing */
-var global_expr=0;
-//                     globally (used during initializers parsing */
-// int func_vt, func_vc; /* current function return type (used by
-//                          return instruction) */
+var global_expr=0;  /* true if compound literals must be allocated
+                       globally (used during initializers parsing */
+
+/* current function return type (used by return instruction) */
+var func_vt;
+var func_vc;
+
 // int tok_ident;
 var tok_ident;
 // TokenSym **table_ident;
