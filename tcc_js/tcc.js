@@ -1720,7 +1720,6 @@ function vswap() {
     enter();
 //     SValue tmp;
     var tmp=alloca(SValue_size);
-// 
 //     tmp = vtop[0];
     memcpy(tmp, vtop,SValue_size);
 //     vtop[0] = vtop[-1];
@@ -1728,27 +1727,20 @@ function vswap() {
 //     vtop[-1] = tmp;
     memcpy(vtop-SValue_size, tmp, SValue_size);
     leave();
-// }
 }
-// 
+
 // void vdup(void)
-// {
 function vdup() {
-//     if (vtop >= vstack + VSTACK_SIZE)
     if (vtop >= vstack + VSTACK_SIZE)
-//         error("memory full");
         error("memory full");
 //     vtop++;
     vtop=vtop+SValue_size;
 //     *vtop = vtop[-1];
     memcpy(vtop, vtop-SValue_size,SValue_size);
-// }
 }
-// 
+
 // int save_reg_forced(int r)
-// {
 function save_reg_forced(r) {
-//     int i, l, t;
     var i;
     var l;
     var t;
@@ -1775,10 +1767,9 @@ function save_reg_forced(r) {
     }
     return l;
 }
-// 
-// /* save r to memory. and mark it as being free */
+
+/* save r to memory. and mark it as being free */
 // void save_reg(int r)
-// {
 function save_reg(r) {
     var i;
     var p;
@@ -1792,21 +1783,18 @@ function save_reg(r) {
         }
     }
 }
-// 
-// /* find a free register of class 'rc'. If none, save one register */
+
+/* find a free register of class 'rc'. If none, save one register */
 // int get_reg(int rc)
-// {
 function get_reg(rc) {
     enter();
-//     int r, i;
     var r;
     var i;
-//     int notfound;
     var notfound;
 //     SValue *p;
     var p=alloca(SValue_size);
-// 
-//     /* find a free register */
+
+    /* find a free register */
 //     for(r=0;r<NB_REGS;r++) {
     for(r=0;r<NB_REGS;r=r+1) {
 //         notfound=0;
