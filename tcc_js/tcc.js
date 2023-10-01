@@ -2819,49 +2819,32 @@ function  type_decl(v, t, td) {
 function external_sym(v, u) {
 //     Sym *s;
     var s;
-//     s = sym_find(v);
     s = sym_find(v);
-//     if (!s) {
     if (!s) {
-//         /* push forward reference */
-//         s = sym_push1(&global_stack, 
-//                       v, u | VT_CONST | VT_FORWARD, 0);
+        /* push forward reference */
         s = sym_push1(global_stack, 
                       v, u | VT_CONST | VT_FORWARD, 0);
-//     }
     }
-//     return s;
     return s;
-// }
 }
-// 
+
 // void indir(void)
-// {
 function indir() {
-//     if (vtop->t & VT_LVAL)
     if (ri32(vtop+SValue_t_o) & VT_LVAL) {
-//         gv();
         gv();
     }
-//     if ((vtop->t & VT_BTYPE) != VT_PTR)
     if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_PTR) {
 err();
 //         expect("pointer");
-        expect("pointer");
-}
-//     vtop->t = pointed_type(vtop->t);
+    }
     wi32(vtop+SValue_t_o,pointed_type(ri32(vtop+SValue_t_o)));
-//     if (!(vtop->t & VT_ARRAY)) /* an array is never an lvalue */
-    if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
-//         vtop->t |= VT_LVAL;
+    if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) { /* an array is never an lvalue */
         wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
     }
-// }
 }
-// 
-// /* pass a parameter to a function and do type checking and casting */
+
+/* pass a parameter to a function and do type checking and casting */
 // void gfunc_param_typed(GFuncContext *gf, Sym *func, Sym *arg)
-// {
 function gfunc_param_typed(gf, func, arg) {
 //     int func_type;
     var func_type;
