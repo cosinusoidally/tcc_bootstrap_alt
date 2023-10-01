@@ -1066,6 +1066,7 @@ err();
 //         if (s)
 //             sym_undef(&define_stack, s);
     } else if (tok == TOK_INCLUDE) {
+// FIXME ljw TOK_INCLUDE handling current has some porting bugs
         skip_spaces();
         if ((ch == mk_char('<')) || (ch == mk_char('\"'))) {
             c = mk_char('>');
@@ -1089,45 +1090,29 @@ err();
 //             strcpy(buf, get_tok_str(tok, &tokc));
 //             c = '\"';
         }
-//         /* eat all spaces and comments after include */
-//         /* XXX: slightly incorrect */
-//         while (ch1 != '\n' && ch1 != -1)
+        /* eat all spaces and comments after include */
+        /* XXX: slightly incorrect */
         while (ch1 != mk_char('\n') && ch1 != -1)
-//             inp();
             inp();
-// 
-//         if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
+
         if (include_stack_ptr >= include_stack + INCLUDE_STACK_SIZE)
-//             error("memory full");
             error("memory full");
-//         if (c == '\"') {
         if (c == mk_char('\"')) {
-//             /* first search in current dir if "header.h" */
-//             /* XXX: buffer overflow */
-//             size = 0;
+            /* first search in current dir if "header.h" */
+            /* XXX: buffer overflow */
             size = 0;
-//             p = strrchr(filename, '/');
             p = strrchr(filename, mk_char('/'));
-//             if (p) 
             if (p) 
-//                 size = p + 1 - filename;
                 size = p + 1 - filename;
-//             memcpy(buf1, filename, size);
             memcpy(buf1, filename, size);
-//             buf1[size] = '\0';
             wi8(buf1+size, 0);
-//             strcat(buf1, buf);
             strcat(buf1, buf);
-print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf));
-//             f = fopen(buf1, "r");
+            print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf)); /* dbg log */
             f = fopen(buf1, mk_c_string("r"));
-//             if (f)
             if (f)
-//                 found=1;
                 found=1;
-//         }
         }
-//         /* now search in standard include path */
+        /* now search in standard include path */
 //         if(!found){
         if(!found){
 //             for(i=nb_include_paths - 1;i>=0;i--) {
