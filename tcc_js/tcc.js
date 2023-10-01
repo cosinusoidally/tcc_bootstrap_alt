@@ -1585,8 +1585,8 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
              break;
          }
          if ((s = sym_find1(define_stack, tok)) !== NULL) {
-//             /* if symbol is a macro, prepare substitution */
-//             /* if nested substitution, do nothing */
+            /* if symbol is a macro, prepare substitution */
+            /* if nested substitution, do nothing */
             if (sym_find2(ri32(nested_list), tok)) {
 err();
 //                 no_subst=1;
@@ -1598,7 +1598,7 @@ err();
                 mstr_allocated = 0;
                 sym_push2(nested_list, ri32(s+Sym_v_o), 0, 0);
                 macro_subst(tok_str, tok_len, nested_list, mstr);
-//                 /* pop nested defined symbol */
+                /* pop nested defined symbol */
                 sa1 = ri32(nested_list);
                 wi32(nested_list, ri32(sa1+Sym_prev_o));
                 free(sa1);
@@ -1609,12 +1609,12 @@ err();
              no_subst=1;
          }
          if (no_subst) {
-//             /* no need to add if reading input stream */
+            /* no need to add if reading input stream */
              if (!macro_str) 
                  return leave();
              tok_add2(tok_str, tok_len, tok, tokc);
          }
-//         /* only replace one macro while parsing input stream */
+        /* only replace one macro while parsing input stream */
          if (!macro_str)
              return leave();
      }
@@ -1622,13 +1622,11 @@ err();
 // FIXME ljw should free
 //     if (macro_str1)
 //         free(macro_str1);
-// }
     leave();
 }
-// 
-// /* return next token with macro substitution */
+
+/* return next token with macro substitution */
 // void next(void)
-// {
 function next() {
     enter();
 //     int len, *ptr;
