@@ -4,49 +4,36 @@ load("metadata.js");
 
 var NULL=0;
 
-// /*
-//  *  TCC - Tiny C Compiler
-//  * 
-//  *  Copyright (c) 2001 Fabrice Bellard
-//  *
-//  *  This program is free software; you can redistribute it and/or modify
-//  *  it under the terms of the GNU General Public License as published by
-//  *  the Free Software Foundation; either version 2 of the License, or
-//  *  (at your option) any later version.
-//  *
-//  *  This program is distributed in the hope that it will be useful,
-//  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  *  GNU General Public License for more details.
-//  *
-//  *  You should have received a copy of the GNU General Public License
-//  *  along with this program; if not, write to the Free Software
-//  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//  */
-// 
-// #include <tcclib.h>
-// 
-// /* these sizes are dummy for unix, because malloc() does not use
-//    memory when the pages are not used */
-// #define TEXT_SIZE           (256*1024)
+/*
+ *  TCC - Tiny C Compiler
+ * 
+ *  Copyright (c) 2001 Fabrice Bellard
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
 var TEXT_SIZE = (256*1024);
-// #define DATA_SIZE           (256*1024)
 var DATA_SIZE = (256*1024);
-// 
-// #define INCLUDE_STACK_SIZE  32
+
 var INCLUDE_STACK_SIZE = 32;
-// #define IFDEF_STACK_SIZE    64
-// #define VSTACK_SIZE         64
 var VSTACK_SIZE = 64;
-// #define STRING_MAX_SIZE     1024
 var STRING_MAX_SIZE = 1024;
-// #define INCLUDE_PATHS_MAX   32
 var INCLUDE_PATHS_MAX = 32;
-// 
-// #define TOK_HASH_SIZE       521
+
 var TOK_HASH_SIZE = 521;
-// #define TOK_ALLOC_INCR      256 /* must be a power of two */
-var TOK_ALLOC_INCR = 256;
+var TOK_ALLOC_INCR = 256;  /* must be a power of two */
 // #define SYM_HASH_SIZE       263
 var SYM_HASH_SIZE = 263;
 // 
