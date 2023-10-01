@@ -3483,34 +3483,19 @@ err();
             wi32(a, gtst(1, 0));
         }
         skip(mk_char(';'));
-//         if (tok != ')') {
         if (tok != ')') {
-//             e = gjmp(0);
             e = gjmp(0);
-//             c = ind;
             c = ind;
-//             gexpr();
             gexpr();
-//             vpop();
             vpop();
-//             oad(0xe9, d - ind - 5); /* jmp */
             oad(0xE9, d - ind - 5); /* jmp */
             gsym(e);
-//             gsym(e);
-//         }
         }
-//         skip(')');
         skip(mk_char(')'));
-//         block(&a, &b, case_sym, def_sym, case_reg);
         block(a, b, case_sym, def_sym, case_reg);
-//         oad(0xe9, c - ind - 5); /* jmp */
         oad(0xE9, c - ind - 5); /* jmp */
-//         gsym(a);
         gsym(ri32(a));
-//         gsym_addr(b, c);
         gsym_addr(ri32(b), c);
-//     } else 
-//     if (tok == TOK_DO) {
     } else if (tok == TOK_DO) {
 err();
 //         next();
@@ -3527,8 +3512,6 @@ err();
 //         skip(')');
 //         gsym(a);
 //         skip(';');
-//     } else
-//     if (tok == TOK_SWITCH) {
     } else if (tok == TOK_SWITCH) {
         next();
         skip(mk_char('('));
