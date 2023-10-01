@@ -2708,14 +2708,11 @@ err();
             }
             if(foo){break;}
             /* array must be transformed to pointer according to ANSI C */
-//             pt &= ~VT_ARRAY;
-            pt &= ~VT_ARRAY;
-//             s = sym_push(n | SYM_FIELD, pt, 0);
+            pt = pt & ~VT_ARRAY;
             s = sym_push(ri32(n) | SYM_FIELD, pt, 0);
-//             *plast = s;
             wi32(ri32(plast), s);
-//             plast = &s->next;
 // FIXME ljw is this right?
+//             plast = &s->next;
             wi32(plast, s+Sym_next_o);
 //             if (tok == ',') {
             if (tok == mk_char(',')) {
