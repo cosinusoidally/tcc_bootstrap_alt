@@ -4041,54 +4041,31 @@ err();
 err();
 //                     func_vc = addr;
 //                     addr += 4;
-//                 }
                 }
-//                 while (sym = sym->next) {
                 while (sym = ri32(sym+Sym_next_o)) {
-//                     u = sym->t;
                     u = ri32(sym+Sym_t_o);
-//                     sym_push(sym->v & ~SYM_FIELD, 
-//                              u | VT_LOCAL | VT_LVAL, 
-//                              addr);
                     sym_push(ri32(sym+Sym_v_o) & ~SYM_FIELD, 
                              u | VT_LOCAL | VT_LVAL, 
                              addr);
-//                     size = type_size(u, &align);
                     size = type_size(u, align);
-//                     size = (size + 3) & ~3;
                     size = (size + 3) & ~3;
-//                     addr += size;
                     addr = addr + size;
-//                 }
                 }
-//                 loc = 0;
                 loc = 0;
-//                 o(0xE58955); /* push   %ebp, mov    %esp, %ebp */
                 o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
-//                 a = (int *)oad(0xec81, 0); /* sub $xxx, %esp */
                 a = oad(0xEC81, 0);
-//                 rsym = 0;
                 rsym = 0;
-//                 block(NULL, NULL, NULL, NULL, 0);
                 block(NULL, NULL, NULL, NULL, 0);
-//                 gsym(rsym);
                 gsym(rsym);
-//                 o(0xc3c9); /* leave, ret */
                 o(0xC3C9); /* leave, ret */
-//                 *a = (-loc + 3) & -4; /* align local size to word & 
-//                                          save local variables */
-                wi32(a, (-loc + 3) & -4);
-// FIXME ljw not needed
+                wi32(a, (-loc + 3) & -4);  /* align local size to word &
+                                              save local variables */
+// FIXME ljw not needed (reset label stack)
 //                 sym_pop(&label_stack, NULL); /* reset label stack */
-//                 sym_pop(&local_stack, NULL); /* reset local stack */
                 sym_pop(local_stack, NULL);
-//                 funcname = ""; /* for safety */
-                funcname = mk_c_string("");
-//                 func_vt = VT_VOID; /* for safety */
-                func_vt = VT_VOID;
-//                 break;
+                funcname = mk_c_string(""); /* for safety */
+                func_vt = VT_VOID; /* for safety */
                 break;
-//             } else {
             } else {
 //                 if (b & VT_TYPEDEF) {
                 if (b & VT_TYPEDEF) {
