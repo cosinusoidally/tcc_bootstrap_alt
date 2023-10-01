@@ -551,7 +551,7 @@ function tok_alloc(str, len) {
 
     // FIXME ljw this is verbose debug output
     print("h: "+h);
-    if(h===28){
+    if(h==28){
       print("int?");
     };
     print("hash_ident: "+to_hex(hash_ident));
@@ -635,12 +635,12 @@ function get_tok_str(v, cv) {
     var i;
 
     print("v: "+v); /* dbg log */
-    if (v === TOK_NUM) {
+    if (v == TOK_NUM) {
 err();
 //         sprintf(buf, "%u", cv->ui);
 //         return buf;
 //     } else if (v == TOK_CCHAR || v == TOK_LCHAR) {
-    } else if (v === TOK_CCHAR || v === TOK_LCHAR) {
+    } else if (v == TOK_CCHAR || v == TOK_LCHAR) {
 err();
 //         p = buf;
 //         *p++ = '\'';
@@ -649,7 +649,7 @@ err();
 //         *p = '\0';
 //         return buf;
 //     } else if (v == TOK_STR || v == TOK_LSTR) {
-    } else if (v === TOK_STR || v === TOK_LSTR) {
+    } else if (v == TOK_STR || v == TOK_LSTR) {
 err();
 //         ts = cv->ts;
 //         p = buf;
@@ -734,7 +734,7 @@ function sym_find1(st, v) {
     s = ri32(st+SymStack_hash_o+(4*h));
     print("s: "+s); /* dbg log */
      while (s) {
-         if (ri32(s+Sym_v_o) === v) {
+         if (ri32(s+Sym_v_o) == v) {
              return s;
          }
          s = ri32(s+Sym_hash_next_o);
@@ -851,7 +851,7 @@ function inp(){
     }
 //     printf("%c",ch1);
     print(String.fromCharCode(ch1)); /* dbg log */
-    if (ch1 === mk_char('\n')){
+    if (ch1 == mk_char('\n')){
         line_num=line_num+1;
     }
     //    printf("ch1=%c 0x%x\n", ch1, ch1);
@@ -1244,7 +1244,7 @@ function parse_number() {
     wi8(q, t);
     q=q+1;
     b = 10;
-    if (t === mk_char('.')) {
+    if (t == mk_char('.')) {
         /* special dot handling */
         if (ch == mk_char('.')) {
             cinp();
@@ -1257,7 +1257,7 @@ function parse_number() {
             tok = t;
         }
         return;
-    } else if (t === mk_char('0')) {
+    } else if (t == mk_char('0')) {
         if (ch == mk_char('x') || ch == mk_char('X')) {
             q=q-1;
             cinp();
@@ -1292,7 +1292,7 @@ err();
     /* integer number */
     wi8(q, mk_char('\0'));
     q = token_buf;
-    if (b === 10 && ri8(q) === mk_char('0')) {
+    if (b == 10 && ri8(q) == mk_char('0')) {
         b = 8;
         q=q+1;
     }
@@ -1301,7 +1301,7 @@ err();
         t = ri8(q);
         q=q+1;
         /* no need for checks except for base 10 / 8 errors */
-        if (t === mk_char('\0')) {
+        if (t == mk_char('\0')) {
             break;
         } else if (t >= mk_char('a')) {
             t = t - mk_char('a') + 10;
@@ -1324,7 +1324,7 @@ err();
     wi32(tokc, n);
     tok = TOK_NUM;
     /* XXX: add unsigned constant support (ANSI) */
-    while (ch === mk_char('L') || ch === mk_char('l') || ch === mk_char('U') || ch === mk_char('u'))
+    while (ch == mk_char('L') || ch == mk_char('l') || ch == mk_char('U') || ch == mk_char('u'))
         cinp();
 }
 
@@ -1406,7 +1406,7 @@ function next_nomacro1() {
         tok = ch;
         cinp();
         while (ri8(q)) {
-            if (ri8(q) === tok && ri8(q+1) === ch) {
+            if (ri8(q) == tok && ri8(q+1) == ch) {
                 cinp();
                 tok = ri8(q+2) & 0xFF;
                 /* three chars tests */
@@ -1426,7 +1426,7 @@ err();
             q = q + 3;
         }
         /* single char substitutions */
-        if (tok === mk_char('<')){
+        if (tok == mk_char('<')){
             tok = TOK_LT;
         } else if (tok == mk_char('>')) {
             tok = TOK_GT;
@@ -1658,7 +1658,7 @@ err();
                 redo=1;
                 continue;
              }
-             if (tok === 0) {
+             if (tok == 0) {
                  redo=1;
                  continue;
               }
@@ -2668,7 +2668,7 @@ function post_type(t) {
 
 // FIXME ljw there is some bug that I have introduced that causes function
 // declarations of the form int foo(a,b) to not parse correctly
-    if (tok === mk_char('(')) {
+    if (tok == mk_char('(')) {
         /* function declaration */
         next();
         l = 0;
@@ -2692,7 +2692,7 @@ err();
                     }
                 }
                 l = FUNC_NEW;
-                if ((pt & VT_BTYPE) === VT_VOID && tok === mk_char(')')) {
+                if ((pt & VT_BTYPE) == VT_VOID && tok == mk_char(')')) {
                     foo=1;
                     break;
                 }
@@ -2724,7 +2724,7 @@ err();
             }
         }
         /* if no parameters, then old type prototype */
-        if (l === 0) {
+        if (l == 0) {
             l = FUNC_OLD;
         }
         skip(mk_char(')'));
@@ -2736,7 +2736,7 @@ err();
         s = sym_push(p, t, l);
         wi32(s+Sym_next_o , ri32(first));
         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
-    } else if (tok === mk_char('[')) {
+    } else if (tok == mk_char('[')) {
         /* array definition */
         next();
         n = -1;
@@ -2779,7 +2779,7 @@ function  type_decl(v, t, td) {
     }
     /* recursive type */
     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
-    if (tok === mk_char('(')) {
+    if (tok == mk_char('(')) {
         next();
         u = type_decl(v, 0, td);
         skip(mk_char(')'));
@@ -3204,7 +3204,7 @@ function uneq() {
 function sum(l) {
     var t;
 
-    if (l === 0) {
+    if (l == 0) {
         uneq();
     } else {
 //         sum(--l);
@@ -3295,7 +3295,7 @@ err();
         }
     } else {
         eor();
-        if (tok === mk_char('?')) {
+        if (tok == mk_char('?')) {
 err();
 //             next();
 //             t = gtst(1, 0);
@@ -3988,7 +3988,7 @@ function decl(l) {
          if (!b) {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */
-            if (tok === mk_char(';')) {
+            if (tok == mk_char(';')) {
                 next();
                 continue;
             }
@@ -4002,15 +4002,15 @@ err();
          }
          if (((b & VT_BTYPE) == VT_ENUM ||
               (b & VT_BTYPE) == VT_STRUCT) &&
-             tok === mk_char(';')) {
+             tok == mk_char(';')) {
             /* we accept no variable after */
              next();
              continue;
          }
          while (1) { /* iterate thru each declaration */
             t = type_decl(v, b, TYPE_DIRECT);
-            if (tok === mk_char('{')) {
-                if (l === VT_LOCAL) {
+            if (tok == mk_char('{')) {
+                if (l == VT_LOCAL) {
                     error("cannot use local functions");
                 }
                 if (!(t & VT_FUNC)) {
@@ -4037,7 +4037,7 @@ err();
                    implicit pointer parameter */
                 func_vt = ri32(sym+Sym_t_o);
                 print("func_vt: "+func_vt); /* dbg log */
-                if ((func_vt & VT_BTYPE) === VT_STRUCT) {
+                if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 err();
 //                     func_vc = addr;
 //                     addr += 4;
@@ -4087,7 +4087,7 @@ err();
                         if (t & VT_STATIC)
                             u = VT_CONST;
                         u = u | t;
-                        has_init = (tok === mk_char('='));
+                        has_init = (tok == mk_char('='));
                         if (has_init)
                             next();
                         addr = decl_initializer_alloc(u, has_init);
@@ -4417,20 +4417,20 @@ err();
              break;
          }
          optind=optind+1;
-         if (ri8(r+1) === mk_char('I')) {
+         if (ri8(r+1) == mk_char('I')) {
 err();
 //             if (nb_include_paths >= INCLUDE_PATHS_MAX)
 //                 error("too many include paths");
 //             include_paths[nb_include_paths++] = r + 2;
-         } else if (ri8(r+1) === mk_char('D')) {
+         } else if (ri8(r+1) == mk_char('D')) {
 err();
 //             define_symbol(r + 2);
-         } else if (ri8(r+1) === mk_char('i')) {
+         } else if (ri8(r+1) == mk_char('i')) {
 err();
 //             if (optind >= argc)
 //                 return show_help();
 //             tcc_compile_file(argv[optind++]);
-         } else if (ri8(r+1) === mk_char('r')) {
+         } else if (ri8(r+1) == mk_char('r')) {
              reloc=1;
          } else if (ri8(r+1) == mk_char('R')) {
 err();
