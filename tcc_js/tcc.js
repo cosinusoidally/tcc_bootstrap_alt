@@ -217,23 +217,20 @@ var tcc_ext = 1;
 var reloc=0;
 // int reloc_global=0;
 var reloc_global=0;
-// 
-// int relocs;
+
 var relocs;
-// int relocs_base;
 var relocs_base;
-// 
-// int global_relocs;
+
 var global_relocs;
-// int global_relocs_base;
 var global_relocs_base;
-// 
-// int global_relocs_table;
+
 var global_relocs_table;
-// int global_relocs_table_base;
 var global_relocs_table_base;
-// 
-// /* The current value can be: */
+
+
+// FIXME ljw it's tempting to clean up these VT* and TOK* defines/enums but
+// I think it is worth keeping them as they contain useful documentation
+/* The current value can be: */
 // #define VT_VALMASK 0x000f
 var VT_VALMASK = 0x000F;
 // #define VT_CONST   0x000a  /* constant in vc 
