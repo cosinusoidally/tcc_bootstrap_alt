@@ -3318,61 +3318,38 @@ err();
 
 // void gexpr(void)
 function gexpr() {
-//     while (1) {
     while (1) {
-//         expr_eq();
         expr_eq();
-//         if (tok != ',')
         if (tok !== mk_char(','))
-//             break;
             break;
-//         vpop();
         vpop();
-//         next();
         next();
-//     }
     }
-// }
 }
-// 
-// /* parse a constant expression and return value in vtop */
+
+/* parse a constant expression and return value in vtop */
 // void expr_const1(void)
-// {
 function expr_const1() {
-//     int a;
     var a;
-//     a = const_wanted;
     a = const_wanted;
-//     const_wanted = 1;
     const_wanted = 1;
-//     expr_eq();
     expr_eq();
-//     if ((vtop->t & (VT_CONST | VT_LVAL)) != VT_CONST)
     if ((ri32(vtop+SValue_t_o) & (VT_CONST | VT_LVAL)) != VT_CONST)
-//         expect("constant");
         expect("constant");
-//     const_wanted = a;
     const_wanted = a;
-// }
 }
-// 
-// /* parse an integer constant and return its value */
+
+/* parse an integer constant and return its value */
 // int expr_const(void)
-// {
 function expr_const() {
-//     int c;
     var c;
-//     expr_const1();
     expr_const1();
 //     c = vtop->c.i;
     c = ri32(vtop+SValue_c_o);
-//     vpop();
     vpop();
-//     return c;
     return c;
-// }
 }
-// 
+
 // /* return the label token if current token is a label, otherwise
 //    return zero */
 // int is_label(void)
