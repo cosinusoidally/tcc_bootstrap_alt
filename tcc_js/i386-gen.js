@@ -75,23 +75,16 @@ function gen_le32(c) {
 function greloc(s, addr, type) {
 //     Reloc *p;
     var p;
-//     p = malloc(sizeof(Reloc));
     p = malloc(Reloc_size);
-//     if (!p)
     if (!p)
-//         error("memory full");
         error("memory full");
-//     p->type = type;
     wi32(p+Reloc_type_o, type);
-//     p->addr = addr;
     wi32(p+Reloc_addr_o, addr);
 //     p->next = (Reloc *)s->c;
     wi32(p+Reloc_next_o, ri32(s+Sym_c_o));
-//     s->c = (int)p;
     wi32(s+Sym_c_o, p);
-// }
 }
-// 
+
 // int is_prog(int a){
 function is_prog(a){
 // FIXME ljw is unsigned needed?
@@ -101,7 +94,7 @@ function is_prog(a){
   }
   return 0;
 }
-// 
+
 // int is_data(int a){
 function is_data(a){
 // FIXME ljw is unsigned needed?
@@ -111,7 +104,7 @@ function is_data(a){
   }
   return 0;
 }
-// 
+
 // void mk_reloc(int addr,int val){
 function mk_reloc(addr,val){
     if(val==0){
