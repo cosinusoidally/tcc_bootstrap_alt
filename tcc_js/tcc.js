@@ -535,7 +535,6 @@ function tok_alloc(str, len) {
     var ts=alloca(4);
     var pts=alloca(4);
     var ptable=alloca(4);
-//     int h, i;
     var h;
     var i;
 
@@ -543,26 +542,22 @@ function tok_alloc(str, len) {
         len = strlen(str);
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
     };
-print("len: "+len);
-//     h = 1;
+    // FIXME ljw remove verbose debug logging
+    print("len: "+len);
     h = 1;
-//     for(i=0;i<len;i++)
     for(i=0;i<len;i=i+1) {
-//         h = ((h << 8) | (str[i] & 0xff)) % TOK_HASH_SIZE;
         h = ((h << 8) | (ri8(str+i) & 0xFF)) % TOK_HASH_SIZE;
     };
-// 
-print("h: "+h);
-if(h===28){
-  print("int?");
-};
-//     pts = &hash_ident[h];
-print("hash_ident: "+to_hex(hash_ident));
+
+    // FIXME ljw this is verbose debug output
+    print("h: "+h);
+    if(h===28){
+      print("int?");
+    };
+    print("hash_ident: "+to_hex(hash_ident));
     wi32(pts, hash_ident+(h*4));
-print("pts: "+to_hex(pts));
-//     while (1) {
+    print("pts: "+to_hex(pts));
     while (1) {
-//         ts = *pts;
         ts = ri32(ri32(pts));
 print("ts: "+ts);
 //         if (!ts)
