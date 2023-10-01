@@ -2760,36 +2760,25 @@ err();
     return leave(t);
 }
 
-// /* Read a type declaration (except basic type), and return the
-//    type. If v is true, then also put variable name in 'vtop->c' */
+/* Read a type declaration (except basic type), and return the
+   type. If v is true, then also put variable name in 'vtop->c' */
 // int type_decl(int *v, int t, int td)
-// {
 function  type_decl(v, t, td) {
     enter();
-//     int u, p;
     var u;
     var p;
 //     Sym *s;
     var s;
-// 
-//     t = t & -3; /* suppress the ored '2' */
-    t = t & -3;
-//     while (tok == '*') {
+
+    t = t & -3; /* suppress the ored '2' */
     while (tok == mk_char('*')) {
-//         next();
        next();
-//         while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
        while (tok == TOK_CONST || tok == TOK_VOLATILE || tok == TOK_RESTRICT)
-//             next();
            next();
-//         t = mk_pointer(t);
        t = mk_pointer(t);
-//     }
     }
-//     
-//     /* recursive type */
-//     /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
-//     if (tok == '(') {
+    /* recursive type */
+    /* XXX: incorrect if abstract type for functions (e.g. 'int ()') */
     if (tok === mk_char('(')) {
 //         next();
         next();
