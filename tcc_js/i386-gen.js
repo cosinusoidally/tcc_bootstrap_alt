@@ -223,25 +223,25 @@ var lt=0;
 // void gen_addr32(int c, int t)
 function gen_addr32(c, t) {
     if (!(t & VT_FORWARD)) {
-// RELOC HACK
-if(reloc){
-//  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
-  if((t==VT_CONST) || (t==138)){
-    print("\nreloc2: integer constant or enum");
-    print("\nreloc3: at: "+to_hex(ind)+" to: "+to_hex(c));
-  } else {
-//     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
-    print("\nreloc2: at: 0x%x to: 0x%x\n");
-if(reloc_global){
-print("relocs error\n");
-err();
-}
-    mk_reloc(ind,c);
-  }
-}
+        // RELOC HACK
+        if(reloc){
+            //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
+            if((t==VT_CONST) || (t==138)){
+                print("\nreloc2: integer constant or enum");
+                print("\nreloc3: at: "+to_hex(ind)+" to: "+to_hex(c));
+            } else {
+                //     printf("\nreloc2: at: 0x%x to: 0x%x\n",ind,c);
+                print("\nreloc2: at: 0x%x to: 0x%x\n");
+                if(reloc_global){
+                    print("relocs error\n");
+                    err();
+                }
+                mk_reloc(ind,c);
+            }
+        }
         gen_le32(c);
     } else {
-//         greloc((Sym *)c, ind, RELOC_ADDR32);
+        // greloc((Sym *)c, ind, RELOC_ADDR32);
         greloc(c, ind, RELOC_ADDR32);
         gen_le32(0);
     }
