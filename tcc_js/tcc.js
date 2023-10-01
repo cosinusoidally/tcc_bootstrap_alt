@@ -4185,67 +4185,44 @@ function tcc_compile_file(filename1) {
     print("filename: "+mk_js_string(ri32(filename1)));
 //     Sym *define_start;
     var define_start;
-// 
-//     filename = (char *)filename1;
+
     filename = ri32(filename1);
-// 
-//     line_num = 1;
+
     line_num = 1;
-//     funcname = "";
-    funcname = "";
-//     file = fopen(filename, "r");
+    funcname = mk_c_string("");
     file = fopen(filename, mk_c_string("r"));
-//     if (!file)
     if (!file) {
-//         error("file '%s' not found", filename);
         error("file '%s' not found", filename);
     }
-//     include_stack_ptr = include_stack;
     include_stack_ptr = include_stack;
 // FIXME ljw not needed:
 //     ifdef_stack_ptr = ifdef_stack;
-// 
+
 //     vtop = vstack - 1;
     vtop = vstack - SValue_size;
-//     anon_sym = SYM_FIRST_ANOM; 
     anon_sym = SYM_FIRST_ANOM;
-//     
-//     define_start = define_stack.top;
+
     define_start = ri32(define_stack+SymStack_top_o);
-//     inp();
     inp();
-//     ch = '\n'; /* needed to parse correctly first preprocessor command */
-    ch = mk_char('\n');
-//     next();
+    ch = mk_char('\n'); /* needed to parse correctly first preprocessor command */
     next();
-//     decl(VT_CONST);
     decl(VT_CONST);
-//     if (tok != -1)
     if (tok != -1)
-//         expect("declaration");
         expect("declaration");
-//     fclose(file);
     fclose(file);
 
-// 
-//     /* reset define stack, but leave -Dsymbols (may be incorrect if
-//        they are undefined) */
-//     sym_pop(&define_stack, define_start); 
+    /* reset define stack, but leave -Dsymbols (may be incorrect if
+       they are undefined) */
     sym_pop(define_stack, define_start);
-//     
-//     resolve_global_syms();
+
     resolve_global_syms();
-//     
-//     sym_pop(&global_stack, NULL);
+
     sym_pop(global_stack, NULL);
-//     
-//     return 0;
+
     return leave(0);
-// }
 }
-// 
+
 // void resolve_extern_syms(void)
-// {
 function resolve_extern_syms() {
     enter();
 // // HACK RELOC
