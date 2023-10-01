@@ -4276,18 +4276,7 @@ function resolve_extern_syms() {
 //            "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
 //     return 1;
 // }
-// 
-// int r32(int o){
-//   int r;
-//   r=((int *)(o))[0];
-// //  printf("r32: %x\n",r);
-//   return r;
-// }
-// 
-// int w32(int o,int v){
-// // return 0;
-//   *(int *)o=v;
-// }
+
 // void gen_obj(int e){
 function gen_obj(e){
   enter();
@@ -4367,10 +4356,10 @@ function gen_obj(e){
   fclose(f);
   leave();
 }
-// 
-// int prog_rel;
-// int data_rel;
-// 
+
+var prog_rel;
+var data_rel;
+
 // int load_obj(void){
 //   printf("Loading object file\n");
 //   FILE *f;
