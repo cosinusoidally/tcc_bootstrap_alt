@@ -1889,18 +1889,12 @@ function gen_opc(op) {
     var v2;
     var tmp;
 
-//     v1 = vtop - 1;
     v1 = vtop - SValue_size;
-//     v2 = vtop;
     v2 = vtop;
-//     /* currently, we cannot do computations with forward symbols */
-//     c1 = (v1->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
+    /* currently, we cannot do computations with forward symbols */
     c1 = (ri32(v1+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-//     c2 = (v2->t & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     c2 = (ri32(v2+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
-//     while(1) {
     while(1) {
-//     if (c1 && c2) {
     if (c1 && c2) {
 //         fc = v2->c.i;
         fc =ri32( v2+SValue_c_o);
@@ -1957,38 +1951,24 @@ function gen_opc(op) {
 //        }
 
         if(general_case){
-print("general gen_opc: "+op);
+          print("general gen_opc: "+op);
           err();
           break;
         }
-//         vtop--;
         vtop=vtop-SValue_size;
-//     } else {
     } else {
-//         /* if commutative ops, put c2 as constant */
-//         if (c1 && (op == '+' || op == '&' || op == '^' || 
-//                    op == '|' || op == '*')) {
+        /* if commutative ops, put c2 as constant */
         if (c1 && (op == mk_char('+') || op == mk_char('&') || op == mk_char('^') || 
                    op == mk_char('|') || op == mk_char('*'))) {
-//             vswap();
             vswap();
 //             swap(&c1, &c2);
 // FIXME ljw can't do swap
             tmp=c1;
             c1=c2;
             c2=tmp;
-//         }
         }
 //         fc = vtop->c.i;
         fc = ri32(vtop+SValue_c_o);
-//         if (c2 && (((op == '*' || op == '/' || op == TOK_UDIV || 
-//                      op == TOK_PDIV) && 
-//                     fc == 1) ||
-//                    ((op == '+' || op == '-' || op == '|' || op == '^' || 
-//                      op == TOK_SHL || op == TOK_SHR || op == TOK_SAR) && 
-//                     fc == 0) ||
-//                    (op == '&' && 
-//                     fc == -1))) {
         if (c2 && (((op == mk_char('*') || op == mk_char('/') || op == TOK_UDIV || 
                      op == TOK_PDIV) && 
                     fc == 1) ||
@@ -1997,13 +1977,10 @@ print("general gen_opc: "+op);
                     fc == 0) ||
                    (op == mk_char('&') && 
                     fc == -1))) {
-//             /* nothing to do */
-//             vtop--;
+            /* nothing to do */
             vtop=vtop - SValue_size;
-//         } else if (c2 && (op == '*' || op == TOK_PDIV || op == TOK_UDIV)) {
         } else if (c2 && (op == mk_char('*') || op == TOK_PDIV || op == TOK_UDIV)) {
-//             /* try to use shifts instead of muls or divs */
-//             if (fc > 0 && (fc & (fc - 1)) == 0) {
+            /* try to use shifts instead of muls or divs */
             if (fc > 0 && (fc & (fc - 1)) == 0) {
                 n = -1;
                 while (fc) {
@@ -2018,33 +1995,21 @@ print("general gen_opc: "+op);
                 else
                     op = TOK_SHR;
             }
-//             general_case=1;break;
             general_case=1;break;
-//         } else {
         } else {
-//         general_case=1;
         general_case=1;
-//         }
         }
-//     }
     }
-//     break;
     break;
-//     }
     }
-//     if(general_case){
     if(general_case){
-//         /* call low level op generator */
-//         /* XXX: remove explicit registers */
-//         gen_opi(op);
+        /* call low level op generator */
+        /* XXX: remove explicit registers */
         gen_opi(op);
-//     }
     }
-// }
 }
-// 
+
 // int pointed_size(int t)
-// {
 function pointed_size(t) {
     enter();
     var tmp=alloca(4);
@@ -2052,32 +2017,25 @@ function pointed_size(t) {
 //    return type_size(pointed_type(t), &t);
     return leave(type_size(pointed_type(ri32(tmp)), tmp));
 }
-// 
-// /* generic gen_op: handles types problems */
+
+/* generic gen_op: handles types problems */
 // void gen_op(int op)
-// {
 function gen_op(op) {
-//     int u, t1, t2, bt1, bt2, t;
     var u;
     var t1;
     var t2;
     var bt1;
     var bt2;
     var t;
-// 
+
 //     t1 = vtop[-1].t;
     t1 = ri32(vtop-SValue_size+SValue_t_o);
 //     t2 = vtop[0].t;
     t2 = ri32(vtop+SValue_t_o);
-//     bt1 = t1 & VT_BTYPE;
     bt1 = t1 & VT_BTYPE;
-//     bt2 = t2 & VT_BTYPE;
     bt2 = t2 & VT_BTYPE;
-//         
-//     if (op == '+' || op == '-') {
+
     if (op == mk_char('+') || op == mk_char('-')) {
-//         if ((t1 & VT_BTYPE) == VT_PTR && 
-//             (t2 & VT_BTYPE) == VT_PTR) {
         if ((t1 & VT_BTYPE) == VT_PTR &&
             (t2 & VT_BTYPE) == VT_PTR) {
 //             if (op != '-')
