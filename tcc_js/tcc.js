@@ -4422,43 +4422,28 @@ err();
 //             if (nb_include_paths >= INCLUDE_PATHS_MAX)
 //                 error("too many include paths");
 //             include_paths[nb_include_paths++] = r + 2;
-//         } else if (r[1] == 'D') {
          } else if (ri8(r+1) === mk_char('D')) {
 err();
 //             define_symbol(r + 2);
-//         } else if (r[1] == 'i') {
          } else if (ri8(r+1) === mk_char('i')) {
 err();
 //             if (optind >= argc)
 //                 return show_help();
 //             tcc_compile_file(argv[optind++]);
-//         } else if (r[1] == 'r') {
          } else if (ri8(r+1) === mk_char('r')) {
-//             reloc=1;
              reloc=1;
-//         } else if (r[1] == 'R') {
          } else if (ri8(r+1) == mk_char('R')) {
 err();
 //             t=(int (*)())load_obj();
 //             loader=1;
-//         } else {
          } else {
 err();
 //             fprintf(stderr, "invalid option -- '%s'\n", r);
 //             exit(1);
 //         }
          }
-//     }
     }
-// 
-// if(loader){
-if(loader){
-err();
-//   printf("running loader\n");
-//   return (*t)(argc - optind, argv + optind);
-// }
-}
-// if(reloc){
+
 if(reloc){
 // global_relocs=(int)malloc(64*1024);
 global_relocs=malloc(64*1024);
