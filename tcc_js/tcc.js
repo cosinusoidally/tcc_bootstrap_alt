@@ -3179,48 +3179,28 @@ err();
 
 // void uneq(void)
 function uneq() {
-//     int t;
     var t;
-//     
-//     unary();
+
     unary();
-//     if (tok == '=' ||
-//         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
-//         tok == TOK_A_XOR || tok == TOK_A_OR ||
-//         tok == TOK_A_SHL || tok == TOK_A_SAR) {
     if (tok == mk_char('=') ||
         (tok >= TOK_A_MOD && tok <= TOK_A_DIV) ||
         tok == TOK_A_XOR || tok == TOK_A_OR ||
         tok == TOK_A_SHL || tok == TOK_A_SAR) {
-//         test_lvalue();
         test_lvalue();
-//         t = tok;
         t = tok;
-//         next();
         next();
-//         if (t == '=') {
         if (t == mk_char('=')) {
-//             expr_eq();
             expr_eq();
-//         } else {
         } else {
-//             vdup();
             vdup();
-//             expr_eq();
             expr_eq();
-//             gen_op(t & 0x7f);
             gen_op(t & 0x7F);
-//         }
         }
-//         vstore();
         vstore();
-//     }
     }
-// }
 }
-// 
+
 // void sum(int l)
-// {
 function sum(l) {
 //     int t;
     var t;
