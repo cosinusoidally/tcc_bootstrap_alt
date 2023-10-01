@@ -3451,68 +3451,37 @@ err();
         }
         skip(mk_char(';'));
         rsym = gjmp(rsym); /* jmp */
-//     } else if (tok == TOK_BREAK) {
     } else if (tok == TOK_BREAK) {
-//         /* compute jump */
-//         if (!bsym)
-        if (!bsym)
-//             error("cannot break");
-            error("cannot break");
-//         *bsym = gjmp(*bsym);
-        wi32(bsym, gjmp(ri32(bsym)));
-//         next();
-        next();
-//         skip(';');
-        skip(mk_char(';'));
-//     } else if (tok == TOK_CONTINUE) {
-    } else if (tok == TOK_CONTINUE) {
-//         /* compute jump */
         /* compute jump */
-//         if (!csym)
+        if (!bsym)
+            error("cannot break");
+        wi32(bsym, gjmp(ri32(bsym)));
+        next();
+        skip(mk_char(';'));
+    } else if (tok == TOK_CONTINUE) {
+        /* compute jump */
         if (!csym)
-//             error("cannot continue");
             error("cannot continue");
-//         *csym = gjmp(*csym);
         wi32(csym, gjmp(ri32(csym)));
-//         next();
         next();
-//         skip(';');
         skip(mk_char(';'));
-//     } else if (tok == TOK_FOR) {
     } else if (tok == TOK_FOR) {
-//         int e;
         var e;
-//         next();
         next();
-//         skip('(');
         skip(mk_char('('));
-//         if (tok != ';') {
         if (tok != mk_char(';')) {
-//             gexpr();
             gexpr();
-//             vpop();
             vpop();
-//         }
         }
-//         skip(';');
         skip(mk_char(';'));
-//         d = ind;
         d = ind;
-//         c = ind;
         c = ind;
-//         a = 0;
         wi32(a, 0);
-//         b = 0;
         wi32(b, 0);
-//         if (tok != ';') {
         if (tok != mk_char(';')) {
-//             gexpr();
             gexpr();
-//             a = gtst(1, 0);
             wi32(a, gtst(1, 0));
-//         }
         }
-//         skip(';');
         skip(mk_char(';'));
 //         if (tok != ')') {
         if (tok != ')') {
