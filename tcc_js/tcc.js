@@ -3037,51 +3037,30 @@ err();
             s = sym_find((urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT)) | SYM_STRUCT);
             /* find field */
             tok = tok | SYM_FIELD;
-//             while (s = s->next) {
             while (s = ri32(s+Sym_next_o)) {
-//                 if (s->v == tok)
                 if (ri32(s+Sym_v_o) == tok)
-//                     break;
                     break;
-//             }
             }
-//             if (!s)
             if (!s)
-//                 error("field not found");
                 error("field not found");
-//             /* add field offset to pointer */
-//             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; /* change type to int */
-            wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT);
-//             vset(VT_CONST, s->c);
+            /* add field offset to pointer */
+            wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT); /* change type to int */
             vset(VT_CONST, ri32(s+Sym_c_o));
-//             gen_op('+');
             gen_op(mk_char('+'));
-//             /* change type to field type, and set to lvalue */
-//             vtop->t = (vtop->t & ~VT_TYPE) | s->t;
+            /* change type to field type, and set to lvalue */
             wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | ri32(s+Sym_t_o));
-//             /* an array is never an lvalue */
-//             if (!(vtop->t & VT_ARRAY))
+            /* an array is never an lvalue */
             if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
-//                 vtop->t |= VT_LVAL;
                 wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
             }
-//             next();
             next();
-//         } else if (tok == '[') {
         } else if (tok == mk_char('[')) {
-//             next();
             next();
-//             gexpr();
             gexpr();
-//             gen_op('+');
             gen_op(mk_char('+'));
-//             indir();
             indir();
-//             skip(']');
             skip(mk_char(']'));
-//         } else if (tok == '(') {
         } else if (tok == mk_char('(')) {
-//             int rett;
             var rett;
 //             CValue retc;
             retc=alloca(4);
