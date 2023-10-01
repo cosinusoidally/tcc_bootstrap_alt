@@ -18,8 +18,8 @@ print("i386-gen.js loading");
 //  *  along with this program; if not, write to the Free Software
 //  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 //  */
-// 
-// /* number of available registers */
+
+/* number of available registers */
 var NB_REGS = 3;
 /* a register can belong to several classes */
 var REG_CLASS_INT = 0x0001;
