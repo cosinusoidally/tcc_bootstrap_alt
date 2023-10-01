@@ -4087,81 +4087,47 @@ err();
                         if (t & VT_STATIC)
                             u = VT_CONST;
                         u = u | t;
-//                         has_init = (tok == '=');
                         has_init = (tok === mk_char('='));
-//                         if (has_init)
                         if (has_init)
-//                             next();
                             next();
-//                         addr = decl_initializer_alloc(u, has_init);
                         addr = decl_initializer_alloc(u, has_init);
-//                         while(1){
                         while(1){
-//                         if (l == VT_CONST) {
                         if (l == VT_CONST) {
-//                             /* global scope: see if already defined */
-//                             sym = sym_find(v);
+                            /* global scope: see if already defined */
                             sym = sym_find(ri32(v));
-//                             if (!sym) {
                             if (!sym) {
-//                                 sym_push(v, u, addr);
                                 sym_push(ri32(v), u, addr);
-//                                 break;
                                 break;
-//                             }
                             }
-//                             if (!is_compatible_types(sym->t, u))
                             if (!is_compatible_types(ri32(sym+Sym_t_o), u))
-//                                 error("incompatible types for redefinition of '%s'", 
                                 error("incompatible types for redefinition of '%s'", 
-//                                       get_tok_str(v, NULL));
                                       get_tok_str(v, NULL));
-//                             if (!(sym->t & VT_FORWARD))
                             if (!(ri32(sym+Sym_t_o) & VT_FORWARD))
-//                                 error("redefinition of '%s'", get_tok_str(v, NULL));
                                 error("redefinition of '%s'", get_tok_str(v, NULL));
-//                             greloc_patch(sym, addr);
                             greloc_patch(sym, addr);
-//                         } else {
                         } else {
-//                             sym_push(v, u, addr);
                             sym_push(ri32(v), u, addr);
-//                         }
                         }
-//                         break;
                         break;
-//                         }
                         }
-//                     }
                     }
-//                 }
                 }
-//                 if (tok != ',') {
                 if (tok !== mk_char(',')) {
-//                     skip(';');
                     skip(mk_char(';'));
-//                     break;
                     break;
-//                 }
                 }
-//                 next();
                 next();
-//             }
             }
-//         }
          }
-//     }
      }
-// }
     leave();
 }
-// 
-// /* put all global symbols in the extern stack and do all the
-//    resolving which can be done without using external symbols from DLLs */
-// /* XXX: could try to verify types, but would not to save them in
-//    extern_stack too */
+
+/* put all global symbols in the extern stack and do all the
+   resolving which can be done without using external symbols from DLLs */
+/* XXX: could try to verify types, but would not to save them in
+   extern_stack too */
 // void resolve_global_syms(void)
-// {
 function resolve_global_syms() {
     enter();
 //     Sym *s, *s1, *ext_sym;
