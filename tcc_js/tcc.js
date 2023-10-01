@@ -3066,9 +3066,8 @@ err();
             retc=alloca(4);
 //             Sym *sa;
             var sa;
-// 
-//             /* function call  */
-//             if ((vtop->t & VT_BTYPE) != VT_FUNC) {
+
+            /* function call  */
             if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
 err();
 //                 /* pointer test (no array accepted) */
@@ -3079,17 +3078,12 @@ err();
 //                 } else {
 //                     expect("function pointer");
 //                 }
-//             } else {
             } else {
-//                 vtop->t &= ~VT_LVAL; /* no lvalue */
-                wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) & ~VT_LVAL);
-//             }
+                wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) & ~VT_LVAL); /* no lvalue */
             }
-//             /* get return type */
-//             s = sym_find((unsigned)vtop->t >> VT_STRUCT_SHIFT);
+            /* get return type */
             s = sym_find(urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT));
-//             save_regs(); /* save used temporary registers */
-            save_regs();
+            save_regs(); /* save used temporary registers */
 //             gfunc_start(&gf);
             gfunc_start(gf);
 //             next();
