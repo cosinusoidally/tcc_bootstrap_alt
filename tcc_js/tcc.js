@@ -4363,7 +4363,6 @@ var data_rel;
 // int main(int argc, char **argv)
 function main(argc,argv){
     enter();
-//     puts("tcc 1_7 start");
      puts("tcc 1_7 start");
 //     Sym *s;
     var s=alloca(4);
@@ -4373,91 +4372,51 @@ function main(argc,argv){
     var p;
     var r;
     var outfile=alloca(4);
-//     int optind;
+
     var optind;
-// 
-//     include_paths[0] = "../tcc_1_7/";
+
     wi32(include_paths,mk_c_string("../tcc_1_7/"));
-//     nb_include_paths = 1;
     nb_include_paths = 1;
-// 
-//     /* add all tokens */
-//     tok_ident = TOK_IDENT;
+
+    /* add all tokens */
     tok_ident = TOK_IDENT;
-//     p = "int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0";
     var p = mk_c_string("int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0");
-//     while (*p) {
-     while (ri8(p)) {
-//         r = p;
-         r = p;
-//         while (*r++);
-         while (c=ri8(r)){r=r+1;}
-         r=r+1;
-//         tok_alloc(p, r - p - 1);
-         tok_alloc(p, r - p - 1);
-//         p = r;
-         p = r;
-//     }
-     }
-// 
-//     /* standard defines */
-//     define_symbol("__STDC__");
+
+    while (ri8(p)) {
+        r = p;
+        while (c=ri8(r)){r=r+1;}
+        r=r+1;
+        tok_alloc(p, r - p - 1);
+        p = r;
+    }
+    /* standard defines */
     define_symbol(mk_c_string("__STDC__"));
-//     define_symbol("__i386__");
     define_symbol(mk_c_string("__i386__"));
-//     /* tiny C specific defines */
-//     define_symbol("__TINYC__");
+    /* tiny C specific defines */
     define_symbol(mk_c_string("__TINYC__"));
-//     
-//     glo = (int)mmap(NULL, DATA_SIZE,
-//                 PROT_READ | PROT_WRITE,
-//                 MAP_PRIVATE | MAP_ANONYMOUS,
-//                 -1, 0);
+
     glo=malloc(DATA_SIZE);
-//     glo_base=glo;
     glo_base=glo;
-//     printf("glo: %x %x\n",glo,glo_base);
     print("glo: "+to_hex(glo));
-//     memset((void *)glo, 0, DATA_SIZE);
     memset(glo, 0, DATA_SIZE);
-//     prog = (int)mmap(NULL, TEXT_SIZE,
-//                 PROT_EXEC | PROT_READ | PROT_WRITE,
-//                 MAP_PRIVATE | MAP_ANONYMOUS,
-//                 -1, 0);
     prog=malloc(TEXT_SIZE);
-//     ind = prog;
     ind = prog;
-//     printf("prog: %x \n",prog);
     print("prog: "+to_hex(prog));
-// 
-//     optind = 1;
+
     optind = 1;
-//     outfile = NULL;
     outfile = NULL;
-// int loader=0;
-var loader=0;
-//     while (1) {
+
+    var loader=0;
     while (1) {
-// printf("argc %d\n",argc);
-print("argc "+argc);
-//         if (optind >= argc) {
         if (optind >= argc) {
-//         return show_help();
 err();
-          return show_help();
-//         }
+//         return show_help();
          }
-//         r = argv[optind];
          r = ri32(argv+(optind*4));
-//         if (r[0] != '-')
          if (ri8(r) !== mk_char('-')) {
-print("r[0]:"+ri8(r));
-//             break;
              break;
          }
-//         optind++;
          optind=optind+1;
-//         if (r[1] == 'I') {
          if (ri8(r+1) === mk_char('I')) {
 err();
 //             if (nb_include_paths >= INCLUDE_PATHS_MAX)
