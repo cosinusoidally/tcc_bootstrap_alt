@@ -135,15 +135,10 @@ function mk_reloc(addr,val){
 // void mk_reloc_global(int type,int addr){
 function mk_reloc_global(type,addr){
 // printf("mk_reloc_global: %d\n",global_relocs);
-//   *(int *)global_relocs=type;
   wi32(global_relocs,type);
-//   global_relocs+=4;
   global_relocs=global_relocs+4;
-//   *(int *)global_relocs=addr-prog;
   wi32(global_relocs,addr-prog);
-//   global_relocs+=4;
   global_relocs=global_relocs+4;
-// }
 }
 
 // /* patch each relocation entry with value 'val' */
@@ -188,41 +183,26 @@ function greloc_patch(s, val) {
     return count;
 }
 
-// /* output a symbol and patch all calls to it */
+/* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
-// {
 function gsym_addr(t, a) {
 //print("t: "+to_hex(t)+" a: "+to_hex(a));
 //     int n;
     var n;
-//     while (t) {
     while (t) {
-//         n = *(int *)t; /* next value */
-        n = ri32(t);
-//         *(int *)t = a - t - 4;
+        n = ri32(t); /* next value */
         wi32(t,a - t - 4);
-//         t = n;
         t = n;
-//     }
     }
-// }
 }
-// 
+
 // void gsym(t)
-// {
 function gsym(t) {
-//     gsym_addr(t, ind);
     gsym_addr(t, ind);
-// }
 }
-// 
-// /* psym is used to put an instruction with a data field which is a
-//    reference to a symbol. It is in fact the same as oad ! */
-// #define psym oad
-// 
-// /* instruction + 4 bytes data. Return the address of the data */
+
+/* instruction + 4 bytes data. Return the address of the data */
 // int oad(int c, int s)
-// {
 function oad(c, s) {
 //     o(c);
     o(c);
@@ -237,8 +217,12 @@ function oad(c, s) {
 // }
 }
 
+/* psym is used to put an instruction with a data field which is a
+   reference to a symbol. It is in fact the same as oad ! */
+// #define psym oad
+// FIXME ljw remove use of this alias
 var psym = oad;
-// 
+
 // int lt=0;
 // 
 // /* output constant with relocation if 't & VT_FORWARD' is true */
