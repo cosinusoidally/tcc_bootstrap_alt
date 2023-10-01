@@ -678,78 +678,57 @@ err();
    return leave(0);
 }
 
-// /* push, without hashing */
+/* push, without hashing */
 // Sym *sym_push2(Sym **ps, int v, int t, int c)
-// {
 function sym_push2(ps, v, t, c) {
     enter();
 //     Sym *s;
     var s=alloca(4);
 //     s = malloc(sizeof(Sym));
     wi32(s, malloc(Sym_size));
-//     if (!s)
     if (!ri32(s)){
-//         error("memory full");
         error("memory full");
     }
-//     s->v = v;
     wi32(ri32(s)+Sym_v_o, v);
-//     s->t = t;
     wi32(ri32(s)+Sym_t_o, t);
-//     s->c = c;
     wi32(ri32(s)+Sym_c_o, c);
-//     s->next = NULL;
     wi32(ri32(s)+Sym_next_o, 0);
-//     /* add in stack */
+    /* add in stack */
 //     s->prev = *ps;
 // FIXME ljw is this right?
     wi32(ri32(s)+Sym_prev_o, ri32(ps));
-//     *ps = s;
     wi32(ps,ri32(s));
-//     return s;
     return leave(ri32(s));
-// }
 }
-// 
-// /* find a symbol and return its associated structure. 's' is the top
-//    of the symbol stack */
+
+/* find a symbol and return its associated structure. 's' is the top
+   of the symbol stack */
 // Sym *sym_find2(Sym *s, int v)
-// {
 function sym_find2(s, v) {
-//     while (s) {
     while (s) {
-//         if (s->v == v)
         if (ri32(s+Sym_v_o) == v)
-//             return s;
             return s;
-//         s = s->prev;
         s = ri32(s+Sym_prev_o);
-//     }
     }
-//     return NULL;
     return NULL;
-// }
 }
-// 
+
 // unsigned int HASH_SYM(int v) {
 function HASH_SYM(v) {
-//     return ((unsigned)(v) % SYM_HASH_SIZE);
 // FIXME ljw is unsigned needed?
+//     return ((unsigned)(v) % SYM_HASH_SIZE);
     return (v % SYM_HASH_SIZE);
-// }
 }
-// 
-// /* find a symbol and return its associated structure. 'st' is the
-//    symbol stack */
+
+/* find a symbol and return its associated structure. 'st' is the
+   symbol stack */
 // Sym *sym_find1(SymStack *st, int v)
-// {
 function sym_find1(st, v) {
-print("sym_find1: "+v);
+    print("sym_find1: "+v); /* dbg log */
 //     Sym *s;
     var s;
-// 
-//     s = st->hash[HASH_SYM(v)];
     var h;
+
     h=HASH_SYM(v);
 print("sym_find1 hash: "+h);
     s = ri32(st+SymStack_hash_o+(4*h));
