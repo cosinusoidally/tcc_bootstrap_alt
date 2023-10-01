@@ -4466,16 +4466,10 @@ err();
         error("main() not defined");
 
     print("main: "+to_hex(ri32(s+Sym_c_o))); /* dbg log */
-// if(reloc){
-if(reloc){
-//   gen_obj(s->c);
-  gen_obj(ri32(s+Sym_c_o));
-// }
-}
-// 
-// ljw don't need this bit as we don't call the code
-//     t = (int (*)())s->c;
-//     return (*t)(argc - optind, argv + optind);
-// }
+
+    if(reloc){
+        gen_obj(ri32(s+Sym_c_o));
+    }
+
     return leave();
 }
