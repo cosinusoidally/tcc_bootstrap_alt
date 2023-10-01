@@ -1225,7 +1225,6 @@ err();
 
 // void parse_number(void)
 function parse_number() {
-//     int b, t, shift, frac_bits, s, exp_val;
     var b;
     var t;
     var shift;
@@ -1237,20 +1236,14 @@ function parse_number() {
 //     unsigned int n, n1;
     var n;
     var n1;
-// 
-//     /* number */
-//     q = token_buf;
+
+    /* number */
     q = token_buf;
-//     t = ch;
     t = ch;
-//     cinp();
     cinp();
-//     *q++ = t;
     wi8(q, t);
     q=q+1;
-//     b = 10;
     b = 10;
-//     if (t == '.') {
     if (t === mk_char('.')) {
         /* special dot handling */
         if (ch == mk_char('.')) {
@@ -1264,77 +1257,45 @@ function parse_number() {
             tok = t;
         }
         return;
-//     } else if (t == '0') {
     } else if (t === mk_char('0')) {
-//         if (ch == 'x' || ch == 'X') {
         if (ch == mk_char('x') || ch == mk_char('X')) {
-//             q--;
             q=q-1;
-//             cinp();
             cinp();
-//             b = 16;
             b = 16;
-//         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
         } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
 err();
 //             q--;
 //             cinp();
 //             b = 2;
-//         }
         }
-//     }
     }
-//     /* parse all digits. cannot check octal numbers at this stage
-//        because of floating point constants */
-//     while (1) {
+    /* parse all digits. cannot check octal numbers at this stage
+       because of floating point constants */
     while (1) {
-//         if (ch >= 'a' & ch <= 'f')
         if (ch >= mk_char('a') & ch <= mk_char('f'))
-//             t = ch - 'a' + 10;
             t = ch - mk_char('a') + 10;
-//         else if (ch >= 'A' & ch <= 'F')
         else if (ch >= mk_char('A') & ch <= mk_char('F'))
-//             t = ch - 'A' + 10;
             t = ch - mk_char('A') + 10;
-//         else if (isnum(ch))
         else if (isnum(ch))
-//             t = ch - '0';
             t = ch - mk_char('0');
-//         else
         else
-//             break;
             break;
-//         if (t >= b)
         if (t >= b)
-//             break;
             break;
-//         if (q >= token_buf + STRING_MAX_SIZE) {
         if (q >= token_buf + STRING_MAX_SIZE) {
-//             error("number too long");
             error("number too long");
-//         }
         }
-//         *q++ = ch;
         wi8(q, ch);
         q=q+1;
-//         cinp();
         cinp();
-//     }
     }
-//     /* integer number */
-//     *q = '\0';
+    /* integer number */
     wi8(q, mk_char('\0'));
-//     q = token_buf;
     q = token_buf;
-//     if (b == 10 && *q == '0') {
     if (b === 10 && ri8(q) === mk_char('0')) {
-//         b = 8;
         b = 8;
-//         q++;
         q=q+1;
-//     }
     }
-//     n = 0;
     n = 0;
 //     while(1) {
     while(1) {
