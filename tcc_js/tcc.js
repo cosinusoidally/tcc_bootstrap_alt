@@ -36,8 +36,8 @@ var TOK_HASH_SIZE = 521;
 var TOK_ALLOC_INCR = 256;  /* must be a power of two */
 // #define SYM_HASH_SIZE       263
 var SYM_HASH_SIZE = 263;
-// 
-// /* token symbol management */
+
+/* token symbol management */
 // typedef struct TokenSym {
 //     struct TokenSym *hash_next;
 var TokenSym_hash_next_o=0;
@@ -48,8 +48,10 @@ var TokenSym_len_o=8;
 //     char str[1];
 var TokenSym_str_o=12;
 // } TokenSym;
-// 
-// /* constant value */
+
+// FIXME ljw should probably make explicit CValue_o.. values but I haven't
+// bothered since they will all be offset 0 since this is a single union
+/* constant value */
 // typedef union CValue {
 //     int i;
 //     unsigned int ui;
@@ -58,8 +60,8 @@ var TokenSym_str_o=12;
 //     int tab[1];
 //     struct Sym *sym;
 // } CValue;
-// 
-// /* value on stack */
+
+/* value on stack */
 // typedef struct SValue {
 //     int t;
 var SValue_t_o=0;
