@@ -20,45 +20,33 @@ print("i386-gen.js loading");
 //  */
 // 
 // /* number of available registers */
-// #define NB_REGS             3
 var NB_REGS = 3;
-// 
-// /* a register can belong to several classes */
-// #define REG_CLASS_INT    0x0001
+/* a register can belong to several classes */
 var REG_CLASS_INT = 0x0001;
-// 
-// /* pretty names for the registers */
+
+/* pretty names for the registers */
 // enum {
 //     REG_EAX = 0,
 //     REG_ECX,
 //     REG_EDX,
 // };
-// 
-// int reg_classes[NB_REGS] = {
-//     REG_CLASS_INT,    /* eax */
-//     REG_CLASS_INT,    /* ecx */
-//     REG_CLASS_INT,    /* edx */
-// };
-var reg_classes=malloc(4*3);
-wi32(reg_classes,REG_CLASS_INT);
-wi32(reg_classes+4,REG_CLASS_INT);
-wi32(reg_classes+8,REG_CLASS_INT);
-// 
-// /* integer return register for functions */
-// #define FUNC_RET_REG        0 
+
+var reg_classes=malloc(4*NB_REGS);
+wi32(reg_classes,REG_CLASS_INT);    /* eax */
+wi32(reg_classes+4,REG_CLASS_INT);  /* ecx */
+wi32(reg_classes+8,REG_CLASS_INT);  /* edx */
+
+/* integer return register for functions */
 var FUNC_RET_REG = 0;
-// 
-// /* pointer size, in bytes */
-// #define PTR_SIZE 4
+
+/* pointer size, in bytes */
 var PTR_SIZE = 4;
-// 
-// /* function call context */
+
+/* function call context */
 // typedef struct GFuncContext {
 //     int args_size;
 var GFuncContext_args_size_o=0;
 // } GFuncContext;
-// 
-// /******************************************************/
 
 // void g(int c)
 function g(c) {
