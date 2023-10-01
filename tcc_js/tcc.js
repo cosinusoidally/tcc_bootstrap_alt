@@ -1685,34 +1685,24 @@ err();
 //     *p = *q;
 //     *q = t;
 // }
-// 
+
 // void vsetc(int t, CValue *vc)
-// {
 function vsetc(t, vc) {
-//     if (vtop >= vstack + VSTACK_SIZE)
     if (vtop >= vstack + VSTACK_SIZE) {
-//         error("memory full");
         error("memory full");
     }
-//     /* cannot let cpu flags if other instruction are generated */
-//     /* XXX: VT_JMP test too ? */
-//     if ((vtop->t & VT_VALMASK) == VT_CMP)
+    /* cannot let cpu flags if other instruction are generated */
+    /* XXX: VT_JMP test too ? */
     if ((ri32(vtop+SValue_t_o) & VT_VALMASK) == VT_CMP) {
-//         gv();
         gv();
     }
-//     vtop++;
     vtop=vtop+SValue_size;
-//     vtop->t = t;
     wi32(vtop+SValue_t_o,t);
-//     vtop->c = *vc;
 //    vtop->c = *vc;
    memcpy(vtop+SValue_c_o, vc,CValue_size);
-// }
 }
-// 
+
 // void vset(int t, int v)
-// {
 function vset(t, v) {
 print("t: "+t+" v: "+v);
     enter();
