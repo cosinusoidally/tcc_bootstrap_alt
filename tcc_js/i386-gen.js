@@ -370,20 +370,16 @@ err();
     }
 // }
 }
-// 
-// /* start function call and return function call context */
+
+/* start function call and return function call context */
 // void gfunc_start(GFuncContext *c)
-// {
 function gfunc_start(c) {
-//     c->args_size = 0;
     wi32(c+GFuncContext_args_size_o, 0);
-// }
 }
-// 
-// /* push function parameter which is in (vtop->t, vtop->c). Stack entry
-//    is then popped. */
+
+/* push function parameter which is in (vtop->t, vtop->c). Stack entry
+   is then popped. */
 // void gfunc_param(GFuncContext *c)
-// {
 function gfunc_param(c) {
 //     int size, align, r;
     var size;
