@@ -55,38 +55,24 @@ function g(c) {
 }
 
 // void o(int c)
-// {
 function o(c) {
-// {
-//     while (c) {
     while (c) {
-//         g(c);
         g(c);
-//         c = c / 256;
         c = urs(c, 8);
-//     }
     }
-// }
 }
-// 
+
 // void gen_le32(int c)
-// {
 function gen_le32(c) {
-//     g(c);
     g(c);
-//     g(c >> 8);
     g(c >> 8);
-//     g(c >> 16);
     g(c >> 16);
-//     g(c >> 24);
     g(c >> 24);
-// }
 }
-// 
-// /* add a new relocation entry to symbol 's' */
+
+/* add a new relocation entry to symbol 's' */
 // void greloc(Sym *s, int addr, int type)
 function greloc(s, addr, type) {
-// {
 //     Reloc *p;
     var p;
 //     p = malloc(sizeof(Reloc));
