@@ -1632,86 +1632,52 @@ function next() {
 //     int len, *ptr;
     var len=alloca(4);
     var ptr=alloca(4);
-//     int redo=1;
     var redo=1;
 //     Sym *nested_list;
     var nested_list=alloca(4);
-// 
-//     /* special 'ungettok' case for label parsing */
-//     if (tok1) {
+
+    /* special 'ungettok' case for label parsing */
     if (tok1) {
 err();
 //         tok = tok1;
 //         tokc = tok1c;
 //         tok1 = 0;
-//     } else {
     } else {
-//     while(redo){
     while(redo){
-//         redo=0;
         redo=0;
-//         if (!macro_ptr) {
         if (!ri32(macro_ptr)) {
-//             /* if not reading from macro substuted string, then try to substitute */
-//             len = 0;
+            /* if not reading from macro substuted string, then try to substitute */
             wi32(len, 0);
-//             ptr = NULL;
             wi32(ptr, NULL);
-//             nested_list = NULL;
             wi32(nested_list, NULL);
-//             macro_subst(&ptr, &len, &nested_list, NULL);
             macro_subst(ptr, len, nested_list, NULL);
-//             if (ptr) {
              if (ri32(ptr)) {
-//                 tok_add(&ptr, &len, 0);
                 tok_add(ptr, len, 0);
-//                 macro_ptr = ptr;
                 wi32(macro_ptr, ri32(ptr));
-//                 macro_ptr_allocated = ptr;
                 macro_ptr_allocated = ri32(ptr);
-//                 redo=1;
                 redo=1;
-//                 continue;
                 continue;
-//             }
              }
-//             if (tok == 0) {
              if (tok === 0) {
-//                 redo=1;
                  redo=1;
-//                 continue;
                  continue;
-//              }
               }
-//         } else {
         } else {
-//             next_nomacro();
             next_nomacro();
-//             if (tok == 0) {
             if (tok == 0) {
-//                 /* end of macro string: free it */
-//                 free(macro_ptr_allocated);
+                /* end of macro string: free it */
                 free(macro_ptr_allocated);
-//                 macro_ptr = NULL;
                 wi32(macro_ptr, NULL);
-//                 redo=1;
                 redo=1;
-//                 continue;
                 continue;
-//             }
             }
-//         }
         }
-//         break;
         break;
-//     }
     }
-//     }
     }
-// }
     leave();
 }
-// 
+
 // void swap(int *p, int *q)
 // {
 //     int t;
