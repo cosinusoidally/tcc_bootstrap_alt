@@ -2346,7 +2346,6 @@ err();
 // void vstore(void)
 function vstore() {
     enter();
-//     int ft, fc, r, t, size, align, bit_size, bit_pos;
     var ft;
     var fc;
     var r;
@@ -2357,19 +2356,16 @@ function vstore() {
     var bit_pos;
 //     GFuncContext gf;
     var gf=alloca(GFuncContext_size);
-// 
+
 //     ft = vtop[-1].t;
     ft = ri32(vtop-SValue_size+SValue_t_o);
-//     gen_assign_cast(ft & VT_TYPE);
     gen_assign_cast(ft & VT_TYPE);
-// 
-//     if ((vtop->t & VT_BTYPE) == VT_STRUCT) {
+
     if ((ri32(vtop+SValue_t_o) & VT_BTYPE) == VT_STRUCT) {
-//         /* if structure, only generate pointer */
-//         /* structure assignment : generate memcpy */
-//         /* XXX: optimize if small size */
-// 
-//         vdup();
+        /* if structure, only generate pointer */
+        /* structure assignment : generate memcpy */
+        /* XXX: optimize if small size */
+
         vdup();
 //         gfunc_start(&gf);
         gfunc_start(gf);
@@ -2395,8 +2391,8 @@ function vstore() {
 // 
 //         save_regs();
         save_regs();
-//         vset(VT_CONST, (int)&memcpy);
 // FIXME ljw dummy value
+//         vset(VT_CONST, (int)&memcpy);
         vset(VT_CONST, 0x12345678);
 // if(reloc){
 if(reloc){
