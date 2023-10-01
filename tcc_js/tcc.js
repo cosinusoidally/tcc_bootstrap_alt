@@ -1704,21 +1704,18 @@ function vsetc(t, vc) {
 
 // void vset(int t, int v)
 function vset(t, v) {
-print("t: "+t+" v: "+v);
+    print("t: "+t+" v: "+v); /* dbg log */
     enter();
 //     CValue cval;
     var cval=malloc(CValue_size);
-// 
+
 //     cval.i = v;
     wi32(cval, v);
-//     vsetc(t, &cval);
     vsetc(t, cval);
     leave();
-// }
 }
-// 
+
 // void vswap(void)
-// {
 function vswap() {
     enter();
 //     SValue tmp;
