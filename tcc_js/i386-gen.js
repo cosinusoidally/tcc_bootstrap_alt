@@ -360,12 +360,10 @@ function gfunc_start(c) {
    is then popped. */
 // void gfunc_param(GFuncContext *c)
 function gfunc_param(c) {
-//     int size, align, r;
     var size;
     var align=alloca(4);
     var r;
-// 
-//     if ((vtop->t & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
+
     if ((ri32(vtop+SValue_t_o) & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
 err();
 //         size = type_size(vtop->t, &align);
@@ -381,30 +379,23 @@ err();
 //         vswap();
 //         vstore();
 //         c->args_size += size;
-//     } else {
     } else {
-//         /* simple type (currently always same size) */
-//         /* XXX: implicit cast ? */
-//         r = gv();
+        /* simple type (currently always same size) */
+        /* XXX: implicit cast ? */
         r = gv();
-//         o(0x50 + r); /* push r */
         o(0x50 + r); /* push r */
-//         c->args_size += 4;
         wi32(c+GFuncContext_args_size_o, ri32(c+GFuncContext_args_size_o)+4);
-//     }
     }
-//     vtop--;
     vtop=vtop-SValue_size;
-// }
 }
 
 /* generate function call with address in (vtop->t, vtop->c) and free function
    context. Stack entry is popped */
 // void gfunc_call(GFuncContext *c)
 function gfunc_call(c) {
-print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
-//     int r;
     var r;
+    var str;
+    print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
     if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
         /* constant case */
         /* forward reference */
@@ -413,20 +404,20 @@ print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
             greloc(ri32(vtop+SValue_c_o), ind + 1, RELOC_REL32);
             oad(0xE8, 0);
         } else {
-// HACK ljw
-if(special) {
-// printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
-print("gfunc_call: %x %x\n");
-  var str=mk_c_string("memcpy");
-  strcpy(global_relocs_table,str);
-  global_relocs_table=global_relocs_table+strlen(str)+1;
-  wi32(global_relocs_table,1);
-  global_relocs_table=global_relocs_table+4;
-  wi32(global_relocs,RELOC_REL32);
-  global_relocs=global_relocs+4;
-  wi32(global_relocs,ind+1-prog);
-  global_relocs=global_relocs+4;
-}
+            // HACK ljw
+            if(special) {
+                // printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
+                print("gfunc_call: %x %x\n");
+                str=mk_c_string("memcpy");
+                strcpy(global_relocs_table,str);
+                global_relocs_table=global_relocs_table+strlen(str)+1;
+                wi32(global_relocs_table,1);
+                global_relocs_table=global_relocs_table+4;
+                wi32(global_relocs,RELOC_REL32);
+                global_relocs=global_relocs+4;
+                wi32(global_relocs,ind+1-prog);
+                global_relocs=global_relocs+4;
+            }
             oad(0xE8, ri32(vtop+SValue_c_o) - ind - 5);
         }
     } else {
@@ -437,7 +428,6 @@ print("gfunc_call: %x %x\n");
     }
     if (ri32(c+GFuncContext_args_size_o)) {
         oad(0xC481, ri32(c+GFuncContext_args_size_o)); /* add $xxx, %esp */
-
     }
     vtop=vtop-SValue_size;
 }
