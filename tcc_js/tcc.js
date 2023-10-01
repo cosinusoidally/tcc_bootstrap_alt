@@ -2579,20 +2579,15 @@ function basic_type1(t,u){
 
 // int basic_type(int t, int u){
 function basic_type(t, u){
-//     next();
     next();
-//     return basic_type1(t,u);
     return basic_type1(t,u);
-// }
 }
-// 
-// 
-// /* return 0 if no type declaration. otherwise, return the basic type
-//    and skip it. 
-//    XXX: A '2' is ored to ensure non zero return if int type.
-//  */
+
+/* return 0 if no type declaration. otherwise, return the basic type
+   and skip it. 
+   XXX: A '2' is ored to ensure non zero return if int type.
+ */
 // int ist(void)
-// {
 function ist() {
     enter();
     var t;
@@ -2630,27 +2625,27 @@ function ist() {
                   tok==TOK_RESTRICT) {
             next();
         } else if(tok==TOK_UNSIGNED) {
-            t |= VT_UNSIGNED;
+            t = t | VT_UNSIGNED;
             next();
         } else if(tok==TOK_EXTERN) {
 //             /* storage */
-            t |= VT_EXTERN;
+            t = t | VT_EXTERN;
             next();
         } else if(tok==TOK_STATIC) {
-            t |= VT_STATIC;
+            t = t | VT_STATIC;
             next();
         } else if(tok==TOK_TYPEDEF) {
-            t |= VT_TYPEDEF;
+            t = t | VT_TYPEDEF;
             next();
         } else {
           s = sym_find(tok);
           if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
                return leave(t);
           }
-          t |= (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
+          t = t | (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
           next();
         }
-        t |= 2;
+        t = t | 2;
     }
     return leave(t);
 }
@@ -2659,7 +2654,6 @@ function ist() {
 // {
 function post_type(t) {
     enter();
-//     int p, n, pt, l, t1;
     var p=alloca(4);
     var n=alloca(4);
     var pt;
@@ -2671,11 +2665,9 @@ function post_type(t) {
     var plast=alloca(4);
     var s=alloca(4);
     var first=alloca(4);
-// 
-//     if (tok == '(') {
+
     if (tok === mk_char('(')) {
-//         /* function declaration */
-//         next();
+        /* function declaration */
         next();
 //         l = 0;
         l = 0;
