@@ -174,11 +174,11 @@ function mk_reloc_global(type,addr){
 //   *(int *)global_relocs=type;
   wi32(global_relocs,type);
 //   global_relocs+=4;
-  global_relocs+=4;
+  global_relocs=global_relocs+4;
 //   *(int *)global_relocs=addr-prog;
   wi32(global_relocs,addr-prog);
 //   global_relocs+=4;
-  global_relocs+=4;
+  global_relocs=global_relocs+4;
 // }
 }
 
@@ -578,19 +578,19 @@ print("gfunc_call: %x %x\n");
 //   strcpy((char *)global_relocs_table,str);
   strcpy(global_relocs_table,str);
 //   global_relocs_table+=strlen(str)+1;
-  global_relocs_table+=strlen(str)+1;
+  global_relocs_table=global_relocs_table+strlen(str)+1;
 //   *(int *)global_relocs_table=1;
   wi32(global_relocs_table,1);
 //   global_relocs_table+=4;
-  global_relocs_table+=4;
+  global_relocs_table=global_relocs_table+4;
 //   *(int *)global_relocs=RELOC_REL32;
   wi32(global_relocs,RELOC_REL32);
 //   global_relocs+=4;
-  global_relocs+=4;
+  global_relocs=global_relocs+4;
 //   *(int *)global_relocs=ind+1-prog;
   wi32(global_relocs,ind+1-prog);
 //   global_relocs+=4;
-  global_relocs+=4;
+  global_relocs=global_relocs+4;
 // 
 // }
 }
