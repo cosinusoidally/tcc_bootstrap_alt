@@ -141,7 +141,7 @@ function mk_reloc_global(type,addr){
   global_relocs=global_relocs+4;
 }
 
-// /* patch each relocation entry with value 'val' */
+/* patch each relocation entry with value 'val' */
 // int greloc_patch(Sym *s, int val)
 function greloc_patch(s, val) {
 //     Reloc *p, *p1;
@@ -187,7 +187,6 @@ function greloc_patch(s, val) {
 // void gsym_addr(t, a)
 function gsym_addr(t, a) {
 //print("t: "+to_hex(t)+" a: "+to_hex(a));
-//     int n;
     var n;
     while (t) {
         n = ri32(t); /* next value */
@@ -321,54 +320,34 @@ err();
 /* WARNING: r must not be allocated on the stack */
 // void store(r, ft, fc)
 function store(r, ft, fc) {
-//     int fr, bt;
     var fr;
     var bt;
-// 
-//     fr = ft & VT_VALMASK;
+
     fr = ft & VT_VALMASK;
-//     bt = ft & VT_BTYPE;
     bt = ft & VT_BTYPE;
-// 
-//     if (bt == VT_SHORT)
+
     if (bt == VT_SHORT) {
-//         o(0x66);
         o(0x66);
     }
-//     if (bt == VT_BYTE)
     if (bt == VT_BYTE) {
-//         o(0x88);
         o(0x88);
-//     else
     } else {
-//         o(0x89);
         o(0x89);
     }
-//     if (fr == VT_CONST) {
     if (fr == VT_CONST) {
-//         o(0x05 + r * 8); /* mov r,xxx */
-        o(0x05 + r * 8);
-// lt=1;
-lt=1;
-// printf("\nstore 32 ind: %x\n",ind);
-print("\nstore 32 ind: %x\n",ind);
-//         gen_addr32(fc, ft);
+        o(0x05 + r * 8);  /* mov r,xxx */
+        lt=1;
+        // printf("\nstore 32 ind: %x\n",ind);
+        print("\nstore 32 ind: %x\n",ind);
         gen_addr32(fc, ft);
-//     } else if (fr == VT_LOCAL) {
     } else if (fr == VT_LOCAL) {
-//         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
-        oad(0x85 + r * 8, fc);
-//     } else if (ft & VT_LVAL) {
+        oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
     } else if (ft & VT_LVAL) {
-//         g(fr + r * 8); /* mov r, (fr) */
         g(fr + r * 8); /* mov r, (fr) */
-//     } else if (fr != r) {
     } else if (fr != r) {
 err();
 //         o(0xc0 + fr + r * 8); /* mov r, fr */
-//     }
     }
-// }
 }
 
 /* start function call and return function call context */
