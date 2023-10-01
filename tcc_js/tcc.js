@@ -419,7 +419,7 @@ function isnum(c) {
 //     else
 //         return ch;
 // }
-// 
+
 // void printline(void)
 // {
 //     IncludeFile *f;
@@ -428,7 +428,7 @@ function isnum(c) {
 //                 f->filename, f->line_num);
 //     fprintf(stderr, "%s:%d: ", filename, line_num);
 // }
-// 
+
 // void printline2(void)
 // {
 //     IncludeFile *f;
@@ -437,9 +437,10 @@ function isnum(c) {
 //                 f->filename, f->line_num);
 //     fprintf(stdout, "%s:%d: ", filename, line_num);
 // }
-// 
+
 // void error(const char *fmt, ...)
-// {
+function error(fmt) {
+err();
 //     va_list ap;
 // //    va_start(ap, fmt);
 //     ap = ((char *)&(fmt)) + sizeof(int);
@@ -448,18 +449,20 @@ function isnum(c) {
 //     fprintf(stderr, "\n");
 //     exit(1);
 // //    va_end(ap);
-// }
-// 
+}
+
 // void expect(const char *msg)
-// {
+function expect(msg) {
+err();
 //     error("%s expected", msg);
-// }
-// 
+}
+
 // void warning(const char *msg)
-// {
+function warning(msg) {
+err();
 //     printline();
 //     fprintf(stderr, "warning: %s\n", msg);
-// }
+}
 
 // void skip(int c)
 function skip(c) {
