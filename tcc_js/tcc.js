@@ -6050,11 +6050,11 @@ if(reloc){
 //   strcpy((char *)global_relocs_table,str);
   strcpy(global_relocs_table,str);
 //   global_relocs_table+=strlen(str)+1;
-  global_relocs_table+=strlen(str)+1;
+  global_relocs_table=global_relocs_table+strlen(str)+1;
 //   *(int *)global_relocs_table=count;
   wi32(global_relocs_table,count);
 //   global_relocs_table+=4;
-  global_relocs_table+=4;
+  global_relocs_table=global_relocs_table+4;
 // }
 }
 //             }
