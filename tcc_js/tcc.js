@@ -620,10 +620,9 @@ function tok_alloc(str, len) {
 //     }
 //     *pp = p;
 // }
-// 
-// /* XXX: buffer overflow */
+
+/* XXX: buffer overflow */
 // char *get_tok_str(int v, CValue *cv)
-// {
 function get_tok_str(v, cv) {
     enter();
 //     static char buf[STRING_MAX_SIZE + 1];
@@ -633,11 +632,9 @@ function get_tok_str(v, cv) {
     var ts;
 //     char *p;
     var p=alloca(4);
-//     int i;
     var i;
-// 
-print("v: "+v);
-//     if (v == TOK_NUM) {
+
+    print("v: "+v); /* dbg log */
     if (v === TOK_NUM) {
 err();
 //         sprintf(buf, "%u", cv->ui);
@@ -671,20 +668,16 @@ err();
 //         return buf;
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
-//         return table_ident[v - TOK_IDENT]->str;
         return leave(ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o);
-//     } else {
     } else {
 err();
 //         /* should never happen */
 //         return NULL;
-//     }
     }
-// }
 err();
    return leave(0);
 }
-// 
+
 // /* push, without hashing */
 // Sym *sym_push2(Sym **ps, int v, int t, int c)
 // {
