@@ -515,7 +515,7 @@ function isnum(c) {
 
 // void skip(int c)
 function skip(c) {
-    if (tok !== c) {
+    if (tok != c) {
         error("'%c' expected", c);
     }
     next();
@@ -790,7 +790,7 @@ function sym_pop(st, b) {
     var ss;
 
     s = ri32(st+SymStack_top_o);
-    while(s !== b) {
+    while(s != b) {
         ss = ri32(s+Sym_prev_o);
         /* free hash table entry, except if symbol was freed (only
            used for #undef symbols) */
@@ -1387,7 +1387,7 @@ function next_nomacro1() {
         tok = TOK_STR;
         minp();
         q = token_buf;
-        while (ch !== mk_char('\"')) {
+        while (ch != mk_char('\"')) {
             b = getq();
             if (ch == -1)
                 error("unterminated string");
@@ -1584,7 +1584,7 @@ function macro_subst(tok_str, tok_len, nested_list, macro_str) {
          if (tok == 0) {
              break;
          }
-         if ((s = sym_find1(define_stack, tok)) !== NULL) {
+         if ((s = sym_find1(define_stack, tok)) != NULL) {
             /* if symbol is a macro, prepare substitution */
             /* if nested substitution, do nothing */
             if (sym_find2(ri32(nested_list), tok)) {
@@ -2571,7 +2571,7 @@ function struct_decl(u) {
 
 // int basic_type1(int t,int u){
 function basic_type1(t,u){
-    if ((t & VT_BTYPE) !== 0)
+    if ((t & VT_BTYPE) != 0)
         error("too many basic types %x", t);
     t = t | u;
     return t;
@@ -2674,11 +2674,11 @@ function post_type(t) {
         l = 0;
         wi32(first, NULL);
         wi32(plast, first);
-        while (tok !== mk_char(')')) {
+        while (tok != mk_char(')')) {
             foo=0;
             /* read param name and compute offset */
             while(1){
-            if (l !== FUNC_OLD) {
+            if (l != FUNC_OLD) {
                 if (!(pt = ist())) {
                     if (l) {
 err();
@@ -2997,7 +2997,7 @@ err();
         } else {
             s = sym_find(t);
             if (!s) {
-                if (tok !== mk_char('('))
+                if (tok != mk_char('('))
                     error("'%s' undeclared", get_tok_str(t, NULL));
                 /* for simple function calls, we tolerate undeclared
                    external reference */
@@ -3101,7 +3101,7 @@ err();
                 /* read each argument and store it on a stack */
                 /* XXX: merge it with macro args ? */
                 wi32(args, NULL);
-                while (tok !== mk_char(')')) {
+                while (tok != mk_char(')')) {
                     wi32(len, 0);
                     wi32(str, NULL);
                     parlevel = 0;
@@ -3320,7 +3320,7 @@ err();
 function gexpr() {
     while (1) {
         expr_eq();
-        if (tok !== mk_char(','))
+        if (tok != mk_char(','))
             break;
         vpop();
         next();
@@ -3421,9 +3421,9 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
         next();
         /* declarations */
         s = ri32(local_stack+SymStack_top_o);
-        while (tok !== mk_char('}')) {
+        while (tok != mk_char('}')) {
             decl(VT_LOCAL);
-            if (tok !== mk_char('}')) {
+            if (tok != mk_char('}')) {
                 block(bsym, csym, case_sym, def_sym, case_reg);
             }
         }
@@ -3432,7 +3432,7 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
         next();
     } else if (tok == TOK_RETURN) {
         next();
-        if (tok !== mk_char(';')) {
+        if (tok != mk_char(';')) {
             gexpr();
             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 err();
@@ -3556,7 +3556,7 @@ err();
         block(bsym, csym, case_sym, def_sym, case_reg);
     } else {
         /* expression case */
-        if (tok !== mk_char(';')) {
+        if (tok != mk_char(';')) {
             gexpr();
             vpop();
         }
@@ -4112,7 +4112,7 @@ err();
                         }
                     }
                 }
-                if (tok !== mk_char(',')) {
+                if (tok != mk_char(',')) {
                     skip(mk_char(';'));
                     break;
                 }
@@ -4139,7 +4139,7 @@ function resolve_global_syms() {
 
     s = ri32(global_stack+SymStack_top_o);
 //     while (s != NULL) {
-    while (s !== NULL) {
+    while (s != NULL) {
 //         s1 = s->prev;
         s1 = ri32(s+Sym_prev_o);
         /* do not save static or typedefed symbols or types */
@@ -4413,7 +4413,7 @@ err();
 //         return show_help();
          }
          r = ri32(argv+(optind*4));
-         if (ri8(r) !== mk_char('-')) {
+         if (ri8(r) != mk_char('-')) {
              break;
          }
          optind=optind+1;
