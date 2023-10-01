@@ -217,8 +217,7 @@ function oad(c, s) {
 // FIXME ljw remove use of this alias
 var psym = oad;
 
-// FIXME ljw is this needed?
-// int lt=0;
+var lt=0;
 
 /* output constant with relocation if 't & VT_FORWARD' is true */
 // void gen_addr32(int c, int t)
@@ -257,47 +256,32 @@ print("load: r: "+r+" ft: "+ft+" fc: "+fc);
 //     int v, t;
     var v;
     var t;
-// 
-//     v = ft & VT_VALMASK;
     v = ft & VT_VALMASK;
-//     if (ft & VT_LVAL) {
     if (ft & VT_LVAL) {
-//         if (v == VT_LLOCAL) {
         if (v == VT_LLOCAL) {
 err();
 //             load(r, VT_LOCAL | VT_LVAL, fc);
 //             v = r;
-//         }
         }
-//         if ((ft & VT_TYPE) == VT_BYTE)
         if ((ft & VT_TYPE) == VT_BYTE) {
-//             o(0xbe0f);   /* movsbl */
             o(0xBE0F);   /* movsbl */
-//         else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED))
         } else if ((ft & VT_TYPE) == (VT_BYTE | VT_UNSIGNED)) {
 err();
 //             o(0xb60f);   /* movzbl */
-//         else if ((ft & VT_TYPE) == VT_SHORT)
         } else if ((ft & VT_TYPE) == VT_SHORT) {
 err();
 //             o(0xbf0f);   /* movswl */
-//         else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED))
         } else if ((ft & VT_TYPE) == (VT_SHORT | VT_UNSIGNED)) {
 err();
 //             o(0xb70f);   /* movzwl */
-//         else
         } else {
-//             o(0x8b);     /* movl */
             o(0x8B);     /* movl */
         }
-// 
-//         if (v == VT_CONST) {
+
         if (v == VT_CONST) {
-//             o(0x05 + r * 8); /* 0xXX, r */
             o(0x05 + r * 8); /* 0xXX, r */
 // printf("\n load1 %x\n",ind);
 print("\n load1 %x\n",ind);
-// lt=1;
 lt=1;
 //             gen_addr32(fc, ft);
             gen_addr32(fc, ft);
