@@ -2666,79 +2666,48 @@ function post_type(t) {
     var s=alloca(4);
     var first=alloca(4);
 
+// FIXME ljw there is some bug that I have introduced that causes function
+// declarations of the form int foo(a,b) to not parse correctly
     if (tok === mk_char('(')) {
         /* function declaration */
         next();
-//         l = 0;
         l = 0;
-//         first = NULL;
         wi32(first, NULL);
-//         plast = &first;
         wi32(plast, first);
-//         while (tok != ')') {
         while (tok !== mk_char(')')) {
-//             foo=0;
             foo=0;
-//             /* read param name and compute offset */
-//             while(1){
+            /* read param name and compute offset */
             while(1){
-//             if (l != FUNC_OLD) {
             if (l !== FUNC_OLD) {
-//                 if (!(pt = ist())) {
                 if (!(pt = ist())) {
-//                     if (l) {
                     if (l) {
 err();
 //                         error("invalid type");
-//                     } else {
                     } else {
-//                         l = FUNC_OLD;
                         l = FUNC_OLD;
-//                         n = tok;
                         n = tok;
-//                         pt = VT_INT;
                         pt = VT_INT;
-//                         next();
                         next();
-//                         break;
                         break;
-//                     }
                     }
-//                 }
                 }
-//                 l = FUNC_NEW;
                 l = FUNC_NEW;
-//                 if ((pt & VT_BTYPE) == VT_VOID && tok == ')') {
                 if ((pt & VT_BTYPE) === VT_VOID && tok === mk_char(')')) {
-//                     foo=1;
                     foo=1;
-//                     break;
                     break;
-//                 }
                 }
-//                 pt = type_decl(&n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
                 pt = type_decl(n, pt, TYPE_DIRECT | TYPE_ABSTRACT);
-//                 if ((pt & VT_BTYPE) == VT_VOID)
                 if ((pt & VT_BTYPE) == VT_VOID)
-//                     error("parameter declared as void");
                     error("parameter declared as void");
-//             } else {
             } else {
-//                 n = tok;
                 wi32(n, tok);
-//                 pt = VT_INT;
                 pt = VT_INT;
-//                 next();
                 next();
-//             }
             }
-//             break;
             break;
-//             }
             }
-//             if(foo){break;}
             if(foo){break;}
-//             /* array must be transformed to pointer according to ANSI C */
+            /* array must be transformed to pointer according to ANSI C */
 //             pt &= ~VT_ARRAY;
             pt &= ~VT_ARRAY;
 //             s = sym_push(n | SYM_FIELD, pt, 0);
