@@ -2476,181 +2476,99 @@ function struct_decl(u) {
     next();
     while(1){
     if (tok != mk_char('{')) {
-//         v = tok;
         wi32(v, tok);
-//         next();
         next();
-//         /* struct already defined ? return it */
-//         /* XXX: check consistency */
-//         if (s = sym_find(v | SYM_STRUCT)) {
+        /* struct already defined ? return it */
+        /* XXX: check consistency */
         if (s = sym_find(ri32(v) | SYM_STRUCT)) {
-//             if (s->t != a)
             if (ri32(s+Sym_t_o) != a)
-//                 error("invalid type");
                 error("invalid type");
-//             break;
             break;
-//         }
         }
     } else {
-//         v = anon_sym++;
         wi32(v, anon_sym);
         anon_sym=anon_sym+1;
-//     }
     }
-//     s = sym_push(v | SYM_STRUCT, a, 0);
     s = sym_push(ri32(v) | SYM_STRUCT, a, 0);
-//     /* put struct/union/enum name in type */
-//     break;
+    /* put struct/union/enum name in type */
     break;
-//     }
     }
-//     u = u | (v << VT_STRUCT_SHIFT);
     u = u | (ri32(v) << VT_STRUCT_SHIFT);
-//     
-//     if (tok == '{') {
     if (tok == mk_char('{')) {
-//         next();
         next();
-//         if (s->c)
         if (ri32(s+Sym_c_o))
-//             error("struct/union/enum already defined");
             error("struct/union/enum already defined");
-//         /* cannot be empty */
-//         c = 0;
+        /* cannot be empty */
         c = 0;
-//         maxalign = 0;
         maxalign = 0;
-//         ps = &s->next;
         wi32(ps, s+Sym_next_o);
-//         bit_pos = 0;
         bit_pos = 0;
-//         offset = 0;
         offset = 0;
-//         while (1) {
         while (1) {
-//             if (a == TOK_ENUM) {
             if (a == TOK_ENUM) {
-//                 v = tok;
                 wi32(v, tok);
-//                 next();
                 next();
-//                 if (tok == '=') {
                 if (tok == mk_char('=')) {
-//                     next();
                     next();
-//                     c = expr_const();
                     c = expr_const();
-//                 }
                 }
-//                 /* enum symbols have static storage */
-//                 sym_push(v, VT_CONST | VT_STATIC, c);
+                /* enum symbols have static storage */
                 sym_push(ri32(v), VT_CONST | VT_STATIC, c);
-//                 if (tok == ',')
                 if (tok == mk_char(','))
-//                     next();
                     next();
-//                 c++;
                 c=c+1;
-//             } else {
             } else {
-//                 b = ist();
                 b = ist();
-//                 while (1) {
                 while (1) {
-//                     bit_size = -1;
                     bit_size = -1;
-//                     v = 0;
                     wi32(v, 0);
-//                     if (tok != ':') {
                     if (tok != mk_char(':')) {
-//                         t = type_decl(&v, b, TYPE_DIRECT);
                         t = type_decl(v, b, TYPE_DIRECT);
-//                         if ((t & VT_BTYPE) == VT_FUNC ||
-//                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
                         if ((t & VT_BTYPE) == VT_FUNC ||
                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
-//                             error("invalid type for '%s'", 
                             error("invalid type for '%s'", 
-//                                   get_tok_str(v, NULL));
                                   get_tok_str(v, NULL));
-//                     }
                     }
-//                     size = type_size(t, &align);
                     size = type_size(t, align);
-//                     lbit_pos = 0;
                     lbit_pos = 0;
-//                     bit_pos = 0;
                     bit_pos = 0;
-//                     if (v) {
                     if (ri32(v)) {
-//                         /* add new memory data only if starting
-//                            bit field */
-//                         if (lbit_pos == 0) {
+                        /* add new memory data only if starting
+                           bit field */
                         if (lbit_pos == 0) {
-//                             if (a == TOK_STRUCT) {
                             if (a == TOK_STRUCT) {
-//                                 c = (c + align - 1) & -align;
                                 c = (c + ri32(align) - 1) & -ri32(align);
-//                                 offset = c;
                                 offset = c;
-//                                 c += size;
                                 c = c + size;
-//                             } else {
                             } else {
-//                                 offset = 0;
                                 offset = 0;
-//                                 if (size > c)
                                 if (size > c)
-//                                     c = size;
                                     c = size;
-//                             }
                             }
-//                             if (align > maxalign)
                             if (ri32(align) > maxalign) {
-//                                 maxalign = align;
                                 maxalign = ri32(align);
                             }
-//                         }
                         }
-//                         ss = sym_push(v | SYM_FIELD, t, offset);
                         ss = sym_push(ri32(v) | SYM_FIELD, t, offset);
-//                         *ps = ss;
                         wi32(ri32(ps), ss);
-//                         ps = &ss->next;
                         wi32(ps, ss+Sym_next_o);
-//                     }
                     }
-//                     if (tok == ';' || tok == -1)
                     if (tok == mk_char(';') || tok == -1)
-//                         break;
                         break;
-//                     skip(',');
                     skip(mk_char(','));
-//                 }
                 }
-//                 skip(';');
                 skip(mk_char(';'));
-//             }
             }
-//             if (tok == '}')
             if (tok == mk_char('}'))
-//                 break;
                 break;
-//         }
         }
-//         skip('}');
         skip(mk_char('}'));
-//         /* size for struct/union, dummy for enum */
-//         s->c = (c + maxalign - 1) & -maxalign; 
+        /* size for struct/union, dummy for enum */
         wi32(s+Sym_c_o, (c + maxalign - 1) & -maxalign);
-//     }
     }
-//     return u;
     return leave(u);
-// }
 }
-// 
+
 // int basic_type1(int t,int u){
 function basic_type1(t,u){
 //     if ((t & VT_BTYPE) != 0)
