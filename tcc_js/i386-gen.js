@@ -204,17 +204,11 @@ function gsym(t) {
 /* instruction + 4 bytes data. Return the address of the data */
 // int oad(int c, int s)
 function oad(c, s) {
-//     o(c);
     o(c);
-//     *(int *)ind = s;
     wi32(ind, s);
-//     s = ind;
     s = ind;
-//     ind = ind + 4;
     ind = ind + 4;
-//     return s;
     return s;
-// }
 }
 
 /* psym is used to put an instruction with a data field which is a
@@ -223,11 +217,11 @@ function oad(c, s) {
 // FIXME ljw remove use of this alias
 var psym = oad;
 
+// FIXME ljw is this needed?
 // int lt=0;
-// 
-// /* output constant with relocation if 't & VT_FORWARD' is true */
+
+/* output constant with relocation if 't & VT_FORWARD' is true */
 // void gen_addr32(int c, int t)
-// {
 function gen_addr32(c, t) {
 //     if (!(t & VT_FORWARD)) {
     if (!(t & VT_FORWARD)) {
