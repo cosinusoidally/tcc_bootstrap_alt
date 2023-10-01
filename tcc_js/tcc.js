@@ -4225,9 +4225,8 @@ function tcc_compile_file(filename1) {
 // void resolve_extern_syms(void)
 function resolve_extern_syms() {
     enter();
-// // HACK RELOC
-// reloc_global=1;
-reloc_global=1;
+    /* HACK RELOC */
+    reloc_global=1;
 //     Sym *s, *s1;
     var s;
     var s1;
@@ -4235,25 +4234,21 @@ reloc_global=1;
     var str;
 //     int addr;
     var addr;
-// int count;
+
     var count;
-//     s = extern_stack.top;
     s = ri32(extern_stack+SymStack_top_o);
-//     while (s != NULL) {
     while (s != NULL) {
-//         s1 = s->prev;
         s1 = ri32(s+Sym_prev_o);
-//         if (s->t & VT_FORWARD) {
         if (ri32(s+Sym_t_o) & VT_FORWARD) {
-//             /* if there is at least one relocation to do, then find it
-//                and patch it */
-//             if (s->c) {
+            /* if there is at least one relocation to do, then find it
+               and patch it */
             if (ri32(s+Sym_c_o)) {
 //                 str = get_tok_str(s->v, NULL);
                 str = get_tok_str(ri32(s+Sym_v_o), NULL);
-print("resolve_extern_syms str: "+mk_js_string(str));
-// ljw dummy address
+                print("resolve_extern_syms str: "+mk_js_string(str)); /* dbg log */
+                // FIXME ljw dummy address
                 addr=0x12345678;
+
 // FIXME ljw dlsym not needed
 //                 addr = (int)dlsym(NULL, str);
 //                 if (!addr)
