@@ -2398,40 +2398,30 @@ function vstore() {
         }
         /* leave source on stack */
     } else {
-//         r = gv();  /* generate value */
-        r = gv();
+        r = gv();  /* generate value */
 //         ft = vtop[-1].t;
         ft = ri32(vtop-SValue_size+SValue_t_o);
 //         fc = vtop[-1].c.i;
         fc = ri32(vtop-SValue_size+SValue_c_o);
-//         /* if lvalue was saved on stack, must read it */
-//         if ((ft & VT_VALMASK) == VT_LLOCAL) {
+        /* if lvalue was saved on stack, must read it */
         if ((ft & VT_VALMASK) == VT_LLOCAL) {
-//             t = get_reg(REG_CLASS_INT);
             t = get_reg(REG_CLASS_INT);
-//             load(t, VT_LOCAL | VT_LVAL, fc);
             _load(t, VT_LOCAL | VT_LVAL, fc);
-//             ft = (ft & ~VT_VALMASK) | t;
             ft = (ft & ~VT_VALMASK) | t;
-//         }
         }
-//         store(r, ft, fc);
+
         store(r, ft, fc);
 //         vtop--;
         vtop=vtop-SValue_size;
-//         vtop->t = (ft & VT_TYPE) | r;
         wi32(vtop+SValue_t_o, (ft & VT_TYPE) | r);
 //         vtop->c.i = 0;
         wi32(vtop+SValue_c_o, 0);
-//     }
     }
-// }
     leave();
 }
-// 
-// /* post defines POST/PRE add. c is the token ++ or -- */
+
+/* post defines POST/PRE add. c is the token ++ or -- */
 // void inc(int post, int c)
-// {
 function inc(post, c) {
 //     int r, r1;
     var r;
