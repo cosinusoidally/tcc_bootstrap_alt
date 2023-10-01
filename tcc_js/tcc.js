@@ -2868,7 +2868,6 @@ err();
 // void unary(void)
 function unary() {
     enter();
-//     int n, t, ft, fc, p, align, size;
     var n=alloca(4);
     var t;
     var ft;
@@ -2880,14 +2879,11 @@ function unary() {
     var s;
 //     GFuncContext gf;
     var gf=alloca(4);
-// 
-//     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
+
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
 //         vset(VT_CONST | VT_INT, tokc.i);
         vset(VT_CONST | VT_INT, ri32(tokc));
-//         next();
         next();
-//     } else if (tok == TOK___FUNC__) {
     } else if (tok == TOK___FUNC__) {
 err();
 //         /* special function name identifier */
@@ -2896,12 +2892,9 @@ err();
 //         strcpy((void *)glo, funcname);
 //         glo += strlen(funcname) + 1;
 //         next();
-//     } else if (tok == TOK_STR) {
     } else if (tok == TOK_STR) {
-//         /* string parsing */
-//         t = VT_BYTE;
+        /* string parsing */
         t = VT_BYTE;
-//         type_size(t, &align);
         type_size(t, align);
 //         glo = (glo + align - 1) & -align;
         glo = (glo + ri32(align) - 1) & -ri32(align);
