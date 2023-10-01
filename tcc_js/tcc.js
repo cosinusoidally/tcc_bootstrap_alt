@@ -3231,80 +3231,46 @@ function sum(l) {
 /* only used if non constant */
 // void eand(void)
 function eand() {
-//     int t;
     var t;
-// 
-//     sum(8);
+
     sum(8);
-//     t = 0;
     t = 0;
-//     while (1) {
     while (1) {
-//         if (tok != TOK_LAND) {
         if (tok != TOK_LAND) {
-//             if (t) {
             if (t) {
-//                 t = gtst(1, t);
                 t = gtst(1, t);
-//                 vset(VT_JMPI, t);
                 vset(VT_JMPI, t);
-//             }
             }
-//             break;
             break;
-//         }
         }
-//         t = gtst(1, t);
         t = gtst(1, t);
-//         next();
         next();
-//         sum(8);
         sum(8);
-//     }
     }
-// }
 }
-// 
+
 // void eor(void)
-// {
 function eor() {
-//     int t;
     var t;
-// 
-//     eand();
+
     eand();
-//     t = 0;
     t = 0;
-//     while (1) {
     while (1) {
-//         if (tok != TOK_LOR) {
         if (tok != TOK_LOR) {
-//             if (t) {
             if (t) {
-//                 t = gtst(0, t);
                 t = gtst(0, t);
-//                 vset(VT_JMP, t);
                 vset(VT_JMP, t);
-//             }
             }
-//             break;
             break;
-//         }
         }
-//         t = gtst(0, t);
         t = gtst(0, t);
-//         next();
         next();
-//         eand();
         eand();
-//     }
     }
-// }
 }
-// 
-// /* XXX: better constant handling */
+
+/* XXX: better constant handling */
 // void expr_eq(void)
-// {
 function expr_eq() {
 //     int t, u, c, r1, r2;
     var t;
