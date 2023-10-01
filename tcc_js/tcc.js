@@ -2957,58 +2957,36 @@ err();
             } else {
                 vset(VT_JMP, gtst(1, 0));
             }
-//         } else
-//         if (t == '~') {
         } else if (t == mk_char('~')) {
-//             unary();
             unary();
-//             vset(VT_CONST, -1);
             vset(VT_CONST, -1);
-//             gen_op('^');
             gen_op(mk_char('^'));
-//         } else 
-//         if (t == '+') {
         } else if (t == mk_char('+')) {
 err();
 //             unary();
-//         } else 
-//         if (t == TOK_SIZEOF) {
         } else if (t == TOK_SIZEOF) {
-//             if (tok == '(') {
             if (tok == mk_char('(')) {
-//                 next();
                 next();
-//                 if (t = ist())
                 if (t = ist()) {
-//                     t = type_decl(&n, t, TYPE_ABSTRACT);
                     t = type_decl(n, t, TYPE_ABSTRACT);
-//                 else {
                 } else {
-//                     /* XXX: some code could be generated: add eval
-//                        flag */
-//                     gexpr();
+                    /* XXX: some code could be generated: add eval
+                       flag */
                     gexpr();
-//                     t = vtop->t;
                     t = ri32(vtop+SValue_t_o);
-//                     vpop();
                     vpop();
-//                 }
                 }
-//                 skip(')');
                 skip(mk_char(')'));
-//             } else {
             } else {
 err();
 //                 unary();
 //                 t = vtop->t;
 //                 vpop();
-//             }
             }
-//             vset(VT_CONST, type_size(t, &t));
+
 // FIXME ljw had to use dummy alloca
+//             vset(VT_CONST, type_size(t, &t));
             vset(VT_CONST, type_size(t, alloca(4)));
-//         } else
-//         if (t == TOK_INC || t == TOK_DEC) {
         } else if (t == TOK_INC || t == TOK_DEC) {
 //             unary();
             unary();
