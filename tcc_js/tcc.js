@@ -1113,67 +1113,41 @@ err();
                 found=1;
         }
         /* now search in standard include path */
-//         if(!found){
         if(!found){
-//             for(i=nb_include_paths - 1;i>=0;i--) {
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
-//                 strcpy(buf1, include_paths[i]);
                 strcpy(buf1, ri32(include_paths+(4*i)));
-//                 strcat(buf1, "/");
                 strcat(buf1, mk_char("/"));
-//                 strcat(buf1, buf);
                 strcat(buf1, buf);
-//                 f = fopen(buf1, "r");
                 f = fopen(buf1, mk_c_string("r"));
-//                 if (f)
                 if (f)
-//                     found=1;
                     found=1;
-//             }
             }
-//         }
         }
-//         if(!found){
         if(!found){
-//             error("include file '%s' not found", buf1);
             print("include file "+mk_js_string(buf1)+" not found");
 err();
 //             f = NULL;
-//         }
         }
-//         /* push current file in stack */
-//         /* XXX: fix current line init */
-//         include_stack_ptr->file = file;
+        /* push current file in stack */
+        /* XXX: fix current line init */
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
-//         include_stack_ptr->filename = filename;
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
-//         include_stack_ptr->line_num = line_num;
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
-//         include_stack_ptr++;
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
-//         file = f;
         file = f;
-//         filename = strdup(buf1);
         filename = strdup(buf1);
-print("filename: "+mk_js_string(filename));
-//         line_num = 1;
+        print("filename: "+mk_js_string(filename)); /* dbg log */
         line_num = 1;
-//     }
     }
-//     if (tok == TOK_ERROR) {
     if (tok == TOK_ERROR) {
 err();
 //         error("#error");
-//     }
     }
-//     /* ignore other preprocess commands or #! for C scripts */
-//     while (ch != '\n' && ch != -1)
+    /* ignore other preprocess commands or #! for C scripts */
     while (ch != mk_char('\n') && ch != -1)
-//         cinp();
         cinp();
-// }
 }
-// 
+
 // /* read a number in base b */
 // int getn(b)
 // {
