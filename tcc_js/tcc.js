@@ -2135,62 +2135,38 @@ err();
 function type_size(t, a) {
 //     Sym *s;
     var s;
-//     int bt;
     var bt;
-// 
-//     bt = t & VT_BTYPE;
+
     bt = t & VT_BTYPE;
-//     if (bt == VT_STRUCT) {
     if (bt == VT_STRUCT) {
-//         /* struct/union */
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
+        /* struct/union */
         s = sym_find((urs(t, VT_STRUCT_SHIFT)) | SYM_STRUCT);
-//         *a = 4; /* XXX: cannot store it yet. Doing that is safe */
-        wi32(a, 4);
-//         return s->c;
+        wi32(a, 4); /* XXX: cannot store it yet. Doing that is safe */
         return ri32(s+Sym_c_o);
-//     } else if (bt == VT_PTR) {
     } else if (bt == VT_PTR) {
-//         if (t & VT_ARRAY) {
         if (t & VT_ARRAY) {
-//             s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT));
             s = sym_find(urs(t, VT_STRUCT_SHIFT));
-//             return type_size(s->t, a) * s->c;
             return type_size(ri32(s+Sym_t_o), a) * ri32(s+Sym_c_o);
-//         } else {
         } else {
-//             *a = PTR_SIZE;
             wi32(a, PTR_SIZE);
-//             return PTR_SIZE;
             return PTR_SIZE;
-//         }
         }
-//     } else if (bt == VT_INT || bt == VT_ENUM ) {
     } else if (bt == VT_INT || bt == VT_ENUM ) {
-//         *a = 4;
         wi32(a, 4);
-//         return 4;
         return 4;
-//     } else if (bt == VT_SHORT) {
     } else if (bt == VT_SHORT) {
 err();
 //         *a = 2;
 //         return 2;
-//     } else {
     } else {
-//         /* char, void, function, _Bool */
-//         *a = 1;
+        /* char, void, function, _Bool */
         wi32(a, 1);
-//         return 1;
         return 1;
-//     }
     }
-// }
 }
-// 
-// /* return the pointed type of t */
+
+/* return the pointed type of t */
 // int pointed_type(int t)
-// {
 function pointed_type(t) {
 //     Sym *s;
     var s;
