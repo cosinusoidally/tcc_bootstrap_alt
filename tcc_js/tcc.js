@@ -2988,89 +2988,55 @@ err();
 //             vset(VT_CONST, type_size(t, &t));
             vset(VT_CONST, type_size(t, alloca(4)));
         } else if (t == TOK_INC || t == TOK_DEC) {
-//             unary();
             unary();
-//             inc(0, t);
             inc(0, t);
-//         } else if (t == '-') {
         } else if (t == mk_char('-')) {
-//             vset(VT_CONST, 0);
             vset(VT_CONST, 0);
-//             unary();
             unary();
-//             gen_op('-');
             gen_op(mk_char('-'));
-//         } else 
-//         {
         } else {
-//             s = sym_find(t);
             s = sym_find(t);
-//             if (!s) {
             if (!s) {
-//                 if (tok != '(')
                 if (tok !== mk_char('('))
-//                     error("'%s' undeclared", get_tok_str(t, NULL));
                     error("'%s' undeclared", get_tok_str(t, NULL));
-//                 /* for simple function calls, we tolerate undeclared
-//                    external reference */
-//                 p = anon_sym++;        
+                /* for simple function calls, we tolerate undeclared
+                   external reference */
                 p = anon_sym;
                 anon_sym=anon_sym+1;
-//                 sym_push1(&global_stack, p, 0, FUNC_OLD);
                 sym_push1(global_stack, p, 0, FUNC_OLD);
-//                 /* int() function */
-//                 s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT)); 
+                /* int() function */
                 s = external_sym(t, VT_FUNC | (p << VT_STRUCT_SHIFT));
-//             }
             }
-//             vset(s->t, s->c);
             vset(ri32(s+Sym_t_o), ri32(s+Sym_c_o));
-//             /* if forward reference, we must point to s */
-//             if (vtop->t & VT_FORWARD)
+            /* if forward reference, we must point to s */
             if (ri32(vtop+SValue_t_o) & VT_FORWARD) {
 //                 vtop->c.sym = s;
                 wi32(vtop+SValue_c_o, s);
             }
-//         }
         }
-//     }
     }
-//     
-//     /* post operations */
-//     while (1) {
+
+    /* post operations */
     while (1) {
-//         if (tok == TOK_INC | tok == TOK_DEC) {
         if (tok == TOK_INC | tok == TOK_DEC) {
-//             inc(1, tok);
             inc(1, tok);
-//             next();
             next();
-//         } else if (tok == '.' | tok == TOK_ARROW) {
         } else if (tok == mk_char('.') | tok == TOK_ARROW) {
-//             /* field */ 
-//             if (tok == TOK_ARROW) 
+            /* field */ 
             if (tok == TOK_ARROW) {
-//                 indir();
                 indir();
             }
-//             test_lvalue();
             test_lvalue();
-//             vtop->t &= VT_LVALN;
             wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) & VT_LVALN);
-//             next();
             next();
-//             /* expect pointer on structure */
-//             if ((vtop->t & VT_BTYPE) != VT_STRUCT)
+            /* expect pointer on structure */
             if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_STRUCT) {
 err();
 //                 expect("struct or union");
-                expect("struct or union");
             }
-//             s = sym_find(((unsigned)vtop->t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
             s = sym_find((urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT)) | SYM_STRUCT);
-//             /* find field */
-//             tok |= SYM_FIELD;
-            tok |= SYM_FIELD;
+            /* find field */
+            tok = tok | SYM_FIELD;
 //             while (s = s->next) {
             while (s = ri32(s+Sym_next_o)) {
 //                 if (s->v == tok)
