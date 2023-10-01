@@ -975,30 +975,22 @@ function tok_get(tok_str, cv) {
      var t;
      var n;
      var i;
-// 
-//     p = *tok_str;
+
     p = ri32(tok_str);
-//     t = *p++;
     t = ri32(p);
     p=p+4;
-//     n = tok_ext_size(t);
     n = tok_ext_size(t);
-//     for(i=0;i<n;i++)
     for(i=0;i<n;i=i+1) {
 //         cv->tab[i] = *p++;
         wi32(cv+(i*4),ri32(p));
         p=p+4;
     }
-//     *tok_str = p;
     wi32(tok_str, p);
-//     return t;
     return t;
-// }
 }
-// 
-// /* XXX: should be more factorized */
+
+/* XXX: should be more factorized */
 // void define_symbol(char *sym)
-// {
 function define_symbol(sym) {
     enter();
 //     TokenSym *ts;
@@ -1008,27 +1000,19 @@ function define_symbol(sym) {
     var len=alloca(4);
 //     CValue cval;
     var cval=alloca(CValue_size);
-// 
-//     ts = tok_alloc(sym, 0);
+
     ts = tok_alloc(sym, 0);
-//     str = NULL;
     wi32(str,0);
-//     len = 0;
     wi32(len,0);
 //     cval.i = 1;
     wi32(cval,1);
-//     tok_add2(&str, &len, TOK_NUM, &cval);
     tok_add2(str, len, TOK_NUM, cval);
-//     tok_add(&str, &len, 0);
     tok_add(str, len, 0);
-//     sym_push1(&define_stack, ts->tok, MACRO_OBJ, (int)str);
     sym_push1(define_stack, ri32(ts+TokenSym_tok_o), MACRO_OBJ, ri32(str));
-// }
     return leave();
 }
-// 
+
 // void preprocess(void)
-// {
 function preprocess() {
 //     int size, i, c, v, t, *str, len;
     var size;
