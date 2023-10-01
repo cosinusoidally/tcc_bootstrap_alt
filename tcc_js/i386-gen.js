@@ -4,6 +4,7 @@ print("i386-gen.js loading");
  *  X86 code generator for TCC
  * 
  *  Copyright (c) 2001 Fabrice Bellard
+ *  Modifications Copyright (c) 2023 Liam Wilson
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
