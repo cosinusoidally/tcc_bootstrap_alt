@@ -3757,138 +3757,84 @@ function decl_initializer(t, c, first, size_only) {
              (t1 & VT_BTYPE) == VT_INT) ||
             (tok == TOK_STR &&
              (t1 & VT_BTYPE) == VT_BYTE)) {
-//             /* XXX: move multiple string parsing in parser ? */
-//             while (tok == TOK_STR || tok == TOK_LSTR) {
+             /* XXX: move multiple string parsing in parser ? */
             while (tok == TOK_STR || tok == TOK_LSTR) {
 //                 ts = tokc.ts;
                 ts = ri32(tokc);
-//                 /* compute maximum number of chars wanted */
-//                 nb = ts->len;
+                /* compute maximum number of chars wanted */
                 nb = ri32(ts+TokenSym_len_o);
-//                 if (n >= 0 && nb > (n - array_length))
                 if (n >= 0 && nb > (n - array_length))
-//                     nb = n - array_length;
                     nb = n - array_length;
-//                 if (!size_only) {
                 if (!size_only) {
-//                     if (ts->len > nb)
                     if (ri32(ts+TokenSym_len_o) > nb)
-//                         warning("initializer-string for array is too long");
                         warning("initializer-string for array is too long");
-//                     for(i=0;i<nb;i++) {
                     for(i=0;i<nb;i=i+1) {
 //                         init_putv(t1, c + (array_length + i) * size1, 
 //                                   ts->str[i], 0);
                         init_putv(t1, c + (array_length + i) * size1, 
                                   ri8(ts+TokenSym_str_o+i), 0);
-//                     }
                     }
-//                 }
                 }
-//                 array_length += nb;
                 array_length = array_length + nb;
-//                 next();
                 next();
-//             }
             }
-//             /* only add trailing zero if enough storage (no
-//                warning in this case since it is standard) */
-//             if (n < 0 || array_length < n) {
+            /* only add trailing zero if enough storage (no
+               warning in this case since it is standard) */
             if (n < 0 || array_length < n) {
-//                 if (!size_only) {
                 if (!size_only) {
-//                     init_putv(t1, c + (array_length * size1), 0, 0);
                     init_putv(t1, c + (array_length * size1), 0, 0);
-//                 }
                 }
-//                 array_length++;
                 array_length=array_length+1;
-//             }
             }
-//         } else {
         } else {
-//             index = 0;
             wi32(index, 0);
-//             while (tok != '}') {
              while (tok != mk_char('}')) {
-//                 decl_designator(t, c, &index, NULL, size_only);
                 decl_designator(t, c, index, NULL, size_only);
-//                 if (n >= 0 && index >= n)
                 if (n >= 0 && ri32(index) >= n)
-//                     error("index too large");
                     error("index too large");
-//                 /* must put zero in holes (note that doing it that way
-//                    ensures that it even works with designators) */
-//                 if (!size_only && array_length < index) {
+                /* must put zero in holes (note that doing it that way
+                   ensures that it even works with designators) */
                 if (!size_only && array_length < ri32(index)) {
 err();
 //                     init_putz(t1, c + array_length * size1, 
 //                               (index - array_length) * size1);
-//                 }
                 }
-//                 index++;
                 wi32(index,ri32(index)+1);
-//                 if (index > array_length)
                 if (ri32(index) > array_length) {
-//                     array_length = index;
                     array_length = ri32(index);
-}
-//                 /* special test for multi dimensional arrays (may not
-//                    be strictly correct if designators are used at the
-//                    same time) */
-//                 if (index >= n && no_oblock)
+                }
+                /* special test for multi dimensional arrays (may not
+                   be strictly correct if designators are used at the
+                   same time) */
                 if (ri32(index) >= n && no_oblock) {
-//                     break;
                     break;
                 }
-//                 if (tok == '}')
                 if (tok == mk_char('}'))
-//                     break;
                     break;
-//                 skip(',');
                 skip(mk_char(','));
-//             }
             }
-//         }
         }
-//         if (!no_oblock)
         if (!no_oblock)
-//             skip('}');
             skip(mk_char('}'));
-//         /* put zeros at the end */
-//         if (!size_only && n >= 0 && array_length < n) {
+        /* put zeros at the end */
         if (!size_only && n >= 0 && array_length < n) {
-//             init_putz(t1, c + array_length * size1, 
-//                       (n - array_length) * size1);
             init_putz(t1, c + array_length * size1, 
                       (n - array_length) * size1);
-//         }
         }
-//         /* patch type size if needed */
-//         if (n < 0)
+        /* patch type size if needed */
         if (n < 0)
-//             s->c = array_length;
             wi32(s+Sym_c_o, array_length);
-//     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == '{') {
     } else if ((t & VT_BTYPE) == VT_STRUCT && tok == mk_char('{')) {
-//         /* XXX: union needs only one init */
-//         next();
+        /* XXX: union needs only one init */
         next();
-//         s = sym_find(((unsigned)t >> VT_STRUCT_SHIFT) | SYM_STRUCT);
         s = sym_find((urs(t, VT_STRUCT_SHIFT)) | SYM_STRUCT);
-//         f = s->next;
         wi32(f, ri32(s+Sym_next_o));
-//         array_length = 0;
         array_length = 0;
-//         index = 0;
         index = 0;
-//         n = s->c;
         n = ri32(s+Sym_c_o);
-//         while (tok != '}') {
         while (tok != mk_char('}')) {
-//             decl_designator(t, c, NULL, &f, size_only);
             decl_designator(t, c, NULL, f, size_only);
-//             /* fill with zero between fields */
+            /* fill with zero between fields */
 //             index = f->c;
             index = ri32(ri32(f)+Sym_c_o);
 //             if (!size_only && array_length < index) {
