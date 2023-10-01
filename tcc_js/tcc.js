@@ -1440,24 +1440,16 @@ err();
 // void next_nomacro()
 function next_nomacro() {
     enter();
-//     if (macro_ptr) {
     if (ri32(macro_ptr)) {
-//         tok = *macro_ptr;
         tok = ri32(ri32(macro_ptr));
-//         if (tok)
         if (tok)
-//             tok = tok_get(&macro_ptr, &tokc);
             tok = tok_get(macro_ptr, tokc);
-//     } else {
     } else {
-//         next_nomacro1();
         next_nomacro1();
-//     }
     }
-// }
     leave();
 }
-// 
+
 // /* substitute args in macro_str and return allocated string */
 // int *macro_arg_subst(Sym **nested_list, int *macro_str, Sym *args)
 // {
@@ -1520,10 +1512,9 @@ function next_nomacro() {
 //     tok_add(&str, &len, 0);
 //     return str;
 // }
-// 
-// /* handle the '##' operator LJW HACK DELETED CODE*/
+
+/* handle the '##' operator LJW HACK DELETED CODE*/
 // int *macro_twosharps(int *macro_str)
-// {
 function macro_twosharps(macro_str) {
 enter();
 //     TokenSym *ts;
