@@ -1037,47 +1037,27 @@ function preprocess() {
     var ps;
     var first;
     var s;
-// 
-//     cinp();
+
     cinp();
-//     next_nomacro();
     next_nomacro();
-//     if (tok == TOK_DEFINE) {
     if (tok == TOK_DEFINE) {
-//         next_nomacro();
         next_nomacro();
-//         v = tok;
         v = tok;
-//         /* XXX: should check if same macro (ANSI) */
-//         first = NULL;
+        /* XXX: should check if same macro (ANSI) */
         first = NULL;
-//         t = MACRO_OBJ;
         t = MACRO_OBJ;
-//         str = NULL;
         wi32(str, NULL);
-//         len = 0;
         wi32(len, 0);
-//         while (1) {
         while (1) {
-//             skip_spaces();
             skip_spaces();
-//             if (ch == '\n' || ch == -1)
             if (ch == mk_char('\n') || ch == -1)
-//                 break;
                 break;
-//             next_nomacro();
             next_nomacro();
-//             tok_add2(&str, &len, tok, &tokc);
             tok_add2(str, len, tok, tokc);
-//         }
         }
-//         tok_add(&str, &len, 0);
         tok_add(str, len, 0);
-//         s = sym_push1(&define_stack, v, t, (int)str);
         s = sym_push1(define_stack, v, t, ri32(str));
-//         s->next = first;
         wi32(s+Sym_next_o,first);
-//     } else if (tok == TOK_UNDEF) {
     } else if (tok == TOK_UNDEF) {
 err();
 //         next_nomacro();
@@ -1085,7 +1065,6 @@ err();
 //         /* undefine symbol by putting an invalid name */
 //         if (s)
 //             sym_undef(&define_stack, s);
-//     } else if (tok == TOK_INCLUDE) {
     } else if (tok == TOK_INCLUDE) {
 //         skip_spaces();
         skip_spaces();
