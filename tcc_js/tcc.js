@@ -3084,13 +3084,11 @@ err();
             /* get return type */
             s = sym_find(urs(ri32(vtop+SValue_t_o), VT_STRUCT_SHIFT));
             save_regs(); /* save used temporary registers */
-//             gfunc_start(&gf);
             gfunc_start(gf);
-//             next();
             next();
-//             sa = s->next; /* first parameter */
             sa = ri32(s+Sym_next_o); /* first parameter */
-//             {
+// FIXME ljw this is a block can we hoist varables to top of block?
+// {
 //                 int *str, len, parlevel, *saved_macro_ptr;
                 var str=alloca(4);
                 var len=alloca(4);
@@ -3099,59 +3097,35 @@ err();
 //                 Sym *args, *s1;
                 var args=alloca(4);
                 var s1;
-// 
-//                 /* read each argument and store it on a stack */
-//                 /* XXX: merge it with macro args ? */
-//                 args = NULL;
+
+                /* read each argument and store it on a stack */
+                /* XXX: merge it with macro args ? */
                 wi32(args, NULL);
-//                 while (tok != ')') {
                 while (tok !== mk_char(')')) {
-//                     len = 0;
                     wi32(len, 0);
-//                     str = NULL;
                     wi32(str, NULL);
-//                     parlevel = 0;
                     parlevel = 0;
-//                     while ((parlevel > 0 || (tok != ')' && tok != ',')) && 
-//                            tok != -1) {
                     while ((parlevel > 0 || (tok != mk_char(')') && tok != mk_char(','))) && 
                            tok != -1) {
-//                         if (tok == '(')
                         if (tok == mk_char('('))
-//                             parlevel++;
                             parlevel=parlevel+1;
-//                         else if (tok == ')')
                         else if (tok == mk_char(')'))
-//                             parlevel--;
                             parlevel=parlevel-1;
-//                         tok_add2(&str, &len, tok, &tokc);
                         tok_add2(str, len, tok, tokc);
-//                         next();
                         next();
-//                     }
                     }
-//                     tok_add(&str, &len, -1); /* end of file added */
                     tok_add(str, len, -1); /* end of file added */
-//                     tok_add(&str, &len, 0);
                     tok_add(str, len, 0);
 // FIXME ljw is this right
 //                     s1 = sym_push2(&args, 0, 0, (int)str);
                     s1 = sym_push2(args, 0, 0, ri32(str));
-//                     s1->next = sa; /* add reference to argument */
                     wi32(s1+Sym_next_o, sa); /* add reference to argument */
-//                     if (sa)
                     if (sa)
-//                         sa = sa->next;
                         sa = ri32(sa+Sym_next_o);
-//                     if (tok != ',')
                     if (tok != mk_char(','))
-//                         break;
                         break;
-//                     next();
                     next();
-//                 }
                 }
-//                 if (tok != ')')
                 if (tok != mk_char(')'))
 //                     expect(")");
                     expect(")");
