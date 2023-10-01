@@ -4136,28 +4136,20 @@ function resolve_global_syms() {
     var ext_sym;
 //     Reloc **p;
     var p;
-// 
-//     s = global_stack.top;
+
     s = ri32(global_stack+SymStack_top_o);
 //     while (s != NULL) {
     while (s !== NULL) {
 //         s1 = s->prev;
         s1 = ri32(s+Sym_prev_o);
-//         /* do not save static or typedefed symbols or types */
-//         if (!(s->t & (VT_STATIC | VT_TYPEDEF)) && 
-//             !(s->v & (SYM_FIELD | SYM_STRUCT)) &&
-//             (s->v < SYM_FIRST_ANOM)) {
+        /* do not save static or typedefed symbols or types */
         if (!(ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) &&
             !(ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) &&
             (ri32(s+Sym_v_o) < SYM_FIRST_ANOM)) {
-//             ext_sym = sym_find1(&extern_stack, s->v);
             ext_sym = sym_find1(extern_stack, ri32(s+Sym_v_o));
-//             if (!ext_sym) {
             if (!ext_sym) {
-//                 /* if the symbol do not exist, we simply save it */
-//                 sym_push1(&extern_stack, s->v, s->t, s->c);
+                /* if the symbol do not exist, we simply save it */
                 sym_push1(extern_stack, ri32(s+Sym_v_o), ri32(s+Sym_t_o), ri32(s+Sym_c_o));
-//             } else if (ext_sym->t & VT_FORWARD) {
             } else if (ri32(ext_sym+Sym_t_o) & VT_FORWARD) {
 err();
 //                 /* external symbol already exists, but only as forward
@@ -4172,7 +4164,6 @@ err();
 //                         p = &(*p)->next;
 //                     *p = (Reloc *)s->c;
 //                 }
-//             } else {
             } else {
 err();
 //                 /* external symbol already exists and is defined :
@@ -4180,21 +4171,15 @@ err();
 //                 if (!(s->t & VT_FORWARD))
 //                     error("'%s' defined twice", get_tok_str(s->v, NULL));
 //                 greloc_patch(s, ext_sym->c);
-//             }
             }
-//         } 
         }
-//         s = s1;
         s = s1;
-//     }
     }
     leave();
-// }
 }
-// 
-// /* compile a C file. Return non zero if errors. */
+
+/* compile a C file. Return non zero if errors. */
 // int tcc_compile_file(const char *filename1)
-// {
 function tcc_compile_file(filename1) {
     enter();
     print("filename: "+mk_js_string(ri32(filename1)));
