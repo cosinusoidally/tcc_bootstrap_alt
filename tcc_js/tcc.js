@@ -2714,87 +2714,52 @@ err();
 // FIXME ljw is this right?
 //             plast = &s->next;
             wi32(plast, s+Sym_next_o);
-//             if (tok == ',') {
             if (tok == mk_char(',')) {
-//                 next();
                 next();
-//                 if (l == FUNC_NEW && tok == TOK_DOTS) {
                 if (l == FUNC_NEW && tok == TOK_DOTS) {
-//                     l = FUNC_ELLIPSIS;
                     l = FUNC_ELLIPSIS;
-//                     next();
                     next();
-//                     break;
                     break;
-//                 }
                 }
-//             }
             }
-//         }
         }
-//         /* if no parameters, then old type prototype */
-//         if (l == 0)
+        /* if no parameters, then old type prototype */
         if (l === 0) {
-//             l = FUNC_OLD;
             l = FUNC_OLD;
         }
-//         skip(')');
         skip(mk_char(')'));
-//         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
-//         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
-//         /* we push a anonymous symbol which will contain the function prototype */
-//         p = anon_sym++;
+        /* we push a anonymous symbol which will contain the function prototype */
         p = anon_sym;
         anon_sym=anon_sym+1;
-//         s = sym_push(p, t, l);
         s = sym_push(p, t, l);
-//         s->next = first;
         wi32(s+Sym_next_o , ri32(first));
-//         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
         t = t1 | VT_FUNC | (p << VT_STRUCT_SHIFT);
-//     } else if (tok == '[') {
     } else if (tok === mk_char('[')) {
-//         /* array definition */
-//         next();
+        /* array definition */
         next();
-//         n = -1;
         n = -1;
-//         if (tok != ']') {
         if (tok != mk_char(']')) {
-//             n = expr_const();
             n = expr_const();
-//             if (n < 0)
             if (n < 0)
-//                 error("invalid array size");    
                 error("invalid array size");    
-//         }
         }
-//         skip(']');
         skip(mk_char(']'));
-//         /* parse next post type */
-//         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
+        /* parse next post type */
         t1 = t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN);
-//         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
         t = post_type(t & ~(VT_TYPEDEF | VT_STATIC | VT_EXTERN));
-//         
-//         /* we push a anonymous symbol which will contain the array
-//            element type */
-//         p = anon_sym++;
+
+        /* we push a anonymous symbol which will contain the array
+           element type */
         p = anon_sym;
         anon_sym=anon_sym+1;
-//         sym_push(p, t, n);
         sym_push(p, t, n);
-//         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
         t = t1 | VT_ARRAY | VT_PTR | (p << VT_STRUCT_SHIFT);
-//     }
     }
-//     return t;
     return leave(t);
-// }
 }
-// 
+
 // /* Read a type declaration (except basic type), and return the
 //    type. If v is true, then also put variable name in 'vtop->c' */
 // int type_decl(int *v, int t, int td)
