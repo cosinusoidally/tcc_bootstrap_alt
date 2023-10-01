@@ -471,86 +471,50 @@ function gtst(inv, t) {
         if ((ri32(vtop+SValue_c_o) != 0) != inv) 
             t = gjmp(t);
     } else {
-//         /* XXX: floats */
-//         v = gv();
+        /* XXX: floats */
         v = gv();
-//         o(0x85);
         o(0x85);
-//         o(0xc0 + v * 9);
         o(0xC0 + v * 9);
-//         g(0x0f);
         g(0x0F);
-//         t = psym(0x85 ^ inv, t);
         t = psym(0x85 ^ inv, t);
-//     }
     }
-//     vtop--;
     vtop=vtop-SValue_size;
-//     return t;
     return t;
-// }
 }
-// 
-// /* generate an integer binary operation */
+
+/* generate an integer binary operation */
 // void gen_opi(int op)
-// {
 function gen_opi(op) {
-//     int t, r, fr;
     var t;
     var r;
     var fr;
-// 
-//     vswap();
+
     vswap();
-//     r = gv();
     r = gv();
-//     vswap();
     vswap();
-//     fr = gv();
     fr = gv();
-//     vtop--;
     vtop=vtop-SValue_size;
-// 
-//     if (op == '+') {
+
     if (op == mk_char('+')) {
-//         o(0x01);
         o(0x01);
-//         o(0xc0 + r + fr * 8); 
         o(0xC0 + r + fr * 8);
-//     } else if (op == '-') {
     } else if (op == mk_char('-')) {
-//         o(0x29);
         o(0x29);
-//         o(0xc0 + r + fr * 8); 
         o(0xC0 + r + fr * 8); 
-//     } else if (op == '&') {
     } else if (op == mk_char('&')) {
-//         o(0x21);
         o(0x21);
-//         o(0xc0 + r + fr * 8); 
         o(0xC0 + r + fr * 8); 
-//     } else if (op == '^') {
     } else if (op == mk_char('^')) {
-//         o(0x31);
         o(0x31);
-//         o(0xc0 + r + fr * 8); 
         o(0xC0 + r + fr * 8); 
-//     } else if (op == '|') {
     } else if (op == mk_char('|')) {
-//         o(0x09);
         o(0x09);
-//         o(0xc0 + r + fr * 8); 
         o(0xC0 + r + fr * 8); 
-//     } else if (op == '*') {
     } else if (op == mk_char('*')) {
-//         o(0xaf0f); /* imul fr, r */
         o(0xAF0F); /* imul fr, r */
-//         o(0xc0 + fr + r * 8);
         o(0xC0 + fr + r * 8);
-//     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
-//         /* op2 is %ecx */
-//         if (fr != 1) {
+        /* op2 is %ecx */
         if (fr != 1) {
             if (r == 1) {
                 r = fr;
@@ -561,25 +525,15 @@ function gen_opi(op) {
                  move_reg(1, fr);
             }
         }
-//         o(0xd3); /* shl/shr/sar %cl, r */
         o(0xD3); /* shl/shr/sar %cl, r */
-//         if (op == TOK_SHL) 
         if (op == TOK_SHL) {
-//             o(0xe0 + r);
             o(0xE0 + r);
-//         else if (op == TOK_SHR)
         } else if (op == TOK_SHR) {
-//             o(0xe8 + r);
             o(0xE8 + r);
-//         else
         } else {
-//             o(0xf8 + r);
             o(0xF8 + r);
         }
-//         vtop->t = (vtop->t & VT_TYPE) | r;
         wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
-//     } else if (op == '/' | op == TOK_UDIV | op == TOK_PDIV | 
-//                op == '%' | op == TOK_UMOD) {
     } else if (op == mk_char('/') | op == TOK_UDIV | op == TOK_PDIV | 
                op == mk_char('%') | op == TOK_UMOD) {
 //         save_reg(2); /* save edx */
