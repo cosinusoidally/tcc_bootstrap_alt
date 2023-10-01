@@ -3565,29 +3565,26 @@ err();
     leave();
 }
 
-// /* t is the array or struct type. c is the array or struct
-//    address. cur_index/cur_field is the pointer to the current
-//    value. 'size_only' is true if only size info is needed (only used
-//    in arrays) */
+/* t is the array or struct type. c is the array or struct
+   address. cur_index/cur_field is the pointer to the current
+   value. 'size_only' is true if only size info is needed (only used
+   in arrays) */
 // void decl_designator(int t, int c, 
 //                      int *cur_index, Sym **cur_field, 
 //                      int size_only)
-// {
 function decl_designator(t, c, cur_index, cur_field, size_only) {
     enter();
 //     Sym *s, *f;
     var s;
     var f;
-//     int notfirst, index, align, l;
+
     var notfirst;
     var index;
     var align;
     var l;
-// 
-//     notfirst = 0;
+
     notfirst = 0;
-// 
-//     while (tok == '[' || tok == '.') {
+
     while (tok == mk_char('[') || tok == mk_char('.')) {
 err();
 //         if (tok == '[') {
