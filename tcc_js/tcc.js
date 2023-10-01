@@ -1375,115 +1375,69 @@ function next_nomacro1() {
          tok = ri32(ts+TokenSym_tok_o);
     } else if (isnum(ch) || ch == mk_char('.')) {
         parse_number();
-//     } else if (ch == '\'') {
      } else if (ch == mk_char('\'')) {
-//         tok = TOK_CCHAR;
         tok = TOK_CCHAR;
-//         minp();
         minp();
 //         tokc.i = getq();
         wi32(tokc, getq());
-//         if (ch != '\'')
         if (ch != mk_char('\''))
-//             expect("\'");
             expect("\'");
-//         minp();
         minp();
-//     } else if (ch == '\"') {
     } else if (ch == mk_char('\"')) {
-//         tok = TOK_STR;
         tok = TOK_STR;
-//         minp();
         minp();
-//         q = token_buf;
         q = token_buf;
-//         while (ch != '\"') {
         while (ch !== mk_char('\"')) {
-//             b = getq();
             b = getq();
-//             if (ch == -1)
             if (ch == -1)
-//                 error("unterminated string");
                 error("unterminated string");
-//             if (q >= token_buf + STRING_MAX_SIZE)
             if (q >= token_buf + STRING_MAX_SIZE)
-//                 error("string too long");
                 error("string too long");
-//             *q++ = b;
             wi8(q, b);
             q=q+1;
-//         }
         }
-//         *q = '\0';
         wi8(q, 0);
 //         tokc.ts = tok_alloc(token_buf, q - token_buf);
         wi32(tokc, tok_alloc(token_buf, q - token_buf));
-//         minp();
         minp();
-//     } else {
     } else {
-//         q = "<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266";
         q = mk_c_string("<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266");
-//         /* two chars */
-//         tok = ch;
+        /* two chars */
         tok = ch;
-//         cinp();
         cinp();
-//         while (*q) {
         while (ri8(q)) {
-//             if (*q == tok && q[1] == ch) {
             if (ri8(q) === tok && ri8(q+1) === ch) {
-//                 cinp();
                 cinp();
-//                 tok = q[2] & 0xff;
                 tok = ri8(q+2) & 0xFF;
-//                 /* three chars tests */
-//                 if (tok == TOK_SHL | tok == TOK_SAR) {
+                /* three chars tests */
                 if (tok == TOK_SHL | tok == TOK_SAR) {
-//                     if (ch == '=') {
                     if (ch == mk_char('=')) {
-//                         tok = tok | 0x80;
                         tok = tok | 0x80;
-//                         cinp();
                         cinp();
-//                     }
                     }
-//                 } else if (tok == TOK_DOTS) {
                 } else if (tok == TOK_DOTS) {
 err();
 //                     if (ch != '.')
 //                         error("parse error");
 //                     cinp();
-//                 }
                 }
-//                 return;
                 return leave();
-//             }
             }
-//             q = q + 3;
             q = q + 3;
-//         }
         }
-//         /* single char substitutions */
-//         if (tok == '<')
+        /* single char substitutions */
         if (tok === mk_char('<')){
-//             tok = TOK_LT;
             tok = TOK_LT;
-//         else if (tok == '>')
         } else if (tok == mk_char('>')) {
-//             tok = TOK_GT;
             tok = TOK_GT;
         }
-//     }
     }
-// }
     leave();
 }
-// 
-// /* return next token without macro substitution. Can read input from
-//    macro_ptr buffer */
+
+/* return next token without macro substitution. Can read input from
+   macro_ptr buffer */
 // void next_nomacro()
-// {
 function next_nomacro() {
     enter();
 //     if (macro_ptr) {
