@@ -396,39 +396,7 @@ var VT_LVAL = 0x0010;
 //     TOK___FUNC__,
 //     TOK_MAIN,
 // };
-// 
-// void sum(int l);
-// void next(void);
-// void next_nomacro(void);
-// int expr_const(void);
-// void expr_eq(void);
-// void gexpr(void);
-// void decl(int l);
-// void decl_initializer(int t, int c, int first, int size_only);
-// int decl_initializer_alloc(int t, int has_init);
-// int gv(void);
-// void move_reg(int r, int s);
-// void save_reg(int r);
-// void vpop(void);
-// void vswap(void);
-// void vdup(void);
-// int get_reg(int rc);
-// 
-// void macro_subst(int **tok_str, int *tok_len, 
-//                  Sym **nested_list, int *macro_str);
-// int save_reg_forced(int r);
-// void gen_op(int op);
-// void gen_cast(int t);
-// void vstore(void);
-// int type_size(int t, int *a);
-// int pointed_type(int t);
-// int pointed_size(int t);
-// int ist(void);
-// int type_decl(int *v, int t, int td);
-// void error(const char *fmt, ...);
-// void vset(int t, int v);
-// void printline2(void);
-// 
+
 // #include "i386-gen.c"
 load("i386-gen.js");
 
