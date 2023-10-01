@@ -1297,64 +1297,40 @@ err();
         q=q+1;
     }
     n = 0;
-//     while(1) {
     while(1) {
-//         t = *q++;
         t = ri8(q);
         q=q+1;
-//         /* no need for checks except for base 10 / 8 errors */
-//         if (t == '\0') {
+        /* no need for checks except for base 10 / 8 errors */
         if (t === mk_char('\0')) {
-//             break;
             break;
-//         } else if (t >= 'a') {
         } else if (t >= mk_char('a')) {
-//             t = t - 'a' + 10;
             t = t - mk_char('a') + 10;
-//         } else if (t >= 'A') {
         } else if (t >= mk_char('A')) {
-//             t = t - 'A' + 10;
             t = t - mk_char('A') + 10;
-//         } else {
         } else {
-//             t = t - '0';
             t = t -  mk_char('0');
-//             if (t >= b)
             if (t >= b)
-//                 error("invalid digit");
                 error("invalid digit");
-//         }
         }
-//         n1 = n;
 // FIXME ljw is unsigned needed?
         n1 = n;
-//         n = n * b + t;
 // FIXME ljw is unsigned needed?
         n = n * b + t;
-//         /* detect overflow */
         /* detect overflow */
-//         if (n < n1)
         if (n < n1)
-//             error("integer constant overflow");
             error("integer constant overflow");
-//     }
     }
 //     tokc.ui = n;
     wi32(tokc, n);
-//     tok = TOK_NUM;
     tok = TOK_NUM;
-//     /* XXX: add unsigned constant support (ANSI) */
-//     while (ch == 'L' || ch == 'l' || ch == 'U' || ch == 'u')
+    /* XXX: add unsigned constant support (ANSI) */
     while (ch === mk_char('L') || ch === mk_char('l') || ch === mk_char('U') || ch === mk_char('u'))
-//         cinp();
         cinp();
-// }
 }
-// 
-// 
-// /* return next token without macro substitution */
+
+
+/* return next token without macro substitution */
 // void next_nomacro1(void)
-// {
 function next_nomacro1() {
     enter();
 //     int b;
