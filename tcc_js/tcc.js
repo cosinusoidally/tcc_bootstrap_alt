@@ -2322,39 +2322,28 @@ err();
 //         strcat(buf, varstr);
 //     }
 // }
-// 
-//                  
-// 
-// /* verify type compatibility to store vtop in 'st' type, and generate
-//    casts if needed */
+
+/* verify type compatibility to store vtop in 'st' type, and generate
+   casts if needed */
 // void gen_assign_cast(int dt)
-// {
 function gen_assign_cast(dt) {
     enter();
-//     int st;
     var st;
 //     char buf1[256], buf2[256];
     var buf1=alloca(256);
     var buf2=alloca(256);
-// 
-//     st = vtop->t; /* destination type */
-    st = ri32(vtop+SValue_t_o);
-//     if (!check_assign_types(dt, st)) {
+    st = ri32(vtop+SValue_t_o); /* destination type */
     if (!check_assign_types(dt, st)) {
 err();
 //         type_to_str(buf1, sizeof(buf1), st, NULL);
 //         type_to_str(buf2, sizeof(buf2), dt, NULL);
 //         error("cannot cast '%s' to '%s'", buf1, buf2);
-//     }
     }
     leave();
-// }
 }
-// 
-// 
-// /* store vtop in lvalue pushed on stack */
+
+/* store vtop in lvalue pushed on stack */
 // void vstore(void)
-// {
 function vstore() {
     enter();
 //     int ft, fc, r, t, size, align, bit_size, bit_pos;
