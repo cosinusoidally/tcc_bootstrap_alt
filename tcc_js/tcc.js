@@ -1862,42 +1862,33 @@ function gv() {
     /* NOTE: get_reg can modify vstack[] */
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
     print("gv r_init: "+r); /* dbg log */
-//     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
     if (r >= VT_CONST || (ri32(vtop+SValue_t_o) & VT_LVAL)) {
-//         rc = REG_CLASS_INT;
         rc = REG_CLASS_INT;
-//         r = get_reg(rc);
         r = get_reg(rc);
-//     }
     }
-print("gv r_ret: "+r)
-//     load(r, vtop->t, vtop->c.ul);
+
+    print("gv r_ret: "+r); /* dbg log */
 // FIXME ljw is unsigned needed?
+//     load(r, vtop->t, vtop->c.ul);
     _load(r, ri32(vtop+SValue_t_o), ri32(vtop+SValue_c_o));
-//     vtop->t = (vtop->t & VT_TYPE) | r;
     wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r);
-//     return r;
     return r;
-// }
 }
-// 
-// /* handle constant optimizations and various machine independant opt */
+
+/* handle constant optimizations and various machine independant opt */
 // void gen_opc(int op)
-// {
 function gen_opc(op) {
-print("gen_opc: "+op);
-//     int fc, c1, c2, n;
+    print("gen_opc: "+op); /* dbg log */
     var fc;
     var c1;
     var c2;
     var n;
-//     int general_case=0;
     var general_case=0;
 //     SValue *v1, *v2;
     var v1;
     var v2;
     var tmp;
-// 
+
 //     v1 = vtop - 1;
     v1 = vtop - SValue_size;
 //     v2 = vtop;
