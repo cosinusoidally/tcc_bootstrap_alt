@@ -2243,26 +2243,17 @@ err();
 
 // int check_assign_types(int t1, int t2)
 function check_assign_types(t1, t2){
-//     t1 &= VT_TYPE;
-    t1 &= VT_TYPE;
-//     t2 &= VT_TYPE;
-    t2 &= VT_TYPE;
-//     if ((t1 & VT_BTYPE) == VT_PTR && 
-//         (t2 & VT_BTYPE) == VT_FUNC) {
+    t1 = t1 & VT_TYPE;
+    t2 = t2 & VT_TYPE;
     if ((t1 & VT_BTYPE) == VT_PTR &&
         (t2 & VT_BTYPE) == VT_FUNC) {
 err();
 //         return is_compatible_types(pointed_type(t1), t2);
-        return is_compatible_types(pointed_type(t1), t2);
-//     } else {
     } else {
-//         return is_compatible_types(t1, t2);
         return is_compatible_types(t1, t2);
-//     }
     }
-// }
 }
-// 
+
 // /* print a type. If 'varstr' is not NULL, then the variable is also
 //    printed in the type */
 // /* XXX: add array and function pointers */
