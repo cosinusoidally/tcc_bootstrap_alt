@@ -3272,18 +3272,14 @@ function eor() {
 /* XXX: better constant handling */
 // void expr_eq(void)
 function expr_eq() {
-//     int t, u, c, r1, r2;
     var t;
     var u;
     var c;
     var r1;
     var r2;
-// 
-//     if (const_wanted) {
+
     if (const_wanted) {
-//         sum(10);
         sum(10);
-//         if (tok == '?') {
         if (tok == mk_char('?')) {
 err();
 //             c = vtop->c.i;
@@ -3296,13 +3292,9 @@ err();
 //             expr_eq();
 //             if (c)
 //                 vtop->c.i = t;
-//         }
         }
-//     } else {
     } else {
-//         eor();
         eor();
-//         if (tok == '?') {
         if (tok === mk_char('?')) {
 err();
 //             next();
@@ -3320,15 +3312,11 @@ err();
 //             move_reg(r1, r2);
 //             vtop->t = (vtop->t & VT_TYPE) | r1;
 //             gsym(u);
-//         }
         }
-//     }
     }
-// }
 }
-// 
+
 // void gexpr(void)
-// {
 function gexpr() {
 //     while (1) {
     while (1) {
