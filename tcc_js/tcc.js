@@ -1795,59 +1795,35 @@ function get_reg(rc) {
     var p=alloca(SValue_size);
 
     /* find a free register */
-//     for(r=0;r<NB_REGS;r++) {
     for(r=0;r<NB_REGS;r=r+1) {
-//         notfound=0;
         notfound=0;
-//         if (reg_classes[r] & rc) {
         if (ri32(reg_classes+(4*r)) & rc) {
-//             for(p=vstack;p<=vtop;p++) {
             for(p=vstack;p<=vtop;p=p+SValue_size) {
-//                i = p->t & VT_VALMASK;
                 i = ri32(p+SValue_t_o) & VT_VALMASK;
-//                 if (i == r)
                 if (i == r)
-//                     notfound=1;
                     notfound=1;
-//             }
             }
-//             if(!notfound){
             if(!notfound){
-//             return r;
             return leave(r);
-//             }
             }
-//         }
         }
-//     }
     }
-//     
-//     /* no register left : free the first one on the stack (very
-//        important to start from the bottom to ensure that we don't
-//        spill registers used in gen_op()) */
-//     for(p=vstack;p<=vtop;p++) {
+
+    /* no register left : free the first one on the stack (very
+       important to start from the bottom to ensure that we don't
+       spill registers used in gen_op()) */
     for(p=vstack;p<=vtop;p=p+SValue_size) {
-//         r = p->t & VT_VALMASK;
         r = ri32(p+SValue_t_o) & VT_VALMASK;
-//         if (r < VT_CONST && (reg_classes[r] & rc)) {
         if (r < VT_CONST && (ri32(reg_classes+(4*r)) & rc)) {
-//             save_reg(r);
             save_reg(r);
-//             break;
             break;
-//         }
         }
-//     }
     }
-//     return r;
-// }
     return leave(r);
 }
-// 
+
 // void save_regs()
-// {
 function save_regs() {
-//     int r;
     var r;
 //     SValue *p;
     var p;
