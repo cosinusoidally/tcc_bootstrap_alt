@@ -129,14 +129,13 @@ var IncludeFile_filename_o=4;
 //     int line_num;
 var IncludeFile_line_num_o=8;
 // } IncludeFile;
-// 
-// int special=0;
+
 var special=0;
-// 
-// /* parser */
-// FILE *file;
-// int line_num;
+
+/* parser */
+var file;
 var line_num=0;
+
 // int ch, ch1, tok, tok1;
 var ch;
 var ch1;
