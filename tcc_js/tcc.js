@@ -3982,45 +3982,30 @@ function decl(l) {
     var align=alloca(4);
 //     Sym *sym;
     var sym;
-//     
-//     while (1) {
+
     while (1) {
-//         b = ist();
          b = ist();
-//         if (!b) {
          if (!b) {
-//             /* skip redundant ';' */
-//             /* XXX: find more elegant solution */
-//             if (tok == ';') {
+            /* skip redundant ';' */
+            /* XXX: find more elegant solution */
             if (tok === mk_char(';')) {
                 next();
                 continue;
             }
-//             /* special test for old K&R protos without explicit int
-//                type. Only accepted when defining global data */
-//             if (l == VT_LOCAL || tok < TOK_DEFINE)
+            /* special test for old K&R protos without explicit int
+               type. Only accepted when defining global data */
             if (l == VT_LOCAL || tok < TOK_DEFINE) {
-//                 break;
                 break;
             }
+err();
 //             b = VT_INT;
-err();
-            b = VT_INT;
-//         }
          }
-//         if (((b & VT_BTYPE) == VT_ENUM ||
          if (((b & VT_BTYPE) == VT_ENUM ||
-//              (b & VT_BTYPE) == VT_STRUCT) && 
               (b & VT_BTYPE) == VT_STRUCT) &&
-//             tok == ';') {
              tok === mk_char(';')) {
-//             /* we accept no variable after */
-//             next();
+            /* we accept no variable after */
              next();
-//             continue;
              continue;
-//         }
-err();
          }
 //         while (1) { /* iterate thru each declaration */
          while (1) { /* iterate thru each declaration */
