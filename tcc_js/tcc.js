@@ -2573,7 +2573,7 @@ function struct_decl(u) {
 function basic_type1(t,u){
     if ((t & VT_BTYPE) !== 0)
         error("too many basic types %x", t);
-    t |= u;
+    t = t | u;
     return t;
 }
 
