@@ -730,27 +730,19 @@ function sym_find1(st, v) {
     var h;
 
     h=HASH_SYM(v);
-print("sym_find1 hash: "+h);
+    print("sym_find1 hash: "+h); /* dbg log */
     s = ri32(st+SymStack_hash_o+(4*h));
-//     while (s) {
-print("s: "+s);
+    print("s: "+s); /* dbg log */
      while (s) {
-//         if (s->v == v)
          if (ri32(s+Sym_v_o) === v) {
-//             return s;
              return s;
          }
-//         s = s->hash_next;
          s = ri32(s+Sym_hash_next_o);
-//     }
      }
-//     return 0;
      return 0;
-// }
 }
-// 
+
 // Sym *sym_push1(SymStack *st, int v, int t, int c)
-// {
 function sym_push1(st, v, t, c) {
 print("sym_push1: v: "+v+" t: "+t+" c: "+c);
     enter();
