@@ -2571,17 +2571,12 @@ function struct_decl(u) {
 
 // int basic_type1(int t,int u){
 function basic_type1(t,u){
-//     if ((t & VT_BTYPE) != 0)
     if ((t & VT_BTYPE) !== 0)
-//         error("too many basic types %x", t);
         error("too many basic types %x", t);
-//     t |= u;
     t |= u;
-//     return t;
     return t;
-// }
 }
-// 
+
 // int basic_type(int t, int u){
 function basic_type(t, u){
 //     next();
