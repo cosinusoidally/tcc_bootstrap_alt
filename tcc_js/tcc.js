@@ -105,29 +105,22 @@ var Reloc_next_o=8;
 var RELOC_ADDR32 = 1; /* 32 bits relocation */
 var RELOC_REL32 = 2;  /* 32 bits relative relocation */
 
-// 
 // #define SYM_STRUCT     0x40000000 /* struct/union/enum symbol space */
 // #define SYM_FIELD      0x20000000 /* struct/union field symbol space */
 // #define SYM_FIRST_ANOM (1 << (31 - VT_STRUCT_SHIFT)) /* first anonymous sym */
-// 
-// #define FUNC_NEW       1 /* ansi function prototype */
-var FUNC_NEW = 1;
-// #define FUNC_OLD       2 /* old function prototype */
-var FUNC_OLD = 2;
-// #define FUNC_ELLIPSIS  3 /* ansi function prototype with ... */
-var FUNC_ELLIPSIS = 3;
-// 
-// /* field 'Sym.t' for macros */
-// #define MACRO_OBJ      0 /* object like macro */
-var MACRO_OBJ = 0;
+
+var FUNC_NEW = 1;           /* ansi function prototype */
+var FUNC_OLD = 2;           /* old function prototype */
+var FUNC_ELLIPSIS = 3;      /* ansi function prototype with ... */
+
+/* field 'Sym.t' for macros */
+var MACRO_OBJ = 0;          /* object like macro */
 // #define MACRO_FUNC     1 /* function like macro */
-// 
-// /* type_decl() types */
-// #define TYPE_ABSTRACT  1 /* type without variable */
-var TYPE_ABSTRACT = 1;
-// #define TYPE_DIRECT    2 /* type with variable */
-var TYPE_DIRECT = 2;
-// 
+
+/* type_decl() types */
+var TYPE_ABSTRACT = 1;      /* type without variable */
+var TYPE_DIRECT = 2;        /* type with variable */
+
 // typedef struct {
 //     FILE *file;
 var IncludeFile_file_o=0;
