@@ -212,9 +212,9 @@ function oad(c, s) {
 
 /* psym is used to put an instruction with a data field which is a
    reference to a symbol. It is in fact the same as oad ! */
-// #define psym oad
-// FIXME ljw remove use of this alias
-var psym = oad;
+function psym(c, s) {
+  return oad(c,s);
+}
 
 var lt=0;
 
