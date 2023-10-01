@@ -4255,36 +4255,23 @@ function resolve_extern_syms() {
 //                     error("unresolved external reference '%s'", str);
 //                 count=greloc_patch(s, addr);
                 count=greloc_patch(s, addr);
-// if(reloc){
-if(reloc){
-//   printf("resolve_extern_syms: %s %d\n",str,count);
-  print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count);
-//   strcpy((char *)global_relocs_table,str);
-  strcpy(global_relocs_table,str);
-//   global_relocs_table+=strlen(str)+1;
-  global_relocs_table=global_relocs_table+strlen(str)+1;
-//   *(int *)global_relocs_table=count;
-  wi32(global_relocs_table,count);
-//   global_relocs_table+=4;
-  global_relocs_table=global_relocs_table+4;
-// }
-}
-//             }
+                if(reloc){
+                    //   printf("resolve_extern_syms: %s %d\n",str,count);
+                    print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count); /* dbg log */
+                    strcpy(global_relocs_table,str);
+                    global_relocs_table=global_relocs_table+strlen(str)+1;
+                    wi32(global_relocs_table,count);
+                    global_relocs_table=global_relocs_table+4;
+                }
             }
-//         }
         }
-//         s = s1;
         s = s1;
-//     }
     }
-// reloc_global=0;
-reloc_global=0;
+    reloc_global=0;
     leave();
-// }
 }
-// 
+
 // int show_help(void)
-// {
 //     printf("tcc version 0.9.2 - Tiny C Compiler - Copyright (C) 2001 Fabrice Bellard\n"
 //            "usage: tcc [-Idir] [-Dsym] [-llib] [-i infile] infile [infile_args...]\n");
 //     return 1;
