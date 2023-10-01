@@ -908,20 +908,14 @@ function cinp() {
 }
 
 // void skip_spaces(void)
-// {
 function skip_spaces() {
-
-//     while (ch == ' ' || ch == '\t')
     while (ch == mk_char(' ') || ch == mk_char('\t'))
-//         cinp();
          cinp();
-// }
 }
-// 
-// /* return the number of additionnal 'ints' necessary to store the
-//    token */
+
+/* return the number of additionnal 'ints' necessary to store the
+   token */
 // static inline int tok_ext_size(int t)
-// {
 function tok_ext_size(t) {
 //  4 bytes
     if(t==TOK_NUM |
@@ -936,64 +930,45 @@ function tok_ext_size(t) {
         return 0;
     }
 }
-// 
+
 // void tok_add(int **tok_str, int *tok_len, int t)
-// {
 function tok_add(tok_str, tok_len, t) {
     enter();
 //     int len, *str;
     var len;
     var str=alloca(4);
-//     len = *tok_len;
     len=ri32(tok_len);
-//     str = *tok_str;
     wi32(str, ri32(tok_str));
-//     if ((len & 63) == 0) {
     if ((len & 63) == 0) {
-//         str = realloc(str, (len + 64) * sizeof(int));
         wi32(str, realloc(ri32(str), (len + 64) * 4));
-//         if (!str)
         if (!ri32(str)) {
-//             return;
             return leave();
         }
-//         *tok_str = str;
         wi32(tok_str, ri32(str));
-//     }
     }
-//     str[len++] = t;
     wi32(ri32(str)+((len)*4), t);
     len=len+1;
-//     *tok_len = len;
     wi32(tok_len, len);
-// }
     return leave();
 }
-// 
+
 // void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
-// {
 function tok_add2(tok_str, tok_len, t, cv) {
     enter();
-//     int n, i;
     var n;
     var i;
-// 
-//     tok_add(tok_str, tok_len, t);
+
     tok_add(tok_str, tok_len, t);
-//     n = tok_ext_size(t);
     n = tok_ext_size(t);
-//     for(i=0;i<n;i++)
     for(i=0;i<n;i=i+1) {
 //         tok_add(tok_str, tok_len, cv->tab[i]);
         tok_add(tok_str, tok_len, ri32(cv+(i*4)));
     }
-// }
     return leave();
 }
-// 
-// /* get a token from an integer array and increment pointer accordingly */
+
+/* get a token from an integer array and increment pointer accordingly */
 // int tok_get(int **tok_str, CValue *cv)
-// {
 function tok_get(tok_str, cv) {
 //     int *p, t, n, i;
      var p;
