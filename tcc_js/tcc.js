@@ -1333,76 +1333,47 @@ err();
 // void next_nomacro1(void)
 function next_nomacro1() {
     enter();
-//     int b;
     var b;
 //     char *q;
     var q;
 //     TokenSym *ts;
     var ts;
-// 
-//     /* skip spaces */
-//     while(1) {
+
+    /* skip spaces */
     while(1) {
-//         while (ch == '\n') {
         while (ch == mk_char('\n')) {
-//             cinp();
             cinp();
-//             while (ch == ' ' || ch == 9)
             while (ch == mk_char(' ') || ch == 9) {
-//                 cinp();
                 cinp();
             }
-//             if (ch == '#') {
             if (ch == mk_char('#')) {
-//                 /* preprocessor command if # at start of line after
-//                    spaces */
-//                 preprocess();
+                /* preprocessor command if # at start of line after
+                   spaces */
                 preprocess();
-//             }
             }
-//         }
         }
-//         if (ch != ' ' && ch != '\t' && ch != '\f')
         if (ch != mk_char(' ') && ch != mk_char('\t') && ch != mk_char('\f')) {
-//             break;
             break;
         }
-//         cinp();
         cinp();
-//     }
     }
-//     if (isid(ch)) {
     if (isid(ch)) {
-//         q = token_buf;
         q = token_buf;
-//         *q++ = ch;
         wi8(q, ch);
         q=q+1;
-//         cinp();
         cinp();
-//         while (isid(ch) || isnum(ch)) {
         while (isid(ch) || isnum(ch)) {
-//             if (q >= token_buf + STRING_MAX_SIZE)
             if (q >= token_buf + STRING_MAX_SIZE) {
-//                 error("ident too long");
                 error("ident too long");
             }
-//             *q++ = ch;
                wi8(q, ch);
                q=q+1;
-//             cinp();
             cinp();
-//         }
         }
-//         *q = '\0';
         wi8(q, 0);
-//         ts = tok_alloc(token_buf, q - token_buf);
         ts = tok_alloc(token_buf, q - token_buf);
-//         tok = ts->tok;
          tok = ri32(ts+TokenSym_tok_o);
-//     } else if (isnum(ch) || ch == '.') {
     } else if (isnum(ch) || ch == mk_char('.')) {
-//         parse_number();
         parse_number();
 //     } else if (ch == '\'') {
      } else if (ch == mk_char('\'')) {
