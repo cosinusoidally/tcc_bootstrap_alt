@@ -433,62 +433,43 @@ function gfunc_call(c) {
 }
 
 // int gjmp(int t)
-// {
 function gjmp(t) {
-//     return psym(0xe9, t);
     return oad(0xE9, t);
-// }
 }
-// 
-// /* generate a test. set 'inv' to invert test. Stack entry is popped */
+
+/* generate a test. set 'inv' to invert test. Stack entry is popped */
 // int gtst(int inv, int t)
-// {
 function gtst(inv, t) {
 //     int v, *p;
     var v;
     var p;
-//     v = vtop->t & VT_VALMASK;
     v = ri32(vtop+SValue_t_o) & VT_VALMASK;
-//     if (v == VT_CMP) {
     if (v == VT_CMP) {
-//         /* fast case : can jump directly since flags are set */
-//         g(0x0f);
+        /* fast case : can jump directly since flags are set */
         g(0x0F);
-//         t = psym((vtop->c.i - 16) ^ inv, t);
         t = psym((ri32(vtop+SValue_c_o) - 16) ^ inv, t);
-//     } else if (v == VT_JMP || v == VT_JMPI) {
     } else if (v == VT_JMP || v == VT_JMPI) {
-//         /* && or || optimization */
-//         if ((v & 1) == inv) {
+        /* && or || optimization */
         if ((v & 1) == inv) {
-//             /* insert vtop->c jump list in t */
+            /* insert vtop->c jump list in t */
 //             p = &vtop->c.i;
             p = vtop+SValue_c_o;
-//             while (*p != 0)
             while (ri32(p) != 0) {
-//                 p = (int *)*p;
                 p = ri32(p);
             }
-//             *p = t;
             wi32(p, t);
 //             t = vtop->c.i;
             t = ri32(vtop+SValue_c_o);
-//         } else {
         } else {
-//             t = gjmp(t);
             t = gjmp(t);
 //             gsym(vtop->c.i);
             gsym(ri32(vtop+SValue_c_o));
-//         }
         }
-//     } else if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
     } else if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
-//         /* constant jmp optimization */
+        /* constant jmp optimization */
 //         if ((vtop->c.i != 0) != inv) 
         if ((ri32(vtop+SValue_c_o) != 0) != inv) 
-//             t = gjmp(t);
             t = gjmp(t);
-//     } else {
     } else {
 //         /* XXX: floats */
 //         v = gv();
