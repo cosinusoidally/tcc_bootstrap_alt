@@ -280,78 +280,46 @@ err();
 
         if (v == VT_CONST) {
             o(0x05 + r * 8); /* 0xXX, r */
-// printf("\n load1 %x\n",ind);
-print("\n load1 %x\n",ind);
-lt=1;
-//             gen_addr32(fc, ft);
+            // printf("\n load1 %x\n",ind);
+            print("\n load1 %x\n",ind);
+            lt=1;
             gen_addr32(fc, ft);
-//         } else if (v == VT_LOCAL) {
         } else if (v == VT_LOCAL) {
-//             oad(0x85 + r * 8, fc); /* xx(%ebp), r */
-            oad(0x85 + r * 8, fc);
-//         } else {
+            oad(0x85 + r * 8, fc); /* xx(%ebp), r */
         } else {
-//             g(0x00 + r * 8 + v); /* (v), r */
             g(0x00 + r * 8 + v); /* (v), r */
-//         }
         }
-//     } else {
     } else {
-//         if (v == VT_CONST) {
         if (v == VT_CONST) {
-//             o(0xb8 + r); /* mov $xx, r */
             o(0xB8 + r); /* mov $xx, r */
-// printf("\n load2 %x\n",ind);
-print("\n load2 "+to_hex(ind));
-// lt=2;
-lt=2;
-//             gen_addr32(fc, ft);
+            // printf("\n load2 %x\n",ind);
+            print("\n load2 "+to_hex(ind));
+            lt=2;
             gen_addr32(fc, ft);
-//         } else if (v == VT_LOCAL) {
         } else if (v == VT_LOCAL) {
-//             o(0x8d);
             o(0x8D);
-//             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
             oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
-//         } else if (v == VT_CMP) {
         } else if (v == VT_CMP) {
-//             oad(0xb8 + r, 0); /* mov $0, r */
             oad(0xB8 + r, 0); /* mov $0, r */
-//             o(0x0f); /* setxx %br */
             o(0x0F); /* setxx %br */
-//             o(fc);
             o(fc);
-//             o(0xc0 + r);
             o(0xC0 + r);
-//         } else if (v == VT_JMP || v == VT_JMPI) {
         } else if (v == VT_JMP || v == VT_JMPI) {
-//             t = v & 1;
             t = v & 1;
-//             oad(0xb8 + r, t); /* mov $1, r */
             oad(0xB8 + r, t); /* mov $1, r */
-//             oad(0xe9, 5); /* jmp after */
             oad(0xE9, 5); /* jmp after */
-//             gsym(fc);
             gsym(fc);
-//             oad(0xb8 + r, t ^ 1); /* mov $0, r */
             oad(0xB8 + r, t ^ 1); /* mov $0, r */
-//         } else if (v != r) {
         } else if (v != r) {
-//             o(0x89);
             o(0x89);
-//             o(0xc0 + r + v * 8); /* mov v, r */
             o(0xC0 + r + v * 8); /* mov v, r */
-//         }
         }
-//     }
     }
-// }
 }
-// 
-// /* (ft, fc) = r */
-// /* WARNING: r must not be allocated on the stack */
+
+/* (ft, fc) = r */
+/* WARNING: r must not be allocated on the stack */
 // void store(r, ft, fc)
-// {
 function store(r, ft, fc) {
 //     int fr, bt;
     var fr;
