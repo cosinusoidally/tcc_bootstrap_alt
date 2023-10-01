@@ -1066,34 +1066,20 @@ err();
 //         if (s)
 //             sym_undef(&define_stack, s);
     } else if (tok == TOK_INCLUDE) {
-//         skip_spaces();
         skip_spaces();
-//         if ((ch == '<') || (ch == '\"')) {
         if ((ch == mk_char('<')) || (ch == mk_char('\"'))) {
-//             c = mk_char('>');
             c = mk_char('>');
-//         if (ch == '\"')
         if (ch == mk_char('\"'))
-//             c = ch;
             c = ch;
-//             minp();
             minp();
-//             q = buf;
             q = buf;
-//             while (ch != c && ch != '\n' && ch != -1) {
             while (ch != c && ch != mk_char('\n') && ch != -1) {
-//                 if ((q - buf) < sizeof(buf) - 1)
                 if ((q - buf) < buf_size - 1)
-//                     *q++ = ch;
                     wi8(q, ch);
                     q=q+1;
-//                 minp();
                 minp();
-//             }
             }
-//             *q = '\0';
             wi8(q, 0);
-//         } else {
         } else {
 err();
 //             next();
