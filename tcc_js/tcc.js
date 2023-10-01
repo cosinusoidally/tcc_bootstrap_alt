@@ -1169,51 +1169,32 @@ err();
 //     }
 //     return n;
 // }
-// 
-// /* read a character for string or char constant and eval escape codes */
+
+/* read a character for string or char constant and eval escape codes */
 // int getq()
-// {
 function getq() {
-//     int c;
     var c;
-// 
-//     c = ch;
+
     c = ch;
-//     minp();
     minp();
-//     if (c == '\\') {
     if (c == mk_char('\\')) {
-//         if (isnum(ch)) {
         if (isnum(ch)) {
-//             /* at most three octal digits */
-//             c = ch - '0';
+            /* at most three octal digits */
             c = ch - mk_char('0');
-//             minp();
             minp();
-//             if (isnum(ch)) {
             if (isnum(ch)) {
-//                 c = c * 8 + ch - '0';
                 c = c * 8 + ch - mk_char('0');
-//                 minp();
                 minp();
-//                 if (isnum(ch)) {
                 if (isnum(ch)) {
-//                     c = c * 8 + ch - '0';
                     c = c * 8 + ch - mk_char('0');
-//                     minp();
                     minp();
-//                 }
                 }
-//             }
             }
-//             return c;
             return c;
-//         } else if (ch == 'x') {
         } else if (ch == mk_char('x')) {
 err();
 //             minp();
 //             return getn(16);
-//         } else {
         } else {
             if (ch == mk_char('a'))
 // JS doesn't support the a escape code
@@ -1238,15 +1219,11 @@ err();
                 error("invalid escaped char");
             minp();
         }
-//     }
     }
-//     return c;
     return c;
-// }
 }
-// 
+
 // void parse_number(void)
-// {
 function parse_number() {
 //     int b, t, shift, frac_bits, s, exp_val;
     var b;
