@@ -114,12 +114,9 @@ function mk_reloc(addr,val){
       wi32(relocs, addr-prog);
       relocs=relocs+4;
     } else {
-err();
-//       printf("Can't handle relocs in data\n");
-//       exit(1);
-//     }
+      print("Can't handle relocs in data");
+      err();
     }
-
 
     if(is_data(val)){
       wi32(relocs, val-glo_base);
@@ -132,9 +129,9 @@ err();
       wi32(relocs, 1);
       relocs=relocs+4;
     }
-// //   printf("val: %d %d\n",val,is_data(val));
+//   printf("val: %d %d\n",val,is_data(val));
 }
-// 
+
 // void mk_reloc_global(int type,int addr){
 function mk_reloc_global(type,addr){
 // printf("mk_reloc_global: %d\n",global_relocs);
