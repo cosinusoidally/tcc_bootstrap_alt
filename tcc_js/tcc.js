@@ -3652,32 +3652,21 @@ err();
 
 // void init_putv(int t, int c, int v, int is_expr)
 function init_putv(t, c, v, is_expr) {
-//     int saved_global_expr, bt;
     var saved_global_expr;
     var bt;
-// 
-//     if ((t & VT_VALMASK) == VT_CONST) {
+
     if ((t & VT_VALMASK) == VT_CONST) {
-//         if (is_expr) {
         if (is_expr) {
-//             /* compound literals must be allocated globally in this case */
-//             saved_global_expr = global_expr;
+            /* compound literals must be allocated globally in this case */
             saved_global_expr = global_expr;
-//             global_expr = 1;
             global_expr = 1;
-//             expr_const1();
             expr_const1();
-//             global_expr = saved_global_expr;
             global_expr = saved_global_expr;
-//         } else {
         } else {
-//             vset(VT_CONST | VT_INT, v);
             vset(VT_CONST | VT_INT, v);
-//         }
         }
-//         /* XXX: do casting */
-//         /* XXX: not portable */
-//         bt = vtop->t & VT_BTYPE;
+        /* XXX: do casting */
+        /* XXX: not portable */
         bt = ri32(vtop+SValue_t_o) & VT_BTYPE;
         if(bt==VT_BYTE) {
 err();
@@ -3686,31 +3675,20 @@ err();
 err();
 //             *(short *)c = vtop->c.i;
         } else {
-//             *(int *)c = vtop->c.i;
             wi32(c, ri32(vtop+SValue_c_o));
         }
         vpop();
-//     } else {
     } else {
-//         vset(t, c);
         vset(t, c);
-//         if (is_expr)
         if (is_expr)
-//             expr_eq();
             expr_eq();
-//         else
         else
-//             vset(VT_CONST | VT_INT, v);
             vset(VT_CONST | VT_INT, v);
-//         vstore();
         vstore();
-//         vpop();
         vpop();
-//     }
     }
-// }
 }
-// 
+
 // /* put zeros for variable based init */
 // void init_putz(int t, int c, int size)
 // {
@@ -3733,17 +3711,15 @@ err();
 //         gfunc_call(&gf);
 //     }
 // }
-// 
-// /* 't' contains the type and storage info. c is the address of the
-//    object. 'first' is true if array '{' must be read (multi dimension
-//    implicit array init handling). 'size_only' is true if size only
-//    evaluation is wanted (only for arrays). */
+
+/* 't' contains the type and storage info. c is the address of the
+   object. 'first' is true if array '{' must be read (multi dimension
+   implicit array init handling). 'size_only' is true if size only
+   evaluation is wanted (only for arrays). */
 // void decl_initializer(int t, int c, int first, int size_only)
-// {
 function decl_initializer(t, c, first, size_only) {
-print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only);
+    print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only); /* dbg log */
     enter();
-//     int index, array_length, n, no_oblock, nb, parlevel, i;
     var index=alloca(4);
     var array_length;
     var n;
