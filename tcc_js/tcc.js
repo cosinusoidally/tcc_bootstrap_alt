@@ -1827,40 +1827,30 @@ function save_regs() {
     var r;
 //     SValue *p;
     var p;
-// 
-//     for(p=vstack;p<=vtop;p++) {
+
     for(p=vstack;p<=vtop;p=p+SValue_size) {
-//         r = p->t & VT_VALMASK;
         r = ri32(p+SValue_t_o) & VT_VALMASK;
-//         if (r < VT_CONST) {
         if (r < VT_CONST) {
-//             save_reg(r);
             save_reg(r);
-//         }
         }
-//     }
     }
-// }
 }
-// 
-// /* move register 's' to 'r', and flush previous value of r to memory
-//    if needed */
+
+/* move register 's' to 'r', and flush previous value of r to memory
+   if needed */
 // void move_reg(int r, int s)
-// {
 function move_reg(r, s) {
     if (r != s) {
         save_reg(r);
         _load(r, s, 0);
     }
  }
-// 
-// /* convert a (vtop->t, vtop->c) in register. lvalues are converted as
-//    values. Cannot be used if cannot be converted to register value
-//    (such as structures). */
+
+/* convert a (vtop->t, vtop->c) in register. lvalues are converted as
+   values. Cannot be used if cannot be converted to register value
+   (such as structures). */
 // int gv(void)
-// {
 function gv() {
-//     int r, bit_pos, bit_size, rc, size, align, i;
     var r;
     var bit_pos;
     var bit_size;
@@ -1868,11 +1858,10 @@ function gv() {
     var size;
     var align;
     var i;
-// 
-//     /* NOTE: get_reg can modify vstack[] */
-//     r = vtop->t & VT_VALMASK;
+
+    /* NOTE: get_reg can modify vstack[] */
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
-print("gv r_init: "+r)
+    print("gv r_init: "+r); /* dbg log */
 //     if (r >= VT_CONST || (vtop->t & VT_LVAL)) {
     if (r >= VT_CONST || (ri32(vtop+SValue_t_o) & VT_LVAL)) {
 //         rc = REG_CLASS_INT;
