@@ -4067,39 +4067,26 @@ err();
                 func_vt = VT_VOID; /* for safety */
                 break;
             } else {
-//                 if (b & VT_TYPEDEF) {
                 if (b & VT_TYPEDEF) {
-//                     /* save typedefed type  */
-//                     /* XXX: test storage specifiers ? */
-//                     sym_push(v, t | VT_TYPEDEF, 0);
+                    /* save typedefed type  */
+                    /* XXX: test storage specifiers ? */
                     sym_push(ri32(v), t | VT_TYPEDEF, 0);
-//                 } else if ((t & VT_BTYPE) == VT_FUNC) {
                 } else if ((t & VT_BTYPE) == VT_FUNC) {
-//                     /* external function definition */
-//                     external_sym(v, t);
+                    /* external function definition */
                     external_sym(ri32(v), t);
-//                 } else {
                 } else {
-//                     /* not lvalue if array */
-//                     if (!(t & VT_ARRAY))
+                    /* not lvalue if array */
                     if (!(t & VT_ARRAY)) {
-//                         t |= VT_LVAL;
-                        t |= VT_LVAL;
+                        t = t | VT_LVAL;
                     }
-//                     if (b & VT_EXTERN) {
                     if (b & VT_EXTERN) {
                         /* external variable */
                         external_sym(ri32(v), t);
-//                     } else {
                     } else {
-//                         u = l;
                         u = l;
-//                         if (t & VT_STATIC)
                         if (t & VT_STATIC)
-//                             u = VT_CONST;
                             u = VT_CONST;
-//                         u |= t;
-                        u |= t;
+                        u = u | t;
 //                         has_init = (tok == '=');
                         has_init = (tok === mk_char('='));
 //                         if (has_init)
