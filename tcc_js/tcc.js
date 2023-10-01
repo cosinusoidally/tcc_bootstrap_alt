@@ -788,31 +788,21 @@ function sym_pop(st, b) {
 //     Sym *s, *ss;
     var s;
     var ss;
-// 
-//     s = st->top;
+
     s = ri32(st+SymStack_top_o);
-//     while(s != b) {
     while(s !== b) {
-//         ss = s->prev;
         ss = ri32(s+Sym_prev_o);
-//         /* free hash table entry, except if symbol was freed (only
-//            used for #undef symbols) */
-//         if (s->v)
+        /* free hash table entry, except if symbol was freed (only
+           used for #undef symbols) */
         if (ri32(s+Sym_v_o)){
-//             st->hash[HASH_SYM(s->v)] = s->hash_next;
             wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
         }
-//         free(s);
         free(s);
-//         s = ss;
         s = ss;
-//     }
     }
-//     st->top = b;
     wi32(st+SymStack_top_o, b);
-// }
 }
-// 
+
 // /* undefined a hashed symbol (used for #undef). Its name is set to
 //    zero */
 // void sym_undef(SymStack *st, Sym *s)
@@ -827,37 +817,25 @@ function sym_pop(st, b) {
 //     *ss = s->hash_next;
 //     s->v = 0;
 // }
-// 
-// /* no need to put that inline */
+
+/* no need to put that inline */
 // int handle_eof(void)
-// {
 function handle_eof() {
-//     if (include_stack_ptr == include_stack)
     if (include_stack_ptr == include_stack) {
-//         return -1;
         return -1;
     }
-//     /* pop include stack */
-//     fclose(file);
+    /* pop include stack */
     fclose(file);
-//     free(filename);
     free(filename);
-//     include_stack_ptr--;
     include_stack_ptr=include_stack_ptr-IncludeFile_size;
-//     file = include_stack_ptr->file;
     file = ri32(include_stack_ptr+IncludeFile_file_o);
-//     filename = include_stack_ptr->filename;
     filename = ri32(include_stack_ptr+IncludeFile_filename_o);
-//     line_num = include_stack_ptr->line_num;
     line_num = ri32(include_stack_ptr+IncludeFile_line_num_o);
-//     return 0;
     return 0;
-// }
 }
-// 
-// /* read next char from current input file */
+
+/* read next char from current input file */
 // static inline void inp(void)
-// {
 function inp(){
 //     int redo=1;
     var redo=1;
