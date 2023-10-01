@@ -3885,7 +3885,6 @@ err();
 function decl_initializer_alloc(t, has_init) {
 print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     enter();
-//     int size, align, addr, tok1;
     var size;
     var align=alloca(4);
     var addr;
@@ -3895,135 +3894,80 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     var init_len=alloca(4);
     var level=alloca(4);
     var saved_macro_ptr;
-// 
-//     size = type_size(t, &align);
+
     size = type_size(t, align);
-//     /* If unknown size, we must evaluate it before
-//        evaluating initializers because
-//        initializers can generate global data too
-//        (e.g. string pointers or ISOC99 compound
-//        literals). It also simplifies local
-//        initializers handling */
-//     init_len = 0;
+    /* If unknown size, we must evaluate it before
+       evaluating initializers because
+       initializers can generate global data too
+       (e.g. string pointers or ISOC99 compound
+       literals). It also simplifies local
+       initializers handling */
     wi32(init_len, 0);
-//     init_str = NULL;
     wi32(init_str, NULL);
-//     saved_macro_ptr = NULL; /* avoid warning */
-    saved_macro_ptr = NULL;
-//     tok1 = 0;
+    saved_macro_ptr = NULL; /* avoid warning */
     tok1 = 0;
-//     if (size < 0) {
     if (size < 0) {
-//         if (!has_init) 
         if (!has_init) 
-//             error("unknown type size");
             error("unknown type size");
-//         /* get all init string */
-//         level = 0;
+        /* get all init string */
         level = 0;
-//         while (level > 0 || (tok != ',' && tok != ';')) {
         while (level > 0 || (tok != mk_char(',') && tok != mk_char(';'))) {
-//             if (tok < 0)
             if (tok < 0)
-//                 error("unexpect end of file in initializer");
                 error("unexpect end of file in initializer");
-//             tok_add2(&init_str, &init_len, tok, &tokc);
             tok_add2(init_str, init_len, tok, tokc);
-//             if (tok == '{')
             if (tok == mk_char('{'))
-//                 level++;
                 level=level+1;
-//             else if (tok == '}') {
             else if (tok == mk_char('}')) {
-//                 if (level == 0)
                 if (level == 0)
-//                     break;
                     break;
-//                 level--;
                 level=level-1;
-//             }
             }
-//             next();
             next();
-//         }
         }
-//         tok1 = tok;
         tok1 = tok;
-//         tok_add(&init_str, &init_len, -1);
         tok_add(init_str, init_len, -1);
-//         tok_add(&init_str, &init_len, 0);
         tok_add(init_str, init_len, 0);
-//         
-//         /* compute size */
-//         saved_macro_ptr = macro_ptr;
+
+        /* compute size */
         saved_macro_ptr = ri32(macro_ptr);
-//         macro_ptr = init_str;
         wi32(macro_ptr, ri32(init_str));
-//         next();
         next();
-//         decl_initializer(t, 0, 1, 1);
         decl_initializer(t, 0, 1, 1);
-//         /* prepare second initializer parsing */
-//         macro_ptr = init_str;
+        /* prepare second initializer parsing */
         wi32(macro_ptr, ri32(init_str));
-//         next();
         next();
-//         
-//         /* if still unknown size, error */
-//         size = type_size(t, &align);
+
+        /* if still unknown size, error */
         size = type_size(t, align);
-//         if (size < 0) 
         if (size < 0) 
-//             error("unknown type size");
             error("unknown type size");
-//     }
     }
-//     if ((t & VT_VALMASK) == VT_LOCAL) {
     if ((t & VT_VALMASK) == VT_LOCAL) {
-//         loc = (loc - size) & -align;
         loc = (loc - size) & -(ri32(align));
-//         addr = loc;
         addr = loc;
-//     } else {
     } else {
-//         glo = (glo + align - 1) & -align;
         glo = (glo + ri32(align) - 1) & -ri32(align);
-//         addr = glo;
         addr = glo;
-//         /* very important to increment global
-//            pointer at this time because
-//            initializers themselves can create new
-//            initializers */
-//         glo += size;
+        /* very important to increment global
+           pointer at this time because
+           initializers themselves can create new
+           initializers */
         glo = glo + size;
-//     }
     }
-//     if (has_init) {
     if (has_init) {
-//         decl_initializer(t, addr, 1, 0);
         decl_initializer(t, addr, 1, 0);
-//         /* restore parse state if needed */
-//         if (init_str) {
+        /* restore parse state if needed */
         if (ri32(init_str)) {
-//             free(init_str);
             free(ri32(init_str));
-//             macro_ptr = saved_macro_ptr;
             wi32(macro_ptr, saved_macro_ptr);
-//             tok = tok1;
             tok = tok1;
-//         }
         }
-//     }
     }
-//     return addr;
-// }
     return leave(addr);
 }
-// 
-// 
-// /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
+
+/* 'l' is VT_LOCAL or VT_CONST to define default storage type */
 // void decl(int l)
-// {
 function decl(l) {
     enter();
 //     int *a, t, b, v, u, addr, has_init, size, align;
