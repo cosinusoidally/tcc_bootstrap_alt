@@ -3127,43 +3127,27 @@ err();
                     next();
                 }
                 if (tok != mk_char(')'))
-//                     expect(")");
                     expect(")");
-//                 
-//                 /* now generate code in reverse order by reading the stack */
-//                 saved_macro_ptr = macro_ptr;
+
+                /* now generate code in reverse order by reading the stack */
                 saved_macro_ptr = ri32(macro_ptr);
-//                 while (args) {
                 while (ri32(args)) {
-//                     macro_ptr = (int *)args->c;
                     wi32(macro_ptr, ri32(ri32(args)+Sym_c_o));
-//                     next();
                     next();
-//                     expr_eq();
                     expr_eq();
-//                     if (tok != -1)
                     if (tok != -1)
-//                         expect("',' or ')'");
                         expect("',' or ')'");
-//                     gfunc_param_typed(&gf, s, args->next);
                     gfunc_param_typed(gf, s, ri32(ri32(args)+Sym_next_o));
-//                     s1 = args->prev;
                     s1 = ri32(ri32(args)+Sym_prev_o);
 // FIXME ljw should free
 //                     free((int *)args->c);
 //                     free(args);
-//                     args = s1;
                     wi32(args, s1);
-//                 }
                 }
-//                 macro_ptr = saved_macro_ptr;
                 wi32(macro_ptr, saved_macro_ptr);
-//                 /* restore token */
-//                 tok = ')';
+                /* restore token */
                 tok = mk_char(')');
-//             }
-//             /* compute first implicit argument if a structure is returned */
-//             if ((s->t & VT_BTYPE) == VT_STRUCT) {
+            /* compute first implicit argument if a structure is returned */
             if ((ri32(s+Sym_t_o) & VT_BTYPE) == VT_STRUCT) {
 err();
 //                 /* get some space for the returned structure */
@@ -3175,39 +3159,25 @@ err();
 //                 vset(VT_INT | VT_LOCAL, loc);
 //                 retc = vtop->c;
 //                 gfunc_param(&gf);
-//             } else {
             } else {
-//                 rett = s->t | FUNC_RET_REG; /* return in register */
-                rett = ri32(s+Sym_t_o) | FUNC_RET_REG;
+                rett = ri32(s+Sym_t_o) | FUNC_RET_REG; /* return in register */
 //                 retc.i = 0;
                 wi32(retc, 0);
-//             }
             }
-//             if (sa)
             if (sa)
-//                 error("too few arguments to function %x", sa->t);
                 error("too few arguments to function %x");
-//             skip(')');
             skip(mk_char(')'));
-//             gfunc_call(&gf);
             gfunc_call(gf);
-//             /* return value */
-//             vsetc(rett, &retc);
+            /* return value */
             vsetc(rett, retc);
-//         } else {
         } else {
-//             break;
             break;
-//         }
         }
-//     }
     }
-// }
     leave();
 }
-// 
+
 // void uneq(void)
-// {
 function uneq() {
 //     int t;
     var t;
