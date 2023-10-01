@@ -168,48 +168,52 @@ var global_expr=0;  /* true if compound literals must be allocated
 var func_vt;
 var func_vc;
 
-// int tok_ident;
 var tok_ident;
+
 // TokenSym **table_ident;
 var table_ident;
+
 // TokenSym *hash_ident[TOK_HASH_SIZE];
 var hash_ident=malloc(TOK_HASH_SIZE*4);
+
 // char token_buf[STRING_MAX_SIZE + 1];
 var token_buf=malloc(STRING_MAX_SIZE + 1);
+
 // char *filename, *funcname;
 var filename;
 var funcname;
-// /* contains global symbols which remain between each translation unit */
+
+/* contains global symbols which remain between each translation unit */
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
 var define_stack=malloc(SymStack_size);
 var local_stack=malloc(SymStack_size);
 var global_stack=malloc(SymStack_size);
 var extern_stack=malloc(SymStack_size);
-// 
+
 // SValue vstack[VSTACK_SIZE], *vtop;
 var vstack=malloc(SValue_size*VSTACK_SIZE);
 var vtop;
+
 // int *macro_ptr, *macro_ptr_allocated;
 var macro_ptr=malloc(4);
 var macro_ptr_allocated=0;
+
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
 var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
 var include_stack_ptr;
-// int ifdef_stack[IFDEF_STACK_SIZE], *ifdef_stack_ptr;
+
 // char *include_paths[INCLUDE_PATHS_MAX];
 var include_paths = malloc(4*INCLUDE_PATHS_MAX);
-// int nb_include_paths;
+
 var nb_include_paths=0;
-// 
-// /* use GNU C extensions */
-// int gnu_ext = 0;
-// 
-// /* use Tiny C extensions */
-// int tcc_ext = 1;
+
+/* use GNU C extensions */
+var gnu_ext = 0;
+
+/* use Tiny C extensions */
 var tcc_ext = 1;
-// 
-// int reloc=0;
+
 var reloc=0;
 // int reloc_global=0;
 var reloc_global=0;
