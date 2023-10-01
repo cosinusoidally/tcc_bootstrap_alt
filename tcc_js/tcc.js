@@ -749,62 +749,41 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //     Sym *s, **ps;
     var s;
     var ps;
-//     s = sym_push2(&st->top, v, t, c);
     s = sym_push2(st+SymStack_top_o, v, t, c);
-//     /* add in hash table */
-//     if (v) {
+    /* add in hash table */
     if (v) {
-//         ps = &st->hash[HASH_SYM(v)];
         ps = st+SymStack_hash_o+4*(HASH_SYM(v));
-//         s->hash_next = *ps;
         wi32(s+Sym_hash_next_o, ri32(ps));
-//         *ps = s;
         wi32(ps,s);
-//     }
     }
-//     return s;
-print("sym_push1: "+JSON.stringify(decode_Sym(s)));
+    print("sym_push1: "+JSON.stringify(decode_Sym(s))); /* dbg log */
     return leave(s);
-// }
 }
-// 
-// /* find a symbol in the right symbol space */
+
+/* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
-// {
 function sym_find(v) {
 //     Sym *s;
     var s;
-//     s = sym_find1(&local_stack, v);
     s = sym_find1(local_stack, v);
-//     if (!s)
     if (!s) {
-//         s = sym_find1(&global_stack, v);
         s = sym_find1(global_stack, v);
     }
-//     return s;
     return s;
-// }
 }
-// 
-// /* push a given symbol on the symbol stack */
+
+/* push a given symbol on the symbol stack */
 // Sym *sym_push(int v, int t, int c)
-// {
 function sym_push(v, t, c) {
-//     if (local_stack.top)
     if (ri32(local_stack+SymStack_top_o)){
-//         return sym_push1(&local_stack, v, t, c);
         return sym_push1(local_stack, v, t, c);
-//     else
     } else {
-//         return sym_push1(&global_stack, v, t, c);
         return sym_push1(global_stack, v, t, c);
     }
-// }
 }
-// 
-// /* pop symbols until top reaches 'b' */
+
+/* pop symbols until top reaches 'b' */
 // void sym_pop(SymStack *st, Sym *b)
-// {
 function sym_pop(st, b) {
 //     Sym *s, *ss;
     var s;
