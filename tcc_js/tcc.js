@@ -3622,9 +3622,7 @@ err();
 //             c += f->c;
 //         }
 //         notfirst = 1;
-//     }
     }
-//     if (notfirst) {
     if (notfirst) {
 err();
 //         if (tok == '=') {
@@ -3633,42 +3631,26 @@ err();
 //             if (!gnu_ext)
 //                 expect("=");
 //         }
-//     } else {
     } else {
-//         if (t & VT_ARRAY) {
         if (t & VT_ARRAY) {
-//             index = *cur_index;
             index = ri32(cur_index);
-//             t = pointed_type(t);
             t = pointed_type(t);
-//             c += index * type_size(t, &align);
             c = c + index * type_size(t, align);
-//         } else {
         } else {
-//             f = *cur_field;
             f = ri32(cur_field);
-//             if (!f)
             if (!f)
-//                 error("too many field init");
                 error("too many field init");
-//             t = f->t | (t & ~VT_TYPE);
             t = ri32(f+Sym_t_o) | (t & ~VT_TYPE);
-//             c += f->c;
             c = c + ri32(f+Sym_c_o);
-//         }
         }
-//     }
     }
-//     decl_initializer(t, c, 0, size_only);
     decl_initializer(t, c, 0, size_only);
-// }
     leave();
 }
-// 
-// /* store a value or an expression directly in global data or in local array */
-// 
+
+/* store a value or an expression directly in global data or in local array */
+
 // void init_putv(int t, int c, int v, int is_expr)
-// {
 function init_putv(t, c, v, is_expr) {
 //     int saved_global_expr, bt;
     var saved_global_expr;
