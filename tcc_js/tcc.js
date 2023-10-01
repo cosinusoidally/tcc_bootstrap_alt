@@ -4444,43 +4444,28 @@ err();
          }
     }
 
-if(reloc){
-// global_relocs=(int)malloc(64*1024);
-global_relocs=malloc(64*1024);
-// global_relocs_base=global_relocs;
-global_relocs_base=global_relocs;
-// 
-// printf("global_relocs %d\n",global_relocs);
-print("global_relocs "+to_hex(global_relocs));
-// 
-// global_relocs_table=(int)malloc(64*1024);
-global_relocs_table=malloc(64*1024);
-// global_relocs_table_base=global_relocs_table;
-global_relocs_table_base=global_relocs_table;
-// 
-// relocs=(int)malloc(64*1024);
-relocs=malloc(64*1024);
-// relocs_base=relocs;
-relocs_base=relocs;
-// 
-// };
-};
-// 
-//     tcc_compile_file(argv[optind]);
+    if(reloc){
+        global_relocs=malloc(64*1024);
+        global_relocs_base=global_relocs;
+
+        print("global_relocs "+to_hex(global_relocs)); /* dbg log */
+
+        global_relocs_table=malloc(64*1024);
+        global_relocs_table_base=global_relocs_table;
+
+        relocs=malloc(64*1024);
+        relocs_base=relocs;
+    };
+
     tcc_compile_file(argv+(4*optind));
-//     puts("tcc 1_7 compile done");
     puts("tcc 1_7 compile done");
-// 
-//     resolve_extern_syms();
+
     resolve_extern_syms();
-//     s = sym_find1(&extern_stack, TOK_MAIN);
     s = sym_find1(extern_stack, TOK_MAIN);
-//     if (!s || (s->t & VT_FORWARD))
     if (!s || (ri32(s+Sym_t_o) & VT_FORWARD))
-//         error("main() not defined");
         error("main() not defined");
-// 
-print("main: "+to_hex(ri32(s+Sym_c_o)));
+
+    print("main: "+to_hex(ri32(s+Sym_c_o))); /* dbg log */
 // if(reloc){
 if(reloc){
 //   gen_obj(s->c);
