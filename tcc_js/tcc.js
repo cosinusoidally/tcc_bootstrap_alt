@@ -3835,83 +3835,53 @@ err();
         while (tok != mk_char('}')) {
             decl_designator(t, c, NULL, f, size_only);
             /* fill with zero between fields */
-//             index = f->c;
             index = ri32(ri32(f)+Sym_c_o);
-//             if (!size_only && array_length < index) {
             if (!size_only && array_length < index) {
 err();
 //                 init_putz(t, c + array_length, 
 //                           index - array_length);
-//             }
             }
-//             index = index + type_size(f->t, &align1);
             index = index + type_size(ri32(ri32(f)+Sym_t_o), align1);
-//             if (index > array_length)
             if (index > array_length)
-//                 array_length = index;
                 array_length = index;
-//             if (tok == '}')
             if (tok == mk_char('}'))
-//                 break;
                 break;
-//             skip(',');
             skip(mk_char(','));
-//             f = f->next;
             wi32(f, ri32(ri32(f)+Sym_next_o));
-//         }
         }
-//         /* put zeros at the end */
-//         if (!size_only && array_length < n) {
+        /* put zeros at the end */
         if (!size_only && array_length < n) {
 err();
 //             init_putz(t, c + array_length, 
 //                       n - array_length);
-//         }
         }
-//         skip('}');
         skip(mk_char('}'));
-//     } else if (tok == '{') {
     } else if (tok == mk_char('{')) {
 err();
 //         next();
 //         decl_initializer(t, c, first, size_only);
 //         skip('}');
-//     } else if (size_only) {
     } else if (size_only) {
-//         /* just skip expression */
-//         parlevel = 0;
+        /* just skip expression */
         parlevel = 0;
-//         while ((parlevel > 0 || (tok != '}' && tok != ',')) && 
-//                tok != -1) {
         while ((parlevel > 0 || (tok != mk_char('}') && tok != mk_char(','))) && 
                tok != -1) {
-//             if (tok == '(')
              if (tok == mk_char('('))
-//                 parlevel++;
                 parlevel=parlevel+1;
-//             else if (tok == ')')
             else if (tok == mk_char(')'))
-//                 parlevel--;
                 parlevel=parlevel-1;
-//             next();
             next();
-//         }
         }
-//     } else {
     } else {
-//         init_putv(t, c, 0, 1);
         init_putv(t, c, 0, 1);
-//     }
     }
-// }
    return leave();
 }
-// 
-// /* parse an initializer for type 't' if 'has_init' is true, and
-//    allocate space in local or global data space. The allocated address
-//    in returned */
+
+/* parse an initializer for type 't' if 'has_init' is true, and
+   allocate space in local or global data space. The allocated address
+   in returned */
 // int decl_initializer_alloc(int t, int has_init)
-// {
 function decl_initializer_alloc(t, has_init) {
 print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     enter();
