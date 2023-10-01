@@ -547,75 +547,51 @@ err();
     vtop=vtop-SValue_size;
 // }
 }
-// 
-// /* generate function call with address in (vtop->t, vtop->c) and free function
-//    context. Stack entry is popped */
+
+/* generate function call with address in (vtop->t, vtop->c) and free function
+   context. Stack entry is popped */
 // void gfunc_call(GFuncContext *c)
-// {
 function gfunc_call(c) {
 print("c->args_size "+(ri32(c+GFuncContext_args_size_o)))
 //     int r;
     var r;
-//     if ((vtop->t & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
     if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
-//         /* constant case */
-//         /* forward reference */
-//         if (vtop->t & VT_FORWARD) {
+        /* constant case */
+        /* forward reference */
         if (ri32(vtop+SValue_t_o) & VT_FORWARD) {
 //             greloc(vtop->c.sym, ind + 1, RELOC_REL32);
             greloc(ri32(vtop+SValue_c_o), ind + 1, RELOC_REL32);
-//             oad(0xe8, 0);
             oad(0xE8, 0);
-//         } else {
         } else {
-// // HACK ljw
-// if(special) {
+// HACK ljw
 if(special) {
 // printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
 print("gfunc_call: %x %x\n");
-//   char *str="memcpy";
   var str=mk_c_string("memcpy");
-//   strcpy((char *)global_relocs_table,str);
   strcpy(global_relocs_table,str);
-//   global_relocs_table+=strlen(str)+1;
   global_relocs_table=global_relocs_table+strlen(str)+1;
-//   *(int *)global_relocs_table=1;
   wi32(global_relocs_table,1);
-//   global_relocs_table+=4;
   global_relocs_table=global_relocs_table+4;
-//   *(int *)global_relocs=RELOC_REL32;
   wi32(global_relocs,RELOC_REL32);
-//   global_relocs+=4;
   global_relocs=global_relocs+4;
-//   *(int *)global_relocs=ind+1-prog;
   wi32(global_relocs,ind+1-prog);
-//   global_relocs+=4;
   global_relocs=global_relocs+4;
-// 
-// }
 }
-//             oad(0xe8, vtop->c.ul - ind - 5);
             oad(0xE8, ri32(vtop+SValue_c_o) - ind - 5);
-//         }
         }
-//     } else {
     } else {
         /* otherwise, indirect call */
         r = gv();
         o(0xFF); /* call *r */
         o(0xD0 + r);
     }
-//     if (c->args_size)
     if (ri32(c+GFuncContext_args_size_o)) {
-//         oad(0xc481, c->args_size); /* add $xxx, %esp */
         oad(0xC481, ri32(c+GFuncContext_args_size_o)); /* add $xxx, %esp */
 
     }
-//     vtop--;
     vtop=vtop-SValue_size;
-// }
 }
-// 
+
 // int gjmp(int t)
 // {
 function gjmp(t) {
