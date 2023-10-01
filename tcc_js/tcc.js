@@ -2896,37 +2896,23 @@ err();
         /* string parsing */
         t = VT_BYTE;
         type_size(t, align);
-//         glo = (glo + align - 1) & -align;
         glo = (glo + ri32(align) - 1) & -ri32(align);
-//         fc = glo;
         fc = glo;
-//         /* we must declare it as an array first to use initializer parser */
-//         t = VT_CONST | VT_ARRAY | mk_pointer(t);
+        /* we must declare it as an array first to use initializer parser */
         t = VT_CONST | VT_ARRAY | mk_pointer(t);
-//         decl_initializer(t, glo, 1, 0);
         decl_initializer(t, glo, 1, 0);
-//         glo += type_size(t, &align);
         glo = glo + type_size(t, ri32(align));
-//         /* put it as pointer */
-//         vset(t & ~VT_ARRAY, fc);
+        /* put it as pointer */
         vset(t & ~VT_ARRAY, fc);
-//     } else {
     } else {
-//         t = tok;
         t = tok;
-//         next();
         next();
-//         if (t == '(') {
         if (t == mk_char('(')) {
-//             /* cast ? */
-//             if (t = ist()) {
+            /* cast ? */
             if (t = ist()) {
-//                 ft = type_decl(&n, t, TYPE_ABSTRACT);
                 ft = type_decl(n, t, TYPE_ABSTRACT);
-//                 skip(')');
                 skip(mk_char(')'));
-//                 /* check ISOC99 compound literal */
-//                 if (tok == '{') {
+                /* check ISOC99 compound literal */
                 if (tok == mk_char('{')) {
 err();
 //                     /* data is allocated locally by default */
@@ -2939,47 +2925,28 @@ err();
 //                         ft |= VT_LVAL;
 //                     fc = decl_initializer_alloc(ft, 1);
 //                     vset(ft, fc);
-//                 } else {
                 } else {
-//                     unary();
                     unary();
-//                     gen_cast(ft);
                     gen_cast(ft);
-//                 }
                 }
-//             } else {
             } else {
-//                 gexpr();
                 gexpr();
-//                 skip(')');
                 skip(mk_char(')'));
-//             }
             }
-//         } else if (t == '*') {
         } else if (t == mk_char('*')) {
-//             unary();
             unary();
-//             indir();
             indir();
-//         } else if (t == '&') {
         } else if (t == mk_char('&')) {
-//             unary();
             unary();
-//             /* functions names must be treated as function pointers,
-//                except for unary '&' and sizeof. Since we consider that
-//                functions are not lvalues, we only have to handle it
-//                there and in function calls. */
-//             if ((vtop->t & VT_BTYPE) != VT_FUNC)
+            /* functions names must be treated as function pointers,
+               except for unary '&' and sizeof. Since we consider that
+               functions are not lvalues, we only have to handle it
+               there and in function calls. */
             if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
-//                 test_lvalue();
                 test_lvalue();
             }
-//             vtop->t = mk_pointer(vtop->t & VT_LVALN);
             wi32(vtop+SValue_t_o, mk_pointer(ri32(vtop+SValue_t_o) & VT_LVALN));
-//         } else
-//         if (t == '!') {
         } else if (t == mk_char('!')) {
-//             unary();
             unary();
             if ((ri32(vtop+SValue_t_o) & (VT_VALMASK | VT_LVAL)) == VT_CONST) {
 err();
