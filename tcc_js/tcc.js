@@ -2038,55 +2038,34 @@ function gen_op(op) {
     if (op == mk_char('+') || op == mk_char('-')) {
         if ((t1 & VT_BTYPE) == VT_PTR &&
             (t2 & VT_BTYPE) == VT_PTR) {
-//             if (op != '-')
             if (op != mk_char('-'))
-//                 error("invalid type");
                 error("invalid type");
-//             /* XXX: check that types are compatible */
-//             u = pointed_size(t1);
+            /* XXX: check that types are compatible */
             u = pointed_size(t1);
-//             gen_opc(op);
             gen_opc(op);
-//             /* set to integer type */
-//             vtop->t = (vtop->t & ~VT_TYPE) | VT_INT; 
+            /* set to integer type */
             wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT); 
-//             vset(VT_CONST, u);
             vset(VT_CONST, u);
-//             gen_op(TOK_PDIV);
             gen_op(TOK_PDIV);
-//         } else if ((t1 & VT_BTYPE) == VT_PTR ||
-//                    (t2 & VT_BTYPE) == VT_PTR) {
         } else if ((t1 & VT_BTYPE) == VT_PTR ||
                    (t2 & VT_BTYPE) == VT_PTR) {
-//             if ((t2 & VT_BTYPE) == VT_PTR) {
             if ((t2 & VT_BTYPE) == VT_PTR) {
 err();
 //                 vswap();
 //                 swap(&t1, &t2);
-//             }
             }
-//             /* stack-4 contains pointer, stack-2 value to add */
+            /* stack-4 contains pointer, stack-2 value to add */
 //             vset(VT_CONST, pointed_size(vtop[-1].t));
             vset(VT_CONST, pointed_size(ri32(vtop-SValue_size+SValue_t_o)));
-//             gen_op('*');
             gen_op(mk_char('*'));
-//             gen_opc(op);
             gen_opc(op);
-//             /* put again type if gen_opc() swaped operands */
-//             vtop->t = (vtop->t & ~VT_TYPE) | (t1 & VT_TYPE);
+            /* put again type if gen_opc() swaped operands */
             wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | (t1 & VT_TYPE));
-//         } else {
         } else {
-//             gen_opc(op);
             gen_opc(op);
-//         }
         }
-//     } else {
     } else {
-//         /* XXX: test types and compute returned value */
-//         if ((t1 | t2) & VT_UNSIGNED ||
-//             (t1 & VT_BTYPE) == VT_PTR ||
-//             (t2 & VT_BTYPE) == VT_PTR) {
+        /* XXX: test types and compute returned value */
         if ((t1 | t2) & VT_UNSIGNED ||
             (t1 & VT_BTYPE) == VT_PTR ||
             (t2 & VT_BTYPE) == VT_PTR) {
@@ -2105,16 +2084,12 @@ err();
             else if (op == TOK_GE)
                 op = TOK_UGE;
         }
-//         gen_opc(op);
         gen_opc(op);
-//     }
     }
-// }
 }
-// 
-// /* cast 'vtop' to 't' type */
+
+/* cast 'vtop' to 't' type */
 // void gen_cast(int t)
-// {
 function gen_cast(t){
 //     int r, bits, sbt, dbt, sf, df, c, st1, dt1;
     var r;
