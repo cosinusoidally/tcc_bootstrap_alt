@@ -1523,47 +1523,31 @@ enter();
     var macro_str1=alloca(4);
     var macro_str1_len=alloca(4);
     var macro_ptr1=alloca(4);
-//     int t;
     var t;
 //     char *p;
     var p;
 //     CValue cval;
     var cval;
-// 
-//     macro_str1 = NULL;
+
     wi32(macro_str1, NULL);
-//     macro_str1_len = 0;
     wi32(macro_str1_len, 0);
-//     tok = 0;
     tok = 0;
-//     while (1) {
     while (1) {
-//         next_nomacro();
         next_nomacro();
-//         if (tok == 0)
         if (tok == 0)
-//             break;
             break;
-//         tok_add2(&macro_str1, &macro_str1_len, tok, &tokc);
         tok_add2(macro_str1, macro_str1_len, tok, tokc);
-//     }
     }
-//     tok_add(&macro_str1, &macro_str1_len, 0);
     tok_add(macro_str1, macro_str1_len, 0);
-//     return macro_str1;
     return leave(ri32(macro_str1));
-// }
 }
-// 
-// 
-// 
-// /* do macro substitution of macro_str and add result to
-//    (tok_str,tok_len). If macro_str is NULL, then input stream token is
-//    substituted. 'nested_list' is the list of all macros we got inside
-//    to avoid recursing. */
+
+/* do macro substitution of macro_str and add result to
+   (tok_str,tok_len). If macro_str is NULL, then input stream token is
+   substituted. 'nested_list' is the list of all macros we got inside
+   to avoid recursing. */
 // void macro_subst(int **tok_str, int *tok_len, 
 //                  Sym **nested_list, int *macro_str)
-// {
 function macro_subst(tok_str, tok_len, nested_list, macro_str) {
     enter();
 //     Sym *s, *args, *sa, *sa1;
