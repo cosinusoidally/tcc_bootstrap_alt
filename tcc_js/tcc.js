@@ -3375,7 +3375,7 @@ function struct_decl(u) {
 //                                 offset = c;
                                 offset = c;
 //                                 c += size;
-                                c += size;
+                                c = c + size;
 //                             } else {
                             } else {
 //                                 offset = 0;
@@ -3926,7 +3926,7 @@ err();
 //         decl_initializer(t, glo, 1, 0);
         decl_initializer(t, glo, 1, 0);
 //         glo += type_size(t, &align);
-        glo += type_size(t, ri32(align));
+        glo = glo + type_size(t, ri32(align));
 //         /* put it as pointer */
 //         vset(t & ~VT_ARRAY, fc);
         vset(t & ~VT_ARRAY, fc);
@@ -5084,7 +5084,7 @@ err();
 //             t = pointed_type(t);
             t = pointed_type(t);
 //             c += index * type_size(t, &align);
-            c += index * type_size(t, align);
+            c = c + index * type_size(t, align);
 //         } else {
         } else {
 //             f = *cur_field;
@@ -5096,7 +5096,7 @@ err();
 //             t = f->t | (t & ~VT_TYPE);
             t = ri32(f+Sym_t_o) | (t & ~VT_TYPE);
 //             c += f->c;
-            c += ri32(f+Sym_c_o);
+            c = c + ri32(f+Sym_c_o);
 //         }
         }
 //     }
@@ -5286,7 +5286,7 @@ print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_on
 //                 }
                 }
 //                 array_length += nb;
-                array_length += nb;
+                array_length = array_length + nb;
 //                 next();
                 next();
 //             }
@@ -5579,7 +5579,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
 //            initializers themselves can create new
 //            initializers */
 //         glo += size;
-        glo += size;
+        glo = glo + size;
 //     }
     }
 //     if (has_init) {
@@ -5733,7 +5733,7 @@ err();
 //                     size = (size + 3) & ~3;
                     size = (size + 3) & ~3;
 //                     addr += size;
-                    addr += size;
+                    addr = addr + size;
 //                 }
                 }
 //                 loc = 0;
