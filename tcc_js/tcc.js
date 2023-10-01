@@ -2423,55 +2423,37 @@ function vstore() {
 /* post defines POST/PRE add. c is the token ++ or -- */
 // void inc(int post, int c)
 function inc(post, c) {
-//     int r, r1;
     var r;
     var r1;
-// 
-//     test_lvalue();
+
     test_lvalue();
-//     if (post)
     if (post)
-//         vdup(); /* room for returned value */
-        vdup();
-//     vdup(); /* save lvalue */
-    vdup();
-//     r = gv();
+        vdup(); /* room for returned value */
+    vdup(); /* save lvalue */
     r = gv();
-//     if (post) {
     if (post) {
-//         /* duplicate value */
-//         /* XXX: handle floats */
-//         r1 = get_reg(REG_CLASS_INT);
+        /* duplicate value */
+        /* XXX: handle floats */
         r1 = get_reg(REG_CLASS_INT);
-//         load(r1, r, 0); /* move r to r1 */
-        _load(r1, r, 0);
-//         /* duplicates value */
+        _load(r1, r, 0); /* move r to r1 */
+        /* duplicates value */
 //         vtop[-2].t = (vtop->t & VT_TYPE) | r1;
         wi32(vtop-(2*SValue_size)+SValue_t_o, (ri32(vtop+SValue_t_o) & VT_TYPE) | r1);
 //         vtop[-2].c.i = 0;
         wi32(vtop-(2*SValue_size)+SValue_c_o, 0);
-//     }
     }
-//     /* add constant */
-//     vset(VT_CONST, c - TOK_MID); 
+    /* add constant */
     vset(VT_CONST, c - TOK_MID); 
-//     gen_op('+');
     gen_op(mk_char('+'));
-//     vstore(); /* store value */
     vstore(); /* store value */
-//     if (post)
     if (post)
-//         vpop(); /* if post op, return saved value */
         vpop(); /* if post op, return saved value */
-// }
 }
-// 
-// /* enum/struct/union declaration */
+
+/* enum/struct/union declaration */
 // int struct_decl(int u)
-// {
 function struct_decl(u) {
     enter();
-//     int a, t, b, v, size, align, maxalign, c, offset;
     var a;
     var t;
     var b;
@@ -2481,7 +2463,6 @@ function struct_decl(u) {
     var maxalign;
     var c;
     var offset;
-//     int bit_size, bit_pos, bsize, bt, lbit_pos;
     var bit_size;
     var bit_pos;
     var bsize;
@@ -2491,10 +2472,7 @@ function struct_decl(u) {
     var s;
     var ss;
     var ps=alloca(4);
-// 
-//     a = tok; /* save decl type */
-    a = tok;
-//     next();
+    a = tok; /* save decl type */
     next();
     while(1){
     if (tok != mk_char('{')) {
