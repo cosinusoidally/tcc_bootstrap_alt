@@ -3202,57 +3202,34 @@ function uneq() {
 
 // void sum(int l)
 function sum(l) {
-//     int t;
     var t;
-// 
-//     if (l == 0)
+
     if (l === 0) {
-//         uneq();
         uneq();
-//     else {
     } else {
 //         sum(--l);
         sum(l=l-1);
-//         while ((l == 0 & (tok == '*' | tok == '/' | tok == '%')) |
         while ((l == 0 & (tok == mk_char('*') | tok == mk_char('/') | tok == mk_char('%'))) |
-//                (l == 1 & (tok == '+' | tok == '-')) |
                (l == 1 & (tok == mk_char('+') | tok == mk_char('-'))) |
-//                (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
                (l == 2 & (tok == TOK_SHL | tok == TOK_SAR)) |
-//                (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
                (l == 3 & ((tok >= TOK_ULE & tok <= TOK_GT) |
-//                           tok == TOK_ULT | tok == TOK_UGE)) |
                           tok == TOK_ULT | tok == TOK_UGE)) |
-//                (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
                (l == 4 & (tok == TOK_EQ | tok == TOK_NE)) |
-//                (l == 5 & tok == '&') |
                (l == 5 & tok == mk_char('&')) |
-//                (l == 6 & tok == '^') |
                (l == 6 & tok == mk_char('^')) |
-//                (l == 7 & tok == '|') |
                (l == 7 & tok == mk_char('|')) |
-//                (l == 8 & tok == TOK_LAND) |
                (l == 8 & tok == TOK_LAND) |
-//                (l == 9 & tok == TOK_LOR)) {
                (l == 9 & tok == TOK_LOR)) {
-//             t = tok;
             t = tok;
-//             next();
             next();
-//             sum(l);
             sum(l);
-//             gen_op(t);
             gen_op(t);
-//        }
        }
-//     }
     }
-// }
 }
-// 
-// /* only used if non constant */
+
+/* only used if non constant */
 // void eand(void)
-// {
 function eand() {
 //     int t;
     var t;
