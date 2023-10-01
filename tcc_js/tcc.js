@@ -3376,11 +3376,9 @@ function expr_const() {
 //         return 0;
 //     }
 // }
-// 
+
 // void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
-// {
 function block(bsym, csym, case_sym, def_sym, case_reg) {
-//     int a, b, c, d;
     enter();
     var a=alloca(4);
     var b=alloca(4);
@@ -3388,97 +3386,54 @@ function block(bsym, csym, case_sym, def_sym, case_reg) {
     var d;
 //     Sym *s;
     var s;
-// 
-//     if (tok == TOK_IF) {
+
     if (tok == TOK_IF) {
-//         /* if test */
-//         next();
+        /* if test */
         next();
-//         skip('(');
         skip(mk_char('('));
-//         gexpr();
         gexpr();
-//         skip(')');
         skip(mk_char(')'));
-//         a = gtst(1, 0);
         a = gtst(1, 0);
-//         block(bsym, csym, case_sym, def_sym, case_reg);
         block(bsym, csym, case_sym, def_sym, case_reg);
-//         c = tok;
         c = tok;
-//         if (c == TOK_ELSE) {
         if (c == TOK_ELSE) {
-//             next();
             next();
-//             d = gjmp(0);
             d = gjmp(0);
-//             gsym(a);
             gsym(a);
-//             block(bsym, csym, case_sym, def_sym, case_reg);
             block(bsym, csym, case_sym, def_sym, case_reg);
-//             gsym(d); /* patch else jmp */
             gsym(d); /* patch else jmp */
-//         } else
         } else {
-//             gsym(a);
             gsym(a);
         }
-//     } else if (tok == TOK_WHILE) {
     } else if (tok == TOK_WHILE) {
-//         next();
         next();
-//         d = ind;
         d = ind;
-//         skip('(');
         skip(mk_char('('));
-//         gexpr();
         gexpr();
-//         skip(')');
         skip(mk_char(')'));
-//         a = gtst(1, 0);
         wi32(a, gtst(1, 0));
-//         b = 0;
         wi32(b, 0);
-//         block(&a, &b, case_sym, def_sym, case_reg);
         block(a, b, case_sym, def_sym, case_reg);
-//         oad(0xe9, d - ind - 5); /* jmp */
-        oad(0xE9, d - ind - 5);
-//         gsym(a);
+        oad(0xE9, d - ind - 5); /* jmp */
         gsym(a);
-//         gsym_addr(b, d);
         gsym_addr(b, d);
-//     } else if (tok == '{') {
     } else if (tok == mk_char('{')) {
-//         next();
         next();
-//         /* declarations */
-//         s = local_stack.top;
+        /* declarations */
         s = ri32(local_stack+SymStack_top_o);
-//         while (tok != '}') {
         while (tok !== mk_char('}')) {
-//             decl(VT_LOCAL);
             decl(VT_LOCAL);
-//             if (tok != '}')
             if (tok !== mk_char('}')) {
-//                 block(bsym, csym, case_sym, def_sym, case_reg);
                 block(bsym, csym, case_sym, def_sym, case_reg);
             }
-//         }
         }
-//         /* pop locally defined symbols */
-//         sym_pop(&local_stack, s);
+        /* pop locally defined symbols */
         sym_pop(local_stack, s);
-//         next();
         next();
-//     } else if (tok == TOK_RETURN) {
     } else if (tok == TOK_RETURN) {
-//         next();
         next();
-//         if (tok != ';') {
         if (tok !== mk_char(';')) {
-//             gexpr();
             gexpr();
-//             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
             if ((func_vt & VT_BTYPE) == VT_STRUCT) {
 err();
 //                 /* if returning structure, must copy it to implicit
@@ -3488,22 +3443,14 @@ err();
 //                 vswap();
 //                 /* copy structure value to pointer */
 //                 vstore();
-//             } else {
-err();
             } else {
-//                 /* move return value to standard return register */
-//                 move_reg(FUNC_RET_REG, gv());
+                /* move return value to standard return register */
                 move_reg(FUNC_RET_REG, gv());
-//             }
             }
-//             vpop();
             vpop();
-//         }
         }
-//         skip(';');
         skip(mk_char(';'));
-//         rsym = gjmp(rsym); /* jmp */
-        rsym = gjmp(rsym);
+        rsym = gjmp(rsym); /* jmp */
 //     } else if (tok == TOK_BREAK) {
     } else if (tok == TOK_BREAK) {
 //         /* compute jump */
