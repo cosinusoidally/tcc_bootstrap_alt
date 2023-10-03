@@ -35,12 +35,30 @@ while(f.length>0){
 }
 
 // define globals:
+gd=[];
+gi=[];
 for(var i=0;i<g.length;i++){
   c=g[i];
-  print(c);
-  gd=[];
+  c=c.split("=");
+  gd.push(c[0]+";");
+  if(c.length>1){
+    gi.push(c[0].slice(4)+"="+c[1]);
+  }
 }
 
+print("/* declare globals */");
+for(var i=0;i<gd.length;i++){
+  print("int "+gd[i].slice(4));
+}
+print("");
+
+print("/* init globals */");
+print("void init_globals(void) {");
+for(var i=0;i<gi.length;i++){
+  print("    "+gi[i]);
+}
+print("}");
+print("");
 // rest of prog
 for(var i=0;i<b.length;i++){
   print(b[i]);
