@@ -3,6 +3,8 @@ g=[];
 
 b=[];
 
+decls=[];
+
 while(f.length>0){
   l=f.pop();
   t=l.slice(0,4);
@@ -33,7 +35,9 @@ while(f.length>0){
     } else {
       a="void";
     }
-    b.push("int "+fn+"("+a+") {");
+    d="int "+fn+"("+a+")";
+    decls.push(d);
+    b.push(d+" {");
     continue;
   }
   t=eat_whitespace(l);
@@ -66,14 +70,22 @@ gi=[];
 for(var i=0;i<g.length;i++){
   c=g[i];
   c=c.split("=");
-  gd.push(c[0]+";");
+  a=";";
+  if(c[0].slice(-1)===";"){
+    a="";
+  }
+  gd.push(c[0]+a);
   if(c.length>1){
     gi.push(c[0].slice(4)+"="+c[1]);
   }
 }
 
 print('#include "support.c"');
-
+print("");
+print("/* fn decls */");
+for(var i=0;i<decls.length;i++){
+  print(decls[i]+";");
+}
 print("/* declare globals */");
 for(var i=0;i<gd.length;i++){
   print("int "+gd[i].slice(4));
