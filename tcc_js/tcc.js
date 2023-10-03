@@ -25,6 +25,8 @@ var NULL=0;
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+var esc_f=0xC;
+
 var TEXT_SIZE = (256*1024);
 var DATA_SIZE = (256*1024);
 
@@ -1310,7 +1312,7 @@ function next_nomacro1() {
                 preprocess();
             }
         }
-        if (ch != mk_char(' ') && ch != mk_char('\t') && ch != mk_char('\f')) {
+        if (ch != mk_char(' ') && ch != mk_char('\t') && ch != esc_f) {
             break;
         }
         cinp();
@@ -2979,6 +2981,16 @@ err();
         }
     }
 
+// hoisted declarations to move outside the loop to allow M2 to compile this
+    var rett;
+    var retc;
+    var sa;
+    var str;
+    var len;
+    var parlevel;
+    var saved_macro_ptr;
+    var args;
+    var s1;
     /* post operations */
     while (1) {
         if (tok == TOK_INC | tok == TOK_DEC) {
@@ -3024,12 +3036,11 @@ err();
             indir();
             skip(mk_char(']'));
         } else if (tok == mk_char('(')) {
-            var rett;
+// have to hoist these declarations outside the loop to allow this to compile
+// with M2 or cc_x86
 //             CValue retc;
-            var retc;
             retc=alloca(4);
 //             Sym *sa;
-            var sa;
 
             /* function call  */
             if ((ri32(vtop+SValue_t_o) & VT_BTYPE) != VT_FUNC) {
@@ -3052,15 +3063,16 @@ err();
             next();
             sa = ri32(s+Sym_next_o); /* first parameter */
 // FIXME ljw this is a block can we hoist varables to top of block?
+// ljw declarations have now be hoisted
 // {
 //                 int *str, len, parlevel, *saved_macro_ptr;
-                var str=alloca(4);
-                var len=alloca(4);
-                var parlevel;
-                var saved_macro_ptr;
+                str=alloca(4);
+                len=alloca(4);
+                parlevel;
+                saved_macro_ptr;
 //                 Sym *args, *s1;
-                var args=alloca(4);
-                var s1;
+                args=alloca(4);
+                s1;
 
                 /* read each argument and store it on a stack */
                 /* XXX: merge it with macro args ? */
