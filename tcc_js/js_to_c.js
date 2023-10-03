@@ -23,6 +23,7 @@ while(f.length>0){
     continue;
   }
   t=eat_whitespace(l);
+  n=num_whitespace(l);
   t2=t.slice(0,6);
   if(t2==="print("){
     continue;
@@ -30,6 +31,17 @@ while(f.length>0){
   t2=t.slice(0,3);
   if(t2==="// ") {
     continue;
+  }
+  t2=t.slice(0,4);
+
+  if(t2==="var "){
+    t3=[];
+    while(n>0){
+      t3.push(" ");
+      n--;
+    }
+    t3=t3.join("");
+    l=t3+"int "+t.slice(4);
   }
   b.push(l);
 }
@@ -72,4 +84,12 @@ function eat_whitespace(x){
   }
   x=x.slice(o);
   return x;
+}
+
+function num_whitespace(x){
+  var o=0;
+  while(x[o]===" "){
+    o++;
+  }
+  return o;
 }
