@@ -3653,9 +3653,10 @@ err();
     }
 }
 
-// /* put zeros for variable based init */
+/* put zeros for variable based init */
 // void init_putz(int t, int c, int size)
-// {
+function init_putz(t, c, size) {
+err();
 //     GFuncContext gf;
 // 
 //     if ((t & VT_VALMASK) == VT_CONST) {
@@ -3674,7 +3675,7 @@ err();
 // }
 //         gfunc_call(&gf);
 //     }
-// }
+}
 
 /* 't' contains the type and storage info. c is the address of the
    object. 'first' is true if array '{' must be read (multi dimension
