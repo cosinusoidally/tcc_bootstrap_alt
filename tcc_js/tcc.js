@@ -4420,7 +4420,7 @@ err();
 
         relocs=malloc(64*1024);
         relocs_base=relocs;
-    };
+    }
 
     tcc_compile_file(argv+(4*optind));
     puts("tcc 1_7 compile done");
