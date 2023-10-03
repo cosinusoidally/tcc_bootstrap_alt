@@ -72,6 +72,8 @@ for(var i=0;i<g.length;i++){
   }
 }
 
+print('#include "support.c"');
+
 print("/* declare globals */");
 for(var i=0;i<gd.length;i++){
   print("int "+gd[i].slice(4));
