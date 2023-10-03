@@ -3677,7 +3677,7 @@ function decl_initializer(t, c, first, size_only) {
     var index=alloca(4);
     var array_length;
     var n;
-    var no_oblockl
+    var no_oblock;
     var nb;
     var parlevel;
     var i;
