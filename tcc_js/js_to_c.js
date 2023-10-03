@@ -14,7 +14,11 @@ while(f.length>0){
   if(t==="load("){
     fn=l.split("\"")[1];
     if(fn!=="support.js") {
-      b.push("loading: "+fn);
+      b.push("/* load: "+fn+" */");
+      ft=read(fn).split("\n");
+      while(ft.length>0){
+        f.push(ft.pop());
+      }
     }
     continue;
   }
