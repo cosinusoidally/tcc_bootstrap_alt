@@ -188,7 +188,7 @@ function greloc_patch(s, val) {
 /* output a symbol and patch all calls to it */
 // void gsym_addr(t, a)
 function gsym_addr(t, a) {
-/ /print("t: "+to_hex(t)+" a: "+to_hex(a));
+// print("t: "+to_hex(t)+" a: "+to_hex(a));
     var n;
     while (t) {
         n = ri32(t); /* next value */
