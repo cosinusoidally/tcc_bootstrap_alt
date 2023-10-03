@@ -22,6 +22,11 @@ while(f.length>0){
     }
     continue;
   }
+  t=l.slice(0,9);
+  if(t==="function "){
+    b.push("/* " +l+ " */");
+    continue;
+  }
   t=eat_whitespace(l);
   n=num_whitespace(l);
   t2=t.slice(0,6);
