@@ -470,7 +470,8 @@ err();
 // void skip(int c)
 function skip(c) {
     if (tok != c) {
-        error("'%c' expected", c);
+        err();
+//        error("'%c' expected", c);
     }
     next();
 }
@@ -2480,8 +2481,11 @@ function struct_decl(u) {
                         t = type_decl(v, b, TYPE_DIRECT);
                         if ((t & VT_BTYPE) == VT_FUNC ||
                             (t & (VT_TYPEDEF | VT_STATIC | VT_EXTERN)))
+err();
+/*
                             error("invalid type for '%s'", 
                                   get_tok_str(v, NULL));
+*/
                     }
                     size = type_size(t, align);
                     lbit_pos = 0;
@@ -2526,7 +2530,8 @@ function struct_decl(u) {
 // int basic_type1(int t,int u){
 function basic_type1(t,u){
     if ((t & VT_BTYPE) != 0)
-        error("too many basic types %x", t);
+        err();
+//        error("too many basic types %x", t);
     t = t | u;
     return t;
 }
@@ -2952,7 +2957,8 @@ err();
             s = sym_find(t);
             if (!s) {
                 if (tok != mk_char('('))
-                    error("'%s' undeclared", get_tok_str(t, NULL));
+                    err();
+//                    error("'%s' undeclared", get_tok_str(t, NULL));
                 /* for simple function calls, we tolerate undeclared
                    external reference */
                 p = anon_sym;
@@ -4055,10 +4061,11 @@ err();
                                 break;
                             }
                             if (!is_compatible_types(ri32(sym+Sym_t_o), u))
-                                error("incompatible types for redefinition of '%s'", 
-                                      get_tok_str(v, NULL));
+                                err();
+//                                error("incompatible types for redefinition of '%s'", get_tok_str(v, NULL));
                             if (!(ri32(sym+Sym_t_o) & VT_FORWARD))
-                                error("redefinition of '%s'", get_tok_str(v, NULL));
+                                err();
+//                                error("redefinition of '%s'", get_tok_str(v, NULL));
                             greloc_patch(sym, addr);
                         } else {
                             sym_push(ri32(v), u, addr);
@@ -4147,7 +4154,8 @@ function tcc_compile_file(filename1) {
     funcname = mk_c_string("");
     file = fopen(filename, mk_c_string("r"));
     if (!file) {
-        error("file '%s' not found", filename);
+        err();
+//        error("file '%s' not found", filename);
     }
     include_stack_ptr = include_stack;
 // FIXME ljw not needed:
