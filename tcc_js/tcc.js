@@ -162,8 +162,10 @@ var loc;
 var glo;
 var glo_base;
 var const_wanted=0;
-var global_expr=0;  /* true if compound literals must be allocated
-                       globally (used during initializers parsing */
+
+/* true if compound literals must be allocated
+   globally (used during initializers parsing */
+var global_expr=0;
 
 /* current function return type (used by return instruction) */
 var func_vt;
@@ -4326,6 +4328,7 @@ function main(argc,argv){
     var outfile=alloca(4);
 
     var optind;
+    var c;
 
     wi32(include_paths,mk_c_string("../tcc_1_7/"));
     nb_include_paths = 1;
