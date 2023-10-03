@@ -2717,7 +2717,7 @@ err();
 /* Read a type declaration (except basic type), and return the
    type. If v is true, then also put variable name in 'vtop->c' */
 // int type_decl(int *v, int t, int td)
-function  type_decl(v, t, td) {
+function type_decl(v, t, td) {
     enter();
     var u;
     var p;

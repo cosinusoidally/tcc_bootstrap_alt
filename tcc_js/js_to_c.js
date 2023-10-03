@@ -25,6 +25,15 @@ while(f.length>0){
   t=l.slice(0,9);
   if(t==="function "){
     b.push("/* " +l+ " */");
+    t=l.split("(")[0].split(" ");
+    fn=t[1];
+    a=l.split("(")[1].split(")")[0].split(",");
+    if(a[0]!=="") {
+      a=a.map(function(x){return "int "+x}).join(", ");
+    } else {
+      a="void";
+    }
+    b.push("int "+fn+"("+a+") {");
     continue;
   }
   t=eat_whitespace(l);
