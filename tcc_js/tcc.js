@@ -1155,9 +1155,11 @@ err();
 // JS doesn't support the a escape code
                 c = 7;
             else if (ch == mk_char('b'))
-                c = mk_char('\b');
+// cc_x86 doesn't support this escape code
+                c = 8;
             else if (ch == mk_char('f'))
-                c = mk_char('\f');
+// cc_x86 doesn't support this escape code
+                c = 0xC;
             else if (ch == mk_char('n'))
                 c = mk_char('\n');
             else if (ch == mk_char('r'))
@@ -1165,7 +1167,8 @@ err();
             else if (ch == mk_char('t'))
                 c = mk_char('\t');
             else if (ch == mk_char('v'))
-                c = mk_char('\v');
+// cc_x86 doesn't support this escape code
+                c = 0xB;
             else if (ch == mk_char('e') && gnu_ext)
                 c = 27;
             else if (ch == mk_char('\'') || ch == mk_char('\"') || ch == mk_char('\\') || ch == mk_char('?'))
@@ -1245,7 +1248,7 @@ err();
         cinp();
     }
     /* integer number */
-    wi8(q, mk_char('\0'));
+    wi8(q, 0);
     q = token_buf;
     if (b == 10 && ri8(q) == mk_char('0')) {
         b = 8;
@@ -1256,7 +1259,7 @@ err();
         t = ri8(q);
         q=q+1;
         /* no need for checks except for base 10 / 8 errors */
-        if (t == mk_char('\0')) {
+        if (t == 0) {
             break;
         } else if (t >= mk_char('a')) {
             t = t - mk_char('a') + 10;
