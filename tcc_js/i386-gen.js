@@ -34,9 +34,12 @@ var REG_CLASS_INT = 0x0001;
 // };
 
 var reg_classes=malloc(4*NB_REGS);
-wi32(reg_classes,REG_CLASS_INT);    /* eax */
-wi32(reg_classes+4,REG_CLASS_INT);  /* ecx */
-wi32(reg_classes+8,REG_CLASS_INT);  /* edx */
+
+function init_i386_gen(){
+    wi32(reg_classes,REG_CLASS_INT);    /* eax */
+    wi32(reg_classes+4,REG_CLASS_INT);  /* ecx */
+    wi32(reg_classes+8,REG_CLASS_INT);  /* edx */
+}
 
 /* integer return register for functions */
 var FUNC_RET_REG = 0;

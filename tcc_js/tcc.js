@@ -3015,8 +3015,9 @@ err();
             indir();
             skip(mk_char(']'));
         } else if (tok == mk_char('(')) {
-            var retc;
+            var rett;
 //             CValue retc;
+            var retc;
             retc=alloca(4);
 //             Sym *sa;
             var sa;
@@ -4316,6 +4317,7 @@ var data_rel;
 
 // int main(int argc, char **argv)
 function main(argc,argv){
+    init_i386_gen();
     enter();
      puts("tcc 1_7 start");
 //     Sym *s;
