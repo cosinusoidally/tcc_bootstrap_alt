@@ -496,19 +496,19 @@ function tok_alloc(str, len) {
     if (len <= 0) {
         len = strlen(str);
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
-    };
+    }
     // FIXME ljw remove verbose debug logging
     print("len: "+len);
     h = 1;
     for(i=0;i<len;i=i+1) {
         h = ((h << 8) | (ri8(str+i) & 0xFF)) % TOK_HASH_SIZE;
-    };
+    }
 
     // FIXME ljw this is verbose debug output
     print("h: "+h);
     if(h==28){
       print("int?");
-    };
+    }
     print("hash_ident: "+to_hex(hash_ident));
     wi32(pts, hash_ident+(h*4));
     print("pts: "+to_hex(pts));
@@ -517,7 +517,7 @@ function tok_alloc(str, len) {
         print("ts: "+ts); /* debug logging */
         if (!ts) {
             break;
-        };
+        }
         print("len: "+len+" ts-table_ident:"+(ts-table_ident)); /* dbg log */
         if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
             return leave(ts);
@@ -527,7 +527,7 @@ function tok_alloc(str, len) {
 
     if (tok_ident >= SYM_FIRST_ANOM) {
         error("memory full");
-    };
+    }
 
     /* expand token table if needed */
     i = tok_ident - TOK_IDENT;
@@ -535,14 +535,14 @@ function tok_alloc(str, len) {
         wi32(ptable, realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
         if (!ptable) {
             error("memory full");
-        };
+        }
         table_ident = ri32(ptable);
     }
 
     ts = malloc(TokenSym_size + len);
      if (!ts) {
          error("memory full");
-     };
+     }
     wi32(table_ident+(i*4), ts);
     wi32(ts+TokenSym_tok_o , tok_ident);
     tok_ident=tok_ident+1;
