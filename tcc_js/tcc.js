@@ -822,7 +822,7 @@ function minp() {
             redo=1;
         }
     }
-    //printf("ch=%c 0x%x\n", ch, ch);
+    // printf("ch=%c 0x%x\n", ch, ch);
 }
 
 /* same as minp, but also skip comments */
