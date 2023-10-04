@@ -1,5 +1,13 @@
 var twochar_str=0;
 
+function wsb(o,s,b){
+    var l;
+    l=strlen(s);
+    strcpy(o,s);
+    wi8(o+l,b);
+    return o+l+1;
+}
+
 function get_twochar_str(){
     if(twochar_str){
         return twochar_str;
@@ -10,6 +18,8 @@ function get_twochar_str(){
     t=malloc(256);
     print("hex dump 1");hd(twochar_str,256);
     var o=t;
+    o=wsb(o,mk_c_string("<="),0236);
+    o=wsb(o,mk_c_string(">="),0236);
     print("hex dump 2");hd(t,256);
     return twochar_str;
 }
