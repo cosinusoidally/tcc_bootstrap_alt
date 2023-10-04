@@ -1,6 +1,7 @@
 print("tcc.js start");
 load("support.js");
 load("metadata.js");
+load("parser_init.js");
 
 var NULL=0;
 
@@ -1361,7 +1362,7 @@ function next_nomacro1() {
         wi32(tokc, tok_alloc(token_buf, q - token_buf));
         minp();
     } else {
-        q = mk_c_string("<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266");
+        q = get_twochar_str();
         /* two chars */
         tok = ch;
         cinp();
