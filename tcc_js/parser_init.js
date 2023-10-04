@@ -18,7 +18,7 @@ function get_twochar_str(){
 */
     var t;
     t=malloc(256);
-    print("hex dump 1");hd(twochar_str,256);
+//    print("hex dump 1");hd(twochar_str,256);
     var o=t;
 //  <=\236
     o=wsb(o,mk_c_string("<="),0236);
@@ -62,10 +62,21 @@ function get_twochar_str(){
     o=wsb(o,mk_c_string(".."),0250);
 //  ##\266
     o=wsb(o,mk_c_string("##"),0266);
-    print("hex dump 2");hd(t,256);
+//    print("hex dump 2");hd(t,256);
     o=wsb(o,mk_c_string("<="),0236);
     twochar_str = t;
     return twochar_str;
 }
 
 tok_list_str=0;
+
+function get_tok_list_str(){
+    if(tok_list_str){
+        return tok_list_str;
+    }
+    var t;
+    print("hex dump 1");hd(tok_list_str,512);
+    t=malloc(512);
+    print("hex dump 2");hd(t,512);
+    return tok_list_str;
+}
