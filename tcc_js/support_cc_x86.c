@@ -26,3 +26,4 @@ int strdup(int a);
 int fwrite(int a,int b, int c, int d);
 int puts(char *a);	
 int memset(int a, int b, int c);
+int init_runtime(void);

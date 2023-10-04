@@ -4342,6 +4342,7 @@ var data_rel;
 
 // int main(int argc, char **argv)
 function main(argc,argv){
+    init_runtime();
     init_globals();
     init_i386_gen();
     enter();

@@ -430,3 +430,7 @@ function init_globals(){
 // dummy function in JS. This function needs to exist for the C code generated
 // by js_to_c.js
 }
+
+function init_runtime(){
+// dummy function in JS. This function needs to exist for the C code generated
+}
