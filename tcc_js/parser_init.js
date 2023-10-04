@@ -13,7 +13,9 @@ function get_twochar_str(){
         return twochar_str;
     }
     print("init twochar_str");
+/*
     twochar_str = mk_c_string("<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266");
+*/
     var t;
     t=malloc(256);
     print("hex dump 1");hd(twochar_str,256);
@@ -62,5 +64,8 @@ function get_twochar_str(){
     o=wsb(o,mk_c_string("##"),0266);
     print("hex dump 2");hd(t,256);
     o=wsb(o,mk_c_string("<="),0236);
+    twochar_str = t;
     return twochar_str;
 }
+
+tok_list_str=0;
