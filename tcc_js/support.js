@@ -353,7 +353,7 @@ print(to_hex(ind));
   }
 }
 
-function strcpy(dest,src){
+function v_strcpy(dest,src){
   var c;
   while((c=ri8(src++))!==0){
     wi8(dest++,c);

@@ -1045,7 +1045,7 @@ err();
 //             if (tok != TOK_STR)
 //                 error("#include syntax error");
 //             /* XXX: buffer overflow */
-//             strcpy(buf, get_tok_str(tok, &tokc));
+//             v_strcpy(buf, get_tok_str(tok, &tokc));
 //             c = '\"';
         }
         /* eat all spaces and comments after include */
@@ -1073,7 +1073,7 @@ err();
         /* now search in standard include path */
         if(!found){
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
-                strcpy(buf1, ri32(include_paths+(4*i)));
+                v_strcpy(buf1, ri32(include_paths+(4*i)));
                 strcat(buf1, mk_char("/"));
                 strcat(buf1, buf);
                 f = fopen(buf1, mk_c_string("r"));
@@ -2272,7 +2272,7 @@ err();
 //         return;
 //     case VT_PTR:
 //         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
-//         strcpy(buf1, "*");
+//         v_strcpy(buf1, "*");
 //         if (varstr)
 //             strcat(buf1, varstr);
 //         type_to_str(buf, buf_size, s->t, buf1);
@@ -2854,7 +2854,7 @@ err();
 //         /* special function name identifier */
 //         /* generate (char *) type */
 //         vset(VT_CONST | mk_pointer(VT_BYTE), glo);
-//         strcpy((void *)glo, funcname);
+//         v_strcpy((void *)glo, funcname);
 //         glo += strlen(funcname) + 1;
 //         next();
     } else if (tok == TOK_STR) {
@@ -4238,7 +4238,7 @@ function resolve_extern_syms() {
                 if(reloc){
                     //   printf("resolve_extern_syms: %s %d\n",str,count);
                     print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count); /* dbg log */
-                    strcpy(global_relocs_table,str);
+                    v_strcpy(global_relocs_table,str);
                     global_relocs_table=global_relocs_table+strlen(str)+1;
                     wi32(global_relocs_table,count);
                     global_relocs_table=global_relocs_table+4;

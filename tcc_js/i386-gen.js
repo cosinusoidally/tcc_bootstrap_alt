@@ -413,7 +413,7 @@ function gfunc_call(c) {
                 // printf("gfunc_call: %x %x\n",ind,vtop->c.ul - ind - 5);
                 print("gfunc_call: %x %x\n");
                 str=mk_c_string("memcpy");
-                strcpy(global_relocs_table,str);
+                v_strcpy(global_relocs_table,str);
                 global_relocs_table=global_relocs_table+strlen(str)+1;
                 wi32(global_relocs_table,1);
                 global_relocs_table=global_relocs_table+4;
