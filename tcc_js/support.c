@@ -196,7 +196,6 @@ int v_strcat(int dest,int src) {
   while(ri8(dest)){
     dest=dest+1;
   }
-  dest=dest-1;
   while(c=ri8(src)){
     src=src+1;
     wi8(dest,c);
