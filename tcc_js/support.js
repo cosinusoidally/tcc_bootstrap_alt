@@ -434,3 +434,8 @@ function init_globals(){
 function init_runtime(){
 // dummy function in JS. This function needs to exist for the C code generated
 }
+
+// need wrapper function for main since tcc_main is the real function name
+function main(argc,argv){
+    return tcc_main(argc, argv);
+}

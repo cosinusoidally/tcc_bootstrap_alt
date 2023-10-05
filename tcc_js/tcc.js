@@ -4341,7 +4341,7 @@ var prog_rel;
 var data_rel;
 
 // int main(int argc, char **argv)
-function main(argc,argv){
+function tcc_main(argc,argv){
     init_runtime();
     init_globals();
     init_i386_gen();

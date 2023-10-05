@@ -2,9 +2,8 @@
 
 #define malloc v_malloc
 #define realloc v_realloc
-#define main v_main
 
-#define real_main main
+int puts(char *a);
 
 int malloc(int x) {
   puts("unimpl malloc");
@@ -123,4 +122,6 @@ int init_runtime(void) {
   err();
 }
 
-int puts(char *a);	
+int main(void){
+  puts("running js_to_c generated code");
+}
