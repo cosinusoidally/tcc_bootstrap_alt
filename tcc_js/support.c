@@ -9,6 +9,9 @@ int heap_size;
 int stack_size;
 char* heap;
 
+int esp;
+int ebp;
+
 /* virtual heap access */
 int wi8(int o,int v) {
   heap[o]=v;
@@ -151,6 +154,8 @@ int init_runtime(void) {
   heap_size=16*1024*1024;
   stack_size=256*1024;
   heap=(char *)malloc(heap_size/4);
+  esp=heap_size-4;
+  ebp=esp;
 
   err();
 }
