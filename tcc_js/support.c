@@ -1,11 +1,9 @@
 #define alloca v_alloca
 
-#define malloc v_malloc
 #define realloc v_realloc
 
 /* decls for real functions */
-#define malloc_real malloc
-void *malloc_real(int size);
+void *malloc(int size);
 
 int puts(char *a);
 
@@ -154,7 +152,7 @@ int init_runtime(void) {
   puts("init_runtime");
   heap_size=16*1024*1024;
   stack_size=256*1024;
-  heap=(char *)malloc_real(heap_size/4);
+  heap=(char *)malloc(heap_size/4);
 
   err();
 }

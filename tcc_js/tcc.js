@@ -146,8 +146,8 @@ var tok;
 var tok1;
 
 // CValue tokc, tok1c;
-var tokc=malloc(CValue_size);
-var tok1c=malloc(CValue_size);
+var tokc=v_malloc(CValue_size);
+var tok1c=v_malloc(CValue_size);
 
 /* loc : local variable index
    glo : global variable index
@@ -180,10 +180,10 @@ var tok_ident;
 var table_ident;
 
 // TokenSym *hash_ident[TOK_HASH_SIZE];
-var hash_ident=malloc(TOK_HASH_SIZE*4);
+var hash_ident=v_malloc(TOK_HASH_SIZE*4);
 
 // char token_buf[STRING_MAX_SIZE + 1];
-var token_buf=malloc(STRING_MAX_SIZE + 1);
+var token_buf=v_malloc(STRING_MAX_SIZE + 1);
 
 // char *filename, *funcname;
 var filename;
@@ -192,25 +192,25 @@ var funcname;
 /* contains global symbols which remain between each translation unit */
 // SymStack extern_stack;
 // SymStack define_stack, global_stack, local_stack, label_stack;
-var define_stack=malloc(SymStack_size);
-var local_stack=malloc(SymStack_size);
-var global_stack=malloc(SymStack_size);
-var extern_stack=malloc(SymStack_size);
+var define_stack=v_malloc(SymStack_size);
+var local_stack=v_malloc(SymStack_size);
+var global_stack=v_malloc(SymStack_size);
+var extern_stack=v_malloc(SymStack_size);
 
 // SValue vstack[VSTACK_SIZE], *vtop;
-var vstack=malloc(SValue_size*VSTACK_SIZE);
+var vstack=v_malloc(SValue_size*VSTACK_SIZE);
 var vtop;
 
 // int *macro_ptr, *macro_ptr_allocated;
-var macro_ptr=malloc(4);
+var macro_ptr=v_malloc(4);
 var macro_ptr_allocated=0;
 
 // IncludeFile include_stack[INCLUDE_STACK_SIZE], *include_stack_ptr;
-var include_stack=malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
+var include_stack=v_malloc(IncludeFile_size*INCLUDE_STACK_SIZE);
 var include_stack_ptr;
 
 // char *include_paths[INCLUDE_PATHS_MAX];
-var include_paths = malloc(4*INCLUDE_PATHS_MAX);
+var include_paths = v_malloc(4*INCLUDE_PATHS_MAX);
 
 var nb_include_paths=0;
 
@@ -542,7 +542,7 @@ function tok_alloc(str, len) {
         table_ident = ri32(ptable);
     }
 
-    ts = malloc(TokenSym_size + len);
+    ts = v_malloc(TokenSym_size + len);
      if (!ts) {
          error("memory full");
      }
@@ -642,8 +642,8 @@ function sym_push2(ps, v, t, c) {
     enter();
 //     Sym *s;
     var s=alloca(4);
-//     s = malloc(sizeof(Sym));
-    wi32(s, malloc(Sym_size));
+//     s = v_malloc(sizeof(Sym));
+    wi32(s, v_malloc(Sym_size));
     if (!ri32(s)){
         error("memory full");
     }
@@ -1668,7 +1668,7 @@ function vset(t, v) {
     print("t: "+t+" v: "+v); /* dbg log */
     enter();
 //     CValue cval;
-    var cval=malloc(CValue_size);
+    var cval=v_malloc(CValue_size);
 
 //     cval.i = v;
     wi32(cval, v);
@@ -4309,8 +4309,8 @@ function gen_obj(e){
   fwrite(m0,1,4,f);
   fwrite(global_relocs_table_base,1,ri32(global_reloc_table_len),f);
 
-  prog_rel=malloc(ri32(text_len));
-  data_rel=malloc(ri32(data_len));
+  prog_rel=v_malloc(ri32(text_len));
+  data_rel=v_malloc(ri32(data_len));
 
   memcpy(prog_rel,prog,ri32(text_len));
   memcpy(data_rel,glo_base,ri32(data_len));
@@ -4379,11 +4379,11 @@ function tcc_main(argc,argv){
     /* tiny C specific defines */
     define_symbol(mk_c_string("__TINYC__"));
 
-    glo=malloc(DATA_SIZE);
+    glo=v_malloc(DATA_SIZE);
     glo_base=glo;
     print("glo: "+to_hex(glo));
     memset(glo, 0, DATA_SIZE);
-    prog=malloc(TEXT_SIZE);
+    prog=v_malloc(TEXT_SIZE);
     ind = prog;
     print("prog: "+to_hex(prog));
 
@@ -4429,15 +4429,15 @@ err();
     }
 
     if(reloc){
-        global_relocs=malloc(64*1024);
+        global_relocs=v_malloc(64*1024);
         global_relocs_base=global_relocs;
 
         print("global_relocs "+to_hex(global_relocs)); /* dbg log */
 
-        global_relocs_table=malloc(64*1024);
+        global_relocs_table=v_malloc(64*1024);
         global_relocs_table_base=global_relocs_table;
 
-        relocs=malloc(64*1024);
+        relocs=v_malloc(64*1024);
         relocs_base=relocs;
     }
 

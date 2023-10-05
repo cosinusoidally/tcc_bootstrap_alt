@@ -8,4 +8,4 @@ rm out1.M1
 rm out2.M1
 rm out.c
 rm tcc_boot.o
-~/tcc_bootstrap_alt/tcc_1_7/a.out -r tcc_js.c
+./tcc_1_7 -r tcc_js.c

@@ -19,7 +19,7 @@ function get_twochar_str(){
 /*
     twochar_str = mk_c_string("<=\236>=\235!=\225&&\240||\241++\244--\242==\224<<\1>>\2+=\253-=\255*=\252/=\257%=\245&=\246^=\336|=\374->\247..\250##\266");
 */
-    t=malloc(256);
+    t=v_malloc(256);
 //    print("hex dump 1");hd(twochar_str,256);
     o=t;
 //  <=\236
@@ -83,7 +83,7 @@ function get_tok_list_str(){
     tok_list_str=mk_c_string("int\0void\0char\0if\0else\0while\0break\0return\0for\0extern\0static\0unsigned\0goto\0do\0continue\0switch\0case\0const\0volatile\0long\0register\0signed\0auto\0inline\0restrict\0float\0double\0_Bool\0short\0struct\0union\0typedef\0default\0enum\0sizeof\0define\0include\0ifdef\0ifndef\0elif\0endif\0defined\0undef\0error\0line\0__LINE__\0__FILE__\0__DATE__\0__TIME__\0__VA_ARGS__\0__func__\0main\0");
 */
 //    print("hex dump 1");hd(tok_list_str,512);
-    t=malloc(512);
+    t=v_malloc(512);
     o=t;
     o=wsb(o,mk_c_string("int"),0);
     o=wsb(o,mk_c_string("void"),0);

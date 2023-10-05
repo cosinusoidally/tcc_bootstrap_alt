@@ -33,7 +33,7 @@ var REG_CLASS_INT = 0x0001;
 //     REG_EDX,
 // };
 
-var reg_classes=malloc(4*NB_REGS);
+var reg_classes=v_malloc(4*NB_REGS);
 
 function init_i386_gen(){
     wi32(reg_classes,REG_CLASS_INT);    /* eax */
@@ -80,7 +80,7 @@ function gen_le32(c) {
 function greloc(s, addr, type) {
 //     Reloc *p;
     var p;
-    p = malloc(Reloc_size);
+    p = v_malloc(Reloc_size);
     if (!p)
         error("memory full");
     wi32(p+Reloc_type_o, type);

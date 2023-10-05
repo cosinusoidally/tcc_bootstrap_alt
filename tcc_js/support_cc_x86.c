@@ -1,4 +1,4 @@
-int malloc(int x);
+int v_malloc(int x);
 int wi32(int a1,int a2);
 int wi8(int a1,int a2);
 int urs(int a1,int a2);

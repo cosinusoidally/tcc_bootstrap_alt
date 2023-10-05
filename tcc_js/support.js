@@ -439,3 +439,7 @@ function init_runtime(){
 function main(argc,argv){
     return tcc_main(argc, argv);
 }
+
+// need this alias as when we convert to C we can't use malloc as a function
+// name
+v_malloc=malloc;
