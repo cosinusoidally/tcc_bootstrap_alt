@@ -212,7 +212,13 @@ int mk_argc_argv(char *s){
     }
   }
   argc=argc+1;
-  printf("argc %d\n",argc+1);
+// reverse argv
+  int argv_r=argv;
+  for(i=0;i<argc;i++){
+    argv=v_alloca(4);
+    wi32(argv,ri32(argv_r));
+    argv_r=argv_r+4;
+  }
   wi32(argc_argv,argc);
   wi32(argc_argv+4,argv);
   return argc_argv;
