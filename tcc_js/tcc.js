@@ -497,7 +497,7 @@ function tok_alloc(str, len) {
     var i;
 
     if (len <= 0) {
-        len = strlen(str);
+        len = v_strlen(str);
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
     }
     // FIXME ljw remove verbose debug logging
@@ -2855,7 +2855,7 @@ err();
 //         /* generate (char *) type */
 //         vset(VT_CONST | mk_pointer(VT_BYTE), glo);
 //         v_strcpy((void *)glo, funcname);
-//         glo += strlen(funcname) + 1;
+//         glo += v_strlen(funcname) + 1;
 //         next();
     } else if (tok == TOK_STR) {
         /* string parsing */
@@ -4239,7 +4239,7 @@ function resolve_extern_syms() {
                     //   printf("resolve_extern_syms: %s %d\n",str,count);
                     print("resolve_extern_syms: "+mk_js_string(str)+" count: "+count); /* dbg log */
                     v_strcpy(global_relocs_table,str);
-                    global_relocs_table=global_relocs_table+strlen(str)+1;
+                    global_relocs_table=global_relocs_table+v_strlen(str)+1;
                     wi32(global_relocs_table,count);
                     global_relocs_table=global_relocs_table+4;
                 }

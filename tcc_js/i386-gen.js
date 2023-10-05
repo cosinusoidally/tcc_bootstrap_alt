@@ -414,7 +414,7 @@ function gfunc_call(c) {
                 print("gfunc_call: %x %x\n");
                 str=mk_c_string("memcpy");
                 v_strcpy(global_relocs_table,str);
-                global_relocs_table=global_relocs_table+strlen(str)+1;
+                global_relocs_table=global_relocs_table+v_strlen(str)+1;
                 wi32(global_relocs_table,1);
                 global_relocs_table=global_relocs_table+4;
                 wi32(global_relocs,RELOC_REL32);

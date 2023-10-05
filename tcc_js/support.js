@@ -186,7 +186,7 @@ function mk_js_string_len(o,l){
 
 function mk_js_string(o){
   var s=[];
-  var l=strlen(o);
+  var l=v_strlen(o);
   for(var i=0;i<l;i++){
     s.push(ri8(o+i));
   };
@@ -217,7 +217,7 @@ function memcpy(dest,src,count){
   }
 }
 
-function strlen(s){
+function v_strlen(s){
   var l=0;
   while(ri8(s++)){
     l=l+1;
@@ -383,7 +383,7 @@ function strcat(dest,src){
 }
 
 function strdup(src){
-  var l=strlen(src);
+  var l=v_strlen(src);
   var dest=malloc(l+1);
   for(var i=0;i<l;i++){
     wi8(dest+i, ri8(src+i));

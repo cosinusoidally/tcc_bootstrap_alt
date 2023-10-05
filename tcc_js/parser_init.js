@@ -2,7 +2,7 @@ var twochar_str=0;
 
 function wsb(o,s,b){
     var l;
-    l=strlen(s);
+    l=v_strlen(s);
     v_strcpy(o,s);
     wi8(o+l,b);
     return o+l+1;
