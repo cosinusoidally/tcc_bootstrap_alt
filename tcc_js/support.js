@@ -273,7 +273,7 @@ function fopen(f,mode){
     try {
       file_o.data=read(filename,"binary");
     } catch (e){
-      fclose(file_num);
+      v_fclose(file_num);
       return 0;
     }
   } else if(mode==="wb"){
@@ -286,7 +286,7 @@ err();
   return file_num;
 }
 
-function fclose(f){
+function v_fclose(f){
   delete f_files[f];
   return 0;
 }

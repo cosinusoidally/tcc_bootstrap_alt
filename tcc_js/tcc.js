@@ -783,7 +783,7 @@ function handle_eof() {
         return -1;
     }
     /* pop include stack */
-    fclose(file);
+    v_fclose(file);
     v_free(filename);
     include_stack_ptr=include_stack_ptr-IncludeFile_size;
     file = ri32(include_stack_ptr+IncludeFile_file_o);
@@ -4189,7 +4189,7 @@ function tcc_compile_file(filename1) {
     decl(VT_CONST);
     if (tok != -1)
         expect("declaration");
-    fclose(file);
+    v_fclose(file);
 
     /* reset define stack, but leave -Dsymbols (may be incorrect if
        they are undefined) */
@@ -4333,7 +4333,7 @@ function gen_obj(e){
 
   fwrite(m4,1,4,f);
   fwrite(prog_rel,1,ri32(text_len),f);
-  fclose(f);
+  v_fclose(f);
   leave(0);
 }
 
