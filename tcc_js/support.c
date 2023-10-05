@@ -95,6 +95,7 @@ int mk_char(int a) {
 
 int mk_c_string(char *s){
   puts("unimpl mk_c_string");
+  err();
 }
 
 int v_strcat(int a,int b) {
@@ -149,6 +150,12 @@ int err(void) {
   exit(1);
 }
 
+int mk_argc_argv(char *s){
+  int argc_argv=v_alloca(8);
+  int hs=mk_c_string(s);
+  return argc_argv;
+}
+
 /* initialise the runtime */
 int init_runtime(void) {
   puts("init_runtime");
@@ -159,10 +166,10 @@ int init_runtime(void) {
   ebp=esp;
   malloc_base=4;
 
-  err();
 }
 
 int main(void){
   puts("running js_to_c generated code");
+  mk_argc_argv("tcc -r test1.c");
   tcc_main(0,0);
 }
