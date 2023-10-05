@@ -5,7 +5,7 @@
 
 int puts(char *a);
 
-int malloc(int x) {
+int v_malloc(int x) {
   puts("unimpl malloc");
   err();
 }
@@ -32,6 +32,7 @@ int urs(int a1,int a2) {
   puts("unimpl urs");
   err();
 }
+
 int error(int a1) {
   puts("unimpl err");
   err();
@@ -40,22 +41,22 @@ int err(void) {
   puts("err");
   exit(1);
 }
-void free(int x) {
+void v_free(int x) {
   puts("unimpl urs");
   err();
 }
-int alloca(int x) {
+int v_alloca(int x) {
   puts("unimpl alloca");
   err();
 }
 int mk_c_string(char *s){
   puts("unimpl mk_c_string");
 }
-int strcpy(int a1, int a2) {
+int v_strcpy(int a1, int a2) {
   puts("unimpl strcpy");
   err();
 }
-int strlen(int len) {
+int v_strlen(int len) {
   puts("unimpl strlen");
   err();
 }
@@ -75,11 +76,11 @@ int leave(int a) {
   puts("unimpl leave");
   err();
 }
-int realloc(int a,int b) {
+int v_realloc(int a,int b) {
   puts("unimpl realloc");
   err();
 }
-int memcpy(int a, int b, int c) {
+int v_memcpy(int a, int b, int c) {
   puts("unimpl memcpy");
   err();
 }
@@ -87,35 +88,34 @@ int fclose(int a) {
   puts("unimpl fclose");
   err();
 }
-int getc_unlocked(int a) {
+int v_getc_unlocked(int a) {
   puts("unimpl getc_unlocked");
   err();
 }
-int strrchr(int a, int b) {
+int v_strrchr(int a, int b) {
   puts("unimpl urs");
   err();
 }
-int strcat(int a,int b) {
+int v_strcat(int a,int b) {
   puts("unimpl strcat");
   err();
 }
-int fopen(int a, int b) {
+int v_fopen(int a, int b) {
   puts("unimpl fopen");
   err();
 }
-int strdup(int a) {
+int v_strdup(int a) {
   puts("unimpl strdup");
   err();
 }
-int fwrite(int a,int b, int c, int d) {
+int v_fwrite(int a,int b, int c, int d) {
   puts("unimpl fwrite");
   err();
 }
-int memset(int a, int b, int c) {
+int v_memset(int a, int b, int c) {
   puts("unimpl memset");
   err();
 }
-
 
 int init_runtime(void) {
   puts("init_runtime");
@@ -124,4 +124,5 @@ int init_runtime(void) {
 
 int main(void){
   puts("running js_to_c generated code");
+  tcc_main(0,0);
 }
