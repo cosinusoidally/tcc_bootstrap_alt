@@ -5,6 +5,10 @@ load("parser_init.js");
 
 var NULL=0;
 
+/* js_to_c compiled version can't parse this number */
+/* var VT_TYPE=0xFFFFFE00; */
+var VT_TYPE=-512;
+
 /*
  *  TCC - Tiny C Compiler
  * 
@@ -4284,19 +4288,26 @@ function gen_obj(e){
   wi32(entrypoint,e-prog);
 
   var m0=v_alloca(4);
-  wi32(m0,0xDEADBE00);
+/* js_to_c compiled code cannot handle unsigned ints that are too big to be
+   represented by an int32 (below were 0xDEADBE00,01,02...) */
+//  wi32(m0,0xDEADBE00);
+  wi32(m0,-559038976);
 
   var m1=v_alloca(4);
-  wi32(m1,0xDEADBE01);
+//  wi32(m1,0xDEADBE01);
+  wi32(m1,-559038975);
 
   var m2=v_alloca(4);
-  wi32(m2,0xDEADBE02);
+//  wi32(m2,0xDEADBE02);
+  wi32(m2,-559038974);
 
   var m3=v_alloca(4);
-  wi32(m3,0xDEADBE03);
+//  wi32(m3,0xDEADBE03);
+  wi32(m3,-559038973);
 
   var m4=v_alloca(4);
-  wi32(m4,0xDEADBE04);
+//  wi32(m4,0xDEADBE04);
+  wi32(m4,-559038972);
 
   var i;
   f = v_fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
