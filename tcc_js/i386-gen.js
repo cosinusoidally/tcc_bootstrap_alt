@@ -180,7 +180,7 @@ function greloc_patch(s, val) {
             }
             wi32(ri32(p+Reloc_addr_o), val - ri32(p+Reloc_addr_o) - 4);
         }
-        free(p);
+        v_free(p);
         p = p1;
     }
     wi32(s+Sym_c_o, val);

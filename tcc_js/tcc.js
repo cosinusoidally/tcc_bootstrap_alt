@@ -755,7 +755,7 @@ function sym_pop(st, b) {
         if (ri32(s+Sym_v_o)){
             wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
         }
-        free(s);
+        v_free(s);
         s = ss;
     }
     wi32(st+SymStack_top_o, b);
@@ -784,7 +784,7 @@ function handle_eof() {
     }
     /* pop include stack */
     fclose(file);
-    free(filename);
+    v_free(filename);
     include_stack_ptr=include_stack_ptr-IncludeFile_size;
     file = ri32(include_stack_ptr+IncludeFile_file_o);
     filename = ri32(include_stack_ptr+IncludeFile_filename_o);
@@ -1562,9 +1562,9 @@ err();
                 /* pop nested defined symbol */
                 sa1 = ri32(nested_list);
                 wi32(nested_list, ri32(sa1+Sym_prev_o));
-                free(sa1);
+                v_free(sa1);
                 if (mstr_allocated)
-                free(mstr);
+                v_free(mstr);
             }
          } else {
              no_subst=1;
@@ -1582,7 +1582,7 @@ err();
     wi32(macro_ptr, saved_macro_ptr);
 // FIXME ljw should free
 //     if (macro_str1)
-//         free(macro_str1);
+//         v_free(macro_str1);
     leave(0);
 }
 
@@ -1627,7 +1627,7 @@ err();
             next_nomacro();
             if (tok == 0) {
                 /* end of macro string: free it */
-                free(macro_ptr_allocated);
+                v_free(macro_ptr_allocated);
                 wi32(macro_ptr, NULL);
                 redo=1;
                 continue;
@@ -3117,8 +3117,8 @@ err();
                     gfunc_param_typed(gf, s, ri32(ri32(args)+Sym_next_o));
                     s1 = ri32(ri32(args)+Sym_prev_o);
 // FIXME ljw should free
-//                     free((int *)args->c);
-//                     free(args);
+//                     v_free((int *)args->c);
+//                     v_free(args);
                     wi32(args, s1);
                 }
                 wi32(macro_ptr, saved_macro_ptr);
@@ -3936,7 +3936,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
         decl_initializer(t, addr, 1, 0);
         /* restore parse state if needed */
         if (ri32(init_str)) {
-            free(ri32(init_str));
+            v_free(ri32(init_str));
             wi32(macro_ptr, saved_macro_ptr);
             tok = tok1;
         }

@@ -321,7 +321,7 @@ function memcmp(s1,s2,n){
   return r;
 }
 
-function free(x){
+function v_free(x){
   return 0;
 }
 
