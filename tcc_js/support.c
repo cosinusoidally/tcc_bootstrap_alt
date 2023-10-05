@@ -1,5 +1,3 @@
-#define realloc v_realloc
-
 /* decls for real functions */
 void *malloc(int size);
 int strlen(char *s);
