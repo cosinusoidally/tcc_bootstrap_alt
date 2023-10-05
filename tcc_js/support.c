@@ -1,5 +1,3 @@
-#define alloca v_alloca
-
 #define realloc v_realloc
 
 /* decls for real functions */

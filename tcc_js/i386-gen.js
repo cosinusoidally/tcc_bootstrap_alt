@@ -365,7 +365,7 @@ function gfunc_start(c) {
 // void gfunc_param(GFuncContext *c)
 function gfunc_param(c) {
     var size;
-    var align=alloca(4);
+    var align=v_alloca(4);
     var r;
 
     if ((ri32(vtop+SValue_t_o) & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {

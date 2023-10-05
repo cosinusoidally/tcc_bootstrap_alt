@@ -6,7 +6,7 @@ int error(int a1);
 int ri32(int a1);
 int err(void);
 void free(int x);
-int alloca(int x);
+int v_alloca(int x);
 int mk_c_string(char *s);
 int strcpy(int a1, int a2);
 int strlen(int len);

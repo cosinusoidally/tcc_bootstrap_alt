@@ -38,7 +38,7 @@ function err(){
   throw "error not impl";
 }
 
-function alloca(x){
+function v_alloca(x){
   esp=esp-x;
   print("alloca "+x+" at:"+to_hex(esp));
   return esp;
@@ -244,7 +244,7 @@ function mk_argc_argv(s){
   argc=s.length;
   print(JSON.stringify(s));
   while(s.length>0){
-    argv=alloca(4);
+    argv=v_alloca(4);
     wi32(argv,mk_c_string(s.pop()));
   }
   return {argc:argc,argv:argv};

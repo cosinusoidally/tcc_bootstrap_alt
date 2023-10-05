@@ -490,9 +490,9 @@ function tok_alloc(str, len) {
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
-    var ts=alloca(4);
-    var pts=alloca(4);
-    var ptable=alloca(4);
+    var ts=v_alloca(4);
+    var pts=v_alloca(4);
+    var ptable=v_alloca(4);
     var h;
     var i;
 
@@ -585,11 +585,11 @@ function get_tok_str(v, cv) {
     enter();
 //     static char buf[STRING_MAX_SIZE + 1];
 // FIXME ljw should this be reserved on the heap?
-    var buf=alloca(STRING_MAX_SIZE + 1);
+    var buf=v_alloca(STRING_MAX_SIZE + 1);
 //     TokenSym *ts;
     var ts;
 //     char *p;
-    var p=alloca(4);
+    var p=v_alloca(4);
     var i;
 
     print("v: "+v); /* dbg log */
@@ -641,7 +641,7 @@ err();
 function sym_push2(ps, v, t, c) {
     enter();
 //     Sym *s;
-    var s=alloca(4);
+    var s=v_alloca(4);
 //     s = v_malloc(sizeof(Sym));
     wi32(s, v_malloc(Sym_size));
     if (!ri32(s)){
@@ -894,7 +894,7 @@ function tok_add(tok_str, tok_len, t) {
     enter();
 //     int len, *str;
     var len;
-    var str=alloca(4);
+    var str=v_alloca(4);
     len=ri32(tok_len);
     wi32(str, ri32(tok_str));
     if ((len & 63) == 0) {
@@ -954,10 +954,10 @@ function define_symbol(sym) {
 //     TokenSym *ts;
     var ts;
 //     int *str, len;
-    var str=alloca(4);
-    var len=alloca(4);
+    var str=v_alloca(4);
+    var len=v_alloca(4);
 //     CValue cval;
-    var cval=alloca(CValue_size);
+    var cval=v_alloca(CValue_size);
 
     ts = tok_alloc(sym, 0);
     wi32(str,0);
@@ -978,17 +978,17 @@ function preprocess() {
     var c;
     var v;
     var t;
-    var str=alloca(4);
-    var len=alloca(4);
+    var str=v_alloca(4);
+    var len=v_alloca(4);
 //     int found=0;
     var found=0;
 //     char buf[1024], *q, *p;
     var buf_size=1024;
-    var buf=alloca(buf_size);
+    var buf=v_alloca(buf_size);
     var q;
     var p;
 //     char buf1[1024];
-    var buf1=alloca(buf_size);
+    var buf1=v_alloca(buf_size);
 //     FILE *f;
     var f;
 //     Sym **ps, *first, *s;
@@ -1481,9 +1481,9 @@ enter();
 //     TokenSym *ts;
     var ts;
 //     int *macro_str1, macro_str1_len, *macro_ptr1;
-    var macro_str1=alloca(4);
-    var macro_str1_len=alloca(4);
-    var macro_ptr1=alloca(4);
+    var macro_str1=v_alloca(4);
+    var macro_str1_len=v_alloca(4);
+    var macro_ptr1=v_alloca(4);
     var t;
 //     char *p;
     var p;
@@ -1512,23 +1512,23 @@ enter();
 function macro_subst(tok_str, tok_len, nested_list, macro_str) {
     enter();
 //     Sym *s, *args, *sa, *sa1;
-    var s=alloca(4);
-    var args=alloca(4);
-    var sa=alloca(4);
-    var sa1=alloca(4);
+    var s=v_alloca(4);
+    var args=v_alloca(4);
+    var sa=v_alloca(4);
+    var sa1=v_alloca(4);
 //     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
-    var str=alloca(4);
-    var parlevel=alloca(4);
-    var len=alloca(4);
-    var mstr=alloca(4);
-    var t=alloca(4);
+    var str=v_alloca(4);
+    var parlevel=v_alloca(4);
+    var len=v_alloca(4);
+    var mstr=v_alloca(4);
+    var t=v_alloca(4);
     var saved_macro_ptr;
 //     int mstr_allocated, *macro_str1;
-    var mstr_allocated=alloca(4);
+    var mstr_allocated=v_alloca(4);
     var macro_str1;
     var no_subst;
 //     CValue cval;
-    var cval=alloca(CValue_size);
+    var cval=v_alloca(CValue_size);
 
     saved_macro_ptr = ri32(macro_ptr);
     wi32(macro_ptr, macro_str);
@@ -1591,11 +1591,11 @@ err();
 function next() {
     enter();
 //     int len, *ptr;
-    var len=alloca(4);
-    var ptr=alloca(4);
+    var len=v_alloca(4);
+    var ptr=v_alloca(4);
     var redo=1;
 //     Sym *nested_list;
-    var nested_list=alloca(4);
+    var nested_list=v_alloca(4);
 
     /* special 'ungettok' case for label parsing */
     if (tok1) {
@@ -1680,7 +1680,7 @@ function vset(t, v) {
 function vswap() {
     enter();
 //     SValue tmp;
-    var tmp=alloca(SValue_size);
+    var tmp=v_alloca(SValue_size);
 //     tmp = vtop[0];
     memcpy(tmp, vtop,SValue_size);
 //     vtop[0] = vtop[-1];
@@ -1753,7 +1753,7 @@ function get_reg(rc) {
     var i;
     var notfound;
 //     SValue *p;
-    var p=alloca(SValue_size);
+    var p=v_alloca(SValue_size);
 
     /* find a free register */
     for(r=0;r<NB_REGS;r=r+1) {
@@ -1973,7 +1973,7 @@ function gen_opc(op) {
 // int pointed_size(int t)
 function pointed_size(t) {
     enter();
-    var tmp=alloca(4);
+    var tmp=v_alloca(4);
     wi32(tmp,t);
 //    return type_size(pointed_type(t), &t);
     return leave(type_size(pointed_type(ri32(tmp)), tmp));
@@ -2291,8 +2291,8 @@ function gen_assign_cast(dt) {
     enter();
     var st;
 //     char buf1[256], buf2[256];
-    var buf1=alloca(256);
-    var buf2=alloca(256);
+    var buf1=v_alloca(256);
+    var buf2=v_alloca(256);
     st = ri32(vtop+SValue_t_o); /* destination type */
     if (!check_assign_types(dt, st)) {
 err();
@@ -2316,7 +2316,7 @@ function vstore() {
     var bit_size;
     var bit_pos;
 //     GFuncContext gf;
-    var gf=alloca(GFuncContext_size);
+    var gf=v_alloca(GFuncContext_size);
 
 //     ft = vtop[-1].t;
     ft = ri32(vtop-SValue_size+SValue_t_o);
@@ -2418,9 +2418,9 @@ function struct_decl(u) {
     var a;
     var t;
     var b;
-    var v=alloca(4);
+    var v=v_alloca(4);
     var size;
-    var align=alloca(4);
+    var align=v_alloca(4);
     var maxalign;
     var c;
     var offset;
@@ -2432,7 +2432,7 @@ function struct_decl(u) {
 //     Sym *s, *ss, **ps;
     var s;
     var ss;
-    var ps=alloca(4);
+    var ps=v_alloca(4);
     a = tok; /* save decl type */
     next();
     while(1){
@@ -2619,17 +2619,17 @@ function ist() {
 // {
 function post_type(t) {
     enter();
-    var p=alloca(4);
-    var n=alloca(4);
+    var p=v_alloca(4);
+    var n=v_alloca(4);
     var pt;
-    var l=alloca(4);
-    var t1=alloca(4);
-//     int foo=alloca(4);
+    var l=v_alloca(4);
+    var t1=v_alloca(4);
+//     int foo=v_alloca(4);
     var foo;
 //     Sym **plast, *s, *first;
-    var plast=alloca(4);
-    var s=alloca(4);
-    var first=alloca(4);
+    var plast=v_alloca(4);
+    var s=v_alloca(4);
+    var first=v_alloca(4);
 
 // FIXME ljw there is some bug that I have introduced that causes function
 // declarations of the form int foo(a,b) to not parse correctly
@@ -2833,17 +2833,17 @@ err();
 // void unary(void)
 function unary() {
     enter();
-    var n=alloca(4);
+    var n=v_alloca(4);
     var t;
     var ft;
     var fc;
     var p;
-    var align=alloca(4);
+    var align=v_alloca(4);
     var size;
 //     Sym *s;
     var s;
 //     GFuncContext gf;
-    var gf=alloca(4);
+    var gf=v_alloca(4);
 
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
 //         vset(VT_CONST | VT_INT, tokc.i);
@@ -2951,7 +2951,7 @@ err();
 
 // FIXME ljw had to use dummy alloca
 //             vset(VT_CONST, type_size(t, &t));
-            vset(VT_CONST, type_size(t, alloca(4)));
+            vset(VT_CONST, type_size(t, v_alloca(4)));
         } else if (t == TOK_INC || t == TOK_DEC) {
             unary();
             inc(0, t);
@@ -3040,7 +3040,7 @@ err();
 // have to hoist these declarations outside the loop to allow this to compile
 // with M2 or cc_x86
 //             CValue retc;
-            retc=alloca(4);
+            retc=v_alloca(4);
 //             Sym *sa;
 
             /* function call  */
@@ -3067,12 +3067,12 @@ err();
 // ljw declarations have now be hoisted
 // {
 //                 int *str, len, parlevel, *saved_macro_ptr;
-                str=alloca(4);
-                len=alloca(4);
+                str=v_alloca(4);
+                len=v_alloca(4);
                 parlevel;
                 saved_macro_ptr;
 //                 Sym *args, *s1;
-                args=alloca(4);
+                args=v_alloca(4);
                 s1;
 
                 /* read each argument and store it on a stack */
@@ -3357,9 +3357,9 @@ function expr_const() {
 // void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 function block(bsym, csym, case_sym, def_sym, case_reg) {
     enter();
-    var a=alloca(4);
-    var b=alloca(4);
-    var c=alloca(4);
+    var a=v_alloca(4);
+    var b=v_alloca(4);
+    var c=v_alloca(4);
     var d;
 //     Sym *s;
     var s;
@@ -3698,7 +3698,7 @@ err();
 function decl_initializer(t, c, first, size_only) {
     print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only); /* dbg log */
     enter();
-    var index=alloca(4);
+    var index=v_alloca(4);
     var array_length;
     var n;
     var no_oblock;
@@ -3708,12 +3708,12 @@ function decl_initializer(t, c, first, size_only) {
 
     var t1;
     var size1;
-    var align1=alloca(4);
+    var align1=v_alloca(4);
 //     Sym *s, *f;
-    var s=alloca(4);
-    var f=alloca(4);
+    var s=v_alloca(4);
+    var f=v_alloca(4);
 //     TokenSym *ts;
-    var ts=alloca(4);
+    var ts=v_alloca(4);
 
     if (t & VT_ARRAY) {
         s = sym_find((urs(t, VT_STRUCT_SHIFT)));
@@ -3864,13 +3864,13 @@ function decl_initializer_alloc(t, has_init) {
 print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     enter();
     var size;
-    var align=alloca(4);
+    var align=v_alloca(4);
     var addr;
     var tok1;
 //     int *init_str, init_len, level, *saved_macro_ptr;
-    var init_str=alloca(4);
-    var init_len=alloca(4);
-    var level=alloca(4);
+    var init_str=v_alloca(4);
+    var init_len=v_alloca(4);
+    var level=v_alloca(4);
     var saved_macro_ptr;
 
     size = type_size(t, align);
@@ -3949,15 +3949,15 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
 function decl(l) {
     enter();
 //     int *a, t, b, v, u, addr, has_init, size, align;
-    var a=alloca(4);
-    var t=alloca(4);
-    var b=alloca(4);
-    var v=alloca(4);
-    var u=alloca(4);
-    var addr=alloca(4);
-    var has_init=alloca(4);
-    var size=alloca(4);
-    var align=alloca(4);
+    var a=v_alloca(4);
+    var t=v_alloca(4);
+    var b=v_alloca(4);
+    var v=v_alloca(4);
+    var u=v_alloca(4);
+    var addr=v_alloca(4);
+    var has_init=v_alloca(4);
+    var size=v_alloca(4);
+    var align=v_alloca(4);
 //     Sym *sym;
     var sym;
 
@@ -4263,39 +4263,39 @@ function gen_obj(e){
   print("Generating object file\n");
   var f;
 
-  var text_len=alloca(4);
+  var text_len=v_alloca(4);
   wi32(text_len,ind-prog);
 
-  var data_len=alloca(4);
+  var data_len=v_alloca(4);
   wi32(data_len,glo-glo_base);
 
-  var reloc_len=alloca(4);
+  var reloc_len=v_alloca(4);
   wi32(reloc_len,relocs-relocs_base);
 
-  var global_reloc_len=alloca(4);
+  var global_reloc_len=v_alloca(4);
   wi32(global_reloc_len,global_relocs-global_relocs_base);
 
-  var global_reloc_table_len=alloca(4);
+  var global_reloc_table_len=v_alloca(4);
   wi32(global_reloc_table_len,global_relocs_table-global_relocs_table_base);
 
   var prog_rel;
   var data_rel;
-  var entrypoint=alloca(4);
+  var entrypoint=v_alloca(4);
   wi32(entrypoint,e-prog);
 
-  var m0=alloca(4);
+  var m0=v_alloca(4);
   wi32(m0,0xDEADBE00);
 
-  var m1=alloca(4);
+  var m1=v_alloca(4);
   wi32(m1,0xDEADBE01);
 
-  var m2=alloca(4);
+  var m2=v_alloca(4);
   wi32(m2,0xDEADBE02);
 
-  var m3=alloca(4);
+  var m3=v_alloca(4);
   wi32(m3,0xDEADBE03);
 
-  var m4=alloca(4);
+  var m4=v_alloca(4);
   wi32(m4,0xDEADBE04);
 
   var i;
@@ -4348,13 +4348,13 @@ function tcc_main(argc,argv){
     enter();
      puts("tcc 1_7 start");
 //     Sym *s;
-    var s=alloca(4);
+    var s=v_alloca(4);
 //     int (*t)();
-    var t=alloca(4);
+    var t=v_alloca(4);
 //     char *p, *r, *outfile;
     var p;
     var r;
-    var outfile=alloca(4);
+    var outfile=v_alloca(4);
 
     var optind;
     var c;
