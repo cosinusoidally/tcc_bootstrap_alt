@@ -11,6 +11,7 @@ char* heap;
 
 int esp;
 int ebp;
+int malloc_base;
 
 /* virtual heap access */
 int wi8(int o,int v) {
@@ -156,6 +157,7 @@ int init_runtime(void) {
   heap=(char *)malloc(heap_size/4);
   esp=heap_size-4;
   ebp=esp;
+  malloc_base=4;
 
   err();
 }
