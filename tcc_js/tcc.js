@@ -1059,7 +1059,7 @@ err();
             /* first search in current dir if "header.h" */
             /* XXX: buffer overflow */
             size = 0;
-            p = strrchr(filename, mk_char('/'));
+            p = v_strrchr(filename, mk_char('/'));
             if (p) 
                 size = p + 1 - filename;
             v_memcpy(buf1, filename, size);

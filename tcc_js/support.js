@@ -360,7 +360,7 @@ function v_strcpy(dest,src){
   }
 }
 
-function strrchr(s,c){
+function v_strrchr(s,c){
   var c1;
   while(c1=ri8(s++)){
     if(c1===c){
