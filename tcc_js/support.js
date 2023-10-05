@@ -291,7 +291,7 @@ function v_fclose(f){
   return 0;
 }
 
-function getc_unlocked(file){
+function v_getc_unlocked(file){
   file_o=f_files[file];
 //  print(JSON.stringify(file_o));
   var c=file_o.data[file_o.o++];

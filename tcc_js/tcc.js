@@ -799,7 +799,7 @@ function inp(){
     while(redo){
         redo=0;
         /* faster than fgetc */
-        ch1 = getc_unlocked(file);
+        ch1 = v_getc_unlocked(file);
         if (ch1 == -1) {
             if (handle_eof() < 0)
                 return;
