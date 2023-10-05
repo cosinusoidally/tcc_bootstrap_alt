@@ -10,22 +10,27 @@ void *malloc_real(int size);
 int puts(char *a);
 
 /* virtual heap access */
-int wi32(int a1,int a2) {
-  puts("unimpl wi32");
-  err();
-}
-int ri32(int a1) {
-  puts("unimpl urs");
-  err();
-}
 int wi8(int a1,int a2) {
   puts("unimpl wi8");
   err();
 }
+
 int ri8(int a) {
   puts("unimpl ri8");
   err();
 }
+
+int wi32(int a1,int a2) {
+  puts("unimpl wi32");
+  err();
+}
+
+int ri32(int a1) {
+  puts("unimpl urs");
+  err();
+}
+
+/* unsigned right shift (urs) */
 
 int urs(int a1,int a2) {
   puts("unimpl urs");
