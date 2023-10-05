@@ -2,6 +2,7 @@
 
 /* decls for real functions */
 void *malloc(int size);
+int strlen(char *s);
 
 int puts(char *a);
 
@@ -43,8 +44,8 @@ int urs(int a1,int a2) {
 /* virtual heap memory functions */
 
 int v_alloca(int x) {
-  puts("unimpl alloca");
-  err();
+  esp=esp-x;
+  return esp;
 }
 
 int enter(void) {
@@ -94,7 +95,9 @@ int mk_char(int a) {
 }
 
 int mk_c_string(char *s){
-  puts("unimpl mk_c_string");
+//  puts("unimpl mk_c_string");
+  int l=strlen(s);
+  printf("strlen %d\n",l);
   err();
 }
 
