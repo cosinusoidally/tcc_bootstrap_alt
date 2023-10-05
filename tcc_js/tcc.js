@@ -2312,7 +2312,7 @@ function vstore() {
     var r;
     var t;
     var size;
-    var align;
+    var align=v_alloca(4);
     var bit_size;
     var bit_pos;
 //     GFuncContext gf;
