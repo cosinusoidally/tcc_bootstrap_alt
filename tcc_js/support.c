@@ -93,7 +93,7 @@ int leave(int x) {
 void v_free(int x) {
 //  puts("unimpl free");
 //  err();
-  return 0;
+  return;
 }
 
 int v_malloc(int x) {
