@@ -91,9 +91,15 @@ int v_malloc(int x) {
   return r;
 }
 
-int v_realloc(int a,int b) {
-  puts("unimpl realloc");
-  err();
+int v_realloc(int x,int size) {
+//  puts("unimpl realloc");
+//  err();
+  int i;
+  int r=malloc(size);
+  for(i=0;i<size;i++){
+    wi8(r+i,ri8(x+i));
+  };
+  return r;
 }
 
 int v_memcmp(int a, int b, int c) {
@@ -101,9 +107,14 @@ int v_memcmp(int a, int b, int c) {
   err();
 }
 
-int v_memcpy(int a, int b, int c) {
-  puts("unimpl memcpy");
-  err();
+int v_memcpy(int dest, int src, int count) {
+//  puts("unimpl memcpy");
+//  err();
+  int i;
+  for(i=0;i<count;i=i+1){
+    wi8(dest+i,ri8(src+i));
+  }
+
 }
 
 int v_memset(int a, int b, int c) {
