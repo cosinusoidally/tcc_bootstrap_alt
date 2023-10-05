@@ -205,7 +205,10 @@ int mk_argc_argv(char *s){
       wi32(argv,hs+i);
     }
   }
+  argc=argc+1;
   printf("argc %d\n",argc+1);
+  wi32(argc_argv,argc);
+  wi32(argc_argv+4,argv);
   return argc_argv;
 }
 
