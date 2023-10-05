@@ -7,7 +7,9 @@ var NULL=0;
 
 /* js_to_c compiled version can't parse this number */
 /* var VT_TYPE=0xFFFFFE00; */
-var VT_TYPE=-512;
+/* note the space around = is important here as cc_x86 and M2 cannot parse
+   without */
+var VT_TYPE = -512;
 
 /*
  *  TCC - Tiny C Compiler
