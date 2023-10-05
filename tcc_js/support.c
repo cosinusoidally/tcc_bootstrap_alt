@@ -1,6 +1,7 @@
 /* decls for real functions */
 void *malloc(int size);
 int strlen(char *s);
+int fopen(int path, int mode);
 
 int puts(char *a);
 
@@ -211,8 +212,10 @@ int v_fclose(int a) {
 }
 
 int v_fopen(int a, int b) {
-  puts("unimpl fopen");
-  err();
+//  puts("unimpl fopen");
+//  err();
+// FIXME ljw will we have trouble with this being signed?
+  return fopen(heap+a,heap+b);
 }
 
 int v_fwrite(int a,int b, int c, int d) {
