@@ -62,8 +62,11 @@ int v_alloca(int x) {
 }
 
 int enter(void) {
-  puts("unimpl enter");
-  err();
+//  puts("unimpl enter");
+//  err();
+  esp=esp-4;
+  wi32(esp,ebp);
+  ebp=esp;
 }
 int leave(int a) {
   puts("unimpl leave");
@@ -145,9 +148,15 @@ int v_strcat(int a,int b) {
   puts("unimpl strcat");
   err();
 }
-int v_strcpy(int a1, int a2) {
-  puts("unimpl strcpy");
-  err();
+int v_strcpy(int dest, int src) {
+//  puts("unimpl strcpy");
+//  err();
+  int c;
+  while((c=ri8(src))!=0){
+    src=src+1;
+    wi8(dest,c);
+    dest=dest+1;
+  }
 }
 
 int v_strdup(int a) {
@@ -155,9 +164,15 @@ int v_strdup(int a) {
   err();
 }
 
-int v_strlen(int len) {
-  puts("unimpl strlen");
-  err();
+int v_strlen(int s) {
+//  puts("unimpl strlen");
+//  err();
+  int l=0;
+  while(ri8(s)){
+    s=s+1;
+    l=l+1;
+  };
+  return l;
 }
 
 int v_strrchr(int a, int b) {
