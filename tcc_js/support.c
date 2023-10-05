@@ -20,8 +20,13 @@ int wi8(int o,int v) {
   return;
 }
 
-int ri8(int a) {
-  return heap[a];
+// chars are signed but we want unsigned
+int ri8(int o) {
+//  int t=heap[a];
+  int o1=o>>2;
+  int s=o&3;
+  int v1=((int*)heap)[o1];
+  return (v1>>(s*8)) &0xFF;
 }
 
 int wi32(int o,int v) {
@@ -229,5 +234,9 @@ int main(void){
   puts("running js_to_c generated code");
   init_runtime();
   int args=mk_argc_argv("tcc -r test1.c");
-  tcc_main(ri32(args),ri32(args+4));
+  int v_argc=ri32(args);
+  int v_argv=ri32(args+4);
+  printf("argc: %d\n",v_argc);
+  printf("argv: %d\n",v_argv);
+  tcc_main(v_argc,v_argv);
 }
