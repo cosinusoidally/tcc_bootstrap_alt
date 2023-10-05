@@ -125,6 +125,7 @@ int mk_c_string(char *s){
     wi8(sh+i,s[i]);
   }
   wi8(sh+i,0);
+  return sh;
 }
 
 int v_strcat(int a,int b) {
@@ -181,7 +182,23 @@ int err(void) {
 
 int mk_argc_argv(char *s){
   int argc_argv=v_alloca(8);
+  int argc=0;
+  int argv;
+  int c;
+  int i=0;
   int hs=mk_c_string(s);
+  argv=v_alloca(4);
+  wi32(argv,hs);
+  while((c=ri8(hs+i))!=0){
+    i=i+1;
+    if(c==' ') {
+      argc=argc+1;
+      wi8(hs+i-1,0);
+      argv=v_alloca(4);
+      wi32(argv,hs+i);
+    }
+  }
+  printf("argc %d\n",argc+1);
   return argc_argv;
 }
 
