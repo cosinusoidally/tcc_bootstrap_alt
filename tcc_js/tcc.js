@@ -551,7 +551,7 @@ function tok_alloc(str, len) {
     tok_ident=tok_ident+1;
     wi32(ts+TokenSym_len_o, len);
     wi32(ts+TokenSym_hash_next_o,0);
-    memcpy(ts+TokenSym_str_o, str, len + 1);
+    v_memcpy(ts+TokenSym_str_o, str, len + 1);
     wi32(ri32(pts),ts);
     return leave(ts);
 }
@@ -1062,7 +1062,7 @@ err();
             p = strrchr(filename, mk_char('/'));
             if (p) 
                 size = p + 1 - filename;
-            memcpy(buf1, filename, size);
+            v_memcpy(buf1, filename, size);
             wi8(buf1+size, 0);
             strcat(buf1, buf);
             print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf)); /* dbg log */
@@ -1660,7 +1660,7 @@ function vsetc(t, vc) {
     vtop=vtop+SValue_size;
     wi32(vtop+SValue_t_o,t);
 //    vtop->c = *vc;
-   memcpy(vtop+SValue_c_o, vc,CValue_size);
+   v_memcpy(vtop+SValue_c_o, vc,CValue_size);
 }
 
 // void vset(int t, int v)
@@ -1682,11 +1682,11 @@ function vswap() {
 //     SValue tmp;
     var tmp=v_alloca(SValue_size);
 //     tmp = vtop[0];
-    memcpy(tmp, vtop,SValue_size);
+    v_memcpy(tmp, vtop,SValue_size);
 //     vtop[0] = vtop[-1];
-    memcpy(vtop, vtop-SValue_size, SValue_size);
+    v_memcpy(vtop, vtop-SValue_size, SValue_size);
 //     vtop[-1] = tmp;
-    memcpy(vtop-SValue_size, tmp, SValue_size);
+    v_memcpy(vtop-SValue_size, tmp, SValue_size);
     leave(0);
 }
 
@@ -1697,7 +1697,7 @@ function vdup() {
 //     vtop++;
     vtop=vtop+SValue_size;
 //     *vtop = vtop[-1];
-    memcpy(vtop, vtop-SValue_size,SValue_size);
+    v_memcpy(vtop, vtop-SValue_size,SValue_size);
 }
 
 // int save_reg_forced(int r)
@@ -4312,8 +4312,8 @@ function gen_obj(e){
   prog_rel=v_malloc(ri32(text_len));
   data_rel=v_malloc(ri32(data_len));
 
-  memcpy(prog_rel,prog,ri32(text_len));
-  memcpy(data_rel,glo_base,ri32(data_len));
+  v_memcpy(prog_rel,prog,ri32(text_len));
+  v_memcpy(data_rel,glo_base,ri32(data_len));
 
   fwrite(m1,1,4,f);
   fwrite(relocs_base,1,ri32(reloc_len),f);

@@ -211,7 +211,7 @@ function leave(x){
   return x;
 }
 
-function memcpy(dest,src,count){
+function v_memcpy(dest,src,count){
   for(var i=0;i<count;i++){
     wi8(dest+i,ri8(src+i));
   }
