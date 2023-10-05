@@ -104,9 +104,19 @@ int mk_char(int a) {
   err();
 }
 
+// might not be needed?
+int string_cache(int sc){
+  printf("sc: %d\n",sc);
+  return 0;
+}
+
 int mk_c_string(char *s){
 //  puts("unimpl mk_c_string");
   printf("mk_c_string: %s\n",s);
+  int sc=string_cache(s);
+  if(sc){
+    return sc;
+  }
   int l=strlen(s);
   int sh=v_malloc(l+1);
   int i;
