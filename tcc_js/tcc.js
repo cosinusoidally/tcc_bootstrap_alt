@@ -3557,7 +3557,7 @@ function decl_designator(t, c, cur_index, cur_field, size_only) {
 
     var notfirst;
     var index;
-    var align;
+    var align=v_alloca(4);
     var l;
 
     notfirst = 0;
