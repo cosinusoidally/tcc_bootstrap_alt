@@ -230,7 +230,7 @@ function unsigned(x){
   return x>>>0;
 }
 
-function memset(x,v,size){
+function v_memset(x,v,size){
   for(var i=0;i<size;i++){
     wi8(x+i,v);
   }

@@ -4382,7 +4382,7 @@ function tcc_main(argc,argv){
     glo=v_malloc(DATA_SIZE);
     glo_base=glo;
     print("glo: "+to_hex(glo));
-    memset(glo, 0, DATA_SIZE);
+    v_memset(glo, 0, DATA_SIZE);
     prog=v_malloc(TEXT_SIZE);
     ind = prog;
     print("prog: "+to_hex(prog));
