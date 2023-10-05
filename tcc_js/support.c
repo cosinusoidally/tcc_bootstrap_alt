@@ -9,15 +9,18 @@ void *malloc_real(int size);
 
 int puts(char *a);
 
+int heap_size;
+int stack_size;
+char* heap;
+
 /* virtual heap access */
-int wi8(int a1,int a2) {
-  puts("unimpl wi8");
-  err();
+int wi8(int o,int v) {
+  heap[o]=v;
+  return;
 }
 
 int ri8(int a) {
-  puts("unimpl ri8");
-  err();
+  return heap[a];
 }
 
 int wi32(int a1,int a2) {
@@ -145,11 +148,6 @@ int err(void) {
   puts("err");
   exit(1);
 }
-
-int heap_size;
-int stack_size;
-char* heap;
-
 
 /* initialise the runtime */
 int init_runtime(void) {
