@@ -900,14 +900,14 @@ function tok_add(tok_str, tok_len, t) {
     if ((len & 63) == 0) {
         wi32(str, realloc(ri32(str), (len + 64) * 4));
         if (!ri32(str)) {
-            return leave();
+            return leave(0);
         }
         wi32(tok_str, ri32(str));
     }
     wi32(ri32(str)+((len)*4), t);
     len=len+1;
     wi32(tok_len, len);
-    return leave();
+    return leave(0);
 }
 
 // void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
@@ -922,7 +922,7 @@ function tok_add2(tok_str, tok_len, t, cv) {
 //         tok_add(tok_str, tok_len, cv->tab[i]);
         tok_add(tok_str, tok_len, ri32(cv+(i*4)));
     }
-    return leave();
+    return leave(0);
 }
 
 /* get a token from an integer array and increment pointer accordingly */
@@ -967,7 +967,7 @@ function define_symbol(sym) {
     tok_add2(str, len, TOK_NUM, cval);
     tok_add(str, len, 0);
     sym_push1(define_stack, ri32(ts+TokenSym_tok_o), MACRO_OBJ, ri32(str));
-    return leave();
+    return leave(0);
 }
 
 // void preprocess(void)
@@ -1382,7 +1382,7 @@ err();
 //                         error("parse error");
 //                     cinp();
                 }
-                return leave();
+                return leave(0);
             }
             q = q + 3;
         }
@@ -1393,7 +1393,7 @@ err();
             tok = TOK_GT;
         }
     }
-    leave();
+    leave(0);
 }
 
 /* return next token without macro substitution. Can read input from
@@ -1408,7 +1408,7 @@ function next_nomacro() {
     } else {
         next_nomacro1();
     }
-    leave();
+    leave(0);
 }
 
 // /* substitute args in macro_str and return allocated string */
@@ -1572,18 +1572,18 @@ err();
          if (no_subst) {
             /* no need to add if reading input stream */
              if (!macro_str) 
-                 return leave();
+                 return leave(0);
              tok_add2(tok_str, tok_len, tok, tokc);
          }
         /* only replace one macro while parsing input stream */
          if (!macro_str)
-             return leave();
+             return leave(0);
      }
     wi32(macro_ptr, saved_macro_ptr);
 // FIXME ljw should free
 //     if (macro_str1)
 //         free(macro_str1);
-    leave();
+    leave(0);
 }
 
 /* return next token with macro substitution */
@@ -1636,7 +1636,7 @@ err();
         break;
     }
     }
-    leave();
+    leave(0);
 }
 
 // void swap(int *p, int *q)
@@ -1673,7 +1673,7 @@ function vset(t, v) {
 //     cval.i = v;
     wi32(cval, v);
     vsetc(t, cval);
-    leave();
+    leave(0);
 }
 
 // void vswap(void)
@@ -1687,7 +1687,7 @@ function vswap() {
     memcpy(vtop, vtop-SValue_size, SValue_size);
 //     vtop[-1] = tmp;
     memcpy(vtop-SValue_size, tmp, SValue_size);
-    leave();
+    leave(0);
 }
 
 // void vdup(void)
@@ -2300,7 +2300,7 @@ err();
 //         type_to_str(buf2, sizeof(buf2), dt, NULL);
 //         error("cannot cast '%s' to '%s'", buf1, buf2);
     }
-    leave();
+    leave(0);
 }
 
 /* store vtop in lvalue pushed on stack */
@@ -2378,7 +2378,7 @@ function vstore() {
 //         vtop->c.i = 0;
         wi32(vtop+SValue_c_o, 0);
     }
-    leave();
+    leave(0);
 }
 
 /* post defines POST/PRE add. c is the token ++ or -- */
@@ -3151,7 +3151,7 @@ err();
             break;
         }
     }
-    leave();
+    leave(0);
 }
 
 // void uneq(void)
@@ -3539,7 +3539,7 @@ err();
         }
         skip(mk_char(';'));
     }
-    leave();
+    leave(0);
 }
 
 /* t is the array or struct type. c is the array or struct
@@ -3622,7 +3622,7 @@ err();
         }
     }
     decl_initializer(t, c, 0, size_only);
-    leave();
+    leave(0);
 }
 
 /* store a value or an expression directly in global data or in local array */
@@ -3853,7 +3853,7 @@ err();
     } else {
         init_putv(t, c, 0, 1);
     }
-   return leave();
+   return leave(0);
 }
 
 /* parse an initializer for type 't' if 'has_init' is true, and
@@ -4099,7 +4099,7 @@ err();
             }
          }
      }
-    leave();
+    leave(0);
 }
 
 /* put all global symbols in the extern stack and do all the
@@ -4154,7 +4154,7 @@ err();
         }
         s = s1;
     }
-    leave();
+    leave(0);
 }
 
 /* compile a C file. Return non zero if errors. */
@@ -4248,7 +4248,7 @@ function resolve_extern_syms() {
         s = s1;
     }
     reloc_global=0;
-    leave();
+    leave(0);
 }
 
 // int show_help(void)
@@ -4334,7 +4334,7 @@ function gen_obj(e){
   fwrite(m4,1,4,f);
   fwrite(prog_rel,1,ri32(text_len),f);
   fclose(f);
-  leave();
+  leave(0);
 }
 
 var prog_rel;
@@ -4455,5 +4455,5 @@ err();
         gen_obj(ri32(s+Sym_c_o));
     }
 
-    return leave();
+    return leave(0);
 }
