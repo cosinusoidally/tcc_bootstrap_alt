@@ -1066,7 +1066,7 @@ err();
             wi8(buf1+size, 0);
             v_strcat(buf1, buf);
             print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf)); /* dbg log */
-            f = fopen(buf1, mk_c_string("r"));
+            f = v_fopen(buf1, mk_c_string("r"));
             if (f)
                 found=1;
         }
@@ -1076,7 +1076,7 @@ err();
                 v_strcpy(buf1, ri32(include_paths+(4*i)));
                 v_strcat(buf1, mk_char("/"));
                 v_strcat(buf1, buf);
-                f = fopen(buf1, mk_c_string("r"));
+                f = v_fopen(buf1, mk_c_string("r"));
                 if (f)
                     found=1;
             }
@@ -4169,7 +4169,7 @@ function tcc_compile_file(filename1) {
 
     line_num = 1;
     funcname = mk_c_string("");
-    file = fopen(filename, mk_c_string("r"));
+    file = v_fopen(filename, mk_c_string("r"));
     if (!file) {
         err();
 //        error("file '%s' not found", filename);
@@ -4299,7 +4299,7 @@ function gen_obj(e){
   wi32(m4,0xDEADBE04);
 
   var i;
-  f = fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
+  f = v_fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
   fwrite(entrypoint,1,4,f);
   fwrite(text_len,1,4,f);
   fwrite(data_len,1,4,f);

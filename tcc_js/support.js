@@ -257,7 +257,7 @@ function mk_char(c){
 f_files={};
 vfs={};
 
-function fopen(f,mode){
+function v_fopen(f,mode){
 // FIXME ljw non-dummy impl
   var filename=mk_js_string(f);
   mode=mk_js_string(mode);
