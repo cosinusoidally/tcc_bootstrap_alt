@@ -2,6 +2,9 @@
 void *malloc(int size);
 int strlen(char *s);
 int fopen(int path, int mode);
+int fclose(int f);
+int fwrite(int a,int b, int c, int d);
+int getc_unlocked(int f);
 
 int puts(char *a);
 
@@ -48,9 +51,20 @@ int ri32(int o) {
 
 /* unsigned right shift (urs) */
 
-int urs(int a1,int a2) {
-  puts("unimpl urs");
-  err();
+int urs(int v,int n) {
+  if(n==0) {
+    return v;
+  }
+  int m=0x80000000;
+  int m2=0x40000000;
+  int t=v&m;
+  v=v & ~m;
+  v=v >> n;
+  if(t){
+    v=v | (m2 >> (n-1));
+  }
+  return v;
+
 }
 
 /* virtual heap memory functions */
@@ -77,8 +91,9 @@ int leave(int x) {
 }
 
 void v_free(int x) {
-  puts("unimpl urs");
-  err();
+//  puts("unimpl free");
+//  err();
+  return 0;
 }
 
 int v_malloc(int x) {
@@ -107,9 +122,19 @@ int v_realloc(int x,int size) {
   return r;
 }
 
-int v_memcmp(int a, int b, int c) {
-  puts("unimpl memcmp");
-  err();
+int v_memcmp(int s1, int s2, int n) {
+//  puts("unimpl memcmp");
+//  err();
+  int i;
+  int r=0;
+  for(i=0;i<n;i++){
+// FIXME not quite right
+    if(ri8(s1)!=ri8(s2)){
+      r=1;
+    }
+  }
+  return r;
+
 }
 
 int v_memcpy(int dest, int src, int count) {
@@ -195,20 +220,22 @@ int v_strlen(int s) {
 }
 
 int v_strrchr(int a, int b) {
-  puts("unimpl urs");
+  puts("unimpl strrchr");
   err();
 }
 
 /* virtual file functions */
 
 int v_getc_unlocked(int a) {
-  puts("unimpl getc_unlocked");
-  err();
+//  puts("unimpl getc_unlocked");
+//  err();
+  return getc_unlocked(a);
 }
 
 int v_fclose(int a) {
-  puts("unimpl fclose");
-  err();
+//  puts("unimpl fclose");
+//  err();
+  return fclose(a);
 }
 
 int v_fopen(int a, int b) {
@@ -219,8 +246,9 @@ int v_fopen(int a, int b) {
 }
 
 int v_fwrite(int a,int b, int c, int d) {
-  puts("unimpl fwrite");
-  err();
+//  puts("unimpl fwrite");
+//  err();
+  return fwrite(heap+a ,b ,c , d);
 }
 
 /* error functions */
