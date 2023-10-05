@@ -1093,7 +1093,7 @@ err();
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
         file = f;
-        filename = strdup(buf1);
+        filename = v_strdup(buf1);
         print("filename: "+mk_js_string(filename)); /* dbg log */
         line_num = 1;
     }

@@ -382,7 +382,7 @@ function v_strcat(dest,src){
   return d;
 }
 
-function strdup(src){
+function v_strdup(src){
   var l=v_strlen(src);
   var dest=malloc(l+1);
   for(var i=0;i<l;i++){
