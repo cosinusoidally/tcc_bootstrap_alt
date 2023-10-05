@@ -370,7 +370,7 @@ function v_strrchr(s,c){
   return 0;
 }
 
-function strcat(dest,src){
+function v_strcat(dest,src){
   var d=dest;
   var c;
   while(ri8(dest++));

@@ -1064,7 +1064,7 @@ err();
                 size = p + 1 - filename;
             v_memcpy(buf1, filename, size);
             wi8(buf1+size, 0);
-            strcat(buf1, buf);
+            v_strcat(buf1, buf);
             print("buf1: "+mk_js_string(buf1)+" buf: "+mk_js_string(buf)); /* dbg log */
             f = fopen(buf1, mk_c_string("r"));
             if (f)
@@ -1074,8 +1074,8 @@ err();
         if(!found){
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
                 v_strcpy(buf1, ri32(include_paths+(4*i)));
-                strcat(buf1, mk_char("/"));
-                strcat(buf1, buf);
+                v_strcat(buf1, mk_char("/"));
+                v_strcat(buf1, buf);
                 f = fopen(buf1, mk_c_string("r"));
                 if (f)
                     found=1;
@@ -1439,9 +1439,9 @@ function next_nomacro() {
 //                 notfirst = 0;
 //                 while (*st) {
 //                     if (notfirst)
-//                         strcat(token_buf, " ");
+//                         v_strcat(token_buf, " ");
 //                     t = tok_get(&st, &cval);
-//                     strcat(token_buf, get_tok_str(t, &cval));
+//                     v_strcat(token_buf, get_tok_str(t, &cval));
 //                     notfirst = 1;
 //                 }
 //                 /* add string */
@@ -2230,57 +2230,57 @@ err();
 //     bt = t & VT_BTYPE;
 //     buf[0] = '\0';
 //     if (t & VT_UNSIGNED)
-//         strcat(buf, "unsigned ");
+//         v_strcat(buf, "unsigned ");
 //     switch(bt) {
 //     case VT_VOID:
-//         strcat(buf, "void");
+//         v_strcat(buf, "void");
 //         break;
 //     case VT_BYTE:
-//         strcat(buf, "char");
+//         v_strcat(buf, "char");
 //         break;
 //     case VT_SHORT:
-//         strcat(buf, "short");
+//         v_strcat(buf, "short");
 //         break;
 //     case VT_INT:
-//         strcat(buf, "int");
+//         v_strcat(buf, "int");
 //         break;
 //     case VT_ENUM:
 //     case VT_STRUCT:
 //         if (bt == VT_STRUCT)
-//             strcat(buf, "struct ");
+//             v_strcat(buf, "struct ");
 //         else
-//             strcat(buf, "enum ");
+//             v_strcat(buf, "enum ");
 //         v = (unsigned)t >> VT_STRUCT_SHIFT;
 //         if (v >= SYM_FIRST_ANOM)
-//             strcat(buf, "<anonymous>");
+//             v_strcat(buf, "<anonymous>");
 //         else
-//             strcat(buf, get_tok_str(v, NULL));
+//             v_strcat(buf, get_tok_str(v, NULL));
 //         break;
 //     case VT_FUNC:
 //         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
 //         type_to_str(buf, buf_size, s->t, varstr);
-//         strcat(buf, "(");
+//         v_strcat(buf, "(");
 //         sa = s->next;
 //         while (sa != NULL) {
 //             type_to_str(buf1, sizeof(buf1), sa->t, NULL);
-//             strcat(buf, buf1);
+//             v_strcat(buf, buf1);
 //             sa = sa->next;
 //             if (sa)
-//                 strcat(buf, ", ");
+//                 v_strcat(buf, ", ");
 //         }
-//         strcat(buf, ")");
+//         v_strcat(buf, ")");
 //         return;
 //     case VT_PTR:
 //         s = sym_find((unsigned)t >> VT_STRUCT_SHIFT);
 //         v_strcpy(buf1, "*");
 //         if (varstr)
-//             strcat(buf1, varstr);
+//             v_strcat(buf1, varstr);
 //         type_to_str(buf, buf_size, s->t, buf1);
 //         return;
 //     }
 //     if (varstr) {
-//         strcat(buf, " ");
-//         strcat(buf, varstr);
+//         v_strcat(buf, " ");
+//         v_strcat(buf, varstr);
 //     }
 // }
 
