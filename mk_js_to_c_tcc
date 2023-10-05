@@ -7,4 +7,5 @@ cd /tmp/tcc_js_tmp
 rm out1.M1
 rm out2.M1
 rm out.c
-~/tcc_bootstrap_alt/tcc_10/a.out tcc_js.c
+rm tcc_boot.o
+~/tcc_bootstrap_alt/tcc_1_7/a.out -r tcc_js.c
