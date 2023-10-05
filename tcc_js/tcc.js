@@ -522,7 +522,7 @@ function tok_alloc(str, len) {
             break;
         }
         print("len: "+len+" ts-table_ident:"+(ts-table_ident)); /* dbg log */
-        if ((ri32(ts+TokenSym_len_o) == len) && !memcmp(ts+TokenSym_str_o, str, len)) {
+        if ((ri32(ts+TokenSym_len_o) == len) && !v_memcmp(ts+TokenSym_str_o, str, len)) {
             return leave(ts);
         }
         wi32(pts, ts+TokenSym_hash_next_o);

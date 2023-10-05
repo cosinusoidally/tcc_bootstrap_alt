@@ -309,7 +309,7 @@ function fwrite(ptr, size, nmemb, stream){
   }
 }
 
-function memcmp(s1,s2,n){
+function v_memcmp(s1,s2,n){
 //print("memcmp "+to_hex(s1)+" "+to_hex(s2)+" "+n);
   var r=0;
   for(var i=0;i<n;i++){
