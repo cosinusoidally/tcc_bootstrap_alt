@@ -302,7 +302,7 @@ function v_getc_unlocked(file){
   return c;
 }
 
-function fwrite(ptr, size, nmemb, stream){
+function v_fwrite(ptr, size, nmemb, stream){
   var f=f_files[stream];
   for(var i=0;i<size*nmemb;i++){
     f.data.push(ri8(ptr++)&0xFF);

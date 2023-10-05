@@ -4300,14 +4300,14 @@ function gen_obj(e){
 
   var i;
   f = v_fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
-  fwrite(entrypoint,1,4,f);
-  fwrite(text_len,1,4,f);
-  fwrite(data_len,1,4,f);
-  fwrite(reloc_len,1,4,f);
-  fwrite(global_reloc_len,1,4,f);
-  fwrite(global_reloc_table_len,1,4,f);
-  fwrite(m0,1,4,f);
-  fwrite(global_relocs_table_base,1,ri32(global_reloc_table_len),f);
+  v_fwrite(entrypoint,1,4,f);
+  v_fwrite(text_len,1,4,f);
+  v_fwrite(data_len,1,4,f);
+  v_fwrite(reloc_len,1,4,f);
+  v_fwrite(global_reloc_len,1,4,f);
+  v_fwrite(global_reloc_table_len,1,4,f);
+  v_fwrite(m0,1,4,f);
+  v_fwrite(global_relocs_table_base,1,ri32(global_reloc_table_len),f);
 
   prog_rel=v_malloc(ri32(text_len));
   data_rel=v_malloc(ri32(data_len));
@@ -4315,14 +4315,14 @@ function gen_obj(e){
   v_memcpy(prog_rel,prog,ri32(text_len));
   v_memcpy(data_rel,glo_base,ri32(data_len));
 
-  fwrite(m1,1,4,f);
-  fwrite(relocs_base,1,ri32(reloc_len),f);
+  v_fwrite(m1,1,4,f);
+  v_fwrite(relocs_base,1,ri32(reloc_len),f);
 
-  fwrite(m2,1,4,f);
-  fwrite(data_rel,1,ri32(data_len),f);
+  v_fwrite(m2,1,4,f);
+  v_fwrite(data_rel,1,ri32(data_len),f);
 
-  fwrite(m3,1,4,f);
-  fwrite(global_relocs_base,1,ri32(global_reloc_len),f);
+  v_fwrite(m3,1,4,f);
+  v_fwrite(global_relocs_base,1,ri32(global_reloc_len),f);
 
   for(i=0;i<ri32(reloc_len);i=i+12){
     wi32(prog_rel+ri32(relocs_base+i),0); 
@@ -4331,8 +4331,8 @@ function gen_obj(e){
     wi32(prog_rel+ri32(global_relocs_base+i+4),0); 
   }
 
-  fwrite(m4,1,4,f);
-  fwrite(prog_rel,1,ri32(text_len),f);
+  v_fwrite(m4,1,4,f);
+  v_fwrite(prog_rel,1,ri32(text_len),f);
   v_fclose(f);
   leave(0);
 }
