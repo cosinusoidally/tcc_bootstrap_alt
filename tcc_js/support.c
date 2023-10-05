@@ -66,9 +66,13 @@ int enter(void) {
   wi32(esp,ebp);
   ebp=esp;
 }
-int leave(int a) {
-  puts("unimpl leave");
-  err();
+int leave(int x) {
+//  puts("unimpl leave");
+//  err();
+  esp=ebp;
+  ebp=ri32(esp);
+  esp=esp+4;
+  return x;
 }
 
 void v_free(int x) {
@@ -95,7 +99,7 @@ int v_realloc(int x,int size) {
 //  puts("unimpl realloc");
 //  err();
   int i;
-  int r=malloc(size);
+  int r=v_malloc(size);
   for(i=0;i<size;i++){
     wi8(r+i,ri8(x+i));
   };
@@ -117,16 +121,21 @@ int v_memcpy(int dest, int src, int count) {
 
 }
 
-int v_memset(int a, int b, int c) {
-  puts("unimpl memset");
-  err();
+int v_memset(int x, int v, int size) {
+//  puts("unimpl memset");
+//  err();
+  int i;
+  for(i=0;i<size;i++){
+    wi8(x+i,v);
+  }
 }
 
 /* virtual heap string functions */
 
 int mk_char(int a) {
-  puts("unimpl mk_char");
-  err();
+//  puts("unimpl mk_char");
+//  err();
+  return a;
 }
 
 // might not be needed?
