@@ -30,7 +30,7 @@ int wi32(int a1,int a2) {
 }
 
 int ri32(int a1) {
-  puts("unimpl urs");
+  puts("unimpl ri32");
   err();
 }
 
@@ -63,8 +63,18 @@ void v_free(int x) {
 }
 
 int v_malloc(int x) {
-  puts("unimpl malloc");
-  err();
+//  puts("unimpl malloc");
+//  err();
+  int r=malloc_base;
+  if(x!=((x>>2)<<2)){
+    x=4+(x>>2) <<2;
+  }
+  malloc_base=malloc_base+x;
+  if(malloc_base>(heap_size-stack_size)){
+    puts("oom malloc");
+    err();
+  }
+  return r;
 }
 
 int v_realloc(int a,int b) {
@@ -96,9 +106,15 @@ int mk_char(int a) {
 
 int mk_c_string(char *s){
 //  puts("unimpl mk_c_string");
+  printf("mk_c_string: %s\n",s);
   int l=strlen(s);
+  int sh=v_malloc(l+1);
+  int i;
   printf("strlen %d\n",l);
-  err();
+  for(i=0;i<l;i++){
+    wi8(sh+i,s[i]);
+  }
+  wi8(sh+i,0);
 }
 
 int v_strcat(int a,int b) {
@@ -173,6 +189,7 @@ int init_runtime(void) {
 
 int main(void){
   puts("running js_to_c generated code");
-  mk_argc_argv("tcc -r test1.c");
-  tcc_main(0,0);
+  init_runtime();
+  int args=mk_argc_argv("tcc -r test1.c");
+  tcc_main(ri32(args),ri32(args+4));
 }
