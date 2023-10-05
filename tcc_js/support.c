@@ -219,9 +219,17 @@ int v_strlen(int s) {
   return l;
 }
 
-int v_strrchr(int a, int b) {
-  puts("unimpl strrchr");
-  err();
+int v_strrchr(int s, int c) {
+//  puts("unimpl strrchr");
+//  err();
+  int c1;
+  while(c1=ri8(s)){
+    s=s+1;
+    if(c1==c){
+      return s-1;
+    }
+  }
+  return 0;
 }
 
 /* virtual file functions */
@@ -303,7 +311,7 @@ int init_runtime(void) {
 int main(void){
   puts("running js_to_c generated code");
   init_runtime();
-  int args=mk_argc_argv("tcc -r test1.c");
+  int args=mk_argc_argv("tcc -r test-dlsym_wrap.c");
   int v_argc=ri32(args);
   int v_argv=ri32(args+4);
   printf("argc: %d\n",v_argc);
