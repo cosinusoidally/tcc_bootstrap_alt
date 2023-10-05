@@ -3,6 +3,10 @@
 #define malloc v_malloc
 #define realloc v_realloc
 
+/* decls for real functions */
+#define malloc_real malloc
+void *malloc_real(int size);
+
 int puts(char *a);
 
 /* virtual heap access */
@@ -137,9 +141,18 @@ int err(void) {
   exit(1);
 }
 
+int heap_size;
+int stack_size;
+char* heap;
+
+
 /* initialise the runtime */
 int init_runtime(void) {
   puts("init_runtime");
+  heap_size=16*1024*1024;
+  stack_size=256*1024;
+  heap=(char *)malloc_real(heap_size/4);
+
   err();
 }
 
