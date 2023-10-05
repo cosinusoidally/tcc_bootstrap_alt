@@ -59,7 +59,7 @@ function malloc(x){
   return r;
 }
 
-function realloc(x,size){
+function v_realloc(x,size){
 print("realloc x:"+x+" size:"+size);
   var r=malloc(size);
   for(var i=0;i<size;i++){

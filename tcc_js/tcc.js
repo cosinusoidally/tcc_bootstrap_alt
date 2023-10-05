@@ -535,7 +535,7 @@ function tok_alloc(str, len) {
     /* expand token table if needed */
     i = tok_ident - TOK_IDENT;
     if ((i % TOK_ALLOC_INCR) == 0) {
-        wi32(ptable, realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
+        wi32(ptable, v_realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
         if (!ptable) {
             error("memory full");
         }
@@ -898,7 +898,7 @@ function tok_add(tok_str, tok_len, t) {
     len=ri32(tok_len);
     wi32(str, ri32(tok_str));
     if ((len & 63) == 0) {
-        wi32(str, realloc(ri32(str), (len + 64) * 4));
+        wi32(str, v_realloc(ri32(str), (len + 64) * 4));
         if (!ri32(str)) {
             return leave(0);
         }
