@@ -24,9 +24,16 @@ int ri8(int a) {
   return heap[a];
 }
 
-int wi32(int a1,int a2) {
-  puts("unimpl wi32");
-  err();
+int wi32(int o,int v) {
+//  puts("unimpl wi32");
+//  err();
+  wi8(o,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+2,v&0xFF);
 }
 
 int ri32(int a1) {
@@ -207,7 +214,7 @@ int init_runtime(void) {
   puts("init_runtime");
   heap_size=16*1024*1024;
   stack_size=256*1024;
-  heap=(char *)malloc(heap_size/4);
+  heap=(char *)malloc(heap_size);
   esp=heap_size-4;
   ebp=esp;
   malloc_base=4;
