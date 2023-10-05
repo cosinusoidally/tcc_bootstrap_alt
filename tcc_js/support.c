@@ -217,9 +217,18 @@ int v_strcpy(int dest, int src) {
   }
 }
 
-int v_strdup(int a) {
-  puts("unimpl strdup");
-  err();
+int v_strdup(int src) {
+//  puts("unimpl strdup");
+//  err();
+  int i;
+  int l=v_strlen(src);
+  int dest=v_malloc(l+1);
+  for(i=0;i<l;i=i+1){
+    wi8(dest+i, ri8(src+i));
+  }
+  wi8(dest+l, 0);
+  return dest;
+
 }
 
 int v_strlen(int s) {
