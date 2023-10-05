@@ -5,11 +5,6 @@
 
 int puts(char *a);
 
-int v_malloc(int x) {
-  puts("unimpl malloc");
-  err();
-}
-
 /* virtual heap access */
 int wi32(int a1,int a2) {
   puts("unimpl wi32");
@@ -49,13 +44,18 @@ int leave(int a) {
   err();
 }
 
-int v_realloc(int a,int b) {
-  puts("unimpl realloc");
+void v_free(int x) {
+  puts("unimpl urs");
   err();
 }
 
-void v_free(int x) {
-  puts("unimpl urs");
+int v_malloc(int x) {
+  puts("unimpl malloc");
+  err();
+}
+
+int v_realloc(int a,int b) {
+  puts("unimpl realloc");
   err();
 }
 
@@ -68,6 +68,12 @@ int v_memcpy(int a, int b, int c) {
   puts("unimpl memcpy");
   err();
 }
+
+int v_memset(int a, int b, int c) {
+  puts("unimpl memset");
+  err();
+}
+
 /* virtual heap string functions */
 
 int mk_char(int a) {
@@ -103,32 +109,34 @@ int v_strrchr(int a, int b) {
   err();
 }
 
+/* virtual file functions */
+
+int v_fclose(int a) {
+  puts("unimpl fclose");
+  err();
+}
+
+int v_fopen(int a, int b) {
+  puts("unimpl fopen");
+  err();
+}
+
+int v_fwrite(int a,int b, int c, int d) {
+  puts("unimpl fwrite");
+  err();
+}
+
 /* error functions */
 int err(void) {
   puts("err");
   exit(1);
 }
-int fclose(int a) {
-  puts("unimpl fclose");
-  err();
-}
 int v_getc_unlocked(int a) {
   puts("unimpl getc_unlocked");
   err();
 }
-int v_fopen(int a, int b) {
-  puts("unimpl fopen");
-  err();
-}
-int v_fwrite(int a,int b, int c, int d) {
-  puts("unimpl fwrite");
-  err();
-}
-int v_memset(int a, int b, int c) {
-  puts("unimpl memset");
-  err();
-}
 
+/* initialise the runtime */
 int init_runtime(void) {
   puts("init_runtime");
   err();
