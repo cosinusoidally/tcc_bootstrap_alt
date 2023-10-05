@@ -6,16 +6,25 @@
 
 int malloc(int x) {
   puts("unimpl malloc");
+  err();
 }
-int wi32(int a1,int a2);
-int wi8(int a1,int a2);
+int wi32(int a1,int a2){
+  puts("unimpl wi32");
+  err();
+}
+int wi8(int a1,int a2){
+  puts("unimpl wi8");
+  err();
+}
 int urs(int a1,int a2);
 int error(int a1);
 int ri32(int a1);
 int err(void);
 void free(int x);
 int alloca(int x);
-int mk_c_string(char *s);
+int mk_c_string(char *s){
+  puts("unimpl mk_c_string");
+}
 int strcpy(int a1, int a2);
 int strlen(int len);
 int mk_char(int a);
