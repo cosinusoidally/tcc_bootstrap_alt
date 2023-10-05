@@ -188,10 +188,25 @@ int mk_c_string(char *s){
   return sh;
 }
 
-int v_strcat(int a,int b) {
-  puts("unimpl strcat");
-  err();
+int v_strcat(int dest,int src) {
+//  puts("unimpl strcat");
+//  err();
+  int d=dest;
+  int c;
+  while(ri8(dest)){
+    dest=dest+1;
+  }
+  dest=dest-1;
+  while(c=ri8(src)){
+    src=src+1;
+    wi8(dest,c);
+    dest=dest+1;
+  }
+  wi8(dest,0);
+  return d;
+
 }
+
 int v_strcpy(int dest, int src) {
 //  puts("unimpl strcpy");
 //  err();

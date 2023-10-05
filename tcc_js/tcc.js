@@ -1074,7 +1074,7 @@ err();
         if(!found){
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
                 v_strcpy(buf1, ri32(include_paths+(4*i)));
-                v_strcat(buf1, mk_char("/"));
+                v_strcat(buf1, mk_c_string("/"));
                 v_strcat(buf1, buf);
                 f = v_fopen(buf1, mk_c_string("r"));
                 if (f)
