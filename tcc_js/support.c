@@ -111,6 +111,11 @@ int v_strrchr(int a, int b) {
 
 /* virtual file functions */
 
+int v_getc_unlocked(int a) {
+  puts("unimpl getc_unlocked");
+  err();
+}
+
 int v_fclose(int a) {
   puts("unimpl fclose");
   err();
@@ -130,10 +135,6 @@ int v_fwrite(int a,int b, int c, int d) {
 int err(void) {
   puts("err");
   exit(1);
-}
-int v_getc_unlocked(int a) {
-  puts("unimpl getc_unlocked");
-  err();
 }
 
 /* initialise the runtime */
