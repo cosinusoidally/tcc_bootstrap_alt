@@ -449,9 +449,8 @@ function isnum(c) {
 // }
 
 // void error(const char *fmt, ...)
-function error(fmt) {
-//    puts(fmt);
-err();
+// function error(fmt) {
+// err();
 //     va_list ap;
 // //    va_start(ap, fmt);
 //     ap = ((char *)&(fmt)) + sizeof(int);
@@ -460,20 +459,20 @@ err();
 //     fprintf(stderr, "\n");
 //     exit(1);
 // //    va_end(ap);
-}
+// }
 
 // void expect(const char *msg)
-function expect(msg) {
-err();
+// function expect(msg) {
+// err();
 //     error("%s expected", msg);
-}
+// }
 
 // void warning(const char *msg)
-function warning(msg) {
-err();
+//  function warning(msg) {
+// err();
 //     printline();
 //     fprintf(stderr, "warning: %s\n", msg);
-}
+// }
 
 // void skip(int c)
 function skip(c) {

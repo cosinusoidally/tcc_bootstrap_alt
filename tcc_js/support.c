@@ -262,6 +262,24 @@ int err(void) {
   exit(1);
 }
 
+int error(char *m){
+  puts("error");
+  puts(m);
+  err();
+}
+
+int warning(char *m){
+  puts("warning");
+  puts(m);
+  err();
+}
+
+int expect(char *m){
+  puts("expect");
+  puts(m);
+  err();
+}
+
 int mk_argc_argv(char *s){
   int argc_argv=v_alloca(8);
   int argc=0;
