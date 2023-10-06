@@ -24,6 +24,29 @@ int v_strcat(int a,int b);
 int v_fopen(int a, int b);
 int v_strdup(int a);
 int v_fwrite(int a,int b, int c, int d);
-int puts(char *a);	
 int v_memset(int a, int b, int c);
 int init_runtime(void);
+
+int fputs(int a,int b);
+int stdout;
+
+int puts(char *a) {
+  fputs(a,stdout);
+  fputs("\n",stdout);
+}
+
+int getc_unlocked(int f){
+/*  puts("getc_unlocked not impl"); err(); */
+  return fgetc(f);
+}
+int fwrite(int a,int b, int c, int d) {
+  puts("fwrite not impl");
+  err();
+}
+int tcc_main(int argc, int argv);
+
+int int_size;
+
+void init_c(void){
+  int_size=1;
+}
