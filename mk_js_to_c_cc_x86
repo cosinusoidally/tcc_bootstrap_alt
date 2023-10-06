@@ -22,11 +22,3 @@ cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
 ./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
 cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
 ./hex2-0 out_cc_x86-0-0.hex2 out_cc_x86
-
-echo "M2 build"
-./M2 --architecture x86 --bootstrap-mode -f out.c  -o out_M2.M1
-echo "M2 assemble and link"
-cat x86_defs.M1 libc-core.M1 out_M2.M1 > out_M2-0.M1
-./M0 out_M2-0.M1 out_M2-0.hex2
-cat ELF-i386.hex2 out_M2-0.hex2 > out_M2-0-0.hex2
-./hex2-0 out_M2-0-0.hex2 out_M2
