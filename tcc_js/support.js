@@ -1,5 +1,7 @@
 print("loading support code");
 
+var NULL=0;
+
 var heap_size=16*1024*1024;
 var stack_size=256*1024;
 var heap=new Array(heap_size/4);

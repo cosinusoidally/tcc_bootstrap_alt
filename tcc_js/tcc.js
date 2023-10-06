@@ -3,8 +3,6 @@ load("support.js");
 load("metadata.js");
 load("parser_init.js");
 
-var NULL=0;
-
 /* js_to_c compiled version can't parse this number */
 /* var VT_TYPE=0xFFFFFE00; */
 /* note the space around = is important here as cc_x86 and M2 cannot parse
@@ -452,6 +450,7 @@ function isnum(c) {
 
 // void error(const char *fmt, ...)
 function error(fmt) {
+//    puts(fmt);
 err();
 //     va_list ap;
 // //    va_start(ap, fmt);
@@ -524,7 +523,7 @@ function tok_alloc(str, len) {
     while (1) {
         ts = ri32(ri32(pts));
         print("ts: "+ts); /* debug logging */
-        if (!ts) {
+        if (ts == 0) {
             break;
         }
         print("len: "+len+" ts-table_ident:"+(ts-table_ident)); /* dbg log */
@@ -542,14 +541,14 @@ function tok_alloc(str, len) {
     i = tok_ident - TOK_IDENT;
     if ((i % TOK_ALLOC_INCR) == 0) {
         wi32(ptable, v_realloc(table_ident, (i + TOK_ALLOC_INCR) * 4));
-        if (!ptable) {
+        if (ptable == 0) {
             error("memory full");
         }
         table_ident = ri32(ptable);
     }
 
     ts = v_malloc(TokenSym_size + len);
-     if (!ts) {
+     if (ts == 0) {
          error("memory full");
      }
     wi32(table_ident+(i*4), ts);
@@ -650,7 +649,7 @@ function sym_push2(ps, v, t, c) {
     var s=v_alloca(4);
 //     s = v_malloc(sizeof(Sym));
     wi32(s, v_malloc(Sym_size));
-    if (!ri32(s)){
+    if (ri32(s) == 0){
         error("memory full");
     }
     wi32(ri32(s)+Sym_v_o, v);
@@ -4176,7 +4175,8 @@ function tcc_compile_file(filename1) {
     line_num = 1;
     funcname = mk_c_string("");
     file = v_fopen(filename, mk_c_string("r"));
-    if (!file) {
+    if (file == 0) {
+        puts("file not found");
         err();
 //        error("file '%s' not found", filename);
     }

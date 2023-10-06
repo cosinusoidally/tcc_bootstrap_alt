@@ -2,7 +2,7 @@ cd tcc_js
 js js_to_c.js > /tmp/tcc_js_tmp/tcc_js.c
 cp support.c /tmp/tcc_js_tmp
 cp support_cc_x86.c /tmp/tcc_js_tmp
-cp test1.c /tmp/tcc_js_tmp
+cp support_tcc_gcc.c /tmp/tcc_js_tmp
 
 cd /tmp/tcc_js_tmp
 rm out1.M1
