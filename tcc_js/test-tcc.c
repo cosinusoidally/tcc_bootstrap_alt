@@ -205,7 +205,7 @@ int global_relocs_table_base;
 #define VT_ARRAY      (0x20 << VT_BTYPE_SHIFT)  /* array type (also has VT_PTR) */
 #define VT_BITFIELD   (0x40 << VT_BTYPE_SHIFT)  /* bitfield modifier */
 
-#define VT_TYPE    0xfffffe00  /* type mask */
+#define VT_TYPE    -512  /* type mask */
 
 /* token values */
 
@@ -3714,11 +3714,11 @@ void gen_obj(int e){
   int prog_rel;
   int data_rel;
   int entrypoint=e-prog;
-  int m0=0xdeadbe00;
-  int m1=0xdeadbe01;
-  int m2=0xdeadbe02;
-  int m3=0xdeadbe03;
-  int m4=0xdeadbe04;
+  int m0=-559038976;
+  int m1=-559038975;
+  int m2=-559038974;
+  int m3=-559038973;
+  int m4=-559038972;
   int i;
   f = fopen("tcc_boot.o", "wb");
   fwrite(&entrypoint,1,4,f);
@@ -3768,11 +3768,11 @@ int load_obj(void){
   int global_reloc_len;
   int global_reloc_table_len;
   int entrypoint;
-  int m0=0xdeadbe00;
-  int m1=0xdeadbe01;
-  int m2=0xdeadbe02;
-  int m3=0xdeadbe03;
-  int m4=0xdeadbe04;
+  int m0=-559038976;
+  int m1=-559038975;
+  int m2=-559038974;
+  int m3=-559038973;
+  int m4=-559038972;
   int i;
   int t;
   f = fopen("tcc_boot.o", "rb");

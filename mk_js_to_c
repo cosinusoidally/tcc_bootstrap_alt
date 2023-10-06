@@ -1,0 +1,12 @@
+cd tcc_js
+js js_to_c.js > /tmp/tcc_js_tmp/tcc_js.c
+cp support.c /tmp/tcc_js_tmp
+cp support_cc_x86.c /tmp/tcc_js_tmp
+
+cd /tmp/tcc_js_tmp
+rm out1.M1
+rm out2.M1
+rm out.c
+cat support_cc_x86.c tcc_js.c > out.c
+./M2 --architecture x86 -f out.c  -o out1.M1
+./cc_x86 out.c out2.M1

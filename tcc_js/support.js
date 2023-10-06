@@ -38,7 +38,7 @@ function err(){
   throw "error not impl";
 }
 
-function alloca(x){
+function v_alloca(x){
   esp=esp-x;
   print("alloca "+x+" at:"+to_hex(esp));
   return esp;
@@ -59,7 +59,7 @@ function malloc(x){
   return r;
 }
 
-function realloc(x,size){
+function v_realloc(x,size){
 print("realloc x:"+x+" size:"+size);
   var r=malloc(size);
   for(var i=0;i<size;i++){
@@ -186,7 +186,7 @@ function mk_js_string_len(o,l){
 
 function mk_js_string(o){
   var s=[];
-  var l=strlen(o);
+  var l=v_strlen(o);
   for(var i=0;i<l;i++){
     s.push(ri8(o+i));
   };
@@ -211,13 +211,13 @@ function leave(x){
   return x;
 }
 
-function memcpy(dest,src,count){
+function v_memcpy(dest,src,count){
   for(var i=0;i<count;i++){
     wi8(dest+i,ri8(src+i));
   }
 }
 
-function strlen(s){
+function v_strlen(s){
   var l=0;
   while(ri8(s++)){
     l=l+1;
@@ -230,7 +230,7 @@ function unsigned(x){
   return x>>>0;
 }
 
-function memset(x,v,size){
+function v_memset(x,v,size){
   for(var i=0;i<size;i++){
     wi8(x+i,v);
   }
@@ -244,7 +244,7 @@ function mk_argc_argv(s){
   argc=s.length;
   print(JSON.stringify(s));
   while(s.length>0){
-    argv=alloca(4);
+    argv=v_alloca(4);
     wi32(argv,mk_c_string(s.pop()));
   }
   return {argc:argc,argv:argv};
@@ -257,7 +257,7 @@ function mk_char(c){
 f_files={};
 vfs={};
 
-function fopen(f,mode){
+function v_fopen(f,mode){
 // FIXME ljw non-dummy impl
   var filename=mk_js_string(f);
   mode=mk_js_string(mode);
@@ -273,7 +273,7 @@ function fopen(f,mode){
     try {
       file_o.data=read(filename,"binary");
     } catch (e){
-      fclose(file_num);
+      v_fclose(file_num);
       return 0;
     }
   } else if(mode==="wb"){
@@ -286,12 +286,12 @@ err();
   return file_num;
 }
 
-function fclose(f){
+function v_fclose(f){
   delete f_files[f];
   return 0;
 }
 
-function getc_unlocked(file){
+function v_getc_unlocked(file){
   file_o=f_files[file];
 //  print(JSON.stringify(file_o));
   var c=file_o.data[file_o.o++];
@@ -302,14 +302,14 @@ function getc_unlocked(file){
   return c;
 }
 
-function fwrite(ptr, size, nmemb, stream){
+function v_fwrite(ptr, size, nmemb, stream){
   var f=f_files[stream];
   for(var i=0;i<size*nmemb;i++){
     f.data.push(ri8(ptr++)&0xFF);
   }
 }
 
-function memcmp(s1,s2,n){
+function v_memcmp(s1,s2,n){
 //print("memcmp "+to_hex(s1)+" "+to_hex(s2)+" "+n);
   var r=0;
   for(var i=0;i<n;i++){
@@ -321,7 +321,7 @@ function memcmp(s1,s2,n){
   return r;
 }
 
-function free(x){
+function v_free(x){
   return 0;
 }
 
@@ -353,14 +353,14 @@ print(to_hex(ind));
   }
 }
 
-function strcpy(dest,src){
+function v_strcpy(dest,src){
   var c;
   while((c=ri8(src++))!==0){
     wi8(dest++,c);
   }
 }
 
-function strrchr(s,c){
+function v_strrchr(s,c){
   var c1;
   while(c1=ri8(s++)){
     if(c1===c){
@@ -370,7 +370,7 @@ function strrchr(s,c){
   return 0;
 }
 
-function strcat(dest,src){
+function v_strcat(dest,src){
   var d=dest;
   var c;
   while(ri8(dest++));
@@ -382,8 +382,8 @@ function strcat(dest,src){
   return d;
 }
 
-function strdup(src){
-  var l=strlen(src);
+function v_strdup(src){
+  var l=v_strlen(src);
   var dest=malloc(l+1);
   for(var i=0;i<l;i++){
     wi8(dest+i, ri8(src+i));
@@ -404,3 +404,43 @@ function decode_Sym(sym){
   s.hash_next=ri32(sym+Sym_hash_next_o);
   return s;
 }
+
+function urs(v,n){
+// refactoring unsigned right shift into a function
+//  return v >>> n;
+
+// refactoring into a form that doesn't rely on non-sign extending right
+// shifts since the mechanical C translation will only have signed int types.
+
+  if(n===0) {
+    return v;
+  }
+  var m=0x80000000;
+  var m2=0x40000000;
+  var t=v&m;
+  v=v & ~m;
+  v=v >> n;
+  if(t){
+    v=v | (m2 >> (n-1));
+  }
+  return v;
+}
+
+function init_globals(){
+// dummy function in JS. This function needs to exist for the C code generated
+// by js_to_c.js
+}
+
+function init_runtime(){
+// dummy function in JS. This function needs to exist for the C code generated
+}
+
+// need wrapper function for main since tcc_main is the real function name
+function main(argc,argv){
+    return tcc_main(argc, argv);
+}
+
+// need this alias as when we convert to C we can't use malloc as a function
+// name
+v_malloc=malloc;
+strlen=v_strlen;
