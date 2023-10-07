@@ -50,3 +50,11 @@ int int_size;
 void init_c(void){
   int_size=1;
 }
+
+void puts_num(int x){
+  char *s;
+  s=int2str(x,10,0);
+  puts(s);
+  free(s);
+  return;
+}

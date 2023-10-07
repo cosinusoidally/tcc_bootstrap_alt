@@ -477,6 +477,10 @@ function isnum(c) {
 // void skip(int c)
 function skip(c) {
     if (tok != c) {
+// FIXME ljw remove this debug logging
+//        puts(heap+token_buf);
+//        puts_num(c);
+//        puts_num(tok);
         err();
 //        error("'%c' expected", c);
     }

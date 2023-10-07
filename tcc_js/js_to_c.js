@@ -42,7 +42,7 @@ while(f.length>0){
     b.push(d+" {");
     if(dbg) {
       b.push('puts("'+fn+'");');
-      b.push
+      b.push('puts_num(line_num);');
     }
     continue;
   }

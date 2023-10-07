@@ -247,7 +247,9 @@ int v_fclose(int a) {
 int v_fopen(int a, int b) {
 /*  puts("unimpl fopen"); err(); */
 /* FIXME ljw will we have trouble with this being signed? */
-  return fopen(heap+a,heap+b);
+  int filename = heap+a;
+  int mode = heap+b;
+  return fopen(filename, mode);
 }
 
 int v_fwrite(int a,int b, int c, int d) {
