@@ -2070,7 +2070,7 @@ function gen_cast(t){
     var dt1;
 
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
-    if (!(t & VT_LVAL)) {
+    if ((t & VT_LVAL) == 0) {
         /* if not lvalue, then we convert now */
         dbt = t & VT_BTYPE;
         sbt = ri32(vtop+SValue_t_o) & VT_BTYPE;
@@ -2184,7 +2184,7 @@ function is_compatible_types(t1, t2) {
             return 0;
         s1 = sym_find(urs(t1, VT_STRUCT_SHIFT));
         s2 = sym_find(urs(t2, VT_STRUCT_SHIFT));
-        if (!is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)))
+        if (is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)) == 0)
             return 0;
         /* XXX: not complete */
         if (ri32(s1+Sym_c_o) == FUNC_OLD || ri32(s2+Sym_c_o) == FUNC_OLD)
