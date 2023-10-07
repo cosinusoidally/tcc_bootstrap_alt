@@ -1075,7 +1075,7 @@ err();
                 found=1;
         }
         /* now search in standard include path */
-        if(!found){
+        if(found == 0){
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
                 v_strcpy(buf1, ri32(include_paths+(4*i)));
                 v_strcat(buf1, mk_c_string("/"));
@@ -1085,7 +1085,7 @@ err();
                     found=1;
             }
         }
-        if(!found){
+        if(found == 0){
             print("include file "+mk_js_string(buf1)+" not found");
 err();
 //             f = NULL;
@@ -1557,7 +1557,7 @@ err();
 //                 no_subst=1;
                 no_subst=1;
             }
-            if(no_subst==0){
+            if(no_subst == 0){
 // FIXME ljw might not be right
                 mstr = ri32(s+Sym_c_o);
                 mstr_allocated = 0;
@@ -1768,7 +1768,7 @@ function get_reg(rc) {
                 if (i == r)
                     notfound=1;
             }
-            if(!notfound){
+            if(notfound  == 0){
             return leave(r);
             }
         }
