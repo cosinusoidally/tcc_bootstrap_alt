@@ -730,7 +730,7 @@ function sym_find(v) {
 //     Sym *s;
     var s;
     s = sym_find1(local_stack, v);
-    if (!s) {
+    if (s == 0) {
         s = sym_find1(global_stack, v);
     }
     return s;
