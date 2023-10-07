@@ -4129,11 +4129,11 @@ function resolve_global_syms() {
 //         s1 = s->prev;
         s1 = ri32(s+Sym_prev_o);
         /* do not save static or typedefed symbols or types */
-        if (!(ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) &&
-            !(ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) &&
-            (ri32(s+Sym_v_o) < SYM_FIRST_ANOM)) {
+        if (((ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) == 0) &&
+            ((ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) == 0) &&
+            ((ri32(s+Sym_v_o) < SYM_FIRST_ANOM) != 0)) {
             ext_sym = sym_find1(extern_stack, ri32(s+Sym_v_o));
-            if (!ext_sym) {
+            if (ext_sym == 0) {
                 /* if the symbol do not exist, we simply save it */
                 sym_push1(extern_stack, ri32(s+Sym_v_o), ri32(s+Sym_t_o), ri32(s+Sym_c_o));
             } else if (ri32(ext_sym+Sym_t_o) & VT_FORWARD) {
@@ -4460,7 +4460,7 @@ err();
 
     resolve_extern_syms();
     s = sym_find1(extern_stack, TOK_MAIN);
-    if (!s || (ri32(s+Sym_t_o) & VT_FORWARD))
+    if ((s == 0) || (ri32(s+Sym_t_o) & VT_FORWARD))
         error("main() not defined");
 
     print("main: "+to_hex(ri32(s+Sym_c_o))); /* dbg log */
