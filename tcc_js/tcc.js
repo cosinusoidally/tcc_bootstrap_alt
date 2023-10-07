@@ -3970,7 +3970,7 @@ function decl(l) {
 
     while (1) {
          b = ist();
-         if (!b) {
+         if (b == 0) {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */
             if (tok == mk_char(';')) {
@@ -3998,11 +3998,11 @@ err();
                 if (l == VT_LOCAL) {
                     error("cannot use local functions");
                 }
-                if (!(t & VT_FUNC)) {
+                if ((t & VT_FUNC) == 0) {
                     expect("function definition");
                 }
                 /* patch forward references */
-                if ((sym = sym_find(ri32(v))) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
+                if (((sym = sym_find(ri32(v))) != 0) && ((ri32(sym+Sym_t_o) & VT_FORWARD) != 0)) {
                     greloc_patch(sym, ind);
                     wi32(sym+Sym_t_o, VT_CONST | t);
                 } else {
@@ -4061,7 +4061,7 @@ err();
                     external_sym(ri32(v), t);
                 } else {
                     /* not lvalue if array */
-                    if (!(t & VT_ARRAY)) {
+                    if ((t & VT_ARRAY) == 0) {
                         t = t | VT_LVAL;
                     }
                     if (b & VT_EXTERN) {
@@ -4080,14 +4080,14 @@ err();
                         if (l == VT_CONST) {
                             /* global scope: see if already defined */
                             sym = sym_find(ri32(v));
-                            if (!sym) {
+                            if (sym == 0) {
                                 sym_push(ri32(v), u, addr);
                                 break;
                             }
-                            if (!is_compatible_types(ri32(sym+Sym_t_o), u))
+                            if (is_compatible_types(ri32(sym+Sym_t_o), u) == 0)
                                 err();
 //                                error("incompatible types for redefinition of '%s'", get_tok_str(v, NULL));
-                            if (!(ri32(sym+Sym_t_o) & VT_FORWARD))
+                            if ((ri32(sym+Sym_t_o) & VT_FORWARD) == 0)
                                 err();
 //                                error("redefinition of '%s'", get_tok_str(v, NULL));
                             greloc_patch(sym, addr);
