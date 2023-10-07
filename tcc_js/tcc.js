@@ -2968,7 +2968,7 @@ err();
             gen_op(mk_char('-'));
         } else {
             s = sym_find(t);
-            if (!s) {
+            if (s == 0) {
                 if (tok != mk_char('('))
                     err();
 //                    error("'%s' undeclared", get_tok_str(t, NULL));
@@ -3024,7 +3024,7 @@ err();
                 if (ri32(s+Sym_v_o) == tok)
                     break;
             }
-            if (!s)
+            if (s == 0)
                 error("field not found");
             /* add field offset to pointer */
             wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT); /* change type to int */
@@ -3033,7 +3033,7 @@ err();
             /* change type to field type, and set to lvalue */
             wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | ri32(s+Sym_t_o));
             /* an array is never an lvalue */
-            if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
+            if ((ri32(vtop+SValue_t_o) & VT_ARRAY) == 0) {
                 wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
             }
             next();
