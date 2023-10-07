@@ -81,7 +81,7 @@ function greloc(s, addr, type) {
 //     Reloc *p;
     var p;
     p = v_malloc(Reloc_size);
-    if (!p)
+    if (p == 0)
         error("memory full");
     wi32(p+Reloc_type_o, type);
     wi32(p+Reloc_addr_o, addr);
@@ -226,7 +226,7 @@ var lt=0;
 /* output constant with relocation if 't & VT_FORWARD' is true */
 // void gen_addr32(int c, int t)
 function gen_addr32(c, t) {
-    if (!(t & VT_FORWARD)) {
+    if ((t & VT_FORWARD) == 0) {
         // RELOC HACK
         if(reloc){
             //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
