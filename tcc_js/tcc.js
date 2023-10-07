@@ -2792,7 +2792,7 @@ function external_sym(v, u) {
 //     Sym *s;
     var s;
     s = sym_find(v);
-    if (!s) {
+    if (s == 0) {
         /* push forward reference */
         s = sym_push1(global_stack, 
                       v, u | VT_CONST | VT_FORWARD, 0);
@@ -2810,7 +2810,7 @@ err();
 //         expect("pointer");
     }
     wi32(vtop+SValue_t_o,pointed_type(ri32(vtop+SValue_t_o)));
-    if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) { /* an array is never an lvalue */
+    if ((ri32(vtop+SValue_t_o) & VT_ARRAY) == 0) { /* an array is never an lvalue */
         wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
     }
 }
