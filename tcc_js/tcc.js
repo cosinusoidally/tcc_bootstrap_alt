@@ -905,7 +905,7 @@ function tok_add(tok_str, tok_len, t) {
     wi32(str, ri32(tok_str));
     if ((len & 63) == 0) {
         wi32(str, v_realloc(ri32(str), (len + 64) * 4));
-        if (!ri32(str)) {
+        if (ri32(str) == 0) {
             return leave(0);
         }
         wi32(tok_str, ri32(str));
@@ -1229,7 +1229,7 @@ function parse_number() {
             q=q-1;
             cinp();
             b = 16;
-        } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+        } else if ((tcc_ext != 0) && (ch == 'b' || ch == 'B')) {
 err();
 //             q--;
 //             cinp();
