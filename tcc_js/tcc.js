@@ -3730,7 +3730,7 @@ function decl_initializer(t, c, first, size_only) {
         size1 = type_size(t1, align1);
 
         no_oblock = 1;
-        if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
+        if (((first != 0) && tok != TOK_LSTR && tok != TOK_STR) || 
             tok == mk_char('{')) {
             skip(mk_char('{'));
             no_oblock = 0;
@@ -3750,7 +3750,7 @@ function decl_initializer(t, c, first, size_only) {
                 nb = ri32(ts+TokenSym_len_o);
                 if (n >= 0 && nb > (n - array_length))
                     nb = n - array_length;
-                if (!size_only) {
+                if (size_only == 0) {
                     if (ri32(ts+TokenSym_len_o) > nb)
                         warning("initializer-string for array is too long");
                     for(i=0;i<nb;i=i+1) {
@@ -3766,7 +3766,7 @@ function decl_initializer(t, c, first, size_only) {
             /* only add trailing zero if enough storage (no
                warning in this case since it is standard) */
             if (n < 0 || array_length < n) {
-                if (!size_only) {
+                if (size_only == 0) {
                     init_putv(t1, c + (array_length * size1), 0, 0);
                 }
                 array_length=array_length+1;
@@ -3779,7 +3779,7 @@ function decl_initializer(t, c, first, size_only) {
                     error("index too large");
                 /* must put zero in holes (note that doing it that way
                    ensures that it even works with designators) */
-                if (!size_only && array_length < ri32(index)) {
+                if ((size_only == 0) && array_length < ri32(index)) {
 err();
 //                     init_putz(t1, c + array_length * size1, 
 //                               (index - array_length) * size1);
@@ -3799,7 +3799,7 @@ err();
                 skip(mk_char(','));
             }
         }
-        if (!no_oblock)
+        if (no_oblock == 0)
             skip(mk_char('}'));
         /* put zeros at the end */
         if (!size_only && n >= 0 && array_length < n) {
