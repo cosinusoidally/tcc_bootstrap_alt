@@ -18,6 +18,7 @@ cd /tmp/tcc_js_tmp
 rm out_cc_x86.M1
 rm out_M2.M1
 rm out.c
+rm out_cc_x86
 
 cat bootstrap.c bootstrappable.c support_cc_x86.c support.c tcc_js.c > out.c
 echo "cc_x86 build:"
