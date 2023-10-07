@@ -2758,7 +2758,7 @@ function type_decl(v, t, td) {
     } else {
         u = 0;
         /* type identifier */
-        if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+        if (tok >= TOK_IDENT && ((td & TYPE_DIRECT) != 0)) {
             wi32(v, tok);
             next();
          } else {
