@@ -2762,7 +2762,7 @@ function type_decl(v, t, td) {
             wi32(v, tok);
             next();
          } else {
-            if (!(td & TYPE_ABSTRACT))
+            if ((td & TYPE_ABSTRACT) == 0)
                 expect("identifier");
             wi32(v, 0);
          }
@@ -2771,14 +2771,14 @@ function type_decl(v, t, td) {
     /* append t at the end of u */
     print("tok: "+tok+" t: "+t); /* dbg log */
     t = post_type(t);
-    if (!u) {
+    if (u == 0) {
         return leave(t);
     }
     p = u;
     while(1) {
         s = sym_find(urs(p, VT_STRUCT_SHIFT));
         p = ri32(s+Sym_t_o);
-        if (!p) {
+        if (p == 0) {
             wi32(s+Sym_t_o, t);
             break;
         }
