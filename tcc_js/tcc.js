@@ -1612,7 +1612,7 @@ err();
     } else {
     while(redo){
         redo=0;
-        if (!ri32(macro_ptr)) {
+        if (ri32(macro_ptr) == 0) {
             /* if not reading from macro substuted string, then try to substitute */
             wi32(len, 0);
             wi32(ptr, NULL);
@@ -1781,6 +1781,7 @@ function get_reg(rc) {
        spill registers used in gen_op()) */
     for(p=vstack;p<=vtop;p=p+SValue_size) {
         r = ri32(p+SValue_t_o) & VT_VALMASK;
+// FIXME ljw might not work correctly with cc_x86 or M2
         if (r < VT_CONST && (ri32(reg_classes+(4*r)) & rc)) {
             save_reg(r);
             break;
@@ -1862,7 +1863,7 @@ function gen_opc(op) {
     c1 = (ri32(v1+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     c2 = (ri32(v2+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     while(1) {
-    if (c1 && c2) {
+    if ((c1 != 0) && (c2 != 0)) {
 //         fc = v2->c.i;
         fc =ri32( v2+SValue_c_o);
 
