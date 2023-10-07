@@ -3437,14 +3437,14 @@ err();
         rsym = gjmp(rsym); /* jmp */
     } else if (tok == TOK_BREAK) {
         /* compute jump */
-        if (!bsym)
+        if (bsym == 0)
             error("cannot break");
         wi32(bsym, gjmp(ri32(bsym)));
         next();
         skip(mk_char(';'));
     } else if (tok == TOK_CONTINUE) {
         /* compute jump */
-        if (!csym)
+        if (csym == 0)
             error("cannot continue");
         wi32(csym, gjmp(ri32(csym)));
         next();
@@ -3517,7 +3517,7 @@ err();
     } else if (tok == TOK_CASE) {
         next();
         a = expr_const();
-        if (!case_sym)
+        if (case_sym == 0)
             expect("switch");
         /* since a case is like a label, we must skip it with a jmp */
         b = gjmp(0);
@@ -3532,7 +3532,7 @@ err();
     } else if (tok == TOK_DEFAULT) {
         next();
         skip(mk_char(':'));
-        if (!def_sym)
+        if (def_sym == 0)
             expect("switch");
         if (ri32(def_sym))
             error("too many 'default'");
@@ -3622,7 +3622,7 @@ err();
             c = c + index * type_size(t, align);
         } else {
             f = ri32(cur_field);
-            if (!f)
+            if (f == 0)
                 error("too many field init");
             t = ri32(f+Sym_t_o) | (t & ~VT_TYPE);
             c = c + ri32(f+Sym_c_o);
