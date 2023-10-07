@@ -493,8 +493,13 @@ function test_lvalue() {
         expect("lvalue");
 }
 
+function dummy(){
+  return;
+}
+
 // TokenSym *tok_alloc(char *str, int len)
 function tok_alloc(str, len) {
+if(line_num == 5){ dummy();}
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
@@ -698,10 +703,16 @@ function sym_find1(st, v) {
     var h;
 
     h=HASH_SYM(v);
+puts("sym_find1 h:");
+puts_num(h);
     print("sym_find1 hash: "+h); /* dbg log */
     s = ri32(st+SymStack_hash_o+(4*h));
+puts("sym_find1 s");
+puts("s: ");
+puts_num(s);
     print("s: "+s); /* dbg log */
      while (s) {
+puts("sym_find1 walking hash chain");
          if (ri32(s+Sym_v_o) == v) {
              return s;
          }
@@ -731,11 +742,17 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 /* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
 function sym_find(v) {
+puts("sym_find(v):");
+puts_num(v);
 //     Sym *s;
     var s;
     s = sym_find1(local_stack, v);
+puts("sym_find local:");
+puts_num(s);
     if (s == 0) {
         s = sym_find1(global_stack, v);
+puts("sym_find global:");
+puts_num(s);
     }
     return s;
 }
@@ -1333,7 +1350,7 @@ function next_nomacro1() {
         wi8(q, ch);
         q=q+1;
         cinp();
-        while (isid(ch) || isnum(ch)) {
+        while (isid(ch) | isnum(ch)) {
             if (q >= token_buf + STRING_MAX_SIZE) {
                 error("ident too long");
             }
@@ -1342,7 +1359,9 @@ function next_nomacro1() {
             cinp();
         }
         wi8(q, 0);
+puts("call tok_alloc");
         ts = tok_alloc(token_buf, q - token_buf);
+puts("return tok_alloc");
          tok = ri32(ts+TokenSym_tok_o);
     } else if (isnum(ch) || ch == mk_char('.')) {
         parse_number();
@@ -1416,7 +1435,9 @@ function next_nomacro() {
         if (tok)
             tok = tok_get(macro_ptr, tokc);
     } else {
+puts("call next_nomacro1");
         next_nomacro1();
+puts("return next_nomacro1");
     }
     leave(0);
 }
@@ -1621,7 +1642,9 @@ err();
             wi32(len, 0);
             wi32(ptr, NULL);
             wi32(nested_list, NULL);
+puts("call macro_subst");
             macro_subst(ptr, len, nested_list, NULL);
+puts("return macro_subst");
              if (ri32(ptr)) {
                 tok_add(ptr, len, 0);
                 wi32(macro_ptr, ri32(ptr));
@@ -2564,6 +2587,8 @@ function basic_type(t, u){
  */
 // int ist(void)
 function ist() {
+puts("tok:");
+puts_num(tok);
     enter();
     var t;
     var u;
@@ -2614,14 +2639,20 @@ function ist() {
             next();
         } else {
           s = sym_find(tok);
+puts("s:");
+puts_num(s);
           if ((s == 0) || ((ri32(s+Sym_t_o) & VT_TYPEDEF) == 0)) {
+puts("ist return 1");
                return leave(t);
           }
           t = t | (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
+puts("call next");
           next();
+puts("return next");
         }
         t = t | 2;
     }
+puts("ist return 2");
     return leave(t);
 }
 
@@ -3972,7 +4003,9 @@ function decl(l) {
     var sym;
 
     while (1) {
+puts("call ist");
          b = ist();
+puts("return ist");
          if (b == 0) {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */
