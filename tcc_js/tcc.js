@@ -3802,7 +3802,7 @@ err();
         if (no_oblock == 0)
             skip(mk_char('}'));
         /* put zeros at the end */
-        if (!size_only && n >= 0 && array_length < n) {
+        if ((size_only == 0) && n >= 0 && array_length < n) {
             init_putz(t1, c + array_length * size1, 
                       (n - array_length) * size1);
         }
@@ -3821,7 +3821,7 @@ err();
             decl_designator(t, c, NULL, f, size_only);
             /* fill with zero between fields */
             index = ri32(ri32(f)+Sym_c_o);
-            if (!size_only && array_length < index) {
+            if ((size_only == 0) && array_length < index) {
 err();
 //                 init_putz(t, c + array_length, 
 //                           index - array_length);
@@ -3835,7 +3835,7 @@ err();
             wi32(f, ri32(ri32(f)+Sym_next_o));
         }
         /* put zeros at the end */
-        if (!size_only && array_length < n) {
+        if ((size_only == 0) && array_length < n) {
 err();
 //             init_putz(t, c + array_length, 
 //                       n - array_length);
@@ -3892,7 +3892,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     saved_macro_ptr = NULL; /* avoid warning */
     tok1 = 0;
     if (size < 0) {
-        if (!has_init) 
+        if (has_init == 0) 
             error("unknown type size");
         /* get all init string */
         level = 0;
