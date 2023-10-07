@@ -174,7 +174,7 @@ function greloc_patch(s, val) {
             wi32(p+Reloc_addr_o, val);
         }
         if(rt==RELOC_REL32) {
-            if(reloc_global && relocs){
+            if((reloc_global != 0) && (relocs != 0)){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
                 mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
             }
