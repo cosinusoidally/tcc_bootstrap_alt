@@ -1785,8 +1785,7 @@ function get_reg(rc) {
        spill registers used in gen_op()) */
     for(p=vstack;p<=vtop;p=p+SValue_size) {
         r = ri32(p+SValue_t_o) & VT_VALMASK;
-// FIXME ljw might not work correctly with cc_x86 or M2
-        if (r < VT_CONST && (ri32(reg_classes+(4*r)) & rc)) {
+        if (r < VT_CONST && ((ri32(reg_classes+(4*r)) & rc) != 0)) {
             save_reg(r);
             break;
         }
