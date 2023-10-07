@@ -2301,7 +2301,7 @@ function gen_assign_cast(dt) {
     var buf1=v_alloca(256);
     var buf2=v_alloca(256);
     st = ri32(vtop+SValue_t_o); /* destination type */
-    if (!check_assign_types(dt, st)) {
+    if (check_assign_types(dt, st) == 0) {
 err();
 //         type_to_str(buf1, sizeof(buf1), st, NULL);
 //         type_to_str(buf2, sizeof(buf2), dt, NULL);
@@ -2611,7 +2611,7 @@ function ist() {
             next();
         } else {
           s = sym_find(tok);
-          if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
+          if ((s == 0) || ((ri32(s+Sym_t_o) & VT_TYPEDEF) == 0)) {
                return leave(t);
           }
           t = t | (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
@@ -2651,7 +2651,7 @@ function post_type(t) {
             /* read param name and compute offset */
             while(1){
             if (l != FUNC_OLD) {
-                if (!(pt = ist())) {
+                if ((pt = ist()) == 0) {
                     if (l) {
 err();
 //                         error("invalid type");
