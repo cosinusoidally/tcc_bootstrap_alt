@@ -16,5 +16,5 @@ void init_c(void){
 int NULL=0;
 
 void puts_num(int x){
-  printf("%d\n",x);
+  printf("%u\n",x);
 }

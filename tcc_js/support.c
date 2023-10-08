@@ -28,6 +28,16 @@ int urs(int v,int n) {
 
 /* virtual heap access */
 int wi8(int o,int v) {
+  if(o==4656){
+    puts("wi8 to offset 4656");
+    puts_num(v);
+  }
+/*
+  puts("wi8:");
+  puts_num(o);
+  puts_num(v);
+  puts(" ");
+*/
   heap[o]=v;
   return;
 }

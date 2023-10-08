@@ -641,7 +641,7 @@ err();
 //         return buf;
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
-        return leave(ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o);
+        return leave(ri32(table_ident+(4*(v - TOK_IDENT)))+TokenSym_str_o);
     } else {
 err();
 //         /* should never happen */
@@ -705,11 +705,17 @@ function sym_find1(st, v) {
     h=HASH_SYM(v);
 puts("sym_find1 h:");
 puts_num(h);
+puts("sym_find1 v:");
+puts_num(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    s = ri32(st+SymStack_hash_o+(4*h));
+    int a=st+SymStack_hash_o+(4*h);
+    s = ri32(a);
 puts("sym_find1 s");
 puts("s: ");
 puts_num(s);
+puts("sym_find1 a");
+puts("a: ");
+puts_num(a);
     print("s: "+s); /* dbg log */
      while (s) {
 puts("sym_find1 walking hash chain");
@@ -728,10 +734,24 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //     Sym *s, **ps;
     var s;
     var ps;
+    var h;
     s = sym_push2(st+SymStack_top_o, v, t, c);
     /* add in hash table */
+puts("sym_push1 v:");
+puts_num(v);
     if (v) {
-        ps = st+SymStack_hash_o+4*(HASH_SYM(v));
+        h =  HASH_SYM(v);
+        ps = st+SymStack_hash_o+(4*h);
+puts("sym_push1 st:");
+puts_num(st);
+puts("sym_push1 SymStack_hash_o");
+puts_num(SymStack_hash_o);
+puts("sym_push1 HASH_SYM(v)");
+puts_num(h);
+puts("sym_push1 ps:");
+puts_num(ps);
+puts("sym_push1 s+Sym_hash_next_o");
+puts_num(s+Sym_hash_next_o);
         wi32(s+Sym_hash_next_o, ri32(ps));
         wi32(ps,s);
     }
@@ -780,7 +800,7 @@ function sym_pop(st, b) {
         /* free hash table entry, except if symbol was freed (only
            used for #undef symbols) */
         if (ri32(s+Sym_v_o)){
-            wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
+            wi32(st+SymStack_hash_o+(4*(HASH_SYM(ri32(s+Sym_v_o)))), ri32(s+Sym_hash_next_o));
         }
         v_free(s);
         s = ss;
@@ -1115,7 +1135,9 @@ err();
         }
         /* push current file in stack */
         /* XXX: fix current line init */
+puts("writing a FILE reference to the heap");
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
+puts("done writing a FILE reference to the heap");
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
@@ -3591,6 +3613,8 @@ err();
 //                      int *cur_index, Sym **cur_field, 
 //                      int size_only)
 function decl_designator(t, c, cur_index, cur_field, size_only) {
+puts("decl_designator c:");
+puts_num(c);
     enter();
 //     Sym *s, *f;
     var s;
@@ -3653,7 +3677,7 @@ err();
         if (t & VT_ARRAY) {
             index = ri32(cur_index);
             t = pointed_type(t);
-            c = c + index * type_size(t, align);
+            c = c + (index * type_size(t, align));
         } else {
             f = ri32(cur_field);
             if (f == 0)
@@ -3662,6 +3686,8 @@ err();
             c = c + ri32(f+Sym_c_o);
         }
     }
+puts("calling decl_initializer c:");
+puts_num(c);
     decl_initializer(t, c, 0, size_only);
     leave(0);
 }
@@ -3738,6 +3764,8 @@ err();
 // void decl_initializer(int t, int c, int first, int size_only)
 function decl_initializer(t, c, first, size_only) {
     print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only); /* dbg log */
+puts("decl_initializer c:");
+puts_num(c);
     enter();
     var index=v_alloca(4);
     var array_length;
@@ -3973,6 +4001,8 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
            initializers */
         glo = glo + size;
     }
+puts("decl_initializer_alloc addr: ");
+puts_num(addr);
     if (has_init) {
         decl_initializer(t, addr, 1, 0);
         /* restore parse state if needed */
@@ -4073,7 +4103,7 @@ err();
                     addr = addr + size;
                 }
                 loc = 0;
-                o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+                o(0xE58955); /* push   %ebp, mov    %esp, %ebp */
                 a = oad(0xEC81, 0);
                 rsym = 0;
                 block(NULL, NULL, NULL, NULL, 0);
