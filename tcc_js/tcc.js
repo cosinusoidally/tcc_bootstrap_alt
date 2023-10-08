@@ -1592,12 +1592,12 @@ err();
          }
          if (no_subst) {
             /* no need to add if reading input stream */
-             if (!macro_str) 
+             if (macro_str == 0) 
                  return leave(0);
              tok_add2(tok_str, tok_len, tok, tokc);
          }
         /* only replace one macro while parsing input stream */
-         if (!macro_str)
+         if (macro_str == 0)
              return leave(0);
      }
     wi32(macro_ptr, saved_macro_ptr);
