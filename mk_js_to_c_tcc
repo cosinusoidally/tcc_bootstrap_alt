@@ -1,4 +1,6 @@
 cd tcc_js
+rm tcc_boot.o
+pushd .
 js js_to_c.js > /tmp/tcc_js_tmp/tcc_js.c
 cp support.c /tmp/tcc_js_tmp
 cp support_cc_x86.c /tmp/tcc_js_tmp
@@ -10,3 +12,8 @@ rm out2.M1
 rm out.c
 rm tcc_boot.o
 ./tcc_1_7 -r tcc_js.c
+popd
+cp /tmp/tcc_js_tmp/tcc_boot.o .
+/tmp/tcc_js_tmp/loader.exe -R dummy
+sha256sum tcc_boot.o
+sha256sum -c tcc_sum

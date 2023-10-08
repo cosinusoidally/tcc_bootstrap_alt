@@ -14,3 +14,7 @@ void init_c(void){
 }
 
 int NULL=0;
+
+void puts_num(int x){
+  printf("%u\n",x);
+}

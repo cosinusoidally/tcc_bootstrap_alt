@@ -81,7 +81,7 @@ function greloc(s, addr, type) {
 //     Reloc *p;
     var p;
     p = v_malloc(Reloc_size);
-    if (!p)
+    if (p == 0)
         error("memory full");
     wi32(p+Reloc_type_o, type);
     wi32(p+Reloc_addr_o, addr);
@@ -174,7 +174,7 @@ function greloc_patch(s, val) {
             wi32(p+Reloc_addr_o, val);
         }
         if(rt==RELOC_REL32) {
-            if(reloc_global && relocs){
+            if((reloc_global != 0) && (relocs != 0)){
 //   printf("reloc4: 0x%x to: 0x%x\n",p->addr,val);
                 mk_reloc_global(RELOC_REL32,ri32(p+Reloc_addr_o));
             }
@@ -226,7 +226,7 @@ var lt=0;
 /* output constant with relocation if 't & VT_FORWARD' is true */
 // void gen_addr32(int c, int t)
 function gen_addr32(c, t) {
-    if (!(t & VT_FORWARD)) {
+    if ((t & VT_FORWARD) == 0) {
         // RELOC HACK
         if(reloc){
             //  printf("\nreloc2: at: %x to: %x\n",ind,(c-glo_base));
@@ -282,15 +282,15 @@ err();
         }
 
         if (v == VT_CONST) {
-            o(0x05 + r * 8); /* 0xXX, r */
+            o(0x05 + (r * 8)); /* 0xXX, r */
             // printf("\n load1 %x\n",ind);
             print("\n load1 %x\n",ind);
             lt=1;
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
-            oad(0x85 + r * 8, fc); /* xx(%ebp), r */
+            oad(0x85 + (r * 8), fc); /* xx(%ebp), r */
         } else {
-            g(0x00 + r * 8 + v); /* (v), r */
+            g(0x00 + (r * 8) + v); /* (v), r */
         }
     } else {
         if (v == VT_CONST) {
@@ -301,7 +301,7 @@ err();
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
             o(0x8D);
-            oad(0x85 + r * 8, fc); /* lea xxx(%ebp), r */
+            oad(0x85 + (r * 8), fc); /* lea xxx(%ebp), r */
         } else if (v == VT_CMP) {
             oad(0xB8 + r, 0); /* mov $0, r */
             o(0x0F); /* setxx %br */
@@ -315,7 +315,7 @@ err();
             oad(0xB8 + r, t ^ 1); /* mov $0, r */
         } else if (v != r) {
             o(0x89);
-            o(0xC0 + r + v * 8); /* mov v, r */
+            o(0xC0 + r + (v * 8)); /* mov v, r */
         }
     }
 }
@@ -339,15 +339,15 @@ function store(r, ft, fc) {
         o(0x89);
     }
     if (fr == VT_CONST) {
-        o(0x05 + r * 8);  /* mov r,xxx */
+        o(0x05 + (r * 8));  /* mov r,xxx */
         lt=1;
         // printf("\nstore 32 ind: %x\n",ind);
         print("\nstore 32 ind: %x\n",ind);
         gen_addr32(fc, ft);
     } else if (fr == VT_LOCAL) {
-        oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
+        oad(0x85 + (r * 8), fc); /* mov r,xxx(%ebp) */
     } else if (ft & VT_LVAL) {
-        g(fr + r * 8); /* mov r, (fr) */
+        g(fr + (r * 8)); /* mov r, (fr) */
     } else if (fr != r) {
 err();
 //         o(0xc0 + fr + r * 8); /* mov r, fr */
@@ -478,7 +478,7 @@ function gtst(inv, t) {
         /* XXX: floats */
         v = gv();
         o(0x85);
-        o(0xC0 + v * 9);
+        o(0xC0 + (v * 9));
         g(0x0F);
         t = psym(0x85 ^ inv, t);
     }
@@ -501,22 +501,22 @@ function gen_opi(op) {
 
     if (op == mk_char('+')) {
         o(0x01);
-        o(0xC0 + r + fr * 8);
+        o(0xC0 + r + (fr * 8));
     } else if (op == mk_char('-')) {
         o(0x29);
-        o(0xC0 + r + fr * 8); 
+        o(0xC0 + r + (fr * 8)); 
     } else if (op == mk_char('&')) {
         o(0x21);
-        o(0xC0 + r + fr * 8); 
+        o(0xC0 + r + (fr * 8)); 
     } else if (op == mk_char('^')) {
         o(0x31);
-        o(0xC0 + r + fr * 8); 
+        o(0xC0 + r + (fr * 8)); 
     } else if (op == mk_char('|')) {
         o(0x09);
-        o(0xC0 + r + fr * 8); 
+        o(0xC0 + r + (fr * 8)); 
     } else if (op == mk_char('*')) {
         o(0xAF0F); /* imul fr, r */
-        o(0xC0 + fr + r * 8);
+        o(0xC0 + fr + (r * 8));
     } else if (op == TOK_SHL | op == TOK_SHR | op == TOK_SAR) {
         /* op2 is %ecx */
         if (fr != 1) {
@@ -524,7 +524,7 @@ function gen_opi(op) {
                 r = fr;
                 fr = 1;
                 o(0x87); /* xchg r, %ecx */
-                o(0xC1 + r * 8);
+                o(0xC1 + (r * 8));
             } else {
                  move_reg(1, fr);
             }
@@ -559,7 +559,7 @@ function gen_opi(op) {
     } else {
         vtop=vtop-SValue_size;
         o(0x39);
-        o(0xC0 + r + fr * 8); /* cmp fr, r */
+        o(0xC0 + r + (fr * 8)); /* cmp fr, r */
         vset(VT_CMP, op);
     }
 }

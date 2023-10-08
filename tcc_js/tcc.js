@@ -449,9 +449,8 @@ function isnum(c) {
 // }
 
 // void error(const char *fmt, ...)
-function error(fmt) {
-//    puts(fmt);
-err();
+// function error(fmt) {
+// err();
 //     va_list ap;
 // //    va_start(ap, fmt);
 //     ap = ((char *)&(fmt)) + sizeof(int);
@@ -460,24 +459,28 @@ err();
 //     fprintf(stderr, "\n");
 //     exit(1);
 // //    va_end(ap);
-}
+// }
 
 // void expect(const char *msg)
-function expect(msg) {
-err();
+// function expect(msg) {
+// err();
 //     error("%s expected", msg);
-}
+// }
 
 // void warning(const char *msg)
-function warning(msg) {
-err();
+//  function warning(msg) {
+// err();
 //     printline();
 //     fprintf(stderr, "warning: %s\n", msg);
-}
+// }
 
 // void skip(int c)
 function skip(c) {
     if (tok != c) {
+// FIXME ljw remove this debug logging
+//        puts(heap+token_buf);
+//        puts_num(c);
+//        puts_num(tok);
         err();
 //        error("'%c' expected", c);
     }
@@ -486,12 +489,17 @@ function skip(c) {
 
 // void test_lvalue(void)
 function test_lvalue() {
-    if (!(ri32(vtop+SValue_t_o) & VT_LVAL))
+    if ((ri32(vtop+SValue_t_o) & VT_LVAL) == 0)
         expect("lvalue");
+}
+
+function dummy(){
+  return;
 }
 
 // TokenSym *tok_alloc(char *str, int len)
 function tok_alloc(str, len) {
+if(line_num == 5){ dummy();}
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
@@ -527,8 +535,10 @@ function tok_alloc(str, len) {
             break;
         }
         print("len: "+len+" ts-table_ident:"+(ts-table_ident)); /* dbg log */
-        if ((ri32(ts+TokenSym_len_o) == len) && !v_memcmp(ts+TokenSym_str_o, str, len)) {
-            return leave(ts);
+        if ((ri32(ts+TokenSym_len_o) == len)) {
+            if( v_memcmp(ts+TokenSym_str_o, str, len) == 0) {
+                return leave(ts);
+            }
         }
         wi32(pts, ts+TokenSym_hash_next_o);
     }
@@ -631,7 +641,7 @@ err();
 //         return buf;
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
-        return leave(ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o);
+        return leave(ri32(table_ident+(4*(v - TOK_IDENT)))+TokenSym_str_o);
     } else {
 err();
 //         /* should never happen */
@@ -694,7 +704,8 @@ function sym_find1(st, v) {
 
     h=HASH_SYM(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    s = ri32(st+SymStack_hash_o+(4*h));
+    var a=st+SymStack_hash_o+(4*h);
+    s = ri32(a);
     print("s: "+s); /* dbg log */
      while (s) {
          if (ri32(s+Sym_v_o) == v) {
@@ -712,10 +723,12 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //     Sym *s, **ps;
     var s;
     var ps;
+    var h;
     s = sym_push2(st+SymStack_top_o, v, t, c);
     /* add in hash table */
     if (v) {
-        ps = st+SymStack_hash_o+4*(HASH_SYM(v));
+        h =  HASH_SYM(v);
+        ps = st+SymStack_hash_o+(4*h);
         wi32(s+Sym_hash_next_o, ri32(ps));
         wi32(ps,s);
     }
@@ -729,7 +742,7 @@ function sym_find(v) {
 //     Sym *s;
     var s;
     s = sym_find1(local_stack, v);
-    if (!s) {
+    if (s == 0) {
         s = sym_find1(global_stack, v);
     }
     return s;
@@ -758,7 +771,7 @@ function sym_pop(st, b) {
         /* free hash table entry, except if symbol was freed (only
            used for #undef symbols) */
         if (ri32(s+Sym_v_o)){
-            wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
+            wi32(st+SymStack_hash_o+(4*(HASH_SYM(ri32(s+Sym_v_o)))), ri32(s+Sym_hash_next_o));
         }
         v_free(s);
         s = ss;
@@ -904,7 +917,7 @@ function tok_add(tok_str, tok_len, t) {
     wi32(str, ri32(tok_str));
     if ((len & 63) == 0) {
         wi32(str, v_realloc(ri32(str), (len + 64) * 4));
-        if (!ri32(str)) {
+        if (ri32(str) == 0) {
             return leave(0);
         }
         wi32(tok_str, ri32(str));
@@ -1076,7 +1089,7 @@ err();
                 found=1;
         }
         /* now search in standard include path */
-        if(!found){
+        if(found == 0){
             for(i=nb_include_paths - 1;i>=0;i=i-1) {
                 v_strcpy(buf1, ri32(include_paths+(4*i)));
                 v_strcat(buf1, mk_c_string("/"));
@@ -1086,14 +1099,17 @@ err();
                     found=1;
             }
         }
-        if(!found){
+        if(found == 0){
             print("include file "+mk_js_string(buf1)+" not found");
 err();
 //             f = NULL;
         }
         /* push current file in stack */
         /* XXX: fix current line init */
+/* useful for debugging */
+/* puts("writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
+/* puts("done writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
@@ -1228,7 +1244,7 @@ function parse_number() {
             q=q-1;
             cinp();
             b = 16;
-        } else if (tcc_ext && (ch == 'b' || ch == 'B')) {
+        } else if ((tcc_ext != 0) && (ch == 'b' || ch == 'B')) {
 err();
 //             q--;
 //             cinp();
@@ -1328,7 +1344,7 @@ function next_nomacro1() {
         wi8(q, ch);
         q=q+1;
         cinp();
-        while (isid(ch) || isnum(ch)) {
+        while (isid(ch) | isnum(ch)) {
             if (q >= token_buf + STRING_MAX_SIZE) {
                 error("ident too long");
             }
@@ -1558,7 +1574,7 @@ err();
 //                 no_subst=1;
                 no_subst=1;
             }
-            if(no_subst==0){
+            if(no_subst == 0){
 // FIXME ljw might not be right
                 mstr = ri32(s+Sym_c_o);
                 mstr_allocated = 0;
@@ -1611,7 +1627,7 @@ err();
     } else {
     while(redo){
         redo=0;
-        if (!ri32(macro_ptr)) {
+        if (ri32(macro_ptr) == 0) {
             /* if not reading from macro substuted string, then try to substitute */
             wi32(len, 0);
             wi32(ptr, NULL);
@@ -1769,7 +1785,7 @@ function get_reg(rc) {
                 if (i == r)
                     notfound=1;
             }
-            if(!notfound){
+            if(notfound  == 0){
             return leave(r);
             }
         }
@@ -1780,7 +1796,7 @@ function get_reg(rc) {
        spill registers used in gen_op()) */
     for(p=vstack;p<=vtop;p=p+SValue_size) {
         r = ri32(p+SValue_t_o) & VT_VALMASK;
-        if (r < VT_CONST && (ri32(reg_classes+(4*r)) & rc)) {
+        if (r < VT_CONST && ((ri32(reg_classes+(4*r)) & rc) != 0)) {
             save_reg(r);
             break;
         }
@@ -1861,7 +1877,7 @@ function gen_opc(op) {
     c1 = (ri32(v1+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     c2 = (ri32(v2+SValue_t_o) & (VT_VALMASK | VT_LVAL | VT_FORWARD)) == VT_CONST;
     while(1) {
-    if (c1 && c2) {
+    if ((c1 != 0) && (c2 != 0)) {
 //         fc = v2->c.i;
         fc =ri32( v2+SValue_c_o);
 
@@ -2068,7 +2084,7 @@ function gen_cast(t){
     var dt1;
 
     r = ri32(vtop+SValue_t_o) & VT_VALMASK;
-    if (!(t & VT_LVAL)) {
+    if ((t & VT_LVAL) == 0) {
         /* if not lvalue, then we convert now */
         dbt = t & VT_BTYPE;
         sbt = ri32(vtop+SValue_t_o) & VT_BTYPE;
@@ -2182,7 +2198,7 @@ function is_compatible_types(t1, t2) {
             return 0;
         s1 = sym_find(urs(t1, VT_STRUCT_SHIFT));
         s2 = sym_find(urs(t2, VT_STRUCT_SHIFT));
-        if (!is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)))
+        if (is_compatible_types(ri32(s1+Sym_t_o), ri32(s2+Sym_t_o)) == 0)
             return 0;
         /* XXX: not complete */
         if (ri32(s1+Sym_c_o) == FUNC_OLD || ri32(s2+Sym_c_o) == FUNC_OLD)
@@ -2299,7 +2315,7 @@ function gen_assign_cast(dt) {
     var buf1=v_alloca(256);
     var buf2=v_alloca(256);
     st = ri32(vtop+SValue_t_o); /* destination type */
-    if (!check_assign_types(dt, st)) {
+    if (check_assign_types(dt, st) == 0) {
 err();
 //         type_to_str(buf1, sizeof(buf1), st, NULL);
 //         type_to_str(buf2, sizeof(buf2), dt, NULL);
@@ -2609,7 +2625,7 @@ function ist() {
             next();
         } else {
           s = sym_find(tok);
-          if (!s || !(ri32(s+Sym_t_o) & VT_TYPEDEF)) {
+          if ((s == 0) || ((ri32(s+Sym_t_o) & VT_TYPEDEF) == 0)) {
                return leave(t);
           }
           t = t | (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
@@ -2649,7 +2665,7 @@ function post_type(t) {
             /* read param name and compute offset */
             while(1){
             if (l != FUNC_OLD) {
-                if (!(pt = ist())) {
+                if ((pt = ist()) == 0) {
                     if (l) {
 err();
 //                         error("invalid type");
@@ -2756,11 +2772,11 @@ function type_decl(v, t, td) {
     } else {
         u = 0;
         /* type identifier */
-        if (tok >= TOK_IDENT && (td & TYPE_DIRECT)) {
+        if (tok >= TOK_IDENT && ((td & TYPE_DIRECT) != 0)) {
             wi32(v, tok);
             next();
          } else {
-            if (!(td & TYPE_ABSTRACT))
+            if ((td & TYPE_ABSTRACT) == 0)
                 expect("identifier");
             wi32(v, 0);
          }
@@ -2769,14 +2785,14 @@ function type_decl(v, t, td) {
     /* append t at the end of u */
     print("tok: "+tok+" t: "+t); /* dbg log */
     t = post_type(t);
-    if (!u) {
+    if (u == 0) {
         return leave(t);
     }
     p = u;
     while(1) {
         s = sym_find(urs(p, VT_STRUCT_SHIFT));
         p = ri32(s+Sym_t_o);
-        if (!p) {
+        if (p == 0) {
             wi32(s+Sym_t_o, t);
             break;
         }
@@ -2790,7 +2806,7 @@ function external_sym(v, u) {
 //     Sym *s;
     var s;
     s = sym_find(v);
-    if (!s) {
+    if (s == 0) {
         /* push forward reference */
         s = sym_push1(global_stack, 
                       v, u | VT_CONST | VT_FORWARD, 0);
@@ -2808,7 +2824,7 @@ err();
 //         expect("pointer");
     }
     wi32(vtop+SValue_t_o,pointed_type(ri32(vtop+SValue_t_o)));
-    if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) { /* an array is never an lvalue */
+    if ((ri32(vtop+SValue_t_o) & VT_ARRAY) == 0) { /* an array is never an lvalue */
         wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
     }
 }
@@ -2966,7 +2982,7 @@ err();
             gen_op(mk_char('-'));
         } else {
             s = sym_find(t);
-            if (!s) {
+            if (s == 0) {
                 if (tok != mk_char('('))
                     err();
 //                    error("'%s' undeclared", get_tok_str(t, NULL));
@@ -3022,7 +3038,7 @@ err();
                 if (ri32(s+Sym_v_o) == tok)
                     break;
             }
-            if (!s)
+            if (s == 0)
                 error("field not found");
             /* add field offset to pointer */
             wi32(vtop+SValue_t_o,(ri32(vtop+SValue_t_o) & ~VT_TYPE) | VT_INT); /* change type to int */
@@ -3031,7 +3047,7 @@ err();
             /* change type to field type, and set to lvalue */
             wi32(vtop+SValue_t_o, (ri32(vtop+SValue_t_o) & ~VT_TYPE) | ri32(s+Sym_t_o));
             /* an array is never an lvalue */
-            if (!(ri32(vtop+SValue_t_o) & VT_ARRAY)) {
+            if ((ri32(vtop+SValue_t_o) & VT_ARRAY) == 0) {
                 wi32(vtop+SValue_t_o, ri32(vtop+SValue_t_o) | VT_LVAL);
             }
             next();
@@ -3435,14 +3451,14 @@ err();
         rsym = gjmp(rsym); /* jmp */
     } else if (tok == TOK_BREAK) {
         /* compute jump */
-        if (!bsym)
+        if (bsym == 0)
             error("cannot break");
         wi32(bsym, gjmp(ri32(bsym)));
         next();
         skip(mk_char(';'));
     } else if (tok == TOK_CONTINUE) {
         /* compute jump */
-        if (!csym)
+        if (csym == 0)
             error("cannot continue");
         wi32(csym, gjmp(ri32(csym)));
         next();
@@ -3515,7 +3531,7 @@ err();
     } else if (tok == TOK_CASE) {
         next();
         a = expr_const();
-        if (!case_sym)
+        if (case_sym == 0)
             expect("switch");
         /* since a case is like a label, we must skip it with a jmp */
         b = gjmp(0);
@@ -3530,7 +3546,7 @@ err();
     } else if (tok == TOK_DEFAULT) {
         next();
         skip(mk_char(':'));
-        if (!def_sym)
+        if (def_sym == 0)
             expect("switch");
         if (ri32(def_sym))
             error("too many 'default'");
@@ -3617,10 +3633,10 @@ err();
         if (t & VT_ARRAY) {
             index = ri32(cur_index);
             t = pointed_type(t);
-            c = c + index * type_size(t, align);
+            c = c + (index * type_size(t, align));
         } else {
             f = ri32(cur_field);
-            if (!f)
+            if (f == 0)
                 error("too many field init");
             t = ri32(f+Sym_t_o) | (t & ~VT_TYPE);
             c = c + ri32(f+Sym_c_o);
@@ -3728,7 +3744,7 @@ function decl_initializer(t, c, first, size_only) {
         size1 = type_size(t1, align1);
 
         no_oblock = 1;
-        if ((first && tok != TOK_LSTR && tok != TOK_STR) || 
+        if (((first != 0) && tok != TOK_LSTR && tok != TOK_STR) || 
             tok == mk_char('{')) {
             skip(mk_char('{'));
             no_oblock = 0;
@@ -3748,7 +3764,7 @@ function decl_initializer(t, c, first, size_only) {
                 nb = ri32(ts+TokenSym_len_o);
                 if (n >= 0 && nb > (n - array_length))
                     nb = n - array_length;
-                if (!size_only) {
+                if (size_only == 0) {
                     if (ri32(ts+TokenSym_len_o) > nb)
                         warning("initializer-string for array is too long");
                     for(i=0;i<nb;i=i+1) {
@@ -3764,7 +3780,7 @@ function decl_initializer(t, c, first, size_only) {
             /* only add trailing zero if enough storage (no
                warning in this case since it is standard) */
             if (n < 0 || array_length < n) {
-                if (!size_only) {
+                if (size_only == 0) {
                     init_putv(t1, c + (array_length * size1), 0, 0);
                 }
                 array_length=array_length+1;
@@ -3777,7 +3793,7 @@ function decl_initializer(t, c, first, size_only) {
                     error("index too large");
                 /* must put zero in holes (note that doing it that way
                    ensures that it even works with designators) */
-                if (!size_only && array_length < ri32(index)) {
+                if ((size_only == 0) && array_length < ri32(index)) {
 err();
 //                     init_putz(t1, c + array_length * size1, 
 //                               (index - array_length) * size1);
@@ -3797,10 +3813,10 @@ err();
                 skip(mk_char(','));
             }
         }
-        if (!no_oblock)
+        if (no_oblock == 0)
             skip(mk_char('}'));
         /* put zeros at the end */
-        if (!size_only && n >= 0 && array_length < n) {
+        if ((size_only == 0) && n >= 0 && array_length < n) {
             init_putz(t1, c + array_length * size1, 
                       (n - array_length) * size1);
         }
@@ -3819,7 +3835,7 @@ err();
             decl_designator(t, c, NULL, f, size_only);
             /* fill with zero between fields */
             index = ri32(ri32(f)+Sym_c_o);
-            if (!size_only && array_length < index) {
+            if ((size_only == 0) && array_length < index) {
 err();
 //                 init_putz(t, c + array_length, 
 //                           index - array_length);
@@ -3833,7 +3849,7 @@ err();
             wi32(f, ri32(ri32(f)+Sym_next_o));
         }
         /* put zeros at the end */
-        if (!size_only && array_length < n) {
+        if ((size_only == 0) && array_length < n) {
 err();
 //             init_putz(t, c + array_length, 
 //                       n - array_length);
@@ -3890,7 +3906,7 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
     saved_macro_ptr = NULL; /* avoid warning */
     tok1 = 0;
     if (size < 0) {
-        if (!has_init) 
+        if (has_init == 0) 
             error("unknown type size");
         /* get all init string */
         level = 0;
@@ -3968,7 +3984,7 @@ function decl(l) {
 
     while (1) {
          b = ist();
-         if (!b) {
+         if (b == 0) {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */
             if (tok == mk_char(';')) {
@@ -3996,11 +4012,11 @@ err();
                 if (l == VT_LOCAL) {
                     error("cannot use local functions");
                 }
-                if (!(t & VT_FUNC)) {
+                if ((t & VT_FUNC) == 0) {
                     expect("function definition");
                 }
                 /* patch forward references */
-                if ((sym = sym_find(ri32(v))) && (ri32(sym+Sym_t_o) & VT_FORWARD)) {
+                if (((sym = sym_find(ri32(v))) != 0) && ((ri32(sym+Sym_t_o) & VT_FORWARD) != 0)) {
                     greloc_patch(sym, ind);
                     wi32(sym+Sym_t_o, VT_CONST | t);
                 } else {
@@ -4035,7 +4051,7 @@ err();
                     addr = addr + size;
                 }
                 loc = 0;
-                o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+                o(0xE58955); /* push   %ebp, mov    %esp, %ebp */
                 a = oad(0xEC81, 0);
                 rsym = 0;
                 block(NULL, NULL, NULL, NULL, 0);
@@ -4059,7 +4075,7 @@ err();
                     external_sym(ri32(v), t);
                 } else {
                     /* not lvalue if array */
-                    if (!(t & VT_ARRAY)) {
+                    if ((t & VT_ARRAY) == 0) {
                         t = t | VT_LVAL;
                     }
                     if (b & VT_EXTERN) {
@@ -4078,14 +4094,14 @@ err();
                         if (l == VT_CONST) {
                             /* global scope: see if already defined */
                             sym = sym_find(ri32(v));
-                            if (!sym) {
+                            if (sym == 0) {
                                 sym_push(ri32(v), u, addr);
                                 break;
                             }
-                            if (!is_compatible_types(ri32(sym+Sym_t_o), u))
+                            if (is_compatible_types(ri32(sym+Sym_t_o), u) == 0)
                                 err();
 //                                error("incompatible types for redefinition of '%s'", get_tok_str(v, NULL));
-                            if (!(ri32(sym+Sym_t_o) & VT_FORWARD))
+                            if ((ri32(sym+Sym_t_o) & VT_FORWARD) == 0)
                                 err();
 //                                error("redefinition of '%s'", get_tok_str(v, NULL));
                             greloc_patch(sym, addr);
@@ -4127,11 +4143,11 @@ function resolve_global_syms() {
 //         s1 = s->prev;
         s1 = ri32(s+Sym_prev_o);
         /* do not save static or typedefed symbols or types */
-        if (!(ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) &&
-            !(ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) &&
-            (ri32(s+Sym_v_o) < SYM_FIRST_ANOM)) {
+        if (((ri32(s+Sym_t_o) & (VT_STATIC | VT_TYPEDEF)) == 0) &&
+            ((ri32(s+Sym_v_o) & (SYM_FIELD | SYM_STRUCT)) == 0) &&
+            ((ri32(s+Sym_v_o) < SYM_FIRST_ANOM) != 0)) {
             ext_sym = sym_find1(extern_stack, ri32(s+Sym_v_o));
-            if (!ext_sym) {
+            if (ext_sym == 0) {
                 /* if the symbol do not exist, we simply save it */
                 sym_push1(extern_stack, ri32(s+Sym_v_o), ri32(s+Sym_t_o), ri32(s+Sym_c_o));
             } else if (ri32(ext_sym+Sym_t_o) & VT_FORWARD) {
@@ -4458,7 +4474,7 @@ err();
 
     resolve_extern_syms();
     s = sym_find1(extern_stack, TOK_MAIN);
-    if (!s || (ri32(s+Sym_t_o) & VT_FORWARD))
+    if ((s == 0) || (ri32(s+Sym_t_o) & VT_FORWARD))
         error("main() not defined");
 
     print("main: "+to_hex(ri32(s+Sym_c_o))); /* dbg log */

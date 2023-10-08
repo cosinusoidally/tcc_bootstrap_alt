@@ -5,6 +5,8 @@ b=[];
 
 decls=[];
 
+var dbg;
+
 while(f.length>0){
   l=f.pop();
   t=l.slice(0,4);
@@ -38,6 +40,10 @@ while(f.length>0){
     d="int "+fn+"("+a+")";
     decls.push(d);
     b.push(d+" {");
+    if(dbg) {
+      b.push('puts("'+fn+'");');
+      b.push('puts_num(line_num);');
+    }
     continue;
   }
   t=eat_whitespace(l);

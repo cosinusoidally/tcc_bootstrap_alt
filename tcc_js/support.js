@@ -446,3 +446,21 @@ function main(argc,argv){
 // name
 v_malloc=malloc;
 strlen=v_strlen;
+
+function error(msg){
+  print("error");
+  print(msg);
+  err();
+}
+
+function warning(msg){
+  print("warning");
+  print(msg);
+  err();
+}
+
+function expect(msg){
+  print("expect");
+  print(msg);
+  err();
+}
