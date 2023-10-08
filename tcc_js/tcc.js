@@ -704,7 +704,7 @@ function sym_find1(st, v) {
 
     h=HASH_SYM(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    int a=st+SymStack_hash_o+(4*h);
+    var a=st+SymStack_hash_o+(4*h);
     s = ri32(a);
     print("s: "+s); /* dbg log */
      while (s) {
