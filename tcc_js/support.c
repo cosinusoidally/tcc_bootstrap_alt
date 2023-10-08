@@ -30,8 +30,8 @@ int urs(int v,int n) {
 int wi8(int o,int v) {
 /* below is useful for debugging */
 /*
-  if(o==4656){
-    puts("wi8 to offset 4656");
+  if(o==16777000){
+    puts("wi8 to offset 16777000");
     puts_num(v);
   }
   puts("wi8:");
