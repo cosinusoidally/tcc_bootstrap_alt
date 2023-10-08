@@ -26,6 +26,7 @@ int v_strdup(int a);
 int v_fwrite(int a,int b, int c, int d);
 int v_memset(int a, int b, int c);
 int init_runtime(void);
+void puts_num(int x);
 
 int fputs(int a,int b);
 int stdout;
@@ -39,9 +40,24 @@ int getc_unlocked(int f){
 /*  puts("getc_unlocked not impl"); err(); */
   return fgetc(f);
 }
-int fwrite(int a,int b, int c, int d) {
+int fwrite(int ptr,int size, int nitems, int stream) {
+/*
   puts("fwrite not impl");
   err();
+*/
+  int t=size*nitems;
+  char *c=ptr;
+  int c;
+puts("fwrite");
+puts_num(ptr);
+puts_num(size);
+puts_num(nitems);
+puts_num(stream);
+  while(t>0){
+    fputc(c[0],stream);
+    t=t-1;
+    c=c+1;
+  }
 }
 int tcc_main(int argc, int argv);
 

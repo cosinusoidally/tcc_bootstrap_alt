@@ -263,8 +263,8 @@ int v_fopen(int a, int b) {
 }
 
 int v_fwrite(int a,int b, int c, int d) {
-//  puts("unimpl fwrite");
-//  err();
+/*  puts("unimpl fwrite"); */
+/*  err(); */
   return fwrite(heap+a ,b ,c , d);
 }
 
