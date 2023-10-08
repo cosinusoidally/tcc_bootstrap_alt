@@ -703,22 +703,11 @@ function sym_find1(st, v) {
     var h;
 
     h=HASH_SYM(v);
-puts("sym_find1 h:");
-puts_num(h);
-puts("sym_find1 v:");
-puts_num(v);
     print("sym_find1 hash: "+h); /* dbg log */
     int a=st+SymStack_hash_o+(4*h);
     s = ri32(a);
-puts("sym_find1 s");
-puts("s: ");
-puts_num(s);
-puts("sym_find1 a");
-puts("a: ");
-puts_num(a);
     print("s: "+s); /* dbg log */
      while (s) {
-puts("sym_find1 walking hash chain");
          if (ri32(s+Sym_v_o) == v) {
              return s;
          }
@@ -737,21 +726,9 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
     var h;
     s = sym_push2(st+SymStack_top_o, v, t, c);
     /* add in hash table */
-puts("sym_push1 v:");
-puts_num(v);
     if (v) {
         h =  HASH_SYM(v);
         ps = st+SymStack_hash_o+(4*h);
-puts("sym_push1 st:");
-puts_num(st);
-puts("sym_push1 SymStack_hash_o");
-puts_num(SymStack_hash_o);
-puts("sym_push1 HASH_SYM(v)");
-puts_num(h);
-puts("sym_push1 ps:");
-puts_num(ps);
-puts("sym_push1 s+Sym_hash_next_o");
-puts_num(s+Sym_hash_next_o);
         wi32(s+Sym_hash_next_o, ri32(ps));
         wi32(ps,s);
     }
@@ -762,17 +739,11 @@ puts_num(s+Sym_hash_next_o);
 /* find a symbol in the right symbol space */
 // Sym *sym_find(int v)
 function sym_find(v) {
-puts("sym_find(v):");
-puts_num(v);
 //     Sym *s;
     var s;
     s = sym_find1(local_stack, v);
-puts("sym_find local:");
-puts_num(s);
     if (s == 0) {
         s = sym_find1(global_stack, v);
-puts("sym_find global:");
-puts_num(s);
     }
     return s;
 }
@@ -1135,9 +1106,10 @@ err();
         }
         /* push current file in stack */
         /* XXX: fix current line init */
-puts("writing a FILE reference to the heap");
+/* useful for debugging */
+/* puts("writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
-puts("done writing a FILE reference to the heap");
+/* puts("done writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
@@ -1381,9 +1353,7 @@ function next_nomacro1() {
             cinp();
         }
         wi8(q, 0);
-puts("call tok_alloc");
         ts = tok_alloc(token_buf, q - token_buf);
-puts("return tok_alloc");
          tok = ri32(ts+TokenSym_tok_o);
     } else if (isnum(ch) || ch == mk_char('.')) {
         parse_number();
@@ -1457,9 +1427,7 @@ function next_nomacro() {
         if (tok)
             tok = tok_get(macro_ptr, tokc);
     } else {
-puts("call next_nomacro1");
         next_nomacro1();
-puts("return next_nomacro1");
     }
     leave(0);
 }
@@ -1664,9 +1632,7 @@ err();
             wi32(len, 0);
             wi32(ptr, NULL);
             wi32(nested_list, NULL);
-puts("call macro_subst");
             macro_subst(ptr, len, nested_list, NULL);
-puts("return macro_subst");
              if (ri32(ptr)) {
                 tok_add(ptr, len, 0);
                 wi32(macro_ptr, ri32(ptr));
@@ -2609,8 +2575,6 @@ function basic_type(t, u){
  */
 // int ist(void)
 function ist() {
-puts("tok:");
-puts_num(tok);
     enter();
     var t;
     var u;
@@ -2661,20 +2625,14 @@ puts_num(tok);
             next();
         } else {
           s = sym_find(tok);
-puts("s:");
-puts_num(s);
           if ((s == 0) || ((ri32(s+Sym_t_o) & VT_TYPEDEF) == 0)) {
-puts("ist return 1");
                return leave(t);
           }
           t = t | (ri32(s+Sym_t_o) & ~VT_TYPEDEF);
-puts("call next");
           next();
-puts("return next");
         }
         t = t | 2;
     }
-puts("ist return 2");
     return leave(t);
 }
 
@@ -3613,8 +3571,6 @@ err();
 //                      int *cur_index, Sym **cur_field, 
 //                      int size_only)
 function decl_designator(t, c, cur_index, cur_field, size_only) {
-puts("decl_designator c:");
-puts_num(c);
     enter();
 //     Sym *s, *f;
     var s;
@@ -3686,8 +3642,6 @@ err();
             c = c + ri32(f+Sym_c_o);
         }
     }
-puts("calling decl_initializer c:");
-puts_num(c);
     decl_initializer(t, c, 0, size_only);
     leave(0);
 }
@@ -3764,8 +3718,6 @@ err();
 // void decl_initializer(int t, int c, int first, int size_only)
 function decl_initializer(t, c, first, size_only) {
     print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only); /* dbg log */
-puts("decl_initializer c:");
-puts_num(c);
     enter();
     var index=v_alloca(4);
     var array_length;
@@ -4001,8 +3953,6 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
            initializers */
         glo = glo + size;
     }
-puts("decl_initializer_alloc addr: ");
-puts_num(addr);
     if (has_init) {
         decl_initializer(t, addr, 1, 0);
         /* restore parse state if needed */
@@ -4033,9 +3983,7 @@ function decl(l) {
     var sym;
 
     while (1) {
-puts("call ist");
          b = ist();
-puts("return ist");
          if (b == 0) {
             /* skip redundant ';' */
             /* XXX: find more elegant solution */

@@ -61,8 +61,6 @@ function g(c) {
 
 // void o(int c)
 function o(c) {
-puts("o: ");
-puts_num(c);
     while (c) {
         g(c);
         c = urs(c, 8);

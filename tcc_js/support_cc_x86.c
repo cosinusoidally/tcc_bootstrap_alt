@@ -48,11 +48,6 @@ int fwrite(int ptr,int size, int nitems, int stream) {
   int t=size*nitems;
   char *c=ptr;
   int c;
-puts("fwrite");
-puts_num(ptr);
-puts_num(size);
-puts_num(nitems);
-puts_num(stream);
   while(t>0){
     fputc(c[0],stream);
     t=t-1;
