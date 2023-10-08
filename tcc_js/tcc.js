@@ -704,7 +704,7 @@ function sym_find1(st, v) {
 
     h=HASH_SYM(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    int a=st+SymStack_hash_o+(4*h);
+    var a=st+SymStack_hash_o+(4*h);
     s = ri32(a);
     print("s: "+s); /* dbg log */
      while (s) {
@@ -1615,6 +1615,7 @@ function next() {
     var len=v_alloca(4);
     var ptr=v_alloca(4);
     var redo=1;
+    var cont;
 //     Sym *nested_list;
     var nested_list=v_alloca(4);
 
@@ -1625,6 +1626,9 @@ err();
 //         tokc = tok1c;
 //         tok1 = 0;
     } else {
+    cont=1;
+    while(cont) {
+    cont=0;
     while(redo){
         redo=0;
         if (ri32(macro_ptr) == 0) {
@@ -1642,7 +1646,7 @@ err();
              }
              if (tok == 0) {
                  redo=1;
-                 continue;
+                 cont=1;break;
               }
         } else {
             next_nomacro();
@@ -1655,6 +1659,7 @@ err();
             }
         }
         break;
+    }
     }
     }
     leave(0);
