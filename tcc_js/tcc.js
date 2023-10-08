@@ -1592,12 +1592,12 @@ err();
          }
          if (no_subst) {
             /* no need to add if reading input stream */
-             if (!macro_str) 
+             if (macro_str == 0) 
                  return leave(0);
              tok_add2(tok_str, tok_len, tok, tokc);
          }
         /* only replace one macro while parsing input stream */
-         if (!macro_str)
+         if (macro_str == 0)
              return leave(0);
      }
     wi32(macro_ptr, saved_macro_ptr);
@@ -1615,6 +1615,7 @@ function next() {
     var len=v_alloca(4);
     var ptr=v_alloca(4);
     var redo=1;
+    var cont;
 //     Sym *nested_list;
     var nested_list=v_alloca(4);
 
@@ -1625,6 +1626,10 @@ err();
 //         tokc = tok1c;
 //         tok1 = 0;
     } else {
+    /* cc_x86 doesn't support continue so we need this hack */
+    cont=1;
+    while(cont) {
+    cont=0;
     while(redo){
         redo=0;
         if (ri32(macro_ptr) == 0) {
@@ -1638,11 +1643,11 @@ err();
                 wi32(macro_ptr, ri32(ptr));
                 macro_ptr_allocated = ri32(ptr);
                 redo=1;
-                continue;
+                cont=1;break;
              }
              if (tok == 0) {
                  redo=1;
-                 continue;
+                 cont=1;break;
               }
         } else {
             next_nomacro();
@@ -1651,10 +1656,11 @@ err();
                 v_free(macro_ptr_allocated);
                 wi32(macro_ptr, NULL);
                 redo=1;
-                continue;
+                cont=1;break;
             }
         }
         break;
+    }
     }
     }
     leave(0);
@@ -3981,7 +3987,11 @@ function decl(l) {
     var align=v_alloca(4);
 //     Sym *sym;
     var sym;
-
+    /* cc_c86 doesn't support continue so we need this hack */
+    var cont;
+    cont=1;
+    while(cont){
+    cont=0;
     while (1) {
          b = ist();
          if (b == 0) {
@@ -3989,7 +3999,7 @@ function decl(l) {
             /* XXX: find more elegant solution */
             if (tok == mk_char(';')) {
                 next();
-                continue;
+                cont=1;break;
             }
             /* special test for old K&R protos without explicit int
                type. Only accepted when defining global data */
@@ -4004,7 +4014,7 @@ err();
              tok == mk_char(';')) {
             /* we accept no variable after */
              next();
-             continue;
+             cont=1;break;
          }
          while (1) { /* iterate thru each declaration */
             t = type_decl(v, b, TYPE_DIRECT);
@@ -4119,6 +4129,7 @@ err();
                 next();
             }
          }
+     }
      }
     leave(0);
 }
