@@ -1626,6 +1626,7 @@ err();
 //         tokc = tok1c;
 //         tok1 = 0;
     } else {
+    /* cc_x86 doesn't support continue so we need this hack */
     cont=1;
     while(cont) {
     cont=0;
@@ -3986,6 +3987,7 @@ function decl(l) {
     var align=v_alloca(4);
 //     Sym *sym;
     var sym;
+    /* cc_c86 doesn't support continue so we need this hack */
     var cont;
     cont=1;
     while(cont){
