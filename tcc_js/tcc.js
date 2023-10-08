@@ -493,8 +493,13 @@ function test_lvalue() {
         expect("lvalue");
 }
 
+function dummy(){
+  return;
+}
+
 // TokenSym *tok_alloc(char *str, int len)
 function tok_alloc(str, len) {
+if(line_num == 5){ dummy();}
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
@@ -636,7 +641,7 @@ err();
 //         return buf;
 //     } else if (v < tok_ident) {
     } else if (v < tok_ident) {
-        return leave(ri32(table_ident+4*(v - TOK_IDENT))+TokenSym_str_o);
+        return leave(ri32(table_ident+(4*(v - TOK_IDENT)))+TokenSym_str_o);
     } else {
 err();
 //         /* should never happen */
@@ -699,7 +704,8 @@ function sym_find1(st, v) {
 
     h=HASH_SYM(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    s = ri32(st+SymStack_hash_o+(4*h));
+    var a=st+SymStack_hash_o+(4*h);
+    s = ri32(a);
     print("s: "+s); /* dbg log */
      while (s) {
          if (ri32(s+Sym_v_o) == v) {
@@ -717,10 +723,12 @@ print("sym_push1: v: "+v+" t: "+t+" c: "+c);
 //     Sym *s, **ps;
     var s;
     var ps;
+    var h;
     s = sym_push2(st+SymStack_top_o, v, t, c);
     /* add in hash table */
     if (v) {
-        ps = st+SymStack_hash_o+4*(HASH_SYM(v));
+        h =  HASH_SYM(v);
+        ps = st+SymStack_hash_o+(4*h);
         wi32(s+Sym_hash_next_o, ri32(ps));
         wi32(ps,s);
     }
@@ -763,7 +771,7 @@ function sym_pop(st, b) {
         /* free hash table entry, except if symbol was freed (only
            used for #undef symbols) */
         if (ri32(s+Sym_v_o)){
-            wi32(st+SymStack_hash_o+4*(HASH_SYM(ri32(s+Sym_v_o))), ri32(s+Sym_hash_next_o));
+            wi32(st+SymStack_hash_o+(4*(HASH_SYM(ri32(s+Sym_v_o)))), ri32(s+Sym_hash_next_o));
         }
         v_free(s);
         s = ss;
@@ -1098,7 +1106,10 @@ err();
         }
         /* push current file in stack */
         /* XXX: fix current line init */
+/* useful for debugging */
+/* puts("writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
+/* puts("done writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
@@ -1333,7 +1344,7 @@ function next_nomacro1() {
         wi8(q, ch);
         q=q+1;
         cinp();
-        while (isid(ch) || isnum(ch)) {
+        while (isid(ch) | isnum(ch)) {
             if (q >= token_buf + STRING_MAX_SIZE) {
                 error("ident too long");
             }
@@ -3622,7 +3633,7 @@ err();
         if (t & VT_ARRAY) {
             index = ri32(cur_index);
             t = pointed_type(t);
-            c = c + index * type_size(t, align);
+            c = c + (index * type_size(t, align));
         } else {
             f = ri32(cur_field);
             if (f == 0)
@@ -4040,7 +4051,7 @@ err();
                     addr = addr + size;
                 }
                 loc = 0;
-                o(0xe58955); /* push   %ebp, mov    %esp, %ebp */
+                o(0xE58955); /* push   %ebp, mov    %esp, %ebp */
                 a = oad(0xEC81, 0);
                 rsym = 0;
                 block(NULL, NULL, NULL, NULL, 0);

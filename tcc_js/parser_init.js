@@ -23,49 +23,49 @@ function get_twochar_str(){
 //    print("hex dump 1");hd(twochar_str,256);
     o=t;
 //  <=\236
-    o=wsb(o,mk_c_string("<="),0236);
+    o=wsb(o,mk_c_string("<="),158);
 //  >=\235
-    o=wsb(o,mk_c_string(">="),0235);
+    o=wsb(o,mk_c_string(">="),157);
 //  !=\225
-    o=wsb(o,mk_c_string("!="),0225);
+    o=wsb(o,mk_c_string("!="),149);
 //  &&\240
-    o=wsb(o,mk_c_string("&&"),0240);
+    o=wsb(o,mk_c_string("&&"),160);
 //  ||\241
-    o=wsb(o,mk_c_string("||"),0241);
+    o=wsb(o,mk_c_string("||"),161);
 //  ++\244
-    o=wsb(o,mk_c_string("++"),0244);
+    o=wsb(o,mk_c_string("++"),164);
 //  --\242
-    o=wsb(o,mk_c_string("--"),0242);
+    o=wsb(o,mk_c_string("--"),162);
 //  ==\224
-    o=wsb(o,mk_c_string("=="),0224);
+    o=wsb(o,mk_c_string("=="),148);
 //  <<\1
     o=wsb(o,mk_c_string("<<"),1);
 //  >>\2
     o=wsb(o,mk_c_string(">>"),2);
 //  +=\253
-    o=wsb(o,mk_c_string("+="),0253);
+    o=wsb(o,mk_c_string("+="),171);
 //  -=\255
-    o=wsb(o,mk_c_string("-="),0255);
+    o=wsb(o,mk_c_string("-="),173);
 //  *=\252
-    o=wsb(o,mk_c_string("*="),0252);
+    o=wsb(o,mk_c_string("*="),170);
 //  /=\257
-    o=wsb(o,mk_c_string("/="),0257);
+    o=wsb(o,mk_c_string("/="),175);
 //  %=\245
-    o=wsb(o,mk_c_string("%="),0245);
+    o=wsb(o,mk_c_string("%="),165);
 //  &=\246
-    o=wsb(o,mk_c_string("&="),0246);
+    o=wsb(o,mk_c_string("&="),166);
 //  ^=\336
-    o=wsb(o,mk_c_string("^="),0336);
+    o=wsb(o,mk_c_string("^="),222);
 //  |=\374
-    o=wsb(o,mk_c_string("|="),0374);
+    o=wsb(o,mk_c_string("|="),252);
 //  ->\247
-    o=wsb(o,mk_c_string("->"),0247);
+    o=wsb(o,mk_c_string("->"),167);
 //  ..\250
-    o=wsb(o,mk_c_string(".."),0250);
+    o=wsb(o,mk_c_string(".."),168);
 //  ##\266
-    o=wsb(o,mk_c_string("##"),0266);
+    o=wsb(o,mk_c_string("##"),182);
 //    print("hex dump 2");hd(t,256);
-    o=wsb(o,mk_c_string("<="),0236);
+    o=wsb(o,mk_c_string("<="),158);
     twochar_str = t;
     return twochar_str;
 }

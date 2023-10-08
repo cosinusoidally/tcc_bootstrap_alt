@@ -28,6 +28,17 @@ int urs(int v,int n) {
 
 /* virtual heap access */
 int wi8(int o,int v) {
+/* below is useful for debugging */
+/*
+  if(o==4656){
+    puts("wi8 to offset 4656");
+    puts_num(v);
+  }
+  puts("wi8:");
+  puts_num(o);
+  puts_num(v);
+  puts(" ");
+*/
   heap[o]=v;
   return;
 }
@@ -253,8 +264,8 @@ int v_fopen(int a, int b) {
 }
 
 int v_fwrite(int a,int b, int c, int d) {
-//  puts("unimpl fwrite");
-//  err();
+/*  puts("unimpl fwrite"); */
+/*  err(); */
   return fwrite(heap+a ,b ,c , d);
 }
 
