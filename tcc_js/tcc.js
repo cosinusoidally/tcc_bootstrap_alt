@@ -1107,9 +1107,9 @@ err();
         /* push current file in stack */
         /* XXX: fix current line init */
 /* useful for debugging */
-puts("writing a FILE reference to the heap");
+/* puts("writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+ IncludeFile_file_o, file);
-puts("done writing a FILE reference to the heap");
+/* puts("done writing a FILE reference to the heap"); */
         wi32(include_stack_ptr+IncludeFile_filename_o, filename);
         wi32(include_stack_ptr+IncludeFile_line_num_o, line_num);
         include_stack_ptr = include_stack_ptr+IncludeFile_size;
