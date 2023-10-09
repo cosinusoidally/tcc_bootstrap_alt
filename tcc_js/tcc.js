@@ -254,6 +254,7 @@ var VT_CONST = 0x000A;
 // #define VT_LVAL    0x0010  /* var is an lvalue */
 var VT_LVAL = 0x0010;
 // #define VT_LVALN   -17         /* ~VT_LVAL */
+var VT_LVALN = -17;         /* ~VT_LVAL */
 // #define VT_FORWARD 0x0020  /* value is forward reference 
 //                               (only used for functions) */
 // /* storage */
@@ -1299,8 +1300,9 @@ err();
 // FIXME ljw is unsigned needed?
         n = n * b + t;
         /* detect overflow */
-        if (n < n1)
+        if (n < n1) {
             error("integer constant overflow");
+        }
     }
 //     tokc.ui = n;
     wi32(tokc, n);

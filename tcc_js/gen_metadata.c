@@ -108,7 +108,6 @@ int main(void){
   printf("var TOK_ELSE=0x%X;\n",TOK_ELSE);
   printf("var TOK_LT=0x%X;\n",TOK_LT);
   printf("var TOK_FOR=0x%X;\n",TOK_FOR);
-  printf("var VT_LVALN=0x%X;\n",VT_LVALN);
   printf("var TOK_LE=0x%X;\n",TOK_LE);
   printf("var TOK_GE=0x%X;\n",TOK_GE);
   printf("var TOK_A_DIV=0x%X;\n",TOK_A_DIV);

@@ -14,8 +14,9 @@ int urs(int v,int n) {
   if(n==0) {
     return v;
   }
-  int m=0x80000000;
   int m2=0x40000000;
+/* was 0x80000000 but that literal is too large for tcc_js.c to parse */
+  int m=m2 << 1;
   int t=v&m;
   v=v & ~m;
   v=v >> n;
