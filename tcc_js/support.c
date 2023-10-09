@@ -126,8 +126,8 @@ int v_memcmp(int s1, int s2, int n) {
   int i;
   int r=0;
   for(i=0;i<n;i=i+1){
-/* FIXME not quite right */
-    if(ri8(s1)!=ri8(s2)){
+    if(ri8(s1+i)!=ri8(s2+i)){
+/* FIXME ljw not quite right */
       r=1;
     }
   }
