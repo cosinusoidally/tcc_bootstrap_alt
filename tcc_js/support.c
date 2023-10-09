@@ -14,8 +14,9 @@ int urs(int v,int n) {
   if(n==0) {
     return v;
   }
-  int m=0x80000000;
   int m2=0x40000000;
+/* was 0x80000000 but that literal is too large for tcc_js.c to parse */
+  int m=m2 << 1;
   int t=v&m;
   v=v & ~m;
   v=v >> n;
@@ -126,8 +127,8 @@ int v_memcmp(int s1, int s2, int n) {
   int i;
   int r=0;
   for(i=0;i<n;i=i+1){
-/* FIXME not quite right */
-    if(ri8(s1)!=ri8(s2)){
+    if(ri8(s1+i)!=ri8(s2+i)){
+/* FIXME ljw not quite right */
       r=1;
     }
   }

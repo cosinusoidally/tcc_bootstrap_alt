@@ -101,7 +101,6 @@ var TOK_UMOD=0xB1;
 var TOK_ELSE=0x104;
 var TOK_LT=0x9C;
 var TOK_FOR=0x108;
-var VT_LVALN=0xFFFFFFEF;
 var TOK_LE=0x9E;
 var TOK_GE=0x9D;
 var TOK_A_DIV=0xAF;
