@@ -21,12 +21,20 @@ int init_globals(void){
 
 int r32(int o){
   int r;
-  r=((int *)(o))[0];
+  int *p;
+  p=o;
+  r=p[0];
   return r;
 }
 
 int w32(int o,int v){
-  *(int *)o=v;
+  int *p;
+  p=o;
+  p[0]=v;
+}
+
+int dlsym_wrap(int h,int sym){
+  return dlsym(h,sym);
 }
 
 int load_obj(void){
@@ -127,7 +135,7 @@ int load_obj(void){
   int reloc_type;
   while(global_relocs_table<m){
     l=strlen(global_relocs_table);
-    a=dlsym(0,global_relocs_table);
+    a=dlsym_wrap(0,global_relocs_table);
 /*    printf("global_reloc: %s %d %x ",global_relocs_table,l,a); */
     global_relocs_table+=l+1;
     n=r32(global_relocs_table);
