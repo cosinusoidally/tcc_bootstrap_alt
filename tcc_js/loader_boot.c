@@ -69,38 +69,38 @@ int load_obj(void){
     exit(1);
   }
   relocs_base=malloc(reloc_len);
-  fread((void *)relocs_base,1,reloc_len,f);
+  fread(relocs_base,1,reloc_len,f);
   fread(&t,1,4,f);
   if(!(t==m2)){
-    printf("sync m2 %x\n",t);
+    puts("sync m2");
     exit(1);
   }
 
-  fread((void *)data_rel,1,data_len,f);
+  fread(data_rel,1,data_len,f);
 
   fread(&t,1,4,f);
   if(!(t==m3)){
-    printf("sync m3 %x\n",t);
+    puts("sync m3");
     exit(1);
   }
 
 
-  global_relocs_base=(int)malloc(global_reloc_len);
-  fread((void *)global_relocs_base,1,global_reloc_len,f);
+  global_relocs_base=malloc(global_reloc_len);
+  fread(global_relocs_base,1,global_reloc_len,f);
 
   fread(&t,1,4,f);
   if(!(t==m4)){
-    printf("sync m4 %x\n",t);
+    puts("sync m4");
     exit(1);
   }
-  fread((void *)prog_rel,1,text_len,f);
+  fread(prog_rel,1,text_len,f);
   glo = malloc(DATA_SIZE);
   glo_base=glo;
-  printf("glo: %x %x\n",glo,glo_base);
-  memset((void *)glo, 0, DATA_SIZE);
+/*  printf("glo: %x %x\n",glo,glo_base); */
+  memset(glo, 0, DATA_SIZE);
   prog = malloc(TEXT_SIZE);
   ind = prog;
-  printf("prog: %x \n",prog);
+/*  printf("prog: %x \n",prog); */
   memcpy((char *)prog,(char *)prog_rel,text_len);
   memcpy((char *)glo_base,(char *)data_rel,data_len);
   printf("entrypoint: %x\n",(prog+entrypoint));
