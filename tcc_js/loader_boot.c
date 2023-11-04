@@ -154,9 +154,9 @@ int load_obj(void){
     l=strlen(global_relocs_table);
     a=dlsym_wrap(0,global_relocs_table);
 /*    printf("global_reloc: %s %d %x ",global_relocs_table,l,a); */
-    global_relocs_table+=l+1;
+    global_relocs_table = global_relocs_table + l + 1;
     n=r32(global_relocs_table);
-    global_relocs_table+=4;
+    global_relocs_table = global_relocs_table+4;
 /*    printf("global_reloc_num: %d\n",n); */
     for(i=0;i<n;i=i+1){
       off=r32(global_relocs_base+goff+4);
