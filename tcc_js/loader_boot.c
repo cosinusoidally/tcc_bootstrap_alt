@@ -1,4 +1,4 @@
-#include <tcclib.h>
+typedef struct __FILE FILE;
 
 int prog_rel;
 int data_rel;
@@ -88,17 +88,11 @@ int load_obj(void){
     exit(1);
   }
   fread((void *)prog_rel,1,text_len,f);
-  glo = (int)mmap(NULL, DATA_SIZE,
-              PROT_READ | PROT_WRITE,
-              MAP_PRIVATE | MAP_ANONYMOUS,
-              -1, 0);
+  glo = malloc(DATA_SIZE);
   glo_base=glo;
   printf("glo: %x %x\n",glo,glo_base);
   memset((void *)glo, 0, DATA_SIZE);
-  prog = (int)mmap(NULL, TEXT_SIZE,
-              PROT_EXEC | PROT_READ | PROT_WRITE,
-              MAP_PRIVATE | MAP_ANONYMOUS,
-              -1, 0);
+  prog = malloc(TEXT_SIZE);
   ind = prog;
   printf("prog: %x \n",prog);
   memcpy((char *)prog,(char *)prog_rel,text_len);
@@ -126,7 +120,7 @@ int load_obj(void){
   int addr;
   while(global_relocs_table<m){
     l=strlen((char *)global_relocs_table);
-    a=dlsym(NULL,(char *)global_relocs_table);
+    a=dlsym(0,(char *)global_relocs_table);
     printf("global_reloc: %s %d %x ",global_relocs_table,l,a);
     global_relocs_table+=l+1;
     n=r32(global_relocs_table);
@@ -168,7 +162,7 @@ int main(int argc, char **argv)
             t=(int (*)())load_obj();
             loader=1;
         } else {
-            fprintf(stderr, "invalid option -- '%s'\n", r);
+            puts("option error");
             exit(1);
         }
     }
