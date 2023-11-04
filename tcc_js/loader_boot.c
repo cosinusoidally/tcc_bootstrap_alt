@@ -176,11 +176,12 @@ int main(int argc, char **argv)
     char *r;
     char *outfile;
     int optind;
-
-    optind = 1;
-    int loader=0;
+    int loader;
 
     puts("loader starting");
+
+    optind = 1;
+    loader = 0;
 
     init_globals();
 
