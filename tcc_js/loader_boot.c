@@ -1,5 +1,3 @@
-typedef struct __FILE FILE;
-
 int prog_rel;
 int data_rel;
 
@@ -25,7 +23,7 @@ int w32(int o,int v){
 
 int load_obj(void){
   printf("Loading object file\n");
-  FILE *f;
+  int f;
   int text_len;
   int data_len;
   int reloc_len;
