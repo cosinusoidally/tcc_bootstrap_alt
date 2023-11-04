@@ -39,6 +39,12 @@ int fread(int ptr,int size, int nitems, int stream) {
 }
 
 int memcpy(int a, int b, int c) {
-  puts("memcpy not impl");
-  exit(1);
+  char *dest;
+  char *src;
+  int i;
+  dest=a;
+  src=b;
+  for(i=0;i<c;i=i+1){
+    dest[i]=src[i];
+  }
 }
