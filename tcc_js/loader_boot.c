@@ -180,6 +180,8 @@ int main(int argc, char **argv)
     optind = 1;
     int loader=0;
 
+    puts("loader starting");
+
     init_globals();
 
     while (1) {

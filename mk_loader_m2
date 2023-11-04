@@ -4,17 +4,19 @@ mv tcc_boot.o tcc_10
 
 cd tcc_js
 
-set -e
-
 cat loader_support.c loader_support_cc_x86.c loader_boot.c > /tmp/tcc_js_tmp/loader_cc_x86.c
 
 cd /tmp/tcc_js_tmp/
 
+rm out_cc_x86-0.M1 out_cc_x86-0.hex2 out_cc_x86-0-0.hex2 loader_cc_x86.exe
+
+set -e
+
 cat bootstrap.c bootstrappable.c loader_cc_x86.c > out.c
 ./M2 --architecture x86 --bootstrap-mode -f out.c -o out_cc_x86.M1
-echo "cc_x86 assemble and link"
+echo "M2 assemble and link"
 cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
 ./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
 cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
-./hex2-0 out_cc_x86-0-0.hex2 loader_cc_x86
+./hex2-0 out_cc_x86-0-0.hex2 loader_cc_x86.exe
 
