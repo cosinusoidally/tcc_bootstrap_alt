@@ -15,3 +15,8 @@ int puts(char *a) {
   fputs(a,stdout);
   fputs("\n",stdout);
 }
+
+int fread(int ptr,int size, int nitems, int stream) {
+  puts("fread not impl");
+  exit(1);
+}
