@@ -6,10 +6,18 @@ int global_relocs_table;
 int relocs_base;
 int global_relocs_base;
 int glo,glo_base,prog,ind;
-#define DATA_SIZE (256*1024)
-#define TEXT_SIZE (256*1024)
-#define RELOC_ADDR32 1  /* 32 bits relocation */
-#define RELOC_REL32  2  /* 32 bits relative relocation */
+
+int DATA_SIZE;
+int TEXT_SIZE;
+int RELOC_ADDR32;
+int RELOC_REL32;
+
+int init_globals(void){
+  DATA_SIZE = (256*1024);
+  TEXT_SIZE = (256*1024);
+  RELOC_ADDR32 = 1; /* 32 bits relocation */
+  RELOC_REL32 = 2; /* 32 bits relative relocation */
+}
 
 int r32(int o){
   int r;
@@ -116,6 +124,7 @@ int load_obj(void){
   int goff=0;
   int off;
   int addr;
+  int reloc_type;
   while(global_relocs_table<m){
     l=strlen((char *)global_relocs_table);
     a=dlsym(0,(char *)global_relocs_table);
@@ -127,15 +136,14 @@ int load_obj(void){
     for(i=0;i<n;i++){
       off=r32(global_relocs_base+goff+4);
       addr=(unsigned int)(off+prog);
-      switch(r32(global_relocs_base+goff)) {
-        case RELOC_ADDR32:
-          printf("Reloc type RELOC_ADDR32 at %x\n",addr);
-          *(int *)addr=a;
-          break;
-        case RELOC_REL32:
-          printf("Reloc type RELOC_REL32 at %x\n",addr);
-          *(int *)addr = a - addr - 4;
-          break;
+      reloc_type=r32(global_relocs_base+goff);
+      if(reloc_type == RELOC_ADDR32) {
+        printf("Reloc type RELOC_ADDR32 at %x\n",addr);
+        *(int *)addr=a;
+      }
+      if(reloc_type == RELOC_REL32) {
+        printf("Reloc type RELOC_REL32 at %x\n",addr);
+        *(int *)addr = a - addr - 4;
       }
       goff=goff+8;
     }
@@ -151,6 +159,9 @@ int main(int argc, char **argv)
 
     optind = 1;
     int loader=0;
+
+    init_globals();
+
     while (1) {
         r = argv[optind];
         if (r[0] != '-')
