@@ -157,7 +157,7 @@ int load_obj(void){
     n=r32(global_relocs_table);
     global_relocs_table+=4;
 /*    printf("global_reloc_num: %d\n",n); */
-    for(i=0;i<n;i++){
+    for(i=0;i<n;i=i+1){
       off=r32(global_relocs_base+goff+4);
       addr=(unsigned int)(off+prog);
       reloc_type=r32(global_relocs_base+goff);
