@@ -31,6 +31,30 @@ int dlsym(int h,int sym){
   if(strcmp(sym, "malloc")==0) {
     return malloc;
   }
+  if(strcmp(sym, "strlen")==0) {
+    return strlen;
+  }
+  if(strcmp(sym, "fopen")==0) {
+    return fopen;
+  }
+  if(strcmp(sym, "fclose")==0) {
+    return fclose;
+  }
+  if(strcmp(sym, "fwrite")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "getc_unlocked")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "puts")==0) {
+    return puts;
+  }
+  if(strcmp(sym, "printf")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "exit")==0) {
+    return exit;
+  }
   puts("dlsym missing sym");
   exit(1);
 }
