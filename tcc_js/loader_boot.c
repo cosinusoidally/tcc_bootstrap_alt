@@ -149,6 +149,7 @@ int load_obj(void){
   int off;
   int addr;
   int reloc_type;
+  int *ptr;
   while(global_relocs_table<m){
     l=strlen(global_relocs_table);
     a=dlsym_wrap(0,global_relocs_table);
@@ -159,15 +160,16 @@ int load_obj(void){
 /*    printf("global_reloc_num: %d\n",n); */
     for(i=0;i<n;i=i+1){
       off=r32(global_relocs_base+goff+4);
-      addr=(unsigned int)(off+prog);
+      addr = (off+prog);
+      ptr = addr;
       reloc_type=r32(global_relocs_base+goff);
       if(reloc_type == RELOC_ADDR32) {
 /*        printf("Reloc type RELOC_ADDR32 at %x\n",addr); */
-        *(int *)addr=a;
+        ptr[0] = a;
       }
       if(reloc_type == RELOC_REL32) {
 /*        printf("Reloc type RELOC_REL32 at %x\n",addr); */
-        *(int *)addr = a - addr - 4;
+        ptr[0] = a - addr - 4;
       }
       goff=goff+8;
     }
