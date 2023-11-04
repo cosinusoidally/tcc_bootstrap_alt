@@ -182,7 +182,9 @@ int load_obj(void){
 int main(int argc, char **argv)
 {
     FUNCTION t;
-    char *p, *r, *outfile;
+    char *p;
+    char *r;
+    char *outfile;
     int optind;
 
     optind = 1;
@@ -194,9 +196,9 @@ int main(int argc, char **argv)
         r = argv[optind];
         if (r[0] != '-')
             break;
-        optind++;
+        optind = optind + 1;
         if(r[1] == 'R') {
-            t=(int (*)())load_obj();
+            t=load_obj();
             loader=1;
         } else {
             puts("option error");
