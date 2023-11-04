@@ -30,7 +30,7 @@ int w32(int o,int v){
 }
 
 int load_obj(void){
-  printf("Loading object file\n");
+  puts("Loading object file");
   int f;
   int text_len;
   int data_len;
@@ -54,21 +54,21 @@ int load_obj(void){
   fread(&global_reloc_table_len,1,4,f);
   fread(&t,1,4,f);
   if(!(t==m0)){
-    printf("sync m0 %x\n",t);
+    puts("sync m0");
     exit(1);
   }
   global_relocs_table_base=(int)malloc(global_reloc_table_len);
   global_relocs_table=global_relocs_table_base;
-  fread((void *)global_relocs_table_base,1,global_reloc_table_len,f);
+  fread(global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
   data_rel=(int)malloc(data_len);
 
   fread(&t,1,4,f);
   if(!(t==m1)){
-    printf("sync m1 %x\n",t);
+    puts("sync m1");
     exit(1);
   }
-  relocs_base=(int)malloc(reloc_len);
+  relocs_base=malloc(reloc_len);
   fread((void *)relocs_base,1,reloc_len,f);
   fread(&t,1,4,f);
   if(!(t==m2)){
@@ -126,8 +126,8 @@ int load_obj(void){
   int addr;
   int reloc_type;
   while(global_relocs_table<m){
-    l=strlen((char *)global_relocs_table);
-    a=dlsym(0,(char *)global_relocs_table);
+    l=strlen(global_relocs_table);
+    a=dlsym(0,global_relocs_table);
     printf("global_reloc: %s %d %x ",global_relocs_table,l,a);
     global_relocs_table+=l+1;
     n=r32(global_relocs_table);
