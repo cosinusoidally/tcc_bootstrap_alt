@@ -1,4 +1,5 @@
 int stdout;
+void puts_num(int x);
 
 int call_wrap(FUNCTION t, int a, int b){
   puts("call_wrap dummy stub");
@@ -6,8 +7,31 @@ int call_wrap(FUNCTION t, int a, int b){
   return 1;
 }
 
-int dlsym(){
-  puts("dlsym unimplemented");
+int strcmp(int a, int b){
+  char *s1;
+  char *s2;
+  int i;
+  int r;
+  i=0;
+  r=1;
+  s1=a;
+  s2=b;
+  while(s1[i]!=0){
+    r=0;
+    if(s1[i]!=s2[i]){
+      r=1;
+      break;
+    }
+    i=i+1;
+  }
+  return r;
+}
+
+int dlsym(int h,int sym){
+  if(strcmp(sym, "malloc")==0) {
+    return malloc;
+  }
+  puts("dlsym missing sym");
   exit(1);
 }
 
