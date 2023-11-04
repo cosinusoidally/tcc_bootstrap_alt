@@ -54,12 +54,6 @@ int fwrite(int ptr,int size, int nitems, int stream) {
     c=c+1;
   }
 }
-
-int fread(int ptr,int size, int nitems, int stream) {
-  puts("fread not impl");
-  err();
-}
-
 int tcc_main(int argc, int argv);
 
 int int_size;
