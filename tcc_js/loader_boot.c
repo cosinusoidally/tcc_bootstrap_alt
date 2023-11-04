@@ -1,3 +1,13 @@
+/* decls for real functions */
+void *malloc(int size);
+int strlen(char *s);
+int fopen(int path, int mode);
+int fclose(int f);
+int fread(int a,int b, int c, int d);
+int puts(char *a);
+int dlsym(int h, int sym);
+int exit(int x);
+
 int prog_rel;
 int data_rel;
 
@@ -5,7 +15,10 @@ int global_relocs_table_base;
 int global_relocs_table;
 int relocs_base;
 int global_relocs_base;
-int glo,glo_base,prog,ind;
+int glo;
+int glo_base;
+int prog;
+int ind;
 
 int DATA_SIZE;
 int TEXT_SIZE;
@@ -32,6 +45,7 @@ int w32(int o,int v){
   p=o;
   p[0]=v;
 }
+
 
 int dlsym_wrap(int h,int sym){
   return dlsym(h,sym);
@@ -65,7 +79,7 @@ int load_obj(void){
     puts("sync m0");
     exit(1);
   }
-  global_relocs_table_base=(int)malloc(global_reloc_table_len);
+  global_relocs_table_base=malloc(global_reloc_table_len);
   global_relocs_table=global_relocs_table_base;
   fread(global_relocs_table_base,1,global_reloc_table_len,f);
   prog_rel=(int)malloc(text_len);
