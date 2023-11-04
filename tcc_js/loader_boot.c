@@ -52,6 +52,8 @@ int w32(int o,int v){
 
 
 int dlsym_wrap(int h,int sym){
+  puts("dlsym lookup:");
+  puts(sym);
   return dlsym(h,sym);
 }
 
