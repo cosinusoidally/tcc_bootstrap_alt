@@ -27,30 +27,75 @@ int strcmp(int a, int b){
   return r;
 }
 
+int malloc_tramp(int x){
+  puts("malloc_tramp not impl");
+  exit(1);
+}
+
+int strlen_tramp(int x){
+  puts("strlen_tramp not impl");
+  exit(1);
+}
+
+int fopen_tramp(int x){
+  puts("fopen_tramp not impl");
+  exit(1);
+}
+
+int fclose_tramp(int x){
+  puts("fclose_tramp not impl");
+  exit(1);
+}
+
+int fwrite_tramp(int x){
+  puts("fwrite_tramp not impl");
+  exit(1);
+}
+
+int getc_unlocked_tramp(int x){
+  puts("getc_unlocked_tramp not impl");
+  exit(1);
+}
+
+int puts_tramp(int x){
+  puts("puts_tramp not impl");
+  exit(1);
+}
+
+int printf_tramp(int x){
+  puts("printf_tramp not impl");
+  exit(1);
+}
+
+int exit_tramp(int x){
+  puts("exit_tramp not impl");
+  exit(1);
+}
+
 int dlsym(int h,int sym){
   if(strcmp(sym, "malloc")==0) {
-    return malloc;
+    return malloc_tramp;
   }
   if(strcmp(sym, "strlen")==0) {
-    return strlen;
+    return strlen_tramp;
   }
   if(strcmp(sym, "fopen")==0) {
-    return fopen;
+    return fopen_tramp;
   }
   if(strcmp(sym, "fclose")==0) {
-    return fclose;
+    return fclose_tramp;
   }
   if(strcmp(sym, "fwrite")==0) {
-    return 0;
+    return fwrite_tramp;
   }
   if(strcmp(sym, "getc_unlocked")==0) {
-    return 0;
+    return getc_unlocked_tramp;
   }
   if(strcmp(sym, "puts")==0) {
-    return puts;
+    return puts_tramp;
   }
   if(strcmp(sym, "printf")==0) {
-    return 0;
+    return printf_tramp;
   }
   if(strcmp(sym, "exit")==0) {
     return exit;
