@@ -10,6 +10,8 @@ int exit(int x);
 int memset(int a, int b, int c);
 int memcpy(int a, int b, int c);
 
+#include "loader_support_tcc.c"
+
 int prog_rel;
 int data_rel;
 
@@ -179,7 +181,7 @@ int load_obj(void){
 
 int main(int argc, char **argv)
 {
-    int (*t)();
+    FUNCTION t;
     char *p, *r, *outfile;
     int optind;
 
@@ -203,5 +205,5 @@ int main(int argc, char **argv)
     }
 
   puts("running loader");
-  return (*t)(argc - optind, argv + optind);
+  return t(argc - optind, argv + optind);
 }
