@@ -101,11 +101,11 @@ int load_obj(void){
   prog = malloc(TEXT_SIZE);
   ind = prog;
 /*  printf("prog: %x \n",prog); */
-  memcpy((char *)prog,(char *)prog_rel,text_len);
-  memcpy((char *)glo_base,(char *)data_rel,data_len);
-  printf("entrypoint: %x\n",(prog+entrypoint));
-  printf("text_len: %x\n",(text_len));
-  printf("data_len: %x\n",(data_len));
+  memcpy(prog,(char *)prog_rel,text_len);
+  memcpy(glo_base,(char *)data_rel,data_len);
+/*  printf("entrypoint: %x\n",(prog+entrypoint)); */
+/*  printf("text_len: %x\n",(text_len)); */
+/*  printf("data_len: %x\n",(data_len)); */
   fclose(f);
 
   int m=global_relocs_table_base+global_reloc_table_len;
@@ -128,21 +128,21 @@ int load_obj(void){
   while(global_relocs_table<m){
     l=strlen(global_relocs_table);
     a=dlsym(0,global_relocs_table);
-    printf("global_reloc: %s %d %x ",global_relocs_table,l,a);
+/*    printf("global_reloc: %s %d %x ",global_relocs_table,l,a); */
     global_relocs_table+=l+1;
     n=r32(global_relocs_table);
     global_relocs_table+=4;
-    printf("global_reloc_num: %d\n",n);
+/*    printf("global_reloc_num: %d\n",n); */
     for(i=0;i<n;i++){
       off=r32(global_relocs_base+goff+4);
       addr=(unsigned int)(off+prog);
       reloc_type=r32(global_relocs_base+goff);
       if(reloc_type == RELOC_ADDR32) {
-        printf("Reloc type RELOC_ADDR32 at %x\n",addr);
+/*        printf("Reloc type RELOC_ADDR32 at %x\n",addr); */
         *(int *)addr=a;
       }
       if(reloc_type == RELOC_REL32) {
-        printf("Reloc type RELOC_REL32 at %x\n",addr);
+/*        printf("Reloc type RELOC_REL32 at %x\n",addr); */
         *(int *)addr = a - addr - 4;
       }
       goff=goff+8;
@@ -176,6 +176,6 @@ int main(int argc, char **argv)
         }
     }
 
-  printf("running loader\n");
+  puts("running loader");
   return (*t)(argc - optind, argv + optind);
 }
