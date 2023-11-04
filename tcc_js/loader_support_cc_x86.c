@@ -34,7 +34,6 @@ int fread(int ptr,int size, int nitems, int stream) {
   puts("initial t:");
 puts_num(t);
   char *c=ptr;
-  int c;
   while(t>0){
 puts_num(t);
     c[0]=fgetc(stream);
