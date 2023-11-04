@@ -7,6 +7,8 @@ int fread(int a,int b, int c, int d);
 int puts(char *a);
 int dlsym(int h, int sym);
 int exit(int x);
+int memset(int a, int b, int c);
+int memcpy(int a, int b, int c);
 
 int prog_rel;
 int data_rel;
@@ -82,8 +84,8 @@ int load_obj(void){
   global_relocs_table_base=malloc(global_reloc_table_len);
   global_relocs_table=global_relocs_table_base;
   fread(global_relocs_table_base,1,global_reloc_table_len,f);
-  prog_rel=(int)malloc(text_len);
-  data_rel=(int)malloc(data_len);
+  prog_rel=malloc(text_len);
+  data_rel=malloc(data_len);
 
   fread(&t,1,4,f);
   if(!(t==m1)){
@@ -123,8 +125,8 @@ int load_obj(void){
   prog = malloc(TEXT_SIZE);
   ind = prog;
 /*  printf("prog: %x \n",prog); */
-  memcpy(prog,(char *)prog_rel,text_len);
-  memcpy(glo_base,(char *)data_rel,data_len);
+  memcpy(prog, prog_rel, text_len);
+  memcpy(glo_base, data_rel, data_len);
 /*  printf("entrypoint: %x\n",(prog+entrypoint)); */
 /*  printf("text_len: %x\n",(text_len)); */
 /*  printf("data_len: %x\n",(data_len)); */
