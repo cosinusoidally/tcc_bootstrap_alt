@@ -18,5 +18,10 @@ int puts(char *a) {
 
 int fread(int ptr,int size, int nitems, int stream) {
   puts("fread not impl");
+/*  exit(1); */
+}
+
+int memcpy(int a, int b, int c) {
+  puts("memcpy not impl");
   exit(1);
 }
