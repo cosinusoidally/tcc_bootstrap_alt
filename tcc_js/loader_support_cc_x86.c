@@ -332,9 +332,30 @@ int vfprintf_tramp(int x){
   exit(1);
 }
 
+int strcat(int de,int s) {
+  int d;
+  char *dest;
+  char *src;
+  dest=de;
+  src=s;
+  d=dest;
+  int c;
+  while(dest[0]){
+    dest=dest+1;
+  }
+  while(c=src[0]){
+    src=src+1;
+    dest[0]=c;
+    dest=dest+1;
+  }
+  dest[0]=0;
+  return d;
+}
+
 int strcat_tramp(int x){
-  puts("strcat_tramp not impl");
-  exit(1);
+  puts("strcat_tramp called");
+  asm("mov_ebx, &FUNCTION_strcat"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strchr_tramp(int x){
