@@ -30,13 +30,35 @@ int strcmp(int a, int b){
 }
 
 int malloc_tramp(int x){
-  puts("malloc_tramp not impl");
-  exit(1);
+  puts("malloc_tramp called");
+  asm("lea_eax,[esp+DWORD] %4"
+      "mov_eax,[eax]"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_malloc"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "ret");
 }
 
 int strlen_tramp(int x){
-  puts("strlen_tramp not impl");
-  exit(1);
+  puts("strlen_tramp called");
+  asm("lea_eax,[esp+DWORD] %4"
+      "mov_eax,[eax]"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_strlen"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "ret");
 }
 
 int fopen_tramp(int x){
