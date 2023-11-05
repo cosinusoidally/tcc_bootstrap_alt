@@ -274,8 +274,9 @@ int memcpy_tramp(int a, int b, int c){
 }
 
 int free_tramp(int x){
-  puts("free_tramp not impl");
-  exit(1);
+  puts("free_tramp called");
+  asm("mov_ebx, &FUNCTION_free"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int realloc_wrap(int ptr, int size) {
