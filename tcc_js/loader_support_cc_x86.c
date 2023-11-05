@@ -51,37 +51,14 @@ int generic1_tramp(int a) {
 
 int malloc_tramp(int x){
   puts("malloc_tramp called");
-  asm("lea_eax,[esp+DWORD] %4"
-      "mov_eax,[eax]"
-      "push_edi"
-      "push_ebp"
-      "mov_edi,esp"
-      "push_eax"
-      "mov_ebp,edi"
-      "call %FUNCTION_malloc"
-      "pop_ebx"
-      "pop_ebp"
-      "pop_edi"
-      "ret");
+  asm("mov_ebx, &FUNCTION_malloc"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int strlen_tramp(int x){
   puts("strlen_tramp called");
-  asm("push_ebp"
-      "mov_ebp,esp"
-      "push_edi"
-      "push_ebp"
-      "mov_edi,esp"
-      "lea_eax,[ebp+DWORD] %0x8"
-      "mov_eax,[eax]"
-      "push_eax"
-      "mov_ebp,edi"
-      "call %FUNCTION_strlen"
-      "pop_ebx"
-      "pop_ebp"
-      "pop_edi"
-      "pop_ebp"
-      "ret");
+  asm("mov_ebx, &FUNCTION_strlen"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int fopen_wrap(int x, int y){
@@ -120,21 +97,8 @@ int fopen_tramp(int x, int y){
 
 int fclose_tramp(int x){
   puts("fclose_tramp called");
-  asm("push_ebp"
-      "mov_ebp,esp"
-      "push_edi"
-      "push_ebp"
-      "mov_edi,esp"
-      "lea_eax,[ebp+DWORD] %0x8"
-      "mov_eax,[eax]"
-      "push_eax"
-      "mov_ebp,edi"
-      "call %FUNCTION_fclose"
-      "pop_ebx"
-      "pop_ebp"
-      "pop_edi"
-      "pop_ebp"
-      "ret");
+  asm("mov_ebx, &FUNCTION_fclose"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int fwrite(int ptr,int size, int nitems, int stream) {
