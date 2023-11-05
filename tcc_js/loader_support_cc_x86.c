@@ -73,6 +73,34 @@ int generic2_tramp(int a, int b) {
       "ret");
 }
 
+int generic3_tramp(int a, int b, int c) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x10"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
 int malloc_tramp(int x){
   puts("malloc_tramp called");
   asm("mov_ebx, &FUNCTION_malloc"
@@ -182,8 +210,9 @@ int exit_tramp(int x){
 }
 
 int memcpy_tramp(int a, int b, int c){
-  puts("memcpy_tramp not impl");
-  exit(1);
+  puts("memcpy_tramp called");
+  asm("mov_ebx, &FUNCTION_memcpy"
+      "jmp %FUNCTION_generic3_tramp");
 }
 
 int free_tramp(int x){
