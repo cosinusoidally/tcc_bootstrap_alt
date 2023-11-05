@@ -2,9 +2,11 @@ int stdout;
 void puts_num(int x);
 
 int call_wrap(FUNCTION t, int a, int b){
+  int r;
   puts("call_wrap dummy stub");
-  exit(1);
-  return 1;
+  /* FIXME ljw need to properly marshal a and b */
+  r = t(a,b);
+  return r;
 }
 
 int strcmp(int a, int b){
