@@ -49,6 +49,30 @@ int generic1_tramp(int a) {
       "ret");
 }
 
+int generic2_tramp(int a, int b) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
 int malloc_tramp(int x){
   puts("malloc_tramp called");
   asm("mov_ebx, &FUNCTION_malloc"
@@ -74,25 +98,8 @@ int fopen_wrap(int x, int y){
 
 int fopen_tramp(int x, int y){
   puts("fopen_tramp called");
-  asm("push_ebp"
-      "mov_ebp,esp"
-      "push_edi"
-      "push_ebp"
-      "mov_edi,esp"
-      "lea_eax,[ebp+DWORD] %0x8"
-      "mov_eax,[eax]"
-      "push_eax"
-      "lea_eax,[ebp+DWORD] %0xC"
-      "mov_eax,[eax]"
-      "push_eax"
-      "mov_ebp,edi"
-      "call %FUNCTION_fopen_wrap"
-      "pop_ebx"
-      "pop_ebx"
-      "pop_ebp"
-      "pop_edi"
-      "pop_ebp"
-      "ret");
+  asm("mov_ebx, &FUNCTION_fopen_wrap"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int fclose_tramp(int x){
