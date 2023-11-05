@@ -213,6 +213,56 @@ int exit_tramp(int x){
   exit(1);
 }
 
+int memcpy_tramp(int a, int b, int c){
+  puts("memcpy_tramp not impl");
+  exit(1);
+}
+
+int free_tramp(int x){
+  puts("free_tramp not impl");
+  exit(1);
+}
+
+int realloc_tramp(int x){
+  puts("realloc_tramp not impl");
+  exit(1);
+}
+
+int atoi_tramp(int x){
+  puts("atoi_tramp not impl");
+  exit(1);
+}
+
+int fdopen_tramp(int x){
+  puts("fdopen_tramp not impl");
+  exit(1);
+}
+
+int fread_tramp(int x){
+  puts("fread_tramp not impl");
+  exit(1);
+}
+
+int fprintf_tramp(int x){
+  puts("fprintf_tramp not impl");
+  exit(1);
+}
+
+int sprintf_tramp(int x){
+  puts("sprintf_tramp not impl");
+  exit(1);
+}
+
+int snprintf_tramp(int x){
+  puts("snprintf_tramp not impl");
+  exit(1);
+}
+
+int vfprintf_tramp(int x){
+  puts("vfprintf_tramp not impl");
+  exit(1);
+}
+
 int dlsym(int h,int sym){
   if(strcmp(sym, "malloc")==0) {
     return malloc_tramp;
@@ -240,6 +290,42 @@ int dlsym(int h,int sym){
   }
   if(strcmp(sym, "exit")==0) {
     return exit;
+  }
+  if(strcmp(sym, "memcpy")==0) {
+    return memcpy_tramp;
+  }
+  if(strcmp(sym, "free")==0) {
+    return free_tramp;
+  }
+  if(strcmp(sym, "realloc")==0) {
+    return realloc_tramp;
+  }
+  if(strcmp(sym, "atoi")==0) {
+    return atoi_tramp;
+  }
+  if(strcmp(sym, "stdout")==0) {
+    return stdout;
+  }
+  if(strcmp(sym, "stderr")==0) {
+    return stderr;
+  }
+  if(strcmp(sym, "fdopen")==0) {
+    return fdopen_tramp;
+  }
+  if(strcmp(sym, "fread")==0) {
+    return fread_tramp;
+  }
+  if(strcmp(sym, "fprintf")==0) {
+    return fprintf_tramp;
+  }
+  if(strcmp(sym, "sprintf")==0) {
+    return sprintf_tramp;
+  }
+  if(strcmp(sym, "snprintf")==0) {
+    return snprintf_tramp;
+  }
+  if(strcmp(sym, "vfprintf")==0) {
+    return vfprintf_tramp;
   }
   puts("dlsym missing sym");
   exit(1);
