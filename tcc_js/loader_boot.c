@@ -61,7 +61,7 @@ int load_obj(void){
   int m4=3735928324;
   int i;
   int t;
-  f = fopen("tcc_boot2.o", "rb");
+  f = fopen("tcc_boot.o", "rb");
   fread(&entrypoint,1,4,f);
   fread(&text_len,1,4,f);
   fread(&data_len,1,4,f);
