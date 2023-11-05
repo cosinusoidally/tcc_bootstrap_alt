@@ -189,7 +189,7 @@ int getc_unlocked_tramp(int x){
 
 int puts_tramp(int x){
   puts("puts_tramp called");
-  asm(
+  asm("mov_ebx, &FUNCTION_puts"
       "push_ebp"
       "mov_ebp,esp"
       "push_edi"
@@ -214,7 +214,9 @@ int puts_tramp(int x){
       "mov_eax,[eax]"
       "push_eax"
       "mov_ebp,edi"
-      "call %FUNCTION_puts"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
       "pop_ebx"
       "pop_ebx"
       "pop_ebx"
