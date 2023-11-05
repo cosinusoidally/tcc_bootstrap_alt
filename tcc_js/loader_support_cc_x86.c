@@ -422,9 +422,25 @@ int memset_tramp(int a, int b, int c){
       "jmp %FUNCTION_generic3_tramp");
 }
 
+int strdup(int s) {
+  int i;
+  int l;
+  char *src;
+  char *dest;
+  src=s;
+  l=strlen(src);
+  dest=malloc(l+1);
+  for(i=0;i<l;i=i+1){
+    dest[i] = src[i];
+  }
+  dest[l] = 0;
+  return dest;
+}
+
 int strdup_tramp(int x){
-  puts("strdup_tramp not impl");
-  exit(1);
+  puts("strdup_tramp called");
+  asm("mov_ebx, &FUNCTION_strdup"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int mmap_wrap(int addr, int length, int prot, int flags, int fd, int offset) {
