@@ -95,8 +95,22 @@ int fopen_tramp(int x, int y){
 }
 
 int fclose_tramp(int x){
-  puts("fclose_tramp not impl");
-  exit(1);
+  puts("fclose_tramp called");
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_fclose"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
 }
 
 int fwrite_tramp(int x){
@@ -105,8 +119,22 @@ int fwrite_tramp(int x){
 }
 
 int getc_unlocked_tramp(int x){
-  puts("getc_unlocked_tramp not impl");
-  exit(1);
+/*  puts("getc_unlocked_tramp called"); */
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_fgetc"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
 }
 
 int puts_tramp(int x){
