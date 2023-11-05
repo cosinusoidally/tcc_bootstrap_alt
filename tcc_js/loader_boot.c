@@ -174,6 +174,7 @@ int main(int argc, char **argv)
     optind = 1;
     loader = 0;
 
+    init_c();
     init_globals();
 
     while (1) {
@@ -191,5 +192,5 @@ int main(int argc, char **argv)
     }
 
   puts("running loader");
-  return call_wrap(t, argc - optind, argv + optind);
+  return call_wrap(t, argc - optind, argv + (p_size*optind));
 }

@@ -569,3 +569,7 @@ int memcpy(int a, int b, int c) {
     dest[i]=src[i];
   }
 }
+
+int init_c(void) {
+  p_size=4;
+}

@@ -9,3 +9,5 @@ int dlsym(int h, int sym);
 int exit(int x);
 int memset(int a, int b, int c);
 int memcpy(int a, int b, int c);
+
+int p_size;
