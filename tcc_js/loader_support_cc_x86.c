@@ -5,7 +5,8 @@ int call_wrap(FUNCTION t, int a, int b){
   int r;
   puts("call_wrap dummy stub");
   /* FIXME ljw need to properly marshal a and b */
-  r = t(a,b);
+  /* not args are back to front because of differing calling convention */
+  r = t(b,a);
   return r;
 }
 
