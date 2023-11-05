@@ -101,9 +101,20 @@ int generic3_tramp(int a, int b, int c) {
       "ret");
 }
 
+int malloc_wrap(int x){
+  int r;
+  puts("malloc_wrap:");
+  puts_num(x);
+  puts("calling malloc");
+  r=malloc(x);
+  puts("malloc returned");
+  puts_num(r);
+  return r;
+}
+
 int malloc_tramp(int x){
   puts("malloc_tramp called");
-  asm("mov_ebx, &FUNCTION_malloc"
+  asm("mov_ebx, &FUNCTION_malloc_wrap"
       "jmp %FUNCTION_generic1_tramp");
 }
 
@@ -274,6 +285,81 @@ int vfprintf_tramp(int x){
   exit(1);
 }
 
+int strcat_tramp(int x){
+  puts("strcat_tramp not impl");
+  exit(1);
+}
+
+int strchr_tramp(int x){
+  puts("strchr_tramp not impl");
+  exit(1);
+}
+
+int strcmp_tramp(int x){
+  puts("strcmp_tramp not impl");
+  exit(1);
+}
+
+int strrchr_tramp(int x){
+  puts("strrchr_tramp not impl");
+  exit(1);
+}
+
+int strcpy_tramp(int x){
+  puts("strcpy_tramp not impl");
+  exit(1);
+}
+
+int memcmp_tramp(int x){
+  puts("memcmp_tramp not impl");
+  exit(1);
+}
+
+int memset_tramp(int x){
+  puts("memset_tramp not impl");
+  exit(1);
+}
+
+int strdup_tramp(int x){
+  puts("strdup_tramp not impl");
+  exit(1);
+}
+
+int mmap_tramp(int x){
+  puts("mmap_tramp not impl");
+  exit(1);
+}
+
+int close_tramp(int x){
+  puts("close_tramp not impl");
+  exit(1);
+}
+
+int fputc_tramp(int x){
+  puts("fputc_tramp not impl");
+  exit(1);
+}
+
+int open_tramp(int x){
+  puts("open_tramp not impl");
+  exit(1);
+}
+
+int read_tramp(int x){
+  puts("read_tramp not impl");
+  exit(1);
+}
+
+int strtod_tramp(int x){
+  puts("strtod_tramp not impl");
+  exit(1);
+}
+
+int strtof_tramp(int x){
+  puts("strtof_tramp not impl");
+  exit(1);
+}
+
 int dlsym(int h,int sym){
   if(strcmp(sym, "malloc")==0) {
     return malloc_tramp;
@@ -339,49 +425,49 @@ int dlsym(int h,int sym){
     return vfprintf_tramp;
   }
   if(strcmp(sym, "strcat")==0) {
-    return 0;
+    return strcat_tramp;
   }
   if(strcmp(sym, "strchr")==0) {
-    return 0;
+    return strchr_tramp;
   }
   if(strcmp(sym, "strcmp")==0) {
-    return 0;
+    return strcmp_tramp;
   }
   if(strcmp(sym, "strrchr")==0) {
-    return 0;
+    return strrchr_tramp;
   }
   if(strcmp(sym, "strcpy")==0) {
-    return 0;
+    return strcpy_tramp;
   }
   if(strcmp(sym, "memcmp")==0) {
-    return 0;
+    return memcmp_tramp;
   }
   if(strcmp(sym, "memset")==0) {
-    return 0;
+    return memset_tramp;
   }
   if(strcmp(sym, "strdup")==0) {
-    return 0;
+    return strdup_tramp;
   }
   if(strcmp(sym, "mmap")==0) {
-    return 0;
+    return mmap_tramp;
   }
   if(strcmp(sym, "close")==0) {
-    return 0;
+    return close_tramp;
   }
   if(strcmp(sym, "fputc")==0) {
-    return 0;
+    return fputc_tramp;
   }
   if(strcmp(sym, "open")==0) {
-    return 0;
+    return open_tramp;
   }
   if(strcmp(sym, "read")==0) {
-    return 0;
+    return read_tramp;
   }
   if(strcmp(sym, "strtod")==0) {
-    return 0;
+    return strtod_tramp;
   }
   if(strcmp(sym, "strtof")==0) {
-    return 0;
+    return strtof_tramp;
   }
   puts("dlsym missing sym");
   exit(1);
