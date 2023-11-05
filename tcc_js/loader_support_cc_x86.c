@@ -191,9 +191,23 @@ int free_tramp(int x){
   exit(1);
 }
 
-int realloc_tramp(int x){
-  puts("realloc_tramp not impl");
-  exit(1);
+int realloc_wrap(int ptr, int size) {
+  int r;
+  puts("realloc_wrap called");
+  puts_num(ptr);
+  puts_num(size);
+  r=malloc(size);
+  if(ptr!=0) {
+    memcpy(r, ptr, size);
+    free(ptr);
+  }
+  return r;
+}
+
+int realloc_tramp(int x, int y){
+  puts("realloc_tramp called");
+  asm("mov_ebx, &FUNCTION_realloc_wrap"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int atoi_tramp(int x){
