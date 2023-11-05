@@ -327,6 +327,51 @@ int dlsym(int h,int sym){
   if(strcmp(sym, "vfprintf")==0) {
     return vfprintf_tramp;
   }
+  if(strcmp(sym, "strcat")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strchr")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strcmp")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strrchr")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strcpy")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "memcmp")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "memset")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strdup")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "mmap")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "close")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "fputc")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "open")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "read")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strtod")==0) {
+    return 0;
+  }
+  if(strcmp(sym, "strtof")==0) {
+    return 0;
+  }
   puts("dlsym missing sym");
   exit(1);
 }
