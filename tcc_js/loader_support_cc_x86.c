@@ -365,9 +365,21 @@ int strdup_tramp(int x){
   exit(1);
 }
 
+int mmap_wrap(int addr, int length, int prot, int flags, int fd, int offset) {
+  puts("mmap_wrap:");
+  puts_num(addr);
+  puts_num(length);
+  puts_num(prot);
+  puts_num(flags);
+  puts_num(fd);
+  puts_num(offset);
+  return malloc(length);
+}
+
 int mmap_tramp(int x){
   puts("mmap_tramp not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_mmap_wrap"
+      "jmp %FUNCTION_generic6_tramp");
 }
 
 int close_tramp(int x){
