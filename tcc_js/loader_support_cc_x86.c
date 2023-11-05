@@ -250,9 +250,15 @@ int puts_tramp(int x){
       "jmp %FUNCTION_generic1_tramp");
 }
 
+int printf_wrap(int x){
+  puts("dummy printf:");
+  puts(x);
+}
+
 int printf_tramp(int x){
-  puts("printf_tramp not impl");
-  exit(1);
+  puts("printf_tramp called");
+  asm("mov_ebx, &FUNCTION_printf_wrap"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int exit_tramp(int x){
