@@ -381,16 +381,29 @@ int strrchr(int p, int c) {
   return 0;
 }
 
-
 int strrchr_tramp(int x){
   puts("strrchr_tramp called");
   asm("mov_ebx, &FUNCTION_strrchr"
       "jmp %FUNCTION_generic2_tramp");
 }
 
+int strcpy(int d, int s) {
+  int c;
+  char *dest;
+  char *src;
+  dest=d;
+  src=s;
+  while((c=src[0])!=0){
+    src=src+1;
+    dest[0]=c;
+    dest=dest+1;
+  }
+}
+
 int strcpy_tramp(int x){
-  puts("strcpy_tramp not impl");
-  exit(1);
+  puts("strcpy_tramp called");
+  asm("mov_ebx, &FUNCTION_strcpy"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int memcmp(int s1, int s2, int n) {
