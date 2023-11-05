@@ -365,8 +365,9 @@ int strchr_tramp(int x){
 }
 
 int strcmp_tramp(int x){
-  puts("strcmp_tramp not impl");
-  exit(1);
+  puts("strcmp_tramp called");
+  asm("mov_ebx, &FUNCTION_strcmp"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strrchr(int p, int c) {
