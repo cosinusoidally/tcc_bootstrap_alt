@@ -361,9 +361,10 @@ int memcmp_tramp(int x){
   exit(1);
 }
 
-int memset_tramp(int x){
-  puts("memset_tramp not impl");
-  exit(1);
+int memset_tramp(int a, int b, int c){
+  puts("memset_tramp called");
+  asm("mov_ebx, &FUNCTION_memset"
+      "jmp %FUNCTION_generic3_tramp");
 }
 
 int strdup_tramp(int x){
