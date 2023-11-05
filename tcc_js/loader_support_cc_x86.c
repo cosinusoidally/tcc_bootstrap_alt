@@ -398,6 +398,7 @@ int strcpy(int d, int s) {
     dest[0]=c;
     dest=dest+1;
   }
+  dest[0]=0;
 }
 
 int strcpy_tramp(int x){
