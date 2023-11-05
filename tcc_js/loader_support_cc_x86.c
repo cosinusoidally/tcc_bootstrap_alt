@@ -65,10 +65,14 @@ int strlen_tramp(int x){
 }
 
 int fopen_wrap(int x, int y){
+  int r;
   puts("fopen_wrap:");
   puts(x);
   puts(y);
-  return fopen(x,y);
+  r=fopen(x,y);
+  puts("fopen_wrap fd:");
+  puts_num(r);
+  return r;
 }
 
 int fopen_tramp(int x, int y){
@@ -113,9 +117,55 @@ int fclose_tramp(int x){
       "ret");
 }
 
-int fwrite_tramp(int x){
-  puts("fwrite_tramp not impl");
+int fwrite(int ptr,int size, int nitems, int stream) {
+  puts("fwrite:");
+  puts_num(ptr);
+  puts_num(size);
+  puts_num(nitems);
+  puts_num(stream);
+/*
+  puts("fwrite not impl");
   exit(1);
+*/
+  int t=size*nitems;
+  char *c=ptr;
+  int c;
+  while(t>0){
+    fputc(c[0],stream);
+    t=t-1;
+    c=c+1;
+  }
+}
+
+int fwrite_tramp(int a, int b, int c, int d){
+  puts("fwrite_tramp called");
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x10"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x14"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_fwrite"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
 }
 
 int getc_unlocked_tramp(int x){
