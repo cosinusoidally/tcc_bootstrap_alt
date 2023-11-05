@@ -101,6 +101,46 @@ int generic3_tramp(int a, int b, int c) {
       "ret");
 }
 
+int generic6_tramp(int a, int b, int c, int d, int e, int f) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x10"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x14"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x18"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x1C"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
 int malloc_wrap(int x){
   int r;
   puts("malloc_wrap:");
