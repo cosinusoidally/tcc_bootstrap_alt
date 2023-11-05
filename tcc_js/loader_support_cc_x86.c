@@ -347,9 +347,24 @@ int strcmp_tramp(int x){
   exit(1);
 }
 
+int strrchr(int p, int c) {
+  int c1;
+  char *s;
+  s=p;
+  while(c1=s[0]){
+    s=s+1;
+    if(c1==c){
+      return s-1;
+    }
+  }
+  return 0;
+}
+
+
 int strrchr_tramp(int x){
-  puts("strrchr_tramp not impl");
-  exit(1);
+  puts("strrchr_tramp called");
+  asm("mov_ebx, &FUNCTION_strrchr"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strcpy_tramp(int x){
@@ -357,9 +372,27 @@ int strcpy_tramp(int x){
   exit(1);
 }
 
+int memcmp(int s1, int s2, int n) {
+  int i;
+  int r;
+  char *p1;
+  char *p2;
+  r=0;
+  p1=s1;
+  p2=s2;
+  for(i=0;i<n;i=i+1){
+    if(p1[i]!=p2[i]){
+/* FIXME ljw not quite right */
+      r=1;
+    }
+  }
+  return r;
+}
+
 int memcmp_tramp(int x){
-  puts("memcmp_tramp not impl");
-  exit(1);
+  puts("memcmp_tramp called");
+  asm("mov_ebx, &FUNCTION_memcmp"
+      "jmp %FUNCTION_generic3_tramp");
 }
 
 int memset_tramp(int a, int b, int c){
