@@ -52,7 +52,7 @@ int strlen_tramp(int x){
       "push_edi"
       "push_ebp"
       "mov_edi,esp"
-      "lea_eax,[ebp+DWORD] %8"
+      "lea_eax,[ebp+DWORD] %0x8"
       "mov_eax,[eax]"
       "push_eax"
       "mov_ebp,edi"
@@ -64,9 +64,34 @@ int strlen_tramp(int x){
       "ret");
 }
 
-int fopen_tramp(int x){
-  puts("fopen_tramp not impl");
-  exit(1);
+int fopen_wrap(int x, int y){
+  puts("fopen_wrap:");
+  puts(x);
+  puts(y);
+  return fopen(x,y);
+}
+
+int fopen_tramp(int x, int y){
+  puts("fopen_tramp called");
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "call %FUNCTION_fopen_wrap"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
 }
 
 int fclose_tramp(int x){
