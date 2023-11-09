@@ -498,14 +498,32 @@ int read_tramp(int x){
   exit(1);
 }
 
+int strtod(int nptr, int endptr){
+  /* FIXME real impl */
+  puts("strtod");
+  puts(nptr);
+  puts_num(endptr);
+  return 0;
+}
+
+int strtof(int nptr, int endptr){
+  /* FIXME real impl */
+  puts("strtof");
+  puts(nptr);
+  puts_num(endptr);
+  return 0;
+}
+
 int strtod_tramp(int x){
-  puts("strtod_tramp not impl");
-  exit(1);
+  puts("strtod_tramp called");
+  asm("mov_ebx, &FUNCTION_strtod"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strtof_tramp(int x){
   puts("strtof_tramp not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_strtof"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int dlsym(int h,int sym){
