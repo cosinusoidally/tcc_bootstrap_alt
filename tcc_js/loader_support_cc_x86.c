@@ -512,9 +512,17 @@ int fputc_tramp(int x){
   exit(1);
 }
 
+int open_wrap(int pathname, int flags) {
+  puts("open");
+  puts(pathname);
+  puts_num(flags);
+  return fopen(pathname,"rb");
+}
+
 int open_tramp(int x){
-  puts("open_tramp not impl");
-  exit(1);
+  puts("open_tramp called");
+  asm("mov_ebx, &FUNCTION_open_wrap"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int read_tramp(int x){
