@@ -15,9 +15,9 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// CONSTANT stdin 0
-// CONSTANT stdout 1
-// CONSTANT stderr 2
+int stdin;
+int stdout;
+int stderr;
 // CONSTANT EOF 0xFFFFFFFF
 // CONSTANT NULL 0
 // CONSTANT EXIT_FAILURE 1

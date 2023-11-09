@@ -547,10 +547,10 @@ int dlsym(int h,int sym){
     return atoi_tramp;
   }
   if(strcmp(sym, "stdout")==0) {
-    return stdout;
+    return &stdout;
   }
   if(strcmp(sym, "stderr")==0) {
-    return stderr;
+    return &stderr;
   }
   if(strcmp(sym, "fdopen")==0) {
     return fdopen_tramp;
@@ -659,4 +659,7 @@ int memcpy(int a, int b, int c) {
 
 int init_c(void) {
   p_size=4;
+  stdin=0;
+  stdout=1;
+  stderr=3;
 }
