@@ -373,14 +373,16 @@ int strcmp_tramp(int x){
 int strrchr(int p, int c) {
   int c1;
   char *s;
+  char *r;
+  r=0;
   s=p;
   while(c1=s[0]){
     s=s+1;
     if(c1==c){
-      return s-1;
+      r=s-1;
     }
   }
-  return 0;
+  return r;
 }
 
 int strrchr_tramp(int x){
