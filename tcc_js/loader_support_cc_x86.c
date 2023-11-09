@@ -298,9 +298,19 @@ int realloc_tramp(int x, int y){
       "jmp %FUNCTION_generic2_tramp");
 }
 
+int atoi(int x){
+  int p;
+  puts("atoi");
+  puts(x);
+  p=strtoint(x);
+  puts_num(p);
+  return p;
+}
+
 int atoi_tramp(int x){
-  puts("atoi_tramp not impl");
-  exit(1);
+  puts("atoi_tramp called");
+  asm("mov_ebx, &FUNCTION_atoi"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int fdopen_tramp(int x){
