@@ -359,9 +359,23 @@ int strcat_tramp(int x){
       "jmp %FUNCTION_generic2_tramp");
 }
 
+int strchr(int p, int c) {
+  int c1;
+  char *s;
+  s=p;
+  while(c1=s[0]){
+    s=s+1;
+    if(c1==c){
+      return s-1;
+    }
+  }
+  return 0;
+}
+
 int strchr_tramp(int x){
-  puts("strchr_tramp not impl");
-  exit(1);
+  puts("strchr_tramp called");
+  asm("mov_ebx, &FUNCTION_strchr"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strcmp_tramp(int x){
