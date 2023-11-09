@@ -144,23 +144,27 @@ int generic6_tramp(int a, int b, int c, int d, int e, int f) {
 
 int malloc_wrap(int x){
   int r;
+/*
   puts("malloc_wrap:");
   puts_num(x);
   puts("calling malloc");
+*/
   r=malloc(x);
+/*
   puts("malloc returned");
   puts_num(r);
+*/
   return r;
 }
 
 int malloc_tramp(int x){
-  puts("malloc_tramp called");
+/*  puts("malloc_tramp called"); */
   asm("mov_ebx, &FUNCTION_malloc_wrap"
       "jmp %FUNCTION_generic1_tramp");
 }
 
 int strlen_tramp(int x){
-  puts("strlen_tramp called");
+/*  puts("strlen_tramp called"); */
   asm("mov_ebx, &FUNCTION_strlen"
       "jmp %FUNCTION_generic1_tramp");
 }
@@ -177,24 +181,24 @@ int fopen_wrap(int x, int y){
 }
 
 int fopen_tramp(int x, int y){
-  puts("fopen_tramp called");
+/*  puts("fopen_tramp called"); */
   asm("mov_ebx, &FUNCTION_fopen_wrap"
       "jmp %FUNCTION_generic2_tramp");
 }
 
 int fclose_tramp(int x){
-  puts("fclose_tramp called");
+/*  puts("fclose_tramp called"); */
   asm("mov_ebx, &FUNCTION_fclose"
       "jmp %FUNCTION_generic1_tramp");
 }
 
 int fwrite(int ptr,int size, int nitems, int stream) {
+/*
   puts("fwrite:");
   puts_num(ptr);
   puts_num(size);
   puts_num(nitems);
   puts_num(stream);
-/*
   puts("fwrite not impl");
   exit(1);
 */
@@ -209,7 +213,7 @@ int fwrite(int ptr,int size, int nitems, int stream) {
 }
 
 int fwrite_tramp(int a, int b, int c, int d){
-  puts("fwrite_tramp called");
+/*  puts("fwrite_tramp called"); */
   asm("push_ebp"
       "mov_ebp,esp"
       "push_edi"
@@ -246,18 +250,20 @@ int getc_unlocked_tramp(int x){
 }
 
 int puts_tramp(int x){
-  puts("puts_tramp called");
+/*  puts("puts_tramp called"); */
   asm("mov_ebx, &FUNCTION_puts"
       "jmp %FUNCTION_generic1_tramp");
 }
 
 int printf_wrap(int x){
+/*
   puts("dummy printf:");
   puts(x);
+*/
 }
 
 int printf_tramp(int x){
-  puts("printf_tramp called");
+/*  puts("printf_tramp called"); */
   asm("mov_ebx, &FUNCTION_printf_wrap"
       "jmp %FUNCTION_generic1_tramp");
 }
@@ -268,22 +274,24 @@ int exit_tramp(int x){
 }
 
 int memcpy_tramp(int a, int b, int c){
-  puts("memcpy_tramp called");
+/*  puts("memcpy_tramp called"); */
   asm("mov_ebx, &FUNCTION_memcpy"
       "jmp %FUNCTION_generic3_tramp");
 }
 
 int free_tramp(int x){
-  puts("free_tramp called");
+/*  puts("free_tramp called"); */
   asm("mov_ebx, &FUNCTION_free"
       "jmp %FUNCTION_generic1_tramp");
 }
 
 int realloc_wrap(int ptr, int size) {
   int r;
+/*
   puts("realloc_wrap called");
   puts_num(ptr);
   puts_num(size);
+*/
   r=malloc(size);
   if(ptr!=0) {
     memcpy(r, ptr, size);
@@ -293,7 +301,7 @@ int realloc_wrap(int ptr, int size) {
 }
 
 int realloc_tramp(int x, int y){
-  puts("realloc_tramp called");
+/*  puts("realloc_tramp called"); */
   asm("mov_ebx, &FUNCTION_realloc_wrap"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -308,7 +316,7 @@ int atoi(int x){
 }
 
 int atoi_tramp(int x){
-  puts("atoi_tramp called");
+/*  puts("atoi_tramp called"); */
   asm("mov_ebx, &FUNCTION_atoi"
       "jmp %FUNCTION_generic1_tramp");
 }
@@ -364,7 +372,7 @@ int strcat(int de,int s) {
 }
 
 int strcat_tramp(int x){
-  puts("strcat_tramp called");
+/*  puts("strcat_tramp called"); */
   asm("mov_ebx, &FUNCTION_strcat"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -383,13 +391,13 @@ int strchr(int p, int c) {
 }
 
 int strchr_tramp(int x){
-  puts("strchr_tramp called");
+/*  puts("strchr_tramp called"); */
   asm("mov_ebx, &FUNCTION_strchr"
       "jmp %FUNCTION_generic2_tramp");
 }
 
 int strcmp_tramp(int x){
-  puts("strcmp_tramp called");
+/*  puts("strcmp_tramp called"); */
   asm("mov_ebx, &FUNCTION_strcmp"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -410,7 +418,7 @@ int strrchr(int p, int c) {
 }
 
 int strrchr_tramp(int x){
-  puts("strrchr_tramp called");
+/*  puts("strrchr_tramp called"); */
   asm("mov_ebx, &FUNCTION_strrchr"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -430,7 +438,7 @@ int strcpy(int d, int s) {
 }
 
 int strcpy_tramp(int x){
-  puts("strcpy_tramp called");
+/*  puts("strcpy_tramp called"); */
   asm("mov_ebx, &FUNCTION_strcpy"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -453,13 +461,13 @@ int memcmp(int s1, int s2, int n) {
 }
 
 int memcmp_tramp(int x){
-  puts("memcmp_tramp called");
+/*  puts("memcmp_tramp called"); */
   asm("mov_ebx, &FUNCTION_memcmp"
       "jmp %FUNCTION_generic3_tramp");
 }
 
 int memset_tramp(int a, int b, int c){
-  puts("memset_tramp called");
+/*  puts("memset_tramp called"); */
   asm("mov_ebx, &FUNCTION_memset"
       "jmp %FUNCTION_generic3_tramp");
 }
@@ -480,7 +488,7 @@ int strdup(int s) {
 }
 
 int strdup_tramp(int x){
-  puts("strdup_tramp called");
+/*  puts("strdup_tramp called"); */
   asm("mov_ebx, &FUNCTION_strdup"
       "jmp %FUNCTION_generic1_tramp");
 }
@@ -497,7 +505,7 @@ int mmap_wrap(int addr, int length, int prot, int flags, int fd, int offset) {
 }
 
 int mmap_tramp(int x){
-  puts("mmap_tramp not impl");
+/*  puts("mmap_tramp not impl"); */
   asm("mov_ebx, &FUNCTION_mmap_wrap"
       "jmp %FUNCTION_generic6_tramp");
 }
