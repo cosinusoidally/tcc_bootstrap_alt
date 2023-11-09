@@ -709,16 +709,20 @@ int fread(int ptr,int size, int nitems, int stream) {
   puts("fread not impl");
   exit(1);
 */
+  int i;
   int t=size*nitems;
   if(size!=1) {
     puts("fread can only handle size 1");
   }
   char *c=ptr;
-  while(t>0){
-    c[0]=fgetc(stream);
-    t=t-1;
-    c=c+1;
+  for(i=0;i<t;i=i+1){
+    c[i]=fgetc(stream);
+    if(c[0]==-1) {
+      puts("eof");
+      return i-1;
+    }
   }
+  return nitems;
 }
 
 int memcpy(int a, int b, int c) {
