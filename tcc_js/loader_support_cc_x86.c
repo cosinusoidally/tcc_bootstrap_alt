@@ -517,8 +517,9 @@ int close_tramp(int x){
 }
 
 int fputc_tramp(int x){
-  puts("fputc_tramp not impl");
-  exit(1);
+  puts("fputc_tramp called");
+  asm("mov_ebx, &FUNCTION_fputc"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int open_wrap(int pathname, int flags) {
@@ -535,8 +536,12 @@ int open_tramp(int x){
 }
 
 int read_wrap(int fd, int buf, int count) {
+  int r;
   puts("read");
-  return fread(buf ,count, 1, fd);
+  puts_num(count);
+  r=fread(buf ,1, count, fd);
+  puts_num(r);
+  return r;
 }
 
 int read_tramp(int x){
@@ -705,6 +710,9 @@ int fread(int ptr,int size, int nitems, int stream) {
   exit(1);
 */
   int t=size*nitems;
+  if(size!=1) {
+    puts("fread can only handle size 1");
+  }
   char *c=ptr;
   while(t>0){
     c[0]=fgetc(stream);
