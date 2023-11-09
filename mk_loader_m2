@@ -4,9 +4,16 @@ mv tcc_boot.o tcc_10
 
 cd tcc_js
 
+cp bootstrappable_load.c /tmp/tcc_js_tmp/
+cp bootstrap_load.c /tmp/tcc_js_tmp/
+
 cat loader_support.c loader_support_cc_x86.c loader_boot.c > /tmp/tcc_js_tmp/loader_cc_x86.c
 
 cd ..
+
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/libc-core.M1 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/ELF-i386.hex2 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/x86_defs.M1 /tmp/tcc_js_tmp/
 
 pushd .
 
@@ -16,7 +23,7 @@ rm out_cc_x86-0.M1 out_cc_x86-0.hex2 out_cc_x86-0-0.hex2 loader_cc_x86.exe
 
 set -e
 
-cat bootstrap.c bootstrappable.c loader_cc_x86.c > out.c
+cat bootstrap_load.c bootstrappable_load.c loader_cc_x86.c > out.c
 ./M2 --architecture x86 --bootstrap-mode -f out.c -o out_cc_x86.M1
 echo "M2 assemble and link"
 cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
