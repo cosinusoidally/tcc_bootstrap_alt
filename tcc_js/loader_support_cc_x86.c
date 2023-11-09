@@ -511,8 +511,9 @@ int mmap_tramp(int x){
 }
 
 int close_tramp(int x){
-  puts("close_tramp not impl");
-  exit(1);
+  puts("close_tramp called");
+  asm("mov_ebx, &FUNCTION_fclose"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int fputc_tramp(int x){
@@ -533,9 +534,15 @@ int open_tramp(int x){
       "jmp %FUNCTION_generic2_tramp");
 }
 
+int read_wrap(int fd, int buf, int count) {
+  puts("read");
+  return fread(buf ,count, 1, fd);
+}
+
 int read_tramp(int x){
-  puts("read_tramp not impl");
-  exit(1);
+  puts("read_tramp called");
+  asm("mov_ebx, &FUNCTION_read_wrap"
+      "jmp %FUNCTION_generic3_tramp");
 }
 
 int strtod(int nptr, int endptr){
