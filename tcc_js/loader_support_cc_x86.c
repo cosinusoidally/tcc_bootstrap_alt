@@ -331,24 +331,46 @@ int fread_tramp(int x){
   exit(1);
 }
 
+int fprintf(int stream, int format) {
+  puts("fprintf");
+  puts(format);
+}
+
 int fprintf_tramp(int x){
-  puts("fprintf_tramp not impl");
-  exit(1);
+  puts("fprintf_tramp called");
+  asm("mov_ebx, &FUNCTION_fprintf"
+      "jmp %FUNCTION_generic2_tramp");
+}
+
+int sprintf(int x){
+  return 0;
 }
 
 int sprintf_tramp(int x){
   puts("sprintf_tramp not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_sprintf"
+      "jmp %FUNCTION_generic2_tramp");
+}
+
+int snprintf(int x){
+  return 0;
 }
 
 int snprintf_tramp(int x){
   puts("snprintf_tramp not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_snprintf"
+      "jmp %FUNCTION_generic2_tramp");
+}
+
+int vfprintf(int stream, int format) {
+  puts("vfprintf");
+  puts(format);
 }
 
 int vfprintf_tramp(int x){
   puts("vfprintf_tramp not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_vfprintf"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int strcat(int de,int s) {
@@ -526,7 +548,7 @@ int open_wrap(int pathname, int flags) {
   puts("open");
   puts(pathname);
   puts_num(flags);
-  return fopen(pathname,"rb");
+  return open(pathname, 0, 0);
 }
 
 int open_tramp(int x){
@@ -715,12 +737,14 @@ int fread(int ptr,int size, int nitems, int stream) {
     puts("fread can only handle size 1");
   }
   char *c=ptr;
+  int cr;
   for(i=0;i<t;i=i+1){
-    c[i]=fgetc(stream);
-    if(c[0]==-1) {
+    cr=fgetc(stream);
+    if(cr==-1) {
       puts("eof");
-      return i-1;
+      return i;
     }
+    c[i]=cr;
   }
   return nitems;
 }
