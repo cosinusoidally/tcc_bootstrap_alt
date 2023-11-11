@@ -577,7 +577,11 @@ int strtod(int nptr, int endptr){
   puts("strtod");
   puts(nptr);
   puts_num(endptr);
-  return 0;
+  asm("DEFINE fld DD05"
+      "fldl &GLOBAL_double_buf"
+      "ret"
+      ":GLOBAL_double_buf"
+      "00000000 00000000");
 }
 
 int strtof(int nptr, int endptr){
@@ -585,7 +589,11 @@ int strtof(int nptr, int endptr){
   puts("strtof");
   puts(nptr);
   puts_num(endptr);
-  return 0;
+  asm("DEFINE fld D905"
+      "flds &GLOBAL_double_buf"
+      "ret"
+      ":GLOBAL_float_buf"
+      "00000000");
 }
 
 int strtod_tramp(int x){
