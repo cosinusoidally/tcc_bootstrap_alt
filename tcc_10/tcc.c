@@ -6573,9 +6573,9 @@ static int tcc_compile(TCCState *s)
     ch = '\n'; /* needed to parse correctly first preprocessor command */
     next();
     decl(VT_CONST);
-    if (tok != -1)
+    if (tok != -1) {
         expect("declaration");
-
+    }
     /* end of translation unit info */
     if (do_debug) {
         put_stabs_r(NULL, N_SO, 0, 0, 
