@@ -343,32 +343,34 @@ int fprintf_tramp(int x){
 }
 
 int sprintf(int x){
+  puts("sprintf called");
   return 0;
 }
 
 int sprintf_tramp(int x){
-  puts("sprintf_tramp not impl");
+  puts("sprintf_tramp called");
   asm("mov_ebx, &FUNCTION_sprintf"
       "jmp %FUNCTION_generic2_tramp");
 }
 
 int snprintf(int x){
+  puts("snprintf");
   return 0;
 }
 
 int snprintf_tramp(int x){
-  puts("snprintf_tramp not impl");
+  puts("snprintf_tramp called");
   asm("mov_ebx, &FUNCTION_snprintf"
       "jmp %FUNCTION_generic2_tramp");
 }
 
 int vfprintf(int stream, int format) {
-  puts("vfprintf");
+  puts("vfprintf called");
   puts(format);
 }
 
 int vfprintf_tramp(int x){
-  puts("vfprintf_tramp not impl");
+  puts("vfprintf_tramp called");
   asm("mov_ebx, &FUNCTION_vfprintf"
       "jmp %FUNCTION_generic2_tramp");
 }
@@ -603,7 +605,7 @@ int strtod_tramp(int x){
 }
 
 int strtof_tramp(int x){
-  puts("strtof_tramp not impl");
+  puts("strtof_tramp called");
   asm("mov_ebx, &FUNCTION_strtof"
       "jmp %FUNCTION_generic2_tramp");
 }
