@@ -10,19 +10,41 @@ int strtod(void){
   exit(1);
 }
 
-int strlen(void){
-  puts("strlen not impl");
-  exit(1);
+int strlen(int p){
+//  puts("strlen not impl");
+  int l=0;
+  char *s;
+  s=(char *)p;
+  while(s[0]){
+    s=s+1;
+    l=l+1;
+  }
+  return l;
 }
 
-int memset(void){
-  puts("memset not impl");
-  exit(1);
+int memset(int xi, int v, int size) {
+/*  puts("unimpl memset"); err(); */
+  int i;
+  char *x;
+  x=(char *)xi;
+  for(i=0;i<size;i=i+1){
+    x[i]=v;
+  }
 }
 
-int strcpy(void){
-  puts("strcpy not impl");
-  exit(1);
+int strcpy(int d, int s) {
+//  puts("strcpy not impl");
+  int c;
+  char *dest;
+  char *src;
+  dest=(char *)d;
+  src=(char *)s;
+  while((c=src[0])!=0){
+    src=src+1;
+    dest[0]=c;
+    dest=dest+1;
+  }
+  dest[0]=0;
 }
 
 int strcmp(void){
@@ -45,14 +67,32 @@ int vfprintf(void){
   exit(1);
 }
 
-int memcmp(void){
-  puts("memcmp not impl");
-  exit(1);
+int memcmp(int s1, int s2, int n) {
+  int i;
+  int r;
+  char *p1;
+  char *p2;
+  r=0;
+  p1=(char *)s1;
+  p2=(char *)s2;
+  for(i=0;i<n;i=i+1){
+    if(p1[i]!=p2[i]){
+/* FIXME ljw not quite right */
+      r=1;
+    }
+  }
+  return r;
 }
 
-int memcpy(void){
-  puts("memcpy not impl");
-  exit(1);
+int memcpy(int a, int b, int c) {
+  char *dest;
+  char *src;
+  int i;
+  dest=(char *)a;
+  src=(char *)b;
+  for(i=0;i<c;i=i+1){
+    dest[i]=src[i];
+  }
 }
 
 int sprintf(void){
