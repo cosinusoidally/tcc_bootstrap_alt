@@ -47,9 +47,24 @@ int strcpy(int d, int s) {
   dest[0]=0;
 }
 
-int strcmp(void){
-  puts("strcmp not impl");
-  exit(1);
+int strcmp(int a, int b){
+  char *s1;
+  char *s2;
+  int i;
+  int r;
+  i=0;
+  r=1;
+  s1=(char *)a;
+  s2=(char *)b;
+  while(s1[i]!=0){
+    r=0;
+    if(s1[i]!=s2[i]){
+      r=1;
+      break;
+    }
+    i=i+1;
+  }
+  return r;
 }
 
 int strcat(void){
@@ -110,9 +125,19 @@ int memmove(void){
   exit(1);
 }
 
-int strrchr(void){
-  puts("strrchr not impl");
-  exit(1);
+int strrchr(int p, int c) {
+  int c1;
+  char *s;
+  char *r;
+  r=0;
+  s=(char *)p;
+  while(c1=s[0]){
+    s=s+1;
+    if(c1==c){
+      r=s-1;
+    }
+  }
+  return r;
 }
 
 int ldexp(void){
