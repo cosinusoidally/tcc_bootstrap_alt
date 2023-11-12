@@ -359,8 +359,12 @@ int sprintf_tramp(int x){
 
 int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   int format;
+  int size;
+  size = a2;
   format = a3;
-  fputs("snprintf \"", stdout);
+  fputs("snprintf size: ", stdout);
+  fputs(int2str(size, 10, 0), stdout);
+  fputs(" format: \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
   return 0;
