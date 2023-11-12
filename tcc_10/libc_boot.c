@@ -266,9 +266,23 @@ int dlsym(void){
   exit(1);
 }
 
-int fwrite(void){
+int fwrite(int ptr,int size, int nitems, int stream) {
+/*
+  puts("fwrite:");
+  puts_num(ptr);
+  puts_num(size);
+  puts_num(nitems);
+  puts_num(stream);
   puts("fwrite not impl");
   exit(1);
+*/
+  int t=size*nitems;
+  char *c=(char *)ptr;
+  while(t>0){
+    fputc(c[0],stream);
+    t=t-1;
+    c=c+1;
+  }
 }
 
 int lseek(void){
