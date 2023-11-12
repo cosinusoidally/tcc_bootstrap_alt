@@ -5,10 +5,20 @@ int puts(int x) {
   fputs("\n", stdout);
 }
 
-int strtod(void){
-  puts("strtod not impl");
-  exit(1);
+/* FIXME dummy impl */
+double strtod(char *a, char **p){
+  double v;
+  int *x;
+  x=&v;
+  x[0]=0;
+  x[1]=0;
+  puts("tcc strtod");
+  if(strcmp("4294967296.0",a) == 0){
+    x[1]=0x41F00000;
+  }
+  return v;
 }
+
 
 int strlen(int p){
 //  puts("strlen not impl");
@@ -115,9 +125,13 @@ int sprintf(void){
   exit(1);
 }
 
-int read(void){
-  puts("read not impl");
-  exit(1);
+int read_wrap(int fd, int buf, int count) {
+  int r;
+  puts("read");
+//  puts_num(count);
+  r=fread(buf ,1, count, fd);
+//  puts_num(r);
+  return r;
 }
 
 int memmove(void){
