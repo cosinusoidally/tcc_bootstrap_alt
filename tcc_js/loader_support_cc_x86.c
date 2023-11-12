@@ -617,6 +617,7 @@ int strtod(int nptr, int endptr){
   puts("strtod");
   puts(nptr);
   puts_num(endptr);
+  /* note below is broken, doesn't actually seem to return 0.0 */
   asm("DEFINE fldl DD05"
       "fldl &GLOBAL_double_buf"
       "ret"
