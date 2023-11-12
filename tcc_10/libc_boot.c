@@ -207,15 +207,6 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   return 0;
 }
 
-int read_wrap(int fd, int buf, int count) {
-  int r;
-  puts("read");
-//  puts_num(count);
-  r=fread(buf ,1, count, fd);
-//  puts_num(r);
-  return r;
-}
-
 int memmove(void){
   puts("memmove not impl");
   exit(1);
