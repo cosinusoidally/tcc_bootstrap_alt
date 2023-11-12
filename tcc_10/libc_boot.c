@@ -5,12 +5,32 @@ int puts(int x) {
   fputs("\n", stdout);
 }
 
-int printf(int x){
-  puts("printf not impl");
+int strtod(void){
+  puts("strtod not impl");
   exit(1);
 }
 
-int malloc(int x){
-  puts("malloc not impl");
+int strlen(void){
+  puts("strlen not impl");
+  exit(1);
+}
+
+int memset(void){
+  puts("memset not impl");
+  exit(1);
+}
+
+int strcpy(void){
+  puts("strcpy not impl");
+  exit(1);
+}
+
+int strcmp(void){
+  puts("strcmp not impl");
+  exit(1);
+}
+
+int printf(int x){
+  puts("printf not impl");
   exit(1);
 }
