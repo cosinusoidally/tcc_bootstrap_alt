@@ -342,15 +342,19 @@ int fprintf_tramp(int x){
       "jmp %FUNCTION_generic2_tramp");
 }
 
-int sprintf(int x){
-  puts("sprintf called");
+int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
+  int format;
+  format = a2;
+  fputs("sprintf \"", stdout);
+  fputs(format, stdout);
+  fputs("\"\n", stdout);
   return 0;
 }
 
 int sprintf_tramp(int x){
   puts("sprintf_tramp called");
   asm("mov_ebx, &FUNCTION_sprintf"
-      "jmp %FUNCTION_generic2_tramp");
+      "jmp %FUNCTION_generic6_tramp");
 }
 
 int snprintf(int x){
