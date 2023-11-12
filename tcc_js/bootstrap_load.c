@@ -25,6 +25,8 @@ int stderr;
 // CONSTANT TRUE 1
 // CONSTANT FALSE 0
 
+int puts(char *a);
+void exit(int value);
 
 int fgetc(FILE* f)
 {
@@ -121,6 +123,8 @@ long _brk_ptr;
 
 void* malloc(int size)
 {
+	/* align malloc to 4 bytes */
+	size = 4+ (size & (~3));
 	if(NULL == _brk_ptr)
 	{
 		_brk_ptr = brk(0);
@@ -135,6 +139,10 @@ void* malloc(int size)
 
 	long old_malloc = _malloc_ptr;
 	_malloc_ptr = _malloc_ptr + size;
+	if( (old_malloc & 3) !=0) {
+		puts("misalligned malloc");
+		exit(1);
+	}
 	return old_malloc;
 }
 
