@@ -1,8 +1,49 @@
 extern int stdout;
 
+int strcpy(int d, int s);
+int strcat(int de,int s);
+
 int puts(int x) {
   fputs(x, stdout);
   fputs("\n", stdout);
+}
+
+/* adapted from bootstrappable_load.c */
+char* int2str(int x, int base, int signed_p)
+{
+        /* Be overly conservative and save space for 32binary digits and padding null */
+        char* p = (char *)calloc(34, sizeof(char));
+        /* if calloc fails return null to let calling code deal with it */
+        if(0 == p) return p;
+
+        p = p + 32;
+        unsigned i;
+        int sign_p = 0;
+        char* table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        if(signed_p && (10 == base) && (0 != (x & 0x80000000)))
+        {
+                /* Truncate to 31bits */
+                i = -x & 0x7FFFFFFF;
+                if(0 == i) return "-2147483648";
+                sign_p = 1;
+        } /* Truncate to 32bits */
+        else i = x & (0x7FFFFFFF | (1 << 31));
+
+        do
+        {
+                p[0] = table[i % base];
+                p = p - 1;
+                i = i / base;
+        } while(0 < i);
+
+        if(sign_p)
+        {
+                p[0] = '-';
+                p = p - 1;
+        }
+
+        return p + 1;
 }
 
 /* FIXME dummy impl */
@@ -77,7 +118,7 @@ int strcmp(int a, int b){
   return r;
 }
 
-int strcat(void){
+int strcat(int de,int s){
   puts("strcat not impl");
   exit(1);
 }
@@ -120,9 +161,35 @@ int memcpy(int a, int b, int c) {
   }
 }
 
-int sprintf(void){
-  puts("sprintf not impl");
-  exit(1);
+int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
+  int format;
+  int o;
+  format = a2;
+  fputs("sprintf \"", stdout);
+  fputs(format, stdout);
+  fputs("\"\n", stdout);
+  if(strcmp(".rel%s", format) ==0) {
+    puts("generating \".rel%s\" sprintf/snprintf string");
+    fputs(".rel", stdout);
+    fputs(a3,stdout);
+    fputs("\n",stdout);
+    o=strcpy(a1,".rel");
+    o=strcat(a1, a3);
+    return o-a1;
+  } else if(strcmp("L.%u", format) ==0) {
+    puts("generating \".L.%u\" sprintf/snprintf string");
+    fputs("L.", stdout);
+    /* FIXME leaky */
+    fputs(int2str(a3, 10, 0), stdout);
+    fputs("\n",stdout);
+    o=strcpy(a1,"L.");
+    o=strcat(a1, int2str(a3, 10, 0));
+    return o-a1;
+  } else {
+    puts("unsupported sprintf/snprintf format string");
+    exit(1);
+  }
+  return 0;
 }
 
 int read_wrap(int fd, int buf, int count) {
