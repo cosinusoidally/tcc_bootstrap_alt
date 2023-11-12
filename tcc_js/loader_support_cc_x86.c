@@ -363,10 +363,17 @@ int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   size = a2;
   format = a3;
   fputs("snprintf size: ", stdout);
+  /* FIXME leaky */
   fputs(int2str(size, 10, 0), stdout);
   fputs(" format: \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
+  if(strcmp(".rel%s", format) ==0) {
+    puts("generating \".rel%s\" snprintf string");
+  } else {
+    puts("unsupported snprintf format string");
+    exit(1);
+  }
   return 0;
 }
 
