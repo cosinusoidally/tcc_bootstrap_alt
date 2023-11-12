@@ -118,9 +118,24 @@ int strcmp(int a, int b){
   return r;
 }
 
-int strcat(int de,int s){
-  puts("strcat not impl");
-  exit(1);
+int strcat(int de,int s) {
+  int d;
+  char *dest;
+  char *src;
+  dest=(char *)de;
+  src=(char *)s;
+  d=dest;
+  int c;
+  while(dest[0]){
+    dest=dest+1;
+  }
+  while(c=src[0]){
+    src=src+1;
+    dest[0]=c;
+    dest=dest+1;
+  }
+  dest[0]=0;
+  return d;
 }
 
 int fprintf(void){
