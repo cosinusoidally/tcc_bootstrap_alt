@@ -1,5 +1,7 @@
 int stdout;
 void puts_num(int x);
+int strcpy(int d, int s);
+int strcat(int de,int s);
 
 int call_wrap(FUNCTION t, int a, int b){
   int r;
@@ -344,10 +346,29 @@ int fprintf_tramp(int x){
 
 int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   int format;
+  int o;
   format = a2;
   fputs("sprintf \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
+  if(strcmp(".rel%s", format) ==0) {
+    puts("generating \".rel%s\" sprintf/snprintf string");
+    fputs(".rel", stdout);
+    fputs(a3,stdout);
+    fputs("\n",stdout);
+    o=strcat(a1,".rel");
+    o=strcat(a1, a3);
+    return o-a1;
+  } else if(strcmp("L.%u", format) ==0) {
+    puts("generating \".L.%u\" sprintf/snprintf string");
+    fputs("L.", stdout);
+    /* FIXME leaky */
+    fputs(int2str(a3, 10, 0), stdout);
+    fputs("\n",stdout);
+  } else {
+    puts("unsupported sprintf/snprintf format string");
+    exit(1);
+  }
   return 0;
 }
 
@@ -368,12 +389,7 @@ int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   fputs(" format: \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
-  if(strcmp(".rel%s", format) ==0) {
-    puts("generating \".rel%s\" snprintf string");
-  } else {
-    puts("unsupported snprintf format string");
-    exit(1);
-  }
+  sprintf(a1, a3, a4, a5, a6, 0);
   return 0;
 }
 
