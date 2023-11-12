@@ -356,7 +356,7 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     fputs(".rel", stdout);
     fputs(a3,stdout);
     fputs("\n",stdout);
-    o=strcat(a1,".rel");
+    o=strcpy(a1,".rel");
     o=strcat(a1, a3);
     return o-a1;
   } else if(strcmp("L.%u", format) ==0) {
@@ -365,6 +365,9 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     /* FIXME leaky */
     fputs(int2str(a3, 10, 0), stdout);
     fputs("\n",stdout);
+    o=strcpy(a1,"L.");
+    o=strcat(a1, int2str(a3, 10, 0));
+    return o-a1;
   } else {
     puts("unsupported sprintf/snprintf format string");
     exit(1);
