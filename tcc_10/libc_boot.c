@@ -241,9 +241,19 @@ int ldexp(void){
   exit(1);
 }
 
-int snprintf(void){
-  puts("snprintf not impl");
-  exit(1);
+int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
+  int format;
+  int size;
+  size = a2;
+  format = a3;
+  fputs("snprintf size: ", stdout);
+  /* FIXME leaky */
+  fputs(int2str(size, 10, 0), stdout);
+  fputs(" format: \"", stdout);
+  fputs(format, stdout);
+  fputs("\"\n", stdout);
+  sprintf(a1, a3, a4, a5, a6, 0);
+  return 0;
 }
 
 int getcwd(void){
