@@ -25,6 +25,7 @@ rm tcc_3/a.out
 rm tcc_3/tcc.o
 
 rm tcc_10/a.out
+rm tcc_10/libc_boot.o
 rm tcc_10/tcc.o
 rm tcc_10/tcc_boot.o
 
