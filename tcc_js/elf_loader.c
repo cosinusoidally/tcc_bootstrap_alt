@@ -3,6 +3,12 @@
 int init_globals(void){
 }
 
+int load_elf(char *name){
+  puts("loading elf file:");
+  puts(name);
+
+}
+
 int main(int argc, char **argv)
 {
   FUNCTION t;
@@ -16,6 +22,7 @@ int main(int argc, char **argv)
   init_globals();
 
   puts("running elf files");
+  load_elf("test.o");
   puts(argv[optind]);
   return 0;
 /* can't call yet
