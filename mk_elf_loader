@@ -13,6 +13,9 @@ mv tcc_boot.o /tmp/tcc_js_tmp/
 echo "building with tcc"
 tcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_tcc.exe
 
+echo "building with tcc"
+gcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_gcc.exe
+
 cd ..
 
 cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/libc-core.M1 /tmp/tcc_js_tmp/
@@ -54,9 +57,16 @@ echo "running elf loader compiled by tcc (0.9.27)"
 ./elf_loader_tcc.exe --help
 
 echo "==================================================================="
+echo "running elf loader compiled by gcc"
+./elf_loader_gcc.exe --help
+
+echo "==================================================================="
 echo "running elf loader compiled by cc_x86"
 ./elf_loader_cc_x86.exe --help
 
 echo "==================================================================="
 echo "running elf loader compiled by M2-Planet"
 ./elf_loader_m2.exe --help
+
+sha256sum elf*exe
+sha256sum tcc_boot.o
