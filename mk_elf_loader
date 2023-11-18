@@ -1,5 +1,8 @@
-rm /tmp/tcc_js_tmp/elf_loader_*exe /tmp/tcc_js_tmp/tcc_boot.o
+rm /tmp/tcc_js_tmp/elf_loader_*exe /tmp/tcc_js_tmp/tcc_boot.o /tmp/tcc_js_tmp/elf_test.o
 cd tcc_js
+
+echo "building test file"
+/tmp/tcc_js_tmp/tcc_10 -o /tmp/tcc_js_tmp/elf_test.o -c elf_test.c
 
 cp bootstrappable_load.c /tmp/tcc_js_tmp/
 cp bootstrap_load.c /tmp/tcc_js_tmp/
