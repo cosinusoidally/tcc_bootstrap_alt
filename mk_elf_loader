@@ -1,4 +1,4 @@
-rm /tmp/tcc_js_tmp/elf_loader_*exe /tmp/tcc_js_tmp/tcc_boot.o /tmp/tcc_js_tmp/elf_test.o
+rm /tmp/tcc_js_tmp/elf_*exe /tmp/tcc_js_tmp/tcc_boot.o /tmp/tcc_js_tmp/elf_test.o
 cd tcc_js
 
 echo "building test file"
@@ -50,6 +50,7 @@ cat x86_defs.M1 libc-core.M1 out_M2.M1 > out_M2-0.M1
 cat ELF-i386.hex2 out_M2-0.hex2 > out_M2-0-0.hex2
 ./hex2-0 out_M2-0-0.hex2 elf_loader_m2.exe
 
+tcc elf_test.o -o elf_test.exe
 
 echo "==================================================================="
 echo "running elf loader compiled by tcc_1_7"
@@ -70,6 +71,10 @@ echo "running elf loader compiled by cc_x86"
 echo "==================================================================="
 echo "running elf loader compiled by M2-Planet"
 ./elf_loader_m2.exe --help
+
+echo "==================================================================="
+echo "run the elf_test file"
+./elf_test.exe
 
 sha256sum elf*exe
 sha256sum tcc_boot.o
