@@ -3,7 +3,7 @@ cd tcc_js
 cp bootstrappable_load.c /tmp/tcc_js_tmp/
 cp bootstrap_load.c /tmp/tcc_js_tmp/
 
-cat loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_tmp/elf_loader_all.c
+cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_tmp/elf_loader_all.c
 
 cd ..
 
