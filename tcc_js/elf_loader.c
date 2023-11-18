@@ -1,12 +1,20 @@
-#include "loader_support_tcc.c"
+#include "elf_loader_support_tcc.c"
 
 int init_globals(void){
 }
 
 int load_elf(char *name){
+  int f;
+  int l;
+  l=0;
   puts("loading elf file:");
   puts(name);
-
+  f=fopen(name,"rb");
+  while(fgetc(f) >= 0){
+    l=l+1;
+  }
+  puts("file length");
+  puts_num(l);
 }
 
 int main(int argc, char **argv)
@@ -22,7 +30,7 @@ int main(int argc, char **argv)
   init_globals();
 
   puts("running elf files");
-  load_elf("test.o");
+  load_elf("elf_test.o");
   puts(argv[optind]);
   return 0;
 /* can't call yet

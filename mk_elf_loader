@@ -9,9 +9,9 @@ cp bootstrap_load.c /tmp/tcc_js_tmp/
 
 cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_tmp/elf_loader_all.c
 
-echo "building with tcc_1_7"
-/tmp/tcc_js_tmp/tcc_1_7 -r elf_loader.c --help
-mv tcc_boot.o /tmp/tcc_js_tmp/
+# echo "building with tcc_1_7"
+# /tmp/tcc_js_tmp/tcc_1_7 -r elf_loader.c --help
+# mv tcc_boot.o /tmp/tcc_js_tmp/
 
 echo "building with tcc"
 tcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_tcc.exe
@@ -52,9 +52,9 @@ cat ELF-i386.hex2 out_M2-0.hex2 > out_M2-0-0.hex2
 
 tcc elf_test.o -o elf_test.exe
 
-echo "==================================================================="
-echo "running elf loader compiled by tcc_1_7"
-./loader_cc_x86.exe -R dummy --help
+# echo "==================================================================="
+# echo "running elf loader compiled by tcc_1_7"
+# ./loader_cc_x86.exe -R dummy --help
 
 echo "==================================================================="
 echo "running elf loader compiled by tcc (0.9.27)"
