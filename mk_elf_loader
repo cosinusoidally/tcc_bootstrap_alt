@@ -1,9 +1,13 @@
+rm /tmp/tcc_js_tmp/elf_loader_*exe /tmp/tcc_js_tmp/tcc_boot.o
 cd tcc_js
 
 cp bootstrappable_load.c /tmp/tcc_js_tmp/
 cp bootstrap_load.c /tmp/tcc_js_tmp/
 
 cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_tmp/elf_loader_all.c
+
+/tmp/tcc_js_tmp/tcc_1_7 -r elf_loader.c --help
+mv tcc_boot.o /tmp/tcc_js_tmp/
 
 cd ..
 
@@ -36,3 +40,15 @@ cat x86_defs.M1 libc-core.M1 out_M2.M1 > out_M2-0.M1
 cat ELF-i386.hex2 out_M2-0.hex2 > out_M2-0-0.hex2
 ./hex2-0 out_M2-0-0.hex2 elf_loader_m2.exe
 
+
+echo "==================================================================="
+echo "running elf loader compiled by tcc_1_7"
+./loader_cc_x86.exe -R dummy --help
+
+echo "==================================================================="
+echo "running elf loader compiled by cc_x86"
+./elf_loader_cc_x86.exe --help
+
+echo "==================================================================="
+echo "running elf loader compiled by M2-Planet"
+./elf_loader_m2.exe --help
