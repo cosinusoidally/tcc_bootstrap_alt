@@ -6,6 +6,11 @@ int init_globals(void){
   elf_buf=malloc(256*1024);
 }
 
+int ru8(int o) {
+  return elf_buf[o] & 0xFF;
+}
+
+
 void elf_hex_dump(int l){
   int i;
   int j;
@@ -57,6 +62,10 @@ void elf_hex_dump(int l){
   fputs("\n", stdout);
 }
 
+int decode_elf(){
+
+}
+
 int load_elf(char *name){
   int f;
   int l;
@@ -78,6 +87,7 @@ int load_elf(char *name){
   puts("file length");
   puts_num(l);
   elf_hex_dump(l);
+  decode_elf();
 }
 
 int main(int argc, char **argv)
