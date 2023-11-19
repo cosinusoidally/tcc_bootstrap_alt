@@ -14,6 +14,7 @@ int load_elf(char *name){
   int i;
   int j;
   int v;
+  int k;
   int off_l;
   char *off;
   l=0;
@@ -28,13 +29,14 @@ int load_elf(char *name){
   puts_num(l);
   i=0;
   while(i<l) {
-    j=0;
     off=int2str(i,16,0);
     off_l=strlen(off);
-    fputs(int2str(off_l,16,0),stdout);
-    fputs(" ",stdout);
+    for(k=0;k<8-off_l;k=k+1){
+      fputc('0',stdout);
+    }
     fputs(off,stdout);
     fputs(": ",stdout);
+    j=0;
     while(j<8) { 
       v=elf_buf[i] & 0xFF;
       if(v<16) {
