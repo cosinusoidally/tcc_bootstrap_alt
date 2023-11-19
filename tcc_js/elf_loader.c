@@ -107,6 +107,15 @@ int decode_elf(){
     fputs("sh_type: ",stdout);
     fputs(int2str(ri32(o+4),16,0),stdout);
     fputs("\n",stdout);
+    fputs("sh_offset: ",stdout);
+    fputs(int2str(ri32(o+16),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: ",stdout);
+    fputs(int2str(ri32(o+20),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_entsize: ",stdout);
+    fputs(int2str(ri32(o+36),16,0),stdout);
+    fputs("\n",stdout);
     fputs("\n",stdout);
     o=o+e_shentsize;
   }
