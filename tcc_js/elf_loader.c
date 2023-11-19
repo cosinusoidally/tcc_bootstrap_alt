@@ -84,6 +84,7 @@ int decode_elf(){
   int sh_type;
   int sh_offset;
   int sh_size;
+  int sl;
 
   if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(1)!='E') { puts("magic 1");exit(1);}
@@ -132,7 +133,16 @@ int decode_elf(){
       puts("SHT_STRTAB");
     }
     if(i==e_shstrndx){
-      puts(".shstrtab");
+      puts(".shstrtab:");
+      o=elf_buf+sh_offset;
+      for(j=0;j<e_shnum;j=j+1){
+        sl=strlen(o);
+        fputs(int2str(sl,10,0),stdout);
+        fputs(" ",stdout);
+        fputs(o,stdout);
+        o=o+sl+1;
+        fputs("\n",stdout);
+      }
     }
     fputs("\n",stdout);
     o=o+e_shentsize;
