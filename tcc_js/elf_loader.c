@@ -75,6 +75,8 @@ void elf_hex_dump(int l){
 
 int decode_elf(){
   int e_shoff;
+  int e_shentsize;
+  int e_shnum;
 
   if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(1)!='E') { puts("magic 1");exit(1);}
@@ -82,8 +84,17 @@ int decode_elf(){
   if(ru8(3)!='F') { puts("magic 3");exit(1);}
   puts("ELF magic ok");
   e_shoff=ri32(0x20);
+  e_shentsize=ri32(0x2E) & 0xFFFF;
+  e_shnum=ri32(0x30) & 0xFFFF;
+
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
+  fputs("\n",stdout);
+  fputs("e_shentsize: ",stdout);
+  fputs(int2str(e_shentsize,10,0),stdout);
+  fputs("\n",stdout);
+  fputs("e_shnum: ",stdout);
+  fputs(int2str(e_shnum,10,0),stdout);
   fputs("\n",stdout);
 }
 
