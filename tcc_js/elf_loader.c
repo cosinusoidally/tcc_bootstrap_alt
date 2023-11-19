@@ -1,20 +1,58 @@
 #include "elf_loader_support_tcc.c"
 
+char *elf_buf;
+
 int init_globals(void){
+  elf_buf=malloc(256*1024);
 }
+
 
 int load_elf(char *name){
   int f;
   int l;
+  int c;
+  int i;
+  int j;
+  int v;
+  int off_l;
+  char *off;
   l=0;
   puts("loading elf file:");
   puts(name);
   f=fopen(name,"rb");
-  while(fgetc(f) >= 0){
+  while((c=fgetc(f)) >= 0){
+    elf_buf[l]=c;
     l=l+1;
   }
   puts("file length");
   puts_num(l);
+  i=0;
+  while(i<l) {
+    j=0;
+    off=int2str(i,16,0);
+    off_l=strlen(off);
+    fputs(int2str(off_l,16,0),stdout);
+    fputs(" ",stdout);
+    fputs(off,stdout);
+    fputs(": ",stdout);
+    while(j<8) { 
+      v=elf_buf[i] & 0xFF;
+      if(v<16) {
+        fputc('0', stdout);
+      }
+      fputs(int2str(v,16,0), stdout);
+      v=elf_buf[i+1] & 0xFF;
+      if(v<16) {
+        fputc('0', stdout);
+      }
+      fputs(int2str(v,16,0), stdout);
+      fputs(" ", stdout);
+      i=i+2;
+      j=j+1;
+    }
+    fputs("\n",stdout);
+  }
+  fputs("\n", stdout);
 }
 
 int main(int argc, char **argv)
