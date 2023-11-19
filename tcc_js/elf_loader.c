@@ -77,9 +77,11 @@ int decode_elf(){
   int e_shoff;
   int e_shentsize;
   int e_shnum;
+  int e_shstrndx;
   int i;
   int j;
   int o;
+  int sh_type;
 
   if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(1)!='E') { puts("magic 1");exit(1);}
@@ -89,6 +91,7 @@ int decode_elf(){
   e_shoff=ri32(0x20);
   e_shentsize=ri32(0x2E) & 0xFFFF;
   e_shnum=ri32(0x30) & 0xFFFF;
+  e_shstrndx=ri32(0x32) & 0xFFFF;
 
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
@@ -99,13 +102,18 @@ int decode_elf(){
   fputs("e_shnum: ",stdout);
   fputs(int2str(e_shnum,10,0),stdout);
   fputs("\n",stdout);
+  fputs("e_shstrndx: ",stdout);
+  fputs(int2str(e_shstrndx,10,0),stdout);
+  fputs("\n",stdout);
+  fputs("\n",stdout);
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
     fputs("sh_name: ",stdout);
     fputs(int2str(ri32(o),16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_type: ",stdout);
-    fputs(int2str(ri32(o+4),16,0),stdout);
+    sh_type=ri32(o+4);
+    fputs(int2str(sh_type,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_offset: ",stdout);
     fputs(int2str(ri32(o+16),16,0),stdout);
@@ -116,6 +124,12 @@ int decode_elf(){
     fputs("sh_entsize: ",stdout);
     fputs(int2str(ri32(o+36),16,0),stdout);
     fputs("\n",stdout);
+    if(sh_type==3){
+      puts("SHT_STRTAB");
+    }
+    if(i==e_shstrndx){
+      puts(".shstrtab");
+    }
     fputs("\n",stdout);
     o=o+e_shentsize;
   }
