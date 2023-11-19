@@ -10,6 +10,17 @@ int ru8(int o) {
   return elf_buf[o] & 0xFF;
 }
 
+int ri32(int o){
+  int r;
+  r=ru8(o+3);
+  r=r << 8;
+  r = r | ru8(o+2);
+  r=r << 8;
+  r = r | ru8(o+1);
+  r=r << 8;
+  r = r | ru8(o);
+  return r;
+}
 
 void elf_hex_dump(int l){
   int i;
@@ -70,7 +81,10 @@ int decode_elf(){
   if(ru8(2)!='L') { puts("magic 2");exit(1);}
   if(ru8(3)!='F') { puts("magic 3");exit(1);}
   puts("ELF magic ok");
-
+  e_shoff=ri32(0x20);
+  fputs("e_shoff: ",stdout);
+  fputs(int2str(e_shoff,10,0),stdout);
+  fputs("\n",stdout);
 }
 
 int load_elf(char *name){
