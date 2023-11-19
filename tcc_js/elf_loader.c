@@ -30,12 +30,12 @@ void elf_hex_dump(int l){
     fputs(": ",stdout);
     j=0;
     while(j<8) { 
-      v=elf_buf[i] & 0xFF;
+      v=ru8(i);
       if(v<16) {
         fputc('0', stdout);
       }
       fputs(int2str(v,16,0), stdout);
-      v=elf_buf[i+1] & 0xFF;
+      v=ru8(i+1);
       if(v<16) {
         fputc('0', stdout);
       }
@@ -48,7 +48,7 @@ void elf_hex_dump(int l){
     i=i-16;
     j=0;
     while(j<16) {
-      v=elf_buf[i] & 0xFF;
+      v=ru8(i);
       if(((' ' <= v) !=0) && ((v <= '~')!=0)) {
         fputc(v, stdout);
       } else {
@@ -63,6 +63,13 @@ void elf_hex_dump(int l){
 }
 
 int decode_elf(){
+  int e_shoff;
+
+  if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
+  if(ru8(1)!='E') { puts("magic 1");exit(1);}
+  if(ru8(2)!='L') { puts("magic 2");exit(1);}
+  if(ru8(3)!='F') { puts("magic 3");exit(1);}
+  puts("ELF magic ok");
 
 }
 
@@ -86,7 +93,7 @@ int load_elf(char *name){
   }
   puts("file length");
   puts_num(l);
-  elf_hex_dump(l);
+/*  elf_hex_dump(l); */
   decode_elf();
 }
 
