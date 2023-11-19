@@ -52,6 +52,19 @@ int load_elf(char *name){
       i=i+2;
       j=j+1;
     }
+    fputs(" ", stdout);
+    i=i-16;
+    j=0;
+    while(j<16) {
+      v=elf_buf[i] & 0xFF;
+      if(((' ' <= v) !=0) && ((v <= '~')!=0)) {
+        fputc(v, stdout);
+      } else {
+        fputc('.', stdout);
+      }
+      i=i+1;
+      j=j+1;
+    }
     fputs("\n",stdout);
   }
   fputs("\n", stdout);
