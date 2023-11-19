@@ -6,27 +6,14 @@ int init_globals(void){
   elf_buf=malloc(256*1024);
 }
 
-
-int load_elf(char *name){
-  int f;
-  int l;
-  int c;
+void elf_hex_dump(int l){
   int i;
   int j;
-  int v;
   int k;
+  int off;
   int off_l;
-  char *off;
-  l=0;
-  puts("loading elf file:");
-  puts(name);
-  f=fopen(name,"rb");
-  while((c=fgetc(f)) >= 0){
-    elf_buf[l]=c;
-    l=l+1;
-  }
-  puts("file length");
-  puts_num(l);
+  int v;
+
   i=0;
   while(i<l) {
     off=int2str(i,16,0);
@@ -68,6 +55,29 @@ int load_elf(char *name){
     fputs("\n",stdout);
   }
   fputs("\n", stdout);
+}
+
+int load_elf(char *name){
+  int f;
+  int l;
+  int c;
+  int i;
+  int j;
+  int v;
+  int k;
+  int off_l;
+  char *off;
+  l=0;
+  puts("loading elf file:");
+  puts(name);
+  f=fopen(name,"rb");
+  while((c=fgetc(f)) >= 0){
+    elf_buf[l]=c;
+    l=l+1;
+  }
+  puts("file length");
+  puts_num(l);
+  elf_hex_dump(l);
 }
 
 int main(int argc, char **argv)
