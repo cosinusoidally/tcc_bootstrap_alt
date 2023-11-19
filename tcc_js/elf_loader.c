@@ -82,6 +82,8 @@ int decode_elf(){
   int j;
   int o;
   int sh_type;
+  int sh_offset;
+  int sh_size;
 
   if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(1)!='E') { puts("magic 1");exit(1);}
@@ -116,10 +118,12 @@ int decode_elf(){
     fputs(int2str(sh_type,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_offset: ",stdout);
-    fputs(int2str(ri32(o+16),16,0),stdout);
+    sh_offset=ri32(o+16);
+    fputs(int2str(sh_offset,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_size: ",stdout);
-    fputs(int2str(ri32(o+20),16,0),stdout);
+    sh_size=ri32(o+20);
+    fputs(int2str(sh_size,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_entsize: ",stdout);
     fputs(int2str(ri32(o+36),16,0),stdout);
