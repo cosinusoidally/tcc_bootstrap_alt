@@ -16,8 +16,10 @@ cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_
 echo "building with tcc"
 tcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_tcc.exe
 
-echo "building with tcc"
-gcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_gcc.exe
+echo "building with gcc"
+gcc -c elf_loader.c -o elf_loader_gcc.o
+tcc elf_loader_gcc.o -o /tmp/tcc_js_tmp/elf_loader_gcc.exe
+rm elf_loader_gcc.o
 
 cd ..
 

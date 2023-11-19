@@ -97,6 +97,18 @@ int load_elf(char *name){
   decode_elf();
 }
 
+int get_main(void){
+  char *m;
+  m=malloc(1024);
+  m[0]=0xB8;
+  m[1]=0;
+  m[2]=0;
+  m[3]=0;
+  m[4]=0;
+  m[5]=0xC3;
+  return m;
+}
+
 int main(int argc, char **argv)
 {
   FUNCTION t;
@@ -112,8 +124,6 @@ int main(int argc, char **argv)
   puts("running elf files");
   load_elf("elf_test.o");
   puts(argv[optind]);
-  return 0;
-/* can't call yet
+  t=get_main();
   return call_wrap(t, argc - optind, argv + (p_size*optind));
-*/
 }
