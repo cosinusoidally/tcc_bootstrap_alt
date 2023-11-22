@@ -143,7 +143,6 @@ int decode_elf(int e){
   int text_mem;
   int data_mem;
 
-  init_offsets();
 
   if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
@@ -298,6 +297,7 @@ int main(int argc, char **argv)
 
   init_c();
   init_globals();
+  init_offsets();
 
   puts("running elf files");
   load_elf("elf_test.o");
