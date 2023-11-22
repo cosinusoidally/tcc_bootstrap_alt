@@ -115,6 +115,10 @@ int get_section_header(int e, char *str) {
   return 0;
 }
 
+void init_offsets(void){
+
+}
+
 int decode_elf(int e){
   int e_shoff;
   int e_shentsize;
@@ -128,6 +132,8 @@ int decode_elf(int e){
   int sh_size;
   int sl;
   int text;
+
+  init_offsets();
 
   if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
