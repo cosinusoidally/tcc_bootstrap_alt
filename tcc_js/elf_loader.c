@@ -245,6 +245,7 @@ int decode_elf(int e, int os){
   hex_dump(text_mem,sh_size);
   fputs("\n",stdout);
   obj_struct[obj_text_o]=text_mem;
+  obj_struct[obj_text_size_o]=sh_size;
 
   fputs(".data:\n",stdout);
   fputs("sh_name: 0x",stdout);
@@ -265,6 +266,8 @@ int decode_elf(int e, int os){
   fputs("\n",stdout);
   hex_dump(data_mem,sh_size);
   obj_struct[obj_data_o]=data_mem;
+  obj_struct[obj_data_size_o]=sh_size;
+
   return os;
 }
 
