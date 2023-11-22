@@ -107,10 +107,12 @@ int get_section_header(int e, char *str) {
     fputs(sh_name_str,stdout);
     fputs("\n",stdout);
     if(strcmp(str,sh_name_str) == 0){
-      puts("found");
+      return e+o;
     }
     o=o+e_shentsize;
   }
+  puts("section header not found");
+  return 0;
 }
 
 int decode_elf(int e){
