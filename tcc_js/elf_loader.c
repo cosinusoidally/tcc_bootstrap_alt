@@ -139,7 +139,9 @@ int decode_elf(int e){
   int sh_size;
   int sl;
   int text;
+  int data;
   int text_mem;
+  int data_mem;
 
   init_offsets();
 
@@ -153,6 +155,7 @@ int decode_elf(int e){
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
   text=get_section_header(e,".text");
+  data=get_section_header(e,".data");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
@@ -223,6 +226,26 @@ int decode_elf(int e){
   fputs(int2str(text_mem,16,0),stdout);
   fputs("\n",stdout);
   hex_dump(text_mem,sh_size);
+  fputs("\n",stdout);
+
+  fputs(".data:\n",stdout);
+  fputs("sh_name: 0x",stdout);
+  fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_offset: 0x",stdout);
+  sh_offset=ri32(data+sh_offset_o);
+  fputs(int2str(sh_offset,16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_size: 0x",stdout);
+  sh_size=ri32(data+sh_size_o);
+  fputs(int2str(sh_size,16,0),stdout);
+  fputs("\n",stdout);
+  data_mem=malloc(sh_size);
+  memcpy(data_mem,e+sh_offset,sh_size);
+  fputs("data_mem address: 0x",stdout);
+  fputs(int2str(data_mem,16,0),stdout);
+  fputs("\n",stdout);
+  hex_dump(data_mem,sh_size);
 }
 
 int load_elf(char *name){
