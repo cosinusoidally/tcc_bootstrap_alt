@@ -8,9 +8,11 @@ int obj_name_o;
 int obj_text_o;
 int obj_data_o;
 int obj_bss_o;
+int obj_strtab_o;
 int obj_text_size_o;
 int obj_data_size_o;
 int obj_bss_size_o;
+int obj_strtab_size_o;
 int obj_struct_size;
 
 int init_globals(void){
@@ -140,6 +142,8 @@ void init_offsets(void){
   obj_text_size_o=4;
   obj_data_size_o=5;
   obj_bss_size_o=6;
+  obj_strtab_o=7;
+  obj_strtab_size_o=8;
 }
 
 int decode_elf(int e, int os){
@@ -156,8 +160,10 @@ int decode_elf(int e, int os){
   int sl;
   int text;
   int data;
+  int strtab;
   int text_mem;
   int data_mem;
+  int strtab_mem;
   int *obj_struct;
 
   obj_struct=os;
@@ -173,6 +179,7 @@ int decode_elf(int e, int os){
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
   text=get_section_header(e,".text");
   data=get_section_header(e,".data");
+  strtab=get_section_header(e,".strtab");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
@@ -267,6 +274,27 @@ int decode_elf(int e, int os){
   hex_dump(data_mem,sh_size);
   obj_struct[obj_data_o]=data_mem;
   obj_struct[obj_data_size_o]=sh_size;
+
+  fputs(".strtab:\n",stdout);
+  fputs("sh_name: 0x",stdout);
+  fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_offset: 0x",stdout);
+  sh_offset=ri32(strtab+sh_offset_o);
+  fputs(int2str(sh_offset,16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_size: 0x",stdout);
+  sh_size=ri32(strtab+sh_size_o);
+  fputs(int2str(sh_size,16,0),stdout);
+  fputs("\n",stdout);
+  strtab_mem=malloc(sh_size);
+  memcpy(strtab_mem,e+sh_offset,sh_size);
+  fputs("strtab_mem address: 0x",stdout);
+  fputs(int2str(strtab_mem,16,0),stdout);
+  fputs("\n",stdout);
+  hex_dump(strtab_mem,sh_size);
+  obj_struct[obj_strtab_o]=strtab_mem;
+  obj_struct[obj_strtab_size_o]=sh_size;
 
   return os;
 }
