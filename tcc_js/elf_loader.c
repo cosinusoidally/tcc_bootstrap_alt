@@ -218,6 +218,11 @@ int decode_elf(int e){
   fputs(int2str(sh_size,16,0),stdout);
   fputs("\n",stdout);
   text_mem=malloc(sh_size);
+  memcpy(text_mem,e+sh_offset,sh_size);
+  fputs("text_mem address: 0x",stdout);
+  fputs(int2str(text_mem,16,0),stdout);
+  fputs("\n",stdout);
+  hex_dump(text_mem,sh_size);
 }
 
 int load_elf(char *name){
