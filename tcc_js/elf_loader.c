@@ -175,7 +175,7 @@ int load_elf(char *name){
   e=malloc(l);
   memcpy(e,elf_buf,l);
   decode_elf(e);
-/*  hex_dump(l); */
+/*  hex_dump(e,l); */
 }
 
 int get_main(void){
