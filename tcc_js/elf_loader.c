@@ -4,6 +4,8 @@ char *elf_buf;
 int sh_name_o;
 int sh_size_o;
 int sh_offset_o;
+int obj_name_o;
+int obj_struct_size;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -124,9 +126,12 @@ void init_offsets(void){
   sh_name_o=0;
   sh_size_o=20;
   sh_offset_o=16;
+  obj_struct_size=4*10;
+  obj_name_o=0;
+
 }
 
-int decode_elf(int e){
+int decode_elf(int e, int obj_struct){
   int e_shoff;
   int e_shentsize;
   int e_shnum;
@@ -258,6 +263,9 @@ int load_elf(char *name){
   int e;
   int off_l;
   char *off;
+  int *obj_struct;
+  obj_struct=malloc(obj_struct_size);
+  obj_struct[obj_name_o]=name;
   l=0;
   puts("loading elf file:");
   puts(name);
@@ -270,8 +278,9 @@ int load_elf(char *name){
   puts_num(l);
   e=malloc(l);
   memcpy(e,elf_buf,l);
-  decode_elf(e);
+  decode_elf(e, obj_struct);
 /*  hex_dump(e,l); */
+  return obj_struct;
 }
 
 int get_main(void){
