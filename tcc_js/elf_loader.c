@@ -7,7 +7,9 @@ int init_globals(void){
 }
 
 int ru8(int o) {
-  return elf_buf[o] & 0xFF;
+  char *b;
+  b=o;
+  return b[0] & 0xFF;
 }
 
 int ri32(int o){
@@ -22,7 +24,7 @@ int ri32(int o){
   return r;
 }
 
-void elf_hex_dump(int l){
+void hex_dump(int e,int l){
   int i;
   int j;
   int k;
@@ -41,12 +43,12 @@ void elf_hex_dump(int l){
     fputs(": ",stdout);
     j=0;
     while(j<8) { 
-      v=ru8(i);
+      v=ru8(e+i);
       if(v<16) {
         fputc('0', stdout);
       }
       fputs(int2str(v,16,0), stdout);
-      v=ru8(i+1);
+      v=ru8(e+i+1);
       if(v<16) {
         fputc('0', stdout);
       }
@@ -59,7 +61,7 @@ void elf_hex_dump(int l){
     i=i-16;
     j=0;
     while(j<16) {
-      v=ru8(i);
+      v=ru8(e+i);
       if(((' ' <= v) !=0) && ((v <= '~')!=0)) {
         fputc(v, stdout);
       } else {
@@ -73,7 +75,7 @@ void elf_hex_dump(int l){
   fputs("\n", stdout);
 }
 
-int decode_elf(){
+int decode_elf(int e){
   int e_shoff;
   int e_shentsize;
   int e_shnum;
@@ -86,15 +88,15 @@ int decode_elf(){
   int sh_size;
   int sl;
 
-  if(ru8(0)!=0x7F) { puts("magic 0");exit(1);}
-  if(ru8(1)!='E') { puts("magic 1");exit(1);}
-  if(ru8(2)!='L') { puts("magic 2");exit(1);}
-  if(ru8(3)!='F') { puts("magic 3");exit(1);}
+  if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
+  if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
+  if(ru8(e+2)!='L') { puts("magic 2");exit(1);}
+  if(ru8(e+3)!='F') { puts("magic 3");exit(1);}
   puts("ELF magic ok");
-  e_shoff=ri32(0x20);
-  e_shentsize=ri32(0x2E) & 0xFFFF;
-  e_shnum=ri32(0x30) & 0xFFFF;
-  e_shstrndx=ri32(0x32) & 0xFFFF;
+  e_shoff=ri32(e+0x20);
+  e_shentsize=ri32(e+0x2E) & 0xFFFF;
+  e_shnum=ri32(e+0x30) & 0xFFFF;
+  e_shstrndx=ri32(e+0x32) & 0xFFFF;
 
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
@@ -112,29 +114,29 @@ int decode_elf(){
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
     fputs("sh_name: ",stdout);
-    fputs(int2str(ri32(o),16,0),stdout);
+    fputs(int2str(ri32(e+o),16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_type: ",stdout);
-    sh_type=ri32(o+4);
+    sh_type=ri32(e+o+4);
     fputs(int2str(sh_type,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_offset: ",stdout);
-    sh_offset=ri32(o+16);
+    sh_offset=ri32(e+o+16);
     fputs(int2str(sh_offset,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_size: ",stdout);
-    sh_size=ri32(o+20);
+    sh_size=ri32(e+o+20);
     fputs(int2str(sh_size,16,0),stdout);
     fputs("\n",stdout);
     fputs("sh_entsize: ",stdout);
-    fputs(int2str(ri32(o+36),16,0),stdout);
+    fputs(int2str(ri32(e+o+36),16,0),stdout);
     fputs("\n",stdout);
     if(sh_type==3){
       puts("SHT_STRTAB");
     }
     if(i==e_shstrndx){
       puts(".shstrtab:");
-      o=elf_buf+sh_offset;
+      o=e+sh_offset;
       for(j=0;j<e_shnum;j=j+1){
         sl=strlen(o);
         fputs(int2str(sl,10,0),stdout);
@@ -169,8 +171,8 @@ int load_elf(char *name){
   }
   puts("file length");
   puts_num(l);
-/*  elf_hex_dump(l); */
-  decode_elf();
+/*  hex_dump(l); */
+  decode_elf(elf_buf);
 }
 
 int get_main(void){
