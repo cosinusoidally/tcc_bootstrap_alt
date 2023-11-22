@@ -139,6 +139,7 @@ int decode_elf(int e){
   int sh_size;
   int sl;
   int text;
+  int text_mem;
 
   init_offsets();
 
@@ -209,11 +210,14 @@ int decode_elf(int e){
   fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
   fputs("\n",stdout);
   fputs("sh_offset: 0x",stdout);
-  fputs(int2str(ri32(text+sh_offset_o),16,0),stdout);
+  sh_offset=ri32(text+sh_offset_o);
+  fputs(int2str(sh_offset,16,0),stdout);
   fputs("\n",stdout);
   fputs("sh_size: 0x",stdout);
-  fputs(int2str(ri32(text+sh_size_o),16,0),stdout);
+  sh_size=ri32(text+sh_size_o);
+  fputs(int2str(sh_size,16,0),stdout);
   fputs("\n",stdout);
+  text_mem=malloc(sh_size);
 }
 
 int load_elf(char *name){
