@@ -5,6 +5,7 @@ int sh_name_o;
 int sh_size_o;
 int sh_offset_o;
 int obj_name_o;
+int obj_text_o;
 int obj_struct_size;
 
 int init_globals(void){
@@ -128,10 +129,11 @@ void init_offsets(void){
   sh_offset_o=16;
   obj_struct_size=4*10;
   obj_name_o=0;
+  obj_text_o=4;
 
 }
 
-int decode_elf(int e, int obj_struct){
+int decode_elf(int e, int os){
   int e_shoff;
   int e_shentsize;
   int e_shnum;
@@ -147,7 +149,9 @@ int decode_elf(int e, int obj_struct){
   int data;
   int text_mem;
   int data_mem;
+  int *obj_struct;
 
+  obj_struct=os;
 
   if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
@@ -231,6 +235,7 @@ int decode_elf(int e, int obj_struct){
   fputs("\n",stdout);
   hex_dump(text_mem,sh_size);
   fputs("\n",stdout);
+  obj_struct[obj_text_o]=text_mem;
 
   fputs(".data:\n",stdout);
   fputs("sh_name: 0x",stdout);
@@ -264,7 +269,7 @@ int load_elf(char *name){
   int off_l;
   char *off;
   int *obj_struct;
-  obj_struct=malloc(obj_struct_size);
+  obj_struct=calloc(obj_struct_size,1);
   obj_struct[obj_name_o]=name;
   l=0;
   puts("loading elf file:");
