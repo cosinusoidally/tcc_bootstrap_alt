@@ -3,6 +3,7 @@
 char *elf_buf;
 int sh_name_o;
 int sh_size_o;
+int sh_offset_o;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -122,6 +123,7 @@ int get_section_header(int e, char *str) {
 void init_offsets(void){
   sh_name_o=0;
   sh_size_o=20;
+  sh_offset_o=16;
 }
 
 int decode_elf(int e){
@@ -205,6 +207,9 @@ int decode_elf(int e){
   fputs(".text:\n",stdout);
   fputs("sh_name: 0x",stdout);
   fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_offset: 0x",stdout);
+  fputs(int2str(ri32(text+sh_offset_o),16,0),stdout);
   fputs("\n",stdout);
   fputs("sh_size: 0x",stdout);
   fputs(int2str(ri32(text+sh_size_o),16,0),stdout);
