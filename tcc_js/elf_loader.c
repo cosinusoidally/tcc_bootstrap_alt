@@ -7,6 +7,10 @@ int sh_offset_o;
 int obj_name_o;
 int obj_text_o;
 int obj_data_o;
+int obj_bss_o;
+int obj_text_size_o;
+int obj_data_size_o;
+int obj_bss_size_o;
 int obj_struct_size;
 
 int init_globals(void){
@@ -128,10 +132,14 @@ void init_offsets(void){
   sh_name_o=0;
   sh_size_o=20;
   sh_offset_o=16;
-  obj_struct_size=4*10;
+  obj_struct_size=4*32;
   obj_name_o=0;
   obj_text_o=1;
   obj_data_o=2;
+  obj_bss_o=3;
+  obj_text_size_o=4;
+  obj_data_size_o=5;
+  obj_bss_size_o=6;
 }
 
 int decode_elf(int e, int os){
