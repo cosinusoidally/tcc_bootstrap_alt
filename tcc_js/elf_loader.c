@@ -1,6 +1,8 @@
 #include "elf_loader_support_tcc.c"
 
 char *elf_buf;
+int sh_name_o;
+int sh_size_o;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -115,8 +117,10 @@ int get_section_header(int e, char *str) {
   return 0;
 }
 
-void init_offsets(void){
 
+
+void init_offsets(void){
+  sh_name_o=0;
 }
 
 int decode_elf(int e){
@@ -131,7 +135,7 @@ int decode_elf(int e){
   int sh_offset;
   int sh_size;
   int sl;
-  int text;
+  int *text;
 
   init_offsets();
 
@@ -196,6 +200,11 @@ int decode_elf(int e){
     fputs("\n",stdout);
     o=o+e_shentsize;
   }
+
+  fputs(".text:\n",stdout);
+  fputs("sh_name: ",stdout);
+  fputs(int2str(text[sh_name_o],16,0),stdout);
+  fputs("\n",stdout);
 }
 
 int load_elf(char *name){
