@@ -82,6 +82,7 @@ int get_section_header(int e, char *str) {
   int e_shstrndx;
   int sh_offset;
   int sh_name;
+  int sh_name_str;
   int i;
   int j;
   int o;
@@ -101,9 +102,13 @@ int get_section_header(int e, char *str) {
     sh_name=ri32(e+o);
     fputs("sh_name: ",stdout);
     fputs(int2str(sh_name,16,0),stdout);
+    sh_name_str=e+sh_offset+sh_name;
     fputs(" sh_name_str: ",stdout);
-    fputs(e+sh_offset+sh_name,stdout);
+    fputs(sh_name_str,stdout);
     fputs("\n",stdout);
+    if(strcmp(str,sh_name_str) == 0){
+      puts("found");
+    }
     o=o+e_shentsize;
   }
 }
