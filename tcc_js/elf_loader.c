@@ -75,10 +75,37 @@ void hex_dump(int e,int l){
   fputs("\n", stdout);
 }
 
-int get_section(int e, char *str) {
+int get_section_header(int e, char *str) {
+  int e_shoff;
+  int e_shentsize;
+  int e_shnum;
+  int e_shstrndx;
+  int sh_offset;
+  int sh_name;
+  int i;
+  int j;
+  int o;
+  int sl;
+  e_shoff=ri32(e+0x20);
+  e_shentsize=ri32(e+0x2E) & 0xFFFF;
+  e_shnum=ri32(e+0x30) & 0xFFFF;
+  e_shstrndx=ri32(e+0x32) & 0xFFFF;
+  puts(".shstrtab:");
+  o=e+e_shoff+(e_shstrndx*e_shentsize);
+  sh_offset=ri32(o+16);
   fputs("get_section: ",stdout);
   fputs(str,stdout);
   fputs("\n", stdout);
+  o=e_shoff;
+  for(i=0;i<e_shnum;i=i+1){
+    sh_name=ri32(e+o);
+    fputs("sh_name: ",stdout);
+    fputs(int2str(sh_name,16,0),stdout);
+    fputs(" sh_name_str: ",stdout);
+    fputs(e+sh_offset+sh_name,stdout);
+    fputs("\n",stdout);
+    o=o+e_shentsize;
+  }
 }
 
 int decode_elf(int e){
@@ -104,7 +131,7 @@ int decode_elf(int e){
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
-  text=get_section(e,".text");
+  text=get_section_header(e,".text");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
