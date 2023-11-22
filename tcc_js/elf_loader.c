@@ -159,6 +159,7 @@ int load_elf(char *name){
   int j;
   int v;
   int k;
+  int e;
   int off_l;
   char *off;
   l=0;
@@ -171,8 +172,10 @@ int load_elf(char *name){
   }
   puts("file length");
   puts_num(l);
+  e=malloc(l);
+  memcpy(e,elf_buf,l);
+  decode_elf(e);
 /*  hex_dump(l); */
-  decode_elf(elf_buf);
 }
 
 int get_main(void){

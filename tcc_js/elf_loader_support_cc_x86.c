@@ -24,4 +24,18 @@ void puts_num(int x){
 
 int init_c(void) {
   p_size=4;
+  stdin=0;
+  stdout=1;
+  stderr=3;
+}
+
+int memcpy(int a, int b, int c) {
+  char *dest;
+  char *src;
+  int i;
+  dest=a;
+  src=b;
+  for(i=0;i<c;i=i+1){
+    dest[i]=src[i];
+  }
 }
