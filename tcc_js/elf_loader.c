@@ -75,6 +75,12 @@ void hex_dump(int e,int l){
   fputs("\n", stdout);
 }
 
+int get_section(int e, char *str) {
+  fputs("get_section: ",stdout);
+  fputs(str,stdout);
+  fputs("\n", stdout);
+}
+
 int decode_elf(int e){
   int e_shoff;
   int e_shentsize;
@@ -87,6 +93,7 @@ int decode_elf(int e){
   int sh_offset;
   int sh_size;
   int sl;
+  int text;
 
   if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
@@ -97,7 +104,7 @@ int decode_elf(int e){
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
-
+  text=get_section(e,".text");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
