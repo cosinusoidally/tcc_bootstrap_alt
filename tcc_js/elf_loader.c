@@ -6,6 +6,7 @@ int sh_size_o;
 int sh_offset_o;
 int obj_name_o;
 int obj_text_o;
+int obj_data_o;
 int obj_struct_size;
 
 int init_globals(void){
@@ -129,8 +130,8 @@ void init_offsets(void){
   sh_offset_o=16;
   obj_struct_size=4*10;
   obj_name_o=0;
-  obj_text_o=4;
-
+  obj_text_o=1;
+  obj_data_o=2;
 }
 
 int decode_elf(int e, int os){
@@ -255,6 +256,8 @@ int decode_elf(int e, int os){
   fputs(int2str(data_mem,16,0),stdout);
   fputs("\n",stdout);
   hex_dump(data_mem,sh_size);
+  obj_struct[obj_data_o]=data_mem;
+  return os;
 }
 
 int load_elf(char *name){
@@ -304,6 +307,7 @@ int main(int argc, char **argv)
 {
   FUNCTION t;
   int optind;
+  int *obj0;
 
   puts("elf loader starting");
 
@@ -314,7 +318,7 @@ int main(int argc, char **argv)
   init_offsets();
 
   puts("running elf files");
-  load_elf("elf_test.o");
+  obj0=load_elf("elf_test.o");
   puts(argv[optind]);
   t=get_main();
   return call_wrap(t, argc - optind, argv + (p_size*optind));
