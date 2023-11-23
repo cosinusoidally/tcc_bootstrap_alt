@@ -37,6 +37,7 @@ int st_info_o;
 int st_shndx_o;
 int STT_OBJECT;
 int STT_FUNC;
+int ST_GLOBAL;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -190,6 +191,7 @@ void init_offsets(void){
   st_shndx_o=0xE;
   STT_OBJECT=1;
   STT_FUNC=2;
+  ST_GLOBAL=1;
 }
 void print_relocs(char *name,int *o){
   int i;
@@ -535,7 +537,7 @@ int gen_und_exports(int o){
     fputs("\n",stdout);
 
 
-    if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
+    if(((st_type==STT_OBJECT) | (st_type==STT_FUNC)) & (st_bind==ST_GLOBAL)){
       puts("OBJECT or FUNCTION");
       if(st_shndx==0){
         puts("UND");
