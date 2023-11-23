@@ -495,6 +495,7 @@ int gen_und_exports(int o){
   int i;
   int sym;
   int st_name;
+  int st_name_str;
   int st_info;
   int st_bind;
   int st_type;
@@ -529,6 +530,11 @@ int gen_und_exports(int o){
 
     if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
       puts("OBJECT or FUNCTION");
+      if(st_shndx==0){
+        puts("UND");
+      } else {
+        puts("export");
+      }
     }
   }
 }
