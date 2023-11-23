@@ -459,6 +459,43 @@ int get_main(void){
   return m;
 }
 
+int reloc_internal(int o){
+  puts("reloc_internal");
+}
+
+int gen_und_exports(int o){
+  puts("gen_und_exports (export table and undefined symbol table)");
+}
+
+int resolve_und(int o){
+  puts("resolve_und");
+}
+
+int link(int o){
+  int *objs;
+  int *obj;
+  int name;
+  int i;
+  objs=o;
+  i=0;
+  puts("============================");
+  puts("linking");
+  while(obj=objs[i]){
+    name=obj[obj_name_o];
+    puts(name);
+    if(obj[obj_linked_o]!=0){
+      fputs("already linked\n",stdout);
+    } else {
+      fputs("linking\n",stdout);
+      reloc_internal(obj);
+      gen_und_exports(obj);
+    }
+    puts("");
+    i=i+1;
+  }
+  resolve_und(o);
+}
+
 int main(int argc, char **argv)
 {
   FUNCTION t;
@@ -477,6 +514,7 @@ int main(int argc, char **argv)
   puts("running elf files");
   objs[0]=mk_host_obj();
   objs[1]=load_elf("elf_test.o");
+  link(objs);
   puts(argv[optind]);
   t=get_main();
   return call_wrap(t, argc - optind, argv + (p_size*optind));
