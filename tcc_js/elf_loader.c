@@ -160,10 +160,14 @@ void init_offsets(void){
   r_info_o=4;
 }
 
-void print_relocs(char *name, int ptr, int size){
+void print_relocs(char *name,int *o){
   int i;
   int r_info;
   int r_sym;
+  int ptr;
+  int size;
+  ptr=o[obj_rel_text_o];
+  size=o[obj_rel_text_size_o];
   fputs("\n",stdout);
   fputs(name,stdout);
   fputs("\n",stdout);
@@ -386,7 +390,7 @@ int decode_elf(int e, int os){
   hex_dump(rel_text_mem,sh_size);
   obj_struct[obj_rel_text_o]=rel_text_mem;
   obj_struct[obj_rel_text_size_o]=sh_size;
-  print_relocs(".rel.text", rel_text_mem, sh_size);
+  print_relocs(".rel.text", os);
 
   return os;
 }
