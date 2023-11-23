@@ -20,6 +20,7 @@ int obj_symtab_size_o;
 int obj_symtab_ent_size_o;
 int obj_rel_text_size_o;
 int obj_struct_size;
+int r_info_o;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -156,6 +157,27 @@ void init_offsets(void){
   obj_symtab_ent_size_o=11;
   obj_rel_text_o=12;
   obj_rel_text_size_o=13;
+  r_info_o=4;
+}
+
+void print_relocs(char *name, int ptr, int size){
+  int i;
+  int r_info;
+  int r_sym;
+  fputs("\n",stdout);
+  fputs(name,stdout);
+  fputs("\n",stdout);
+  for(i=0;i<size;i=i+8){
+    r_info=ri32(ptr+i+r_info_o);
+    /* FIXME use unsigned shift */
+    r_sym=r_info>>8;
+    fputs("r_info: 0x",stdout);
+    fputs(int2str(r_sym,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(ptr+i,8);
+  }
+  fputs("\n",stdout);
+
 }
 
 int decode_elf(int e, int os){
@@ -364,6 +386,7 @@ int decode_elf(int e, int os){
   hex_dump(rel_text_mem,sh_size);
   obj_struct[obj_rel_text_o]=rel_text_mem;
   obj_struct[obj_rel_text_size_o]=sh_size;
+  print_relocs(".rel.text", rel_text_mem, sh_size);
 
   return os;
 }
