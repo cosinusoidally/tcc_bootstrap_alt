@@ -3,6 +3,7 @@
 char *elf_buf;
 int sh_name_o;
 int sh_size_o;
+int sh_entsize_o;
 int sh_offset_o;
 int obj_name_o;
 int obj_text_o;
@@ -136,6 +137,7 @@ int get_section_header(int e, char *str) {
 void init_offsets(void){
   sh_name_o=0;
   sh_size_o=20;
+  sh_entsize_o=36;
   sh_offset_o=16;
   obj_struct_size=4*32;
   obj_name_o=0;
@@ -163,6 +165,7 @@ int decode_elf(int e, int os){
   int sh_type;
   int sh_offset;
   int sh_size;
+  int sh_entsize;
   int sl;
   int text;
   int data;
@@ -316,6 +319,10 @@ int decode_elf(int e, int os){
   fputs("sh_size: 0x",stdout);
   sh_size=ri32(symtab+sh_size_o);
   fputs(int2str(sh_size,16,0),stdout);
+  fputs("\n",stdout);
+  sh_entsize=ri32(symtab+sh_entsize_o);
+  fputs("sh_entsize: 0x",stdout);
+  fputs(int2str(sh_entsize,16,0),stdout);
   fputs("\n",stdout);
   symtab_mem=malloc(sh_size);
   memcpy(symtab_mem,e+sh_offset,sh_size);
