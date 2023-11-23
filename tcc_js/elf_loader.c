@@ -31,6 +31,12 @@ int exp_size;
 int und_name_o;
 int und_val_o;
 int und_size;
+int st_name_o;
+int st_value_o;
+int st_info_o;
+int st_shndx_o;
+int STT_OBJECT;
+int STT_FUNC;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -178,6 +184,12 @@ void init_offsets(void){
   und_name_o=0;
   und_val_o=1;
   und_size=8;
+  st_name_o=0;
+  st_value_o=4;
+  st_info_o=0xC;
+  st_shndx_o=0xE;
+  STT_OBJECT=1;
+  STT_FUNC=2;
 }
 void print_relocs(char *name,int *o){
   int i;
@@ -477,10 +489,48 @@ int reloc_internal(int o){
 
 int gen_und_exports(int o){
   int *obj=o;
+  int symtab;
+  int symtab_size;
+  int entsize;
+  int i;
+  int sym;
+  int st_name;
+  int st_info;
+  int st_bind;
+  int st_type;
+  int st_shndx;
+  symtab=obj[obj_symtab_o];
+  symtab_size=obj[obj_symtab_size_o];
+  entsize=16;
   puts("gen_und_exports (export table and undefined symbol table)");
   /* FIXME this should not be 16 it should be calculated */
   obj[obj_exports_o]=calloc(exp_size*16,1);
   obj[obj_und_o]=calloc(und_size*16,1);
+  for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
+    sym=i+symtab;
+    hex_dump(sym,entsize);
+    st_name=ri32(sym+st_name_o);
+    st_info=ru8(sym+st_info_o);
+    st_type=st_info & 0xF;
+    st_bind=st_info>>4;
+    st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
+
+    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+    fputs("\n",stdout);
+
+
+    if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
+      puts("OBJECT or FUNCTION");
+    }
+  }
 }
 
 int resolve_und(int o){
