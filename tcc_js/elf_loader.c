@@ -503,13 +503,23 @@ int gen_und_exports(int o){
   int st_bind;
   int st_type;
   int st_shndx;
+  int *exports;
+  int n_exports;
+  int *unds;
+  int n_unds;
+
+  n_exports=0;
+  n_unds=0;
+  /* FIXME this should not be 16 it should be calculated */
+  exports=calloc(exp_size*16,1);
+  unds=calloc(und_size*16,1);
+
   symtab=obj[obj_symtab_o];
   symtab_size=obj[obj_symtab_size_o];
   entsize=16;
   puts("gen_und_exports (export table and undefined symbol table)");
-  /* FIXME this should not be 16 it should be calculated */
-  obj[obj_exports_o]=calloc(exp_size*16,1);
-  obj[obj_und_o]=calloc(und_size*16,1);
+  obj[obj_exports_o] = exports;
+  obj[obj_und_o] = unds;
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
     sym=i+symtab;
     hex_dump(sym,entsize);
@@ -546,6 +556,10 @@ int gen_und_exports(int o){
       }
     }
   }
+  puts("exports:");
+  hex_dump(exports,n_exports*8);
+  puts("unds:");
+  hex_dump(unds,n_unds*8);
 }
 
 int resolve_und(int o){
