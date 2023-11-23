@@ -11,12 +11,14 @@ int obj_data_o;
 int obj_bss_o;
 int obj_strtab_o;
 int obj_symtab_o;
+int obj_rel_text_o;
 int obj_text_size_o;
 int obj_data_size_o;
 int obj_bss_size_o;
 int obj_strtab_size_o;
 int obj_symtab_size_o;
 int obj_symtab_ent_size_o;
+int obj_rel_text_size_o;
 int obj_struct_size;
 
 int init_globals(void){
@@ -152,6 +154,8 @@ void init_offsets(void){
   obj_symtab_o=9;
   obj_symtab_size_o=10;
   obj_symtab_ent_size_o=11;
+  obj_rel_text_o=12;
+  obj_rel_text_size_o=13;
 }
 
 int decode_elf(int e, int os){
@@ -170,11 +174,13 @@ int decode_elf(int e, int os){
   int text;
   int data;
   int strtab;
+  int symtab;
+  int rel_text;
   int text_mem;
   int data_mem;
-  int symtab;
   int strtab_mem;
   int symtab_mem;
+  int rel_text_mem;
   int *obj_struct;
 
   obj_struct=os;
@@ -192,6 +198,7 @@ int decode_elf(int e, int os){
   data=get_section_header(e,".data");
   strtab=get_section_header(e,".strtab");
   symtab=get_section_header(e,".symtab");
+  rel_text=get_section_header(e,".rel.text");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
@@ -310,7 +317,7 @@ int decode_elf(int e, int os){
 
   fputs(".symtab:\n",stdout);
   fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
+  fputs(int2str(ri32(symtab+sh_name_o),16,0),stdout);
   fputs("\n",stdout);
   fputs("sh_offset: 0x",stdout);
   sh_offset=ri32(symtab+sh_offset_o);
@@ -332,6 +339,31 @@ int decode_elf(int e, int os){
   hex_dump(symtab_mem,sh_size);
   obj_struct[obj_symtab_o]=symtab_mem;
   obj_struct[obj_symtab_size_o]=sh_size;
+
+  fputs(".rel.text:\n",stdout);
+  fputs("sh_name: 0x",stdout);
+  fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_offset: 0x",stdout);
+  sh_offset=ri32(rel_text+sh_offset_o);
+  fputs(int2str(sh_offset,16,0),stdout);
+  fputs("\n",stdout);
+  fputs("sh_size: 0x",stdout);
+  sh_size=ri32(rel_text+sh_size_o);
+  fputs(int2str(sh_size,16,0),stdout);
+  fputs("\n",stdout);
+  sh_entsize=ri32(rel_text+sh_entsize_o);
+  fputs("sh_entsize: 0x",stdout);
+  fputs(int2str(sh_entsize,16,0),stdout);
+  fputs("\n",stdout);
+  rel_text_mem=malloc(sh_size);
+  memcpy(rel_text_mem,e+sh_offset,sh_size);
+  fputs("rel_text_mem address: 0x",stdout);
+  fputs(int2str(rel_text_mem,16,0),stdout);
+  fputs("\n",stdout);
+  hex_dump(rel_text_mem,sh_size);
+  obj_struct[obj_rel_text_o]=rel_text_mem;
+  obj_struct[obj_rel_text_size_o]=sh_size;
 
   return os;
 }
