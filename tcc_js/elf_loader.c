@@ -19,6 +19,9 @@ int obj_strtab_size_o;
 int obj_symtab_size_o;
 int obj_symtab_ent_size_o;
 int obj_rel_text_size_o;
+int obj_linked_o;
+int obj_exports_o;
+int obj_und_o;
 int obj_struct_size;
 int r_info_o;
 int st_name_o;
@@ -158,6 +161,9 @@ void init_offsets(void){
   obj_symtab_ent_size_o=11;
   obj_rel_text_o=12;
   obj_rel_text_size_o=13;
+  obj_linked_o=14;
+  obj_exports_o=15;
+  obj_und_o=16;
   r_info_o=4;
   st_name_o=0;
 }
@@ -415,6 +421,7 @@ int load_elf(char *name){
   int *obj_struct;
   obj_struct=calloc(obj_struct_size,1);
   obj_struct[obj_name_o]=name;
+  obj_struct[obj_linked_o]=0;
   l=0;
   puts("loading elf file:");
   puts(name);
@@ -429,6 +436,14 @@ int load_elf(char *name){
   memcpy(e,elf_buf,l);
   decode_elf(e, obj_struct);
 /*  hex_dump(e,l); */
+  return obj_struct;
+}
+
+int mk_host_obj(void){
+  int *obj_struct;
+  obj_struct=calloc(obj_struct_size,1);
+  obj_struct[obj_name_o]="host.o";
+  obj_struct[obj_linked_o]=1;
   return obj_struct;
 }
 
@@ -448,7 +463,8 @@ int main(int argc, char **argv)
 {
   FUNCTION t;
   int optind;
-  int *obj0;
+  int *objs;
+  objs=calloc(12,1);
 
   puts("elf loader starting");
 
@@ -459,7 +475,8 @@ int main(int argc, char **argv)
   init_offsets();
 
   puts("running elf files");
-  obj0=load_elf("elf_test.o");
+  objs[0]=mk_host_obj();
+  objs[1]=load_elf("elf_test.o");
   puts(argv[optind]);
   t=get_main();
   return call_wrap(t, argc - optind, argv + (p_size*optind));
