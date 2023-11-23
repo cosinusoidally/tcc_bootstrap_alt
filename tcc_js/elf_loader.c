@@ -496,6 +496,7 @@ int gen_und_exports(int o){
   int sym;
   int st_name;
   int st_name_str;
+  int st_value;
   int st_info;
   int st_bind;
   int st_type;
@@ -512,6 +513,7 @@ int gen_und_exports(int o){
     hex_dump(sym,entsize);
     st_name=ri32(sym+st_name_o);
     st_name_str=obj[obj_strtab_o]+st_name;
+    st_value=ri32(sym+st_value_o);
     st_info=ru8(sym+st_info_o);
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
@@ -520,6 +522,8 @@ int gen_und_exports(int o){
     fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
     fputs("\n",stdout);
     fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+    fputs("\n",stdout);
+    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
     fputs("\n",stdout);
     fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
     fputs("\n",stdout);
