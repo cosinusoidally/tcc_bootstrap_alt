@@ -25,6 +25,12 @@ int obj_und_o;
 int obj_struct_size;
 int r_info_o;
 int st_name_o;
+int exp_name_o;
+int exp_address_o;
+int exp_size;
+int und_name_o;
+int und_val_o;
+int und_size;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -166,6 +172,12 @@ void init_offsets(void){
   obj_und_o=16;
   r_info_o=4;
   st_name_o=0;
+  exp_name_o=0;
+  exp_address_o=1;
+  exp_size=8;
+  und_name_o=0;
+  und_val_o=1;
+  und_size=8;
 }
 void print_relocs(char *name,int *o){
   int i;
