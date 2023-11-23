@@ -551,8 +551,10 @@ int gen_und_exports(int o){
       puts("OBJECT or FUNCTION");
       if(st_shndx==0){
         puts("UND");
+        n_unds=n_unds+1;
       } else {
         puts("export");
+        n_exports=n_exports+1;
       }
     }
   }
