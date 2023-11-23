@@ -476,7 +476,11 @@ int reloc_internal(int o){
 }
 
 int gen_und_exports(int o){
+  int *obj=o;
   puts("gen_und_exports (export table and undefined symbol table)");
+  /* FIXME this should not be 16 it should be calculated */
+  obj[obj_exports_o]=calloc(exp_size*16,1);
+  obj[obj_und_o]=calloc(und_size*16,1);
 }
 
 int resolve_und(int o){
