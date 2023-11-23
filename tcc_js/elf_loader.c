@@ -21,6 +21,7 @@ int obj_symtab_ent_size_o;
 int obj_rel_text_size_o;
 int obj_struct_size;
 int r_info_o;
+int st_name_o;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -158,14 +159,15 @@ void init_offsets(void){
   obj_rel_text_o=12;
   obj_rel_text_size_o=13;
   r_info_o=4;
+  st_name_o=0;
 }
-
 void print_relocs(char *name,int *o){
   int i;
   int r_info;
   int r_sym;
   int ptr;
   int size;
+  int sym_name;
   ptr=o[obj_rel_text_o];
   size=o[obj_rel_text_size_o];
   fputs("\n",stdout);
@@ -177,6 +179,10 @@ void print_relocs(char *name,int *o){
     r_sym=r_info>>8;
     fputs("r_info: 0x",stdout);
     fputs(int2str(r_sym,16,0),stdout);
+    fputs("\n",stdout);
+    sym_name=o[obj_strtab_o]+ri32(o[obj_symtab_o]+(16*r_sym));
+    fputs("sym_name: ",stdout);
+    fputs(sym_name,stdout);
     fputs("\n",stdout);
     hex_dump(ptr+i,8);
   }
