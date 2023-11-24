@@ -575,8 +575,21 @@ int resolve_und(int o){
 int dump_exports(int o){
   int *obj;
   obj=o;
+  int *exports;
+  int name;
+  int n;
   puts("==========");
-  puts("dump_exports");
+  puts("dump_exports:");
+  exports=obj[obj_exports_o];
+  n=0;
+  while((name=exports[(2*n)+exp_name_o])!=0){
+    fputs("name: ",stdout);
+    fputs(name,stdout);
+    fputs(" address: 0x",stdout);
+    fputs(int2str(exports[(2*n)+exp_address_o],16,0),stdout);
+    fputs("\n",stdout);
+    n=n+1;
+  }
 }
 
 int dump_unds(int o) {
