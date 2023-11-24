@@ -666,11 +666,18 @@ int find_sym(int os, char *name){
       m=0;
       while((e=exports[(2*m)+exp_name_o])!=0){
         puts(e);
+        if(strcmp(e,name)==0){
+          puts("found");
+          return(exports[(2*m)+exp_address_o]);
+        }
         m=m+1;
       }
     }
     n=n+1;
   }
+  fputs("couldn't find: ",stdout);
+  fputs(name,stdout);
+  fputs("\n",stdout);
   return 0;
 }
 
