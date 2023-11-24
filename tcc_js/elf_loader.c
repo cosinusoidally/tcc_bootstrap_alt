@@ -580,6 +580,9 @@ int dump_exports(int o){
   int n;
   puts("==========");
   puts("dump_exports:");
+  fputs("obj: ",stdout);
+  fputs(obj[obj_name_o],stdout);
+  fputs("\n",stdout);
   exports=obj[obj_exports_o];
   n=0;
   while((name=exports[(2*n)+exp_name_o])!=0){
@@ -595,8 +598,24 @@ int dump_exports(int o){
 int dump_unds(int o) {
   int *obj;
   obj=o;
+  int *unds;
+  int name;
+  int n;
   puts("==========");
   puts("dump_unds");
+  fputs("obj: ",stdout);
+  fputs(obj[obj_name_o],stdout);
+  fputs("\n",stdout);
+  unds=obj[obj_und_o];
+  n=0;
+  while((name=unds[(2*n)+und_name_o])!=0){
+    fputs("name: ",stdout);
+    fputs(name,stdout);
+    fputs(" address: 0x",stdout);
+    fputs(int2str(ri32(unds[(2*n)+und_val_o]),16,0),stdout);
+    fputs("\n",stdout);
+    n=n+1;
+  }
 }
 
 int link(int o){
