@@ -61,6 +61,22 @@ int ri32(int o){
   return r;
 }
 
+int wu8(int o, int v) {
+  char *b;
+  b=o;
+  b[0] = v & 0xFF;
+}
+
+int wi32(int o, int v){
+  wu8(o,v&0xFF);
+  v=v>>8;
+  wu8(o+1,v&0xFF);
+  v=v>>8;
+  wu8(o+2,v&0xFF);
+  v=v>>8;
+  wu8(o+3,v&0xFF);
+}
+
 void hex_dump(int e,int l){
   int i;
   int j;
