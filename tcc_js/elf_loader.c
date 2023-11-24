@@ -1,5 +1,7 @@
 #include "elf_loader_support_tcc.c"
 
+int find_sym(int os, char *name);
+
 char *elf_buf;
 int sh_name_o;
 int sh_size_o;
@@ -535,8 +537,13 @@ int mk_host_obj(void){
   return obj_struct;
 }
 
-int get_main(void){
+int get_main(int o){
   char *m;
+  int ms;
+  ms=find_sym(o,"main");
+  fputs("main address: 0x",stdout);
+  fputs(int2str(ms,16,0),stdout);
+  fputs("\n",stdout);
   m=malloc(1024);
   m[0]=0xB8;
   m[1]=0;
@@ -637,6 +644,36 @@ int gen_und_exports(int o){
   hex_dump(unds,n_unds*8);
 }
 
+int find_sym(int os, char *name){
+  int *objs;
+  int *obj;
+  int *exports;
+  int m;
+  int n;
+  int e;
+  n=0;
+  objs=os;
+  fputs("find_sym: ",stdout);
+  fputs(name,stdout);
+  fputs("\n",stdout);
+  while((obj=objs[n])!=0){
+    fputs("looking in: ",stdout);
+    fputs(obj[obj_name_o],stdout);
+    fputs("\n",stdout);
+    exports=obj[obj_exports_o];
+    if(exports!=0){
+      puts("we have some exports");
+      m=0;
+      while((e=exports[(2*m)+exp_name_o])!=0){
+        puts(e);
+        m=m+1;
+      }
+    }
+    n=n+1;
+  }
+  return 0;
+}
+
 int resolve_und(int o){
   puts("resolve_und");
 }
@@ -735,6 +772,6 @@ int main(int argc, char **argv)
   objs[1]=load_elf("elf_test.o");
   link(objs);
   puts(argv[optind]);
-  t=get_main();
+  t=get_main(objs);
   return call_wrap(t, argc - optind, argv + (p_size*optind));
 }
