@@ -609,18 +609,25 @@ int gen_und_exports(int o){
     fputs("\n",stdout);
 
 
-    if(((st_type==STT_OBJECT) | (st_type==STT_FUNC)) & (st_bind==ST_GLOBAL)){
+    if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
       puts("OBJECT or FUNCTION");
       if(st_shndx==0){
         puts("UND");
         unds[(n_unds*2)+und_name_o]=st_name_str;
         unds[(n_unds*2)+und_val_o]=sym+st_value_o;
+/* dummy test */
+/*        wi32(unds[(n_unds*2)+und_val_o],0x12345678); */
         n_unds=n_unds+1;
       } else {
-        puts("export");
-        exports[(n_exports*2)+exp_name_o]=st_name_str;
-        exports[(n_exports*2)+exp_address_o]=st_value;
-        n_exports=n_exports+1;
+        /* patch physical address into symtab */
+        st_value=obj[st_shndx]+st_value;
+        wi32(sym+st_value_o,st_value);
+        if(st_bind==ST_GLOBAL) {
+          puts("export");
+          exports[(n_exports*2)+exp_name_o]=st_name_str;
+          exports[(n_exports*2)+exp_address_o]=st_value;
+          n_exports=n_exports+1;
+        }
       }
     }
   }
