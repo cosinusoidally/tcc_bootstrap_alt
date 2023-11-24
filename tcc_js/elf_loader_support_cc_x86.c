@@ -59,3 +59,7 @@ int memcpy(int a, int b, int c) {
     dest[i]=src[i];
   }
 }
+
+int puts_tramp(int s){
+  return puts(s);
+}

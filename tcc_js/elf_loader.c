@@ -540,7 +540,7 @@ int mk_host_obj(void){
   obj[obj_linked_o]=1;
   obj[obj_exports_o]=e;
   e[n+exp_name_o]="puts";
-  e[n+exp_address_o]=puts;
+  e[n+exp_address_o]=puts_tramp;
 
   return obj;
 }
