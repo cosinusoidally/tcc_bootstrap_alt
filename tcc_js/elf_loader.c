@@ -485,8 +485,8 @@ int get_main(void){
   return m;
 }
 
-int reloc_internal(int o){
-  puts("reloc_internal");
+int resolve_internal(int o){
+  puts("resolve_internal");
 }
 
 int gen_und_exports(int o){
@@ -551,9 +551,13 @@ int gen_und_exports(int o){
       puts("OBJECT or FUNCTION");
       if(st_shndx==0){
         puts("UND");
+        unds[(n_unds*2)+und_name_o]=st_name_str;
+        unds[(n_unds*2)+und_val_o]=sym+st_value_o;
         n_unds=n_unds+1;
       } else {
         puts("export");
+        exports[(n_exports*2)+exp_name_o]=st_name_str;
+        exports[(n_exports*2)+exp_address_o]=st_value;
         n_exports=n_exports+1;
       }
     }
@@ -566,6 +570,20 @@ int gen_und_exports(int o){
 
 int resolve_und(int o){
   puts("resolve_und");
+}
+
+int dump_exports(int o){
+  int *obj;
+  obj=o;
+  puts("==========");
+  puts("dump_exports");
+}
+
+int dump_unds(int o) {
+  int *obj;
+  obj=o;
+  puts("==========");
+  puts("dump_unds");
 }
 
 int link(int o){
@@ -584,8 +602,10 @@ int link(int o){
       fputs("already linked\n",stdout);
     } else {
       fputs("linking\n",stdout);
-      reloc_internal(obj);
+      resolve_internal(obj);
       gen_und_exports(obj);
+      dump_exports(obj);
+      dump_unds(obj);
     }
     puts("");
     i=i+1;
