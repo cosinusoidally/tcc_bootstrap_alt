@@ -681,8 +681,34 @@ int find_sym(int os, char *name){
   return 0;
 }
 
-int resolve_und(int o){
+int resolve_und(int os){
+  int *objs;
+  int *obj;
+  int *unds;
+  int m;
+  int n;
+  int u;
+  n=0;
+  objs=os;
   puts("resolve_und");
+  while((obj=objs[n])!=0){
+    fputs("resolving_und in: ",stdout);
+    fputs(obj[obj_name_o],stdout);
+    fputs("\n",stdout);
+    unds=obj[obj_und_o];
+    if(unds!=0){
+      puts("we have some unds:");
+      m=0;
+      while((u=unds[(2*m)+und_name_o])!=0){
+        puts(u);
+        find_sym(os,u);
+        m=m+1;
+      }
+    } else {
+      puts("no unds in this obj");
+    }
+    n=n+1;
+  }
 }
 
 int dump_exports(int o){
