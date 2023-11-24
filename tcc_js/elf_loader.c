@@ -112,6 +112,54 @@ void hex_dump(int e,int l){
   fputs("\n", stdout);
 }
 
+int dump_symtab(int o){
+  puts("===========");
+  puts("dump_symtab");
+  int *obj=o;
+  int symtab;
+  int symtab_size;
+  int entsize;
+  int i;
+  int sym;
+  int st_name;
+  int st_name_str;
+  int st_value;
+  int st_info;
+  int st_bind;
+  int st_type;
+  int st_shndx;
+
+  symtab=obj[obj_symtab_o];
+  symtab_size=obj[obj_symtab_size_o];
+  entsize=16;
+  for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
+    sym=i+symtab;
+    hex_dump(sym,entsize);
+    st_name=ri32(sym+st_name_o);
+    st_name_str=obj[obj_strtab_o]+st_name;
+    st_value=ri32(sym+st_value_o);
+    st_info=ru8(sym+st_info_o);
+    st_type=st_info & 0xF;
+    st_bind=st_info>>4;
+    st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
+
+    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+    fputs("\n",stdout);
+    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+    fputs("\n",stdout);
+  }
+}
+
 int get_section_header(int e, char *str) {
   int e_shoff;
   int e_shentsize;
@@ -151,8 +199,6 @@ int get_section_header(int e, char *str) {
   puts("section header not found");
   return 0;
 }
-
-
 
 void init_offsets(void){
   sh_name_o=0;
@@ -636,6 +682,7 @@ int link(int o){
       fputs("linking\n",stdout);
       resolve_internal(obj);
       gen_und_exports(obj);
+      dump_symtab(obj);
       dump_exports(obj);
       dump_unds(obj);
     }
