@@ -530,11 +530,19 @@ int load_elf(char *name){
 }
 
 int mk_host_obj(void){
-  int *obj_struct;
-  obj_struct=calloc(obj_struct_size,1);
-  obj_struct[obj_name_o]="host.o";
-  obj_struct[obj_linked_o]=1;
-  return obj_struct;
+  int *obj;
+  int *e;
+  int n;
+  n=0;
+  e=calloc(exp_size*16,1);
+  obj=calloc(obj_struct_size,1);
+  obj[obj_name_o]="host.o";
+  obj[obj_linked_o]=1;
+  obj[obj_exports_o]=e;
+  e[n+exp_name_o]="puts";
+  e[n+exp_address_o]=puts;
+
+  return obj;
 }
 
 int get_main(int o){
@@ -688,6 +696,7 @@ int resolve_und(int os){
   int m;
   int n;
   int u;
+  int addr;
   n=0;
   objs=os;
   puts("resolve_und");
@@ -701,7 +710,13 @@ int resolve_und(int os){
       m=0;
       while((u=unds[(2*m)+und_name_o])!=0){
         puts(u);
-        find_sym(os,u);
+        addr=find_sym(os,u);
+        if(addr==0){
+          puts("not found");
+        } else {
+          puts("writing address of und sym");
+          wi32(unds[(2*m)+und_val_o],addr);
+        }
         m=m+1;
       }
     } else {
