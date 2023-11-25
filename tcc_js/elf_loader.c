@@ -819,6 +819,9 @@ int relocate_section(int o, int name, int rels, int size){
       fputs("info: ",stdout);
       fputs(int2str(r_info,16,0),stdout);
       fputs("\n",stdout);
+      fputs("sym num: ",stdout);
+      fputs(int2str(r_sym,16,0),stdout);
+      fputs("\n",stdout);
       fputs("type: ",stdout);
       fputs(int2str(r_type,16,0), stdout);
       fputs(" ",stdout);
