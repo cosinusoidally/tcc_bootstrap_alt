@@ -783,6 +783,7 @@ int relocate_section(int o, int name, int rels, int size){
   int entsize;
   int i;
   int r_offset;
+  int r_info;
   int r_type;
   int r_sym;
   int r;
@@ -803,6 +804,17 @@ int relocate_section(int o, int name, int rels, int size){
       puts("reloc");
       hex_dump(r,8);
       r_offset=ri32(r+r_offset_o);
+      r_info=ri32(r+r_info_o);
+      r_type=r_info & 0xFF;
+      /* FIXME is this right for unsiged right shift? */
+      r_sym=(r_info >>8 ) & 0xFFFFFF;
+
+      fputs("offset: ",stdout);
+      fputs(int2str(r_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("info: ",stdout);
+      fputs(int2str(r_info,16,0),stdout);
+      fputs("\n",stdout);
     }
   }
 }
