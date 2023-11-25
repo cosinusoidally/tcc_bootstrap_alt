@@ -850,6 +850,7 @@ int relocate_section(int o, int name, int rels, int size, int p){
         wi32(loc,ri32(loc)+val);
       } else if (r_type==R_386_PC32){
         fputs("R_386_PC32", stdout);
+        wi32(loc,val-loc-4);
       } else {
         fputs("unsupported relocation type", stdout);
         exit(1);
