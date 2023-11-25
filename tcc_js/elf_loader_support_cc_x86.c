@@ -60,8 +60,27 @@ int memcpy(int a, int b, int c) {
   }
 }
 
+int generic1_tramp(int a) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
 int puts_tramp(int s){
-  puts("puts_tramp called");
-  /* FIXME actually call puts */
-  return 0;
+  asm("mov_ebx, &FUNCTION_puts"
+      "jmp %FUNCTION_generic1_tramp");
 }
