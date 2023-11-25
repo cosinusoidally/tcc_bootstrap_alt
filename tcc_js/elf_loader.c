@@ -797,6 +797,7 @@ int relocate_section(int o, int name, int rels, int size, int p){
   int val;
   int sym;
   int sym_name;
+  int loc;
 
   obj=o;
   entsize=8;
@@ -843,8 +844,10 @@ int relocate_section(int o, int name, int rels, int size, int p){
       fputs("type: ",stdout);
       fputs(int2str(r_type,16,0), stdout);
       fputs(" ",stdout);
+      loc=p+r_offset;
       if(r_type==R_386_32){
         fputs("R_386_32", stdout);
+        wi32(loc,ri32(loc)+val);
       } else if (r_type==R_386_PC32){
         fputs("R_386_PC32", stdout);
       } else {
