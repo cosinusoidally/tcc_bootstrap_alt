@@ -782,7 +782,7 @@ int dump_unds(int o) {
   }
 }
 
-int relocate_section(int o, int name, int rels, int size){
+int relocate_section(int o, int name, int rels, int size, int p){
   int *obj;
   int entsize;
   int sym_entsize;
@@ -863,9 +863,11 @@ int relocate(int o) {
   fputs(obj[obj_name_o],stdout);
   fputs("\n",stdout);
   relocate_section(obj, ".rel.text", obj[obj_rel_text_o],
-                                     obj[obj_rel_text_size_o]);
+                                     obj[obj_rel_text_size_o],
+                                     obj[obj_text_o]);
   relocate_section(obj, ".rel.data", obj[obj_rel_data_o],
-                                     obj[obj_rel_data_size_o]);
+                                     obj[obj_rel_data_size_o],
+                                     obj[obj_data_o]);
   obj[obj_linked_o]=1;
 }
 
