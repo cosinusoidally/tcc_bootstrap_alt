@@ -778,14 +778,21 @@ int dump_unds(int o) {
 
 int relocate_section(int o, int name, int s, int size){
   int *obj;
+  int *rels;
   int entsize;
   obj=o;
   entsize=8;
+  rels=s;
   fputs("relocating: ",stdout);
   fputs(name, stdout);
   fputs("  in: ", stdout);
   fputs(obj[obj_name_o], stdout);
   fputs("\n",stdout);
+  if(size==0){
+    puts("no relocations");
+  } else {
+    puts("processing relocations");
+  }
 }
 
 int relocate(int o) {
