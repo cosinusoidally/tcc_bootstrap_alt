@@ -823,6 +823,7 @@ int relocate_section(int o, int name, int rels, int size){
       r_sym=(r_info >>8 ) & 0xFFFFFF;
       sym=symtab+(sym_entsize*r_sym);
       val=ri32(sym+st_value_o);
+      sym_name=strtab+ri32(sym+st_name_o);
 
       fputs("offset: ",stdout);
       fputs(int2str(r_offset,16,0),stdout);
@@ -835,6 +836,9 @@ int relocate_section(int o, int name, int rels, int size){
       fputs("\n",stdout);
       fputs("val: 0x",stdout);
       fputs(int2str(val,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("name: ",stdout);
+      fputs(sym_name,stdout);
       fputs("\n",stdout);
       fputs("type: ",stdout);
       fputs(int2str(r_type,16,0), stdout);
