@@ -785,15 +785,21 @@ int dump_unds(int o) {
 int relocate_section(int o, int name, int rels, int size){
   int *obj;
   int entsize;
+  int sym_entsize;
   int i;
   int r_offset;
   int r_info;
   int r_type;
   int r_sym;
   int r;
+  int symtab;
+  int strtab;
 
   obj=o;
   entsize=8;
+  sym_entsize=16;
+  symtab=obj[obj_symtab_o];
+  strtab=obj[obj_strtab_o];
   fputs("relocating: ",stdout);
   fputs(name, stdout);
   fputs("  in: ", stdout);
