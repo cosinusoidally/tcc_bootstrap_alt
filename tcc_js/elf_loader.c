@@ -556,20 +556,12 @@ int mk_host_obj(void){
 }
 
 int get_main(int o){
-  char *m;
   int ms;
   ms=find_sym(o,"main");
   fputs("main address: 0x",stdout);
   fputs(int2str(ms,16,0),stdout);
   fputs("\n",stdout);
-  m=malloc(1024);
-  m[0]=0xB8;
-  m[1]=0;
-  m[2]=0;
-  m[3]=0;
-  m[4]=0;
-  m[5]=0xC3;
-  return m;
+  return ms;
 }
 
 int resolve_internal(int o){
@@ -940,5 +932,7 @@ int main(int argc, char **argv)
   link(objs);
   puts(argv[optind]);
   t=get_main(objs);
+  puts("============================");
+  puts("calling main from elf file:");
   return call_wrap(t, argc - optind, argv + (p_size*optind));
 }
