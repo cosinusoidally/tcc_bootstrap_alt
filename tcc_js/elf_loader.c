@@ -42,6 +42,7 @@ int st_shndx_o;
 int STT_OBJECT;
 int STT_FUNC;
 int ST_GLOBAL;
+int r_offset_o;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -260,6 +261,7 @@ void init_offsets(void){
   STT_OBJECT=1;
   STT_FUNC=2;
   ST_GLOBAL=1;
+  r_offset_o=0;
 }
 void print_relocs(char *name,int *o){
   int i;
@@ -776,13 +778,17 @@ int dump_unds(int o) {
   }
 }
 
-int relocate_section(int o, int name, int s, int size){
+int relocate_section(int o, int name, int rels, int size){
   int *obj;
-  int *rels;
   int entsize;
+  int i;
+  int r_offset;
+  int r_type;
+  int r_sym;
+  int r;
+
   obj=o;
   entsize=8;
-  rels=s;
   fputs("relocating: ",stdout);
   fputs(name, stdout);
   fputs("  in: ", stdout);
@@ -792,6 +798,12 @@ int relocate_section(int o, int name, int s, int size){
     puts("no relocations");
   } else {
     puts("processing relocations");
+    for(i=0;i<size;i=i+entsize){
+      r=rels+i;
+      puts("reloc");
+      hex_dump(r,8);
+      r_offset=ri32(r+r_offset_o);
+    }
   }
 }
 
