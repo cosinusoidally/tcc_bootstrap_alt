@@ -772,6 +772,18 @@ int dump_unds(int o) {
   }
 }
 
+int relocate_section(int o, int name, int s, int size){
+  int *obj;
+  int entsize;
+  obj=o;
+  entsize=8;
+  fputs("relocating: ",stdout);
+  fputs(name, stdout);
+  fputs("  in: ", stdout);
+  fputs(obj[obj_name_o], stdout);
+  fputs("\n",stdout);
+}
+
 int relocate(int o) {
   int *obj;
   obj=o;
