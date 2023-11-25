@@ -530,8 +530,8 @@ int decode_elf(int e, int os){
     fputs(int2str(rel_data_mem,16,0),stdout);
     fputs("\n",stdout);
     hex_dump(rel_data_mem,sh_size);
-    obj_struct[obj_data_o]=rel_data_mem;
-    obj_struct[obj_data_size_o]=sh_size;
+    obj_struct[obj_rel_data_o]=rel_data_mem;
+    obj_struct[obj_rel_data_size_o]=sh_size;
   }
 
   return os;
