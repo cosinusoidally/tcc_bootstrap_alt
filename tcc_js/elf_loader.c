@@ -14,6 +14,7 @@ int obj_bss_o;
 int obj_strtab_o;
 int obj_symtab_o;
 int obj_rel_text_o;
+int obj_rel_data_o;
 int obj_text_size_o;
 int obj_data_size_o;
 int obj_bss_size_o;
@@ -21,6 +22,7 @@ int obj_strtab_size_o;
 int obj_symtab_size_o;
 int obj_symtab_ent_size_o;
 int obj_rel_text_size_o;
+int obj_rel_data_size_o;
 int obj_linked_o;
 int obj_exports_o;
 int obj_und_o;
@@ -241,6 +243,8 @@ void init_offsets(void){
   obj_linked_o=14;
   obj_exports_o=15;
   obj_und_o=16;
+  obj_rel_data_o=17;
+  obj_rel_data_size_o=18;
   r_info_o=4;
   st_name_o=0;
   exp_name_o=0;
@@ -790,6 +794,10 @@ int relocate(int o) {
   fputs("relocate: ",stdout);
   fputs(obj[obj_name_o],stdout);
   fputs("\n",stdout);
+  relocate_section(obj, ".rel.text", obj[obj_rel_text_o],
+                                     obj[obj_rel_text_size_o]);
+  relocate_section(obj, ".rel.data", obj[obj_rel_data_o],
+                                     obj[obj_rel_data_size_o]);
   obj[obj_linked_o]=1;
 }
 
