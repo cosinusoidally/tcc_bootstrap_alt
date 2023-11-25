@@ -61,5 +61,7 @@ int memcpy(int a, int b, int c) {
 }
 
 int puts_tramp(int s){
-  return puts(s);
+  puts("puts_tramp called");
+  /* FIXME actually call puts */
+  return 0;
 }
