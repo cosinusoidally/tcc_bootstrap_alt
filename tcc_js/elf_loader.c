@@ -311,12 +311,14 @@ int decode_elf(int e, int os){
   int sl;
   int text;
   int data;
+  int bss;
   int strtab;
   int symtab;
   int rel_text;
   int rel_data;
   int text_mem;
   int data_mem;
+  int bss_mem;
   int strtab_mem;
   int symtab_mem;
   int rel_text_mem;
@@ -336,6 +338,7 @@ int decode_elf(int e, int os){
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
   text=get_section_header(e,".text");
   data=get_section_header(e,".data");
+  bss=get_section_header(e,".bss");
   strtab=get_section_header(e,".strtab");
   symtab=get_section_header(e,".symtab");
   rel_text=get_section_header(e,".rel.text");
@@ -534,6 +537,26 @@ int decode_elf(int e, int os){
     obj_struct[obj_rel_data_size_o]=sh_size;
   }
 
+  if(bss!=0){
+    fputs(".bss:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(bss+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+    sh_offset=ri32(bss+sh_offset_o);
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+    sh_size=ri32(bss+sh_size_o);
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+    bss_mem=malloc(sh_size);
+    fputs("bss_mem address: 0x",stdout);
+    fputs(int2str(bss_mem,16,0),stdout);
+    fputs("\n",stdout);
+    obj_struct[obj_bss_o]=bss_mem;
+    obj_struct[obj_bss_size_o]=sh_size;
+  }
   return os;
 }
 
