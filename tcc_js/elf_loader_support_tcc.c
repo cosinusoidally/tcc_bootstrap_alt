@@ -54,3 +54,7 @@ char* int2str(int x, int base, int signed_p)
 void puts_num(int x){
   printf("%u\n",x);
 }
+
+int puts_tramp(int s){
+  return puts(s);
+}

@@ -16,8 +16,15 @@ cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_
 echo "building with tcc"
 tcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_tcc.exe
 
-echo "building with tcc"
-gcc elf_loader.c -o /tmp/tcc_js_tmp/elf_loader_gcc.exe
+echo "building with gcc"
+gcc -O0 -g -c elf_loader.c -o elf_loader_gcc.o
+tcc -g elf_loader_gcc.o -o /tmp/tcc_js_tmp/elf_loader_gcc.exe
+rm elf_loader_gcc.o
+
+echo "building with gcc dbg"
+gcc -O0 -g -c elf_loader.c -o elf_loader_gcc.o
+gcc -g elf_loader_gcc.o -o /tmp/tcc_js_tmp/elf_loader_gcc_dbg.exe
+rm elf_loader_gcc.o
 
 cd ..
 
@@ -33,14 +40,7 @@ rm out_cc_x86-0.M1 out_cc_x86-0.hex2 out_cc_x86-0-0.hex2 elf_loader_cc_x86.exe
 
 set -e
 
-cat bootstrap.c bootstrappable.c elf_loader_all.c > out.c
-echo "cc_x86 compile"
-./cc_x86 out.c out_cc_x86.M1
-echo "cc_x86 assemble and link"
-cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
-./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
-cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
-./hex2-0 out_cc_x86-0-0.hex2 elf_loader_cc_x86.exe
+cat bootstrap_load.c bootstrappable_load.c elf_loader_all.c > out.c
 
 echo "M2 compile"
 ./M2 --architecture x86 --bootstrap-mode -f out.c -o out_M2.M1
@@ -49,6 +49,14 @@ cat x86_defs.M1 libc-core.M1 out_M2.M1 > out_M2-0.M1
 ./M0 out_M2-0.M1 out_M2-0.hex2
 cat ELF-i386.hex2 out_M2-0.hex2 > out_M2-0-0.hex2
 ./hex2-0 out_M2-0-0.hex2 elf_loader_m2.exe
+
+echo "cc_x86 compile"
+./cc_x86 out.c out_cc_x86.M1
+echo "cc_x86 assemble and link"
+cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
+./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
+cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
+./hex2-0 out_cc_x86-0-0.hex2 elf_loader_cc_x86.exe
 
 tcc elf_test.o -o elf_test.exe
 
