@@ -772,6 +772,15 @@ int dump_unds(int o) {
   }
 }
 
+int relocate(int o) {
+  int *obj;
+  obj=o;
+  fputs("relocate: ",stdout);
+  fputs(obj[obj_name_o],stdout);
+  fputs("\n",stdout);
+  obj[obj_linked_o]=1;
+}
+
 int link(int o){
   int *objs;
   int *obj;
@@ -797,7 +806,23 @@ int link(int o){
     puts("");
     i=i+1;
   }
+
   resolve_und(o);
+  i=0;
+
+  puts("============================");
+  puts("relocation");
+  while(obj=objs[i]){
+    if(obj[obj_linked_o]!=0){
+      fputs("already relocated: ",stdout);
+      fputs(obj[obj_name_o],stdout);
+      fputs("\n",stdout);
+    } else {
+      relocate(obj);
+    }
+    i=i+1;
+  }
+  puts("============================");
 }
 
 int main(int argc, char **argv)
