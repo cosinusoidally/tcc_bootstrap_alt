@@ -43,6 +43,8 @@ int STT_OBJECT;
 int STT_FUNC;
 int ST_GLOBAL;
 int r_offset_o;
+int R_386_32;
+int R_386_PC32;
 
 int init_globals(void){
   elf_buf=malloc(256*1024);
@@ -262,6 +264,8 @@ void init_offsets(void){
   STT_FUNC=2;
   ST_GLOBAL=1;
   r_offset_o=0;
+  R_386_32=1;
+  R_386_PC32=2;
 }
 void print_relocs(char *name,int *o){
   int i;
@@ -814,6 +818,18 @@ int relocate_section(int o, int name, int rels, int size){
       fputs("\n",stdout);
       fputs("info: ",stdout);
       fputs(int2str(r_info,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("type: ",stdout);
+      fputs(int2str(r_type,16,0), stdout);
+      fputs(" ",stdout);
+      if(r_type==R_386_32){
+        fputs("R_386_32", stdout);
+      } else if (r_type==R_386_PC32){
+        fputs("R_386_PC32", stdout);
+      } else {
+        fputs("unsupported relocation type", stdout);
+        exit(1);
+      }
       fputs("\n",stdout);
     }
   }
