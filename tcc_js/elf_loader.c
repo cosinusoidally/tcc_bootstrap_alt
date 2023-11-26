@@ -631,6 +631,30 @@ int mk_host_obj(void){
   n=n+(exp_size>>2);
   e[n+exp_name_o]="fputc";
   e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="free";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="malloc";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="realloc";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="open";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="close";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="read";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fopen";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fclose";
+  e[n+exp_address_o]=not_impl;
 
   return obj;
 }
