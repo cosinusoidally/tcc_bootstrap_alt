@@ -88,9 +88,9 @@ int fputc_tramp(int x){
   exit(1);
 }
 
-int free_tramp(int x){
-  puts("free not impl");
-  exit(1);
+void free_tramp(int x){
+  free(x);
+  return;
 }
 
 int malloc_tramp(int x){
@@ -110,9 +110,8 @@ int close_tramp(int x){
   exit(1);
 }
 
-int read_tramp(int x){
-  puts("read not impl");
-  exit(1);
+int read_tramp(int a, int b, int c){
+  return read(a,b,c);
 }
 
 int fopen_tramp(int x){
