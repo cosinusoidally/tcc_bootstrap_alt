@@ -550,7 +550,7 @@ int decode_elf(int e, int os){
     sh_size=ri32(bss+sh_size_o);
     fputs(int2str(sh_size,16,0),stdout);
     fputs("\n",stdout);
-    bss_mem=malloc(sh_size);
+    bss_mem=calloc(sh_size,1);
     fputs("bss_mem address: 0x",stdout);
     fputs(int2str(bss_mem,16,0),stdout);
     fputs("\n",stdout);
