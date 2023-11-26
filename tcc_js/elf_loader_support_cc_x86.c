@@ -190,8 +190,8 @@ int fputs_tramp(int x){
 }
 
 int calloc_tramp(int x){
-  puts("calloc not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_calloc"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int exit_tramp(int x){
@@ -261,6 +261,7 @@ int fopen_tramp(int x, int y){
 }
 
 int fclose_tramp(int x){
-  puts("fclose not impl");
-  exit(1);
+/*  puts("fclose_tramp called"); */
+  asm("mov_ebx, &FUNCTION_fclose"
+      "jmp %FUNCTION_generic1_tramp");
 }
