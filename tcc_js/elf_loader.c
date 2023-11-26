@@ -767,7 +767,8 @@ int resolve_und(int os){
         puts(u);
         addr=find_sym(os,u);
         if(addr==0){
-          puts("not found");
+          puts("sym not found");
+          exit(1);
         } else {
           puts("writing address of und sym");
           wi32(unds[(2*m)+und_val_o],addr);
