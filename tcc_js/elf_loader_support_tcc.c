@@ -1,6 +1,8 @@
 #include "elf_loader_support.c"
 
 extern int stdout;
+extern int stdin;
+extern int stderr;
 
 typedef int (*FUNCTION) ();
 
@@ -55,6 +57,64 @@ void puts_num(int x){
   printf("%u\n",x);
 }
 
-int puts_tramp(int s){
-  return puts(s);
+int get_stdout(void){
+  return &stdout;
+}
+
+int get_stdin(void){
+  return &stdin;
+}
+
+int get_stderr(void){
+  return &stderr;
+}
+
+int fputs_tramp(int a, int b){
+  return fputs(a,b);
+}
+
+int calloc_tramp(int a, int b){
+  return calloc(a,b);
+}
+
+int exit_tramp(int x){
+  puts("exit not impl");
+  exit(1);
+}
+
+int fputc_tramp(int a, int b){
+  return fputc(a,b);
+}
+
+void free_tramp(int x){
+  free(x);
+  return;
+}
+
+int malloc_tramp(int x){
+  return malloc(x);
+}
+
+int realloc_tramp(int x, int y){
+  return realloc(x,y);
+}
+
+int open_tramp(int a, int b, int c){
+  return open(a,b,c);
+}
+
+int close_tramp(int x){
+  return close(x);
+}
+
+int read_tramp(int a, int b, int c){
+  return read(a,b,c);
+}
+
+int fopen_tramp(int a, int b){
+  return fopen(a,b);
+}
+
+int fclose_tramp(int x){
+  return fclose(x);
 }

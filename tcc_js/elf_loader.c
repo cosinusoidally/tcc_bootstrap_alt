@@ -311,14 +311,18 @@ int decode_elf(int e, int os){
   int sl;
   int text;
   int data;
+  int bss;
   int strtab;
   int symtab;
   int rel_text;
+  int rel_data;
   int text_mem;
   int data_mem;
+  int bss_mem;
   int strtab_mem;
   int symtab_mem;
   int rel_text_mem;
+  int rel_data_mem;
   int *obj_struct;
 
   obj_struct=os;
@@ -334,9 +338,11 @@ int decode_elf(int e, int os){
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
   text=get_section_header(e,".text");
   data=get_section_header(e,".data");
+  bss=get_section_header(e,".bss");
   strtab=get_section_header(e,".strtab");
   symtab=get_section_header(e,".symtab");
   rel_text=get_section_header(e,".rel.text");
+  rel_data=get_section_header(e,".rel.data");
   fputs("e_shoff: ",stdout);
   fputs(int2str(e_shoff,10,0),stdout);
   fputs("\n",stdout);
@@ -504,6 +510,53 @@ int decode_elf(int e, int os){
   obj_struct[obj_rel_text_size_o]=sh_size;
   print_relocs(".rel.text", os);
 
+  if(rel_data!=0){
+    fputs(".rel.data:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(rel_data+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+    sh_offset=ri32(rel_data+sh_offset_o);
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+    sh_size=ri32(rel_data+sh_size_o);
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+    sh_entsize=ri32(rel_data+sh_entsize_o);
+    fputs("sh_entsize: 0x",stdout);
+    fputs(int2str(sh_entsize,16,0),stdout);
+    fputs("\n",stdout);
+    rel_data_mem=malloc(sh_size);
+    memcpy(rel_data_mem,e+sh_offset,sh_size);
+    fputs("rel_data_mem address: 0x",stdout);
+    fputs(int2str(rel_data_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(rel_data_mem,sh_size);
+    obj_struct[obj_rel_data_o]=rel_data_mem;
+    obj_struct[obj_rel_data_size_o]=sh_size;
+  }
+
+  if(bss!=0){
+    fputs(".bss:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(bss+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+    sh_offset=ri32(bss+sh_offset_o);
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+    sh_size=ri32(bss+sh_size_o);
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+    bss_mem=calloc(sh_size,1);
+    fputs("bss_mem address: 0x",stdout);
+    fputs(int2str(bss_mem,16,0),stdout);
+    fputs("\n",stdout);
+    obj_struct[obj_bss_o]=bss_mem;
+    obj_struct[obj_bss_size_o]=sh_size;
+  }
   return os;
 }
 
@@ -539,6 +592,11 @@ int load_elf(char *name){
   return obj_struct;
 }
 
+int not_impl(void){
+  puts("not impl");
+  exit(1);
+}
+
 int mk_host_obj(void){
   int *obj;
   int *e;
@@ -549,8 +607,54 @@ int mk_host_obj(void){
   obj[obj_name_o]="host.o";
   obj[obj_linked_o]=1;
   obj[obj_exports_o]=e;
-  e[n+exp_name_o]="puts";
-  e[n+exp_address_o]=puts_tramp;
+  /*
+    need to use accessors to get addresses of stdout etc since cc_x86 does not
+    support &stdout etc
+  */
+  e[n+exp_name_o]="stdout";
+  e[n+exp_address_o]=get_stdout();
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="stdin";
+  e[n+exp_address_o]=get_stdin();
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="stderr";
+  e[n+exp_address_o]=get_stderr();
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fputs";
+  e[n+exp_address_o]=fputs_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="calloc";
+  e[n+exp_address_o]=calloc_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="exit";
+  e[n+exp_address_o]=exit_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fputc";
+  e[n+exp_address_o]=fputc_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="free";
+  e[n+exp_address_o]=free_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="malloc";
+  e[n+exp_address_o]=malloc_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="realloc";
+  e[n+exp_address_o]=realloc_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="open";
+  e[n+exp_address_o]=open_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="close";
+  e[n+exp_address_o]=close_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="read";
+  e[n+exp_address_o]=read_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fopen";
+  e[n+exp_address_o]=fopen_tramp;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fclose";
+  e[n+exp_address_o]=fclose_tramp;
 
   return obj;
 }
@@ -589,9 +693,9 @@ int gen_und_exports(int o){
 
   n_exports=0;
   n_unds=0;
-  /* FIXME this should not be 16 it should be calculated */
-  exports=calloc(exp_size*16,1);
-  unds=calloc(und_size*16,1);
+  /* FIXME this should not be 1024 it should be calculated */
+  exports=calloc(exp_size*1024,1);
+  unds=calloc(und_size*1024,1);
 
   symtab=obj[obj_symtab_o];
   symtab_size=obj[obj_symtab_size_o];
@@ -635,6 +739,10 @@ int gen_und_exports(int o){
 /* dummy test */
 /*        wi32(unds[(n_unds*2)+und_val_o],0x12345678); */
         n_unds=n_unds+1;
+        if(n_unds>1024) {
+          puts("too many unds");
+          exit(1);
+        }
       } else {
         /* patch physical address into symtab */
         st_value=obj[st_shndx]+st_value;
@@ -644,6 +752,10 @@ int gen_und_exports(int o){
           exports[(n_exports*2)+exp_name_o]=st_name_str;
           exports[(n_exports*2)+exp_address_o]=st_value;
           n_exports=n_exports+1;
+          if(n_exports>1024) {
+            puts("too many exports");
+            exit(1);
+          }
         }
       }
     }
@@ -714,7 +826,8 @@ int resolve_und(int os){
         puts(u);
         addr=find_sym(os,u);
         if(addr==0){
-          puts("not found");
+          puts("sym not found");
+          exit(1);
         } else {
           puts("writing address of und sym");
           wi32(unds[(2*m)+und_val_o],addr);
@@ -916,7 +1029,8 @@ int main(int argc, char **argv)
   FUNCTION t;
   int optind;
   int *objs;
-  objs=calloc(12,1);
+  /* enough for 3 objs */
+  objs=calloc(16,1);
 
   puts("elf loader starting");
 
@@ -928,7 +1042,8 @@ int main(int argc, char **argv)
 
   puts("running elf files");
   objs[0]=mk_host_obj();
-  objs[1]=load_elf("elf_test.o");
+  objs[1]=load_elf("libc_boot.o");
+  objs[2]=load_elf("tcc.o");
   link(objs);
   puts(argv[optind]);
   t=get_main(objs);
