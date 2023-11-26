@@ -60,6 +60,23 @@ int memcpy(int a, int b, int c) {
   }
 }
 
+int realloc(int ptr, int size) {
+  int r;
+  r=malloc(size);
+  if(ptr!=0) {
+    memcpy(r, ptr, size);
+    free(ptr);
+  }
+  return r;
+}
+
+int open_wrap(int pathname, int flags) {
+  puts("open");
+  puts(pathname);
+  puts_num(flags);
+  return open(pathname, 0, 0);
+}
+
 int generic1_tramp(int a) {
   asm("push_ebp"
       "mov_ebp,esp"
@@ -149,13 +166,14 @@ int malloc_tramp(int x){
 }
 
 int realloc_tramp(int x){
-  puts("realloc not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_realloc"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int open_tramp(int x){
-  puts("open not impl");
-  exit(1);
+  puts("open_tramp called");
+  asm("mov_ebx, &FUNCTION_open_wrap"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int close_tramp(int x){
