@@ -64,3 +64,11 @@ int fputs_tramp(int a, int b){
 int get_stdout(void){
   return &stdout;
 }
+
+int get_stdin(void){
+  return &stdin;
+}
+
+int get_stderr(void){
+  return &stderr;
+}

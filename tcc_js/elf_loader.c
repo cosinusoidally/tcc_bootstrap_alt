@@ -608,19 +608,17 @@ int mk_host_obj(void){
   obj[obj_linked_o]=1;
   obj[obj_exports_o]=e;
   /*
-    FIXME cc_x86 doesn't support & but we need to take the address
-    below hack should work but need to test
+    need to use accessors to get addresses of stdout etc since cc_x86 does not
+    support &stdout etc
   */
   e[n+exp_name_o]="stdout";
   e[n+exp_address_o]=get_stdout();
   n=n+(exp_size>>2);
-  /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
   e[n+exp_name_o]="stdin";
-  e[n+exp_address_o]=stdin;
+  e[n+exp_address_o]=get_stdin();
   n=n+(exp_size>>2);
-  /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
   e[n+exp_name_o]="stderr";
-  e[n+exp_address_o]=stderr;
+  e[n+exp_address_o]=get_stderr();
   n=n+(exp_size>>2);
   e[n+exp_name_o]="fputs";
   e[n+exp_address_o]=fputs_tramp;

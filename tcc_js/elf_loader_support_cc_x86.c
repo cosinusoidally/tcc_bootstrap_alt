@@ -113,3 +113,13 @@ int get_stdout(void){
   asm("mov_eax, &GLOBAL_stdout"
       "ret");
 }
+
+int get_stdin(void){
+  asm("mov_eax, &GLOBAL_stdin"
+      "ret");
+}
+
+int get_stderr(void){
+  asm("mov_eax, &GLOBAL_stderr"
+      "ret");
+}
