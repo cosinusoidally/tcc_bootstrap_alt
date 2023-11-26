@@ -94,18 +94,15 @@ int free_tramp(int x){
 }
 
 int malloc_tramp(int x){
-  puts("malloc not impl");
-  exit(1);
+  return malloc(x);
 }
 
-int realloc_tramp(int x){
-  puts("realloc not impl");
-  exit(1);
+int realloc_tramp(int x, int y){
+  return realloc(x,y);
 }
 
-int open_tramp(int x){
-  puts("open not impl");
-  exit(1);
+int open_tramp(int a, int b, int c){
+  return open(a,b,c);
 }
 
 int close_tramp(int x){
