@@ -205,8 +205,9 @@ int fputc_tramp(int x){
 }
 
 int free_tramp(int x){
-  puts("free not impl");
-  exit(1);
+/*  puts("free_tramp called"); */
+  asm("mov_ebx, &FUNCTION_free"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int malloc_tramp(int x){
@@ -226,8 +227,9 @@ int open_tramp(int x){
 }
 
 int close_tramp(int x){
-  puts("close not impl");
-  exit(1);
+  puts("close_tramp called");
+  asm("mov_ebx, &FUNCTION_fclose"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int read_wrap(int fd, int buf, int count) {
