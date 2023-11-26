@@ -77,6 +77,26 @@ int open_wrap(int pathname, int flags) {
   return open(pathname, 0, 0);
 }
 
+int fread(int ptr,int size, int nitems, int stream) {
+  int i;
+  int t=size*nitems;
+  if(size!=1) {
+    puts("fread can only handle size 1");
+  }
+  char *c=ptr;
+  int cr;
+  for(i=0;i<t;i=i+1){
+    cr=fgetc(stream);
+    if(cr == -1) {
+      puts("eof");
+      return i;
+    }
+    c[i]=cr;
+  }
+  return nitems;
+}
+
+
 int generic1_tramp(int a) {
   asm("push_ebp"
       "mov_ebp,esp"
@@ -120,6 +140,35 @@ int generic2_tramp(int a, int b) {
       "pop_ebp"
       "ret");
 }
+
+int generic3_tramp(int a, int b, int c) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0x10"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
 int get_stdout(void){
   asm("mov_eax, &GLOBAL_stdout"
       "ret");
@@ -181,10 +230,19 @@ int close_tramp(int x){
   exit(1);
 }
 
-int read_tramp(int x){
-  puts("read not impl");
-  exit(1);
+int read_wrap(int fd, int buf, int count) {
+  int r;
+  puts("read");
+  r=fread(buf ,1, count, fd);
+  return r;
 }
+
+int read_tramp(int x){
+  puts("read_tramp called");
+  asm("mov_ebx, &FUNCTION_read_wrap"
+      "jmp %FUNCTION_generic3_tramp");
+}
+
 
 int fopen_tramp(int x){
   puts("fopen not impl");
