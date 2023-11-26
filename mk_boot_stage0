@@ -1,0 +1,9 @@
+./mk_clean
+./mk_js_to_c_cc_x86
+mv tcc_js/tcc_boot.o tcc_10
+./mk_loader_m2
+./mk_libc_boot
+./mk_elf_loader
+cd tcc_10
+/tmp/tcc_js_tmp/elf_loader_cc_x86.exe dummy -o tcc_new.o -c tcc.c
+diff -u -s tcc_new.o tcc.o
