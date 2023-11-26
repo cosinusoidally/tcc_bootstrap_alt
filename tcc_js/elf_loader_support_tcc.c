@@ -73,9 +73,8 @@ int fputs_tramp(int a, int b){
   return fputs(a,b);
 }
 
-int calloc_tramp(int x){
-  puts("calloc not impl");
-  exit(1);
+int calloc_tramp(int a, int b){
+  return calloc(a,b);
 }
 
 int exit_tramp(int x){
