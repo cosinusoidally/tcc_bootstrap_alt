@@ -80,9 +80,33 @@ int generic1_tramp(int a) {
       "ret");
 }
 
-int puts_tramp(int s){
-  asm("mov_ebx, &FUNCTION_puts"
-      "jmp %FUNCTION_generic1_tramp");
+int generic2_tramp(int a, int b) {
+  asm("push_ebp"
+      "mov_ebp,esp"
+      "push_edi"
+      "push_ebp"
+      "mov_edi,esp"
+      "lea_eax,[ebp+DWORD] %0x8"
+      "mov_eax,[eax]"
+      "push_eax"
+      "lea_eax,[ebp+DWORD] %0xC"
+      "mov_eax,[eax]"
+      "push_eax"
+      "mov_ebp,edi"
+      "push_ebx"
+      "pop_eax"
+      "call_eax"
+      "pop_ebx"
+      "pop_ebx"
+      "pop_ebp"
+      "pop_edi"
+      "pop_ebp"
+      "ret");
+}
+
+int fputs_tramp(int x){
+  asm("mov_ebx, &FUNCTION_fputs"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int get_stdout(void){

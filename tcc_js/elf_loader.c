@@ -607,9 +607,6 @@ int mk_host_obj(void){
   obj[obj_name_o]="host.o";
   obj[obj_linked_o]=1;
   obj[obj_exports_o]=e;
-  e[n+exp_name_o]="puts";
-  e[n+exp_address_o]=puts_tramp;
-  n=n+(exp_size>>2);
   /*
     FIXME cc_x86 doesn't support & but we need to take the address
     below hack should work but need to test
@@ -626,7 +623,7 @@ int mk_host_obj(void){
   e[n+exp_address_o]=stderr;
   n=n+(exp_size>>2);
   e[n+exp_name_o]="fputs";
-  e[n+exp_address_o]=not_impl;
+  e[n+exp_address_o]=fputs_tramp;
   n=n+(exp_size>>2);
   e[n+exp_name_o]="calloc";
   e[n+exp_address_o]=not_impl;

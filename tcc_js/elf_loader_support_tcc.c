@@ -57,8 +57,8 @@ void puts_num(int x){
   printf("%u\n",x);
 }
 
-int puts_tramp(int s){
-  return puts(s);
+int fputs_tramp(int a, int b){
+  return fputs(a,b);
 }
 
 int get_stdout(void){
