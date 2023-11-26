@@ -200,8 +200,8 @@ int exit_tramp(int x){
 }
 
 int fputc_tramp(int x){
-  puts("fputc not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_fputc"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int free_tramp(int x){
@@ -245,10 +245,19 @@ int read_tramp(int x){
       "jmp %FUNCTION_generic3_tramp");
 }
 
+int fopen_wrap(int x, int y){
+  int r;
+  puts("fopen_wrap:");
+  puts(x);
+  puts(y);
+  r=fopen(x,y);
+  return r;
+}
 
-int fopen_tramp(int x){
-  puts("fopen not impl");
-  exit(1);
+int fopen_tramp(int x, int y){
+/*  puts("fopen_tramp called"); */
+  asm("mov_ebx, &FUNCTION_fopen_wrap"
+      "jmp %FUNCTION_generic2_tramp");
 }
 
 int fclose_tramp(int x){
