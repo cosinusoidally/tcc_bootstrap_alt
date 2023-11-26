@@ -978,7 +978,8 @@ int main(int argc, char **argv)
   FUNCTION t;
   int optind;
   int *objs;
-  objs=calloc(12,1);
+  /* enough for 3 objs */
+  objs=calloc(16,1);
 
   puts("elf loader starting");
 
@@ -990,7 +991,8 @@ int main(int argc, char **argv)
 
   puts("running elf files");
   objs[0]=mk_host_obj();
-  objs[1]=load_elf("elf_test.o");
+  objs[1]=load_elf("libc_boot.o");
+  objs[2]=load_elf("elf_test.o");
   link(objs);
   puts(argv[optind]);
   t=get_main(objs);
