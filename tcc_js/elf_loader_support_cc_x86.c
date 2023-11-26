@@ -144,8 +144,8 @@ int free_tramp(int x){
 }
 
 int malloc_tramp(int x){
-  puts("malloc not impl");
-  exit(1);
+  asm("mov_ebx, &FUNCTION_malloc"
+      "jmp %FUNCTION_generic1_tramp");
 }
 
 int realloc_tramp(int x){
