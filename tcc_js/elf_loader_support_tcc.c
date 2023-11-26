@@ -83,9 +83,8 @@ int exit_tramp(int x){
   exit(1);
 }
 
-int fputc_tramp(int x){
-  puts("fputc not impl");
-  exit(1);
+int fputc_tramp(int a, int b){
+  return fputc(a,b);
 }
 
 void free_tramp(int x){
@@ -106,20 +105,17 @@ int open_tramp(int a, int b, int c){
 }
 
 int close_tramp(int x){
-  puts("close not impl");
-  exit(1);
+  return close(x);
 }
 
 int read_tramp(int a, int b, int c){
   return read(a,b,c);
 }
 
-int fopen_tramp(int x){
-  puts("fopen not impl");
-  exit(1);
+int fopen_tramp(int a, int b){
+  return fopen(a,b);
 }
 
 int fclose_tramp(int x){
-  puts("fclose not impl");
-  exit(1);
+  return fclose(x);
 }
