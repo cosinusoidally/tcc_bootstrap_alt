@@ -103,12 +103,6 @@ int generic2_tramp(int a, int b) {
       "pop_ebp"
       "ret");
 }
-
-int fputs_tramp(int x){
-  asm("mov_ebx, &FUNCTION_fputs"
-      "jmp %FUNCTION_generic2_tramp");
-}
-
 int get_stdout(void){
   asm("mov_eax, &GLOBAL_stdout"
       "ret");
@@ -122,4 +116,64 @@ int get_stdin(void){
 int get_stderr(void){
   asm("mov_eax, &GLOBAL_stderr"
       "ret");
+}
+
+int fputs_tramp(int x){
+  asm("mov_ebx, &FUNCTION_fputs"
+      "jmp %FUNCTION_generic2_tramp");
+}
+
+int calloc_tramp(int x){
+  puts("calloc not impl");
+  exit(1);
+}
+
+int exit_tramp(int x){
+  puts("exit not impl");
+  exit(1);
+}
+
+int fputc_tramp(int x){
+  puts("fputc not impl");
+  exit(1);
+}
+
+int free_tramp(int x){
+  puts("free not impl");
+  exit(1);
+}
+
+int malloc_tramp(int x){
+  puts("malloc not impl");
+  exit(1);
+}
+
+int realloc_tramp(int x){
+  puts("realloc not impl");
+  exit(1);
+}
+
+int open_tramp(int x){
+  puts("open not impl");
+  exit(1);
+}
+
+int close_tramp(int x){
+  puts("close not impl");
+  exit(1);
+}
+
+int read_tramp(int x){
+  puts("read not impl");
+  exit(1);
+}
+
+int fopen_tramp(int x){
+  puts("fopen not impl");
+  exit(1);
+}
+
+int fclose_tramp(int x){
+  puts("fclose not impl");
+  exit(1);
 }

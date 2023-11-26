@@ -57,10 +57,6 @@ void puts_num(int x){
   printf("%u\n",x);
 }
 
-int fputs_tramp(int a, int b){
-  return fputs(a,b);
-}
-
 int get_stdout(void){
   return &stdout;
 }
@@ -71,4 +67,63 @@ int get_stdin(void){
 
 int get_stderr(void){
   return &stderr;
+}
+
+int fputs_tramp(int a, int b){
+  return fputs(a,b);
+}
+
+int calloc_tramp(int x){
+  puts("calloc not impl");
+  exit(1);
+}
+
+int exit_tramp(int x){
+  puts("exit not impl");
+  exit(1);
+}
+
+int fputc_tramp(int x){
+  puts("fputc not impl");
+  exit(1);
+}
+
+int free_tramp(int x){
+  puts("free not impl");
+  exit(1);
+}
+
+int malloc_tramp(int x){
+  puts("malloc not impl");
+  exit(1);
+}
+
+int realloc_tramp(int x){
+  puts("realloc not impl");
+  exit(1);
+}
+
+int open_tramp(int x){
+  puts("open not impl");
+  exit(1);
+}
+
+int close_tramp(int x){
+  puts("close not impl");
+  exit(1);
+}
+
+int read_tramp(int x){
+  puts("read not impl");
+  exit(1);
+}
+
+int fopen_tramp(int x){
+  puts("fopen not impl");
+  exit(1);
+}
+
+int fclose_tramp(int x){
+  puts("fclose not impl");
+  exit(1);
 }
