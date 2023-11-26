@@ -8,6 +8,7 @@ rm tcc_1_7/a.out
 rm tcc_1_7/tcc.o
 rm tcc_1_7/loader.exe
 rm tcc_1_7/loader.o
+rm tcc_1_7/tcc_boot.o
 
 rm tcc_1_8/a.out
 rm tcc_1_8/tcc.o
