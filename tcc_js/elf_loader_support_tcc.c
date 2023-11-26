@@ -60,3 +60,7 @@ void puts_num(int x){
 int puts_tramp(int s){
   return puts(s);
 }
+
+int get_stdout(void){
+  return &stdout;
+}

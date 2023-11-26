@@ -84,3 +84,8 @@ int puts_tramp(int s){
   asm("mov_ebx, &FUNCTION_puts"
       "jmp %FUNCTION_generic1_tramp");
 }
+
+int get_stdout(void){
+  asm("mov_eax, &GLOBAL_stdout"
+      "ret");
+}
