@@ -642,9 +642,9 @@ int gen_und_exports(int o){
 
   n_exports=0;
   n_unds=0;
-  /* FIXME this should not be 16 it should be calculated */
-  exports=calloc(exp_size*16,1);
-  unds=calloc(und_size*16,1);
+  /* FIXME this should not be 1024 it should be calculated */
+  exports=calloc(exp_size*1024,1);
+  unds=calloc(und_size*1024,1);
 
   symtab=obj[obj_symtab_o];
   symtab_size=obj[obj_symtab_size_o];
@@ -688,6 +688,10 @@ int gen_und_exports(int o){
 /* dummy test */
 /*        wi32(unds[(n_unds*2)+und_val_o],0x12345678); */
         n_unds=n_unds+1;
+        if(n_unds>1024) {
+          puts("too many unds");
+          exit(1);
+        }
       } else {
         /* patch physical address into symtab */
         st_value=obj[st_shndx]+st_value;
@@ -697,6 +701,10 @@ int gen_und_exports(int o){
           exports[(n_exports*2)+exp_name_o]=st_name_str;
           exports[(n_exports*2)+exp_address_o]=st_value;
           n_exports=n_exports+1;
+          if(n_exports>1024) {
+            puts("too many exports");
+            exit(1);
+          }
         }
       }
     }
