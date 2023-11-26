@@ -28,6 +28,7 @@ rm tcc_10/a.out
 rm tcc_10/libc_boot.o
 rm tcc_10/tcc.o
 rm tcc_10/tcc_boot.o
+rm tcc_10/tcc_new.o
 
 rm tcc_23/a.out
 rm tcc_23/libtcc1.o
