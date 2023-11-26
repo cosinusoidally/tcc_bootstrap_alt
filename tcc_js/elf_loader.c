@@ -592,6 +592,11 @@ int load_elf(char *name){
   return obj_struct;
 }
 
+int not_impl(void){
+  puts("not impl");
+  exit(1);
+}
+
 int mk_host_obj(void){
   int *obj;
   int *e;
@@ -616,6 +621,18 @@ int mk_host_obj(void){
   /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
   e[n+exp_name_o]="stderr";
   e[n+exp_address_o]=stderr;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fputs";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="calloc";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="exit";
+  e[n+exp_address_o]=not_impl;
+  n=n+(exp_size>>2);
+  e[n+exp_name_o]="fputc";
+  e[n+exp_address_o]=not_impl;
 
   return obj;
 }
