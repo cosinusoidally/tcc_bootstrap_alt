@@ -604,6 +604,18 @@ int mk_host_obj(void){
   obj[obj_exports_o]=e;
   e[n+exp_name_o]="puts";
   e[n+exp_address_o]=puts_tramp;
+  n=n+(exp_size>>2);
+  /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
+  e[n+exp_name_o]="stdout";
+  e[n+exp_address_o]=stdout;
+  n=n+(exp_size>>2);
+  /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
+  e[n+exp_name_o]="stdin";
+  e[n+exp_address_o]=stdin;
+  n=n+(exp_size>>2);
+  /* FIXME cc_x86 doesn't support & but we need to take the address, how ? */
+  e[n+exp_name_o]="stderr";
+  e[n+exp_address_o]=stderr;
 
   return obj;
 }

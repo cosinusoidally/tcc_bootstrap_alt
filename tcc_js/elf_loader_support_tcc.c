@@ -1,6 +1,8 @@
 #include "elf_loader_support.c"
 
 extern int stdout;
+extern int stdin;
+extern int stderr;
 
 typedef int (*FUNCTION) ();
 
