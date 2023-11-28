@@ -58,12 +58,12 @@ int process_global_var(int l){
   puts(l);
 }
 
-int process_local_var(int l){
-  puts("/* local var */");
-  puts(l);
-
-  oputs("/* local var */");
-  oputs("\n");
+int process_local_var(int l,int n){
+  int i;
+  for(i=0;i<n;i=i+1){
+    oputs(" ");
+  }
+  oputs("int ");
   oputs(l);
   oputs("\n");
 }
@@ -83,7 +83,12 @@ int eat_whitespace(int l){
 }
 
 int num_whitespace(int l){
-  return 0;
+  char *o;
+  o=l;
+  while(memcmp(" ",o,1)==0){
+    o=o+1;
+  }
+  return o-l;
 }
 
 int process_line(int l) {
@@ -103,7 +108,7 @@ int process_line(int l) {
     return;
   }
   if(memcmp("var ",t,4)==0){
-    process_local_var(l);
+    process_local_var(t+4,n);
     return;
   }
   puts(l);
