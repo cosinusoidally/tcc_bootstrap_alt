@@ -13,6 +13,9 @@ int gibo;
 int gdb;
 int gdbo;
 
+int db;
+int dbo;
+
 int wu8(int o, int v) {
   char *b;
   b=o;
@@ -27,6 +30,8 @@ int init_globals(void){
   gibo=0;
   gdb=calloc(1024*1024,1);
   gdbo=0;
+  db=calloc(1024*1024,1);
+  dbo=0;
 }
 
 int oputs(int s){
