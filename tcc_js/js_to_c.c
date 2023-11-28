@@ -93,7 +93,9 @@ int process_global_var(int l){
     }
     p=p+1;
   }
-  puts(l);
+  gdputs("int ");
+  gdputs(l);
+  gdputs("\n");
 }
 
 int process_local_var(int l,int n){
@@ -204,7 +206,7 @@ int print_fn_decls(void){
 int print_declare_globals(void){
   puts("");
   puts("/* declare globals */");
-
+  fputs(gdb, stdout);
 }
 
 int print_init_globals(void){
