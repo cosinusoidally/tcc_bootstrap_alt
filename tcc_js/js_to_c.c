@@ -58,6 +58,16 @@ int process_global_var(int l){
   puts(l);
 }
 
+int process_local_var(int l){
+  puts("/* local var */");
+  puts(l);
+
+  oputs("/* local var */");
+  oputs("\n");
+  oputs(l);
+  oputs("\n");
+}
+
 int process_load(int l){
   puts("/* process_load */");
   puts(l);
@@ -89,10 +99,14 @@ int process_line(int l) {
   }
   t=eat_whitespace(l);
   n=num_whitespace(l);
-  puts(l);
   if(memcmp("// ",t,3)==0){
     return;
   }
+  if(memcmp("var ",t,4)==0){
+    process_local_var(l);
+    return;
+  }
+  puts(l);
   oputs(l);
   oputs("\n");
 }
