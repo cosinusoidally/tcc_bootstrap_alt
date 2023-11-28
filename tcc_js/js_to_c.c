@@ -194,6 +194,10 @@ int process_function(int l){
   }
   p[0]=0;
   p=p+1;
+  if(args_n==0){
+    args[0]="void";
+  } else {
+  }
   dbputs(name);
   dbputs("(");
   dbputs(args[0]);
