@@ -101,6 +101,7 @@ int process_function(int l){
   oputs(" */");
   oputs("\n");
   l=l+9;
+  oputs("int ");
   oputs(l);
   oputs("\n");
 }
