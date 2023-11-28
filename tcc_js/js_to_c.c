@@ -55,6 +55,13 @@ int gdputs(int s){
   gdbo=gdbo+l;
 }
 
+int dbputs(int s){
+  int l;
+  l=strlen(s);
+  memcpy(db+dbo,s,l);
+  dbo=dbo+l;
+}
+
 int memcmp(int s1, int s2, int n) {
   int i;
   int r;
@@ -165,6 +172,8 @@ int process_function(int l){
   oputs("int ");
   oputs(l);
   oputs("\n");
+  dbputs("int ");
+  dbputs("\n");
 }
 
 int process_line(int l) {
@@ -224,6 +233,7 @@ int process_file(int name){
 int print_fn_decls(void){
   puts("");
   puts("/* fn decls */");
+  fputs(db, stdout);
 
 }
 
