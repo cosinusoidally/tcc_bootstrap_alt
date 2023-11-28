@@ -29,9 +29,19 @@ int memcmp(int s1, int s2, int n) {
   return r;
 }
 
+int process_global_var(int l){
+  puts("/* global var */");
+  puts(l);
+}
+
+int process_load(int l){
+  puts("process_load");
+}
+
 int process_line(int l) {
   if(memcmp("var ",l,4)==0){
-    puts("/* global var */");
+    process_global_var(l);
+    return;
   }
   puts(l);
 }
