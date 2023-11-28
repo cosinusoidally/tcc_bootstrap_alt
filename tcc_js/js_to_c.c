@@ -9,6 +9,9 @@ int obo;
 int gib;
 int gibo;
 
+int gdb;
+int gdbo;
+
 int wu8(int o, int v) {
   char *b;
   b=o;
@@ -21,6 +24,8 @@ int init_globals(void){
   obo=0;
   gib=calloc(1024*1024,1);
   gibo=0;
+  gdb=calloc(1024*1024,1);
+  gdbo=0;
 }
 
 int oputs(int s){
@@ -35,6 +40,13 @@ int giputs(int s){
   l=strlen(s);
   memcpy(gib+gibo,s,l);
   gibo=gibo+l;
+}
+
+int gdputs(int s){
+  int l;
+  l=strlen(s);
+  memcpy(gdb+gdbo,s,l);
+  gdbo=gdbo+l;
 }
 
 int memcmp(int s1, int s2, int n) {
