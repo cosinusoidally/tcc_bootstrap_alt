@@ -35,12 +35,17 @@ int process_global_var(int l){
 }
 
 int process_load(int l){
-  puts("process_load");
+  puts("/* process_load */");
+  puts(l);
 }
 
 int process_line(int l) {
   if(memcmp("var ",l,4)==0){
     process_global_var(l);
+    return;
+  }
+  if(memcmp("load(",l,4)==0){
+    process_load(l);
     return;
   }
   puts(l);
