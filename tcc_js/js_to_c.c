@@ -202,14 +202,16 @@ int process_function(int l){
   }
   p[0]=0;
   p=p+1;
-  if(args_n==0){
-    args[0]="void";
-  }
   dbputs(name);
   dbputs("(");
-  dbputs(args[0]);
+  if(args_n==0){
+    dbputs("void");
+  } else {
+    dbputs("int ");
+    dbputs(args[0]);
+  }
   for(i=0;i<args_n;i=i+1){
-    dbputs(", ");
+    dbputs(", int ");
     dbputs(args[i+1]);
   }
   dbputs(")");
