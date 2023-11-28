@@ -12,8 +12,28 @@ int init_globals(void){
   l_size=256;
 }
 
+int memcmp(int s1, int s2, int n) {
+  int i;
+  int r;
+  char *p1;
+  char *p2;
+  r=0;
+  p1=s1;
+  p2=s2;
+  for(i=0;i<n;i=i+1){
+    if(p1[i]!=p2[i]){
+/* FIXME ljw not quite right */
+      r=1;
+    }
+  }
+  return r;
+}
+
 int process_line(int l) {
   puts(l);
+  if(memcmp("var ",l,4)==0){
+    puts("global var");
+  }
 }
 
 int process_file(int name){
