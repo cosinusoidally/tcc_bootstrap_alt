@@ -171,6 +171,7 @@ int process_function(int l){
   int i;
   int name;
   args_n=0;
+  int decl;
   p=l;
   /* FIXME should be dynamic */
   args=malloc(20*4);
@@ -179,9 +180,7 @@ int process_function(int l){
   oputs(" */");
   oputs("\n");
   l=l+9;
-  oputs("int ");
-  oputs(l);
-  oputs("\n");
+  decl=db+dbo;
   dbputs("int ");
   name=l;
   while((c=p[0])!='('){
@@ -215,6 +214,8 @@ int process_function(int l){
     dbputs(args[i+1]);
   }
   dbputs(")");
+  oputs(decl);
+  oputs(" {\n");
   dbputs(";\n");
   free(args);
 }
