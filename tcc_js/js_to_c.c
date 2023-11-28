@@ -83,11 +83,11 @@ int process_global_var(int l){
   char c;
   l=l+4;
   p=l;
-  giputs("  ");
-  giputs(l);
-  giputs("\n");
   while((c=p[0])!=0){
     if(c=='='){
+      giputs("    ");
+      giputs(l);
+      giputs("\n");
       p[0]=';';
       p[1]=0;
       break;
