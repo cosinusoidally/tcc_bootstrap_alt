@@ -13,7 +13,7 @@ int init_globals(void){
 }
 
 int process_line(int l) {
-  puts("process line");
+  puts(l);
 }
 
 int process_file(int name){
@@ -25,7 +25,6 @@ int process_file(int name){
   f=fopen(name,"rb");
   lo=0;
   while((c=fgetc(f)) != (-1)) {
-    fputc(c,stdout);
     wu8(lb+lo,c);
     if(c=='\n'){
       wu8(lb+lo,0);
