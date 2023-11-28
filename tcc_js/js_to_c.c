@@ -1,6 +1,8 @@
 #include "elf_loader_support_tcc.c"
 
 int l_size;
+int ob;
+int obo;
 
 int wu8(int o, int v) {
   char *b;
@@ -10,6 +12,8 @@ int wu8(int o, int v) {
 
 int init_globals(void){
   l_size=256;
+  ob=malloc(1024*1024);
+  obo=0;
 }
 
 int memcmp(int s1, int s2, int n) {
@@ -73,9 +77,40 @@ int process_file(int name){
   return 0;
 }
 
+int print_fn_decls(void){
+  puts("");
+  puts("/* fn decls */");
+
+}
+
+int print_declare_globals(void){
+  puts("");
+  puts("/* declare globals */");
+
+}
+
+int print_init_globals(void){
+  puts("");
+  puts("/* init globals */");
+
+}
+
+int print_converted(void){
+  puts("");
+  puts("/* js_to_c converted code */");
+
+}
+
 int main(void){
   init_c();
   init_globals();
   process_file("tcc.js");
+
+  puts("#include \"support.c\"");
+  print_fn_decls();
+  print_declare_globals();
+  print_init_globals();
+  print_converted();
+  
   return 0;
 }
