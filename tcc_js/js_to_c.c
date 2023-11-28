@@ -55,7 +55,9 @@ int fwrite(int ptr,int size, int nitems, int stream) {
 
 int process_global_var(int l){
   puts("/* global var */");
-  puts(l);
+  fputs("int ",stdout);
+  fputs(l+4,stdout);
+  fputs("\n",stdout);
 }
 
 int process_local_var(int l,int n){
@@ -69,8 +71,10 @@ int process_local_var(int l,int n){
 }
 
 int process_load(int l){
-  puts("/* process_load */");
-  puts(l);
+  oputs("/* process_load */");
+  oputs("\n");
+  oputs(l);
+  oputs("\n");
 }
 
 int eat_whitespace(int l){
@@ -128,7 +132,6 @@ int process_line(int l) {
     process_local_var(t+4,n);
     return;
   }
-  puts(l);
   oputs(l);
   oputs("\n");
 }
