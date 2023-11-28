@@ -164,6 +164,15 @@ int num_whitespace(int l){
 }
 
 int process_function(int l){
+  char *p;
+  int *args;
+  int args_n;
+  int c;
+  int name;
+  args_n=0;
+  p=l;
+  /* FIXME should be dynamic */
+  args=malloc(20*4);
   oputs("/* ");
   oputs(l);
   oputs(" */");
@@ -173,7 +182,23 @@ int process_function(int l){
   oputs(l);
   oputs("\n");
   dbputs("int ");
-  dbputs("\n");
+  name=l;
+  while((c=p[0])!='('){
+    p=p+1;
+  }
+  p[0]=0;
+  p=p+1;
+  args[0]=p;
+  while((c=p[0])!=')'){
+    p=p+1;
+  }
+  p[0]=0;
+  p=p+1;
+  dbputs(name);
+  dbputs("(");
+  dbputs(args[0]);
+  dbputs(");\n");
+  free(args);
 }
 
 int process_line(int l) {
