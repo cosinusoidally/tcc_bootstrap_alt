@@ -1,6 +1,7 @@
 #include "elf_loader_support_tcc.c"
 
 int memcpy(int s1, int s2, int n);
+int process_file(int name);
 
 int l_size;
 int ob;
@@ -129,6 +130,7 @@ int process_load(int l){
   oputs(l);
   oputs(" */");
   oputs("\n");
+  process_file(l);
 }
 
 int eat_whitespace(int l){

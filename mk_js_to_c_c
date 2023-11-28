@@ -5,6 +5,7 @@ rm /tmp/tcc_js_tmp/js_to_c*exe
 cp bootstrappable_load.c /tmp/tcc_js_tmp/
 cp bootstrap_load.c /tmp/tcc_js_tmp/
 cp dummy_tcc.js /tmp/tcc_js_tmp/tcc.js
+cp dummy_include.js /tmp/tcc_js_tmp/
 
 cat elf_loader_support.c elf_loader_support_cc_x86.c js_to_c.c > /tmp/tcc_js_tmp/js_to_c_all.c
 
