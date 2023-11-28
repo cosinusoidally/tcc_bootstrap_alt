@@ -91,6 +91,16 @@ int num_whitespace(int l){
   return o-l;
 }
 
+int process_function(int l){
+  oputs("/* ");
+  oputs(l);
+  oputs(" */");
+  oputs("\n");
+  l=l+9;
+  oputs(l);
+  oputs("\n");
+}
+
 int process_line(int l) {
   int t;
   int n;
@@ -100,6 +110,10 @@ int process_line(int l) {
   }
   if(memcmp("load(",l,4)==0){
     process_load(l);
+    return;
+  }
+  if(memcmp("function ",l,9)==0){
+    process_function(l);
     return;
   }
   t=eat_whitespace(l);
