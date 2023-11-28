@@ -212,7 +212,8 @@ int process_function(int l){
     dbputs(", ");
     dbputs(args[i+1]);
   }
-  dbputs(");\n");
+  dbputs(")");
+  dbputs(";\n");
   free(args);
 }
 
