@@ -63,7 +63,18 @@ int process_load(int l){
   puts(l);
 }
 
+int eat_whitespace(int l){
+  return l;
+}
+
+int num_whitespace(int l){
+  return 0;
+}
+
+
 int process_line(int l) {
+  int t;
+  int n;
   if(memcmp("var ",l,4)==0){
     process_global_var(l);
     return;
@@ -72,7 +83,12 @@ int process_line(int l) {
     process_load(l);
     return;
   }
+  t=eat_whitespace(l);
+  n=num_whitespace(l);
   puts(l);
+  if(memcmp("// ",t,3)==0){
+    return;
+  }
   oputs(l);
   oputs("\n");
 }
