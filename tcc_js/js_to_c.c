@@ -64,13 +64,17 @@ int process_load(int l){
 }
 
 int eat_whitespace(int l){
-  return l;
+  char *o;
+  o=l;
+  while(memcmp(" ",o,1)==0){
+    o=o+1;
+  }
+  return o;
 }
 
 int num_whitespace(int l){
   return 0;
 }
-
 
 int process_line(int l) {
   int t;
