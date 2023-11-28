@@ -168,6 +168,7 @@ int process_function(int l){
   int *args;
   int args_n;
   int c;
+  int i;
   int name;
   args_n=0;
   p=l;
@@ -190,17 +191,27 @@ int process_function(int l){
   p=p+1;
   args[0]=p;
   while((c=p[0])!=')'){
-    p=p+1;
+    if(c==','){
+      args_n=args_n+1;
+      p[0]=0;
+      p=p+1;
+      args[args_n]=p;
+    } else {
+      p=p+1;
+    }
   }
   p[0]=0;
   p=p+1;
   if(args_n==0){
     args[0]="void";
-  } else {
   }
   dbputs(name);
   dbputs("(");
   dbputs(args[0]);
+  for(i=0;i<args_n;i=i+1){
+    dbputs(", ");
+    dbputs(args[i+1]);
+  }
   dbputs(");\n");
   free(args);
 }
