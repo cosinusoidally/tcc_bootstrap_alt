@@ -6,6 +6,9 @@ int l_size;
 int ob;
 int obo;
 
+int gib;
+int gibo;
+
 int wu8(int o, int v) {
   char *b;
   b=o;
@@ -16,6 +19,8 @@ int init_globals(void){
   l_size=256;
   ob=calloc(1024*1024,1);
   obo=0;
+  gib=calloc(1024*1024,1);
+  gibo=0;
 }
 
 int oputs(int s){
@@ -23,6 +28,13 @@ int oputs(int s){
   l=strlen(s);
   memcpy(ob+obo,s,l);
   obo=obo+l;
+}
+
+int giputs(int s){
+  int l;
+  l=strlen(s);
+  memcpy(gib+gibo,s,l);
+  gibo=gibo+l;
 }
 
 int memcmp(int s1, int s2, int n) {
@@ -174,7 +186,9 @@ int print_declare_globals(void){
 int print_init_globals(void){
   puts("");
   puts("/* init globals */");
-
+  puts("void init_globals(void) {");
+  fputs(gib, stdout);
+  puts("}");
 }
 
 int print_converted(void){
