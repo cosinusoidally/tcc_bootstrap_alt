@@ -107,6 +107,9 @@ int process_line(int l) {
   if(memcmp("// ",t,3)==0){
     return;
   }
+  if(memcmp("print(",t,6)==0){
+    return;
+  }
   if(memcmp("var ",t,4)==0){
     process_local_var(t+4,n);
     return;
