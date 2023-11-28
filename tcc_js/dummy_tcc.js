@@ -18,3 +18,4 @@ function main(){
 }
 
 var g2=200;
+var g3 = malloc(200);

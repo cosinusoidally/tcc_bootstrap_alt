@@ -66,13 +66,22 @@ int fwrite(int ptr,int size, int nitems, int stream) {
 
 
 int process_global_var(int l){
-  puts("/* global var */");
-  fputs("int ",stdout);
-  fputs(l+4,stdout);
-  fputs("\n",stdout);
+  char *p;
+  char c;
+  l=l+4;
+  p=l;
   giputs("  ");
-  giputs(l+4);
+  giputs(l);
   giputs("\n");
+  while((c=p[0])!=0){
+    if(c=='='){
+      p[0]=';';
+      p[1]=0;
+      break;
+    }
+    p=p+1;
+  }
+  puts(l);
 }
 
 int process_local_var(int l,int n){
