@@ -188,8 +188,11 @@ int process_function(int l){
   }
   p[0]=0;
   p=p+1;
-  args[0]=p;
+  args[1]=p;
   while((c=p[0])!=')'){
+    if(args_n==0){
+      args_n=1;
+    }
     if(c==','){
       args_n=args_n+1;
       p[0]=0;
@@ -207,9 +210,9 @@ int process_function(int l){
     dbputs("void");
   } else {
     dbputs("int ");
-    dbputs(args[0]);
+    dbputs(args[1]);
   }
-  for(i=0;i<args_n;i=i+1){
+  for(i=1;i<args_n;i=i+1){
     dbputs(", int ");
     dbputs(args[i+1]);
   }

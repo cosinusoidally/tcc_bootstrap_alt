@@ -7,3 +7,7 @@ function bar(a, b){
   c=a+b;
   return c;
 }
+
+function f1(a){
+  return a+1;
+}
