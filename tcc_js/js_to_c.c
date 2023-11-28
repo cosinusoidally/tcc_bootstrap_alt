@@ -1,5 +1,7 @@
 #include "elf_loader_support_tcc.c"
 
+int memcpy(int s1, int s2, int n);
+
 int l_size;
 int ob;
 int obo;
@@ -12,8 +14,17 @@ int wu8(int o, int v) {
 
 int init_globals(void){
   l_size=256;
-  ob=malloc(1024*1024);
+  ob=calloc(1024*1024,1);
   obo=0;
+}
+
+int oputs(int s){
+  int l;
+  l=strlen(s);
+  memcpy(ob+obo,s,l);
+  obo=obo+l;
+  memcpy(ob+obo,"\n",l);
+  obo=obo+1;
 }
 
 int memcmp(int s1, int s2, int n) {
@@ -32,6 +43,17 @@ int memcmp(int s1, int s2, int n) {
   }
   return r;
 }
+
+int fwrite(int ptr,int size, int nitems, int stream) {
+  int t=size*nitems;
+  char *c=ptr;
+  while(t>0){
+    fputc(c[0],stream);
+    t=t-1;
+    c=c+1;
+  }
+}
+
 
 int process_global_var(int l){
   puts("/* global var */");
@@ -53,6 +75,7 @@ int process_line(int l) {
     return;
   }
   puts(l);
+  oputs(l);
 }
 
 int process_file(int name){
@@ -98,7 +121,8 @@ int print_init_globals(void){
 int print_converted(void){
   puts("");
   puts("/* js_to_c converted code */");
-
+  puts("");
+  fwrite(ob,1,obo,stdout);
 }
 
 int main(void){
