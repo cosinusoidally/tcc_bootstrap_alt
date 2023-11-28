@@ -70,6 +70,9 @@ int process_global_var(int l){
   fputs("int ",stdout);
   fputs(l+4,stdout);
   fputs("\n",stdout);
+  giputs("  ");
+  giputs(l+4);
+  giputs("\n");
 }
 
 int process_local_var(int l,int n){
