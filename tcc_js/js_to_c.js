@@ -1,4 +1,9 @@
-f=read("tcc.js").split("\n").reverse();
+var file;
+if(!file){
+  file="tcc.js";
+}
+
+f=read(file).split("\n").reverse();
 g=[];
 
 b=[];
