@@ -30,10 +30,10 @@ int memcmp(int s1, int s2, int n) {
 }
 
 int process_line(int l) {
-  puts(l);
   if(memcmp("var ",l,4)==0){
-    puts("global var");
+    puts("/* global var */");
   }
+  puts(l);
 }
 
 int process_file(int name){
