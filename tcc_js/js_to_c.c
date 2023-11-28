@@ -7,7 +7,7 @@ int process_file(int name){
   lb=malloc(256);
   f=fopen(name,"rb");
   while((c=fgetc(f)) != (-1)) {
-
+    fputc(c,stdout);
   } 
   free(lb); 
   return 0;
@@ -15,7 +15,6 @@ int process_file(int name){
 
 int main(void){
   init_c();
-  puts("Hello world");
   process_file("tcc.js");
   return 0;
 }
