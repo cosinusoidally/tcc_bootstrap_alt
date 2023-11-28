@@ -109,9 +109,25 @@ int process_local_var(int l,int n){
 }
 
 int process_load(int l){
-  oputs("/* process_load */");
-  oputs("\n");
+  char *p;
+  char c;
+  p=l;
+
+  while((c=p[0])!='"'){
+    p=p+1;
+  }
+  p=p+1;
+  l=p;
+  while((c=p[0])!='"'){
+    p=p+1;
+  }
+  p[0]=0;
+  if(memcmp(l,"support.js",10)==0){
+    return;
+  }
+  oputs("/* load: ");
   oputs(l);
+  oputs(" */");
   oputs("\n");
 }
 
@@ -194,6 +210,7 @@ int process_file(int name){
     }
   }
   free(lb); 
+  fclose(f);
   return 0;
 }
 
