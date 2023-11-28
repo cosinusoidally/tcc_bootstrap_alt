@@ -23,8 +23,6 @@ int oputs(int s){
   l=strlen(s);
   memcpy(ob+obo,s,l);
   obo=obo+l;
-  memcpy(ob+obo,"\n",l);
-  obo=obo+1;
 }
 
 int memcmp(int s1, int s2, int n) {
@@ -76,6 +74,7 @@ int process_line(int l) {
   }
   puts(l);
   oputs(l);
+  oputs("\n");
 }
 
 int process_file(int name){
