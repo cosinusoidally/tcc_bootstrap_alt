@@ -48,12 +48,12 @@ int dlsym_wrap(int h,int sym){
 int load_obj(void){
   puts("Loading object file");
   int f;
-  int text_len;
-  int data_len;
-  int reloc_len;
+  int text_len=malloc(4);
+  int data_len=malloc(4);
+  int reloc_len=malloc(4);
   int global_reloc_len;
   int global_reloc_table_len;
-  int entrypoint;
+  int entrypoint=malloc(4);
   int m0=3735928320;
   int m1=3735928321;
   int m2=3735928322;
@@ -62,10 +62,10 @@ int load_obj(void){
   int i;
   int t;
   f = fopen("tcc_boot.o", "rb");
-  fread(&entrypoint,1,4,f);
-  fread(&text_len,1,4,f);
-  fread(&data_len,1,4,f);
-  fread(&reloc_len,1,4,f);
+  fread(entrypoint,1,4,f);
+  fread(text_len,1,4,f);
+  fread(data_len,1,4,f);
+  fread(reloc_len,1,4,f);
   fread(&global_reloc_len,1,4,f);
   fread(&global_reloc_table_len,1,4,f);
   fread(&t,1,4,f);
@@ -76,23 +76,23 @@ int load_obj(void){
   global_relocs_table_base=malloc(global_reloc_table_len);
   global_relocs_table=global_relocs_table_base;
   fread(global_relocs_table_base,1,global_reloc_table_len,f);
-  prog_rel=malloc(text_len);
-  data_rel=malloc(data_len);
+  prog_rel=malloc(text_len[0]);
+  data_rel=malloc(data_len[0]);
 
   fread(&t,1,4,f);
   if(t!=m1){
     puts("sync m1");
     exit(1);
   }
-  relocs_base=malloc(reloc_len);
-  fread(relocs_base,1,reloc_len,f);
+  relocs_base=malloc(reloc_len[0]);
+  fread(relocs_base,1,reloc_len[0],f);
   fread(&t,1,4,f);
   if(t!=m2){
     puts("sync m2");
     exit(1);
   }
 
-  fread(data_rel,1,data_len,f);
+  fread(data_rel,1,data_len[0],f);
 
   fread(&t,1,4,f);
   if(t!=m3){
@@ -109,14 +109,14 @@ int load_obj(void){
     exit(1);
   }
 
-  fread(prog_rel,1,text_len,f);
+  fread(prog_rel,1,text_len[0],f);
   glo = malloc(DATA_SIZE);
   glo_base=glo;
   memset(glo, 0, DATA_SIZE);
   prog = malloc(TEXT_SIZE);
   ind = prog;
-  memcpy(prog, prog_rel, text_len);
-  memcpy(glo_base, data_rel, data_len);
+  memcpy(prog, prog_rel, text_len[0]);
+  memcpy(glo_base, data_rel, data_len[0]);
   fclose(f);
 
   int m=global_relocs_table_base+global_reloc_table_len;
@@ -124,7 +124,7 @@ int load_obj(void){
   int a;
   int n;
   int p;
-  for(i=0;i<reloc_len;i=i+12){
+  for(i=0;i<reloc_len[0];i=i+12){
     if(relocs_base+i+8==0){
       p=prog;
     } else {
@@ -157,7 +157,7 @@ int load_obj(void){
       goff=goff+8;
     }
   }
-  return prog+entrypoint;
+  return prog+(entrypoint[0]);
 }
 
 int main(int argc, char **argv)
