@@ -51,8 +51,8 @@ int load_obj(void){
   int text_len=malloc(4);
   int data_len=malloc(4);
   int reloc_len=malloc(4);
-  int global_reloc_len;
-  int global_reloc_table_len;
+  int global_reloc_len=malloc(4);
+  int global_reloc_table_len=malloc(4);
   int entrypoint=malloc(4);
   int m0=3735928320;
   int m1=3735928321;
@@ -60,51 +60,51 @@ int load_obj(void){
   int m3=3735928323;
   int m4=3735928324;
   int i;
-  int t;
+  int *t=malloc(4);
   f = fopen("tcc_boot.o", "rb");
   fread(entrypoint,1,4,f);
   fread(text_len,1,4,f);
   fread(data_len,1,4,f);
   fread(reloc_len,1,4,f);
-  fread(&global_reloc_len,1,4,f);
-  fread(&global_reloc_table_len,1,4,f);
-  fread(&t,1,4,f);
-  if(t!=m0){
+  fread(global_reloc_len,1,4,f);
+  fread(global_reloc_table_len,1,4,f);
+  fread(t,1,4,f);
+  if(t[0]!=m0){
     puts("sync m0");
     exit(1);
   }
-  global_relocs_table_base=malloc(global_reloc_table_len);
+  global_relocs_table_base=malloc(global_reloc_table_len[0]);
   global_relocs_table=global_relocs_table_base;
-  fread(global_relocs_table_base,1,global_reloc_table_len,f);
+  fread(global_relocs_table_base,1,global_reloc_table_len[0],f);
   prog_rel=malloc(text_len[0]);
   data_rel=malloc(data_len[0]);
 
-  fread(&t,1,4,f);
-  if(t!=m1){
+  fread(t,1,4,f);
+  if(t[0]!=m1){
     puts("sync m1");
     exit(1);
   }
   relocs_base=malloc(reloc_len[0]);
   fread(relocs_base,1,reloc_len[0],f);
-  fread(&t,1,4,f);
-  if(t!=m2){
+  fread(t,1,4,f);
+  if(t[0]!=m2){
     puts("sync m2");
     exit(1);
   }
 
   fread(data_rel,1,data_len[0],f);
 
-  fread(&t,1,4,f);
-  if(t!=m3){
+  fread(t,1,4,f);
+  if(t[0]!=m3){
     puts("sync m3");
     exit(1);
   }
 
-  global_relocs_base=malloc(global_reloc_len);
-  fread(global_relocs_base,1,global_reloc_len,f);
+  global_relocs_base=malloc(global_reloc_len[0]);
+  fread(global_relocs_base,1,global_reloc_len[0],f);
 
-  fread(&t,1,4,f);
-  if(t!=m4){
+  fread(t,1,4,f);
+  if(t[0]!=m4){
     puts("sync m4");
     exit(1);
   }
@@ -119,7 +119,7 @@ int load_obj(void){
   memcpy(glo_base, data_rel, data_len[0]);
   fclose(f);
 
-  int m=global_relocs_table_base+global_reloc_table_len;
+  int m=global_relocs_table_base+global_reloc_table_len[0];
   int l;
   int a;
   int n;
