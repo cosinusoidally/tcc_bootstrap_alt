@@ -48,12 +48,12 @@ int dlsym_wrap(int h,int sym){
 int load_obj(void){
   puts("Loading object file");
   int f;
-  int text_len=malloc(4);
-  int data_len=malloc(4);
-  int reloc_len=malloc(4);
-  int global_reloc_len=malloc(4);
-  int global_reloc_table_len=malloc(4);
-  int entrypoint=malloc(4);
+  int *text_len=malloc(4);
+  int *data_len=malloc(4);
+  int *reloc_len=malloc(4);
+  int *global_reloc_len=malloc(4);
+  int *global_reloc_table_len=malloc(4);
+  int *entrypoint=malloc(4);
   int m0=3735928320;
   int m1=3735928321;
   int m2=3735928322;
