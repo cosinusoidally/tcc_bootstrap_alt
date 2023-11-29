@@ -804,7 +804,7 @@ int fread(int ptr,int size, int nitems, int stream) {
   int cr;
   for(i=0;i<t;i=i+1){
     cr=fgetc(stream);
-    if(cr==-1) {
+    if(cr == -1) {
       puts("eof");
       return i;
     }
