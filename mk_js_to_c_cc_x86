@@ -9,7 +9,9 @@ pushd .
 
 rm tcc_boot.o
 
-js -e "dbg=false;load('js_to_c.js')" > /tmp/tcc_js_tmp/tcc_js.c
+# js -e "dbg=false;load('js_to_c.js')" > /tmp/tcc_js_tmp/tcc_js.c
+/tmp/tcc_js_tmp/js_to_c_cc_x86.exe > /tmp/tcc_js_tmp/tcc_js.c
+
 cp support.c /tmp/tcc_js_tmp
 cp support_cc_x86.c /tmp/tcc_js_tmp
 cp support_M2.c /tmp/tcc_js_tmp

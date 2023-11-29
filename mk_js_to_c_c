@@ -1,3 +1,9 @@
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/linux/bootstrap.c /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/bootstrappable.c /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/libc-core.M1 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/ELF-i386.hex2 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/x86_defs.M1 /tmp/tcc_js_tmp/
+
 cd tcc_js
 
 rm /tmp/tcc_js_tmp/js_to_c*exe

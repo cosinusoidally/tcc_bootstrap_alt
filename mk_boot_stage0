@@ -1,4 +1,7 @@
 ./mk_clean
+rm -r /tmp/tcc_js_tmp/
+cp -r ../tcc_js_tmp/ /tmp
+./mk_js_to_c_c
 ./mk_js_to_c_cc_x86
 mv tcc_js/tcc_boot.o tcc_10
 ./mk_loader_m2
