@@ -649,6 +649,21 @@ int strtof_tramp(int x){
       "jmp %FUNCTION_generic2_tramp");
 }
 
+int get_stdout(void){
+  asm("mov_eax, &GLOBAL_stdout"
+      "ret");
+}
+
+int get_stdin(void){
+  asm("mov_eax, &GLOBAL_stdin"
+      "ret");
+}
+
+int get_stderr(void){
+  asm("mov_eax, &GLOBAL_stderr"
+      "ret");
+}
+
 int dlsym(int h,int sym){
   if(strcmp(sym, "malloc")==0) {
     return malloc_tramp;
@@ -690,10 +705,10 @@ int dlsym(int h,int sym){
     return atoi_tramp;
   }
   if(strcmp(sym, "stdout")==0) {
-    return &stdout;
+    return get_stdout();
   }
   if(strcmp(sym, "stderr")==0) {
-    return &stderr;
+    return get_stderr();
   }
   if(strcmp(sym, "fdopen")==0) {
     return fdopen_tramp;
