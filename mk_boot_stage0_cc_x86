@@ -6,9 +6,8 @@ chmod -x /tmp/tcc_js_tmp/tcc_1_7
 chmod -x /tmp/tcc_js_tmp/tcc_10
 ./mk_js_to_c_c_min
 echo "mk_js_to_c_cc_x86 step"
-./mk_js_to_c_cc_x86
+./mk_js_to_c_cc_x86_min
 mv tcc_js/tcc_boot.o tcc_10
-echo "WOO"
 ./mk_loader_cc_x86
 ./mk_libc_boot
 ./mk_elf_loader_min
