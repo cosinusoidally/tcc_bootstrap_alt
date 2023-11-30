@@ -1,1 +1,5 @@
+# build js_to_c_cc_x86.exe
 ./x86/bin/catm ./x86/artifact/js_to_c_all.c ./tcc_js/bootstrap_load.c ./tcc_js/bootstrappable_load.c ./tcc_js/elf_loader_support.c ./tcc_js/elf_loader_support_cc_x86.c ./tcc_js/js_to_c.c
+./x86/bin/cc_x86 ./x86/artifact/js_to_c_all.c ./x86/artifact/js_to_c_cc_x86.M1
+./x86/catm ./x86/artifact/js_to_c_cc_x86-0.M1 ./x86/artifact/x86_defs.M1 ./x86/artifact/libc-core.M1 ./x86/artifact/js_to_c_cc_x86.M1
+./x86/M0 ./x86/artifact/js_to_c_cc_x86-0.M1  ./x86/artifact/js_to_c_cc_x86-0.hex2
