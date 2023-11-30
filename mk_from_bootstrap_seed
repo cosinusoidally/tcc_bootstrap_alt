@@ -1,3 +1,4 @@
+./mk_from_bootstrap_seed_clean
 sed 's/[;#].*$//g'  x86/hex0_x86.hex0 | xxd -r -p > x86/artifact/hex0-seed
 chmod +x x86/artifact/hex0-seed
 
