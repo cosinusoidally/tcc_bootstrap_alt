@@ -14,4 +14,8 @@ echo "WOO"
 ./mk_elf_loader_min
 cd tcc_10
 /tmp/tcc_js_tmp/elf_loader_cc_x86.exe dummy -o tcc_new.o -c tcc.c
+cd ..
+sha256sum tcc_10/tcc.o
+sha256sum -c sum_tcc_10
+cd tcc_10
 diff -u -s tcc_new.o tcc.o
