@@ -1,6 +1,6 @@
-sed 's/[;#].*$//g'  x86/hex0_x86.hex0 | xxd -r -p > bootstrap-seeds/POSIX/x86/hex0-seed 
-chmod +x bootstrap-seeds/POSIX/x86/hex0-seed
+sed 's/[;#].*$//g'  x86/hex0_x86.hex0 | xxd -r -p > x86/artifact/hex0-seed
+chmod +x x86/artifact/hex0-seed
 
-sed 's/[;#].*$//g' x86/kaem-minimal.hex0 | xxd -r -p > bootstrap-seeds/POSIX/x86/kaem-optional-seed
-chmod +x bootstrap-seeds/POSIX/x86/kaem-optional-seed
-bootstrap-seeds/POSIX/x86/kaem-optional-seed
+sed 's/[;#].*$//g' x86/kaem-minimal.hex0 | xxd -r -p > x86/artifact/kaem-optional-seed
+chmod +x x86/artifact/kaem-optional-seed
+x86/artifact/kaem-optional-seed
