@@ -1,0 +1,31 @@
+rm /tmp/tcc_js_tmp/elf_*exe /tmp/tcc_js_tmp/tcc_boot.o /tmp/tcc_js_tmp/elf_test.o
+cd tcc_js
+
+cp bootstrappable_load.c /tmp/tcc_js_tmp/
+cp bootstrap_load.c /tmp/tcc_js_tmp/
+
+cat elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c > /tmp/tcc_js_tmp/elf_loader_all.c
+
+cd ..
+
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/libc-core.M1 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/ELF-i386.hex2 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/x86_defs.M1 /tmp/tcc_js_tmp/
+
+pushd .
+
+cd /tmp/tcc_js_tmp/
+
+rm out_cc_x86-0.M1 out_cc_x86-0.hex2 out_cc_x86-0-0.hex2 elf_loader_cc_x86.exe
+
+set -e
+
+cat bootstrap_load.c bootstrappable_load.c elf_loader_all.c > out.c
+
+echo "cc_x86 compile"
+./cc_x86 out.c out_cc_x86.M1
+echo "cc_x86 assemble and link"
+cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
+./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
+cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
+./hex2-0 out_cc_x86-0-0.hex2 elf_loader_cc_x86.exe

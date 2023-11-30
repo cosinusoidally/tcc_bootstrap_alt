@@ -1,0 +1,43 @@
+mv tcc_10/tcc_boot.o .
+./mk_clean
+mv tcc_boot.o tcc_10
+
+cd tcc_js
+
+cp bootstrappable_load.c /tmp/tcc_js_tmp/
+cp bootstrap_load.c /tmp/tcc_js_tmp/
+
+cat loader_support.c loader_support_cc_x86.c loader_boot.c > /tmp/tcc_js_tmp/loader_cc_x86.c
+
+cd ..
+
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/M2libc/x86/libc-core.M1 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/ELF-i386.hex2 /tmp/tcc_js_tmp/
+cp ../mishmashvm/tcc_js_bootstrap/alt_bootstrap/stage0-posix/x86/x86_defs.M1 /tmp/tcc_js_tmp/
+
+pushd .
+
+cd /tmp/tcc_js_tmp/
+
+rm out_cc_x86-0.M1 out_cc_x86-0.hex2 out_cc_x86-0-0.hex2 loader_cc_x86.exe
+
+set -e
+
+cat bootstrap_load.c bootstrappable_load.c loader_cc_x86.c > out.c
+echo "cc_x86 compile"
+./cc_x86 out.c out_cc_x86.M1
+echo "cc_x86 assemble and link"
+cat x86_defs.M1 libc-core.M1 out_cc_x86.M1 > out_cc_x86-0.M1
+./M0 out_cc_x86-0.M1 out_cc_x86-0.hex2
+cat ELF-i386.hex2 out_cc_x86-0.hex2 > out_cc_x86-0-0.hex2
+./hex2-0 out_cc_x86-0-0.hex2 loader_cc_x86.exe
+
+popd
+
+cd tcc_10
+
+/tmp/tcc_js_tmp/loader_cc_x86.exe -R dummy ../tcc_1_7/dlsym_wrap.c ../tcc_1_7/tcc.c ../tcc_1_7/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc_dummy_strtod.c -o tcc.o -c tcc.c
+
+cd ..
+sha256sum tcc_10/tcc.o
+sha256sum -c sum_tcc_10

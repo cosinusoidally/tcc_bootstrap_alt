@@ -273,6 +273,7 @@ int process_file(int name){
     }
   }
   free(lb); 
+  oputs("\n");
   fclose(f);
   return 0;
 }
@@ -285,7 +286,6 @@ int print_fn_decls(void){
 }
 
 int print_declare_globals(void){
-  puts("");
   puts("/* declare globals */");
   fputs(gdb, stdout);
 }
@@ -296,12 +296,10 @@ int print_init_globals(void){
   puts("void init_globals(void) {");
   fputs(gib, stdout);
   puts("}");
+  puts("");
 }
 
 int print_converted(void){
-  puts("");
-  puts("/* js_to_c converted code */");
-  puts("");
   fwrite(ob,1,obo,stdout);
 }
 
