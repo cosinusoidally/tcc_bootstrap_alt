@@ -2,3 +2,7 @@
 *.exe
 *.out
 *.swp
+x86/artifact/*
+x86/bin/*
+!x86/bin/placeholder
+!x86/artifact/placeholder
