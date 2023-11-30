@@ -1,1 +1,1 @@
-./x86/bin/catm ./x86/artifact/js_to_c_all.c ./tcc_js/elf_loader_support.c ./tcc_js/elf_loader_support_cc_x86.c ./tcc_js/js_to_c.c
+./x86/bin/catm ./x86/artifact/js_to_c_all.c ./tcc_js/bootstrap_load.c ./tcc_js/bootstrappable_load.c ./tcc_js/elf_loader_support.c ./tcc_js/elf_loader_support_cc_x86.c ./tcc_js/js_to_c.c
