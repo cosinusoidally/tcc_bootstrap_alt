@@ -6,6 +6,8 @@
 ./x86/bin/catm ./x86/artifact/js_to_c_cc_x86-0-0.hex2 ./x86/ELF-i386.hex2 ./x86/artifact/js_to_c_cc_x86-0.hex2
 ./x86/bin/hex2-0 ./x86/artifact/js_to_c_cc_x86-0-0.hex2 ./x86/bin/js_to_c_cc_x86.exe
 
+# FIXME build a native cdrun rather than use the polyfill
+
 # build tcc_js
 
-./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./mk_tcc_js.kaem
+./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem

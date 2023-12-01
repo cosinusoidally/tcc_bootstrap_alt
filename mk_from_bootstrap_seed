@@ -1,3 +1,9 @@
 ./mk_from_bootstrap_seed_clean
 ./mk_seeds
 x86/artifact/kaem-optional-seed
+cd tcc_js
+sha256sum tcc_boot.o
+sha256sum -c tcc_sum
+cd ..
+sha256sum tcc_10/tcc.o
+sha256sum -c sum_tcc_10
