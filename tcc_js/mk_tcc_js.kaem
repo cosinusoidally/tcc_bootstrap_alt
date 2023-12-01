@@ -1,0 +1,1 @@
+../x86/bin/js_to_c_cc_x86.exe tcc.js ../x86/artifact/tcc_js.c
