@@ -1035,6 +1035,11 @@ int main(int argc, char **argv)
   int i;
   int j;
   int cur;
+
+  init_c();
+  init_globals();
+  init_offsets();
+
   /* enough for 8 objs */
   objs=calloc(36,1);
   /* filenames of input objects */
@@ -1043,10 +1048,6 @@ int main(int argc, char **argv)
   puts("elf loader starting");
 
   optind = 1;
-
-  init_c();
-  init_globals();
-  init_offsets();
 
   puts("running elf files");
   j=0;
