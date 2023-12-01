@@ -289,7 +289,7 @@ int print_fn_decls(void){
 }
 
 int print_declare_globals(void){
-  fputs("/* declare globals */",outfd);
+  fputs("/* declare globals */\n",outfd);
   fputs(gdb, outfd);
 }
 
