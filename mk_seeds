@@ -3,6 +3,3 @@ chmod +x x86/artifact/hex0-seed
 
 sed 's/[;#].*$//g' x86/kaem-minimal.hex0 | xxd -r -p > x86/artifact/kaem-optional-seed
 chmod +x x86/artifact/kaem-optional-seed
-
-# FIXME hack until I have a c version of cdrun
-cp tcc_js/cdrun.sh x86/bin/cdrun
