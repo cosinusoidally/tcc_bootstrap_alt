@@ -1029,8 +1029,14 @@ int main(int argc, char **argv)
   FUNCTION t;
   int optind;
   int *objs;
-  /* enough for 3 objs */
-  objs=calloc(16,1);
+  int *objs_files;
+  int i;
+  int j;
+  int cur;
+  /* enough for 8 objs */
+  objs=calloc(36,1);
+  /* filenames of input objects */
+  objs_files=calloc(36,1);
 
   puts("elf loader starting");
 
@@ -1041,11 +1047,34 @@ int main(int argc, char **argv)
   init_offsets();
 
   puts("running elf files");
+  j=0;
+  for(i=optind;i<argc;i=i+1){
+    cur=argv[i];
+    if(strcmp(cur, "-l") == 0){
+      fputs("load elf file: ",stdout);
+      i=i+1;
+      objs_files[j]=argv[i];
+      j=j+1;
+      fputs(argv[i],stdout);
+      fputs("\n",stdout);
+      i=i+1;
+      optind=i;
+    } else {
+      break;
+    }
+  }
   objs[0]=mk_host_obj();
-  objs[1]=load_elf("libc_boot.o");
-  objs[2]=load_elf("tcc.o");
+  if(objs_files[0] == 0){
+    objs[1]=load_elf("libc_boot.o");
+    objs[2]=load_elf("tcc.o");
+  } else {
+    puts("loading specified files not yet supported");
+    exit(1);
+  }
   link(objs);
-  puts(argv[optind]);
+  fputs("optind: ",stdout);
+  fputs(int2str(optind,10,0),stdout);
+  fputs("\n",stdout);
   t=get_main(objs);
   puts("============================");
   puts("calling main from elf file:");
