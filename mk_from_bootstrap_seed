@@ -8,3 +8,4 @@ sha256sum -c tcc_sum
 cd ..
 sha256sum tcc_10/tcc.o
 sha256sum -c sum_tcc_10
+diff -u -s tcc_10/tcc.o tcc_10/tcc_new.o
