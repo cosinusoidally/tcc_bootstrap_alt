@@ -1,12 +1,21 @@
 #if 0
 
-int chdir(int d){
-  puts("dummy chdir");
+int chdir(char* path) {
+        asm("lea_ebx,[esp+DWORD] %4"
+            "mov_ebx,[ebx]"
+            "mov_eax, %12"
+            "int !0x80");
 }
 
-int execve(int name, int argv, int envp){
-  puts("dummy execve");
-  return 0;
+int execve(char* file_name, char** argv, char** envp) {
+        asm("lea_ebx,[esp+DWORD] %12"
+            "mov_ebx,[ebx]"
+            "lea_ecx,[esp+DWORD] %8"
+            "mov_ecx,[ecx]"
+            "lea_edx,[esp+DWORD] %4"
+            "mov_edx,[edx]"
+            "mov_eax, %11"
+            "int !0x80");
 }
 
 #endif
