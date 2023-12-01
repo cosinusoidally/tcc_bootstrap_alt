@@ -14,10 +14,13 @@ int execve(int name, int argv, int envp){
 int main(int argc, int **argv){
   int argc_e;
   int **argv_e;
+  char *tmp;
   int name;
   argc_e=argc-2;
   argv_e=argv;
-  argv_e=argv_e+2;
+  tmp=argv_e;
+  tmp=tmp+(2*4);
+  argv_e=tmp;
   name=argv_e[0];
   puts("cdrun");
   puts(name);
