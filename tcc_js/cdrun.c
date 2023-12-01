@@ -1,3 +1,5 @@
+/* cc_x86 has no preprocessor so will declare chdir and execve here */
+
 #if 0
 
 int chdir(char* path) {
