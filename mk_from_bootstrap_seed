@@ -9,3 +9,6 @@ cd ..
 sha256sum tcc_10/tcc.o
 sha256sum -c sum_tcc_10
 diff -u -s tcc_10/tcc.o tcc_10/tcc_new.o
+sha256sum tcc_23/libtcc1_min.o
+sha256sum tcc_23/tcc.o
+sha256sum -c sum_tcc_23_boot
