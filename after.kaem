@@ -8,6 +8,7 @@
 
 # FIXME build a native cdrun rather than use the polyfill
 
-# build tcc_js
+# walk up through the tcc versions
 
 ./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem
+./x86/bin/cdrun ./tcc_10/ ../x86/artifact/kaem-0 ./build.kaem
