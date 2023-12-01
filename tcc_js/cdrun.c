@@ -1,3 +1,16 @@
+#if 0
+
+int chdir(int d){
+  puts("dummy chdir");
+}
+
+int execve(int name, int argv, int envp){
+  puts("dummy execve");
+  return 0;
+}
+
+#endif
+
 int main(int argc, int **argv){
   int argc_e;
   int **argv_e;
