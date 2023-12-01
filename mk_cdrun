@@ -2,7 +2,7 @@ cd tcc_js
 
 # build native version of cdrun
 
-../x86/bin/catm ../x86/artifact/cdrun_all.c ../M2libc/x86/linux/bootstrap.c ../M2libc/bootstrappable.c ./support_cc_x86.c ./support.c cdrun.c
+../x86/bin/catm ../x86/artifact/cdrun_all.c ../M2libc/x86/linux/bootstrap.c ../M2libc/bootstrappable.c ./support_cc_x86.c cdrun.c
 ../x86/bin/cc_x86 ../x86/artifact/cdrun_all.c ../x86/artifact/cdrun.M1
 ../x86/bin/catm ../x86/artifact/cdrun-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/cdrun.M1
 ../x86/bin/M0 ../x86/artifact/cdrun-0.M1  ../x86/artifact/cdrun-0.hex2
