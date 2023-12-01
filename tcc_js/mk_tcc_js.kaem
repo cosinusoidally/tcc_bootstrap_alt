@@ -1,1 +1,8 @@
 ../x86/bin/js_to_c_cc_x86.exe tcc.js ../x86/artifact/tcc_js.c
+
+../x86/bin/catm ../x86/artifact/tcc_js_all.c ../M2libc/x86/linux/bootstrap.c ../M2libc/bootstrappable.c ./support_cc_x86.c ./support.c ../x86/artifact/tcc_js.c
+../x86/bin/cc_x86 ../x86/artifact/tcc_js_all.c ../x86/artifact/tcc_js.M1
+../x86/bin/catm ../x86/artifact/tcc_js-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/tcc_js.M1
+../x86/bin/M0 ../x86/artifact/tcc_js-0.M1  ../x86/artifact/tcc_js-0.hex2
+../x86/bin/catm ../x86/artifact/tcc_js-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/tcc_js-0.hex2
+../x86/bin/hex2-0 ../x86/artifact/tcc_js-0-0.hex2 ../x86/bin/tcc_js.exe
