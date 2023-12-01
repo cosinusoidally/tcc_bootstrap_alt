@@ -484,31 +484,33 @@ int decode_elf(int e, int os){
   obj_struct[obj_symtab_o]=symtab_mem;
   obj_struct[obj_symtab_size_o]=sh_size;
 
-  fputs(".rel.text:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
-  sh_offset=ri32(rel_text+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
-  sh_size=ri32(rel_text+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
-  sh_entsize=ri32(rel_text+sh_entsize_o);
-  fputs("sh_entsize: 0x",stdout);
-  fputs(int2str(sh_entsize,16,0),stdout);
-  fputs("\n",stdout);
-  rel_text_mem=malloc(sh_size);
-  memcpy(rel_text_mem,e+sh_offset,sh_size);
-  fputs("rel_text_mem address: 0x",stdout);
-  fputs(int2str(rel_text_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(rel_text_mem,sh_size);
-  obj_struct[obj_rel_text_o]=rel_text_mem;
-  obj_struct[obj_rel_text_size_o]=sh_size;
-  print_relocs(".rel.text", os);
+  if(rel_text!=0){
+    fputs(".rel.text:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+    sh_offset=ri32(rel_text+sh_offset_o);
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+    sh_size=ri32(rel_text+sh_size_o);
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+    sh_entsize=ri32(rel_text+sh_entsize_o);
+    fputs("sh_entsize: 0x",stdout);
+    fputs(int2str(sh_entsize,16,0),stdout);
+    fputs("\n",stdout);
+    rel_text_mem=malloc(sh_size);
+    memcpy(rel_text_mem,e+sh_offset,sh_size);
+    fputs("rel_text_mem address: 0x",stdout);
+    fputs(int2str(rel_text_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(rel_text_mem,sh_size);
+    obj_struct[obj_rel_text_o]=rel_text_mem;
+    obj_struct[obj_rel_text_size_o]=sh_size;
+    print_relocs(".rel.text", os);
+  }
 
   if(rel_data!=0){
     fputs(".rel.data:\n",stdout);
