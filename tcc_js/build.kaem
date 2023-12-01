@@ -23,3 +23,13 @@
 ../x86/bin/M0 ../x86/artifact/loader-0.M1  ../x86/artifact/loader-0.hex2
 ../x86/bin/catm ../x86/artifact/loader-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/loader-0.hex2
 ../x86/bin/hex2-0 ../x86/artifact/loader-0-0.hex2 ../x86/bin/loader_cc_x86.exe
+
+# build elf_loader_cc_x86.exe
+
+
+../x86/bin/catm ../x86/artifact/elf_loader_all.c bootstrap_load.c bootstrappable_load.c elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c
+../x86/bin/cc_x86 ../x86/artifact/elf_loader_all.c ../x86/artifact/elf_loader.M1
+../x86/bin/catm ../x86/artifact/elf_loader-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/elf_loader.M1
+../x86/bin/M0 ../x86/artifact/elf_loader-0.M1  ../x86/artifact/elf_loader-0.hex2
+../x86/bin/catm ../x86/artifact/elf_loader-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/elf_loader-0.hex2
+../x86/bin/hex2-0 ../x86/artifact/elf_loader-0-0.hex2 ../x86/bin/elf_loader_cc_x86.exe
