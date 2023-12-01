@@ -27,6 +27,8 @@ int main(int argc, int **argv){
   int **argv_e;
   char *tmp;
   int name;
+  int target_dir;
+  target_dir=argv[1];
   argc_e=argc-2;
   argv_e=argv;
   tmp=argv_e;
@@ -34,9 +36,16 @@ int main(int argc, int **argv){
   argv_e=tmp;
   name=argv_e[0];
   puts("cdrun");
-  puts(name);
-  puts(argv_e[1]);
-  chdir(argv[1]);
+  fputs("cdrun target_dir: ",stdout);
+  fputs(target_dir,stdout);
+  fputs("\n",stdout);
+  fputs("cdrun name: ",stdout);
+  fputs(name,stdout);
+  fputs("\n",stdout);
+  fputs("cdrun first_arg: ",stdout);
+  fputs(argv_e[1],stdout);
+  fputs("\n",stdout);
+  chdir(target_dir);
   if(argv_e[argc_e]!=0){
     puts("last argv is not null");
     exit(1);
