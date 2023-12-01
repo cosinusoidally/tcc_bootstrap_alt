@@ -1057,7 +1057,6 @@ int main(int argc, char **argv)
       j=j+1;
       fputs(argv[i],stdout);
       fputs("\n",stdout);
-      i=i+1;
       optind=i;
     } else {
       break;
@@ -1068,8 +1067,14 @@ int main(int argc, char **argv)
     objs[1]=load_elf("libc_boot.o");
     objs[2]=load_elf("tcc.o");
   } else {
-    puts("loading specified files not yet supported");
-    exit(1);
+    i=0;
+    while((cur=objs_files[i]) !=0){
+      fputs("loading: ",stdout);
+      fputs(cur,stdout);
+      fputs("\n",stdout);
+      objs[i+1]=load_elf(cur);
+      i=i+1;
+    }
   }
   link(objs);
   fputs("optind: ",stdout);
