@@ -1,0 +1,83 @@
+cd tcc_23
+
+echo "rebuild tcc_23 with tcc_23"
+tcc libtcc1_min.o tcc.o -ldl
+../check_syms.sh
+rm tcc.o
+
+./a.out -c libtcc1.c
+./a.out -I ../woody/usr/include/ -I . -c tcc.c
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+echo "tcc_23 to tcc_24"
+cd ../tcc_24
+
+../tcc_23/a.out -I ../woody/usr/include/ -I . -c tcc.c
+../tcc_23/a.out -c libtcc1.c
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+echo "tcc_24 to tcc_26"
+cd ../tcc_26
+
+../tcc_24/a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../tcc_24/a.out -c ../tcc_24/libtcc1.c
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+echo "tcc_26 to tcc_27"
+
+cd ../tcc_27
+
+../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
+../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+rm tcc.o
+rm libtcc1.o
+
+./a.out -c ./lib/libtcc1.c
+./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../check_syms.sh
+tcc libtcc1.o tcc.o -ldl
+
+mv a.out ../artifacts/tcc_27_boot.exe
+
+cd ..
+
+./artifacts/tcc_27_boot.exe -v
+sha256sum tcc_27/tcc.o
+sha256sum tcc_27/libtcc1.o
+sha256sum -c sum
