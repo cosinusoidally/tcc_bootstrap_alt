@@ -46,6 +46,8 @@ rm tcc_24/tcc_new.o
 rm tcc_26/a.out
 rm tcc_26/libtcc1.o
 rm tcc_26/tcc.o
+rm tcc_26/libtcc1_new.o
+rm tcc_26/tcc_new.o
 
 rm tcc_27/a.out
 rm tcc_27/libtcc1.o
