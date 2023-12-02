@@ -1,1 +1,2 @@
 ../x86/bin/elf_loader_cc_x86.exe -l ../tcc_23/libc_boot2.o -l ../tcc_23/libtcc1.o -l ../tcc_23/tcc.o -I ../woody/usr/include/ -I . -c tcc.c
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_23/libc_boot2.o -l ../tcc_23/libtcc1.o -l ../tcc_23/tcc.o -c libtcc1.c
