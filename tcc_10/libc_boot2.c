@@ -325,9 +325,17 @@ int strtol(void){
   exit(1);
 }
 
-int strchr(void){
-  puts("strchr not impl");
-  exit(1);
+char *
+strchr (char *s, int c)
+{
+  char *p = s;
+  while (*p || !c)
+    {
+      if (c == *p)
+        return (char *) p;
+      p++;
+    }
+  return 0;
 }
 
 int sigemptyset(void){
@@ -516,5 +524,10 @@ int gettimeofday(void){
 
 int atoi(void){
   puts("atoi not impl");
+  exit(1);
+}
+
+int mprotect(void){
+  puts("mprotect not impl");
   exit(1);
 }
