@@ -351,7 +351,8 @@ int localtime(void){
 
 int _setjmp(void){
   puts("_setjmp not impl");
-  exit(1);
+/* FIXME should remove callers */
+  return 0;
 }
 
 int strtoul(void){
