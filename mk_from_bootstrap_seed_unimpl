@@ -1,14 +1,8 @@
-cd tcc_24
+cd tcc_26
 
 tcc libtcc1.o tcc.o -ldl
 
-echo "tcc_24 to tcc_26"
-cd ../tcc_26
-
-../tcc_24/a.out -c ../tcc_24/libtcc1.c
-../check_syms.sh
-tcc libtcc1.o tcc.o -ldl
-
+echo "rebuild tcc_26 with tcc_26"
 ./a.out -c ./lib/libtcc1.c
 ./a.out -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE
 ../check_syms.sh
