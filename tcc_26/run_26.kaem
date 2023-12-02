@@ -1,0 +1,2 @@
+# run tcc_26
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l ../tcc_23/libc_boot2.o -l tcc.o -I ../woody/usr/include/ -I . -c tcc.c -o tcc_new.o
