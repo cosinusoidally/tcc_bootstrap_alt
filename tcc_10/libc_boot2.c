@@ -371,8 +371,14 @@ int _setjmp(void){
   return 0;
 }
 
-int strtoul(void){
-  puts("strtoul not impl");
+int strtoul(int nptr, int endptr, int base){
+  fputs("strtoul called nptr_str: ",stdout);
+  fputs(nptr,stdout);
+  fputs(" endptr: 0x",stdout);
+  fputs(int2str(endptr,16,0),stdout);
+  fputs(" base: ",stdout);
+  fputs(int2str(base,10,0),stdout);
+  fputs("\n",stdout);
   exit(1);
 }
 
