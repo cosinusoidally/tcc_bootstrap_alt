@@ -1,3 +1,18 @@
+/*
+ *
+ * This libc is cobbled together from various other libc libraries
+ * includes parts of:
+ *
+ * https://github.com/oriansj/M2libc
+ * http://git.savannah.gnu.org/cgit/mes.git/tree/?h=v0.25.1
+ *
+ * modifications are (C) 2023 Liam Wilson
+ *
+ * this libc is under the GPLv3 (same license as the libc libraries it derives
+ * from)
+ *
+ */
+
 extern int stdout;
 
 int strcpy(int d, int s);
@@ -371,24 +386,126 @@ int _setjmp(void){
   return 0;
 }
 
-int strtoul(int nptr, int endptr, int base){
+int
+strncmp (char *a, char *b, int size)
+{
+  if (size == 0)
+    return 0;
+
+  while (a[0] != 0 && b[0] != 0 && a[0] == b[0] && size > 1)
+    {
+      size = size - 1;
+      a = a + 1;
+      b = b + 1;
+    }
+
+  return a[0] - b[0];
+}
+
+int
+isdigit (int c)
+{
+  return c >= '0' && c <= '9';
+}
+
+int
+isxdigit (int c)
+{
+  return isdigit (c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+}
+
+int
+isnumber (int c, int base)
+{
+  if (base == 2)
+    return (c >= '0') && (c <= '1');
+  if (base == 8)
+    return (c >= '0') && (c <= '7');
+  if (base == 10)
+    return isdigit (c);
+  if (base == 16)
+    return isxdigit (c);
+}
+
+int
+isspace (int c)
+{
+  return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == ' ');
+}
+
+long
+abtol (char **p, int base)
+{
+  char *s = p[0];
+  int i = 0;
+  int sign_p = 0;
+  int m = '0';
+  if (base == 0)
+    base = 10;
+  while (isspace (s[0]) != 0)
+    s = s + 1;
+  if (s[0] != 0 && s[0] == '+')
+    s = s + 1;
+  if (s[0] != 0 && s[0] == '-')
+    {
+      sign_p = 1;
+      s = s + 1;
+    }
+  while (isnumber (s[0], base) != 0)
+    {
+      i = i * base;
+      if (s[0] >= 'a')
+        m = 'a' - 10;
+      else
+        {
+          if (s[0] >= 'A')
+            m = 'A' - 10;
+          else
+            m = '0';
+        }
+      i = i + s[0] - m;
+      s = s + 1;
+    }
+  p[0] = s;
+  if (sign_p != 0)
+    return -i;
+
+  return i;
+}
+
+long
+strtol (char *string, char **tailptr, int base)
+{
+  if (!strncmp (string, "0x", 2))
+    {
+      string += 2;
+      base = 16;
+    }
+  if (tailptr)
+    {
+      *tailptr = (char *) string;
+      return abtol ((char const **) tailptr, base);
+    }
+  char **p = (char **) &string;
+  return abtol ((char const **) p, base);
+}
+
+unsigned long
+strtoul (char *string, char **tailptr, int base)
+{
   fputs("strtoul called nptr_str: ",stdout);
-  fputs(nptr,stdout);
+  fputs(string,stdout);
   fputs(" endptr: 0x",stdout);
-  fputs(int2str(endptr,16,0),stdout);
+  fputs(int2str(tailptr,16,0),stdout);
   fputs(" base: ",stdout);
   fputs(int2str(base,10,0),stdout);
   fputs("\n",stdout);
-  exit(1);
+  return strtol (string, tailptr, base);
 }
+
 
 int strtoll(void){
   puts("strtoll not impl");
-  exit(1);
-}
-
-int strncmp(void){
-  puts("strncmp not impl");
   exit(1);
 }
 

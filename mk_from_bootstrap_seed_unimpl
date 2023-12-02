@@ -5,7 +5,6 @@ tcc libtcc1_min.o tcc.o -ldl
 ../check_syms.sh
 rm tcc.o
 
-./a.out -c libtcc1.c
 ./a.out -I ../woody/usr/include/ -I . -c tcc.c
 ../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
