@@ -1,0 +1,35 @@
+../x86/bin/js_to_c_cc_x86.exe tcc.js ../x86/artifact/tcc_js.c
+
+# build native version of tcc_js
+
+../x86/bin/catm ../x86/artifact/tcc_js_all.c ../M2libc/x86/linux/bootstrap.c ../M2libc/bootstrappable.c ./support_cc_x86.c ./support.c ../x86/artifact/tcc_js.c
+../x86/bin/cc_x86 ../x86/artifact/tcc_js_all.c ../x86/artifact/tcc_js.M1
+../x86/bin/catm ../x86/artifact/tcc_js-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/tcc_js.M1
+../x86/bin/M0 ../x86/artifact/tcc_js-0.M1  ../x86/artifact/tcc_js-0.hex2
+../x86/bin/catm ../x86/artifact/tcc_js-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/tcc_js-0.hex2
+../x86/bin/hex2-0 ../x86/artifact/tcc_js-0-0.hex2 ../x86/bin/tcc_js.exe
+
+# generate tcc_boot.o
+../x86/bin/tcc_js.exe
+
+# copy over tcc_boot.o for next step
+../x86/bin/catm ../tcc_10/tcc_boot.o ./tcc_boot.o
+
+# build loader_cc_x86.exe
+
+../x86/bin/catm ../x86/artifact/loader_all.c bootstrap_load.c bootstrappable_load.c loader_support.c loader_support_cc_x86.c loader_boot.c
+../x86/bin/cc_x86 ../x86/artifact/loader_all.c ../x86/artifact/loader.M1
+../x86/bin/catm ../x86/artifact/loader-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/loader.M1
+../x86/bin/M0 ../x86/artifact/loader-0.M1  ../x86/artifact/loader-0.hex2
+../x86/bin/catm ../x86/artifact/loader-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/loader-0.hex2
+../x86/bin/hex2-0 ../x86/artifact/loader-0-0.hex2 ../x86/bin/loader_cc_x86.exe
+
+# build elf_loader_cc_x86.exe
+
+
+../x86/bin/catm ../x86/artifact/elf_loader_all.c bootstrap_load.c bootstrappable_load.c elf_loader_support.c elf_loader_support_cc_x86.c elf_loader.c
+../x86/bin/cc_x86 ../x86/artifact/elf_loader_all.c ../x86/artifact/elf_loader.M1
+../x86/bin/catm ../x86/artifact/elf_loader-0.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 ../x86/artifact/elf_loader.M1
+../x86/bin/M0 ../x86/artifact/elf_loader-0.M1  ../x86/artifact/elf_loader-0.hex2
+../x86/bin/catm ../x86/artifact/elf_loader-0-0.hex2 ../x86/ELF-i386.hex2 ../x86/artifact/elf_loader-0.hex2
+../x86/bin/hex2-0 ../x86/artifact/elf_loader-0-0.hex2 ../x86/bin/elf_loader_cc_x86.exe

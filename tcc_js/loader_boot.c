@@ -169,13 +169,13 @@ int main(int argc, char **argv)
     int optind;
     int loader;
 
+    init_c();
+    init_globals();
+
     puts("loader starting");
 
     optind = 1;
     loader = 0;
-
-    init_c();
-    init_globals();
 
     while (1) {
         r = argv[optind];

@@ -484,31 +484,33 @@ int decode_elf(int e, int os){
   obj_struct[obj_symtab_o]=symtab_mem;
   obj_struct[obj_symtab_size_o]=sh_size;
 
-  fputs(".rel.text:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
-  sh_offset=ri32(rel_text+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
-  sh_size=ri32(rel_text+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
-  sh_entsize=ri32(rel_text+sh_entsize_o);
-  fputs("sh_entsize: 0x",stdout);
-  fputs(int2str(sh_entsize,16,0),stdout);
-  fputs("\n",stdout);
-  rel_text_mem=malloc(sh_size);
-  memcpy(rel_text_mem,e+sh_offset,sh_size);
-  fputs("rel_text_mem address: 0x",stdout);
-  fputs(int2str(rel_text_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(rel_text_mem,sh_size);
-  obj_struct[obj_rel_text_o]=rel_text_mem;
-  obj_struct[obj_rel_text_size_o]=sh_size;
-  print_relocs(".rel.text", os);
+  if(rel_text!=0){
+    fputs(".rel.text:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+    sh_offset=ri32(rel_text+sh_offset_o);
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+    sh_size=ri32(rel_text+sh_size_o);
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+    sh_entsize=ri32(rel_text+sh_entsize_o);
+    fputs("sh_entsize: 0x",stdout);
+    fputs(int2str(sh_entsize,16,0),stdout);
+    fputs("\n",stdout);
+    rel_text_mem=malloc(sh_size);
+    memcpy(rel_text_mem,e+sh_offset,sh_size);
+    fputs("rel_text_mem address: 0x",stdout);
+    fputs(int2str(rel_text_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(rel_text_mem,sh_size);
+    obj_struct[obj_rel_text_o]=rel_text_mem;
+    obj_struct[obj_rel_text_size_o]=sh_size;
+    print_relocs(".rel.text", os);
+  }
 
   if(rel_data!=0){
     fputs(".rel.data:\n",stdout);
@@ -1029,23 +1031,58 @@ int main(int argc, char **argv)
   FUNCTION t;
   int optind;
   int *objs;
-  /* enough for 3 objs */
-  objs=calloc(16,1);
-
-  puts("elf loader starting");
-
-  optind = 1;
+  int *objs_files;
+  int i;
+  int j;
+  int cur;
 
   init_c();
   init_globals();
   init_offsets();
 
+  /* enough for 8 objs */
+  objs=calloc(36,1);
+  /* filenames of input objects */
+  objs_files=calloc(36,1);
+
+  puts("elf loader starting");
+
+  optind = 1;
+
   puts("running elf files");
+  j=0;
+  for(i=optind;i<argc;i=i+1){
+    cur=argv[i];
+    if(strcmp(cur, "-l") == 0){
+      fputs("load elf file: ",stdout);
+      i=i+1;
+      objs_files[j]=argv[i];
+      j=j+1;
+      fputs(argv[i],stdout);
+      fputs("\n",stdout);
+      optind=i;
+    } else {
+      break;
+    }
+  }
   objs[0]=mk_host_obj();
-  objs[1]=load_elf("libc_boot.o");
-  objs[2]=load_elf("tcc.o");
+  if(objs_files[0] == 0){
+    objs[1]=load_elf("libc_boot.o");
+    objs[2]=load_elf("tcc.o");
+  } else {
+    i=0;
+    while((cur=objs_files[i]) !=0){
+      fputs("loading: ",stdout);
+      fputs(cur,stdout);
+      fputs("\n",stdout);
+      objs[i+1]=load_elf(cur);
+      i=i+1;
+    }
+  }
   link(objs);
-  puts(argv[optind]);
+  fputs("optind: ",stdout);
+  fputs(int2str(optind,10,0),stdout);
+  fputs("\n",stdout);
   t=get_main(objs);
   puts("============================");
   puts("calling main from elf file:");

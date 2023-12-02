@@ -16,6 +16,9 @@ int gdbo;
 int db;
 int dbo;
 
+int infile;
+int outfd;
+
 int wu8(int o, int v) {
   char *b;
   b=o;
@@ -279,36 +282,46 @@ int process_file(int name){
 }
 
 int print_fn_decls(void){
-  puts("");
-  puts("/* fn decls */");
-  fputs(db, stdout);
-
+  fputs("\n",outfd);
+  fputs("/* fn decls */",outfd);
+  fputs("\n",outfd);
+  fputs(db, outfd);
 }
 
 int print_declare_globals(void){
-  puts("/* declare globals */");
-  fputs(gdb, stdout);
+  fputs("/* declare globals */\n",outfd);
+  fputs(gdb, outfd);
 }
 
 int print_init_globals(void){
-  puts("");
-  puts("/* init globals */");
-  puts("void init_globals(void) {");
-  fputs(gib, stdout);
-  puts("}");
-  puts("");
+  fputs("\n",outfd);
+  fputs("/* init globals */",outfd);
+  fputs("\n",outfd);
+  fputs("void init_globals(void) {",outfd);
+  fputs("\n",outfd);
+  fputs(gib, outfd);
+  fputs("}",outfd);
+  fputs("\n",outfd);
+  fputs("\n",outfd);
 }
 
 int print_converted(void){
-  fwrite(ob,1,obo,stdout);
+  fwrite(ob,1,obo,outfd);
 }
 
-int main(void){
+int main(int argc, int **argv){
   init_c();
   init_globals();
-  process_file("tcc.js");
+  if(argc==3){
+    infile=argv[1];
+    outfd=fopen(argv[2],"wb");
+  } else {
+    infile="tcc.js";
+    outfd=stdout;
+  }
+  process_file(infile);
 
-  puts("#include \"support.c\"");
+  fputs("#include \"support.c\"\n",outfd);
   print_fn_decls();
   print_declare_globals();
   print_init_globals();

@@ -1,0 +1,6 @@
+rm -r x86/artifact
+mkdir x86/artifact
+touch x86/artifact/placeholder
+rm -r x86/bin
+mkdir x86/bin
+touch x86/bin/placeholder

@@ -1,0 +1,2 @@
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_10/libc_boot.o -l ../tcc_10/tcc.o -o tcc.o -c tcc.c
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_10/libc_boot.o -l ../tcc_10/tcc.o -o libtcc1_min.o -c libtcc1_min.c
