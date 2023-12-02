@@ -200,6 +200,14 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     o=strcpy(a1,"L.");
     o=strcat(a1, int2str(a3, 10, 0));
     return o-a1;
+  } else if(strcmp("%s/include", format) ==0) {
+    puts("generating \"%s/include\" sprintf/snprintf string");
+    fputs(a3, stdout);
+    fputs("/include",stdout);
+    fputs("\n",stdout);
+    o=strcpy(a1, a3);
+    o=strcat(a1, "/include");
+    return o-a1;
   } else {
     puts("unsupported sprintf/snprintf format string");
     exit(1);
