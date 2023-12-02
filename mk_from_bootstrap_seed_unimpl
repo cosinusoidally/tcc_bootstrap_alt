@@ -1,12 +1,6 @@
 cd tcc_23
 
 echo "rebuild tcc_23 with tcc_23"
-tcc libtcc1_min.o tcc.o -ldl
-../check_syms.sh
-rm tcc.o
-
-./a.out -I ../woody/usr/include/ -I . -c tcc.c
-../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 echo "tcc_23 to tcc_24"
