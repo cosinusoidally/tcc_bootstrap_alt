@@ -35,6 +35,7 @@ rm tcc_23/a.out
 rm tcc_23/libtcc1.o
 rm tcc_23/libtcc1_min.o
 rm tcc_23/tcc.o
+rm tcc_23/libc_boot2.o
 
 rm tcc_24/a.out
 rm tcc_24/libtcc1.o
