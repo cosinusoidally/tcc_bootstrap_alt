@@ -376,9 +376,11 @@ int printf(int x){
   exit(1);
 }
 
-int vsnprintf(void){
-  puts("vsnprintf not impl");
-  exit(1);
+int vsnprintf(int a, int b, int fmt){
+  fputs("vsnprintf fmt: \"",stdout);
+  fputs(fmt,stdout);
+  fputs("\"\n",stdout);
+  /* FIXME real impl */
 }
 
 int longjmp(void){
