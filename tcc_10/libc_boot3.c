@@ -263,6 +263,7 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     fputs("\n",stdout);
     o=strcpy(a1, int2str(a3, 10, 1));
     o=strcat(a1, "(%ebp)");
+    return o-a1;
   } else if(strcmp("%d", format) ==0) {
     puts("generating \"%d\" sprintf/snprintf string");
     fputs(int2str(a3, 10, 1), stdout);
