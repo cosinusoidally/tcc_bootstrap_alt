@@ -131,8 +131,10 @@ LIBTCCAPI int tcc_run(TCCState *s1, int argc, char **argv)
     }
 #endif
 
-    errno = 0; /* clean errno value */
-
+ /* clean errno value */
+/* LJW HACK remove errno use
+    errno = 0;
+*/
 #ifdef CONFIG_TCC_BCHECK
     if (s1->do_bounds_check) {
         void (*bound_init)(void);
