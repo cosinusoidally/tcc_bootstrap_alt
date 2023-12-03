@@ -47,7 +47,8 @@ int R_386_32;
 int R_386_PC32;
 
 int init_globals(void){
-  elf_buf=malloc(256*1024);
+/* FIXME this should be dynamic */
+  elf_buf=malloc(1024*1024);
 }
 
 int ru8(int o) {
