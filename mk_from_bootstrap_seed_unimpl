@@ -1,14 +1,5 @@
-cd tcc_26
+cd tcc_27
 
-tcc libtcc1.o tcc.o -ldl
-
-echo "tcc_26 to tcc_27"
-
-cd ../tcc_27
-
-../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
-../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
-../check_syms.sh
 tcc libtcc1.o tcc.o -ldl
 
 ./a.out -c ./lib/libtcc1.c
