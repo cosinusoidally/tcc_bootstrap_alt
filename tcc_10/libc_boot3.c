@@ -247,6 +247,15 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     o=strcpy(a1, "%");
     o=strcat(a1, a3);
     return o-a1;
+  } else if(strcmp("(%%%s)", format) ==0) {
+    puts("generating \"(%%%s)\" sprintf/snprintf string");
+    fputs("(%",stdout);
+    fputs(a3, stdout);
+    fputs(")\n",stdout);
+    o=strcpy(a1, "(%");
+    o=strcat(a1, a3);
+    o=strcat(a1, ")");
+    return o-a1;
   } else if(strcmp("%d(%%ebp)", format) ==0) {
     puts("generating \"%d(%%ebp)\" sprintf/snprintf string");
     /* FIXME leaky */
