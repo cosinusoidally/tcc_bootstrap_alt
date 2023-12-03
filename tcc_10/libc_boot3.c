@@ -165,9 +165,13 @@ int strcat(int de,int s) {
   return d;
 }
 
-int fprintf(void){
-  puts("fprintf not impl");
-  exit(1);
+int fprintf(int stream, int fmt){
+  fputs("fprintf stream: ",stdout);
+  fputs(int2str(stream,10,0),stdout);
+  fputs(" fmt: \"",stdout);
+  fputs(fmt,stdout);
+  fputs("\"\n",stdout);
+  /* FIXME real impl */
 }
 
 int vfprintf(void){
