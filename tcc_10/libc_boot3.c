@@ -359,11 +359,6 @@ int lseek(void){
   exit(1);
 }
 
-int strtol(void){
-  puts("strtol not impl");
-  exit(1);
-}
-
 char *
 strchr (char *s, int c)
 {
