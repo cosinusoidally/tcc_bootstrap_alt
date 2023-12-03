@@ -565,13 +565,21 @@ int fflush(void){
   exit(1);
 }
 
-int sscanf(int str, int format){
+int sscanf(int str, int format,int *a1, int *a2, int *a3, int *a4){
   fputs("sscanf str: \"",stdout);
   fputs(str,stdout);
   fputs("\" format: \"",stdout);
   fputs(format,stdout);
   fputs("\n",stdout);
-  exit(1);
+  if(strcmp(str, "0.9.26") == 0){
+    a1[0]=0;
+    a2[0]=9;
+    a3[0]=26;
+  } else {
+    puts("unsupported sscanf format string");
+    exit(1);
+  }
+  return 0;
 }
 
 int dlclose(void){
