@@ -537,3 +537,38 @@ int mprotect(void){
   puts("mprotect not impl");
   exit(1);
 }
+
+int getenv(void){
+  puts("getenv not impl");
+  exit(1);
+}
+
+int unlink(void){
+  puts("unlink not impl");
+  exit(1);
+}
+
+int fflush(void){
+  puts("fflush not impl");
+  exit(1);
+}
+
+int sscanf(void){
+  puts("sscanf not impl");
+  exit(1);
+}
+
+int dlclose(void){
+  puts("dlclose not impl");
+  exit(1);
+}
+
+int strtoull(void){
+  puts("strtoull not impl");
+  exit(1);
+}
+
+int execvp(void){
+  puts("execvp not impl");
+  exit(1);
+}
