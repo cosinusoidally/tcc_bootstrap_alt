@@ -84,6 +84,9 @@ double strtod(char *a, char **p){
   if(strcmp("1000000.0",a) == 0){
     x[1]=0x412E8480;
   }
+  if(strcmp("1.0",a) == 0){
+    x[1]=0x3FF00000;
+  }
   return v;
 }
 
