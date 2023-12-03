@@ -555,9 +555,11 @@ int getenv(void){
   exit(1);
 }
 
-int unlink(void){
-  puts("unlink not impl");
-  exit(1);
+int unlink(int pathname){
+  fputs("unlink pathname: ",stdout);
+  fputs(pathname,stdout);
+  fputs("\n",stdout);
+  /* FIXME actual impl */
 }
 
 int fflush(void){
