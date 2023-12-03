@@ -74,6 +74,16 @@ double strtod(char *a, char **p){
   if(strcmp("4294967296.0",a) == 0){
     x[1]=0x41F00000;
   }
+  if(strcmp("18446744073709551616.0",a) == 0){
+    x[1]=0x43F00000;
+  }
+  if(strcmp("0.001",a) == 0){
+    x[0]=0xD2F1A9FC;
+    x[1]=0x3F50624D;
+  }
+  if(strcmp("1000000.0",a) == 0){
+    x[1]=0x412E8480;
+  }
   return v;
 }
 
