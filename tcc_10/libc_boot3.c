@@ -612,3 +612,8 @@ int execvp(void){
   puts("execvp not impl");
   exit(1);
 }
+
+int qsort(void){
+  puts("qsort not impl");
+  exit(1);
+}
