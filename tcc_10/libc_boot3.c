@@ -276,10 +276,18 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   return 0;
 }
 
-int memmove(void){
-  puts("memmove not impl");
-  exit(1);
+unsigned int
+memmove (unsigned int dest,  unsigned int src, int n)
+{
+  if (dest < src)
+    return memcpy (dest, src, n);
+  char *p=(char *)(dest + n);
+  char *q = (char *)(src + n);
+  while (n--)
+    *--p = *--q;
+  return dest;
 }
+
 
 int strrchr(int p, int c) {
   int c1;
@@ -564,9 +572,12 @@ int mprotect(void){
   exit(1);
 }
 
-int getenv(void){
-  puts("getenv not impl");
-  exit(1);
+int getenv(int str){
+  fputs("getenv str: ",stdout);
+  fputs(str,stdout);
+  fputs("\n",stdout);
+  /* FIXME non dummy impl */
+  return 0;
 }
 
 int unlink(int pathname){
@@ -591,6 +602,10 @@ int sscanf(int str, int format,int *a1, int *a2, int *a3, int *a4){
     a1[0]=0;
     a2[0]=9;
     a3[0]=26;
+  } else if(strcmp(str, "0.9.27") == 0){
+    a1[0]=0;
+    a2[0]=9;
+    a3[0]=27;
   } else {
     puts("unsupported sscanf format string");
     exit(1);
