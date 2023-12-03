@@ -617,3 +617,28 @@ int qsort(void){
   puts("qsort not impl");
   exit(1);
 }
+
+int strstr(void){
+  puts("strstr not impl");
+  exit(1);
+}
+
+int fseek(void){
+  puts("fseek not impl");
+  exit(1);
+}
+
+int ftell(void){
+  puts("ftell not impl");
+  exit(1);
+}
+
+int fread(void){
+  puts("fread not impl");
+  exit(1);
+}
+
+int remove(void){
+  puts("remove not impl");
+  exit(1);
+}
