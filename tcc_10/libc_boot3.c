@@ -565,8 +565,12 @@ int fflush(void){
   exit(1);
 }
 
-int sscanf(void){
-  puts("sscanf not impl");
+int sscanf(int str, int format){
+  fputs("sscanf str: \"",stdout);
+  fputs(str,stdout);
+  fputs("\" format: \"",stdout);
+  fputs(format,stdout);
+  fputs("\n",stdout);
   exit(1);
 }
 

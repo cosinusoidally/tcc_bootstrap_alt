@@ -1,6 +1,6 @@
 # build libc_boot3.c
 
-../x86/bin/elf_loader_cc_x86.exe -l ../tcc_10/libc_boot.o -l ../tcc_10/tcc.o -o libc_boot3.o -c ../tcc_10/libc_boot2.c
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_10/libc_boot.o -l ../tcc_10/tcc.o -o libc_boot3.o -c ../tcc_10/libc_boot3.c
 
 # run tcc_26
 ../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot3.o -l tcc.o -c ./lib/libtcc1.c -o libtcc1_new.o
