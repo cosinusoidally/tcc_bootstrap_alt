@@ -53,3 +53,5 @@ rm tcc_26/libc_boot3.o
 rm tcc_27/a.out
 rm tcc_27/libtcc1.o
 rm tcc_27/tcc.o
+rm tcc_27/libtcc1_new.o
+rm tcc_27/tcc_new.o

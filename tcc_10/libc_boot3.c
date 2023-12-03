@@ -628,9 +628,51 @@ int execvp(void){
   exit(1);
 }
 
-int qsort(void){
-  puts("qsort not impl");
-  exit(1);
+void
+qswap (void *a, void *b, int size)
+{
+  char *pa = a;
+  char *pb = b;
+  do
+  {
+    char tmp = *pa;
+    *pa++ = *pb;
+    *pb++ = tmp;
+  } while (--size > 0);
+}
+
+int
+qpart (void *base, int count, int size, int (*compare) (void *, void *))
+{
+  void *p = base + count * size;
+  int i = 0;
+  int j;
+  for (j = 0; j < count; j++)
+    {
+      int c = compare (base + j * size, p);
+      if (c < 0)
+        {
+          qswap (base + i * size, base + j * size, size);
+          i++;
+        }
+      else if (c == 0)
+        i++;
+    }
+  if (compare (base + count * size, base + i * size) < 0)
+    qswap (base + i * size, base + count * size, size);
+  return i;
+}
+
+void
+qsort (void *base, int count, int size, int (*compare) (void *, void *))
+{
+  puts("qsort called");
+  if (count > 1)
+    {
+      int p = qpart (base, count - 1, size, compare);
+      qsort (base, p, size, compare);
+      qsort (base + p * size, count - p, size, compare);
+    }
 }
 
 int strstr(void){
