@@ -994,41 +994,49 @@ int link(int o){
   int i;
   objs=o;
   i=0;
-  puts("============================");
-  puts("linking");
+  if(verbose){
+    puts("============================");
+    puts("linking");
+  }
   while(obj=objs[i]){
     name=obj[obj_name_o];
-    puts(name);
+    if(verbose){puts(name);}
     if(obj[obj_linked_o]!=0){
       fputs("already linked\n",stdout);
     } else {
-      fputs("linking\n",stdout);
+      if(verbose){fputs("linking\n",stdout);}
       resolve_internal(obj);
       gen_und_exports(obj);
-      dump_symtab(obj);
-      dump_exports(obj);
-      dump_unds(obj);
+      if(verbose){
+        dump_symtab(obj);
+        dump_exports(obj);
+        dump_unds(obj);
+      }
     }
-    puts("");
+    if(verbose){puts("");}
     i=i+1;
   }
 
   resolve_und(o);
   i=0;
 
-  puts("============================");
-  puts("relocation");
+  if(verbose){
+    puts("============================");
+    puts("relocation");
+  }
   while(obj=objs[i]){
     if(obj[obj_linked_o]!=0){
-      fputs("already relocated: ",stdout);
-      fputs(obj[obj_name_o],stdout);
-      fputs("\n",stdout);
+      if(verbose){
+        fputs("already relocated: ",stdout);
+        fputs(obj[obj_name_o],stdout);
+        fputs("\n",stdout);
+      }
     } else {
       relocate(obj);
     }
     i=i+1;
   }
-  puts("============================");
+  if(verbose){puts("============================");}
 }
 
 int main(int argc, char **argv)
