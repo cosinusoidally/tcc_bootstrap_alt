@@ -820,7 +820,7 @@ int resolve_und(int os){
   int addr;
   n=0;
   objs=os;
-  puts("resolve_und");
+  if(verbose){puts("resolve_und");}
   while((obj=objs[n])!=0){
     fputs("resolving_und in: ",stdout);
     fputs(obj[obj_name_o],stdout);
@@ -830,7 +830,7 @@ int resolve_und(int os){
       puts("we have some unds:");
       m=0;
       while((u=unds[(2*m)+und_name_o])!=0){
-        puts(u);
+        if(verbose){puts(u);}
         addr=find_sym(os,u);
         if(addr==0){
           puts("sym not found");
@@ -975,9 +975,11 @@ int relocate_section(int o, int name, int rels, int size, int p){
 int relocate(int o) {
   int *obj;
   obj=o;
-  fputs("relocate: ",stdout);
-  fputs(obj[obj_name_o],stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("relocate: ",stdout);
+    fputs(obj[obj_name_o],stdout);
+    fputs("\n",stdout);
+  }
   relocate_section(obj, ".rel.text", obj[obj_rel_text_o],
                                      obj[obj_rel_text_size_o],
                                      obj[obj_text_o]);
