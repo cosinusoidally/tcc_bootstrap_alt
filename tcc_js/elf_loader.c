@@ -782,21 +782,25 @@ int find_sym(int os, char *name){
   int e;
   n=0;
   objs=os;
-  fputs("find_sym: ",stdout);
-  fputs(name,stdout);
-  fputs("\n",stdout);
-  while((obj=objs[n])!=0){
-    fputs("looking in: ",stdout);
-    fputs(obj[obj_name_o],stdout);
+  if(verbose){
+    fputs("find_sym: ",stdout);
+    fputs(name,stdout);
     fputs("\n",stdout);
+  }
+  while((obj=objs[n])!=0){
+    if(verbose){
+      fputs("looking in: ",stdout);
+      fputs(obj[obj_name_o],stdout);
+      fputs("\n",stdout);
+    }
     exports=obj[obj_exports_o];
     if(exports!=0){
-      puts("we have some exports");
+      if(verbose){puts("we have some exports");}
       m=0;
       while((e=exports[(2*m)+exp_name_o])!=0){
         puts(e);
         if(strcmp(e,name)==0){
-          puts("found");
+          if(verbose){puts("found");}
           return(exports[(2*m)+exp_address_o]);
         }
         m=m+1;
