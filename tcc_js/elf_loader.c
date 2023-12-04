@@ -141,8 +141,10 @@ void hex_dump(int e,int l){
 }
 
 int dump_symtab(int o){
-  puts("===========");
-  puts("dump_symtab");
+  if(verbose){
+    puts("===========");
+    puts("dump_symtab");
+  }
   int *obj=o;
   int symtab;
   int symtab_size;
@@ -170,21 +172,22 @@ int dump_symtab(int o){
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
-
-    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
-    fputs("\n",stdout);
-    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+      fputs("\n",stdout);
+      fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+      fputs("\n",stdout);
+    }
   }
 }
 
@@ -279,6 +282,9 @@ void print_relocs(char *name,int *o){
   int ptr;
   int size;
   int sym_name;
+  if(verbose==0){
+    return;
+  }
   ptr=o[obj_rel_text_o];
   size=o[obj_rel_text_size_o];
   fputs("\n",stdout);
@@ -707,7 +713,9 @@ int gen_und_exports(int o){
   symtab=obj[obj_symtab_o];
   symtab_size=obj[obj_symtab_size_o];
   entsize=16;
-  puts("gen_und_exports (export table and undefined symbol table)");
+  if(verbose){
+    puts("gen_und_exports (export table and undefined symbol table)");
+  }
   obj[obj_exports_o] = exports;
   obj[obj_und_o] = unds;
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
@@ -720,27 +728,27 @@ int gen_und_exports(int o){
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
-
-    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
-    fputs("\n",stdout);
-    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
-    fputs("\n",stdout);
-
+    if(verbose){
+      fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+      fputs("\n",stdout);
+      fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+      fputs("\n",stdout);
+    }
 
     if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
-      puts("OBJECT or FUNCTION");
+      if(verbose){puts("OBJECT or FUNCTION");}
       if(st_shndx==0){
-        puts("UND");
+        if(verbose){puts("UND");}
         unds[(n_unds*2)+und_name_o]=st_name_str;
         unds[(n_unds*2)+und_val_o]=sym+st_value_o;
 /* dummy test */
@@ -755,7 +763,7 @@ int gen_und_exports(int o){
         st_value=obj[st_shndx]+st_value;
         wi32(sym+st_value_o,st_value);
         if(st_bind==ST_GLOBAL) {
-          puts("export");
+          if(verbose){puts("export");}
           exports[(n_exports*2)+exp_name_o]=st_name_str;
           exports[(n_exports*2)+exp_address_o]=st_value;
           n_exports=n_exports+1;
@@ -767,10 +775,12 @@ int gen_und_exports(int o){
       }
     }
   }
-  puts("exports:");
-  hex_dump(exports,n_exports*8);
-  puts("unds:");
-  hex_dump(unds,n_unds*8);
+  if(verbose){
+    puts("exports:");
+    hex_dump(exports,n_exports*8);
+    puts("unds:");
+    hex_dump(unds,n_unds*8);
+  }
 }
 
 int find_sym(int os, char *name){
@@ -920,18 +930,20 @@ int relocate_section(int o, int name, int rels, int size, int p){
   sym_entsize=16;
   symtab=obj[obj_symtab_o];
   strtab=obj[obj_strtab_o];
-  fputs("relocating: ",stdout);
-  fputs(name, stdout);
-  fputs("  in: ", stdout);
-  fputs(obj[obj_name_o], stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("relocating: ",stdout);
+    fputs(name, stdout);
+    fputs("  in: ", stdout);
+    fputs(obj[obj_name_o], stdout);
+    fputs("\n",stdout);
+  }
   if(size==0){
-    puts("no relocations");
+    if(verbose){puts("no relocations");}
   } else {
-    puts("processing relocations");
+    if(verbose){puts("processing relocations");}
     for(i=0;i<size;i=i+entsize){
       r=rels+i;
-      puts("reloc");
+      if(verbose){puts("reloc");}
       hex_dump(r,8);
       r_offset=ri32(r+r_offset_o);
       r_info=ri32(r+r_info_o);
@@ -941,37 +953,38 @@ int relocate_section(int o, int name, int rels, int size, int p){
       sym=symtab+(sym_entsize*r_sym);
       val=ri32(sym+st_value_o);
       sym_name=strtab+ri32(sym+st_name_o);
-
-      fputs("offset: ",stdout);
-      fputs(int2str(r_offset,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("info: ",stdout);
-      fputs(int2str(r_info,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sym num: ",stdout);
-      fputs(int2str(r_sym,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("val: 0x",stdout);
-      fputs(int2str(val,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("name: ",stdout);
-      fputs(sym_name,stdout);
-      fputs("\n",stdout);
-      fputs("type: ",stdout);
-      fputs(int2str(r_type,16,0), stdout);
-      fputs(" ",stdout);
+      if(verbose){
+        fputs("offset: ",stdout);
+        fputs(int2str(r_offset,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("info: ",stdout);
+        fputs(int2str(r_info,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("sym num: ",stdout);
+        fputs(int2str(r_sym,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("val: 0x",stdout);
+        fputs(int2str(val,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("name: ",stdout);
+          fputs(sym_name,stdout);
+        fputs("\n",stdout);
+        fputs("type: ",stdout);
+        fputs(int2str(r_type,16,0), stdout);
+        fputs(" ",stdout);
+      }
       loc=p+r_offset;
       if(r_type==R_386_32){
-        fputs("R_386_32", stdout);
+        if(verbose){fputs("R_386_32", stdout);}
         wi32(loc,ri32(loc)+val);
       } else if (r_type==R_386_PC32){
-        fputs("R_386_PC32", stdout);
+        if(verbose){fputs("R_386_PC32", stdout);}
         wi32(loc,val-loc-4);
       } else {
         fputs("unsupported relocation type", stdout);
         exit(1);
       }
-      fputs("\n",stdout);
+      if(verbose){fputs("\n",stdout);}
     }
   }
 }
