@@ -93,6 +93,10 @@ void hex_dump(int e,int l){
   int off_l;
   int v;
 
+  if(verbose == 0){
+    return;
+  }
+
   i=0;
   while(i<l) {
     off=int2str(i,16,0);
