@@ -1,0 +1,4 @@
+# build tcc_27 using tcc_26
+
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_26/libc_boot3.o -l ../tcc_26/libtcc1.o -l ../tcc_26/tcc.o -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_26/libc_boot3.o -l ../tcc_26/libtcc1.o -l ../tcc_26/tcc.o -c ../tcc_26/lib/libtcc1.c

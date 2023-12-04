@@ -84,6 +84,9 @@ double strtod(char *a, char **p){
   if(strcmp("1000000.0",a) == 0){
     x[1]=0x412E8480;
   }
+  if(strcmp("1.0",a) == 0){
+    x[1]=0x3FF00000;
+  }
   return v;
 }
 
@@ -125,24 +128,20 @@ int strcpy(int d, int s) {
   dest[0]=0;
 }
 
-int strcmp(int a, int b){
-  char *s1;
-  char *s2;
-  int i;
-  int r;
-  i=0;
-  r=1;
-  s1=(char *)a;
-  s2=(char *)b;
-  while(s1[i]!=0){
-    r=0;
-    if(s1[i]!=s2[i]){
-      r=1;
-      break;
+int
+strcmp (int a1, int b1)
+{
+  char *a;
+  char *b;
+  a=(char *)a1;
+  b=(char *)b1;
+  while (a[0] != 0 && b[0] != 0 && a[0] == b[0])
+    {
+      a = a + 1;
+      b = b + 1;
     }
-    i=i+1;
-  }
-  return r;
+
+  return a[0] - b[0];
 }
 
 int strcat(int de,int s) {
@@ -165,9 +164,13 @@ int strcat(int de,int s) {
   return d;
 }
 
-int fprintf(void){
-  puts("fprintf not impl");
-  exit(1);
+int fprintf(int stream, int fmt){
+  fputs("fprintf stream: ",stdout);
+  fputs(int2str(stream,10,0),stdout);
+  fputs(" fmt: \"",stdout);
+  fputs(fmt,stdout);
+  fputs("\"\n",stdout);
+  /* FIXME real impl */
 }
 
 int vfprintf(void){
@@ -243,6 +246,15 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     o=strcpy(a1, "%");
     o=strcat(a1, a3);
     return o-a1;
+  } else if(strcmp("(%%%s)", format) ==0) {
+    puts("generating \"(%%%s)\" sprintf/snprintf string");
+    fputs("(%",stdout);
+    fputs(a3, stdout);
+    fputs(")\n",stdout);
+    o=strcpy(a1, "(%");
+    o=strcat(a1, a3);
+    o=strcat(a1, ")");
+    return o-a1;
   } else if(strcmp("%d(%%ebp)", format) ==0) {
     puts("generating \"%d(%%ebp)\" sprintf/snprintf string");
     /* FIXME leaky */
@@ -251,6 +263,7 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     fputs("\n",stdout);
     o=strcpy(a1, int2str(a3, 10, 1));
     o=strcat(a1, "(%ebp)");
+    return o-a1;
   } else if(strcmp("%d", format) ==0) {
     puts("generating \"%d\" sprintf/snprintf string");
     fputs(int2str(a3, 10, 1), stdout);
@@ -264,10 +277,18 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   return 0;
 }
 
-int memmove(void){
-  puts("memmove not impl");
-  exit(1);
+unsigned int
+memmove (unsigned int dest,  unsigned int src, int n)
+{
+  if (dest < src)
+    return memcpy (dest, src, n);
+  char *p=(char *)(dest + n);
+  char *q = (char *)(src + n);
+  while (n--)
+    *--p = *--q;
+  return dest;
 }
+
 
 int strrchr(int p, int c) {
   int c1;
@@ -338,11 +359,6 @@ int lseek(void){
   exit(1);
 }
 
-int strtol(void){
-  puts("strtol not impl");
-  exit(1);
-}
-
 char *
 strchr (char *s, int c)
 {
@@ -376,9 +392,11 @@ int printf(int x){
   exit(1);
 }
 
-int vsnprintf(void){
-  puts("vsnprintf not impl");
-  exit(1);
+int vsnprintf(int a, int b, int fmt){
+  fputs("vsnprintf fmt: \"",stdout);
+  fputs(fmt,stdout);
+  fputs("\"\n",stdout);
+  /* FIXME real impl */
 }
 
 int longjmp(void){
@@ -550,14 +568,19 @@ int mprotect(void){
   exit(1);
 }
 
-int getenv(void){
-  puts("getenv not impl");
-  exit(1);
+int getenv(int str){
+  fputs("getenv str: ",stdout);
+  fputs(str,stdout);
+  fputs("\n",stdout);
+  /* FIXME non dummy impl */
+  return 0;
 }
 
-int unlink(void){
-  puts("unlink not impl");
-  exit(1);
+int unlink(int pathname){
+  fputs("unlink pathname: ",stdout);
+  fputs(pathname,stdout);
+  fputs("\n",stdout);
+  /* FIXME actual impl */
 }
 
 int fflush(void){
@@ -565,9 +588,25 @@ int fflush(void){
   exit(1);
 }
 
-int sscanf(void){
-  puts("sscanf not impl");
-  exit(1);
+int sscanf(int str, int format,int *a1, int *a2, int *a3, int *a4){
+  fputs("sscanf str: \"",stdout);
+  fputs(str,stdout);
+  fputs("\" format: \"",stdout);
+  fputs(format,stdout);
+  fputs("\n",stdout);
+  if(strcmp(str, "0.9.26") == 0){
+    a1[0]=0;
+    a2[0]=9;
+    a3[0]=26;
+  } else if(strcmp(str, "0.9.27") == 0){
+    a1[0]=0;
+    a2[0]=9;
+    a3[0]=27;
+  } else {
+    puts("unsupported sscanf format string");
+    exit(1);
+  }
+  return 0;
 }
 
 int dlclose(void){
@@ -582,5 +621,77 @@ int strtoull(void){
 
 int execvp(void){
   puts("execvp not impl");
+  exit(1);
+}
+
+void
+qswap (void *a, void *b, int size)
+{
+  char *pa = a;
+  char *pb = b;
+  do
+  {
+    char tmp = *pa;
+    *pa++ = *pb;
+    *pb++ = tmp;
+  } while (--size > 0);
+}
+
+int
+qpart (void *base, int count, int size, int (*compare) (void *, void *))
+{
+  void *p = base + count * size;
+  int i = 0;
+  int j;
+  for (j = 0; j < count; j++)
+    {
+      int c = compare (base + j * size, p);
+      if (c < 0)
+        {
+          qswap (base + i * size, base + j * size, size);
+          i++;
+        }
+      else if (c == 0)
+        i++;
+    }
+  if (compare (base + count * size, base + i * size) < 0)
+    qswap (base + i * size, base + count * size, size);
+  return i;
+}
+
+void
+qsort (void *base, int count, int size, int (*compare) (void *, void *))
+{
+  puts("qsort called");
+  if (count > 1)
+    {
+      int p = qpart (base, count - 1, size, compare);
+      qsort (base, p, size, compare);
+      qsort (base + p * size, count - p, size, compare);
+    }
+}
+
+int strstr(void){
+  puts("strstr not impl");
+  exit(1);
+}
+
+int fseek(void){
+  puts("fseek not impl");
+  exit(1);
+}
+
+int ftell(void){
+  puts("ftell not impl");
+  exit(1);
+}
+
+int fread(void){
+  puts("fread not impl");
+  exit(1);
+}
+
+int remove(void){
+  puts("remove not impl");
   exit(1);
 }

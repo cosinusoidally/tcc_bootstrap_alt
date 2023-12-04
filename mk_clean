@@ -35,15 +35,23 @@ rm tcc_23/a.out
 rm tcc_23/libtcc1.o
 rm tcc_23/libtcc1_min.o
 rm tcc_23/tcc.o
+rm tcc_23/libc_boot2.o
 
 rm tcc_24/a.out
 rm tcc_24/libtcc1.o
 rm tcc_24/tcc.o
+rm tcc_24/libtcc1_new.o
+rm tcc_24/tcc_new.o
 
 rm tcc_26/a.out
 rm tcc_26/libtcc1.o
 rm tcc_26/tcc.o
+rm tcc_26/libtcc1_new.o
+rm tcc_26/tcc_new.o
+rm tcc_26/libc_boot3.o
 
 rm tcc_27/a.out
 rm tcc_27/libtcc1.o
 rm tcc_27/tcc.o
+rm tcc_27/libtcc1_new.o
+rm tcc_27/tcc_new.o

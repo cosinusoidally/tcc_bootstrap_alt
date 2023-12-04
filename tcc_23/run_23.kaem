@@ -1,0 +1,7 @@
+# build libc_boot2.o
+
+../x86/bin/elf_loader_cc_x86.exe -l ../tcc_10/libc_boot.o -l ../tcc_10/tcc.o -o libc_boot2.o -c ../tcc_10/libc_boot2.c
+
+# run tcc_23
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1_min.o -l libc_boot2.o -l tcc.o -c libtcc1.c
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1_min.o -l libc_boot2.o -l tcc.o -I ../woody/usr/include/ -I . -c tcc.c
