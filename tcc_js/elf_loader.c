@@ -1041,6 +1041,8 @@ int main(int argc, char **argv)
   init_globals();
   init_offsets();
 
+  verbose=0;
+
   /* enough for 8 objs */
   objs=calloc(36,1);
   /* filenames of input objects */
@@ -1049,6 +1051,12 @@ int main(int argc, char **argv)
   puts("elf loader starting");
 
   optind = 1;
+
+  if(strcmp(argv[optind],"-v") == 0){
+    verbose=1;
+    optind = optind + 1;
+    puts("verbose mode");
+  }
 
   puts("running elf files");
   j=0;

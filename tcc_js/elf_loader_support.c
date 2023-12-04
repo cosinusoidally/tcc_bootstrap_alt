@@ -11,3 +11,4 @@ int memset(int a, int b, int c);
 int memcpy(int a, int b, int c);
 
 int p_size;
+int verbose;
