@@ -293,24 +293,31 @@ void print_relocs(char *name,int *o){
   }
   ptr=o[obj_rel_text_o];
   size=o[obj_rel_text_size_o];
-  fputs("\n",stdout);
-  fputs(name,stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("\n",stdout);
+    fputs(name,stdout);
+    fputs("\n",stdout);
+  }
   for(i=0;i<size;i=i+8){
     r_info=ri32(ptr+i+r_info_o);
     /* FIXME use unsigned shift */
     r_sym=r_info>>8;
-    fputs("r_info: 0x",stdout);
-    fputs(int2str(r_sym,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("r_info: 0x",stdout);
+      fputs(int2str(r_sym,16,0),stdout);
+      fputs("\n",stdout);
+    }
     sym_name=o[obj_strtab_o]+ri32(o[obj_symtab_o]+(16*r_sym));
-    fputs("sym_name: ",stdout);
-    fputs(sym_name,stdout);
-    fputs("\n",stdout);
-    hex_dump(ptr+i,8);
+    if(verbose){
+      fputs("sym_name: ",stdout);
+      fputs(sym_name,stdout);
+      fputs("\n",stdout);
+      hex_dump(ptr+i,8);
+    }
   }
-  fputs("\n",stdout);
-
+  if(verbose){
+    fputs("\n",stdout);
+  }
 }
 
 int decode_elf(int e, int os){
@@ -916,12 +923,14 @@ int resolve_und(int os){
   objs=os;
   if(verbose){puts("resolve_und");}
   while((obj=objs[n])!=0){
-    fputs("resolving_und in: ",stdout);
-    fputs(obj[obj_name_o],stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("resolving_und in: ",stdout);
+      fputs(obj[obj_name_o],stdout);
+      fputs("\n",stdout);
+    }
     unds=obj[obj_und_o];
     if(unds!=0){
-      puts("we have some unds:");
+      if(verbose){puts("we have some unds:");}
       m=0;
       while((u=unds[(2*m)+und_name_o])!=0){
         if(verbose){puts(u);}
@@ -930,13 +939,13 @@ int resolve_und(int os){
           puts("sym not found");
           exit(1);
         } else {
-          puts("writing address of und sym");
+          if(verbose){puts("writing address of und sym");}
           wi32(unds[(2*m)+und_val_o],addr);
         }
         m=m+1;
       }
     } else {
-      puts("no unds in this obj");
+      if(verbose){puts("no unds in this obj");}
     }
     n=n+1;
   }
