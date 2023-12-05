@@ -424,67 +424,91 @@ int decode_elf(int e, int os){
     o=o+e_shentsize;
   }
 
-  fputs(".text:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".text:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(text+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(text+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   text_mem=malloc(sh_size);
   memcpy(text_mem,e+sh_offset,sh_size);
-  fputs("text_mem address: 0x",stdout);
-  fputs(int2str(text_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(text_mem,sh_size);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("text_mem address: 0x",stdout);
+    fputs(int2str(text_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(text_mem,sh_size);
+    fputs("\n",stdout);
+  }
   obj_struct[obj_text_o]=text_mem;
   obj_struct[obj_text_size_o]=sh_size;
 
-  fputs(".data:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".data:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(data+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(data+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   data_mem=malloc(sh_size);
   memcpy(data_mem,e+sh_offset,sh_size);
-  fputs("data_mem address: 0x",stdout);
-  fputs(int2str(data_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(data_mem,sh_size);
+  if(verbose){
+    fputs("data_mem address: 0x",stdout);
+    fputs(int2str(data_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(data_mem,sh_size);
+  }
   obj_struct[obj_data_o]=data_mem;
   obj_struct[obj_data_size_o]=sh_size;
 
-  fputs(".strtab:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".strtab:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(strtab+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(strtab+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   strtab_mem=malloc(sh_size);
   memcpy(strtab_mem,e+sh_offset,sh_size);
-  fputs("strtab_mem address: 0x",stdout);
-  fputs(int2str(strtab_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(strtab_mem,sh_size);
+  if(verbose){
+    fputs("strtab_mem address: 0x",stdout);
+    fputs(int2str(strtab_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(strtab_mem,sh_size);
+  }
   obj_struct[obj_strtab_o]=strtab_mem;
   obj_struct[obj_strtab_size_o]=sh_size;
 
