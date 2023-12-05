@@ -15,3 +15,7 @@ echo "the generated tcc.o still works though"
 sha256sum tcc_26/tcc.o
 sha256sum tcc_26/libtcc1.o
 sha256sum -c sum_tcc_26_boot
+
+sha256sum tcc_27/tcc.o
+sha256sum tcc_27/libtcc1.o
+sha256sum -c sum
