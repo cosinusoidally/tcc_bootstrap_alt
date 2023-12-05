@@ -207,21 +207,27 @@ int get_section_header(int e, char *str) {
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
-  puts(".shstrtab:");
+  if(verbose){puts(".shstrtab:");}
   o=e+e_shoff+(e_shstrndx*e_shentsize);
   sh_offset=ri32(o+16);
-  fputs("get_section: ",stdout);
-  fputs(str,stdout);
-  fputs("\n", stdout);
+  if(verbose){
+    fputs("get_section: ",stdout);
+    fputs(str,stdout);
+    fputs("\n", stdout);
+  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
     sh_name=ri32(e+o);
-    fputs("sh_name: ",stdout);
-    fputs(int2str(sh_name,16,0),stdout);
+    if(verbose){
+      fputs("sh_name: ",stdout);
+      fputs(int2str(sh_name,16,0),stdout);
+    }
     sh_name_str=e+sh_offset+sh_name;
-    fputs(" sh_name_str: ",stdout);
-    fputs(sh_name_str,stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(" sh_name_str: ",stdout);
+      fputs(sh_name_str,stdout);
+      fputs("\n",stdout);
+    }
     if(strcmp(str,sh_name_str) == 0){
       return e+o;
     }
@@ -342,7 +348,7 @@ int decode_elf(int e, int os){
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
   if(ru8(e+2)!='L') { puts("magic 2");exit(1);}
   if(ru8(e+3)!='F') { puts("magic 3");exit(1);}
-  puts("ELF magic ok");
+  if(verbose){puts("ELF magic ok");}
   e_shoff=ri32(e+0x20);
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
@@ -354,52 +360,64 @@ int decode_elf(int e, int os){
   symtab=get_section_header(e,".symtab");
   rel_text=get_section_header(e,".rel.text");
   rel_data=get_section_header(e,".rel.data");
-  fputs("e_shoff: ",stdout);
-  fputs(int2str(e_shoff,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shentsize: ",stdout);
-  fputs(int2str(e_shentsize,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shnum: ",stdout);
-  fputs(int2str(e_shnum,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shstrndx: ",stdout);
-  fputs(int2str(e_shstrndx,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("e_shoff: ",stdout);
+    fputs(int2str(e_shoff,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shentsize: ",stdout);
+    fputs(int2str(e_shentsize,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shnum: ",stdout);
+    fputs(int2str(e_shnum,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shstrndx: ",stdout);
+    fputs(int2str(e_shstrndx,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("\n",stdout);
+  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
-    fputs("sh_name: ",stdout);
-    fputs(int2str(ri32(e+o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_type: ",stdout);
+    if(verbose){
+      fputs("sh_name: ",stdout);
+      fputs(int2str(ri32(e+o),16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_type: ",stdout);
+    }
     sh_type=ri32(e+o+4);
-    fputs(int2str(sh_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: ",stdout);
+    if(verbose){
+      fputs(int2str(sh_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_offset: ",stdout);
+    }
     sh_offset=ri32(e+o+16);
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: ",stdout);
+    if(verbose){
+      fputs(int2str(sh_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_size: ",stdout);
+    }
     sh_size=ri32(e+o+20);
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_entsize: ",stdout);
-    fputs(int2str(ri32(e+o+36),16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(int2str(sh_size,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_entsize: ",stdout);
+      fputs(int2str(ri32(e+o+36),16,0),stdout);
+      fputs("\n",stdout);
+    }
     if(sh_type==3){
-      puts("SHT_STRTAB");
+      if(verbose){puts("SHT_STRTAB");}
     }
     if(i==e_shstrndx){
-      puts(".shstrtab:");
+      if(verbose){puts(".shstrtab:");}
       o=e+sh_offset;
       for(j=0;j<e_shnum;j=j+1){
         sl=strlen(o);
-        fputs(int2str(sl,10,0),stdout);
-        fputs(" ",stdout);
-        fputs(o,stdout);
+        if(verbose){
+          fputs(int2str(sl,10,0),stdout);
+          fputs(" ",stdout);
+          fputs(o,stdout);
+        }
         o=o+sl+1;
-        fputs("\n",stdout);
+        if(verbose){fputs("\n",stdout);}
       }
     }
     fputs("\n",stdout);
