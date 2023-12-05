@@ -233,7 +233,7 @@ int get_section_header(int e, char *str) {
     }
     o=o+e_shentsize;
   }
-  puts("section header not found");
+  if(verbose){puts("section header not found");}
   return 0;
 }
 
@@ -427,7 +427,7 @@ int decode_elf(int e, int os){
         if(verbose){fputs("\n",stdout);}
       }
     }
-    fputs("\n",stdout);
+    if(verbose){fputs("\n",stdout);}
     o=o+e_shentsize;
   }
 
@@ -891,7 +891,7 @@ int find_sym(int os, char *name){
       if(verbose){puts("we have some exports");}
       m=0;
       while((e=exports[(2*m)+exp_name_o])!=0){
-        puts(e);
+        if(verbose){puts(e);}
         if(strcmp(e,name)==0){
           if(verbose){puts("found");}
           return(exports[(2*m)+exp_address_o]);
@@ -1106,7 +1106,7 @@ int link(int o){
     name=obj[obj_name_o];
     if(verbose){puts(name);}
     if(obj[obj_linked_o]!=0){
-      fputs("already linked\n",stdout);
+      if(verbose){fputs("already linked\n",stdout);}
     } else {
       if(verbose){fputs("linking\n",stdout);}
       gen_und_exports(obj);
