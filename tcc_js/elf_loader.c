@@ -768,10 +768,6 @@ int get_main(int o){
   return ms;
 }
 
-int resolve_internal(int o){
-  puts("resolve_internal");
-}
-
 int gen_und_exports(int o){
   int *obj=o;
   int symtab;
@@ -1113,7 +1109,6 @@ int link(int o){
       fputs("already linked\n",stdout);
     } else {
       if(verbose){fputs("linking\n",stdout);}
-      resolve_internal(obj);
       gen_und_exports(obj);
       if(verbose){
         dump_symtab(obj);
