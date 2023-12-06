@@ -15,7 +15,7 @@
 
 extern int stdout;
 
-int strcpy(int d, int s);
+int strcpy (int desti, int srci);
 int strcat(int de,int s);
 
 int puts(int x) {
@@ -117,19 +117,24 @@ int memset(int ss, int c, int n) {
 
 }
 
-int strcpy(int d, int s) {
-//  puts("strcpy not impl");
-  int c;
+int
+strcpy (int desti, int srci)
+{
   char *dest;
   char *src;
-  dest=(char *)d;
-  src=(char *)s;
-  while((c=src[0])!=0){
-    src=src+1;
-    dest[0]=c;
-    dest=dest+1;
-  }
-  dest[0]=0;
+  dest=(char *)desti;
+  src=(char *)srci;
+  char *p = dest;
+
+  while (src[0] != 0)
+    {
+      p[0] = src[0];
+      p = p + 1;
+      src = src + 1;
+    }
+  p[0] = 0;
+
+  return dest;
 }
 
 int
