@@ -702,7 +702,7 @@ int mk_host_obj(void){
   int *e;
   int n;
   n=0;
-  e=calloc(exp_size*128,1);
+  e=calloc(exp_size*16,1);
   obj=calloc(obj_struct_size,1);
   obj[obj_name_o]="host.o";
   obj[obj_linked_o]=1;
