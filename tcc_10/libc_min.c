@@ -336,17 +336,17 @@ int dlsym(void){
 }
 
 int fwrite(int ptr,int size, int nitems, int stream) {
-/*
-  puts("fwrite:");
-  puts_num(ptr);
-  puts_num(size);
-  puts_num(nitems);
-  puts_num(stream);
-  puts("fwrite not impl");
-  exit(1);
-*/
   int t=size*nitems;
   char *c=(char *)ptr;
+  fputs("fwrite: ",stdout);
+  fputs(int2str(stream, 10, 0),stdout);
+  fputs(" bytes: ",stdout);
+  fputs(int2str(t, 10, 0),stdout);
+  fputs("\n",stdout);
+  if(is_under_cc_x86()){
+    puts("fwrite attempt to use sys_write");
+    return sys_write(stream, ptr, t);
+  }
   while(t>0){
     fputc(c[0],stream);
     t=t-1;

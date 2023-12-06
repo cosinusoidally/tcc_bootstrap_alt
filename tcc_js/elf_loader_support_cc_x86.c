@@ -265,3 +265,19 @@ int fclose_tramp(int x){
   asm("mov_ebx, &FUNCTION_fclose"
       "jmp %FUNCTION_generic1_tramp");
 }
+
+int is_under_cc_x86(void){
+  return 1;
+}
+
+int sys_write(int stream, int buffer, int size){
+        asm("mov_eax, %4"
+            "lea_ebx,[esp+DWORD] %4"
+            "mov_ebx,[ebx]"
+            "lea_ecx,[esp+DWORD] %8"
+            "mov_ecx,[ecx]"
+            "lea_edx,[esp+DWORD] %12"
+            "mov_edx,[edx]"
+            "int !0x80"
+            "ret");
+}
