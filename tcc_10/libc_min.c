@@ -187,21 +187,26 @@ int vfprintf(void){
   exit(1);
 }
 
-int memcmp(int s1, int s2, int n) {
-  int i;
-  int r;
-  char *p1;
-  char *p2;
-  r=0;
-  p1=(char *)s1;
-  p2=(char *)s2;
-  for(i=0;i<n;i=i+1){
-    if(p1[i]!=p2[i]){
-/* FIXME ljw not quite right */
-      r=1;
+int memcmp(int s1i, int s2i, int size) {
+  char *s1;
+  char *s2;
+  s1=(char *)s1i;
+  s2=(char *)s2i;
+
+  if (size == 0)
+    return 0;
+
+  char const *a = s1;
+  char const *b = s2;
+
+  while (a[0] == b[0] && size > 1)
+    {
+      size = size - 1;
+      a = a + 1;
+      b = b + 1;
     }
-  }
-  return r;
+
+  return a[0] - b[0];
 }
 
 int memcpy(int a, int b, int c) {
