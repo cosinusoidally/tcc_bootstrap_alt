@@ -55,4 +55,4 @@ rm tcc_27/libtcc1.o
 rm tcc_27/tcc.o
 rm tcc_27/libtcc1_new.o
 rm tcc_27/tcc_new.o
-rm tcc_27/tcc_min.o
+rm tcc_27/libc_min.o
