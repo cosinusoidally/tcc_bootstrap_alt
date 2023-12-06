@@ -103,14 +103,18 @@ int strlen(int p){
   return l;
 }
 
-int memset(int xi, int v, int size) {
-/*  puts("unimpl memset"); err(); */
-  int i;
-  char *x;
-  x=(char *)xi;
-  for(i=0;i<size;i=i+1){
-    x[i]=v;
-  }
+int memset(int ss, int c, int n) {
+  char *s;
+  char *p = (char *)s;
+  s=(char *)ss;
+  while (n != 0)
+    {
+      n = n - 1;
+      s[0] = c;
+      s = s + 1;
+    }
+  return p;
+
 }
 
 int strcpy(int d, int s) {
