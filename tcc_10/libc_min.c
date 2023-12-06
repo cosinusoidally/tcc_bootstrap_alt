@@ -343,10 +343,6 @@ int fwrite(int ptr,int size, int nitems, int stream) {
   fputs(" bytes: ",stdout);
   fputs(int2str(t, 10, 0),stdout);
   fputs("\n",stdout);
-  if(is_under_cc_x86()){
-    puts("fwrite attempt to use sys_write");
-    return sys_write(stream, ptr, t);
-  }
   while(t>0){
     fputc(c[0],stream);
     t=t-1;
