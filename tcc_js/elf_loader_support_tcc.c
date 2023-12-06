@@ -118,12 +118,3 @@ int fopen_tramp(int a, int b){
 int fclose_tramp(int x){
   return fclose(x);
 }
-
-int is_under_cc_x86(void) {
-  return 0;
-}
-
-int sys_write(void){
-  puts("sys_write unimpl");
-  exit(1);
-}

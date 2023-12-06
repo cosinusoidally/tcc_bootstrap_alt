@@ -755,12 +755,6 @@ int mk_host_obj(void){
   n=n+(exp_size>>2);
   e[n+exp_name_o]="fclose";
   e[n+exp_address_o]=fclose_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="is_under_cc_x86";
-  e[n+exp_address_o]=is_under_cc_x86;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="sys_write";
-  e[n+exp_address_o]=sys_write;
 
   return obj;
 }
