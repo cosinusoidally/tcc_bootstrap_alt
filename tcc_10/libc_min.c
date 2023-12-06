@@ -311,19 +311,25 @@ memmove (unsigned int dest,  unsigned int src, int n)
 }
 
 
-int strrchr(int p, int c) {
-  int c1;
+int
+strrchr (char si, int c)
+{
   char *s;
-  char *r;
-  r=0;
-  s=(char *)p;
-  while(c1=s[0]){
-    s=s+1;
-    if(c1==c){
-      r=s-1;
+  s=(char *)si;
+  int n = strlen (s);
+  if (!n)
+    return 0;
+  char *p = s + n;
+  if (!*p && !c)
+    return (char *) p;
+  p--;
+  while (n-- && (*p || !c))
+    {
+      if (c == *p)
+        return (char *) p;
+      p--;
     }
-  }
-  return r;
+  return 0;
 }
 
 int ldexp(void){
