@@ -209,15 +209,22 @@ int memcmp(int s1i, int s2i, int size) {
   return a[0] - b[0];
 }
 
-int memcpy(int a, int b, int c) {
+int memcpy(int desti, int srci, int n) {
   char *dest;
   char *src;
-  int i;
-  dest=(char *)a;
-  src=(char *)b;
-  for(i=0;i<c;i=i+1){
-    dest[i]=src[i];
-  }
+  dest=(char *)desti;
+  src=(char *)srci;
+  char *p = dest;
+
+  while (n != 0)
+    {
+      n = n - 1;
+      dest[0] = src[0];
+      dest = dest + 1;
+      src = src + 1;
+    }
+
+  return p;
 }
 
 int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
