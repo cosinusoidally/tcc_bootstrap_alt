@@ -614,9 +614,10 @@ int dlclose(void){
   exit(1);
 }
 
-int strtoull(void){
-  puts("strtoull not impl");
-  exit(1);
+unsigned long long
+strtoull (char *string, char **tailptr, int base)
+{
+  return strtoul (string, tailptr, base);
 }
 
 int execvp(void){
