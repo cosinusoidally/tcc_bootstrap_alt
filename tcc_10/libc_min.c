@@ -343,8 +343,7 @@ int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   fputs(" format: \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
-  sprintf(a1, a3, a4, a5, a6, 0);
-  return 0;
+  return sprintf(a1, a3, a4, a5, a6, 0);
 }
 
 int getcwd(void){
