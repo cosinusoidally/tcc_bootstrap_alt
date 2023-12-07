@@ -90,17 +90,17 @@ double strtod(char *a, char **p){
   return v;
 }
 
-
-int strlen(int p){
-//  puts("strlen not impl");
-  int l=0;
+int
+strlen (int si)
+{
   char *s;
-  s=(char *)p;
-  while(s[0]){
-    s=s+1;
-    l=l+1;
-  }
-  return l;
+  int i = 0;
+  s=(char *)si;
+
+  while (s[i] != 0)
+    i = i + 1;
+
+  return i;
 }
 
 int memset(int ss, int c, int n) {
