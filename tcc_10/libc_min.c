@@ -17,6 +17,7 @@ extern int stdout;
 
 int strcpy (int desti, int srci);
 int strcat(int de,int s);
+char * strchr (char *s, int c);
 
 int puts(int x) {
   fputs(x, stdout);
@@ -153,24 +154,18 @@ strcmp (int a1, int b1)
   return a[0] - b[0];
 }
 
-int strcat(int de,int s) {
-  int d;
-  char *dest;
-  char *src;
-  dest=(char *)de;
-  src=(char *)s;
-  d=dest;
-  int c;
-  while(dest[0]){
-    dest=dest+1;
-  }
-  while(c=src[0]){
-    src=src+1;
-    dest[0]=c;
-    dest=dest+1;
-  }
-  dest[0]=0;
-  return d;
+int strcat(int toi,int fromi) {
+  char *to;
+  char *from;
+  char *p;
+
+  to=(char *)toi;
+  from=(char *)fromi;
+  p = strchr (to, '\0');
+  while (*from)
+    *p++ = *from++;
+  *p = 0;
+  return to;
 }
 
 int fprintf(int stream, int fmt){
