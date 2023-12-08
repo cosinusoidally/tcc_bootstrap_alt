@@ -27,6 +27,8 @@ int main (int argc, char *argv[], char *envp[]);
 
 void* malloc(int size);
 
+long _sys_call3 (long sys_call, long one, long two, long three);
+
 // *INDENT-OFF*
 void
 _start ()
@@ -123,9 +125,15 @@ void* calloc(int count, int size)
         return ret;
 }
 
-int read(void){
-  puts("read not impl");
-  exit(1);
+#define SYS_read    0x03
+
+int
+read (int filedes, void *buffer, int size)
+{
+  long long_filedes = filedes;
+  long long_buffer = buffer;
+  int bytes = _sys_call3 (SYS_read, long_filedes, long_buffer, size);
+  return bytes;
 }
 
 int fopen(void){
