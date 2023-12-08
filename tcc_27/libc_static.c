@@ -25,6 +25,8 @@ int stderr=2;
 
 int main (int argc, char *argv[], char *envp[]);
 
+void* malloc(int size);
+
 // *INDENT-OFF*
 void
 _start ()
@@ -113,9 +115,12 @@ void fputs(char* s, int f)
         }
 }
 
-int calloc(void){
-  puts("calloc not impl");
-  exit(1);
+void* calloc(int count, int size)
+{
+        void* ret = malloc(count * size);
+        if(0 == ret) return 0;
+        memset(ret, 0, (count * size));
+        return ret;
 }
 
 int read(void){
@@ -133,20 +138,74 @@ int fclose(void){
   exit(1);
 }
 
-int free(void){
-  puts("free not impl");
-  exit(1);
+void free(void* l)
+{
+        return;
 }
 
-int malloc(void){
-  puts("malloc not impl");
-  exit(1);
+long
+_sys_call1 (long sys_call, long one)
+{
+  long r;
+  asm (
+       "mov    %1,%%eax\n\t"
+       "mov    %2,%%ebx\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one)
+       : "eax", "ebx"
+       );
+  return r;
 }
 
-int realloc(void){
-  puts("realloc not impl");
-  exit(1);
+#define SYS_brk     0x2d
+
+long
+brk (void *addr)
+{
+  long long_addr = addr;
+  return _sys_call1 (SYS_brk, long_addr);
 }
+
+long _malloc_ptr;
+long _brk_ptr;
+
+void* malloc(int size)
+{
+        /* align malloc to 4 bytes */
+        size = 4+ (size & (~3));
+        if(0 == _brk_ptr)
+        {
+                _brk_ptr = brk(0);
+                _malloc_ptr = _brk_ptr;
+        }
+
+        if(_brk_ptr < _malloc_ptr + size)
+        {
+                _brk_ptr = brk(_malloc_ptr + size);
+                if(-1 == _brk_ptr) return 0;
+        }
+
+        long old_malloc = _malloc_ptr;
+        _malloc_ptr = _malloc_ptr + size;
+        if( (old_malloc & 3) !=0) {
+                puts("misalligned malloc");
+                exit(1);
+        }
+        return old_malloc;
+}
+
+int realloc(int ptr, int size) {
+  int r;
+  r=malloc(size);
+  if(ptr!=0) {
+    memcpy(r, ptr, size);
+    free(ptr);
+  }
+  return r;
+}
+
 
 int close(void){
   puts("close not impl");
