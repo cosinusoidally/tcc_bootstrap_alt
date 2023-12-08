@@ -137,7 +137,7 @@ read (int filedes, void *buffer, int size)
   return bytes;
 }
 
-int* fopen(char* filename, int* mode)
+int* fopen(char* filename, char* mode)
 {
         int* f;
         if('w' == mode[0])
