@@ -1,5 +1,6 @@
 rm artifacts/tcc_27_boot.exe
 rm artifacts/tcc_27_boot_static.exe
+rm artifacts/tcc_27_boot_static_test.exe
 
 rm tcc_js/tcc_boot.o
 rm tcc_js/loader_boot.exe
@@ -59,5 +60,9 @@ rm tcc_27/tcc_new.o
 rm tcc_27/libc_min.o
 
 rm tcc_27/libc_boot4_new.o
+rm tcc_27/libc_boot4_new2.o
 rm tcc_27/libc_boot4.o
 rm tcc_27/libc_static.o
+rm tcc_27/libc_static_new2.o
+rm tcc_27/libtcc1_new2.o
+rm tcc_27/tcc_new2.o
