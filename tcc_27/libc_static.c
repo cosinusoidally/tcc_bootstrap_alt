@@ -27,6 +27,7 @@ int main (int argc, char *argv[], char *envp[]);
 
 void* malloc(int size);
 
+long _sys_call1 (long sys_call, long one);
 long _sys_call3 (long sys_call, long one, long two, long three);
 
 // *INDENT-OFF*
@@ -136,15 +137,32 @@ read (int filedes, void *buffer, int size)
   return bytes;
 }
 
-int fopen(void){
-  puts("fopen not impl");
-  exit(1);
+int* fopen(char* filename, int* mode)
+{
+        int* f;
+        if('w' == mode[0])
+        { /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
+                f = open(filename, 577 , 384);
+        }
+        else
+        { /* Everything else is a read */
+                f = open(filename, 0, 0);
+        }
+
+        /* Negative numbers are error codes */
+        if(0 > f)
+        {
+                return 0;
+        }
+        return f;
 }
 
-int fclose(void){
-  puts("fclose not impl");
-  exit(1);
+int fclose(int* stream)
+{
+        int error = close(stream);
+        return error;
 }
+
 
 void free(void* l)
 {
@@ -232,11 +250,14 @@ int realloc(int ptr, int size) {
   return r;
 }
 
+#define SYS_close  0x06
 
-int close(void){
-  puts("close not impl");
-  exit(1);
+int
+close (int filedes)
+{
+  return _sys_call1 (SYS_close, (int) filedes);
 }
+
 
 #define SYS_open    0x05
 
