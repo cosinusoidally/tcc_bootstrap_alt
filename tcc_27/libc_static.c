@@ -159,6 +159,24 @@ _sys_call1 (long sys_call, long one)
   return r;
 }
 
+long
+_sys_call3 (long sys_call, long one, long two, long three)
+{
+  long r;
+  asm (
+       "mov    %2,%%ebx\n\t"
+       "mov    %3,%%ecx\n\t"
+       "mov    %4,%%edx\n\t"
+       "mov    %1,%%eax\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
+       : "eax", "ebx", "ecx", "edx"
+       );
+  return r;
+}
+
 #define SYS_brk     0x2d
 
 long
@@ -212,7 +230,11 @@ int close(void){
   exit(1);
 }
 
-int open(void){
-  puts("open not impl");
-  exit(1);
+#define SYS_open    0x05
+
+int
+open (char *file_name, int flags, int mask)
+{
+  int r = _sys_call3 (SYS_open, file_name, flags, mask);
+  return r;
 }
