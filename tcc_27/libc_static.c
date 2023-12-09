@@ -46,24 +46,14 @@ int stdin=0;
 int stdout=1;
 int stderr=2;
 
-// syscall numbers
-#define SYS_exit   "0x01"
-#define SYS_read   "0x03"
-#define SYS_write  "0x04"
-#define SYS_open   "0x05"
-#define SYS_close  "0x06"
-#define SYS_brk    "0x2d"
-
-// main is defined in your program
 int main (int argc, char *argv[], char *envp[]);
-
-// generic n argument syscalls
-long _sys_call1 (long sys_call, long one);
-long _sys_call3 (long sys_call, long one, long two, long three);
 
 void* malloc(int size);
 
+long _sys_call1 (long sys_call, long one);
+long _sys_call3 (long sys_call, long one, long two, long three);
 
+// *INDENT-OFF*
 void
 _start ()
 {
@@ -94,40 +84,9 @@ _start ()
        );
 }
 
-long
-_sys_call1 (long sys_call, long one)
-{
-  long r;
-  asm (
-       "mov    %1,%%eax\n\t"
-       "mov    %2,%%ebx\n\t"
-       "int    $0x80\n\t"
-       "mov    %%eax,%0\n\t"
-       : "=r" (r)
-       : "rm" (sys_call), "rm" (one)
-       : "eax", "ebx"
-       );
-  return r;
-}
+#define SYS_write  "0x04"
 
-long
-_sys_call3 (long sys_call, long one, long two, long three)
-{
-  long r;
-  asm (
-       "mov    %2,%%ebx\n\t"
-       "mov    %3,%%ecx\n\t"
-       "mov    %4,%%edx\n\t"
-       "mov    %1,%%eax\n\t"
-       "int    $0x80\n\t"
-       "mov    %%eax,%0\n\t"
-       : "=r" (r)
-       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
-       : "eax", "ebx", "ecx", "edx"
-       );
-  return r;
-}
-
+// *INDENT-OFF*
 int
 _write (int filedes, void const *buffer, int size)
 {
@@ -146,6 +105,9 @@ _write (int filedes, void const *buffer, int size)
   return r;
 }
 
+#define SYS_exit   "0x01"
+
+// *INDENT-OFF*
 void
 exit (int code)
 {
@@ -160,6 +122,7 @@ exit (int code)
   // not reached
   // _exit (0); // tcc has a problem with this
 }
+
 
 int
 fputc (int c, int fd)
@@ -186,6 +149,7 @@ void* calloc(int count, int size)
         return ret;
 }
 
+#define SYS_read    0x03
 
 int
 read (int filedes, void *buffer, int size)
@@ -228,6 +192,41 @@ void free(void* l)
         return;
 }
 
+long
+_sys_call1 (long sys_call, long one)
+{
+  long r;
+  asm (
+       "mov    %1,%%eax\n\t"
+       "mov    %2,%%ebx\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one)
+       : "eax", "ebx"
+       );
+  return r;
+}
+
+long
+_sys_call3 (long sys_call, long one, long two, long three)
+{
+  long r;
+  asm (
+       "mov    %2,%%ebx\n\t"
+       "mov    %3,%%ecx\n\t"
+       "mov    %4,%%edx\n\t"
+       "mov    %1,%%eax\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
+       : "eax", "ebx", "ecx", "edx"
+       );
+  return r;
+}
+
+#define SYS_brk     0x2d
 
 long
 brk (void *addr)
@@ -274,11 +273,16 @@ int realloc(int ptr, int size) {
   return r;
 }
 
+#define SYS_close  0x06
+
 int
 close (int filedes)
 {
   return _sys_call1 (SYS_close, (int) filedes);
 }
+
+
+#define SYS_open    0x05
 
 int
 open (char *file_name, int flags, int mask)
