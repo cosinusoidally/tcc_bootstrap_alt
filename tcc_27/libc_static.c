@@ -46,6 +46,7 @@ int stdin=0;
 int stdout=1;
 int stderr=2;
 
+// syscall numbers
 #define SYS_exit   0x01
 #define SYS_read   0x03
 #define SYS_write  0x04
@@ -53,14 +54,16 @@ int stderr=2;
 #define SYS_close  0x06
 #define SYS_brk    0x2d
 
+// main is defined in your program
 int main (int argc, char *argv[], char *envp[]);
 
-void* malloc(int size);
-
+// generic n argument syscalls
 long _sys_call1 (long sys_call, long one);
 long _sys_call3 (long sys_call, long one, long two, long three);
 
-// *INDENT-OFF*
+void* malloc(int size);
+
+
 void
 _start ()
 {
