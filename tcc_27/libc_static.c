@@ -47,12 +47,12 @@ int stdout=1;
 int stderr=2;
 
 // syscall numbers
-#define SYS_exit   0x01
-#define SYS_read   0x03
-#define SYS_write  0x04
-#define SYS_open   0x05
-#define SYS_close  0x06
-#define SYS_brk    0x2d
+#define SYS_exit   "0x01"
+#define SYS_read   "0x03"
+#define SYS_write  "0x04"
+#define SYS_open   "0x05"
+#define SYS_close  "0x06"
+#define SYS_brk    "0x2d"
 
 // main is defined in your program
 int main (int argc, char *argv[], char *envp[]);
