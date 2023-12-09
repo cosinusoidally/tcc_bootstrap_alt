@@ -46,6 +46,12 @@ int stdin=0;
 int stdout=1;
 int stderr=2;
 
+#define SYS_exit   0x01
+#define SYS_read   0x03
+#define SYS_write  0x04
+#define SYS_close  0x06
+#define SYS_brk    0x2d
+
 int main (int argc, char *argv[], char *envp[]);
 
 void* malloc(int size);
@@ -84,7 +90,6 @@ _start ()
        );
 }
 
-#define SYS_write  "0x04"
 
 // *INDENT-OFF*
 int
@@ -105,7 +110,6 @@ _write (int filedes, void const *buffer, int size)
   return r;
 }
 
-#define SYS_exit   "0x01"
 
 // *INDENT-OFF*
 void
@@ -149,7 +153,6 @@ void* calloc(int count, int size)
         return ret;
 }
 
-#define SYS_read    0x03
 
 int
 read (int filedes, void *buffer, int size)
@@ -226,7 +229,6 @@ _sys_call3 (long sys_call, long one, long two, long three)
   return r;
 }
 
-#define SYS_brk     0x2d
 
 long
 brk (void *addr)
@@ -273,7 +275,6 @@ int realloc(int ptr, int size) {
   return r;
 }
 
-#define SYS_close  0x06
 
 int
 close (int filedes)
