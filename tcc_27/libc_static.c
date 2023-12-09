@@ -49,6 +49,7 @@ int stderr=2;
 #define SYS_exit   0x01
 #define SYS_read   0x03
 #define SYS_write  0x04
+#define SYS_open   0x05
 #define SYS_close  0x06
 #define SYS_brk    0x2d
 
@@ -90,8 +91,40 @@ _start ()
        );
 }
 
+long
+_sys_call1 (long sys_call, long one)
+{
+  long r;
+  asm (
+       "mov    %1,%%eax\n\t"
+       "mov    %2,%%ebx\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one)
+       : "eax", "ebx"
+       );
+  return r;
+}
 
-// *INDENT-OFF*
+long
+_sys_call3 (long sys_call, long one, long two, long three)
+{
+  long r;
+  asm (
+       "mov    %2,%%ebx\n\t"
+       "mov    %3,%%ecx\n\t"
+       "mov    %4,%%edx\n\t"
+       "mov    %1,%%eax\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
+       : "eax", "ebx", "ecx", "edx"
+       );
+  return r;
+}
+
 int
 _write (int filedes, void const *buffer, int size)
 {
@@ -110,8 +143,6 @@ _write (int filedes, void const *buffer, int size)
   return r;
 }
 
-
-// *INDENT-OFF*
 void
 exit (int code)
 {
@@ -126,7 +157,6 @@ exit (int code)
   // not reached
   // _exit (0); // tcc has a problem with this
 }
-
 
 int
 fputc (int c, int fd)
@@ -195,40 +225,6 @@ void free(void* l)
         return;
 }
 
-long
-_sys_call1 (long sys_call, long one)
-{
-  long r;
-  asm (
-       "mov    %1,%%eax\n\t"
-       "mov    %2,%%ebx\n\t"
-       "int    $0x80\n\t"
-       "mov    %%eax,%0\n\t"
-       : "=r" (r)
-       : "rm" (sys_call), "rm" (one)
-       : "eax", "ebx"
-       );
-  return r;
-}
-
-long
-_sys_call3 (long sys_call, long one, long two, long three)
-{
-  long r;
-  asm (
-       "mov    %2,%%ebx\n\t"
-       "mov    %3,%%ecx\n\t"
-       "mov    %4,%%edx\n\t"
-       "mov    %1,%%eax\n\t"
-       "int    $0x80\n\t"
-       "mov    %%eax,%0\n\t"
-       : "=r" (r)
-       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
-       : "eax", "ebx", "ecx", "edx"
-       );
-  return r;
-}
-
 
 long
 brk (void *addr)
@@ -275,15 +271,11 @@ int realloc(int ptr, int size) {
   return r;
 }
 
-
 int
 close (int filedes)
 {
   return _sys_call1 (SYS_close, (int) filedes);
 }
-
-
-#define SYS_open    0x05
 
 int
 open (char *file_name, int flags, int mask)
