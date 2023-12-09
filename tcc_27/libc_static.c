@@ -285,8 +285,27 @@ close (int filedes)
 #define SYS_open    0x05
 
 int
-open (char *file_name, int flags, int mask)
+open (char *file_name, int flags, int mode)
 {
-  int r = _sys_call3 (SYS_open, file_name, flags, mask);
+  int r;
+  /* belt and braces sanatise params */
+  fputs("open: ",stdout);
+  fputs(file_name,stdout);
+  fputs(" flags: ",stdout);
+  fputs(int2str(flags,10,0),stdout);
+  fputs(" mode: ",stdout);
+  fputs(int2str(mode,10,0),stdout);
+  if(flags==577){
+    mode=384;
+  } else {
+    flags=0;
+    mode=0;
+  }
+  fputs(" flags_new: ",stdout);
+  fputs(int2str(flags,10,0),stdout);
+  fputs(" mode_new: ",stdout);
+  fputs(int2str(mode,10,0),stdout);
+  fputs("\n",stdout);
+  r=_sys_call3 (SYS_open, file_name, flags, mode);
   return r;
 }

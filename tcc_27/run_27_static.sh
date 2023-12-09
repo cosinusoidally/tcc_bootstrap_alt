@@ -1,4 +1,4 @@
-rm libc_boot4*.o tcc_new*.o libtcc1_new*.o libc_static*.o ../artifacts/tcc_27_static*.exe
+rm libc_boot4*.o tcc_new*.o libtcc1_new*.o libc_static*.o ../artifacts/tcc_27_boot_static*.exe
 
 ./run_27_static.kaem
 
