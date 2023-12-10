@@ -6,6 +6,6 @@ tcc_27_boot_static.exe -nostdinc -nostdlib -o tcc_bin/tcc_boot3.o -c ../tcc_src/
 tcc_27_boot_static.exe -nostdinc -nostdlib -o my_libc.o -c my_libc.c -O0 -I ../includes/usr/include/:../includes/usr/include/i386-linux-gnu/:../includes/tmp/tcc/lib/tcc/include/
 tcc_27_boot_static.exe -nostdinc -nostdlib -o stubs.o -c stubs.c -O0 -I ../includes/usr/include/:../includes/usr/include/i386-linux-gnu/:../includes/tmp/tcc/lib/tcc/include/
 
-#./bootstrap_tcc.sh
+./bootstrap_tcc.sh
 cd ../../tcc_bootstrap_alt
 sha256sum -c sum_mmvm
