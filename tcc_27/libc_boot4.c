@@ -594,9 +594,11 @@ int gettimeofday(void){
   exit(1);
 }
 
-int atoi(void){
-  puts("atoi not impl");
-  exit(1);
+int
+atoi (char const *string)
+{
+  char const *p = string;
+  return abtol (&p, 0);
 }
 
 int mprotect(void){
