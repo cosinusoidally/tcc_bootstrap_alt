@@ -1,4 +1,6 @@
+./mk_from_bootstrap_seed
 cd artifacts
+chmod +x tcc_27_boot_static.exe
 export PATH=$PWD:$PATH
 cd ../../mishmashvm/libc_portable_proto
 ./bootstrap_clean.sh
