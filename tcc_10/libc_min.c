@@ -15,8 +15,9 @@
 
 extern int stdout;
 
-int strcpy(int d, int s);
+int strcpy (int desti, int srci);
 int strcat(int de,int s);
+char * strchr (char *s, int c);
 
 int puts(int x) {
   fputs(x, stdout);
@@ -90,42 +91,51 @@ double strtod(char *a, char **p){
   return v;
 }
 
-
-int strlen(int p){
-//  puts("strlen not impl");
-  int l=0;
+int
+strlen (int si)
+{
   char *s;
-  s=(char *)p;
-  while(s[0]){
-    s=s+1;
-    l=l+1;
-  }
-  return l;
+  int i = 0;
+  s=(char *)si;
+
+  while (s[i] != 0)
+    i = i + 1;
+
+  return i;
 }
 
-int memset(int xi, int v, int size) {
-/*  puts("unimpl memset"); err(); */
-  int i;
-  char *x;
-  x=(char *)xi;
-  for(i=0;i<size;i=i+1){
-    x[i]=v;
-  }
+int memset(int ss, int c, int n) {
+  char *s;
+  char *p = (char *)s;
+  s=(char *)ss;
+  while (n != 0)
+    {
+      n = n - 1;
+      s[0] = c;
+      s = s + 1;
+    }
+  return p;
+
 }
 
-int strcpy(int d, int s) {
-//  puts("strcpy not impl");
-  int c;
+int
+strcpy (int desti, int srci)
+{
   char *dest;
   char *src;
-  dest=(char *)d;
-  src=(char *)s;
-  while((c=src[0])!=0){
-    src=src+1;
-    dest[0]=c;
-    dest=dest+1;
-  }
-  dest[0]=0;
+  dest=(char *)desti;
+  src=(char *)srci;
+  char *p = dest;
+
+  while (src[0] != 0)
+    {
+      p[0] = src[0];
+      p = p + 1;
+      src = src + 1;
+    }
+  p[0] = 0;
+
+  return dest;
 }
 
 int
@@ -144,24 +154,18 @@ strcmp (int a1, int b1)
   return a[0] - b[0];
 }
 
-int strcat(int de,int s) {
-  int d;
-  char *dest;
-  char *src;
-  dest=(char *)de;
-  src=(char *)s;
-  d=dest;
-  int c;
-  while(dest[0]){
-    dest=dest+1;
-  }
-  while(c=src[0]){
-    src=src+1;
-    dest[0]=c;
-    dest=dest+1;
-  }
-  dest[0]=0;
-  return d;
+int strcat(int toi,int fromi) {
+  char *to;
+  char *from;
+  char *p;
+
+  to=(char *)toi;
+  from=(char *)fromi;
+  p = strchr (to, '\0');
+  while (*from)
+    *p++ = *from++;
+  *p = 0;
+  return to;
 }
 
 int fprintf(int stream, int fmt){
@@ -178,32 +182,44 @@ int vfprintf(void){
   exit(1);
 }
 
-int memcmp(int s1, int s2, int n) {
-  int i;
-  int r;
-  char *p1;
-  char *p2;
-  r=0;
-  p1=(char *)s1;
-  p2=(char *)s2;
-  for(i=0;i<n;i=i+1){
-    if(p1[i]!=p2[i]){
-/* FIXME ljw not quite right */
-      r=1;
+int memcmp(int s1i, int s2i, int size) {
+  char *s1;
+  char *s2;
+  s1=(char *)s1i;
+  s2=(char *)s2i;
+
+  if (size == 0)
+    return 0;
+
+  char const *a = s1;
+  char const *b = s2;
+
+  while (a[0] == b[0] && size > 1)
+    {
+      size = size - 1;
+      a = a + 1;
+      b = b + 1;
     }
-  }
-  return r;
+
+  return a[0] - b[0];
 }
 
-int memcpy(int a, int b, int c) {
+int memcpy(int desti, int srci, int n) {
   char *dest;
   char *src;
-  int i;
-  dest=(char *)a;
-  src=(char *)b;
-  for(i=0;i<c;i=i+1){
-    dest[i]=src[i];
-  }
+  dest=(char *)desti;
+  src=(char *)srci;
+  char *p = dest;
+
+  while (n != 0)
+    {
+      n = n - 1;
+      dest[0] = src[0];
+      dest = dest + 1;
+      src = src + 1;
+    }
+
+  return p;
 }
 
 int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
@@ -238,36 +254,6 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     o=strcpy(a1, a3);
     o=strcat(a1, "/include");
     return o-a1;
-  } else if(strcmp("%s/%s", format) ==0) {
-    puts("generating \"%s/i%s\" sprintf/snprintf string");
-    fputs(a3, stdout);
-    fputs("/",stdout);
-    fputs(a4, stdout);
-    fputs("\n",stdout);
-    o=strcpy(a1, a3);
-    o=strcat(a1, "/");
-    o=strcpy(a1, a4);
-    return o-a1;
-  } else if(strcmp("__%s_start", format) ==0) {
-    puts("generating \"__%s_start\" sprintf/snprintf string");
-    fputs("__",stdout);
-    fputs(a3, stdout);
-    fputs("_start",stdout);
-    fputs("\n",stdout);
-    o=strcat(a1, "__");
-    o=strcpy(a1, a3);
-    o=strcat(a1, "_start");
-    return o-a1;
-  } else if(strcmp("__%s_end", format) ==0) {
-    puts("generating \"__%s_end\" sprintf/snprintf string");
-    fputs("__",stdout);
-    fputs(a3, stdout);
-    fputs("_end",stdout);
-    fputs("\n",stdout);
-    o=strcat(a1, "__");
-    o=strcpy(a1, a3);
-    o=strcat(a1, "_end");
-    return o-a1;
   } else if(strcmp("%%%s", format) ==0) {
     puts("generating \"%%%s\" sprintf/snprintf string");
     fputs("%",stdout);
@@ -300,12 +286,6 @@ int sprintf(int a1, int a2, int a3, int a4, int a5, int a6){
     fputs("\n",stdout);
     o=strcpy(a1, int2str(a3, 10, 1));
     return o-a1;
-  } else if(strcmp("%s", format) ==0) {
-    puts("generating \"%s\" sprintf/snprintf string");
-    fputs(a3, stdout);
-    fputs("\n",stdout);
-    o=strcpy(a1, a3);
-    return o-a1;
   } else {
     puts("unsupported sprintf/snprintf format string");
     exit(1);
@@ -326,19 +306,25 @@ memmove (unsigned int dest,  unsigned int src, int n)
 }
 
 
-int strrchr(int p, int c) {
-  int c1;
+int
+strrchr (char si, int c)
+{
   char *s;
-  char *r;
-  r=0;
-  s=(char *)p;
-  while(c1=s[0]){
-    s=s+1;
-    if(c1==c){
-      r=s-1;
+  s=(char *)si;
+  int n = strlen (s);
+  if (!n)
+    return 0;
+  char *p = s + n;
+  if (!*p && !c)
+    return (char *) p;
+  p--;
+  while (n-- && (*p || !c))
+    {
+      if (c == *p)
+        return (char *) p;
+      p--;
     }
-  }
-  return r;
+  return 0;
 }
 
 int ldexp(void){
@@ -357,8 +343,7 @@ int snprintf(int a1, int a2, int a3, int a4, int a5, int a6){
   fputs(" format: \"", stdout);
   fputs(format, stdout);
   fputs("\"\n", stdout);
-  sprintf(a1, a3, a4, a5, a6, 0);
-  return 0;
+  return sprintf(a1, a3, a4, a5, a6, 0);
 }
 
 int getcwd(void){
@@ -372,17 +357,13 @@ int dlsym(void){
 }
 
 int fwrite(int ptr,int size, int nitems, int stream) {
-/*
-  puts("fwrite:");
-  puts_num(ptr);
-  puts_num(size);
-  puts_num(nitems);
-  puts_num(stream);
-  puts("fwrite not impl");
-  exit(1);
-*/
   int t=size*nitems;
   char *c=(char *)ptr;
+  fputs("fwrite: ",stdout);
+  fputs(int2str(stream, 10, 0),stdout);
+  fputs(" bytes: ",stdout);
+  fputs(int2str(t, 10, 0),stdout);
+  fputs("\n",stdout);
   while(t>0){
     fputc(c[0],stream);
     t=t-1;
@@ -655,6 +636,7 @@ strtoull (char *string, char **tailptr, int base)
 {
   return strtoul (string, tailptr, base);
 }
+
 
 int execvp(void){
   puts("execvp not impl");

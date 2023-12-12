@@ -389,12 +389,12 @@ int fwrite(int ptr,int size, int nitems, int stream) {
     c=c+1;
   }
 }
-
+/*
 int lseek(void){
   puts("lseek not impl");
   exit(1);
 }
-
+*/
 char *
 strchr (char *s, int c)
 {
@@ -594,9 +594,11 @@ int gettimeofday(void){
   exit(1);
 }
 
-int atoi(void){
-  puts("atoi not impl");
-  exit(1);
+int
+atoi (char const *string)
+{
+  char const *p = string;
+  return abtol (&p, 0);
 }
 
 int mprotect(void){
@@ -731,4 +733,32 @@ int fread(void){
 int remove(void){
   puts("remove not impl");
   exit(1);
+}
+
+#define SYS_lseek  0x13
+
+long
+_sys_call3 (long sys_call, long one, long two, long three)
+{
+  long r;
+  asm (
+       "mov    %2,%%ebx\n\t"
+       "mov    %3,%%ecx\n\t"
+       "mov    %4,%%edx\n\t"
+       "mov    %1,%%eax\n\t"
+       "int    $0x80\n\t"
+       "mov    %%eax,%0\n\t"
+       : "=r" (r)
+       : "rm" (sys_call), "rm" (one), "rm" (two), "rm" (three)
+       : "eax", "ebx", "ecx", "edx"
+       );
+  return r;
+}
+
+
+int
+lseek (int filedes, int offset, int whence)
+{
+  long long_offset = offset;
+  return _sys_call3 (SYS_lseek, filedes, long_offset, whence);
 }

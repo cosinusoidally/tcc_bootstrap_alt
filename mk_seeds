@@ -1,5 +1,13 @@
-sed 's/[;#].*$//g'  x86/hex0_x86.hex0 | xxd -r -p > x86/artifact/hex0-seed
+function hex0_to_bin() {
+  for i in $(sed 's/[;#].*$//g' $1 | sed 's/[ \t]//g' | tr -d '\n' | fold -b -w2)
+    do printf "\\x$i"
+  done
+}
+
+# sed 's/[;#].*$//g'  x86/hex0_x86.hex0 | xxd -r -p > x86/artifact/hex0-seed
+hex0_to_bin x86/hex0_x86.hex0 > x86/artifact/hex0-seed
 chmod +x x86/artifact/hex0-seed
 
-sed 's/[;#].*$//g' x86/kaem-minimal.hex0 | xxd -r -p > x86/artifact/kaem-optional-seed
+# sed 's/[;#].*$//g' x86/kaem-minimal.hex0 | xxd -r -p > x86/artifact/kaem-optional-seed
+hex0_to_bin x86/kaem-minimal.hex0 > x86/artifact/kaem-optional-seed
 chmod +x x86/artifact/kaem-optional-seed

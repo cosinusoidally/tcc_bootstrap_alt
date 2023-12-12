@@ -93,6 +93,10 @@ void hex_dump(int e,int l){
   int off_l;
   int v;
 
+  if(verbose == 0){
+    return;
+  }
+
   i=0;
   while(i<l) {
     off=int2str(i,16,0);
@@ -137,8 +141,10 @@ void hex_dump(int e,int l){
 }
 
 int dump_symtab(int o){
-  puts("===========");
-  puts("dump_symtab");
+  if(verbose){
+    puts("===========");
+    puts("dump_symtab");
+  }
   int *obj=o;
   int symtab;
   int symtab_size;
@@ -166,21 +172,22 @@ int dump_symtab(int o){
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
-
-    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
-    fputs("\n",stdout);
-    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+      fputs("\n",stdout);
+      fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+      fputs("\n",stdout);
+    }
   }
 }
 
@@ -200,27 +207,33 @@ int get_section_header(int e, char *str) {
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
-  puts(".shstrtab:");
+  if(verbose){puts(".shstrtab:");}
   o=e+e_shoff+(e_shstrndx*e_shentsize);
   sh_offset=ri32(o+16);
-  fputs("get_section: ",stdout);
-  fputs(str,stdout);
-  fputs("\n", stdout);
+  if(verbose){
+    fputs("get_section: ",stdout);
+    fputs(str,stdout);
+    fputs("\n", stdout);
+  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
     sh_name=ri32(e+o);
-    fputs("sh_name: ",stdout);
-    fputs(int2str(sh_name,16,0),stdout);
+    if(verbose){
+      fputs("sh_name: ",stdout);
+      fputs(int2str(sh_name,16,0),stdout);
+    }
     sh_name_str=e+sh_offset+sh_name;
-    fputs(" sh_name_str: ",stdout);
-    fputs(sh_name_str,stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(" sh_name_str: ",stdout);
+      fputs(sh_name_str,stdout);
+      fputs("\n",stdout);
+    }
     if(strcmp(str,sh_name_str) == 0){
       return e+o;
     }
     o=o+e_shentsize;
   }
-  puts("section header not found");
+  if(verbose){puts("section header not found");}
   return 0;
 }
 
@@ -275,26 +288,36 @@ void print_relocs(char *name,int *o){
   int ptr;
   int size;
   int sym_name;
+  if(verbose==0){
+    return;
+  }
   ptr=o[obj_rel_text_o];
   size=o[obj_rel_text_size_o];
-  fputs("\n",stdout);
-  fputs(name,stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("\n",stdout);
+    fputs(name,stdout);
+    fputs("\n",stdout);
+  }
   for(i=0;i<size;i=i+8){
     r_info=ri32(ptr+i+r_info_o);
     /* FIXME use unsigned shift */
     r_sym=r_info>>8;
-    fputs("r_info: 0x",stdout);
-    fputs(int2str(r_sym,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("r_info: 0x",stdout);
+      fputs(int2str(r_sym,16,0),stdout);
+      fputs("\n",stdout);
+    }
     sym_name=o[obj_strtab_o]+ri32(o[obj_symtab_o]+(16*r_sym));
-    fputs("sym_name: ",stdout);
-    fputs(sym_name,stdout);
-    fputs("\n",stdout);
-    hex_dump(ptr+i,8);
+    if(verbose){
+      fputs("sym_name: ",stdout);
+      fputs(sym_name,stdout);
+      fputs("\n",stdout);
+      hex_dump(ptr+i,8);
+    }
   }
-  fputs("\n",stdout);
-
+  if(verbose){
+    fputs("\n",stdout);
+  }
 }
 
 int decode_elf(int e, int os){
@@ -332,7 +355,7 @@ int decode_elf(int e, int os){
   if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
   if(ru8(e+2)!='L') { puts("magic 2");exit(1);}
   if(ru8(e+3)!='F') { puts("magic 3");exit(1);}
-  puts("ELF magic ok");
+  if(verbose){puts("ELF magic ok");}
   e_shoff=ri32(e+0x20);
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
@@ -344,219 +367,293 @@ int decode_elf(int e, int os){
   symtab=get_section_header(e,".symtab");
   rel_text=get_section_header(e,".rel.text");
   rel_data=get_section_header(e,".rel.data");
-  fputs("e_shoff: ",stdout);
-  fputs(int2str(e_shoff,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shentsize: ",stdout);
-  fputs(int2str(e_shentsize,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shnum: ",stdout);
-  fputs(int2str(e_shnum,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("e_shstrndx: ",stdout);
-  fputs(int2str(e_shstrndx,10,0),stdout);
-  fputs("\n",stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("e_shoff: ",stdout);
+    fputs(int2str(e_shoff,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shentsize: ",stdout);
+    fputs(int2str(e_shentsize,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shnum: ",stdout);
+    fputs(int2str(e_shnum,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("e_shstrndx: ",stdout);
+    fputs(int2str(e_shstrndx,10,0),stdout);
+    fputs("\n",stdout);
+    fputs("\n",stdout);
+  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
-    fputs("sh_name: ",stdout);
-    fputs(int2str(ri32(e+o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_type: ",stdout);
+    if(verbose){
+      fputs("sh_name: ",stdout);
+      fputs(int2str(ri32(e+o),16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_type: ",stdout);
+    }
     sh_type=ri32(e+o+4);
-    fputs(int2str(sh_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: ",stdout);
+    if(verbose){
+      fputs(int2str(sh_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_offset: ",stdout);
+    }
     sh_offset=ri32(e+o+16);
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: ",stdout);
+    if(verbose){
+      fputs(int2str(sh_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_size: ",stdout);
+    }
     sh_size=ri32(e+o+20);
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_entsize: ",stdout);
-    fputs(int2str(ri32(e+o+36),16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(int2str(sh_size,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_entsize: ",stdout);
+      fputs(int2str(ri32(e+o+36),16,0),stdout);
+      fputs("\n",stdout);
+    }
     if(sh_type==3){
-      puts("SHT_STRTAB");
+      if(verbose){puts("SHT_STRTAB");}
     }
     if(i==e_shstrndx){
-      puts(".shstrtab:");
+      if(verbose){puts(".shstrtab:");}
       o=e+sh_offset;
       for(j=0;j<e_shnum;j=j+1){
         sl=strlen(o);
-        fputs(int2str(sl,10,0),stdout);
-        fputs(" ",stdout);
-        fputs(o,stdout);
+        if(verbose){
+          fputs(int2str(sl,10,0),stdout);
+          fputs(" ",stdout);
+          fputs(o,stdout);
+        }
         o=o+sl+1;
-        fputs("\n",stdout);
+        if(verbose){fputs("\n",stdout);}
       }
     }
-    fputs("\n",stdout);
+    if(verbose){fputs("\n",stdout);}
     o=o+e_shentsize;
   }
 
-  fputs(".text:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".text:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(text+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(text+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   text_mem=malloc(sh_size);
   memcpy(text_mem,e+sh_offset,sh_size);
-  fputs("text_mem address: 0x",stdout);
-  fputs(int2str(text_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(text_mem,sh_size);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("text_mem address: 0x",stdout);
+    fputs(int2str(text_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(text_mem,sh_size);
+    fputs("\n",stdout);
+  }
   obj_struct[obj_text_o]=text_mem;
   obj_struct[obj_text_size_o]=sh_size;
 
-  fputs(".data:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".data:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(data+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(data+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   data_mem=malloc(sh_size);
   memcpy(data_mem,e+sh_offset,sh_size);
-  fputs("data_mem address: 0x",stdout);
-  fputs(int2str(data_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(data_mem,sh_size);
+  if(verbose){
+    fputs("data_mem address: 0x",stdout);
+    fputs(int2str(data_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(data_mem,sh_size);
+  }
   obj_struct[obj_data_o]=data_mem;
   obj_struct[obj_data_size_o]=sh_size;
 
-  fputs(".strtab:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".strtab:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(strtab+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(strtab+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   strtab_mem=malloc(sh_size);
   memcpy(strtab_mem,e+sh_offset,sh_size);
-  fputs("strtab_mem address: 0x",stdout);
-  fputs(int2str(strtab_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(strtab_mem,sh_size);
+  if(verbose){
+    fputs("strtab_mem address: 0x",stdout);
+    fputs(int2str(strtab_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(strtab_mem,sh_size);
+  }
   obj_struct[obj_strtab_o]=strtab_mem;
   obj_struct[obj_strtab_size_o]=sh_size;
 
-  fputs(".symtab:\n",stdout);
-  fputs("sh_name: 0x",stdout);
-  fputs(int2str(ri32(symtab+sh_name_o),16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_offset: 0x",stdout);
+  if(verbose){
+    fputs(".symtab:\n",stdout);
+    fputs("sh_name: 0x",stdout);
+    fputs(int2str(ri32(symtab+sh_name_o),16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_offset: 0x",stdout);
+  }
   sh_offset=ri32(symtab+sh_offset_o);
-  fputs(int2str(sh_offset,16,0),stdout);
-  fputs("\n",stdout);
-  fputs("sh_size: 0x",stdout);
+  if(verbose){
+    fputs(int2str(sh_offset,16,0),stdout);
+    fputs("\n",stdout);
+    fputs("sh_size: 0x",stdout);
+  }
   sh_size=ri32(symtab+sh_size_o);
-  fputs(int2str(sh_size,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs(int2str(sh_size,16,0),stdout);
+    fputs("\n",stdout);
+  }
   sh_entsize=ri32(symtab+sh_entsize_o);
-  fputs("sh_entsize: 0x",stdout);
-  fputs(int2str(sh_entsize,16,0),stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("sh_entsize: 0x",stdout);
+    fputs(int2str(sh_entsize,16,0),stdout);
+    fputs("\n",stdout);
+  }
   symtab_mem=malloc(sh_size);
   memcpy(symtab_mem,e+sh_offset,sh_size);
-  fputs("symtab_mem address: 0x",stdout);
-  fputs(int2str(symtab_mem,16,0),stdout);
-  fputs("\n",stdout);
-  hex_dump(symtab_mem,sh_size);
+  if(verbose){
+    fputs("symtab_mem address: 0x",stdout);
+    fputs(int2str(symtab_mem,16,0),stdout);
+    fputs("\n",stdout);
+    hex_dump(symtab_mem,sh_size);
+  }
   obj_struct[obj_symtab_o]=symtab_mem;
   obj_struct[obj_symtab_size_o]=sh_size;
 
   if(rel_text!=0){
-    fputs(".rel.text:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
+    if(verbose){
+      fputs(".rel.text:\n",stdout);
+      fputs("sh_name: 0x",stdout);
+      fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_offset: 0x",stdout);
+    }
     sh_offset=ri32(rel_text+sh_offset_o);
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
+    if(verbose){
+      fputs(int2str(sh_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_size: 0x",stdout);
+    }
     sh_size=ri32(rel_text+sh_size_o);
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(int2str(sh_size,16,0),stdout);
+      fputs("\n",stdout);
+    }
     sh_entsize=ri32(rel_text+sh_entsize_o);
-    fputs("sh_entsize: 0x",stdout);
-    fputs(int2str(sh_entsize,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("sh_entsize: 0x",stdout);
+      fputs(int2str(sh_entsize,16,0),stdout);
+      fputs("\n",stdout);
+    }
     rel_text_mem=malloc(sh_size);
     memcpy(rel_text_mem,e+sh_offset,sh_size);
-    fputs("rel_text_mem address: 0x",stdout);
-    fputs(int2str(rel_text_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(rel_text_mem,sh_size);
+    if(verbose){
+      fputs("rel_text_mem address: 0x",stdout);
+      fputs(int2str(rel_text_mem,16,0),stdout);
+      fputs("\n",stdout);
+      hex_dump(rel_text_mem,sh_size);
+    }
     obj_struct[obj_rel_text_o]=rel_text_mem;
     obj_struct[obj_rel_text_size_o]=sh_size;
     print_relocs(".rel.text", os);
   }
 
   if(rel_data!=0){
-    fputs(".rel.data:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(rel_data+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
+    if(verbose){
+      fputs(".rel.data:\n",stdout);
+      fputs("sh_name: 0x",stdout);
+      fputs(int2str(ri32(rel_data+sh_name_o),16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_offset: 0x",stdout);
+    }
     sh_offset=ri32(rel_data+sh_offset_o);
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
+    if(verbose){
+      fputs(int2str(sh_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_size: 0x",stdout);
+    }
     sh_size=ri32(rel_data+sh_size_o);
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(int2str(sh_size,16,0),stdout);
+      fputs("\n",stdout);
+    }
     sh_entsize=ri32(rel_data+sh_entsize_o);
-    fputs("sh_entsize: 0x",stdout);
-    fputs(int2str(sh_entsize,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("sh_entsize: 0x",stdout);
+      fputs(int2str(sh_entsize,16,0),stdout);
+      fputs("\n",stdout);
+    }
     rel_data_mem=malloc(sh_size);
     memcpy(rel_data_mem,e+sh_offset,sh_size);
-    fputs("rel_data_mem address: 0x",stdout);
-    fputs(int2str(rel_data_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(rel_data_mem,sh_size);
+    if(verbose){
+      fputs("rel_data_mem address: 0x",stdout);
+      fputs(int2str(rel_data_mem,16,0),stdout);
+      fputs("\n",stdout);
+      hex_dump(rel_data_mem,sh_size);
+    }
     obj_struct[obj_rel_data_o]=rel_data_mem;
     obj_struct[obj_rel_data_size_o]=sh_size;
   }
 
   if(bss!=0){
-    fputs(".bss:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(bss+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
+    if(verbose){
+      fputs(".bss:\n",stdout);
+      fputs("sh_name: 0x",stdout);
+      fputs(int2str(ri32(bss+sh_name_o),16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_offset: 0x",stdout);
+    }
     sh_offset=ri32(bss+sh_offset_o);
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
+    if(verbose){
+      fputs(int2str(sh_offset,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("sh_size: 0x",stdout);
+    }
     sh_size=ri32(bss+sh_size_o);
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs(int2str(sh_size,16,0),stdout);
+      fputs("\n",stdout);
+    }
     bss_mem=calloc(sh_size,1);
-    fputs("bss_mem address: 0x",stdout);
-    fputs(int2str(bss_mem,16,0),stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("bss_mem address: 0x",stdout);
+      fputs(int2str(bss_mem,16,0),stdout);
+      fputs("\n",stdout);
+    }
     obj_struct[obj_bss_o]=bss_mem;
     obj_struct[obj_bss_size_o]=sh_size;
   }
@@ -671,10 +768,6 @@ int get_main(int o){
   return ms;
 }
 
-int resolve_internal(int o){
-  puts("resolve_internal");
-}
-
 int gen_und_exports(int o){
   int *obj=o;
   int symtab;
@@ -703,7 +796,9 @@ int gen_und_exports(int o){
   symtab=obj[obj_symtab_o];
   symtab_size=obj[obj_symtab_size_o];
   entsize=16;
-  puts("gen_und_exports (export table and undefined symbol table)");
+  if(verbose){
+    puts("gen_und_exports (export table and undefined symbol table)");
+  }
   obj[obj_exports_o] = exports;
   obj[obj_und_o] = unds;
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
@@ -716,27 +811,27 @@ int gen_und_exports(int o){
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
-
-    fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
-    fputs("\n",stdout);
-    fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
-    fputs("\n",stdout);
-
+    if(verbose){
+      fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
+      fputs("\n",stdout);
+      fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
+      fputs("\n",stdout);
+      fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
+      fputs("\n",stdout);
+    }
 
     if((st_type==STT_OBJECT) | (st_type==STT_FUNC)){
-      puts("OBJECT or FUNCTION");
+      if(verbose){puts("OBJECT or FUNCTION");}
       if(st_shndx==0){
-        puts("UND");
+        if(verbose){puts("UND");}
         unds[(n_unds*2)+und_name_o]=st_name_str;
         unds[(n_unds*2)+und_val_o]=sym+st_value_o;
 /* dummy test */
@@ -751,7 +846,7 @@ int gen_und_exports(int o){
         st_value=obj[st_shndx]+st_value;
         wi32(sym+st_value_o,st_value);
         if(st_bind==ST_GLOBAL) {
-          puts("export");
+          if(verbose){puts("export");}
           exports[(n_exports*2)+exp_name_o]=st_name_str;
           exports[(n_exports*2)+exp_address_o]=st_value;
           n_exports=n_exports+1;
@@ -763,10 +858,12 @@ int gen_und_exports(int o){
       }
     }
   }
-  puts("exports:");
-  hex_dump(exports,n_exports*8);
-  puts("unds:");
-  hex_dump(unds,n_unds*8);
+  if(verbose){
+    puts("exports:");
+    hex_dump(exports,n_exports*8);
+    puts("unds:");
+    hex_dump(unds,n_unds*8);
+  }
 }
 
 int find_sym(int os, char *name){
@@ -778,21 +875,25 @@ int find_sym(int os, char *name){
   int e;
   n=0;
   objs=os;
-  fputs("find_sym: ",stdout);
-  fputs(name,stdout);
-  fputs("\n",stdout);
-  while((obj=objs[n])!=0){
-    fputs("looking in: ",stdout);
-    fputs(obj[obj_name_o],stdout);
+  if(verbose){
+    fputs("find_sym: ",stdout);
+    fputs(name,stdout);
     fputs("\n",stdout);
+  }
+  while((obj=objs[n])!=0){
+    if(verbose){
+      fputs("looking in: ",stdout);
+      fputs(obj[obj_name_o],stdout);
+      fputs("\n",stdout);
+    }
     exports=obj[obj_exports_o];
     if(exports!=0){
-      puts("we have some exports");
+      if(verbose){puts("we have some exports");}
       m=0;
       while((e=exports[(2*m)+exp_name_o])!=0){
-        puts(e);
+        if(verbose){puts(e);}
         if(strcmp(e,name)==0){
-          puts("found");
+          if(verbose){puts("found");}
           return(exports[(2*m)+exp_address_o]);
         }
         m=m+1;
@@ -816,29 +917,31 @@ int resolve_und(int os){
   int addr;
   n=0;
   objs=os;
-  puts("resolve_und");
+  if(verbose){puts("resolve_und");}
   while((obj=objs[n])!=0){
-    fputs("resolving_und in: ",stdout);
-    fputs(obj[obj_name_o],stdout);
-    fputs("\n",stdout);
+    if(verbose){
+      fputs("resolving_und in: ",stdout);
+      fputs(obj[obj_name_o],stdout);
+      fputs("\n",stdout);
+    }
     unds=obj[obj_und_o];
     if(unds!=0){
-      puts("we have some unds:");
+      if(verbose){puts("we have some unds:");}
       m=0;
       while((u=unds[(2*m)+und_name_o])!=0){
-        puts(u);
+        if(verbose){puts(u);}
         addr=find_sym(os,u);
         if(addr==0){
           puts("sym not found");
           exit(1);
         } else {
-          puts("writing address of und sym");
+          if(verbose){puts("writing address of und sym");}
           wi32(unds[(2*m)+und_val_o],addr);
         }
         m=m+1;
       }
     } else {
-      puts("no unds in this obj");
+      if(verbose){puts("no unds in this obj");}
     }
     n=n+1;
   }
@@ -912,18 +1015,20 @@ int relocate_section(int o, int name, int rels, int size, int p){
   sym_entsize=16;
   symtab=obj[obj_symtab_o];
   strtab=obj[obj_strtab_o];
-  fputs("relocating: ",stdout);
-  fputs(name, stdout);
-  fputs("  in: ", stdout);
-  fputs(obj[obj_name_o], stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("relocating: ",stdout);
+    fputs(name, stdout);
+    fputs("  in: ", stdout);
+    fputs(obj[obj_name_o], stdout);
+    fputs("\n",stdout);
+  }
   if(size==0){
-    puts("no relocations");
+    if(verbose){puts("no relocations");}
   } else {
-    puts("processing relocations");
+    if(verbose){puts("processing relocations");}
     for(i=0;i<size;i=i+entsize){
       r=rels+i;
-      puts("reloc");
+      if(verbose){puts("reloc");}
       hex_dump(r,8);
       r_offset=ri32(r+r_offset_o);
       r_info=ri32(r+r_info_o);
@@ -933,37 +1038,38 @@ int relocate_section(int o, int name, int rels, int size, int p){
       sym=symtab+(sym_entsize*r_sym);
       val=ri32(sym+st_value_o);
       sym_name=strtab+ri32(sym+st_name_o);
-
-      fputs("offset: ",stdout);
-      fputs(int2str(r_offset,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("info: ",stdout);
-      fputs(int2str(r_info,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sym num: ",stdout);
-      fputs(int2str(r_sym,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("val: 0x",stdout);
-      fputs(int2str(val,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("name: ",stdout);
-      fputs(sym_name,stdout);
-      fputs("\n",stdout);
-      fputs("type: ",stdout);
-      fputs(int2str(r_type,16,0), stdout);
-      fputs(" ",stdout);
+      if(verbose){
+        fputs("offset: ",stdout);
+        fputs(int2str(r_offset,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("info: ",stdout);
+        fputs(int2str(r_info,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("sym num: ",stdout);
+        fputs(int2str(r_sym,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("val: 0x",stdout);
+        fputs(int2str(val,16,0),stdout);
+        fputs("\n",stdout);
+        fputs("name: ",stdout);
+          fputs(sym_name,stdout);
+        fputs("\n",stdout);
+        fputs("type: ",stdout);
+        fputs(int2str(r_type,16,0), stdout);
+        fputs(" ",stdout);
+      }
       loc=p+r_offset;
       if(r_type==R_386_32){
-        fputs("R_386_32", stdout);
+        if(verbose){fputs("R_386_32", stdout);}
         wi32(loc,ri32(loc)+val);
       } else if (r_type==R_386_PC32){
-        fputs("R_386_PC32", stdout);
+        if(verbose){fputs("R_386_PC32", stdout);}
         wi32(loc,val-loc-4);
       } else {
         fputs("unsupported relocation type", stdout);
         exit(1);
       }
-      fputs("\n",stdout);
+      if(verbose){fputs("\n",stdout);}
     }
   }
 }
@@ -971,9 +1077,11 @@ int relocate_section(int o, int name, int rels, int size, int p){
 int relocate(int o) {
   int *obj;
   obj=o;
-  fputs("relocate: ",stdout);
-  fputs(obj[obj_name_o],stdout);
-  fputs("\n",stdout);
+  if(verbose){
+    fputs("relocate: ",stdout);
+    fputs(obj[obj_name_o],stdout);
+    fputs("\n",stdout);
+  }
   relocate_section(obj, ".rel.text", obj[obj_rel_text_o],
                                      obj[obj_rel_text_size_o],
                                      obj[obj_text_o]);
@@ -990,41 +1098,48 @@ int link(int o){
   int i;
   objs=o;
   i=0;
-  puts("============================");
-  puts("linking");
+  if(verbose){
+    puts("============================");
+    puts("linking");
+  }
   while(obj=objs[i]){
     name=obj[obj_name_o];
-    puts(name);
+    if(verbose){puts(name);}
     if(obj[obj_linked_o]!=0){
-      fputs("already linked\n",stdout);
+      if(verbose){fputs("already linked\n",stdout);}
     } else {
-      fputs("linking\n",stdout);
-      resolve_internal(obj);
+      if(verbose){fputs("linking\n",stdout);}
       gen_und_exports(obj);
-      dump_symtab(obj);
-      dump_exports(obj);
-      dump_unds(obj);
+      if(verbose){
+        dump_symtab(obj);
+        dump_exports(obj);
+        dump_unds(obj);
+      }
     }
-    puts("");
+    if(verbose){puts("");}
     i=i+1;
   }
 
   resolve_und(o);
   i=0;
 
-  puts("============================");
-  puts("relocation");
+  if(verbose){
+    puts("============================");
+    puts("relocation");
+  }
   while(obj=objs[i]){
     if(obj[obj_linked_o]!=0){
-      fputs("already relocated: ",stdout);
-      fputs(obj[obj_name_o],stdout);
-      fputs("\n",stdout);
+      if(verbose){
+        fputs("already relocated: ",stdout);
+        fputs(obj[obj_name_o],stdout);
+        fputs("\n",stdout);
+      }
     } else {
       relocate(obj);
     }
     i=i+1;
   }
-  puts("============================");
+  if(verbose){puts("============================");}
 }
 
 int main(int argc, char **argv)
@@ -1041,6 +1156,8 @@ int main(int argc, char **argv)
   init_globals();
   init_offsets();
 
+  verbose=0;
+
   /* enough for 8 objs */
   objs=calloc(36,1);
   /* filenames of input objects */
@@ -1049,6 +1166,12 @@ int main(int argc, char **argv)
   puts("elf loader starting");
 
   optind = 1;
+
+  if(strcmp(argv[optind],"-v") == 0){
+    verbose=1;
+    optind = optind + 1;
+    puts("verbose mode");
+  }
 
   puts("running elf files");
   j=0;

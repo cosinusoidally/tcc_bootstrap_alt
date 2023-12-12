@@ -1,0 +1,22 @@
+../x86/bin/catm libc_boot4.o
+
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l ../tcc_26/libc_boot3.o -l tcc.o -c libc_boot4.c
+
+# make sure ..new.o files are empty
+
+../x86/bin/catm tcc_new.o
+../x86/bin/catm libtcc1_new.o
+../x86/bin/catm libc_static.o
+../x86/bin/catm libc_boot4_new.o
+
+# run tcc_27
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot4.o -l tcc.o -c ./lib/libtcc1.c -o libtcc1_new.o
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot4.o -l tcc.o -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc_new.o
+
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot4.o -l tcc.o -I ../woody/usr/include/ -I include -c libc_boot4.c -o libc_boot4_new.o
+
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot4.o -l tcc.o -c libc_static.c
+
+../x86/bin/catm ../artifacts/tcc_27_boot_static.exe
+
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot4_new.o -l tcc.o -nostdlib -static libc_static.o libc_boot4_new.o libtcc1_new.o tcc.o -o ../artifacts/tcc_27_boot_static.exe
