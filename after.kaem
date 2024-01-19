@@ -17,13 +17,19 @@
 
 # walk up through the tcc versions
 
-./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_10/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_23/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_23/ ../x86/artifact/kaem-0 ./run_23.kaem
-./x86/bin/cdrun ./tcc_24/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_26/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_26/ ../x86/artifact/kaem-0 ./run_26.kaem
-./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./build.kaem
-./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./run_27.kaem
-./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./run_27_static.kaem
+cd ./tcc_js/
+../x86/artifact/kaem-0 ./build.kaem
+cd ../tcc_10/
+../x86/artifact/kaem-0 ./build.kaem
+cd ../tcc_23/
+../x86/artifact/kaem-0 ./build.kaem
+../x86/artifact/kaem-0 ./run_23.kaem
+cd ../tcc_24/
+../x86/artifact/kaem-0 ./build.kaem
+cd ../tcc_26/
+../x86/artifact/kaem-0 ./build.kaem
+../x86/artifact/kaem-0 ./run_26.kaem
+cd ../tcc_27/
+../x86/artifact/kaem-0 ./build.kaem
+../x86/artifact/kaem-0 ./run_27.kaem
+../x86/artifact/kaem-0 ./run_27_static.kaem
