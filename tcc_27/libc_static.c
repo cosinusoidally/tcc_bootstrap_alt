@@ -245,6 +245,8 @@ void* malloc(int size)
         if(0 == _brk_ptr)
         {
                 _brk_ptr = brk(0);
+                _brk_ptr = ((4 + _brk_ptr) >> 2) << 2);
+                _brk_ptr = brk(_brk_ptr);
                 _malloc_ptr = _brk_ptr;
         }
 
