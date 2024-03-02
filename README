@@ -25,7 +25,8 @@ have an existing copy of tcc in your path).
 tcc_bootstrap_alt can also be used as an alternative to mescc in live-bootstrap.
 See https://github.com/fosslinux/live-bootstrap/pull/407 (not yet merged). This
 cuts a significant amount of time off the early stages of live-bootstrap (since
-mescc is quite slow).
+mescc is quite slow). See also:
+https://github.com/cosinusoidally/live-bootstrap/tree/tcc_bootstrap_alt-refactor
 
 If you have a copy of mishmashvm in a directory alongside this one then you can
 boostrap mishmashvm fully using:
