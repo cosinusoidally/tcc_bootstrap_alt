@@ -1,1 +1,5 @@
-TODO fill in description
+WIP documenting the bootstrap process.
+
+This documents the bootstrap process. Essentially this is an English description
+of what ./mk_from_bootstrap_seed does in order to go from nothing all the way up
+to tcc-0.9.27.
