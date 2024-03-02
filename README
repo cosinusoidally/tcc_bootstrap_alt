@@ -5,6 +5,49 @@ method goes from an cut down tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
 (the most recent official release from 2017). The whole bootstrap process takes
 a couple of seconds on very modest hardware.
 
+
+*Update* this works now. You can bootstrap from nothing up to tcc 0.2.97 by
+using the following command:
+
+./mk_from_bootstrap_seed &> /dev/shm/log
+
+(we redirect stdout/stderr to /dev/shm/log since the bootstrap process is quite
+verbose)
+
+Once the bootstrap is complete then you will have a statically linked version of
+tcc in ./artifacts/tcc_27_boot_static.exe . Note this version has a very cut
+down libc polyfill so you may struggle to use the binary to build other things.
+It is more general purpose if you link it to glibc (eg if you run ./mk_min and
+have an existing copy of tcc in your path).
+
+tcc_bootstrap_alt can also be used as an alternative to mescc in live-bootstrap.
+See https://github.com/fosslinux/live-bootstrap/pull/407 (not yet merged). This
+cuts a significant amount of time off the early stages of live-bootstrap (since
+mescc is quite slow).
+
+If you have a copy of mishmashvm in a directory alongside this one then you can
+boostrap mishmashvm fully using:
+
+./mk_mmvm_static &> /dev/shm/log
+
+For mishmashvm setup instructions see "Setup" section below.
+
+You can also bootstrap from mishmashvm by changing into mishmashvm/auxiliary
+(within your mishmashvm checkout) and running:
+
+./bootstrap_alt4.sh
+
+There's currently some slowness in ./mk_from_bootstrap_seed (takes about 1 min
+on modest hardware when it should really take around 10s). Not a major problem
+but this should be sorted out. The main issue is unbuffered I/O. The version
+linked against glibc does not suffer from this issue.
+
+As you can see there are multiple scripts in this directory. Most of these are
+for various test/dev modes. Not all are documented but some are documented below
+in the original README below.
+
+Original README (left here since I still need to update it):
+
 Setup:
 ======
 

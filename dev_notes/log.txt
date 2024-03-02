@@ -1,3 +1,9 @@
+2024-03-02
+
+hmm, I totally forgot to keep this log up to date. Got this into a working state
+a few months back. See main README.
+
+
 2023-07-01
 
 ok today I think I will strip down tcc 0.9.3 (1st bootstrap version). To do this
