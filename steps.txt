@@ -97,4 +97,39 @@ Our subset of stage0 has now finished so it now executes after.kaem. From this
 point forward we are starting the main part of the tcc bootstrap process that
 was designed in this repo.
 
+Build js_to_c_cc_x86.exe using cc_x86
+=====================================
+The initial bootstrap compiler is actually written in JavaScript. It is a JS
+port of a cut down very early version of tcc. At this stage we only have a
+simple C complier so we must convert this JS code to C in order to compile it.
+This is what tcc_js/js_to_c.c does. The subset of JS used by tcc.js is trivially
+convertable to C (think change instaces of "var" to "int", rewrite function
+declarations etc).
+
+Note many of the utilities use an exe extension. These are still Linux ELF
+executables, but the exe extension was used to make it easier to gitignore so I
+didn't accidentally check in binaries.
+
+If you look in after.kaem you'll see there are about 6 steps to compiling
+js_to_c_cc_x86.exe . This is because cc_x86 is just a C compiler, it is not a
+"driver" program like gcc. The gcc command is actually not the C compiler, it is
+the command that runs all of the compilation steps (known as a "compilation
+driver"). Typically the compilation steps are:
+
+Preprocessing (cpp, or gcc -E)
+Compilation (cc1)
+Assembling (as)
+Linking (ld)
+
+In the cc_x86 model thinks work like this
+
+Concatiate together all the C source files since there is no preprocessor.
+Compile the resulting file using cc_x86 to get M1 assembly
+Prepend assembly definitions to M1 file, also prepend the _start function which
+will be the entrypoint for the binary
+Assemble the M1 file with M0 to get a hex2 file
+Prepend the ELF header to the hex2 file
+Convert to binary and link the hex2 file using the hex2 command.
+
+
 
