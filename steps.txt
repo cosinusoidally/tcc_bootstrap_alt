@@ -3,3 +3,22 @@ WIP documenting the bootstrap process.
 This documents the bootstrap process. Essentially this is an English description
 of what ./mk_from_bootstrap_seed does in order to go from nothing all the way up
 to tcc-0.9.27.
+
+Build kaem-optional-seed and hex0-seed
+======================================
+
+The early stages of the boostrap use the early stages of stage0-posix:
+
+https://github.com/oriansj/stage0-posix
+
+Specifically it uses a partial in-tree copy of stage0-posix-x86
+
+stage0 starts with 2 binary artifacts:
+
+hex0-seed - a commented hex dump to binary converter
+kaem-optional-seed - a very simple command interpreter
+
+I do not include the binary artifacts. I instead convert them from source to
+binary using my ./mk_seeds script. The ./mk_seeds script uses a couple of
+simple unix utilites to convert x86/hex0_x86.hex0 into hex0-seed and
+x86/kaem-minimal.hex0 into kaem-optional-seed
