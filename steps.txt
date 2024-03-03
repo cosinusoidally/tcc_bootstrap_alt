@@ -37,5 +37,41 @@ Build kaem-optional-seed
 This rebuilds kaem-0 with hex0-seed. Not strictly necessary, but just for
 verification purposes it is done.
 
-Build hex1 from hex0
+Build hex1 using hex0
 ====================
+hex1 is a step up from from hex0. It adds single character absolute or relative
+labels.
+
+Build hex2 using hex1
+=====================
+hex2 is a step up from from hex1. It adds multi-character absolute or relative
+labels.
+
+Build catm using hex2
+=====================
+catm is used to concatinate files. The idea is to avoid needing any tools from
+the host so we need basic things like cat. catm differs from cat as the first
+argument is actually the output file (rather than the last).
+
+Build M0 using hex2
+===================
+M0 is a simple macro language that allows us to implement a simple assembler. Up
+until this point all programs have been provided as a hex dump of the machine
+code.
+
+The output from M0 is hex2 code. If you are aware of a typical C compilation
+process you will know it tends to go:
+
+C into C compiler outputs assembly language
+Assembly Language into assembler outputs object code (machine code)
+Object code into the linker then produces the final executable
+
+Or more concisely: compile, assemble, link
+
+In our setup M0 is the assembler and hex2 is the linker. Next step is to
+build a compiler.
+
+Build cc_x86 using M0 and hex2
+==============================
+
+
