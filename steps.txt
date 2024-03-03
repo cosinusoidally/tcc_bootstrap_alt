@@ -73,5 +73,28 @@ build a compiler.
 
 Build cc_x86 using M0 and hex2
 ==============================
+cc_x86 is a C compiler written in M0 macro assembly. Lets break down the whole
+build process from x86/mescc-tools-mini-kaem.kaem :
+
+./x86/bin/M0 ./x86/cc_x86.M1 ./x86/artifact/cc_x86-0.hex2
+cc_x86.M1 is the source code of the C compiler. Note the extension is actually
+M1 rather than M0. M0 is just a cut down version of the M1 macro language. The
+same extension is used in both cases even though cc_x86.M1 will be in the M0
+subset.
+
+This step translates the assembly language version of cc_x86 into hex2
+
+./x86/bin/catm ./x86/artifact/cc_x86-1.hex2 ./x86/ELF-i386.hex2 ./x86/artifact/cc_x86-0.hex2
+This step adds the elf header to the hex2 output. Note the output file from catm
+is the first argument (./x86/artifact/cc_x86-1.hex2)
+
+./x86/bin/hex2-0 ./x86/artifact/cc_x86-1.hex2 ./x86/bin/cc_x86
+This takes the hex2 code and outputs the binary version of cc_x86
+
+Run after.kaem
+==============
+Our subset of stage0 has now finished so it now executes after.kaem. From this
+point forward we are starting the main part of the tcc bootstrap process that
+was designed in this repo.
 
 
