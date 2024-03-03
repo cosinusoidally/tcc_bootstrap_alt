@@ -6,7 +6,6 @@ to tcc-0.9.27.
 
 Build kaem-optional-seed and hex0-seed
 ======================================
-
 The early stages of the boostrap use the early stages of stage0-posix:
 
 https://github.com/oriansj/stage0-posix
@@ -22,3 +21,21 @@ I do not include the binary artifacts. I instead convert them from source to
 binary using my ./mk_seeds script. The ./mk_seeds script uses a couple of
 simple unix utilites to convert x86/hex0_x86.hex0 into hex0-seed and
 x86/kaem-minimal.hex0 into kaem-optional-seed
+
+Run kaem-optional-seed
+======================
+Next mk_from_bootstrap_seed runs kaem-optional-seed . Since
+kaem-optional-seed is run with no arguments it will the by default run kaem.x86.
+
+Build hex0
+==========
+This rebuilds hex0 with hex0-seed. Not strictly necessary, but just for
+verification purposes it is done.
+
+Build kaem-optional-seed
+========================
+This rebuilds kaem-0 with hex0-seed. Not strictly necessary, but just for
+verification purposes it is done.
+
+Build hex1 from hex0
+====================
