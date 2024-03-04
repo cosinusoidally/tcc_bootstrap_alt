@@ -14,7 +14,7 @@ using the following command:
 (we redirect stdout/stderr to /dev/shm/log since the bootstrap process is quite
 verbose)
 
-For a full description of the bootstrap process see steps.txt
+For a full description of the bootstrap process see dev_notes/steps.txt
 
 Once the bootstrap is complete then you will have a statically linked version of
 tcc in ./artifacts/tcc_27_boot_static.exe . Note this version has a very cut
