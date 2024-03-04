@@ -132,4 +132,44 @@ Prepend the ELF header to the hex2 file
 Convert to binary and link the hex2 file using the hex2 command.
 
 
+Build cdrun
+===========
+The version of kaem that we are using does not support cd so we must build a
+utility that we can use in its place. The cdrun command runs command in a
+specified directory eg:
 
+./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem
+
+The above is equivalent to this:
+cd ./tcc_js/
+../x86/artifact/kaem-0 ./build.kaem
+
+Start walking up the tcc versions
+=================================
+At this point we are ready to start walking up the tcc versions.
+
+Build native version of tcc.js
+==============================
+Run tcc.js through js_to_c_cc_x86.exe and then throw the generated file into
+cc_x86 to get tcc_js.exe
+
+Build tcc_boot.o bootstrap version of tcc_1_7
+=============================================
+Running tcc_js.exe will compile tcc_js/test-dlsym_wrap.c this is a version of
+tcc_1_7 with dlsym calls wrapped. The reason dlsym calls are wrapped is because
+cc_x86 has no support for dynamic linking. tcc_js.exe is invoked without any
+arguments. The arguments are hard coded in tcc_js/support.c as follows:
+
+  int args=mk_argc_argv("tcc -r test-dlsym_wrap.c");
+
+The -r flag is a custom flag that has been added to tcc to allow this early
+version to output executable files. tcc_boot.o is an executable file in this
+custom format.
+
+Just a note on versioning of tcc. tcc has been on version 0.9.X since around
+2001. In this repo I have just skipped the 0.9 prefix and called each version X.
+eg 0.9.23 is tcc_23 in this repo. The versions of the format tcc_1_Y are
+actually cut down versions of tcc_2. Each lower version of Y is a simpler
+version of tcc_2. This was done as the official tcc_1 was not actually able to
+compile tcc_2, so instead I created a sequence of simplified tcc_1_Y versions in
+order to simplify and cut down the code until a JS translation was possible.
