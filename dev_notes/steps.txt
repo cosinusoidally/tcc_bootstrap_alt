@@ -242,4 +242,21 @@ Note long/bool/double support might not be complete
 
 Build tcc_2m with tcc_1_9
 =========================
+tcc_2m adds
+
+A bunch of floating point support
+
+Build tcc_2 with tcc_2m
+=======================
+tcc_2 adds
+
+More floating point support
+
+Build tcc_3 with tcc_2
+======================
+tcc_3 adds some initial long long support. We build tcc_3 in 2 steps. First with
+-DNO_LONG_LONG then without that flag.
+
+tcc_3 also has some initial elf support but it is not yet able to actually
+output elf files.
 
