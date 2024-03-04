@@ -121,7 +121,7 @@ Compilation (cc1)
 Assembling (as)
 Linking (ld)
 
-In the cc_x86 model thinks work like this
+In the cc_x86 model things work like this:
 
 Concatiate together all the C source files since there is no preprocessor.
 Compile the resulting file using cc_x86 to get M1 assembly
