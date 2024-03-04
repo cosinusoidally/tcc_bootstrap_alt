@@ -194,4 +194,52 @@ elf_loader_cc_x86.exe does.
 
 Source for elf_loader_cc_x86.exe is in tcc_js/elf_loader.c
 
+Build tcc_1_7 from tcc_1_7
+==========================
+Note we actually go from tcc_1_7 (tcc_boot.o) all the way up to tcc_10 with a
+single invocation of tcc_1_7. What we have is a long commandline that steps
+through the versions. The reason we have this is that I only added the ability
+to output the custom executable format to tcc_1_7. The versions between 1_7 and
+10 are jitted and run in turn.
+
+Command is in tcc_10/build.kaem
+
+I'm not going to repeat the whole command here, but it looks like:
+
+../x86/bin/loader_cc_x86.exe -R dummy ../tcc_1_7/dlsym_wrap.c ....
+
+The -R flag says "load and tcc_boot.o". In the command each stage is 3 stage
+bootstrapped just to make sure each version is capable of building itself and
+the next step.
+
+tcc_1_7 is very cut down. eg there's no support for things like goto and the
+preprocessor is very limited (no ifdefs etc).
+
+Note tcc_1_Y versions incrementally add more C support. Code was hacked away in
+an adhoc way so the below descriptions of when features were added may not be
+100% accurate. Versions were added in reverse order eg 1_8 was a cut down
+version of 1_9.
+
+Build tcc_1_8 from tcc_1_7
+==========================
+tcc_1_8 adds goto and labels
+
+Build tcc_1_9 from tcc_1_8
+==========================
+tcc_1_9 adds
+
+more #define support
+#ifdef #ifndef
+twosharps support (not sure what that is, something do with ## I think)
+macro function support
+bitfields
+long
+bool
+double
+Note long/bool/double support might not be complete
+
+1_9 uses goto
+
+Build tcc_2m with tcc_1_9
+=========================
 
