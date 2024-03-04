@@ -173,3 +173,25 @@ actually cut down versions of tcc_2. Each lower version of Y is a simpler
 version of tcc_2. This was done as the official tcc_1 was not actually able to
 compile tcc_2, so instead I created a sequence of simplified tcc_1_Y versions in
 order to simplify and cut down the code until a JS translation was possible.
+
+Build loader_cc_x86.exe
+=======================
+As mentioned in the above step we now have tcc_boot.o which is a copy of tcc_1_7
+in a custom executable format. In order to run this version of tcc we need a
+loader. loader_cc_x86.exe is capable of loading and running this format. The
+_cc_x86 suffix is just to indicate it is built using cc_x86. During dev there
+were multiple versions (just to make sure it could be built with a range of c
+compilers like M2-Planet, tcc and gcc).
+
+Source for loader_cc_x86.exe is tcc_js/loader_boot.c
+
+Build elf_loader_cc_x86.exe
+===========================
+Early version of tcc are pure JIT compilers. Around tcc_10 they gain the ability
+to generate ELF ".o" object code files (which is typical for Linux C compilers).
+To run these ELF files we need an elf loader and linker. This is what
+elf_loader_cc_x86.exe does.
+
+Source for elf_loader_cc_x86.exe is in tcc_js/elf_loader.c
+
+
