@@ -313,3 +313,39 @@ because it shows that the tcc_3 dialect is sufficient to build a compiler that
 is capable of compiling the Linux kernel (tccboot, which is a modified 2.4
 kernel). ie tcc_23 is a compiler that is capable of building non-trivial C
 codebases.
+
+At this stage tcc needs a support library (libtcc1). We can't actually build
+that support library with tcc_10 so we first build a stub version, and then let
+tcc_23 build libtcc1 itself.
+
+Build libc_boot2.o
+==================
+This is our second libc polyfill (still built with tcc_10). Could probably
+elimiate some of these libc versions, but during the initial bring up it was
+easier to just create new versions whenever it felt convenient.
+
+Build tcc_23 with tcc_23
+========================
+Just to make sure tcc_23 works we use it to build itself. We also get it to
+build a full version of libtcc1.o
+
+Build tcc_24 with tcc_23
+========================
+Since Bellard passed on the maintenance of tcc there have been far less frequent
+releases. eg between tcc_23 and tcc_24 there was nearly 3 years, in contrast
+between tcc_3 and tcc_23 there was around 3.5 years. At the time of writing it
+has been more than 6 years since the last release (it's now 2024 and the last
+release was in 2017). Unfortunately with tcc_24 we loose the ability to build
+with tcc_3, even more unfortunate is that tcc_23 cannot actually build any
+version of tcc beyond tcc_24. This means we then have to make more hops to get
+up to the most recent release.
+
+Build tcc_26 with tcc_24
+========================
+
+
+Build tcc_27 with tcc_26
+========================
+
+Create a statically linked version of tcc_27
+============================================
