@@ -292,4 +292,6 @@ output libc_boot.o . Essentially this:
 cd tcc_10
 loader_cc_x86.exe (tcc_1_7 up to tcc_10) -o libc_boot.o -c libc_boot.c
 
-
+Note libc is a bit of a strong word to describe what we have. It's more of a
+libc "polyfill" containing rough stub implementations that are just sufficient
+to allow tcc to build the next step.
