@@ -5,7 +5,7 @@ of what ./mk_from_bootstrap_seed does in order to go from nothing all the way up
 to tcc-0.9.27.
 
 Note there are many steps to the bootstrap process, but it is not time
-consuming. This whole process can be done in less than a minute of fairly modest
+consuming. This whole process can be done in less than a minute on fairly modest
 hardware. With some performance optimisation the process could probably be
 reduced to around 10 seconds.
 
