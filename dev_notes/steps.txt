@@ -306,3 +306,10 @@ Build tcc_23 with tcc_10
 This is currently the largest version bump we do. This version is notable since
 it is the last version that was maintained by Fabrice Bellard (the creator of
 tcc).
+
+As mentioned in an earlier step it is actually possible to go from tcc_3 to
+tcc_23 in a single step (with a lightly patched tcc_23). This is interesting
+because it shows that the tcc_3 dialect is sufficient to build a compiler that
+is capable of compiling the Linux kernel (tccboot, which is a modified 2.4
+kernel). ie tcc_23 is a compiler that is capable of building non-trivial C
+codebases.
