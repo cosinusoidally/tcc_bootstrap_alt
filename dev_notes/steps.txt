@@ -4,6 +4,11 @@ This documents the bootstrap process. Essentially this is an English description
 of what ./mk_from_bootstrap_seed does in order to go from nothing all the way up
 to tcc-0.9.27.
 
+Note there are many steps to the bootstrap process, but it is not time
+consuming. This whole process can be done in less than a minute of fairly modest
+hardware. With some performance optimisation the process could probably be
+reduced to around 10 seconds.
+
 Build kaem-optional-seed and hex0-seed
 ======================================
 The early stages of the boostrap use the early stages of stage0-posix:
@@ -295,3 +300,9 @@ loader_cc_x86.exe (tcc_1_7 up to tcc_10) -o libc_boot.o -c libc_boot.c
 Note libc is a bit of a strong word to describe what we have. It's more of a
 libc "polyfill" containing rough stub implementations that are just sufficient
 to allow tcc to build the next step.
+
+Build tcc_23 with tcc_10
+=========================
+This is currently the largest version bump we do. This version is notable since
+it is the last version that was maintained by Fabrice Bellard (the creator of
+tcc).
