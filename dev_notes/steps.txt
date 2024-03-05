@@ -260,3 +260,36 @@ tcc_3 adds some initial long long support. We build tcc_3 in 2 steps. First with
 tcc_3 also has some initial elf support but it is not yet able to actually
 output elf files.
 
+
+Build tcc_10 with tcc_3
+=======================
+At this point we are able to make larger leaps in tcc versions. tcc_3 can
+actually build a slightly patched tcc_23, but for now we have an additional
+intermediate step of building tcc_10. tcc_10 is the first version we have that
+can emit ELF object code files.
+
+Build tcc_10 with tcc_10
+========================
+In order to actually emit an ELF version of tcc_10 we must build tcc_10 with
+itself.
+
+The whole tcc_1_7 to tcc_10 process is essentially:
+
+cd tcc_10
+loader_cc_x86.exe (every tcc version up to tcc_10) -o tcc.o -c tcc.c
+
+Build libc_boot.o with tcc_10
+=============================
+At this point we have a tcc_10 tcc.o elf file, and an elf loader, but we still
+cannot run the elf version of tcc_10 as the elf loader lacks enough of a libc.
+The elf loader does have a libc, but its not sufficient to allow tcc_10 to build
+the next step (tcc_23). tcc_10/libc_boot.c is the answer to this problem. But we
+have a chicken and egg problem. We can't run the elf version of tcc_10 without
+the elf version of libc_boot.c, but we need tcc_10 to build libc_boot.o . We
+break this cycle by running the whole tcc_1_7 to tcc_10 chain again, but instead
+output libc_boot.o . Essentially this:
+
+cd tcc_10
+loader_cc_x86.exe (tcc_1_7 up to tcc_10) -o libc_boot.o -c libc_boot.c
+
+
