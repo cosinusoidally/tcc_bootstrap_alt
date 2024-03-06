@@ -357,10 +357,19 @@ Another libc polyfill
 
 Build tcc_26 with tcc_26
 ========================
-
+We often do a 2 stage bootstrap to verify each version can compile itself.
+Ideally we should do a 3 stage and compare hashes, but in some cases we have
+taken shortcuts.
 
 Build tcc_27 with tcc_26
 ========================
+
+Build tcc_27 with tcc_27
+========================
+
+Build libc_boot4.o with tcc_27
+==============================
+Another libc polyfill
 
 Create a statically linked version of tcc_27
 ============================================
