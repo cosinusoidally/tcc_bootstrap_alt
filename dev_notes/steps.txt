@@ -273,6 +273,13 @@ actually build a slightly patched tcc_23, but for now we have an additional
 intermediate step of building tcc_10. tcc_10 is the first version we have that
 can emit ELF object code files.
 
+Worth noting that we are using in tree debian woody headers (circa 2002)
+throughout. This means that all ELF files can optionally be linked to glibc.
+Also worth noting that bit idential object code is generated in both the
+glibc/polyfill libc versions of each tcc.o build. This was very useful in dev
+since initially I was using glibc for testing whilst I was putting together the
+polyfill libc.
+
 Build tcc_10 with tcc_10
 ========================
 In order to actually emit an ELF version of tcc_10 we must build tcc_10 with
@@ -341,6 +348,14 @@ version of tcc beyond tcc_24. This means we then have to make more hops to get
 up to the most recent release.
 
 Build tcc_26 with tcc_24
+========================
+Exactly what it says
+
+Build libc_boot3.o with tcc_10
+==============================
+Another libc polyfill
+
+Build tcc_26 with tcc_26
 ========================
 
 
