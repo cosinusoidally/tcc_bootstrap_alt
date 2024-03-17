@@ -1,1 +1,1 @@
-rm otccelf.exe otccelfn.exe otccelf_full.exe
+rm *.exe

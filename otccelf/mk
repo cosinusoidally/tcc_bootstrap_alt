@@ -3,3 +3,15 @@ tcc otccelf.c -o otccelf.exe
 tcc otccelfn.c -o otccelfn.exe
 tcc otccelf_full.c -o otccelf_full.exe
 
+./otccelf_full.exe otccelf_full.c otccelf_full1.exe
+chmod +x otccelf_full1.exe
+./otccelf_full1.exe otccelf_full.c otccelf_full2.exe
+chmod +x otccelf_full2.exe
+./otccelf_full2.exe otccelf_full.c otccelf_full3.exe
+chmod +x otccelf_full3.exe
+
+./otccelf_full3.exe otccelf.c otccelf1.exe
+chmod +x otccelf1.exe
+
+sha256sum *exe
+sha256sum -c otccelf.sums
