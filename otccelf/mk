@@ -3,7 +3,7 @@ tcc otccelf.c -o otccelf.exe
 tcc otccelfn.c -o otccelfn.exe
 tcc otccelf_full.c -o otccelf_full.exe
 
-gcc otccelf_full.c -o otccelf_full_gcc.exe
+gcc -O0 -g otccelf_full.c -o otccelf_full_gcc.exe
 
 # check with tcc build
 
