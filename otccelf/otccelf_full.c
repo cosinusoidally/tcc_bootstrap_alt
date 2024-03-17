@@ -298,48 +298,51 @@ ab(s){
 }
 
 X(s){
-int a,d,h;
-if( s--== 1) ab(1);
-else{
-X(s);
-h=0;
-while( s == J){
-d=e;
-a=C;
-av();
-if( s>8){
-h=aa(a,h);
-X(s);
+  int a,d,h;
+  if( s--== 1) ab(1);
+  else{
+    X(s);
+    h=0;
+    while( s == J){
+      d=e;
+      a=C;
+      av();
+      if( s>8){
+        h=aa(a,h);
+        X(s);
+      }
+      else{
+        aw( 80);
+        X(s);
+        aw( 89);
+        if( s == 4|s == 5){
+          aq(a);
+        }
+        else{
+          aw( a);
+          if( d == 37)aw( 146);
+        }
+      }
+    }
+    if( h&&s>8){
+      h=aa(a,h);
+      M(a^1);
+      I(5);
+      H(h);
+      M(a);
+    }
+  }
 }
-else{
-aw( 80);
-X(s);
-aw( 89);
-if( s == 4|s == 5){
-aq(a);
-}
-else{
-aw( a);
-if( d == 37)aw( 146);
-}
-}
-}
-if( h&&s>8){
-h=aa(a,h);
-M(a^1);
-I(5);
-H(h);
-M(a);
-}
-}
-}
+
 B (){
-X(11);
+  X(11);
 }
+
 ac (){
-B ();
-return aa(0,0);
+  B ();
+  return aa(0,0);
 }
+
 S(s){
 int h,d,a;
 if( e == 288){
