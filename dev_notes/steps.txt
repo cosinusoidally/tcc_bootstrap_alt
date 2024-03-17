@@ -1,0 +1,383 @@
+WIP documenting the bootstrap process.
+
+This documents the bootstrap process. Essentially this is an English description
+of what ./mk_from_bootstrap_seed does in order to go from nothing all the way up
+to tcc-0.9.27.
+
+Note there are many steps to the bootstrap process, but it is not time
+consuming. This whole process can be done in less than a minute on fairly modest
+hardware. With some performance optimisation the process could probably be
+reduced to around 10 seconds.
+
+Build kaem-optional-seed and hex0-seed
+======================================
+The early stages of the boostrap use the early stages of stage0-posix:
+
+https://github.com/oriansj/stage0-posix
+
+Specifically it uses a partial in-tree copy of stage0-posix-x86
+
+stage0 starts with 2 binary artifacts:
+
+hex0-seed - a commented hex dump to binary converter
+kaem-optional-seed - a very simple command interpreter
+
+I do not include the binary artifacts. I instead convert them from source to
+binary using my ./mk_seeds script. The ./mk_seeds script uses a couple of
+simple unix utilites to convert x86/hex0_x86.hex0 into hex0-seed and
+x86/kaem-minimal.hex0 into kaem-optional-seed
+
+Run kaem-optional-seed
+======================
+Next mk_from_bootstrap_seed runs kaem-optional-seed . Since
+kaem-optional-seed is run with no arguments it will the by default run kaem.x86.
+
+Build hex0
+==========
+This rebuilds hex0 with hex0-seed. Not strictly necessary, but just for
+verification purposes it is done.
+
+Build kaem-optional-seed
+========================
+This rebuilds kaem-0 with hex0-seed. Not strictly necessary, but just for
+verification purposes it is done.
+
+Build hex1 using hex0
+====================
+hex1 is a step up from from hex0. It adds single character absolute or relative
+labels.
+
+Build hex2 using hex1
+=====================
+hex2 is a step up from from hex1. It adds multi-character absolute or relative
+labels.
+
+Build catm using hex2
+=====================
+catm is used to concatinate files. The idea is to avoid needing any tools from
+the host so we need basic things like cat. catm differs from cat as the first
+argument is actually the output file (rather than the last).
+
+Build M0 using hex2
+===================
+M0 is a simple macro language that allows us to implement a simple assembler. Up
+until this point all programs have been provided as a hex dump of the machine
+code.
+
+The output from M0 is hex2 code. If you are aware of a typical C compilation
+process you will know it tends to go:
+
+C into C compiler outputs assembly language
+Assembly Language into assembler outputs object code (machine code)
+Object code into the linker then produces the final executable
+
+Or more concisely: compile, assemble, link
+
+In our setup M0 is the assembler and hex2 is the linker. Next step is to
+build a compiler.
+
+Build cc_x86 using M0 and hex2
+==============================
+cc_x86 is a C compiler written in M0 macro assembly. Lets break down the whole
+build process from x86/mescc-tools-mini-kaem.kaem :
+
+./x86/bin/M0 ./x86/cc_x86.M1 ./x86/artifact/cc_x86-0.hex2
+cc_x86.M1 is the source code of the C compiler. Note the extension is actually
+M1 rather than M0. M0 is just a cut down version of the M1 macro language. The
+same extension is used in both cases even though cc_x86.M1 will be in the M0
+subset.
+
+This step translates the assembly language version of cc_x86 into hex2
+
+./x86/bin/catm ./x86/artifact/cc_x86-1.hex2 ./x86/ELF-i386.hex2 ./x86/artifact/cc_x86-0.hex2
+This step adds the elf header to the hex2 output. Note the output file from catm
+is the first argument (./x86/artifact/cc_x86-1.hex2)
+
+./x86/bin/hex2-0 ./x86/artifact/cc_x86-1.hex2 ./x86/bin/cc_x86
+This takes the hex2 code and outputs the binary version of cc_x86
+
+Run after.kaem
+==============
+Our subset of stage0 has now finished so it now executes after.kaem. From this
+point forward we are starting the main part of the tcc bootstrap process that
+was designed in this repo.
+
+Build js_to_c_cc_x86.exe using cc_x86
+=====================================
+The initial bootstrap compiler is actually written in JavaScript. It is a JS
+port of a cut down very early version of tcc. At this stage we only have a
+simple C complier so we must convert this JS code to C in order to compile it.
+This is what tcc_js/js_to_c.c does. The subset of JS used by tcc.js is trivially
+convertable to C (think change instaces of "var" to "int", rewrite function
+declarations etc).
+
+Note many of the utilities use an exe extension. These are still Linux ELF
+executables, but the exe extension was used to make it easier to gitignore so I
+didn't accidentally check in binaries.
+
+If you look in after.kaem you'll see there are about 6 steps to compiling
+js_to_c_cc_x86.exe . This is because cc_x86 is just a C compiler, it is not a
+"driver" program like gcc. The gcc command is actually not the C compiler, it is
+the command that runs all of the compilation steps (known as a "compilation
+driver"). Typically the compilation steps are:
+
+Preprocessing (cpp, or gcc -E)
+Compilation (cc1)
+Assembling (as)
+Linking (ld)
+
+In the cc_x86 model things work like this:
+
+Concatiate together all the C source files since there is no preprocessor.
+Compile the resulting file using cc_x86 to get M1 assembly
+Prepend assembly definitions to M1 file, also prepend the _start function which
+will be the entrypoint for the binary
+Assemble the M1 file with M0 to get a hex2 file
+Prepend the ELF header to the hex2 file
+Convert to binary and link the hex2 file using the hex2 command.
+
+
+Build cdrun
+===========
+The version of kaem that we are using does not support cd so we must build a
+utility that we can use in its place. The cdrun command runs command in a
+specified directory eg:
+
+./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem
+
+The above is equivalent to this:
+cd ./tcc_js/
+../x86/artifact/kaem-0 ./build.kaem
+
+Start walking up the tcc versions
+=================================
+At this point we are ready to start walking up the tcc versions.
+
+Build native version of tcc.js
+==============================
+Run tcc.js through js_to_c_cc_x86.exe and then throw the generated file into
+cc_x86 to get tcc_js.exe
+
+Build tcc_boot.o bootstrap version of tcc_1_7
+=============================================
+Running tcc_js.exe will compile tcc_js/test-dlsym_wrap.c this is a version of
+tcc_1_7 with dlsym calls wrapped. The reason dlsym calls are wrapped is because
+cc_x86 has no support for dynamic linking. tcc_js.exe is invoked without any
+arguments. The arguments are hard coded in tcc_js/support.c as follows:
+
+  int args=mk_argc_argv("tcc -r test-dlsym_wrap.c");
+
+The -r flag is a custom flag that has been added to tcc to allow this early
+version to output executable files. tcc_boot.o is an executable file in this
+custom format.
+
+Just a note on versioning of tcc. tcc has been on version 0.9.X since around
+2001. In this repo I have just skipped the 0.9 prefix and called each version X.
+eg 0.9.23 is tcc_23 in this repo. The versions of the format tcc_1_Y are
+actually cut down versions of tcc_2. Each lower version of Y is a simpler
+version of tcc_2. This was done as the official tcc_1 was not actually able to
+compile tcc_2, so instead I created a sequence of simplified tcc_1_Y versions in
+order to simplify and cut down the code until a JS translation was possible.
+
+Build loader_cc_x86.exe
+=======================
+As mentioned in the above step we now have tcc_boot.o which is a copy of tcc_1_7
+in a custom executable format. In order to run this version of tcc we need a
+loader. loader_cc_x86.exe is capable of loading and running this format. The
+_cc_x86 suffix is just to indicate it is built using cc_x86. During dev there
+were multiple versions (just to make sure it could be built with a range of c
+compilers like M2-Planet, tcc and gcc).
+
+Source for loader_cc_x86.exe is tcc_js/loader_boot.c
+
+Build elf_loader_cc_x86.exe
+===========================
+Early version of tcc are pure JIT compilers. Around tcc_10 they gain the ability
+to generate ELF ".o" object code files (which is typical for Linux C compilers).
+To run these ELF files we need an elf loader and linker. This is what
+elf_loader_cc_x86.exe does.
+
+Source for elf_loader_cc_x86.exe is in tcc_js/elf_loader.c
+
+Build tcc_1_7 from tcc_1_7
+==========================
+Note we actually go from tcc_1_7 (tcc_boot.o) all the way up to tcc_10 with a
+single invocation of tcc_1_7. What we have is a long commandline that steps
+through the versions. The reason we have this is that I only added the ability
+to output the custom executable format to tcc_1_7. The versions between 1_7 and
+10 are jitted and run in turn.
+
+Command is in tcc_10/build.kaem
+
+I'm not going to repeat the whole command here, but it looks like:
+
+../x86/bin/loader_cc_x86.exe -R dummy ../tcc_1_7/dlsym_wrap.c ....
+
+The -R flag says "load and tcc_boot.o". In the command each stage is 3 stage
+bootstrapped just to make sure each version is capable of building itself and
+the next step.
+
+tcc_1_7 is very cut down. eg there's no support for things like goto and the
+preprocessor is very limited (no ifdefs etc).
+
+Note tcc_1_Y versions incrementally add more C support. Code was hacked away in
+an adhoc way so the below descriptions of when features were added may not be
+100% accurate. Versions were added in reverse order eg 1_8 was a cut down
+version of 1_9.
+
+Build tcc_1_8 from tcc_1_7
+==========================
+tcc_1_8 adds goto and labels
+
+Build tcc_1_9 from tcc_1_8
+==========================
+tcc_1_9 adds
+
+more #define support
+#ifdef #ifndef
+twosharps support (not sure what that is, something do with ## I think)
+macro function support
+bitfields
+long
+bool
+double
+Note long/bool/double support might not be complete
+
+1_9 uses goto
+
+Build tcc_2m with tcc_1_9
+=========================
+tcc_2m adds
+
+A bunch of floating point support
+
+Build tcc_2 with tcc_2m
+=======================
+tcc_2 adds
+
+More floating point support
+
+Build tcc_3 with tcc_2
+======================
+tcc_3 adds some initial long long support. We build tcc_3 in 2 steps. First with
+-DNO_LONG_LONG then without that flag.
+
+tcc_3 also has some initial elf support but it is not yet able to actually
+output elf files.
+
+
+Build tcc_10 with tcc_3
+=======================
+At this point we are able to make larger leaps in tcc versions. tcc_3 can
+actually build a slightly patched tcc_23, but for now we have an additional
+intermediate step of building tcc_10. tcc_10 is the first version we have that
+can emit ELF object code files.
+
+Worth noting that we are using in tree debian woody headers (circa 2002)
+throughout. This means that all ELF files can optionally be linked to glibc.
+Also worth noting that bit idential object code is generated in both the
+glibc/polyfill libc versions of each tcc.o build. This was very useful in dev
+since initially I was using glibc for testing whilst I was putting together the
+polyfill libc.
+
+Build tcc_10 with tcc_10
+========================
+In order to actually emit an ELF version of tcc_10 we must build tcc_10 with
+itself.
+
+The whole tcc_1_7 to tcc_10 process is essentially:
+
+cd tcc_10
+loader_cc_x86.exe (every tcc version up to tcc_10) -o tcc.o -c tcc.c
+
+Build libc_boot.o with tcc_10
+=============================
+At this point we have a tcc_10 tcc.o elf file, and an elf loader, but we still
+cannot run the elf version of tcc_10 as the elf loader lacks enough of a libc.
+The elf loader does have a libc, but its not sufficient to allow tcc_10 to build
+the next step (tcc_23). tcc_10/libc_boot.c is the answer to this problem. But we
+have a chicken and egg problem. We can't run the elf version of tcc_10 without
+the elf version of libc_boot.c, but we need tcc_10 to build libc_boot.o . We
+break this cycle by running the whole tcc_1_7 to tcc_10 chain again, but instead
+output libc_boot.o . Essentially this:
+
+cd tcc_10
+loader_cc_x86.exe (tcc_1_7 up to tcc_10) -o libc_boot.o -c libc_boot.c
+
+Note libc is a bit of a strong word to describe what we have. It's more of a
+libc "polyfill" containing rough stub implementations that are just sufficient
+to allow tcc to build the next step.
+
+Build tcc_23 with tcc_10
+=========================
+This is currently the largest version bump we do. This version is notable since
+it is the last version that was maintained by Fabrice Bellard (the creator of
+tcc).
+
+As mentioned in an earlier step it is actually possible to go from tcc_3 to
+tcc_23 in a single step (with a lightly patched tcc_23). This is interesting
+because it shows that the tcc_3 dialect is sufficient to build a compiler that
+is capable of compiling the Linux kernel (tccboot, which is a modified 2.4
+kernel). ie tcc_23 is a compiler that is capable of building non-trivial C
+codebases.
+
+At this stage tcc needs a support library (libtcc1). We can't actually build
+that support library with tcc_10 so we first build a stub version, and then let
+tcc_23 build libtcc1 itself.
+
+Build libc_boot2.o
+==================
+This is our second libc polyfill (still built with tcc_10). Could probably
+elimiate some of these libc versions, but during the initial bring up it was
+easier to just create new versions whenever it felt convenient.
+
+Build tcc_23 with tcc_23
+========================
+Just to make sure tcc_23 works we use it to build itself. We also get it to
+build a full version of libtcc1.o
+
+Build tcc_24 with tcc_23
+========================
+Since Bellard passed on the maintenance of tcc there have been far less frequent
+releases. eg between tcc_23 and tcc_24 there was nearly 3 years, in contrast
+between tcc_3 and tcc_23 there was around 3.5 years. At the time of writing it
+has been more than 6 years since the last release (it's now 2024 and the last
+release was in 2017). Unfortunately with tcc_24 we loose the ability to build
+with tcc_3, even more unfortunate is that tcc_23 cannot actually build any
+version of tcc beyond tcc_24. This means we then have to make more hops to get
+up to the most recent release.
+
+Build tcc_26 with tcc_24
+========================
+Exactly what it says
+
+Build libc_boot3.o with tcc_10
+==============================
+Another libc polyfill
+
+Build tcc_26 with tcc_26
+========================
+We often do a 2 stage bootstrap to verify each version can compile itself.
+Ideally we should do a 3 stage and compare hashes, but in some cases we have
+taken shortcuts.
+
+Build tcc_27 with tcc_26
+========================
+No further description needed, at this point we are simply building the next
+version with the previous
+
+Build tcc_27 with tcc_27
+========================
+Rebuilt tcc_27 with itself. Belt and braces to make sure it can.
+
+Build libc_boot4.o with tcc_27
+==============================
+Another libc polyfill
+
+Create a statically linked version of tcc_27
+============================================
+To do this we need an equivalent of the crt files containing a _start function
+and a couple of base libc functions (like open and some syscalls). This file is
+called libc_static.c (meaning the static parts of a the libc). In the static
+binary we link in libc_static.o libc_boot4.o libtcc1 and tcc.o using the
+"-static" flag.
