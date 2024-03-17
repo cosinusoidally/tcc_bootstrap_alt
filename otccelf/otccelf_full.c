@@ -512,7 +512,7 @@ ae(s){
 }
 
 elf_out(F){
-  int Y,af,as,ag,at,ah,d,a,ai;
+  int glo_saved,af,as,ag,at,ah,d,a,ai;
   R=i;
   ai=v-K;
   v=K;
@@ -548,7 +548,7 @@ elf_out(F){
   ah=i;
   ae(2);
   memcpy(R,K,ai);
-  Y=i;
+  glo_saved=i;
   i=G;
   ax( 1179403647);
   ax( 65793);
@@ -567,7 +567,7 @@ elf_out(F){
   ax( 4);
   ax( 1);
   ax( 1);
-  ad(0,Y-G);
+  ad(0,glo_saved-G);
   ax( 7);
   ax( 4096);
   ax( 2);
@@ -592,13 +592,13 @@ elf_out(F){
   ax( 17);
   ax( ah+y);
   ax( 18);
-  ax( Y-ah);
+  ax( glo_saved-ah);
   ax( 19);
   ax( 8);
   ax( 0);
   ax( 0);
   a=fopen(F,"w");
-  fwrite(G,1,Y-G,a);
+  fwrite(G,1,glo_saved-G,a);
   fclose(a);
 }
 
