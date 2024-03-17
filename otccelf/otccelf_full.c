@@ -602,8 +602,8 @@ au(F){
   fclose(a);
 }
 
-main(d,a){
-  if( d<3){
+main(n,t){
+  if( n<3){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
@@ -611,15 +611,15 @@ main(d,a){
   i=G =calloc(1,99999);
   v=K =calloc(1,99999);
   T =calloc(1,99999);
-  a=a+4;
-  ak=fopen(*(int*) a,"r");
+  t=t+4;
+  ak=fopen(*(int*) t,"r");
   y=134512640-G;
   i=i+252;
   v=v+17;
   w ();
   av();
   ar(0);
-  a=a+4;
-  au(*(int*) a);
+  t=t+4;
+  au(*(int*) t);
   return 0;
 }
