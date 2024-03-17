@@ -114,35 +114,39 @@ av(){
 }
 
 aw( d){
-while( d&&d!=-1){
-*(char*) v++=d;
-d=d>>8;
+  while( d&&d!=-1){
+    *(char*) v++=d;
+    d=d>>8;
+  }
 }
-}
+
 E(a,d){
-*(char*) a++=d;
-*(char*) a++=d>>8;
-*(char*) a++=d>>16;
-*(char*) a++=d>>24;
+  *(char*) a++=d;
+  *(char*) a++=d>>8;
+  *(char*) a++=d>>16;
+  *(char*) a++=d>>24;
 }
+
 ao(a){
-int d;
-return(*(char*) a&255)|(*(char*)(a+1)&255)<<8|(*(char*)(a+2)&255)<<16|(*(char*)(a+3)&255)<<24;
+  int d;
+  return(*(char*) a&255)|(*(char*)(a+1)&255)<<8|(*(char*)(a+2)&255)<<16|(*(char*)(a+3)&255)<<24;
 }
+
 ap(a,z){
-int d;
-while( a){
-d=ao(a);
-if( *(char*)(a-1) == 5){
-if( z>=G&&z<i)E(a,z+y);
-else E(a,z-K+R+y);
+  int d;
+  while( a){
+    d=ao(a);
+    if( *(char*)(a-1) == 5){
+      if( z>=G&&z<i)E(a,z+y);
+      else E(a,z-K+R+y);
+    }
+    else{
+      E(a,z-a-4);
+    }
+    a=d;
+  }
 }
-else{
-E(a,z-a-4);
-}
-a=d;
-}
-}
+
 H(a){
 ap(a,v);
 }
