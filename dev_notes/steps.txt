@@ -363,9 +363,12 @@ taken shortcuts.
 
 Build tcc_27 with tcc_26
 ========================
+No further description needed, at this point we are simply building the next
+version with the previous
 
 Build tcc_27 with tcc_27
 ========================
+Rebuilt tcc_27 with itself. Belt and braces to make sure it can.
 
 Build libc_boot4.o with tcc_27
 ==============================
@@ -373,3 +376,8 @@ Another libc polyfill
 
 Create a statically linked version of tcc_27
 ============================================
+To do this we need an equivalent of the crt files containing a _start function
+and a couple of base libc functions (like open and some syscalls). This file is
+called libc_static.c (meaning the static parts of a the libc). In the static
+binary we link in libc_static.o libc_boot4.o libtcc1 and tcc.o using the
+"-static" flag.
