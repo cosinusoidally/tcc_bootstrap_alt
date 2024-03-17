@@ -20,11 +20,12 @@ am (){
 }
 
 an (){
-if( m == 92){
-w ();
-if( m == 110)m=10;
+  if( m == 92){
+    w ();
+    if( m == 110)m=10;
+  }
 }
-}
+
 av(){
 int a,s,h;
 while( isspace(m)|m == 35){
