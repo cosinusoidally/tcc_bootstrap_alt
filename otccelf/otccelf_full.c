@@ -412,58 +412,61 @@ S(s){
 }
 
 ar(s){
-int h;
-while( e == 256|e!=-1&!s){
-if( e == 256){
-av();
-while( e!=59){
-if( s){
-P=P+4;
-*(int*) e=-P;
+  int h;
+  while( e == 256|e!=-1&!s){
+    if( e == 256){
+      av();
+      while( e!=59){
+        if( s){
+          P=P+4;
+          *(int*) e=-P;
+        }
+        else{
+          *(int*) e=i;
+          i=i+4;
+        }
+        av();
+        if( e == 44)av();
+      }
+      av();
+    }
+    else{
+      *(int*) e=v;
+      av();
+      av();
+      h=8;
+      while( e!=41){
+        *(int*) e=h;
+        h=h+4;
+        av();
+        if( e == 44)av();
+      }
+      av();
+      U=P=0;
+      aw( 15042901);
+      h=x(60545,0);
+      S(0);
+      H(U);
+      aw( 50121);
+      E(h,P);
+    }
+  }
 }
-else{
-*(int*) e=i;
-i=i+4;
-}
-av();
-if( e == 44)av();
-}
-av();
-}
-else{
-*(int*) e=v;
-av();
-av();
-h=8;
-while( e!=41){
-*(int*) e=h;
-h=h+4;
-av();
-if( e == 44)av();
-}
-av();
-U=P=0;
-aw( 15042901);
-h=x(60545,0);
-S(0);
-H(U);
-aw( 50121);
-E(h,P);
-}
-}
-}
+
 ax( d){
-E(i,d);
-i=i+4;
+  E(i,d);
+  i=i+4;
 }
+
 ad(d,a){
-ax( d);
-d=d+134512640;
-ax( d);
-ax( d);
-ax( a);
-ax( a);
+  ax( d);
+  d=d+134512640;
+  ax( d);
+  ax( d);
+  ax( a);
+  ax( a);
 }
+
 ae(s){
 int a,h,d,N,z,F;
 N=0;
