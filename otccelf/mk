@@ -1,0 +1,4 @@
+./mk_clean
+tcc otccelf.c -o 1.exe
+tcc otccelfn.c -o 2.exe
+
