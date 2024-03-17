@@ -97,20 +97,20 @@ av(){
     }
     else{
       a="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
-while( s=*(char*) a++){
-h=*(char*) a++;
-C=0;
-while((J=*(char*) a++-98)<0) C=C*64+J+64;
-if( s == e&(h == m|h == 64)){
-if( h == m){
-w ();
-e=1;
-}
-break;
-}
-}
-}
-}
+      while( s=*(char*) a++){
+        h=*(char*) a++;
+        C=0;
+        while((J=*(char*) a++-98)<0) C=C*64+J+64;
+        if( s == e&(h == m|h == 64)){
+          if( h == m){
+            w ();
+            e=1;
+          }
+          break;
+        }
+      }
+    }
+  }
 }
 
 aw( d){
