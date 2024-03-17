@@ -511,7 +511,7 @@ ae(s){
   }
 }
 
-au(F){
+elf_out(F){
   int Y,af,as,ag,at,ah,d,a,ai;
   R=i;
   ai=v-K;
@@ -620,6 +620,6 @@ main(n,t){
   av();
   ar(0);
   t=t+4;
-  au(*(int*) t);
+  elf_out(*(int*) t);
   return 0;
 }
