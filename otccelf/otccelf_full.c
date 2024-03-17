@@ -1,20 +1,24 @@
 int e,C,J,m,T,U,K,v,P,i,ak,Q,D,V,al,Z,G,R,y;
+
 L(a){
-*(char*) D++=a;
+  *(char*) D++=a;
 }
+
 w (){
-if( V){
-m=*(char*) V++;
-if( m == 2){
-V=0;
-m=al;
+  if(V){
+    m=*(char*) V++;
+    if( m == 2){
+      V=0;
+      m=al;
+    }
+  }
+    else m=fgetc(ak);
 }
-}
-else m=fgetc(ak);
-}
+
 am (){
-return isalnum(m)|m == 95;
+  return isalnum(m)|m == 95;
 }
+
 an (){
 if( m == 92){
 w ();
