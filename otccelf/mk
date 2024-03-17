@@ -1,4 +1,5 @@
 ./mk_clean
-tcc otccelf.c -o 1.exe
-tcc otccelfn.c -o 2.exe
+tcc otccelf.c -o otccelf.exe
+tcc otccelfn.c -o otccelfn.exe
+tcc otccelf_full.c -o otccelf_full.exe
 
