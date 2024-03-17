@@ -468,47 +468,47 @@ ad(d,a){
 }
 
 ae(s){
-int a,h,d,N,z,F;
-N=0;
-a=Q;
-while( 1){
-a++;
-h=a;
-while( *(char*) a!=32&&a<D)a++;
-if( a == D)break;
-e=T+(h-Q)*8+256-8;
-z=*(int*) e;
-d=*(int*)(e+4);
-if( d&&z!=1){
-if(!z){
-if(!s){
-memcpy(i,h,a-h);
-i=i+a-h+1;
-}
-else if( s == 1){
-ax( N+22);
-ax( 0);
-ax( 0);
-ax( 16);
-N=N+a-h+1;
-}
-else{
-N++;
-while( d){
-h=ao(d);
-F=*(char*)(d-1)!=5;
-E(d,-F*4);
-ax( d-K+R+y);
-ax( N*256+F+1);
-d=h;
-}
-}
-}
-else if(!s){
-ap(d,z);
-}
-}
-}
+  int a,h,d,N,z,F;
+  N=0;
+  a=Q;
+  while( 1){
+    a++;
+    h=a;
+    while( *(char*) a!=32&&a<D)a++;
+    if( a == D)break;
+    e=T+(h-Q)*8+256-8;
+    z=*(int*) e;
+    d=*(int*)(e+4);
+    if( d&&z!=1){
+      if(!z){
+        if(!s){
+          memcpy(i,h,a-h);
+          i=i+a-h+1;
+        }
+        else if( s == 1){
+          ax( N+22);
+          ax( 0);
+          ax( 0);
+          ax( 16);
+          N=N+a-h+1;
+        }
+        else{
+          N++;
+          while( d){
+            h=ao(d);
+            F=*(char*)(d-1)!=5;
+            E(d,-F*4);
+            ax( d-K+R+y);
+            ax( N*256+F+1);
+            d=h;
+          }
+        }
+      }
+      else if(!s){
+        ap(d,z);
+      }
+    }
+  }
 }
 au(F){
 int Y,af,as,ag,at,ah,d,a,ai;
