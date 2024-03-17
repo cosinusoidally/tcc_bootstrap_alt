@@ -344,72 +344,73 @@ ac (){
 }
 
 S(s){
-int h,d,a;
-if( e == 288){
-av();
-av();
-h=ac ();
-av();
-S(s);
-if( e == 312){
-av();
-d=I(0);
-H(h);
-S(s);
-H(d);
+  int h,d,a;
+  if( e == 288){
+    av();
+    av();
+    h=ac ();
+    av();
+    S(s);
+    if( e == 312){
+      av();
+      d=I(0);
+      H(h);
+      S(s);
+      H(d);
+    }
+    else{
+      H(h);
+    }
+  }
+  else if( e == 352|e == 504){
+    a=e;
+    av();
+    av();
+    if( a == 352){
+      d=v;
+      h=ac ();
+    }
+    else{
+      if( e!=59)B ();
+      av();
+      d=v;
+      h=0;
+      if( e!=59)h=ac ();
+      av();
+      if( e!=41){
+        a=I(0);
+        B ();
+        I(d-v-5);
+        H(a);
+        d=a+4;
+      }
+    }
+    av();
+    S(&h);
+    I(d-v-5);
+    H(h);
+  }
+  else if( e == 123){
+    av();
+    ar(1);
+    while( e!=125)S(s);
+    av();
+  }
+  else{
+    if( e == 448){
+      av();
+      if( e!=59)B ();
+      U=I(U);
+    }
+    else if( e == 400){
+      av();
+      *(int*) s=I(*(int*) s);
+    }
+    else if( e!=59)B ();
+    av();
+  }
 }
-else{
-H(h);
-}
-}
-else if( e == 352|e == 504){
-a=e;
-av();
-av();
-if( a == 352){
-d=v;
-h=ac ();
-}
-else{
-if( e!=59)B ();
-av();
-d=v;
-h=0;
-if( e!=59)h=ac ();
-av();
-if( e!=41){
-a=I(0);
-B ();
-I(d-v-5);
-H(a);
-d=a+4;
-}
-}
-av();
-S(&h);
-I(d-v-5);
-H(h);
-}
-else if( e == 123){
-av();
-ar(1);
-while( e!=125)S(s);
-av();
-}
-else{
-if( e == 448){
-av();
-if( e!=59)B ();
-U=I(U);
-}
-else if( e == 400){
-av();
-*(int*) s=I(*(int*) s);
-}
-else if( e!=59)B ();
-av();
-}
-}
+
 ar(s){
 int h;
 while( e == 256|e!=-1&!s){
