@@ -148,147 +148,155 @@ ap(a,z){
 }
 
 H(a){
-ap(a,v);
+  ap(a,v);
 }
+
 x(d,a){
-aw( d);
-E(v,a);
-a=v;
-v=v+4;
-return a;
+  aw( d);
+  E(v,a);
+  a=v;
+  v=v+4;
+  return a;
 }
+
 M(a){
-x(184,a);
+  x(184,a);
 }
+
 I(a){
-return x(233,a);
+  return x(233,a);
 }
+
 aa(s,a){
-aw( 1032325);
-return x(132+s,a);
+  aw( 1032325);
+  return x(132+s,a);
 }
+
 aq(a){
-aw( 49465);
-M(0);
-aw( 15);
-aw( a+144);
-aw( 192);
+  aw( 49465);
+  M(0);
+  aw( 15);
+  aw( a+144);
+  aw( 192);
 }
+
 W(s,a){
-int d;
-aw( s+131);
-d=*(int*) a;
-if( d&&d<512)x(133,d);
-else{
-a=a+4;
-*(int*) a=x(5,*(int*) a);
+  int d;
+  aw( s+131);
+  d=*(int*) a;
+  if( d&&d<512)x(133,d);
+  else{
+    a=a+4;
+    *(int*) a=x(5,*(int*) a);
+  }
 }
-}
+
 ab(s){
-int d,a,h,F;
-d=1;
-if( e == 34){
-M(i+y);
-while( m!=34){
-an ();
-*(char*) i++=m;
-w ();
+  int d,a,h,F;
+  d=1;
+  if( e == 34){
+    M(i+y);
+    while( m!=34){
+      an ();
+      *(char*) i++=m;
+      w ();
+    }
+    *(char*) i=0;
+    i=i+4&-4;
+    w ();
+    av();
+  }
+  else{
+    F=J;
+    h=C;
+    a=e;
+    av();
+    if( a == 2){
+      M(h);
+    }
+    else if( F == 2){
+      ab(0);
+      x(185,0);
+      if( a == 33)aq(h);
+      else aw( h);
+    }
+    else if( a == 40){
+      B ();
+      av();
+    }
+    else if( a == 42){
+      av();
+      a=e;
+      av();
+      av();
+      if( e == 42){
+        av();
+        av();
+        av();
+        av();
+        a=0;
+      }
+      av();
+      ab(0);
+      if( e == 61){
+        av();
+        aw( 80);
+        B ();
+        aw( 89);
+        aw( 392+(a == 256));
+      }
+      else if( a){
+        if( a == 256)aw( 139);
+        else aw( 48655);
+        v++;
+      }
+    }
+    else if( a == 38){
+      W(10,e);
+      av();
+    }
+    else{
+      d=0;
+      if( e == 61&s){
+        av();
+        B ();
+        W(6,a);
+      }
+      else if( e!=40){
+        W(8,a);
+        if( J == 11){
+          W(0,a);
+          aw( C);
+          av();
+        }
+      }
+    }
+  }
+  if( e == 40){
+    if( d)aw( 80);
+    h=x(60545,0);
+    av();
+    s=0;
+    while( e!=41){
+      B ();
+      x(2393225,s);
+      if( e == 44)av();
+      s=s+4;
+    }
+    E(h,s);
+    av();
+    if( d){
+      x(2397439,s);
+      s=s+4;
+    }
+    else{
+      a=a+4;
+      *(int*) a=x(232,*(int*) a);
+    }
+    if( s) x(50305,s);
+  }
 }
-*(char*) i=0;
-i=i+4&-4;
-w ();
-av();
-}
-else{
-F=J;
-h=C;
-a=e;
-av();
-if( a == 2){
-M(h);
-}
-else if( F == 2){
-ab(0);
-x(185,0);
-if( a == 33)aq(h);
-else aw( h);
-}
-else if( a == 40){
-B ();
-av();
-}
-else if( a == 42){
-av();
-a=e;
-av();
-av();
-if( e == 42){
-av();
-av();
-av();
-av();
-a=0;
-}
-av();
-ab(0);
-if( e == 61){
-av();
-aw( 80);
-B ();
-aw( 89);
-aw( 392+(a == 256));
-}
-else if( a){
-if( a == 256)aw( 139);
-else aw( 48655);
-v++;
-}
-}
-else if( a == 38){
-W(10,e);
-av();
-}
-else{
-d=0;
-if( e == 61&s){
-av();
-B ();
-W(6,a);
-}
-else if( e!=40){
-W(8,a);
-if( J == 11){
-W(0,a);
-aw( C);
-av();
-}
-}
-}
-}
-if( e == 40){
-if( d)aw( 80);
-h=x(60545,0);
-av();
-s=0;
-while( e!=41){
-B ();
-x(2393225,s);
-if( e == 44)av();
-s=s+4;
-}
-E(h,s);
-av();
-if( d){
-x(2397439,s);
-s=s+4;
-}
-else{
-a=a+4;
-*(int*) a=x(232,*(int*) a);
-}
-if( s) x(50305,s);
-}
-}
+
 X(s){
 int a,d,h;
 if( s--== 1) ab(1);
