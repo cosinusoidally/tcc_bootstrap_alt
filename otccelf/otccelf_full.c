@@ -159,7 +159,7 @@ oad(d,a){
   return a;
 }
 
-M(a){
+li(a){
   oad(184,a);
 }
 
@@ -174,7 +174,7 @@ aa(s,a){
 
 aq(a){
   o( 49465);
-  M(0);
+  li(0);
   o( 15);
   o( a+144);
   o( 192);
@@ -195,7 +195,7 @@ ab(s){
   int d,a,h,F;
   d=1;
   if( e == 34){
-    M(glo+data_offset);
+    li(glo+data_offset);
     while( m!=34){
       an ();
       *(char*) glo++=m;
@@ -212,7 +212,7 @@ ab(s){
     a=e;
     next();
     if( a == 2){
-      M(h);
+      li(h);
     }
     else if( F == 2){
       ab(0);
@@ -326,10 +326,10 @@ X(s){
     }
     if( h&&s>8){
       h=aa(a,h);
-      M(a^1);
+      li(a^1);
       I(5);
       H(h);
-      M(a);
+      li(a);
     }
   }
 }
@@ -520,7 +520,7 @@ elf_out(c){
   t=*(int*)(vars+592);
   oad(232,t-ind-5);
   o( 50057);
-  M(1);
+  li(1);
   o( 32973);
   glo=glo+text_size;
   dynstr=glo;
