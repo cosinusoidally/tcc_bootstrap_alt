@@ -1,3 +1,4 @@
+# 1 "otccelf_full.c"
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 pdef(a){
@@ -193,7 +194,7 @@ gmov(s,a){
   }
 }
 
-ab(s){
+unary(s){
   int d,a,h,F;
   d=1;
   if( tok == 34){
@@ -217,7 +218,7 @@ ab(s){
       li(h);
     }
     else if( F == 2){
-      ab(0);
+      unary(0);
       oad(185,0);
       if( a == 33)gcmp(h);
       else o( h);
@@ -239,7 +240,7 @@ ab(s){
         a=0;
       }
       next();
-      ab(0);
+      unary(0);
       if( tok == 61){
         next();
         o( 80);
@@ -301,7 +302,7 @@ ab(s){
 
 X(s){
   int a,d,h;
-  if( s--== 1) ab(1);
+  if( s--== 1) unary(1);
   else{
     X(s);
     h=0;
