@@ -1,4 +1,4 @@
-int e,C,J,m,T,U, prog, ind,P, glo,ak, sym_stk, dstk,V,al,Z, data,R,y;
+int e,C,J,m,T,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -12,7 +12,7 @@ w (){
       m=al;
     }
   }
-    else m=fgetc(ak);
+    else m=fgetc(file);
 }
 
 am (){
@@ -612,7 +612,7 @@ main(n,t){
   ind=prog =calloc(1,99999);
   T =calloc(1,99999);
   t=t+4;
-  ak=fopen(*(int*) t,"r");
+  file=fopen(*(int*) t,"r");
   y=134512640-data;
   glo=glo+252;
   ind=ind+17;
