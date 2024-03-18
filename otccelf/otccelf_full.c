@@ -200,9 +200,9 @@ gmov(s,a){
 unary(s){
   int d,a,h,F;
   d=1;
-  if( tok == 34){
+  if( tok == '\"'){
     li(glo+data_offset);
-    while( ch!=34){
+    while( ch!='\"'){
       getq ();
       *(char*) glo++=ch;
       inp ();
@@ -223,19 +223,22 @@ unary(s){
     else if( F == 2){
       unary(0);
       oad(185,0);
-      if( a == 33)gcmp(h);
-      else o( h);
+      if( a == '!') {
+        gcmp(h);
+      } else {
+        o( h);
+      }
     }
-    else if( a == 40){
+    else if( a == '('){
       expr ();
       next();
     }
-    else if( a == 42){
+    else if( a == '*'){
       next();
       a=tok;
       next();
       next();
-      if( tok == 42){
+      if( tok == '*'){
         next();
         next();
         next();
@@ -244,20 +247,18 @@ unary(s){
       }
       next();
       unary(0);
-      if( tok == 61){
+      if( tok == '='){
         next();
         o( 80);
         expr ();
         o( 89);
         o( 392+(a == 256));
-      }
-      else if( a){
+      } else if( a){
         if( a == 256)o( 139);
         else o( 48655);
         ind++;
       }
-    }
-    else if( a == 38){
+    } else if( a == '&'){
       gmov(10,tok);
       next();
     }
