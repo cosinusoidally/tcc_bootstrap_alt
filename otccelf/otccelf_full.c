@@ -434,7 +434,7 @@ decl(s){
   while( tok == 256|tok!=-1&!s){
     if( tok == 256){
       next();
-      while( tok!=59){
+      while( tok != ';'){
         if( s){
           loc=loc+4;
           *(int*) tok=-loc;
@@ -444,7 +444,9 @@ decl(s){
           glo=glo+4;
         }
         next();
-        if( tok == 44)next();
+        if( tok == ',') {
+          next();
+        }
       }
       next();
     }
@@ -453,11 +455,13 @@ decl(s){
       next();
       next();
       h=8;
-      while( tok!=41){
+      while( tok != ')'){
         *(int*) tok=h;
         h=h+4;
         next();
-        if( tok == 44)next();
+        if( tok == ',') {
+          next();
+        }
       }
       next();
       rsym=loc=0;
