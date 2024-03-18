@@ -453,18 +453,18 @@ decl(s){
   }
 }
 
-ax( d){
+gle32( d){
   E(glo,d);
   glo=glo+4;
 }
 
 ad(d,a){
-  ax( d);
+  gle32( d);
   d=d+134512640;
-  ax( d);
-  ax( d);
-  ax( a);
-  ax( a);
+  gle32( d);
+  gle32( d);
+  gle32( a);
+  gle32( a);
 }
 
 ae(s){
@@ -486,10 +486,10 @@ ae(s){
           glo=glo+a-h+1;
         }
         else if( s == 1){
-          ax( N+22);
-          ax( 0);
-          ax( 0);
-          ax( 16);
+          gle32( N+22);
+          gle32( 0);
+          gle32( 0);
+          gle32( 16);
           N=N+a-h+1;
         }
         else{
@@ -498,8 +498,8 @@ ae(s){
             h=ao(d);
             F=*(char*)(d-1)!=5;
             E(d,-F*4);
-            ax( d-prog+R+data_offset);
-            ax( N*256+F+1);
+            gle32( d-prog+R+data_offset);
+            gle32( N*256+F+1);
             d=h;
           }
         }
@@ -531,72 +531,72 @@ elf_out(c){
   dynstr_size=glo-dynstr;
   glo=(glo+3)&-4;
   dynsym=glo;
-  ax( 0);
-  ax( 0);
-  ax( 0);
-  ax( 0);
+  gle32( 0);
+  gle32( 0);
+  gle32( 0);
+  gle32( 0);
   ae(1);
   hash=glo;
   n=(glo-dynsym)/16;
-  ax( 1);
-  ax( n);
-  ax( 1);
-  ax( 0);
+  gle32( 1);
+  gle32( n);
+  gle32( 1);
+  gle32( 0);
   t=2;
-  while( t<n)ax( t++);
-  ax( 0);
+  while( t<n)gle32( t++);
+  gle32( 0);
   rel=glo;
   ae(2);
   memcpy(R,prog,text_size);
   glo_saved=glo;
   glo=data;
-  ax( 1179403647);
-  ax( 65793);
-  ax( 0);
-  ax( 0);
-  ax( 196610);
-  ax( 1);
-  ax( R+data_offset);
-  ax( 48);
-  ax( 0);
-  ax( 0);
-  ax( 2097204);
-  ax( 3);
-  ax( 3);
+  gle32( 1179403647);
+  gle32( 65793);
+  gle32( 0);
+  gle32( 0);
+  gle32( 196610);
+  gle32( 1);
+  gle32( R+data_offset);
+  gle32( 48);
+  gle32( 0);
+  gle32( 0);
+  gle32( 2097204);
+  gle32( 3);
+  gle32( 3);
   ad(144,19);
-  ax( 4);
-  ax( 1);
-  ax( 1);
+  gle32( 4);
+  gle32( 1);
+  gle32( 1);
   ad(0,glo_saved-data);
-  ax( 7);
-  ax( 4096);
-  ax( 2);
+  gle32( 7);
+  gle32( 4096);
+  gle32( 2);
   ad(164,88);
-  ax( 6);
-  ax( 4);
+  gle32( 6);
+  gle32( 4);
   glo=strcpy(glo,"/lib/ld-linux.so.2")+20;
-  ax( 1);
-  ax( 1);
-  ax( 1);
-  ax( 11);
-  ax( 4);
-  ax( hash+data_offset);
-  ax( 6);
-  ax( dynsym+data_offset);
-  ax( 5);
-  ax( dynstr+data_offset);
-  ax( 10);
-  ax( dynstr_size);
-  ax( 11);
-  ax( 16);
-  ax( 17);
-  ax( rel+data_offset);
-  ax( 18);
-  ax( glo_saved-rel);
-  ax( 19);
-  ax( 8);
-  ax( 0);
-  ax( 0);
+  gle32( 1);
+  gle32( 1);
+  gle32( 1);
+  gle32( 11);
+  gle32( 4);
+  gle32( hash+data_offset);
+  gle32( 6);
+  gle32( dynsym+data_offset);
+  gle32( 5);
+  gle32( dynstr+data_offset);
+  gle32( 10);
+  gle32( dynstr_size);
+  gle32( 11);
+  gle32( 16);
+  gle32( 17);
+  gle32( rel+data_offset);
+  gle32( 18);
+  gle32( glo_saved-rel);
+  gle32( 19);
+  gle32( 8);
+  gle32( 0);
+  gle32( 0);
   t=fopen(c,"w");
   fwrite(data,1,glo_saved-data,t);
   fclose(t);
