@@ -1,5 +1,7 @@
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
+int TOK_STR_SIZE;
+
 pdef(t){
   *(char*) dstk++ = t;
 }
@@ -628,13 +630,18 @@ elf_out(c){
   fclose(t);
 }
 
+init_globals(){
+  TOK_STR_SIZE = 48;
+}
+
 main(n,t){
+  init_globals();
   if( n<3){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
   dstk=strcpy(sym_stk = calloc(1,99999),
-              " int if else while break return for define main ")+48;
+              " int if else while break return for define main ") + TOK_STR_SIZE;
   glo = data = calloc(1,99999);
   ind = prog = calloc(1,99999);
   vars = calloc(1,99999);
