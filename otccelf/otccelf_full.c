@@ -1,4 +1,3 @@
-# 1 "otccelf_full.c"
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 pdef(a){
@@ -300,11 +299,11 @@ unary(s){
   }
 }
 
-X(s){
+sum(s){
   int a,d,h;
   if( s--== 1) unary(1);
   else{
-    X(s);
+    sum(s);
     h=0;
     while( s == tokl){
       d=tok;
@@ -312,11 +311,11 @@ X(s){
       next();
       if( s>8){
         h=gtst(a,h);
-        X(s);
+        sum(s);
       }
       else{
         o( 80);
-        X(s);
+        sum(s);
         o( 89);
         if( s == 4|s == 5){
           gcmp(a);
@@ -338,7 +337,7 @@ X(s){
 }
 
 B (){
-  X(11);
+  sum(11);
 }
 
 ac (){
