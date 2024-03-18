@@ -458,7 +458,7 @@ gle32( d){
   glo=glo+4;
 }
 
-ad(d,a){
+gphdr1(d,a){
   gle32( d);
   d=d+134512640;
   gle32( d);
@@ -563,15 +563,15 @@ elf_out(c){
   gle32( 2097204);
   gle32( 3);
   gle32( 3);
-  ad(144,19);
+  gphdr1(144,19);
   gle32( 4);
   gle32( 1);
   gle32( 1);
-  ad(0,glo_saved-data);
+  gphdr1(0,glo_saved-data);
   gle32( 7);
   gle32( 4096);
   gle32( 2);
-  ad(164,88);
+  gphdr1(164,88);
   gle32( 6);
   gle32( 4);
   glo=strcpy(glo,"/lib/ld-linux.so.2")+20;
