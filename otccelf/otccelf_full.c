@@ -120,7 +120,7 @@ o( d){
   }
 }
 
-E(a,d){
+put32(a,d){
   *(char*) a++=d;
   *(char*) a++=d>>8;
   *(char*) a++=d>>16;
@@ -137,11 +137,11 @@ ap(a,z){
   while( a){
     d=ao(a);
     if( *(char*)(a-1) == 5){
-      if( z>=data&&z<glo)E(a,z+data_offset);
-      else E(a,z-prog+text+data_offset);
+      if( z>=data&&z<glo)put32(a,z+data_offset);
+      else put32(a,z-prog+text+data_offset);
     }
     else{
-      E(a,z-a-4);
+      put32(a,z-a-4);
     }
     a=d;
   }
@@ -153,7 +153,7 @@ H(a){
 
 oad(d,a){
   o( d);
-  E(ind,a);
+  put32(ind,a);
   a=ind;
   ind=ind+4;
   return a;
@@ -283,7 +283,7 @@ ab(s){
       if( tok == 44)next();
       s=s+4;
     }
-    E(h,s);
+    put32(h,s);
     next();
     if( d){
       oad(2397439,s);
@@ -448,13 +448,13 @@ decl(s){
       S(0);
       H(rsym);
       o( 50121);
-      E(h,loc);
+      put32(h,loc);
     }
   }
 }
 
 gle32( d){
-  E(glo,d);
+  put32(glo,d);
   glo=glo+4;
 }
 
@@ -497,7 +497,7 @@ elf_reloc(s){
           while( d){
             h=ao(d);
             F=*(char*)(d-1)!=5;
-            E(d,-F*4);
+            put32(d,-F*4);
             gle32( d-prog+text+data_offset);
             gle32( N*256+F+1);
             d=h;
