@@ -415,14 +415,16 @@ block(s){
   else{
     if( tok == 448){
       next();
-      if( tok!=59)expr ();
+      if( tok != ';') {
+        expr ();
+      }
       rsym=gjmp(rsym);
-    }
-    else if( tok == 400){
+    } else if( tok == 400){
       next();
       *(int*) s=gjmp(*(int*) s);
+    } else if( tok != ';') {
+      expr ();
     }
-    else if( tok!=59)expr ();
     next();
   }
 }
