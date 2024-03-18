@@ -512,13 +512,13 @@ ae(s){
 }
 
 elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n,a,ai;
+  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t,ai;
   R=i;
   ai=v-K;
   v=K;
   aw( 5264472);
-  a=*(int*)(T+592);
-  x(232,a-v-5);
+  t=*(int*)(T+592);
+  x(232,t-v-5);
   aw( 50057);
   M(1);
   aw( 32973);
@@ -542,8 +542,8 @@ elf_out(c){
   ax( n);
   ax( 1);
   ax( 0);
-  a=2;
-  while( a<n)ax( a++);
+  t=2;
+  while( t<n)ax( t++);
   ax( 0);
   rel=i;
   ae(2);
@@ -597,9 +597,9 @@ elf_out(c){
   ax( 8);
   ax( 0);
   ax( 0);
-  a=fopen(c,"w");
-  fwrite(G,1,glo_saved-G,a);
-  fclose(a);
+  t=fopen(c,"w");
+  fwrite(G,1,glo_saved-G,t);
+  fclose(t);
 }
 
 main(n,t){
