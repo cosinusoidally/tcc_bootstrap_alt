@@ -223,7 +223,7 @@ unary(s){
       else o( h);
     }
     else if( a == 40){
-      B ();
+      expr ();
       next();
     }
     else if( a == 42){
@@ -243,7 +243,7 @@ unary(s){
       if( tok == 61){
         next();
         o( 80);
-        B ();
+        expr ();
         o( 89);
         o( 392+(a == 256));
       }
@@ -261,7 +261,7 @@ unary(s){
       d=0;
       if( tok == 61&s){
         next();
-        B ();
+        expr ();
         gmov(6,a);
       }
       else if( tok!=40){
@@ -280,7 +280,7 @@ unary(s){
     next();
     s=0;
     while( tok!=41){
-      B ();
+      expr ();
       oad(2393225,s);
       if( tok == 44)next();
       s=s+4;
@@ -336,12 +336,12 @@ sum(s){
   }
 }
 
-B (){
+expr (){
   sum(11);
 }
 
 ac (){
-  B ();
+  expr ();
   return gtst(0,0);
 }
 
@@ -373,7 +373,7 @@ S(s){
       h=ac ();
     }
     else{
-      if( tok!=59)B ();
+      if( tok!=59)expr ();
       next();
       d=ind;
       h=0;
@@ -381,7 +381,7 @@ S(s){
       next();
       if( tok!=41){
         a=gjmp(0);
-        B ();
+        expr ();
         gjmp(d-ind-5);
         gsym(a);
         d=a+4;
@@ -401,14 +401,14 @@ S(s){
   else{
     if( tok == 448){
       next();
-      if( tok!=59)B ();
+      if( tok!=59)expr ();
       rsym=gjmp(rsym);
     }
     else if( tok == 400){
       next();
       *(int*) s=gjmp(*(int*) s);
     }
-    else if( tok!=59)B ();
+    else if( tok!=59)expr ();
     next();
   }
 }
