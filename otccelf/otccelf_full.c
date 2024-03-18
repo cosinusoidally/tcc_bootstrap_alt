@@ -151,7 +151,7 @@ H(a){
   ap(a,ind);
 }
 
-x(d,a){
+oad(d,a){
   aw( d);
   E(ind,a);
   a=ind;
@@ -160,16 +160,16 @@ x(d,a){
 }
 
 M(a){
-  x(184,a);
+  oad(184,a);
 }
 
 I(a){
-  return x(233,a);
+  return oad(233,a);
 }
 
 aa(s,a){
   aw( 1032325);
-  return x(132+s,a);
+  return oad(132+s,a);
 }
 
 aq(a){
@@ -184,10 +184,10 @@ W(s,a){
   int d;
   aw( s+131);
   d=*(int*) a;
-  if( d&&d<512)x(133,d);
+  if( d&&d<512)oad(133,d);
   else{
     a=a+4;
-    *(int*) a=x(5,*(int*) a);
+    *(int*) a=oad(5,*(int*) a);
   }
 }
 
@@ -216,7 +216,7 @@ ab(s){
     }
     else if( F == 2){
       ab(0);
-      x(185,0);
+      oad(185,0);
       if( a == 33)aq(h);
       else aw( h);
     }
@@ -274,26 +274,26 @@ ab(s){
   }
   if( e == 40){
     if( d)aw( 80);
-    h=x(60545,0);
+    h=oad(60545,0);
     next();
     s=0;
     while( e!=41){
       B ();
-      x(2393225,s);
+      oad(2393225,s);
       if( e == 44)next();
       s=s+4;
     }
     E(h,s);
     next();
     if( d){
-      x(2397439,s);
+      oad(2397439,s);
       s=s+4;
     }
     else{
       a=a+4;
-      *(int*) a=x(232,*(int*) a);
+      *(int*) a=oad(232,*(int*) a);
     }
-    if( s) x(50305,s);
+    if( s) oad(50305,s);
   }
 }
 
@@ -444,7 +444,7 @@ decl(s){
       next();
       U=P=0;
       aw( 15042901);
-      h=x(60545,0);
+      h=oad(60545,0);
       S(0);
       H(U);
       aw( 50121);
@@ -518,7 +518,7 @@ elf_out(c){
   ind=prog;
   aw( 5264472);
   t=*(int*)(vars+592);
-  x(232,t-ind-5);
+  oad(232,t-ind-5);
   aw( 50057);
   M(1);
   aw( 32973);
