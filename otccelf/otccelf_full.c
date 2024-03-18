@@ -92,7 +92,7 @@ next(){
   else{
     inp ();
     if( tok == '\''){
-      tok=2;
+      tok = TOK_NUM;
       getq ();
       tokc=ch;
       inp ();
@@ -123,7 +123,7 @@ next(){
         if( s == tok & (h == ch | h == '@')){
           if( h == ch){
             inp ();
-            tok=1;
+            tok = TOK_DUMMY;
           }
           break;
         }
