@@ -137,8 +137,10 @@ ap(a,z){
   while( a){
     d=ao(a);
     if( *(char*)(a-1) == 5){
-      if( z>=data&&z<glo)put32(a,z+data_offset);
-      else put32(a,z-prog+text+data_offset);
+      if( z>=data&&z<glo)
+        put32(a,z+data_offset);
+      else
+        put32(a,z-prog+text+data_offset);
     }
     else{
       put32(a,z-a-4);
