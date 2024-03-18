@@ -1,4 +1,4 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,al,Z, data, text, data_offset;
+int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,Z, data, text, data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
@@ -9,7 +9,7 @@ inp (){
     ch=*(char*) dptr++;
     if( ch == 2){
       dptr=0;
-      ch=al;
+      ch=dch;
     }
   }
     else ch=fgetc(file);
@@ -69,7 +69,7 @@ next(){
         tok=vars+tok;
         if( *(int*) tok == 1){
           dptr=*(int*)(tok+4);
-          al=ch;
+          dch=ch;
           inp ();
           next();
         }
