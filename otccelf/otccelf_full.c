@@ -392,7 +392,7 @@ S(s){
   }
   else if( e == 123){
     next();
-    ar(1);
+    decl(1);
     while( e!=125)S(s);
     next();
   }
@@ -411,7 +411,7 @@ S(s){
   }
 }
 
-ar(s){
+decl(s){
   int h;
   while( e == 256|e!=-1&!s){
     if( e == 256){
@@ -618,7 +618,7 @@ main(n,t){
   ind=ind+17;
   inp ();
   next();
-  ar(0);
+  decl(0);
   t=t+4;
   elf_out(*(int*) t);
   return 0;
