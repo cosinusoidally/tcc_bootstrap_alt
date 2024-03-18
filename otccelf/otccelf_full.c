@@ -1,4 +1,4 @@
-int tok,tokc,tokl,ch,vars,rsym, prog, ind,loc, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,V,al,Z, data, text, data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
