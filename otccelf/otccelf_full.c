@@ -1,7 +1,7 @@
-int e,C,J,m,T,U,K,v,P,i,ak,Q,D,V,al,Z,G,R,y;
+int e,C,J,m,T,U,K,v,P,i,ak,Q, dstk,V,al,Z,G,R,y;
 
 L(a){
-  *(char*) D++=a;
+  *(char*) dstk++=a;
 }
 
 w (){
@@ -36,7 +36,7 @@ av(){
         av();
         L(32);
         *(int*) e=1;
-        *(int*)(e+4)=D;
+        *(int*)(e+4)=dstk;
       }
       while( m!=10){
         L(m);
@@ -51,7 +51,7 @@ av(){
   e=m;
   if( am ()){
     L(32);
-    Z=D;
+    Z=dstk;
     while( am ()){
       L(m);
       w ();
@@ -61,9 +61,9 @@ av(){
       e=2;
     }
     else{
-      *(char*) D=32;
+      *(char*) dstk=32;
       e=strstr(Q,Z-1)-Q;
-      *(char*) D=0;
+      *(char*) dstk=0;
       e=e*8+256;
       if( e>536){
         e=T+e;
@@ -474,8 +474,8 @@ ae(s){
   while( 1){
     a++;
     h=a;
-    while( *(char*) a!=32&&a<D)a++;
-    if( a == D)break;
+    while( *(char*) a!=32&&a<dstk)a++;
+    if( a == dstk)break;
     e=T+(h-Q)*8+256-8;
     z=*(int*) e;
     d=*(int*)(e+4);
@@ -607,7 +607,7 @@ main(n,t){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
-  D=strcpy(Q =calloc(1,99999)," int if else while break return for define main ")+48;
+  dstk=strcpy(Q =calloc(1,99999)," int if else while break return for define main ")+48;
   i=G =calloc(1,99999);
   v=K =calloc(1,99999);
   T =calloc(1,99999);
