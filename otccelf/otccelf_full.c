@@ -1,4 +1,3 @@
-# 1 "otccelf_full.c"
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 pdef(a){
@@ -170,7 +169,7 @@ gjmp(a){
   return oad(233,a);
 }
 
-aa(s,a){
+gtst(s,a){
   o( 1032325);
   return oad(132+s,a);
 }
@@ -311,7 +310,7 @@ X(s){
       a=tokc;
       next();
       if( s>8){
-        h=aa(a,h);
+        h=gtst(a,h);
         X(s);
       }
       else{
@@ -328,7 +327,7 @@ X(s){
       }
     }
     if( h&&s>8){
-      h=aa(a,h);
+      h=gtst(a,h);
       li(a^1);
       gjmp(5);
       gsym(h);
@@ -343,7 +342,7 @@ B (){
 
 ac (){
   B ();
-  return aa(0,0);
+  return gtst(0,0);
 }
 
 S(s){
