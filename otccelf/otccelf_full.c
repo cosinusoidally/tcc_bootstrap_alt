@@ -15,7 +15,7 @@ inp (){
     else ch=fgetc(file);
 }
 
-am (){
+isid (){
   return isalnum(ch)|ch == 95;
 }
 
@@ -49,10 +49,10 @@ next(){
   }
   tokl=0;
   tok=ch;
-  if( am ()){
+  if( isid ()){
     pdef(32);
     last_id=dstk;
-    while( am ()){
+    while( isid ()){
       pdef(ch);
       inp ();
     }
