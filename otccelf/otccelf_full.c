@@ -607,7 +607,7 @@ elf_out(c){
   gle32( 2097204);
   gle32( 3);
   gle32( 3);
-  gphdr1(144,19);
+  gphdr1(INTERP_OFFSET, INTERP_SIZE);
   gle32( 4);
   gle32( 1);
   gle32( 1);
