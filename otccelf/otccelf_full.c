@@ -1,4 +1,4 @@
-int e,C,J,m,T,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,y;
+int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -66,7 +66,7 @@ av(){
       *(char*) dstk=0;
       e=e*8+256;
       if( e>536){
-        e=T+e;
+        e=vars+e;
         if( *(int*) e == 1){
           V=*(int*)(e+4);
           al=m;
@@ -476,7 +476,7 @@ ae(s){
     h=a;
     while( *(char*) a!=32&&a<dstk)a++;
     if( a == dstk)break;
-    e=T+(h-sym_stk)*8+256-8;
+    e=vars+(h-sym_stk)*8+256-8;
     z=*(int*) e;
     d=*(int*)(e+4);
     if( d&&z!=1){
@@ -517,7 +517,7 @@ elf_out(c){
   text_size=ind-prog;
   ind=prog;
   aw( 5264472);
-  t=*(int*)(T+592);
+  t=*(int*)(vars+592);
   x(232,t-ind-5);
   aw( 50057);
   M(1);
@@ -610,7 +610,7 @@ main(n,t){
   dstk=strcpy(sym_stk =calloc(1,99999)," int if else while break return for define main ")+48;
   glo=data =calloc(1,99999);
   ind=prog =calloc(1,99999);
-  T =calloc(1,99999);
+  vars =calloc(1,99999);
   t=t+4;
   file=fopen(*(int*) t,"r");
   y=134512640-data;
