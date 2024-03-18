@@ -1,4 +1,4 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,Z, data, text, data_offset;
+int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
@@ -51,18 +51,18 @@ next(){
   tok=ch;
   if( am ()){
     pdef(32);
-    Z=dstk;
+    last_id=dstk;
     while( am ()){
       pdef(ch);
       inp ();
     }
     if( isdigit(tok)){
-      tokc=strtol(Z,0,0);
+      tokc=strtol(last_id,0,0);
       tok=2;
     }
     else{
       *(char*) dstk=32;
-      tok=strstr(sym_stk,Z-1)-sym_stk;
+      tok=strstr(sym_stk,last_id-1)-sym_stk;
       *(char*) dstk=0;
       tok=tok*8+256;
       if( tok>536){
