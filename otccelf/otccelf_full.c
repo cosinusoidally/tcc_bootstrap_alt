@@ -1,4 +1,4 @@
-int tok,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,tokc,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -57,7 +57,7 @@ next(){
       inp ();
     }
     if( isdigit(tok)){
-      C=strtol(Z,0,0);
+      tokc=strtol(Z,0,0);
       tok=2;
     }
     else{
@@ -81,7 +81,7 @@ next(){
     if( tok == 39){
       tok=2;
       an ();
-      C=m;
+      tokc=m;
       inp ();
       inp ();
     }
@@ -99,8 +99,8 @@ next(){
       a="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
       while( s=*(char*) a++){
         h=*(char*) a++;
-        C=0;
-        while((J=*(char*) a++-98)<0) C=C*64+J+64;
+        tokc=0;
+        while((J=*(char*) a++-98)<0) tokc=tokc*64+J+64;
         if( s == tok&(h == m|h == 64)){
           if( h == m){
             inp ();
@@ -208,7 +208,7 @@ ab(s){
   }
   else{
     F=J;
-    h=C;
+    h=tokc;
     a=tok;
     next();
     if( a == 2){
@@ -266,7 +266,7 @@ ab(s){
         W(8,a);
         if( J == 11){
           W(0,a);
-          o( C);
+          o( tokc);
           next();
         }
       }
@@ -305,7 +305,7 @@ X(s){
     h=0;
     while( s == J){
       d=tok;
-      a=C;
+      a=tokc;
       next();
       if( s>8){
         h=aa(a,h);
