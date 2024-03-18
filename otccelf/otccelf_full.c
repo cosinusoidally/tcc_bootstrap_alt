@@ -381,13 +381,17 @@ block(s){
       h=test_expr ();
     }
     else{
-      if( tok!=59)expr ();
+      if( tok != ';') {
+        expr ();
+      }
       next();
       d=ind;
       h=0;
-      if( tok!=59)h=test_expr ();
+      if( tok != ';') {
+        h=test_expr ();
+      }
       next();
-      if( tok!=41){
+      if( tok != ')'){
         a=gjmp(0);
         expr ();
         gjmp(d-ind-5);
@@ -400,10 +404,12 @@ block(s){
     gjmp(d-ind-5);
     gsym(h);
   }
-  else if( tok == 123){
+  else if( tok == '{'){
     next();
     decl(1);
-    while( tok!=125)block(s);
+    while( tok != '}') {
+      block(s);
+    }
     next();
   }
   else{
