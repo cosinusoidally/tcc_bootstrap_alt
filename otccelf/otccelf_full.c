@@ -4,7 +4,7 @@ L(a){
   *(char*) dstk++=a;
 }
 
-w (){
+inp (){
   if(V){
     m=*(char*) V++;
     if( m == 2){
@@ -21,7 +21,7 @@ am (){
 
 an (){
   if( m == 92){
-    w ();
+    inp ();
     if( m == 110)m=10;
   }
 }
@@ -30,7 +30,7 @@ av(){
   int a,s,h;
   while( isspace(m)|m == 35){
     if( m == 35){
-      w ();
+      inp ();
       av();
       if( e == 536){
         av();
@@ -40,12 +40,12 @@ av(){
       }
       while( m!=10){
         L(m);
-        w ();
+        inp ();
       }
       L(m);
       L(2);
     }
-    w ();
+    inp ();
   }
   J=0;
   e=m;
@@ -54,7 +54,7 @@ av(){
     Z=dstk;
     while( am ()){
       L(m);
-      w ();
+      inp ();
     }
     if( isdigit(e)){
       C=strtol(Z,0,0);
@@ -70,29 +70,29 @@ av(){
         if( *(int*) e == 1){
           V=*(int*)(e+4);
           al=m;
-          w ();
+          inp ();
           av();
         }
       }
     }
   }
   else{
-    w ();
+    inp ();
     if( e == 39){
       e=2;
       an ();
       C=m;
-      w ();
-      w ();
+      inp ();
+      inp ();
     }
     else if( e == 47&m == 42){
-      w ();
+      inp ();
       while( m){
-        while( m!=42)w ();
-        w ();
+        while( m!=42)inp ();
+        inp ();
         if( m == 47)m=0;
       }
-      w ();
+      inp ();
       av();
     }
     else{
@@ -103,7 +103,7 @@ av(){
         while((J=*(char*) a++-98)<0) C=C*64+J+64;
         if( s == e&(h == m|h == 64)){
           if( h == m){
-            w ();
+            inp ();
             e=1;
           }
           break;
@@ -199,11 +199,11 @@ ab(s){
     while( m!=34){
       an ();
       *(char*) glo++=m;
-      w ();
+      inp ();
     }
     *(char*) glo=0;
     glo=glo+4&-4;
-    w ();
+    inp ();
     av();
   }
   else{
@@ -616,7 +616,7 @@ main(n,t){
   data_offset=134512640-data;
   glo=glo+252;
   ind=ind+17;
-  w ();
+  inp ();
   av();
   ar(0);
   t=t+4;
