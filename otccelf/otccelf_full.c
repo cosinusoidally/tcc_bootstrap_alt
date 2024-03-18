@@ -511,7 +511,7 @@ ae(s){
   }
 }
 
-elf_out(F){
+elf_out(c){
   int glo_saved, dynstr, dynstr_size, dynsym,at,ah,d,a,ai;
   R=i;
   ai=v-K;
@@ -597,7 +597,7 @@ elf_out(F){
   ax( 8);
   ax( 0);
   ax( 0);
-  a=fopen(F,"w");
+  a=fopen(c,"w");
   fwrite(G,1,glo_saved-G,a);
   fclose(a);
 }
