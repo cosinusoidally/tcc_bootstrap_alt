@@ -1,4 +1,4 @@
-int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,data_offset;
+int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -138,7 +138,7 @@ ap(a,z){
     d=ao(a);
     if( *(char*)(a-1) == 5){
       if( z>=data&&z<glo)E(a,z+data_offset);
-      else E(a,z-prog+R+data_offset);
+      else E(a,z-prog+text+data_offset);
     }
     else{
       E(a,z-a-4);
@@ -498,7 +498,7 @@ ae(s){
             h=ao(d);
             F=*(char*)(d-1)!=5;
             E(d,-F*4);
-            gle32( d-prog+R+data_offset);
+            gle32( d-prog+text+data_offset);
             gle32( N*256+F+1);
             d=h;
           }
@@ -513,7 +513,7 @@ ae(s){
 
 elf_out(c){
   int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
-  R=glo;
+  text=glo;
   text_size=ind-prog;
   ind=prog;
   aw( 5264472);
@@ -547,7 +547,7 @@ elf_out(c){
   gle32( 0);
   rel=glo;
   ae(2);
-  memcpy(R,prog,text_size);
+  memcpy(text,prog,text_size);
   glo_saved=glo;
   glo=data;
   gle32( 1179403647);
@@ -556,7 +556,7 @@ elf_out(c){
   gle32( 0);
   gle32( 196610);
   gle32( 1);
-  gle32( R+data_offset);
+  gle32( text+data_offset);
   gle32( 48);
   gle32( 0);
   gle32( 0);
