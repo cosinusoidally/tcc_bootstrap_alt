@@ -19,7 +19,7 @@ isid (){
   return isalnum(ch)|ch == 95;
 }
 
-an (){
+getq (){
   if( ch == 92){
     inp ();
     if( ch == 110)ch=10;
@@ -80,7 +80,7 @@ next(){
     inp ();
     if( tok == 39){
       tok=2;
-      an ();
+      getq ();
       tokc=ch;
       inp ();
       inp ();
@@ -197,7 +197,7 @@ ab(s){
   if( tok == 34){
     li(glo+data_offset);
     while( ch!=34){
-      an ();
+      getq ();
       *(char*) glo++=ch;
       inp ();
     }
