@@ -174,7 +174,7 @@ gtst(s,a){
   return oad(132+s,a);
 }
 
-aq(a){
+gcmp(a){
   o( 49465);
   li(0);
   o( 15);
@@ -219,7 +219,7 @@ ab(s){
     else if( F == 2){
       ab(0);
       oad(185,0);
-      if( a == 33)aq(h);
+      if( a == 33)gcmp(h);
       else o( h);
     }
     else if( a == 40){
@@ -318,7 +318,7 @@ X(s){
         X(s);
         o( 89);
         if( s == 4|s == 5){
-          aq(a);
+          gcmp(a);
         }
         else{
           o( a);
