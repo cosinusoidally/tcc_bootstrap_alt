@@ -132,7 +132,7 @@ get32(a){
   return(*(char*) a&255)|(*(char*)(a+1)&255)<<8|(*(char*)(a+2)&255)<<16|(*(char*)(a+3)&255)<<24;
 }
 
-ap(a,z){
+gsym1(a,z){
   int d;
   while( a){
     d=get32(a);
@@ -150,7 +150,7 @@ ap(a,z){
 }
 
 H(a){
-  ap(a,ind);
+  gsym1(a,ind);
 }
 
 oad(d,a){
@@ -507,7 +507,7 @@ elf_reloc(s){
         }
       }
       else if(!s){
-        ap(d,z);
+        gsym1(d,z);
       }
     }
   }
