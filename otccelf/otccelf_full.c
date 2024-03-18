@@ -90,9 +90,13 @@ next(){
     else if( tok == '/' & ch == '*'){
       inp ();
       while( ch){
-        while( ch!=42)inp ();
+        while( ch != '*') {
+          inp ();
+        }
         inp ();
-        if( ch == 47)ch=0;
+        if( ch == '/') {
+          ch=0;
+        }
       }
       inp ();
       next();
