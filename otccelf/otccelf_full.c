@@ -467,7 +467,7 @@ ad(d,a){
   gle32( a);
 }
 
-ae(s){
+elf_reloc(s){
   int a,h,d,N,z,F;
   N=0;
   a=sym_stk;
@@ -527,7 +527,7 @@ elf_out(c){
   glo++;
   glo=strcpy(glo,"libc.so.6")+10;
   glo=strcpy(glo,"libdl.so.2")+11;
-  ae(0);
+  elf_reloc(0);
   dynstr_size=glo-dynstr;
   glo=(glo+3)&-4;
   dynsym=glo;
@@ -535,7 +535,7 @@ elf_out(c){
   gle32( 0);
   gle32( 0);
   gle32( 0);
-  ae(1);
+  elf_reloc(1);
   hash=glo;
   n=(glo-dynsym)/16;
   gle32( 1);
@@ -546,7 +546,7 @@ elf_out(c){
   while( t<n)gle32( t++);
   gle32( 0);
   rel=glo;
-  ae(2);
+  elf_reloc(2);
   memcpy(text,prog,text_size);
   glo_saved=glo;
   glo=data;
