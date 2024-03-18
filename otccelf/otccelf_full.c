@@ -1,4 +1,4 @@
-int tok,tokc,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,tokc,tokl,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -47,7 +47,7 @@ next(){
     }
     inp ();
   }
-  J=0;
+  tokl=0;
   tok=m;
   if( am ()){
     L(32);
@@ -100,7 +100,7 @@ next(){
       while( s=*(char*) a++){
         h=*(char*) a++;
         tokc=0;
-        while((J=*(char*) a++-98)<0) tokc=tokc*64+J+64;
+        while((tokl=*(char*) a++-98)<0) tokc=tokc*64+tokl+64;
         if( s == tok&(h == m|h == 64)){
           if( h == m){
             inp ();
@@ -207,7 +207,7 @@ ab(s){
     next();
   }
   else{
-    F=J;
+    F=tokl;
     h=tokc;
     a=tok;
     next();
@@ -264,7 +264,7 @@ ab(s){
       }
       else if( tok!=40){
         W(8,a);
-        if( J == 11){
+        if( tokl == 11){
           W(0,a);
           o( tokc);
           next();
@@ -303,7 +303,7 @@ X(s){
   else{
     X(s);
     h=0;
-    while( s == J){
+    while( s == tokl){
       d=tok;
       a=tokc;
       next();
