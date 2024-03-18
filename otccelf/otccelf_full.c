@@ -74,13 +74,13 @@ next(){
       tok = TOK_NUM;
     }
     else{
-      *(char*) dstk=32;
-      tok=strstr(sym_stk,last_id-1)-sym_stk;
+      *(char*) dstk = TAG_TOK;
+      tok = strstr(sym_stk, last_id - 1) - sym_stk;
       *(char*) dstk=0;
-      tok=tok*8+256;
-      if( tok>536){
+      tok=tok * 8 + TOK_IDENT;
+      if( tok>TOK_DEFINE){
         tok=vars+tok;
-        if( *(int*) tok == 1){
+        if( *(int*) tok == SYM_DEFINE){
           dptr=*(int*)(tok+4);
           dch=ch;
           inp ();
