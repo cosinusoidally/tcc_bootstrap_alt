@@ -3,6 +3,8 @@ int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dp
 int ALLOC_SIZE;
 
 int ELF_BASE;
+int PHDR_OFFSET, INTERP_OFFSET, INTERP_SIZE, DYNAMIC_OFFSET, DYNAMIC_SIZE;
+int ELFSTART_SIZE, STARTUP_SIZE, DYNSTR_BASE;
 
 int TOK_STR_SIZE;
 
@@ -638,6 +640,18 @@ init_globals(){
   ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
+  PHDR_OFFSET = 0x30;
+
+  INTERP_OFFSET = 0x90;
+  INTERP_SIZE =  0x13;
+
+  DYNAMIC_OFFSET = (INTERP_OFFSET + INTERP_SIZE + 1);
+  DYNAMIC_SIZE =  (11*8);
+
+  ELFSTART_SIZE = (DYNAMIC_OFFSET + DYNAMIC_SIZE);
+  STARTUP_SIZE =  17;
+
+  DYNSTR_BASE  =  22;
 
   TOK_STR_SIZE = 48;
 }
@@ -658,8 +672,8 @@ main(n,t){
   file=fopen(*(int*)t, "r");
 
   data_offset = ELF_BASE - data;
-  glo=glo+252;
-  ind=ind+17;
+  glo = glo + ELFSTART_SIZE;
+  ind = ind + STARTUP_SIZE;
 
   inp();
   next();
