@@ -559,7 +559,7 @@ elf_out(c){
   text_size=ind-prog;
   ind=prog;
   o( 5264472);
-  t=*(int*)(vars+592);
+  t = *(int*)(vars + TOK_MAIN);
   oad(232,t-ind-5);
   o( 50057);
   li(1);
@@ -585,7 +585,9 @@ elf_out(c){
   gle32( 1);
   gle32( 0);
   t=2;
-  while( t<n)gle32( t++);
+  while( t < n) {
+    gle32( t++);
+  }
   gle32( 0);
   rel=glo;
   elf_reloc(2);
@@ -599,7 +601,7 @@ elf_out(c){
   gle32( 196610);
   gle32( 1);
   gle32( text+data_offset);
-  gle32( 48);
+  gle32( PHDR_OFFSET);
   gle32( 0);
   gle32( 0);
   gle32( 2097204);
