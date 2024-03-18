@@ -512,7 +512,7 @@ ae(s){
 }
 
 elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash,ah,d,a,ai;
+  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel,d,a,ai;
   R=i;
   ai=v-K;
   v=K;
@@ -545,7 +545,7 @@ elf_out(c){
   a=2;
   while( a<d)ax( a++);
   ax( 0);
-  ah=i;
+  rel=i;
   ae(2);
   memcpy(R,K,ai);
   glo_saved=i;
@@ -590,9 +590,9 @@ elf_out(c){
   ax( 11);
   ax( 16);
   ax( 17);
-  ax( ah+y);
+  ax( rel+y);
   ax( 18);
-  ax( glo_saved-ah);
+  ax( glo_saved-rel);
   ax( 19);
   ax( 8);
   ax( 0);
