@@ -1,4 +1,4 @@
-int e,C,J,m,T,U, prog,v,P, glo,ak, sym_stk, dstk,V,al,Z, data,R,y;
+int e,C,J,m,T,U, prog, ind,P, glo,ak, sym_stk, dstk,V,al,Z, data,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -115,7 +115,7 @@ av(){
 
 aw( d){
   while( d&&d!=-1){
-    *(char*) v++=d;
+    *(char*) ind++=d;
     d=d>>8;
   }
 }
@@ -148,14 +148,14 @@ ap(a,z){
 }
 
 H(a){
-  ap(a,v);
+  ap(a,ind);
 }
 
 x(d,a){
   aw( d);
-  E(v,a);
-  a=v;
-  v=v+4;
+  E(ind,a);
+  a=ind;
+  ind=ind+4;
   return a;
 }
 
@@ -248,7 +248,7 @@ ab(s){
       else if( a){
         if( a == 256)aw( 139);
         else aw( 48655);
-        v++;
+        ind++;
       }
     }
     else if( a == 38){
@@ -367,27 +367,27 @@ S(s){
     av();
     av();
     if( a == 352){
-      d=v;
+      d=ind;
       h=ac ();
     }
     else{
       if( e!=59)B ();
       av();
-      d=v;
+      d=ind;
       h=0;
       if( e!=59)h=ac ();
       av();
       if( e!=41){
         a=I(0);
         B ();
-        I(d-v-5);
+        I(d-ind-5);
         H(a);
         d=a+4;
       }
     }
     av();
     S(&h);
-    I(d-v-5);
+    I(d-ind-5);
     H(h);
   }
   else if( e == 123){
@@ -431,7 +431,7 @@ ar(s){
       av();
     }
     else{
-      *(int*) e=v;
+      *(int*) e=ind;
       av();
       av();
       h=8;
@@ -514,11 +514,11 @@ ae(s){
 elf_out(c){
   int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
   R=glo;
-  text_size=v-prog;
-  v=prog;
+  text_size=ind-prog;
+  ind=prog;
   aw( 5264472);
   t=*(int*)(T+592);
-  x(232,t-v-5);
+  x(232,t-ind-5);
   aw( 50057);
   M(1);
   aw( 32973);
@@ -609,13 +609,13 @@ main(n,t){
   }
   dstk=strcpy(sym_stk =calloc(1,99999)," int if else while break return for define main ")+48;
   glo=data =calloc(1,99999);
-  v=prog =calloc(1,99999);
+  ind=prog =calloc(1,99999);
   T =calloc(1,99999);
   t=t+4;
   ak=fopen(*(int*) t,"r");
   y=134512640-data;
   glo=glo+252;
-  v=v+17;
+  ind=ind+17;
   w ();
   av();
   ar(0);
