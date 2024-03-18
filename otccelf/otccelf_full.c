@@ -512,7 +512,7 @@ ae(s){
 }
 
 elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel,d,a,ai;
+  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n,a,ai;
   R=i;
   ai=v-K;
   v=K;
@@ -537,13 +537,13 @@ elf_out(c){
   ax( 0);
   ae(1);
   hash=i;
-  d=(i-dynsym)/16;
+  n=(i-dynsym)/16;
   ax( 1);
-  ax( d);
+  ax( n);
   ax( 1);
   ax( 0);
   a=2;
-  while( a<d)ax( a++);
+  while( a<n)ax( a++);
   ax( 0);
   rel=i;
   ae(2);
