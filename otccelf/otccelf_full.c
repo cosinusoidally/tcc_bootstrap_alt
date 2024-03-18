@@ -1,6 +1,6 @@
 int tok,tokc,tokl,ch,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
-L(a){
+pdef(a){
   *(char*) dstk++=a;
 }
 
@@ -34,26 +34,26 @@ next(){
       next();
       if( tok == 536){
         next();
-        L(32);
+        pdef(32);
         *(int*) tok=1;
         *(int*)(tok+4)=dstk;
       }
       while( ch!=10){
-        L(ch);
+        pdef(ch);
         inp ();
       }
-      L(ch);
-      L(2);
+      pdef(ch);
+      pdef(2);
     }
     inp ();
   }
   tokl=0;
   tok=ch;
   if( am ()){
-    L(32);
+    pdef(32);
     Z=dstk;
     while( am ()){
-      L(ch);
+      pdef(ch);
       inp ();
     }
     if( isdigit(tok)){
