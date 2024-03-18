@@ -345,19 +345,19 @@ test_expr (){
   return gtst(0,0);
 }
 
-S(s){
+block(s){
   int h,d,a;
   if( tok == 288){
     next();
     next();
     h=test_expr ();
     next();
-    S(s);
+    block(s);
     if( tok == 312){
       next();
       d=gjmp(0);
       gsym(h);
-      S(s);
+      block(s);
       gsym(d);
     }
     else{
@@ -388,14 +388,14 @@ S(s){
       }
     }
     next();
-    S(&h);
+    block(&h);
     gjmp(d-ind-5);
     gsym(h);
   }
   else if( tok == 123){
     next();
     decl(1);
-    while( tok!=125)S(s);
+    while( tok!=125)block(s);
     next();
   }
   else{
@@ -447,7 +447,7 @@ decl(s){
       rsym=loc=0;
       o( 15042901);
       h=oad(60545,0);
-      S(0);
+      block(0);
       gsym(rsym);
       o( 50121);
       put32(h,loc);
