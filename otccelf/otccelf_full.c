@@ -7,6 +7,9 @@ int PHDR_OFFSET, INTERP_OFFSET, INTERP_SIZE, DYNAMIC_OFFSET, DYNAMIC_SIZE;
 int ELFSTART_SIZE, STARTUP_SIZE, DYNSTR_BASE;
 
 int TOK_STR_SIZE;
+int TOK_IDENT, TOK_INT, TOK_IF, TOK_ELSE, TOK_WHILE, TOK_BREAK, TOK_RETURN;
+int TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
+int SYM_DEFINE, TAG_TOK, TAG_MACRO;
 
 pdef(t){
   *(char*) dstk++ = t;
@@ -654,7 +657,29 @@ init_globals(){
   DYNSTR_BASE  =  22;
 
   TOK_STR_SIZE = 48;
+  TOK_IDENT  =  0x100;
+  TOK_INT    =  0x100;
+  TOK_IF     =  0x120;
+  TOK_ELSE   =  0x138;
+  TOK_WHILE  =  0x160;
+  TOK_BREAK  =  0x190;
+  TOK_RETURN =  0x1c0;
+  TOK_FOR    =  0x1f8;
+  TOK_DEFINE =  0x218;
+  TOK_MAIN   =  0x250;
+
+  TOK_DUMMY  = 1;
+  TOK_NUM    = 2;
+
+  LOCAL = 0x200;
+
+  SYM_FORWARD = 0;
+  SYM_DEFINE  = 1;
+
+  TAG_TOK   =  ' ';
+  TAG_MACRO =  2;
 }
+
 
 main(n,t){
   init_globals();
