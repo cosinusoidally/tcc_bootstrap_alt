@@ -205,8 +205,9 @@ gmov(s,a){
   int d;
   o( s+131);
   d=*(int*) a;
-  if( d&&d<512)oad(133,d);
-  else{
+  if( d && d < LOCAL) {
+    oad(133,d);
+  } else {
     a=a+4;
     *(int*) a=oad(5,*(int*) a);
   }
