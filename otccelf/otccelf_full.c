@@ -1,4 +1,4 @@
-int tok,tokc,tokl,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,tokc,tokl,ch,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -6,30 +6,30 @@ L(a){
 
 inp (){
   if(V){
-    m=*(char*) V++;
-    if( m == 2){
+    ch=*(char*) V++;
+    if( ch == 2){
       V=0;
-      m=al;
+      ch=al;
     }
   }
-    else m=fgetc(file);
+    else ch=fgetc(file);
 }
 
 am (){
-  return isalnum(m)|m == 95;
+  return isalnum(ch)|ch == 95;
 }
 
 an (){
-  if( m == 92){
+  if( ch == 92){
     inp ();
-    if( m == 110)m=10;
+    if( ch == 110)ch=10;
   }
 }
 
 next(){
   int a,s,h;
-  while( isspace(m)|m == 35){
-    if( m == 35){
+  while( isspace(ch)|ch == 35){
+    if( ch == 35){
       inp ();
       next();
       if( tok == 536){
@@ -38,22 +38,22 @@ next(){
         *(int*) tok=1;
         *(int*)(tok+4)=dstk;
       }
-      while( m!=10){
-        L(m);
+      while( ch!=10){
+        L(ch);
         inp ();
       }
-      L(m);
+      L(ch);
       L(2);
     }
     inp ();
   }
   tokl=0;
-  tok=m;
+  tok=ch;
   if( am ()){
     L(32);
     Z=dstk;
     while( am ()){
-      L(m);
+      L(ch);
       inp ();
     }
     if( isdigit(tok)){
@@ -69,7 +69,7 @@ next(){
         tok=vars+tok;
         if( *(int*) tok == 1){
           V=*(int*)(tok+4);
-          al=m;
+          al=ch;
           inp ();
           next();
         }
@@ -81,16 +81,16 @@ next(){
     if( tok == 39){
       tok=2;
       an ();
-      tokc=m;
+      tokc=ch;
       inp ();
       inp ();
     }
-    else if( tok == 47&m == 42){
+    else if( tok == 47&ch == 42){
       inp ();
-      while( m){
-        while( m!=42)inp ();
+      while( ch){
+        while( ch!=42)inp ();
         inp ();
-        if( m == 47)m=0;
+        if( ch == 47)ch=0;
       }
       inp ();
       next();
@@ -101,8 +101,8 @@ next(){
         h=*(char*) a++;
         tokc=0;
         while((tokl=*(char*) a++-98)<0) tokc=tokc*64+tokl+64;
-        if( s == tok&(h == m|h == 64)){
-          if( h == m){
+        if( s == tok&(h == ch|h == 64)){
+          if( h == ch){
             inp ();
             tok=1;
           }
@@ -196,9 +196,9 @@ ab(s){
   d=1;
   if( tok == 34){
     li(glo+data_offset);
-    while( m!=34){
+    while( ch!=34){
       an ();
-      *(char*) glo++=m;
+      *(char*) glo++=ch;
       inp ();
     }
     *(char*) glo=0;
