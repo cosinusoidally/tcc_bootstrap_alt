@@ -264,12 +264,11 @@ unary(s){
     }
     else{
       d=0;
-      if( tok == 61&s){
+      if( tok == '=' & s){
         next();
         expr ();
         gmov(6,a);
-      }
-      else if( tok!=40){
+      } else if( tok != '('){
         gmov(8,a);
         if( tokl == 11){
           gmov(0,a);
@@ -279,15 +278,17 @@ unary(s){
       }
     }
   }
-  if( tok == 40){
+  if( tok == '('){
     if( d)o( 80);
     h=oad(60545,0);
     next();
     s=0;
-    while( tok!=41){
+    while( tok != ')'){
       expr ();
       oad(2393225,s);
-      if( tok == 44)next();
+      if( tok == ',') {
+        next();
+      }
       s=s+4;
     }
     put32(h,s);
