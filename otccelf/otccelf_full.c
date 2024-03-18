@@ -340,7 +340,7 @@ expr (){
   sum(11);
 }
 
-ac (){
+text_expr (){
   expr ();
   return gtst(0,0);
 }
@@ -350,7 +350,7 @@ S(s){
   if( tok == 288){
     next();
     next();
-    h=ac ();
+    h=text_expr ();
     next();
     S(s);
     if( tok == 312){
@@ -370,14 +370,14 @@ S(s){
     next();
     if( a == 352){
       d=ind;
-      h=ac ();
+      h=text_expr ();
     }
     else{
       if( tok!=59)expr ();
       next();
       d=ind;
       h=0;
-      if( tok!=59)h=ac ();
+      if( tok!=59)h=text_expr ();
       next();
       if( tok!=41){
         a=gjmp(0);
