@@ -1,4 +1,4 @@
-int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,y;
+int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,R,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -137,8 +137,8 @@ ap(a,z){
   while( a){
     d=ao(a);
     if( *(char*)(a-1) == 5){
-      if( z>=data&&z<glo)E(a,z+y);
-      else E(a,z-prog+R+y);
+      if( z>=data&&z<glo)E(a,z+data_offset);
+      else E(a,z-prog+R+data_offset);
     }
     else{
       E(a,z-a-4);
@@ -195,7 +195,7 @@ ab(s){
   int d,a,h,F;
   d=1;
   if( e == 34){
-    M(glo+y);
+    M(glo+data_offset);
     while( m!=34){
       an ();
       *(char*) glo++=m;
@@ -498,7 +498,7 @@ ae(s){
             h=ao(d);
             F=*(char*)(d-1)!=5;
             E(d,-F*4);
-            ax( d-prog+R+y);
+            ax( d-prog+R+data_offset);
             ax( N*256+F+1);
             d=h;
           }
@@ -556,7 +556,7 @@ elf_out(c){
   ax( 0);
   ax( 196610);
   ax( 1);
-  ax( R+y);
+  ax( R+data_offset);
   ax( 48);
   ax( 0);
   ax( 0);
@@ -580,17 +580,17 @@ elf_out(c){
   ax( 1);
   ax( 11);
   ax( 4);
-  ax( hash+y);
+  ax( hash+data_offset);
   ax( 6);
-  ax( dynsym+y);
+  ax( dynsym+data_offset);
   ax( 5);
-  ax( dynstr+y);
+  ax( dynstr+data_offset);
   ax( 10);
   ax( dynstr_size);
   ax( 11);
   ax( 16);
   ax( 17);
-  ax( rel+y);
+  ax( rel+data_offset);
   ax( 18);
   ax( glo_saved-rel);
   ax( 19);
@@ -613,7 +613,7 @@ main(n,t){
   vars =calloc(1,99999);
   t=t+4;
   file=fopen(*(int*) t,"r");
-  y=134512640-data;
+  data_offset=134512640-data;
   glo=glo+252;
   ind=ind+17;
   w ();
