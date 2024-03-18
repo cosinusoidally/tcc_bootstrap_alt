@@ -528,7 +528,7 @@ elf_reloc(s){
           glo=glo+a-h+1;
         }
         else if( s == 1){
-          gle32( N+22);
+          gle32( N + DYNSTR_BASE);
           gle32( 0);
           gle32( 0);
           gle32( 16);
