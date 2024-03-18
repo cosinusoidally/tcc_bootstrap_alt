@@ -18,7 +18,7 @@ pdef(t){
 inp (){
   if(dptr){
     ch=*(char*) dptr++;
-    if( ch == 2){
+    if( ch == TAG_MACRO){
       dptr=0;
       ch=dch;
     }
@@ -45,9 +45,9 @@ next(){
     if( ch == '#'){
       inp ();
       next();
-      if( tok == 536){
+      if( tok == TOK_DEFINE){
         next();
-        pdef(32);
+        pdef(TAG_TOK);
         *(int*) tok=1;
         *(int*)(tok+4)=dstk;
       }
@@ -56,22 +56,22 @@ next(){
         inp ();
       }
       pdef(ch);
-      pdef(2);
+      pdef(TAG_MACRO);
     }
     inp ();
   }
   tokl=0;
   tok=ch;
   if( isid ()){
-    pdef(32);
+    pdef(TAG_TOK);
     last_id=dstk;
     while( isid ()){
       pdef(ch);
       inp ();
     }
     if( isdigit(tok)){
-      tokc=strtol(last_id,0,0);
-      tok=2;
+      tokc = strtol(last_id,0,0);
+      tok = TOK_NUM;
     }
     else{
       *(char*) dstk=32;
