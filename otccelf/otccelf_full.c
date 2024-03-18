@@ -16,20 +16,22 @@ inp (){
 }
 
 isid (){
-  return isalnum(ch)|ch == 95;
+  return isalnum(ch) | ch == '_';
 }
 
 getq (){
-  if( ch == 92){
+  if( ch == '\\'){
     inp ();
-    if( ch == 110)ch=10;
+    if( ch == 'n') {
+      ch = '\n';
+    }
   }
 }
 
 next(){
   int a,s,h;
-  while( isspace(ch)|ch == 35){
-    if( ch == 35){
+  while( isspace(ch) | ch == '#'){
+    if( ch == '#'){
       inp ();
       next();
       if( tok == 536){
@@ -38,7 +40,7 @@ next(){
         *(int*) tok=1;
         *(int*)(tok+4)=dstk;
       }
-      while( ch!=10){
+      while( ch != '\n'){
         pdef(ch);
         inp ();
       }
@@ -78,14 +80,14 @@ next(){
   }
   else{
     inp ();
-    if( tok == 39){
+    if( tok == '\''){
       tok=2;
       getq ();
       tokc=ch;
       inp ();
       inp ();
     }
-    else if( tok == 47&ch == 42){
+    else if( tok == '/' & ch == '*'){
       inp ();
       while( ch){
         while( ch!=42)inp ();
@@ -100,8 +102,10 @@ next(){
       while( s=*(char*) a++){
         h=*(char*) a++;
         tokc=0;
-        while((tokl=*(char*) a++-98)<0) tokc=tokc*64+tokl+64;
-        if( s == tok&(h == ch|h == 64)){
+        while((tokl = *(char*) a++ - 'b')<0) {
+          tokc = tokc * 64 + tokl + 64;
+        }
+        if( s == tok & (h == ch | h == '@')){
           if( h == ch){
             inp ();
             tok=1;
