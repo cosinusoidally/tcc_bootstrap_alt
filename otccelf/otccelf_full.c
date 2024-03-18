@@ -149,7 +149,7 @@ gsym1(a,z){
   }
 }
 
-H(a){
+gsym(a){
   gsym1(a,ind);
 }
 
@@ -330,7 +330,7 @@ X(s){
       h=aa(a,h);
       li(a^1);
       I(5);
-      H(h);
+      gsym(h);
       li(a);
     }
   }
@@ -356,12 +356,12 @@ S(s){
     if( tok == 312){
       next();
       d=I(0);
-      H(h);
+      gsym(h);
       S(s);
-      H(d);
+      gsym(d);
     }
     else{
-      H(h);
+      gsym(h);
     }
   }
   else if( tok == 352|tok == 504){
@@ -383,14 +383,14 @@ S(s){
         a=I(0);
         B ();
         I(d-ind-5);
-        H(a);
+        gsym(a);
         d=a+4;
       }
     }
     next();
     S(&h);
     I(d-ind-5);
-    H(h);
+    gsym(h);
   }
   else if( tok == 123){
     next();
@@ -448,7 +448,7 @@ decl(s){
       o( 15042901);
       h=oad(60545,0);
       S(0);
-      H(rsym);
+      gsym(rsym);
       o( 50121);
       put32(h,loc);
     }
