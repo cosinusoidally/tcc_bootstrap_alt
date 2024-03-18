@@ -127,7 +127,7 @@ put32(a,d){
   *(char*) a++=d>>24;
 }
 
-ao(a){
+get32(a){
   int d;
   return(*(char*) a&255)|(*(char*)(a+1)&255)<<8|(*(char*)(a+2)&255)<<16|(*(char*)(a+3)&255)<<24;
 }
@@ -135,7 +135,7 @@ ao(a){
 ap(a,z){
   int d;
   while( a){
-    d=ao(a);
+    d=get32(a);
     if( *(char*)(a-1) == 5){
       if( z>=data&&z<glo)
         put32(a,z+data_offset);
@@ -497,7 +497,7 @@ elf_reloc(s){
         else{
           N++;
           while( d){
-            h=ao(d);
+            h=get32(d);
             F=*(char*)(d-1)!=5;
             put32(d,-F*4);
             gle32( d-prog+text+data_offset);
