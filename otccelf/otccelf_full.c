@@ -1,3 +1,4 @@
+# 1 "otccelf_full.c"
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 pdef(a){
@@ -165,7 +166,7 @@ li(a){
   oad(184,a);
 }
 
-I(a){
+gjmp(a){
   return oad(233,a);
 }
 
@@ -329,7 +330,7 @@ X(s){
     if( h&&s>8){
       h=aa(a,h);
       li(a^1);
-      I(5);
+      gjmp(5);
       gsym(h);
       li(a);
     }
@@ -355,7 +356,7 @@ S(s){
     S(s);
     if( tok == 312){
       next();
-      d=I(0);
+      d=gjmp(0);
       gsym(h);
       S(s);
       gsym(d);
@@ -380,16 +381,16 @@ S(s){
       if( tok!=59)h=ac ();
       next();
       if( tok!=41){
-        a=I(0);
+        a=gjmp(0);
         B ();
-        I(d-ind-5);
+        gjmp(d-ind-5);
         gsym(a);
         d=a+4;
       }
     }
     next();
     S(&h);
-    I(d-ind-5);
+    gjmp(d-ind-5);
     gsym(h);
   }
   else if( tok == 123){
@@ -402,11 +403,11 @@ S(s){
     if( tok == 448){
       next();
       if( tok!=59)B ();
-      rsym=I(rsym);
+      rsym=gjmp(rsym);
     }
     else if( tok == 400){
       next();
-      *(int*) s=I(*(int*) s);
+      *(int*) s=gjmp(*(int*) s);
     }
     else if( tok!=59)B ();
     next();
