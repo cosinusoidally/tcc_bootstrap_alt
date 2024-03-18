@@ -512,7 +512,7 @@ ae(s){
 }
 
 elf_out(F){
-  int glo_saved, dynstr,dynsym,ag,at,ah,d,a,ai;
+  int glo_saved, dynstr,dynstr_size,ag,at,ah,d,a,ai;
   R=i;
   ai=v-K;
   v=K;
@@ -528,7 +528,7 @@ elf_out(F){
   i=strcpy(i,"libc.so.6")+10;
   i=strcpy(i,"libdl.so.2")+11;
   ae(0);
-  dynsym=i-dynstr;
+  dynstr_size=i-dynstr;
   i=(i+3)&-4;
   ag=i;
   ax( 0);
@@ -586,7 +586,7 @@ elf_out(F){
   ax( 5);
   ax( dynstr+y);
   ax( 10);
-  ax( dynsym);
+  ax( dynstr_size);
   ax( 11);
   ax( 16);
   ax( 17);
