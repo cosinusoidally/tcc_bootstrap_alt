@@ -26,14 +26,14 @@ an (){
   }
 }
 
-av(){
+next(){
   int a,s,h;
   while( isspace(m)|m == 35){
     if( m == 35){
       inp ();
-      av();
+      next();
       if( e == 536){
-        av();
+        next();
         L(32);
         *(int*) e=1;
         *(int*)(e+4)=dstk;
@@ -71,7 +71,7 @@ av(){
           V=*(int*)(e+4);
           al=m;
           inp ();
-          av();
+          next();
         }
       }
     }
@@ -93,7 +93,7 @@ av(){
         if( m == 47)m=0;
       }
       inp ();
-      av();
+      next();
     }
     else{
       a="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
@@ -204,13 +204,13 @@ ab(s){
     *(char*) glo=0;
     glo=glo+4&-4;
     inp ();
-    av();
+    next();
   }
   else{
     F=J;
     h=C;
     a=e;
-    av();
+    next();
     if( a == 2){
       M(h);
     }
@@ -222,24 +222,24 @@ ab(s){
     }
     else if( a == 40){
       B ();
-      av();
+      next();
     }
     else if( a == 42){
-      av();
+      next();
       a=e;
-      av();
-      av();
+      next();
+      next();
       if( e == 42){
-        av();
-        av();
-        av();
-        av();
+        next();
+        next();
+        next();
+        next();
         a=0;
       }
-      av();
+      next();
       ab(0);
       if( e == 61){
-        av();
+        next();
         aw( 80);
         B ();
         aw( 89);
@@ -253,12 +253,12 @@ ab(s){
     }
     else if( a == 38){
       W(10,e);
-      av();
+      next();
     }
     else{
       d=0;
       if( e == 61&s){
-        av();
+        next();
         B ();
         W(6,a);
       }
@@ -267,7 +267,7 @@ ab(s){
         if( J == 11){
           W(0,a);
           aw( C);
-          av();
+          next();
         }
       }
     }
@@ -275,16 +275,16 @@ ab(s){
   if( e == 40){
     if( d)aw( 80);
     h=x(60545,0);
-    av();
+    next();
     s=0;
     while( e!=41){
       B ();
       x(2393225,s);
-      if( e == 44)av();
+      if( e == 44)next();
       s=s+4;
     }
     E(h,s);
-    av();
+    next();
     if( d){
       x(2397439,s);
       s=s+4;
@@ -306,7 +306,7 @@ X(s){
     while( s == J){
       d=e;
       a=C;
-      av();
+      next();
       if( s>8){
         h=aa(a,h);
         X(s);
@@ -346,13 +346,13 @@ ac (){
 S(s){
   int h,d,a;
   if( e == 288){
-    av();
-    av();
+    next();
+    next();
     h=ac ();
-    av();
+    next();
     S(s);
     if( e == 312){
-      av();
+      next();
       d=I(0);
       H(h);
       S(s);
@@ -364,19 +364,19 @@ S(s){
   }
   else if( e == 352|e == 504){
     a=e;
-    av();
-    av();
+    next();
+    next();
     if( a == 352){
       d=ind;
       h=ac ();
     }
     else{
       if( e!=59)B ();
-      av();
+      next();
       d=ind;
       h=0;
       if( e!=59)h=ac ();
-      av();
+      next();
       if( e!=41){
         a=I(0);
         B ();
@@ -385,29 +385,29 @@ S(s){
         d=a+4;
       }
     }
-    av();
+    next();
     S(&h);
     I(d-ind-5);
     H(h);
   }
   else if( e == 123){
-    av();
+    next();
     ar(1);
     while( e!=125)S(s);
-    av();
+    next();
   }
   else{
     if( e == 448){
-      av();
+      next();
       if( e!=59)B ();
       U=I(U);
     }
     else if( e == 400){
-      av();
+      next();
       *(int*) s=I(*(int*) s);
     }
     else if( e!=59)B ();
-    av();
+    next();
   }
 }
 
@@ -415,7 +415,7 @@ ar(s){
   int h;
   while( e == 256|e!=-1&!s){
     if( e == 256){
-      av();
+      next();
       while( e!=59){
         if( s){
           P=P+4;
@@ -425,23 +425,23 @@ ar(s){
           *(int*) e=glo;
           glo=glo+4;
         }
-        av();
-        if( e == 44)av();
+        next();
+        if( e == 44)next();
       }
-      av();
+      next();
     }
     else{
       *(int*) e=ind;
-      av();
-      av();
+      next();
+      next();
       h=8;
       while( e!=41){
         *(int*) e=h;
         h=h+4;
-        av();
-        if( e == 44)av();
+        next();
+        if( e == 44)next();
       }
-      av();
+      next();
       U=P=0;
       aw( 15042901);
       h=x(60545,0);
@@ -617,7 +617,7 @@ main(n,t){
   glo=glo+252;
   ind=ind+17;
   inp ();
-  av();
+  next();
   ar(0);
   t=t+4;
   elf_out(*(int*) t);
