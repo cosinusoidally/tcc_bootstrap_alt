@@ -1,4 +1,4 @@
-int tok,tokc,tokl,ch,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,tokc,tokl,ch,vars,rsym, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
@@ -400,7 +400,7 @@ S(s){
     if( tok == 448){
       next();
       if( tok!=59)B ();
-      U=I(U);
+      rsym=I(rsym);
     }
     else if( tok == 400){
       next();
@@ -442,11 +442,11 @@ decl(s){
         if( tok == 44)next();
       }
       next();
-      U=P=0;
+      rsym=P=0;
       o( 15042901);
       h=oad(60545,0);
       S(0);
-      H(U);
+      H(rsym);
       o( 50121);
       E(h,P);
     }
