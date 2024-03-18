@@ -29,6 +29,11 @@ chmod +x otccelf_full3_gcc.exe
 ./otccelf_full3_gcc.exe otccelf.c otccelf1_gcc.exe
 chmod +x otccelf1_gcc.exe
 
+# check otccex.c build
+
+./otccelf_full3.exe otccex.c otccex.exe
+chmod +x otccex.exe
+
 sha256sum *exe
 diff -s otccelf1.exe otccelf1_gcc.exe
 sha256sum -c otccelf.sums
