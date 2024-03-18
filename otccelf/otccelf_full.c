@@ -1,4 +1,4 @@
-int e,C,J,m,T,U,K,v,P,i,ak, sym_stk, dstk,V,al,Z, data,R,y;
+int e,C,J,m,T,U,K,v,P, glo,ak, sym_stk, dstk,V,al,Z, data,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -137,7 +137,7 @@ ap(a,z){
   while( a){
     d=ao(a);
     if( *(char*)(a-1) == 5){
-      if( z>=data&&z<i)E(a,z+y);
+      if( z>=data&&z<glo)E(a,z+y);
       else E(a,z-K+R+y);
     }
     else{
@@ -195,14 +195,14 @@ ab(s){
   int d,a,h,F;
   d=1;
   if( e == 34){
-    M(i+y);
+    M(glo+y);
     while( m!=34){
       an ();
-      *(char*) i++=m;
+      *(char*) glo++=m;
       w ();
     }
-    *(char*) i=0;
-    i=i+4&-4;
+    *(char*) glo=0;
+    glo=glo+4&-4;
     w ();
     av();
   }
@@ -422,8 +422,8 @@ ar(s){
           *(int*) e=-P;
         }
         else{
-          *(int*) e=i;
-          i=i+4;
+          *(int*) e=glo;
+          glo=glo+4;
         }
         av();
         if( e == 44)av();
@@ -454,8 +454,8 @@ ar(s){
 }
 
 ax( d){
-  E(i,d);
-  i=i+4;
+  E(glo,d);
+  glo=glo+4;
 }
 
 ad(d,a){
@@ -482,8 +482,8 @@ ae(s){
     if( d&&z!=1){
       if(!z){
         if(!s){
-          memcpy(i,h,a-h);
-          i=i+a-h+1;
+          memcpy(glo,h,a-h);
+          glo=glo+a-h+1;
         }
         else if( s == 1){
           ax( N+22);
@@ -513,7 +513,7 @@ ae(s){
 
 elf_out(c){
   int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
-  R=i;
+  R=glo;
   text_size=v-K;
   v=K;
   aw( 5264472);
@@ -522,22 +522,22 @@ elf_out(c){
   aw( 50057);
   M(1);
   aw( 32973);
-  i=i+text_size;
-  dynstr=i;
-  i++;
-  i=strcpy(i,"libc.so.6")+10;
-  i=strcpy(i,"libdl.so.2")+11;
+  glo=glo+text_size;
+  dynstr=glo;
+  glo++;
+  glo=strcpy(glo,"libc.so.6")+10;
+  glo=strcpy(glo,"libdl.so.2")+11;
   ae(0);
-  dynstr_size=i-dynstr;
-  i=(i+3)&-4;
-  dynsym=i;
+  dynstr_size=glo-dynstr;
+  glo=(glo+3)&-4;
+  dynsym=glo;
   ax( 0);
   ax( 0);
   ax( 0);
   ax( 0);
   ae(1);
-  hash=i;
-  n=(i-dynsym)/16;
+  hash=glo;
+  n=(glo-dynsym)/16;
   ax( 1);
   ax( n);
   ax( 1);
@@ -545,11 +545,11 @@ elf_out(c){
   t=2;
   while( t<n)ax( t++);
   ax( 0);
-  rel=i;
+  rel=glo;
   ae(2);
   memcpy(R,K,text_size);
-  glo_saved=i;
-  i=data;
+  glo_saved=glo;
+  glo=data;
   ax( 1179403647);
   ax( 65793);
   ax( 0);
@@ -574,7 +574,7 @@ elf_out(c){
   ad(164,88);
   ax( 6);
   ax( 4);
-  i=strcpy(i,"/lib/ld-linux.so.2")+20;
+  glo=strcpy(glo,"/lib/ld-linux.so.2")+20;
   ax( 1);
   ax( 1);
   ax( 1);
@@ -608,13 +608,13 @@ main(n,t){
     return 0;
   }
   dstk=strcpy(sym_stk =calloc(1,99999)," int if else while break return for define main ")+48;
-  i=data =calloc(1,99999);
+  glo=data =calloc(1,99999);
   v=K =calloc(1,99999);
   T =calloc(1,99999);
   t=t+4;
   ak=fopen(*(int*) t,"r");
   y=134512640-data;
-  i=i+252;
+  glo=glo+252;
   v=v+17;
   w ();
   av();
