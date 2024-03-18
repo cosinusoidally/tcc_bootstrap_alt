@@ -1,4 +1,4 @@
-int e,C,J,m,T,U,K,v,P,i,ak,Q, dstk,V,al,Z,G,R,y;
+int e,C,J,m,T,U,K,v,P,i,ak, sym_stk, dstk,V,al,Z,G,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -62,7 +62,7 @@ av(){
     }
     else{
       *(char*) dstk=32;
-      e=strstr(Q,Z-1)-Q;
+      e=strstr(sym_stk,Z-1)-sym_stk;
       *(char*) dstk=0;
       e=e*8+256;
       if( e>536){
@@ -470,13 +470,13 @@ ad(d,a){
 ae(s){
   int a,h,d,N,z,F;
   N=0;
-  a=Q;
+  a=sym_stk;
   while( 1){
     a++;
     h=a;
     while( *(char*) a!=32&&a<dstk)a++;
     if( a == dstk)break;
-    e=T+(h-Q)*8+256-8;
+    e=T+(h-sym_stk)*8+256-8;
     z=*(int*) e;
     d=*(int*)(e+4);
     if( d&&z!=1){
@@ -607,7 +607,7 @@ main(n,t){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
-  dstk=strcpy(Q =calloc(1,99999)," int if else while break return for define main ")+48;
+  dstk=strcpy(sym_stk =calloc(1,99999)," int if else while break return for define main ")+48;
   i=G =calloc(1,99999);
   v=K =calloc(1,99999);
   T =calloc(1,99999);
