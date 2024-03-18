@@ -449,8 +449,8 @@ block(s){
 
 decl(s){
   int h;
-  while( tok == 256|tok!=-1&!s){
-    if( tok == 256){
+  while( tok == TOK_INT | tok != -1 & !s){
+    if( tok == TOK_INT){
       next();
       while( tok != ';'){
         if( s){
@@ -500,7 +500,7 @@ gle32( d){
 
 gphdr1(d,a){
   gle32( d);
-  d=d+134512640;
+  d = d + ELF_BASE;
   gle32( d);
   gle32( d);
   gle32( a);
