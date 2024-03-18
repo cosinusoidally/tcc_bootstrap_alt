@@ -512,9 +512,9 @@ ae(s){
 }
 
 elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t,ai;
+  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
   R=i;
-  ai=v-K;
+  text_size=v-K;
   v=K;
   aw( 5264472);
   t=*(int*)(T+592);
@@ -522,7 +522,7 @@ elf_out(c){
   aw( 50057);
   M(1);
   aw( 32973);
-  i=i+ai;
+  i=i+text_size;
   dynstr=i;
   i++;
   i=strcpy(i,"libc.so.6")+10;
@@ -547,7 +547,7 @@ elf_out(c){
   ax( 0);
   rel=i;
   ae(2);
-  memcpy(R,K,ai);
+  memcpy(R,K,text_size);
   glo_saved=i;
   i=G;
   ax( 1179403647);
