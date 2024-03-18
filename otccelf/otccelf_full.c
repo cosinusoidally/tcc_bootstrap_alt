@@ -615,7 +615,7 @@ elf_out(c){
   gle32( 7);
   gle32( 4096);
   gle32( 2);
-  gphdr1(164,88);
+  gphdr1(DYNAMIC_OFFSET, DYNAMIC_SIZE);
   gle32( 6);
   gle32( 4);
   glo=strcpy(glo,"/lib/ld-linux.so.2")+20;
