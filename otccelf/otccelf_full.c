@@ -182,7 +182,7 @@ gcmp(a){
   o( 192);
 }
 
-W(s,a){
+gmov(s,a){
   int d;
   o( s+131);
   d=*(int*) a;
@@ -254,7 +254,7 @@ ab(s){
       }
     }
     else if( a == 38){
-      W(10,tok);
+      gmov(10,tok);
       next();
     }
     else{
@@ -262,12 +262,12 @@ ab(s){
       if( tok == 61&s){
         next();
         B ();
-        W(6,a);
+        gmov(6,a);
       }
       else if( tok!=40){
-        W(8,a);
+        gmov(8,a);
         if( tokl == 11){
-          W(0,a);
+          gmov(0,a);
           o( tokc);
           next();
         }
