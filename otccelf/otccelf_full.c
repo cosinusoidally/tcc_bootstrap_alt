@@ -512,7 +512,7 @@ ae(s){
 }
 
 elf_out(F){
-  int glo_saved, dynstr,dynstr_size,ag,at,ah,d,a,ai;
+  int glo_saved, dynstr, dynstr_size, dynsym,at,ah,d,a,ai;
   R=i;
   ai=v-K;
   v=K;
@@ -530,14 +530,14 @@ elf_out(F){
   ae(0);
   dynstr_size=i-dynstr;
   i=(i+3)&-4;
-  ag=i;
+  dynsym=i;
   ax( 0);
   ax( 0);
   ax( 0);
   ax( 0);
   ae(1);
   at=i;
-  d=(i-ag)/16;
+  d=(i-dynsym)/16;
   ax( 1);
   ax( d);
   ax( 1);
@@ -582,7 +582,7 @@ elf_out(F){
   ax( 4);
   ax( at+y);
   ax( 6);
-  ax( ag+y);
+  ax( dynsym+y);
   ax( 5);
   ax( dynstr+y);
   ax( 10);
