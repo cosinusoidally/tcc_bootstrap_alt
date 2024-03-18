@@ -1,4 +1,4 @@
-int e,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,C,J,m,vars,U, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 L(a){
   *(char*) dstk++=a;
@@ -32,11 +32,11 @@ next(){
     if( m == 35){
       inp ();
       next();
-      if( e == 536){
+      if( tok == 536){
         next();
         L(32);
-        *(int*) e=1;
-        *(int*)(e+4)=dstk;
+        *(int*) tok=1;
+        *(int*)(tok+4)=dstk;
       }
       while( m!=10){
         L(m);
@@ -48,7 +48,7 @@ next(){
     inp ();
   }
   J=0;
-  e=m;
+  tok=m;
   if( am ()){
     L(32);
     Z=dstk;
@@ -56,19 +56,19 @@ next(){
       L(m);
       inp ();
     }
-    if( isdigit(e)){
+    if( isdigit(tok)){
       C=strtol(Z,0,0);
-      e=2;
+      tok=2;
     }
     else{
       *(char*) dstk=32;
-      e=strstr(sym_stk,Z-1)-sym_stk;
+      tok=strstr(sym_stk,Z-1)-sym_stk;
       *(char*) dstk=0;
-      e=e*8+256;
-      if( e>536){
-        e=vars+e;
-        if( *(int*) e == 1){
-          V=*(int*)(e+4);
+      tok=tok*8+256;
+      if( tok>536){
+        tok=vars+tok;
+        if( *(int*) tok == 1){
+          V=*(int*)(tok+4);
           al=m;
           inp ();
           next();
@@ -78,14 +78,14 @@ next(){
   }
   else{
     inp ();
-    if( e == 39){
-      e=2;
+    if( tok == 39){
+      tok=2;
       an ();
       C=m;
       inp ();
       inp ();
     }
-    else if( e == 47&m == 42){
+    else if( tok == 47&m == 42){
       inp ();
       while( m){
         while( m!=42)inp ();
@@ -101,10 +101,10 @@ next(){
         h=*(char*) a++;
         C=0;
         while((J=*(char*) a++-98)<0) C=C*64+J+64;
-        if( s == e&(h == m|h == 64)){
+        if( s == tok&(h == m|h == 64)){
           if( h == m){
             inp ();
-            e=1;
+            tok=1;
           }
           break;
         }
@@ -194,7 +194,7 @@ W(s,a){
 ab(s){
   int d,a,h,F;
   d=1;
-  if( e == 34){
+  if( tok == 34){
     li(glo+data_offset);
     while( m!=34){
       an ();
@@ -209,7 +209,7 @@ ab(s){
   else{
     F=J;
     h=C;
-    a=e;
+    a=tok;
     next();
     if( a == 2){
       li(h);
@@ -226,10 +226,10 @@ ab(s){
     }
     else if( a == 42){
       next();
-      a=e;
+      a=tok;
       next();
       next();
-      if( e == 42){
+      if( tok == 42){
         next();
         next();
         next();
@@ -238,7 +238,7 @@ ab(s){
       }
       next();
       ab(0);
-      if( e == 61){
+      if( tok == 61){
         next();
         o( 80);
         B ();
@@ -252,17 +252,17 @@ ab(s){
       }
     }
     else if( a == 38){
-      W(10,e);
+      W(10,tok);
       next();
     }
     else{
       d=0;
-      if( e == 61&s){
+      if( tok == 61&s){
         next();
         B ();
         W(6,a);
       }
-      else if( e!=40){
+      else if( tok!=40){
         W(8,a);
         if( J == 11){
           W(0,a);
@@ -272,15 +272,15 @@ ab(s){
       }
     }
   }
-  if( e == 40){
+  if( tok == 40){
     if( d)o( 80);
     h=oad(60545,0);
     next();
     s=0;
-    while( e!=41){
+    while( tok!=41){
       B ();
       oad(2393225,s);
-      if( e == 44)next();
+      if( tok == 44)next();
       s=s+4;
     }
     E(h,s);
@@ -304,7 +304,7 @@ X(s){
     X(s);
     h=0;
     while( s == J){
-      d=e;
+      d=tok;
       a=C;
       next();
       if( s>8){
@@ -345,13 +345,13 @@ ac (){
 
 S(s){
   int h,d,a;
-  if( e == 288){
+  if( tok == 288){
     next();
     next();
     h=ac ();
     next();
     S(s);
-    if( e == 312){
+    if( tok == 312){
       next();
       d=I(0);
       H(h);
@@ -362,8 +362,8 @@ S(s){
       H(h);
     }
   }
-  else if( e == 352|e == 504){
-    a=e;
+  else if( tok == 352|tok == 504){
+    a=tok;
     next();
     next();
     if( a == 352){
@@ -371,13 +371,13 @@ S(s){
       h=ac ();
     }
     else{
-      if( e!=59)B ();
+      if( tok!=59)B ();
       next();
       d=ind;
       h=0;
-      if( e!=59)h=ac ();
+      if( tok!=59)h=ac ();
       next();
-      if( e!=41){
+      if( tok!=41){
         a=I(0);
         B ();
         I(d-ind-5);
@@ -390,56 +390,56 @@ S(s){
     I(d-ind-5);
     H(h);
   }
-  else if( e == 123){
+  else if( tok == 123){
     next();
     decl(1);
-    while( e!=125)S(s);
+    while( tok!=125)S(s);
     next();
   }
   else{
-    if( e == 448){
+    if( tok == 448){
       next();
-      if( e!=59)B ();
+      if( tok!=59)B ();
       U=I(U);
     }
-    else if( e == 400){
+    else if( tok == 400){
       next();
       *(int*) s=I(*(int*) s);
     }
-    else if( e!=59)B ();
+    else if( tok!=59)B ();
     next();
   }
 }
 
 decl(s){
   int h;
-  while( e == 256|e!=-1&!s){
-    if( e == 256){
+  while( tok == 256|tok!=-1&!s){
+    if( tok == 256){
       next();
-      while( e!=59){
+      while( tok!=59){
         if( s){
           P=P+4;
-          *(int*) e=-P;
+          *(int*) tok=-P;
         }
         else{
-          *(int*) e=glo;
+          *(int*) tok=glo;
           glo=glo+4;
         }
         next();
-        if( e == 44)next();
+        if( tok == 44)next();
       }
       next();
     }
     else{
-      *(int*) e=ind;
+      *(int*) tok=ind;
       next();
       next();
       h=8;
-      while( e!=41){
-        *(int*) e=h;
+      while( tok!=41){
+        *(int*) tok=h;
         h=h+4;
         next();
-        if( e == 44)next();
+        if( tok == 44)next();
       }
       next();
       U=P=0;
@@ -476,9 +476,9 @@ elf_reloc(s){
     h=a;
     while( *(char*) a!=32&&a<dstk)a++;
     if( a == dstk)break;
-    e=vars+(h-sym_stk)*8+256-8;
-    z=*(int*) e;
-    d=*(int*)(e+4);
+    tok=vars+(h-sym_stk)*8+256-8;
+    z=*(int*) tok;
+    d=*(int*)(tok+4);
     if( d&&z!=1){
       if(!z){
         if(!s){
