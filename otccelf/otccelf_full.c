@@ -1,4 +1,4 @@
-int e,C,J,m,T,U,K,v,P,i,ak, sym_stk, dstk,V,al,Z,G,R,y;
+int e,C,J,m,T,U,K,v,P,i,ak, sym_stk, dstk,V,al,Z, data,R,y;
 
 L(a){
   *(char*) dstk++=a;
@@ -137,7 +137,7 @@ ap(a,z){
   while( a){
     d=ao(a);
     if( *(char*)(a-1) == 5){
-      if( z>=G&&z<i)E(a,z+y);
+      if( z>=data&&z<i)E(a,z+y);
       else E(a,z-K+R+y);
     }
     else{
@@ -549,7 +549,7 @@ elf_out(c){
   ae(2);
   memcpy(R,K,text_size);
   glo_saved=i;
-  i=G;
+  i=data;
   ax( 1179403647);
   ax( 65793);
   ax( 0);
@@ -567,7 +567,7 @@ elf_out(c){
   ax( 4);
   ax( 1);
   ax( 1);
-  ad(0,glo_saved-G);
+  ad(0,glo_saved-data);
   ax( 7);
   ax( 4096);
   ax( 2);
@@ -598,7 +598,7 @@ elf_out(c){
   ax( 0);
   ax( 0);
   t=fopen(c,"w");
-  fwrite(G,1,glo_saved-G,t);
+  fwrite(data,1,glo_saved-data,t);
   fclose(t);
 }
 
@@ -608,12 +608,12 @@ main(n,t){
     return 0;
   }
   dstk=strcpy(sym_stk =calloc(1,99999)," int if else while break return for define main ")+48;
-  i=G =calloc(1,99999);
+  i=data =calloc(1,99999);
   v=K =calloc(1,99999);
   T =calloc(1,99999);
   t=t+4;
   ak=fopen(*(int*) t,"r");
-  y=134512640-G;
+  y=134512640-data;
   i=i+252;
   v=v+17;
   w ();
