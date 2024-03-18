@@ -1,4 +1,4 @@
-int tok,tokc,tokl,ch,vars,rsym, prog, ind,P, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
+int tok,tokc,tokl,ch,vars,rsym, prog, ind,loc, glo,file, sym_stk, dstk,V,al,Z, data,text,data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
@@ -418,8 +418,8 @@ decl(s){
       next();
       while( tok!=59){
         if( s){
-          P=P+4;
-          *(int*) tok=-P;
+          loc=loc+4;
+          *(int*) tok=-loc;
         }
         else{
           *(int*) tok=glo;
@@ -442,13 +442,13 @@ decl(s){
         if( tok == 44)next();
       }
       next();
-      rsym=P=0;
+      rsym=loc=0;
       o( 15042901);
       h=oad(60545,0);
       S(0);
       H(rsym);
       o( 50121);
-      E(h,P);
+      E(h,loc);
     }
   }
 }
