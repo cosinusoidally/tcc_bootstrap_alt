@@ -113,7 +113,7 @@ next(){
   }
 }
 
-aw( d){
+o( d){
   while( d&&d!=-1){
     *(char*) ind++=d;
     d=d>>8;
@@ -152,7 +152,7 @@ H(a){
 }
 
 oad(d,a){
-  aw( d);
+  o( d);
   E(ind,a);
   a=ind;
   ind=ind+4;
@@ -168,21 +168,21 @@ I(a){
 }
 
 aa(s,a){
-  aw( 1032325);
+  o( 1032325);
   return oad(132+s,a);
 }
 
 aq(a){
-  aw( 49465);
+  o( 49465);
   M(0);
-  aw( 15);
-  aw( a+144);
-  aw( 192);
+  o( 15);
+  o( a+144);
+  o( 192);
 }
 
 W(s,a){
   int d;
-  aw( s+131);
+  o( s+131);
   d=*(int*) a;
   if( d&&d<512)oad(133,d);
   else{
@@ -218,7 +218,7 @@ ab(s){
       ab(0);
       oad(185,0);
       if( a == 33)aq(h);
-      else aw( h);
+      else o( h);
     }
     else if( a == 40){
       B ();
@@ -240,14 +240,14 @@ ab(s){
       ab(0);
       if( e == 61){
         next();
-        aw( 80);
+        o( 80);
         B ();
-        aw( 89);
-        aw( 392+(a == 256));
+        o( 89);
+        o( 392+(a == 256));
       }
       else if( a){
-        if( a == 256)aw( 139);
-        else aw( 48655);
+        if( a == 256)o( 139);
+        else o( 48655);
         ind++;
       }
     }
@@ -266,14 +266,14 @@ ab(s){
         W(8,a);
         if( J == 11){
           W(0,a);
-          aw( C);
+          o( C);
           next();
         }
       }
     }
   }
   if( e == 40){
-    if( d)aw( 80);
+    if( d)o( 80);
     h=oad(60545,0);
     next();
     s=0;
@@ -312,15 +312,15 @@ X(s){
         X(s);
       }
       else{
-        aw( 80);
+        o( 80);
         X(s);
-        aw( 89);
+        o( 89);
         if( s == 4|s == 5){
           aq(a);
         }
         else{
-          aw( a);
-          if( d == 37)aw( 146);
+          o( a);
+          if( d == 37)o( 146);
         }
       }
     }
@@ -443,11 +443,11 @@ decl(s){
       }
       next();
       U=P=0;
-      aw( 15042901);
+      o( 15042901);
       h=oad(60545,0);
       S(0);
       H(U);
-      aw( 50121);
+      o( 50121);
       E(h,P);
     }
   }
@@ -516,12 +516,12 @@ elf_out(c){
   text=glo;
   text_size=ind-prog;
   ind=prog;
-  aw( 5264472);
+  o( 5264472);
   t=*(int*)(vars+592);
   oad(232,t-ind-5);
-  aw( 50057);
+  o( 50057);
   M(1);
-  aw( 32973);
+  o( 32973);
   glo=glo+text_size;
   dynstr=glo;
   glo++;
