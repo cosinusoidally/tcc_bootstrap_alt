@@ -373,7 +373,7 @@ test_expr (){
 
 block(s){
   int h,d,a;
-  if( tok == 288){
+  if( tok == TOK_IF){
     next();
     next();
     h=test_expr ();
@@ -390,11 +390,11 @@ block(s){
       gsym(h);
     }
   }
-  else if( tok == 352|tok == 504){
+  else if( tok == TOK_WHILE | tok == TOK_FOR){
     a=tok;
     next();
     next();
-    if( a == 352){
+    if( a == TOK_WHILE){
       d=ind;
       h=test_expr ();
     }
@@ -431,13 +431,13 @@ block(s){
     next();
   }
   else{
-    if( tok == 448){
+    if( tok == TOK_RETURN){
       next();
       if( tok != ';') {
         expr ();
       }
       rsym=gjmp(rsym);
-    } else if( tok == 400){
+    } else if( tok == TOK_BREAK){
       next();
       *(int*) s=gjmp(*(int*) s);
     } else if( tok != ';') {
