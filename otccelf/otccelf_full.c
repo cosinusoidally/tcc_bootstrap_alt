@@ -227,13 +227,12 @@ unary(s){
     glo=glo+4&-4;
     inp ();
     next();
-  }
-  else{
+  } else{
     F=tokl;
     h=tokc;
     a=tok;
     next();
-    if( a == 2){
+    if( a == TOK_NUM){
       li(h);
     }
     else if( F == 2){
@@ -268,10 +267,13 @@ unary(s){
         o( 80);
         expr ();
         o( 89);
-        o( 392+(a == 256));
+        o( 392+(a == TOK_INT));
       } else if( a){
-        if( a == 256)o( 139);
-        else o( 48655);
+        if( a == TOK_INT) {
+          o( 139);
+        } else {
+          o( 48655);
+        }
         ind++;
       }
     } else if( a == '&'){
