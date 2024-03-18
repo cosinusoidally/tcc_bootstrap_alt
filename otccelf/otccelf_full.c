@@ -1,7 +1,7 @@
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
-pdef(a){
-  *(char*) dstk++=a;
+pdef(t){
+  *(char*) dstk++ = t;
 }
 
 inp (){
