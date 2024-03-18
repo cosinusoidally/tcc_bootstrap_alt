@@ -514,9 +514,11 @@ elf_reloc(s){
   while( 1){
     a++;
     h=a;
-    while( *(char*) a!=32&&a<dstk)a++;
+    while( *(char*) a != TAG_TOK && a < dstk) {
+      a++;
+    }
     if( a == dstk)break;
-    tok=vars+(h-sym_stk)*8+256-8;
+    tok = vars + (h - sym_stk) * 8 + TOK_IDENT - 8;
     z=*(int*) tok;
     d=*(int*)(tok+4);
     if( d&&z!=1){
