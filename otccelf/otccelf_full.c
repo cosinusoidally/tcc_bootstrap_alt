@@ -1,14 +1,14 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,V,al,Z, data, text, data_offset;
+int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,al,Z, data, text, data_offset;
 
 pdef(a){
   *(char*) dstk++=a;
 }
 
 inp (){
-  if(V){
-    ch=*(char*) V++;
+  if(dptr){
+    ch=*(char*) dptr++;
     if( ch == 2){
-      V=0;
+      dptr=0;
       ch=al;
     }
   }
@@ -68,7 +68,7 @@ next(){
       if( tok>536){
         tok=vars+tok;
         if( *(int*) tok == 1){
-          V=*(int*)(tok+4);
+          dptr=*(int*)(tok+4);
           al=ch;
           inp ();
           next();
