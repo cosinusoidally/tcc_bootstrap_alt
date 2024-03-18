@@ -1,6 +1,9 @@
 int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 int ALLOC_SIZE;
+
+int ELF_BASE;
+
 int TOK_STR_SIZE;
 
 pdef(t){
@@ -634,6 +637,8 @@ elf_out(c){
 init_globals(){
   ALLOC_SIZE = 99999;
 
+  ELF_BASE = 0x08048000;
+
   TOK_STR_SIZE = 48;
 }
 
@@ -652,7 +657,7 @@ main(n,t){
   t = t + 4;
   file=fopen(*(int*)t, "r");
 
-  data_offset=134512640-data;
+  data_offset = ELF_BASE - data;
   glo=glo+252;
   ind=ind+17;
 
