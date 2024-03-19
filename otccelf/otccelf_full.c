@@ -142,9 +142,10 @@ put32(t, n){
   *(char*) t++ = n>>24;
 }
 
-get32(a){
-  int d;
-  return(*(char*) a&255)|(*(char*)(a+1)&255)<<8|(*(char*)(a+2)&255)<<16|(*(char*)(a+3)&255)<<24;
+get32(t){
+  int n;
+  return (*(char*) t&255)        | (*(char*)(t+1)&255)<<8 |
+         (*(char*)(t+2)&255)<<16 | (*(char*)(t+3)&255)<<24;
 }
 
 gsym1(a,z){
