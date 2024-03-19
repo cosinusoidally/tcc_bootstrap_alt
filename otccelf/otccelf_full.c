@@ -320,25 +320,25 @@ unary(l){
   }
 }
 
-sum(s){
+sum(l){
   int a,d,h;
-  if( s--== 1) unary(1);
+  if( l--== 1) unary(1);
   else{
-    sum(s);
+    sum(l);
     h=0;
-    while( s == tokl){
+    while( l == tokl){
       d=tok;
       a=tokc;
       next();
-      if( s>8){
+      if( l>8){
         h=gtst(a,h);
-        sum(s);
+        sum(l);
       }
       else{
         o( 80);
-        sum(s);
+        sum(l);
         o( 89);
-        if( s == 4|s == 5){
+        if( l == 4|l == 5){
           gcmp(a);
         }
         else{
@@ -349,7 +349,7 @@ sum(s){
         }
       }
     }
-    if( h&&s>8){
+    if( h&&l>8){
       h=gtst(a,h);
       li(a^1);
       gjmp(5);
