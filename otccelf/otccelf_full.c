@@ -368,19 +368,19 @@ test_expr (){
   return gtst(0,0);
 }
 
-block(s){
+block(l){
   int h,d,a;
   if( tok == TOK_IF){
     next();
     next();
     h=test_expr ();
     next();
-    block(s);
+    block(l);
     if( tok == TOK_ELSE){
       next();
       d=gjmp(0);
       gsym(h);
-      block(s);
+      block(l);
       gsym(d);
     }
     else{
@@ -423,7 +423,7 @@ block(s){
     next();
     decl(1);
     while( tok != '}') {
-      block(s);
+      block(l);
     }
     next();
   }
@@ -436,7 +436,7 @@ block(s){
       rsym=gjmp(rsym);
     } else if( tok == TOK_BREAK){
       next();
-      *(int*) s=gjmp(*(int*) s);
+      *(int*) l=gjmp(*(int*) l);
     } else if( tok != ';') {
       expr ();
     }
