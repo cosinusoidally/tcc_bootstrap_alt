@@ -128,18 +128,18 @@ next(){
   }
 }
 
-o( d){
-  while( d&&d!=-1){
-    *(char*) ind++=d;
-    d=d>>8;
+o( n){
+  while( n && n!=-1){
+    *(char*) ind++ = n;
+    n = n >> 8;
   }
 }
 
-put32(a,d){
-  *(char*) a++=d;
-  *(char*) a++=d>>8;
-  *(char*) a++=d>>16;
-  *(char*) a++=d>>24;
+put32(t, n){
+  *(char*) t++ = n;
+  *(char*) t++ = n>>8;
+  *(char*) t++ = n>>16;
+  *(char*) t++ = n>>24;
 }
 
 get32(a){
