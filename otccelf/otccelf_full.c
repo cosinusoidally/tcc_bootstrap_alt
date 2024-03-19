@@ -321,17 +321,17 @@ unary(l){
 }
 
 sum(l){
-  int t, n,h;
+  int t, n, a;
   if( l--== 1) unary(1);
   else{
     sum(l);
-    h=0;
+    a=0;
     while( l == tokl){
       n=tok;
       t=tokc;
       next();
       if( l>8){
-        h=gtst(t,h);
+        a=gtst(t,a);
         sum(l);
       }
       else{
@@ -349,11 +349,11 @@ sum(l){
         }
       }
     }
-    if( h&&l>8){
-      h=gtst(t,h);
+    if( a&&l>8){
+      a=gtst(t,a);
       li(t^1);
       gjmp(5);
-      gsym(h);
+      gsym(a);
       li(t);
     }
   }
