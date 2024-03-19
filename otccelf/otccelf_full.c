@@ -495,13 +495,13 @@ gle32( n){
   glo=glo+4;
 }
 
-gphdr1(d,a){
-  gle32( d);
-  d = d + ELF_BASE;
-  gle32( d);
-  gle32( d);
-  gle32( a);
-  gle32( a);
+gphdr1(n,t){
+  gle32( n);
+  n = n + ELF_BASE;
+  gle32( n);
+  gle32( n);
+  gle32( t);
+  gle32( t);
 }
 
 elf_reloc(s){
