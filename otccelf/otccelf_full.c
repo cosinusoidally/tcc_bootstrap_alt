@@ -444,13 +444,13 @@ block(l){
   }
 }
 
-decl(s){
+decl(l){
   int h;
-  while( tok == TOK_INT | tok != -1 & !s){
+  while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
       next();
       while( tok != ';'){
-        if( s){
+        if( l){
           loc=loc+4;
           *(int*) tok=-loc;
         }
