@@ -165,8 +165,8 @@ gsym1(t, b){
   }
 }
 
-gsym(a){
-  gsym1(a,ind);
+gsym(t){
+  gsym1(t, ind);
 }
 
 oad(d,a){
