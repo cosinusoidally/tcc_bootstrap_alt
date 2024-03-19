@@ -211,7 +211,7 @@ gmov(l, t){
 }
 
 unary(l){
-  int n, t, a,F;
+  int n, t, a, c;
   n=1;
   if( tok == '\"'){
     li(glo+data_offset);
@@ -225,14 +225,14 @@ unary(l){
     inp ();
     next();
   } else {
-    F=tokl;
+    c=tokl;
     a=tokc;
     t=tok;
     next();
     if( t == TOK_NUM){
       li(a);
     }
-    else if( F == 2){
+    else if( c == 2){
       unary(0);
       oad(185,0);
       if( t == '!') {
