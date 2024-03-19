@@ -379,7 +379,7 @@ block(s){
     h=test_expr ();
     next();
     block(s);
-    if( tok == 312){
+    if( tok == TOK_ELSE){
       next();
       d=gjmp(0);
       gsym(h);
