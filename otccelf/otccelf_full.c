@@ -177,24 +177,24 @@ oad(n, t){
   return t;
 }
 
-li(a){
-  oad(184,a);
+li(t){
+  oad(184, t);
 }
 
-gjmp(a){
-  return oad(233,a);
+gjmp(t){
+  return oad(233, t);
 }
 
-gtst(s,a){
+gtst(l, t){
   o( 1032325);
-  return oad(132+s,a);
+  return oad(132+l, t);
 }
 
-gcmp(a){
+gcmp(t){
   o( 49465);
   li(0);
   o( 15);
-  o( a+144);
+  o( t+144);
   o( 192);
 }
 
