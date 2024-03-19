@@ -210,7 +210,7 @@ gmov(l, t){
   }
 }
 
-unary(s){
+unary(l){
   int d,a,h,F;
   d=1;
   if( tok == '\"'){
@@ -224,7 +224,7 @@ unary(s){
     glo=glo+4&-4;
     inp ();
     next();
-  } else{
+  } else {
     F=tokl;
     h=tokc;
     a=tok;
@@ -279,7 +279,7 @@ unary(s){
     }
     else{
       d=0;
-      if( tok == '=' & s){
+      if( tok == '=' & l){
         next();
         expr ();
         gmov(6,a);
@@ -297,26 +297,26 @@ unary(s){
     if( d)o( 80);
     h=oad(60545,0);
     next();
-    s=0;
+    l=0;
     while( tok != ')'){
       expr ();
-      oad(2393225,s);
+      oad(2393225,l);
       if( tok == ',') {
         next();
       }
-      s=s+4;
+      l=l+4;
     }
-    put32(h,s);
+    put32(h,l);
     next();
     if( d){
-      oad(2397439,s);
-      s=s+4;
+      oad(2397439,l);
+      l=l+4;
     }
     else{
       a=a+4;
       *(int*) a=oad(232,*(int*) a);
     }
-    if( s) oad(50305,s);
+    if( l) oad(50305,l);
   }
 }
 
