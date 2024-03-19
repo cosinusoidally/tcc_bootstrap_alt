@@ -40,7 +40,7 @@ getq (){
 }
 
 next(){
-  int t, l, h;
+  int t, l, a;
   while( isspace(ch) | ch == '#'){
     if( ch == '#'){
       inp ();
@@ -115,13 +115,13 @@ next(){
     else{
       t="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
       while( l=*(char*) t++){
-        h=*(char*) t++;
+        a=*(char*) t++;
         tokc=0;
         while((tokl = *(char*) t++ - 'b')<0) {
           tokc = tokc * 64 + tokl + 64;
         }
-        if( l == tok & (h == ch | h == '@')){
-          if( h == ch){
+        if( l == tok & (a == ch | a == '@')){
+          if( a == ch){
             inp ();
             tok = TOK_DUMMY;
           }
