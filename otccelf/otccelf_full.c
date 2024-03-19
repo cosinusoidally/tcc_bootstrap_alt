@@ -504,7 +504,7 @@ gphdr1(n,t){
   gle32( t);
 }
 
-elf_reloc(s){
+elf_reloc(l){
   int a,h,d,N,z,F;
   N=0;
   a=sym_stk;
@@ -520,11 +520,11 @@ elf_reloc(s){
     d=*(int*)(tok+4);
     if( d&&z!=1){
       if(!z){
-        if(!s){
+        if(!l){
           memcpy(glo,h,a-h);
           glo=glo+a-h+1;
         }
-        else if( s == 1){
+        else if( l == 1){
           gle32( N + DYNSTR_BASE);
           gle32( 0);
           gle32( 0);
@@ -543,7 +543,7 @@ elf_reloc(s){
           }
         }
       }
-      else if(!s){
+      else if(!l){
         gsym1(d,z);
       }
     }
