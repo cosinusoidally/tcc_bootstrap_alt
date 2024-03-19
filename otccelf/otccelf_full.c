@@ -490,8 +490,8 @@ decl(l){
   }
 }
 
-gle32( d){
-  put32(glo,d);
+gle32( n){
+  put32(glo,n);
   glo=glo+4;
 }
 
