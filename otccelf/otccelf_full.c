@@ -505,7 +505,7 @@ gphdr1(n,t){
 }
 
 elf_reloc(l){
-  int t, a,d,N,z,F;
+  int t,a,n,N,z,F;
   N=0;
   t=sym_stk;
   while( 1){
@@ -517,8 +517,8 @@ elf_reloc(l){
     if( t == dstk)break;
     tok = vars + (a - sym_stk) * 8 + TOK_IDENT - 8;
     z=*(int*) tok;
-    d=*(int*)(tok+4);
-    if( d&&z!=1){
+    n=*(int*)(tok+4);
+    if( n&&z!=1){
       if(!z){
         if(!l){
           memcpy(glo,a,t-a);
@@ -531,17 +531,17 @@ elf_reloc(l){
           N=N+t-a+1;
         } else{
           N++;
-          while( d){
-            a=get32(d);
-            F=*(char*)(d-1)!=5;
-            put32(d,-F*4);
-            gle32( d-prog+text+data_offset);
+          while( n){
+            a=get32(n);
+            F=*(char*)(n-1)!=5;
+            put32(n,-F*4);
+            gle32( n-prog+text+data_offset);
             gle32( N*256+F+1);
-            d=a;
+            n=a;
           }
         }
       } else if(!l){
-        gsym1(d,z);
+        gsym1(n,z);
       }
     }
   }
