@@ -211,8 +211,8 @@ gmov(l, t){
 }
 
 unary(l){
-  int d,a,h,F;
-  d=1;
+  int n, a,h,F;
+  n=1;
   if( tok == '\"'){
     li(glo+data_offset);
     while( ch!='\"'){
@@ -278,7 +278,7 @@ unary(l){
       next();
     }
     else{
-      d=0;
+      n=0;
       if( tok == '=' & l){
         next();
         expr ();
@@ -294,7 +294,7 @@ unary(l){
     }
   }
   if( tok == '('){
-    if( d)o( 80);
+    if( n)o( 80);
     h=oad(60545,0);
     next();
     l=0;
@@ -308,7 +308,7 @@ unary(l){
     }
     put32(h,l);
     next();
-    if( d){
+    if( n){
       oad(2397439,l);
       l=l+4;
     }
