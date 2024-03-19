@@ -169,12 +169,12 @@ gsym(t){
   gsym1(t, ind);
 }
 
-oad(d,a){
-  o( d);
-  put32(ind,a);
-  a=ind;
-  ind=ind+4;
-  return a;
+oad(n, t){
+  o( n);
+  put32(ind, t);
+  t = ind;
+  ind = ind + 4;
+  return t;
 }
 
 li(a){
