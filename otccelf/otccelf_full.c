@@ -505,7 +505,7 @@ gphdr1(n,t){
 }
 
 elf_reloc(l){
-  int t,a,n,p,b,F;
+  int t,a,n,p,b,c;
   p=0;
   t=sym_stk;
   while( 1){
@@ -533,10 +533,10 @@ elf_reloc(l){
           p++;
           while( n){
             a=get32(n);
-            F=*(char*)(n-1)!=5;
-            put32(n,-F*4);
+            c=*(char*)(n-1)!=5;
+            put32(n,-c*4);
             gle32( n-prog+text+data_offset);
-            gle32( p*256+F+1);
+            gle32( p*256+c+1);
             n=a;
           }
         }
