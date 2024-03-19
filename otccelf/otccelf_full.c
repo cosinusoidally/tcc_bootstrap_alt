@@ -369,7 +369,7 @@ test_expr (){
 }
 
 block(l){
-  int h,d,a;
+  int h , d, t;
   if( tok == TOK_IF){
     next();
     next();
@@ -388,10 +388,10 @@ block(l){
     }
   }
   else if( tok == TOK_WHILE | tok == TOK_FOR){
-    a=tok;
+    t=tok;
     next();
     next();
-    if( a == TOK_WHILE){
+    if( t == TOK_WHILE){
       d=ind;
       h=test_expr ();
     }
@@ -407,11 +407,11 @@ block(l){
       }
       next();
       if( tok != ')'){
-        a=gjmp(0);
+        t=gjmp(0);
         expr ();
         gjmp(d-ind-5);
-        gsym(a);
-        d=a+4;
+        gsym(t);
+        d=t+4;
       }
     }
     next();
