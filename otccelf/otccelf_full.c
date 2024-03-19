@@ -369,22 +369,22 @@ test_expr (){
 }
 
 block(l){
-  int h , n, t;
+  int a , n, t;
   if( tok == TOK_IF){
     next();
     next();
-    h=test_expr ();
+    a=test_expr ();
     next();
     block(l);
     if( tok == TOK_ELSE){
       next();
       n=gjmp(0);
-      gsym(h);
+      gsym(a);
       block(l);
       gsym(n);
     }
     else{
-      gsym(h);
+      gsym(a);
     }
   }
   else if( tok == TOK_WHILE | tok == TOK_FOR){
@@ -393,7 +393,7 @@ block(l){
     next();
     if( t == TOK_WHILE){
       n=ind;
-      h=test_expr ();
+      a=test_expr ();
     }
     else{
       if( tok != ';') {
@@ -401,9 +401,9 @@ block(l){
       }
       next();
       n=ind;
-      h=0;
+      a=0;
       if( tok != ';') {
-        h=test_expr ();
+        a=test_expr ();
       }
       next();
       if( tok != ')'){
@@ -415,9 +415,9 @@ block(l){
       }
     }
     next();
-    block(&h);
+    block(&a);
     gjmp(n-ind-5);
-    gsym(h);
+    gsym(a);
   }
   else if( tok == '{'){
     next();
