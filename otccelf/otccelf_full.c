@@ -211,7 +211,7 @@ gmov(l, t){
 }
 
 unary(l){
-  int n, a,h,F;
+  int n, t,h,F;
   n=1;
   if( tok == '\"'){
     li(glo+data_offset);
@@ -227,27 +227,27 @@ unary(l){
   } else {
     F=tokl;
     h=tokc;
-    a=tok;
+    t=tok;
     next();
-    if( a == TOK_NUM){
+    if( t == TOK_NUM){
       li(h);
     }
     else if( F == 2){
       unary(0);
       oad(185,0);
-      if( a == '!') {
+      if( t == '!') {
         gcmp(h);
       } else {
         o( h);
       }
     }
-    else if( a == '('){
+    else if( t == '('){
       expr ();
       next();
     }
-    else if( a == '*'){
+    else if( t == '*'){
       next();
-      a=tok;
+      t=tok;
       next();
       next();
       if( tok == '*'){
@@ -255,7 +255,7 @@ unary(l){
         next();
         next();
         next();
-        a=0;
+        t=0;
       }
       next();
       unary(0);
@@ -264,16 +264,16 @@ unary(l){
         o( 80);
         expr ();
         o( 89);
-        o( 392+(a == TOK_INT));
-      } else if( a){
-        if( a == TOK_INT) {
+        o( 392+(t == TOK_INT));
+      } else if( t){
+        if( t == TOK_INT) {
           o( 139);
         } else {
           o( 48655);
         }
         ind++;
       }
-    } else if( a == '&'){
+    } else if( t == '&'){
       gmov(10,tok);
       next();
     }
@@ -282,11 +282,11 @@ unary(l){
       if( tok == '=' & l){
         next();
         expr ();
-        gmov(6,a);
+        gmov(6,t);
       } else if( tok != '('){
-        gmov(8,a);
+        gmov(8,t);
         if( tokl == 11){
-          gmov(0,a);
+          gmov(0,t);
           o( tokc);
           next();
         }
@@ -313,8 +313,8 @@ unary(l){
       l=l+4;
     }
     else{
-      a=a+4;
-      *(int*) a=oad(232,*(int*) a);
+      t=t+4;
+      *(int*) t=oad(232,*(int*) t);
     }
     if( l) oad(50305,l);
   }
