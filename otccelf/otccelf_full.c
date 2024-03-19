@@ -505,30 +505,30 @@ gphdr1(n,t){
 }
 
 elf_reloc(l){
-  int a,h,d,N,z,F;
+  int t,h,d,N,z,F;
   N=0;
-  a=sym_stk;
+  t=sym_stk;
   while( 1){
-    a++;
-    h=a;
-    while( *(char*) a != TAG_TOK && a < dstk) {
-      a++;
+    t++;
+    h=t;
+    while( *(char*) t != TAG_TOK && t < dstk) {
+      t++;
     }
-    if( a == dstk)break;
+    if( t == dstk)break;
     tok = vars + (h - sym_stk) * 8 + TOK_IDENT - 8;
     z=*(int*) tok;
     d=*(int*)(tok+4);
     if( d&&z!=1){
       if(!z){
         if(!l){
-          memcpy(glo,h,a-h);
-          glo=glo+a-h+1;
+          memcpy(glo,h,t-h);
+          glo=glo+t-h+1;
         } else if( l == 1){
           gle32( N + DYNSTR_BASE);
           gle32( 0);
           gle32( 0);
           gle32( 16);
-          N=N+a-h+1;
+          N=N+t-h+1;
         } else{
           N++;
           while( d){
