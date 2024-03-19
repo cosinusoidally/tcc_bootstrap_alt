@@ -321,17 +321,17 @@ unary(l){
 }
 
 sum(l){
-  int a,d,h;
+  int t,d,h;
   if( l--== 1) unary(1);
   else{
     sum(l);
     h=0;
     while( l == tokl){
       d=tok;
-      a=tokc;
+      t=tokc;
       next();
       if( l>8){
-        h=gtst(a,h);
+        h=gtst(t,h);
         sum(l);
       }
       else{
@@ -339,10 +339,10 @@ sum(l){
         sum(l);
         o( 89);
         if( l == 4|l == 5){
-          gcmp(a);
+          gcmp(t);
         }
         else{
-          o( a);
+          o( t);
           if( d == '%') {
             o( 146);
           }
@@ -350,11 +350,11 @@ sum(l){
       }
     }
     if( h&&l>8){
-      h=gtst(a,h);
-      li(a^1);
+      h=gtst(t,h);
+      li(t^1);
       gjmp(5);
       gsym(h);
-      li(a);
+      li(t);
     }
   }
 }
