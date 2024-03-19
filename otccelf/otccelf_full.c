@@ -153,15 +153,15 @@ gsym1(t, b){
   while( t){
     d=get32(t);
     if( *(char*)(t-1) == 5){
-      if( b>=data&&b<glo)
-        put32(t,b+data_offset);
+      if( b >= data && b < glo)
+        put32(t, b + data_offset);
       else
-        put32(t,b-prog+text+data_offset);
+        put32(t, b - prog + text + data_offset);
     }
     else{
-      put32(t,b-t-4);
+      put32(t, b - t - 4);
     }
-    t=d;
+    t = d;
   }
 }
 
