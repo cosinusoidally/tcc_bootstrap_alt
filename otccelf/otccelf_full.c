@@ -72,8 +72,7 @@ next(){
     if( isdigit(tok)){
       tokc = strtol(last_id,0,0);
       tok = TOK_NUM;
-    }
-    else{
+    } else{
       *(char*) dstk = TAG_TOK;
       tok = strstr(sym_stk, last_id - 1) - sym_stk;
       *(char*) dstk=0;
@@ -88,8 +87,7 @@ next(){
         }
       }
     }
-  }
-  else{
+  } else{
     inp ();
     if( tok == '\''){
       tok = TOK_NUM;
@@ -97,8 +95,7 @@ next(){
       tokc=ch;
       inp ();
       inp ();
-    }
-    else if( tok == '/' & ch == '*'){
+    } else if( tok == '/' & ch == '*'){
       inp ();
       while( ch){
         while( ch != '*') {
@@ -111,8 +108,7 @@ next(){
       }
       inp ();
       next();
-    }
-    else{
+    } else{
       t="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
       while( l=*(char*) t++){
         a=*(char*) t++;
