@@ -523,15 +523,13 @@ elf_reloc(l){
         if(!l){
           memcpy(glo,h,a-h);
           glo=glo+a-h+1;
-        }
-        else if( l == 1){
+        } else if( l == 1){
           gle32( N + DYNSTR_BASE);
           gle32( 0);
           gle32( 0);
           gle32( 16);
           N=N+a-h+1;
-        }
-        else{
+        } else{
           N++;
           while( d){
             h=get32(d);
@@ -542,8 +540,7 @@ elf_reloc(l){
             d=h;
           }
         }
-      }
-      else if(!l){
+      } else if(!l){
         gsym1(d,z);
       }
     }
