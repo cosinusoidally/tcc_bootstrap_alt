@@ -505,39 +505,39 @@ gphdr1(n,t){
 }
 
 elf_reloc(l){
-  int t,h,d,N,z,F;
+  int t, a,d,N,z,F;
   N=0;
   t=sym_stk;
   while( 1){
     t++;
-    h=t;
+    a=t;
     while( *(char*) t != TAG_TOK && t < dstk) {
       t++;
     }
     if( t == dstk)break;
-    tok = vars + (h - sym_stk) * 8 + TOK_IDENT - 8;
+    tok = vars + (a - sym_stk) * 8 + TOK_IDENT - 8;
     z=*(int*) tok;
     d=*(int*)(tok+4);
     if( d&&z!=1){
       if(!z){
         if(!l){
-          memcpy(glo,h,t-h);
-          glo=glo+t-h+1;
+          memcpy(glo,a,t-a);
+          glo=glo+t-a+1;
         } else if( l == 1){
           gle32( N + DYNSTR_BASE);
           gle32( 0);
           gle32( 0);
           gle32( 16);
-          N=N+t-h+1;
+          N=N+t-a+1;
         } else{
           N++;
           while( d){
-            h=get32(d);
+            a=get32(d);
             F=*(char*)(d-1)!=5;
             put32(d,-F*4);
             gle32( d-prog+text+data_offset);
             gle32( N*256+F+1);
-            d=h;
+            d=a;
           }
         }
       } else if(!l){
