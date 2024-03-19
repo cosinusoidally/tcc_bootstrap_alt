@@ -445,7 +445,7 @@ block(l){
 }
 
 decl(l){
-  int h;
+  int a;
   while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
       next();
@@ -469,10 +469,10 @@ decl(l){
       *(int*) tok=ind;
       next();
       next();
-      h=8;
+      a=8;
       while( tok != ')'){
-        *(int*) tok=h;
-        h=h+4;
+        *(int*) tok=a;
+        a=a+4;
         next();
         if( tok == ',') {
           next();
@@ -481,11 +481,11 @@ decl(l){
       next();
       rsym=loc=0;
       o( 15042901);
-      h=oad(60545,0);
+      a=oad(60545,0);
       block(0);
       gsym(rsym);
       o( 50121);
-      put32(h,loc);
+      put32(a,loc);
     }
   }
 }
