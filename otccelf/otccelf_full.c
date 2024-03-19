@@ -321,13 +321,13 @@ unary(l){
 }
 
 sum(l){
-  int t,d,h;
+  int t, n,h;
   if( l--== 1) unary(1);
   else{
     sum(l);
     h=0;
     while( l == tokl){
-      d=tok;
+      n=tok;
       t=tokc;
       next();
       if( l>8){
@@ -343,7 +343,7 @@ sum(l){
         }
         else{
           o( t);
-          if( d == '%') {
+          if( n == '%') {
             o( 146);
           }
         }
