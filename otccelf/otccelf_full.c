@@ -148,20 +148,20 @@ get32(t){
          (*(char*)(t+2)&255)<<16 | (*(char*)(t+3)&255)<<24;
 }
 
-gsym1(a,z){
+gsym1(t, z){
   int d;
-  while( a){
-    d=get32(a);
-    if( *(char*)(a-1) == 5){
+  while( t){
+    d=get32(t);
+    if( *(char*)(t-1) == 5){
       if( z>=data&&z<glo)
-        put32(a,z+data_offset);
+        put32(t,z+data_offset);
       else
-        put32(a,z-prog+text+data_offset);
+        put32(t,z-prog+text+data_offset);
     }
     else{
-      put32(a,z-a-4);
+      put32(t,z-t-4);
     }
-    a=d;
+    t=d;
   }
 }
 
