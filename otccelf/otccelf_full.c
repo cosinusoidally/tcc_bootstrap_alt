@@ -198,15 +198,15 @@ gcmp(t){
   o( 192);
 }
 
-gmov(s,a){
+gmov(l, t){
   int d;
-  o( s+131);
-  d=*(int*) a;
+  o( l+131);
+  d = *(int*) t;
   if( d && d < LOCAL) {
     oad(133,d);
   } else {
-    a=a+4;
-    *(int*) a=oad(5,*(int*) a);
+    t = t + 4;
+    *(int*) t = oad(5,*(int*) t);
   }
 }
 
