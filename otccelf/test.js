@@ -1,3 +1,5 @@
+print("Test JS version of otcelf");
+
 load("support.js");
 load("support_common.js");
 load("otccelf_full.js");
