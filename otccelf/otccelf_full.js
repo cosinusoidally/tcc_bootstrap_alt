@@ -29,22 +29,22 @@ function inp (){
 }
 
 function isid (){
-  return isalnum(ch) | ch == '_';
+  return isalnum(ch) | ch == mk_char('_');
 }
 
 function getq (){
-  if( ch == '\\'){
+  if( ch == mk_char('\\')){
     inp ();
-    if( ch == 'n') {
-      ch = '\n';
+    if( ch == mk_char('n')) {
+      ch = mk_char('\n');
     }
   }
 }
 
 function next(){
   var t, l, a;
-  while( isspace(ch) | ch == '#'){
-    if( ch == '#'){
+  while( isspace(ch) | ch == mk_char('#')){
+    if( ch == mk_char('#')){
       inp ();
       next();
       if( tok == TOK_DEFINE){
@@ -53,7 +53,7 @@ function next(){
         wi32(tok, 1);
         wi32(tok+4, dstk);
       }
-      while( ch != '\n'){
+      while( ch != mk_char('\n')){
         pdef(ch);
         inp ();
       }
@@ -91,20 +91,20 @@ function next(){
     }
   } else{
     inp ();
-    if( tok == '\''){
+    if( tok == mk_char('\'')){
       tok = TOK_NUM;
       getq ();
       tokc=ch;
       inp ();
       inp ();
-    } else if( tok == '/' & ch == '*'){
+    } else if( tok == mk_char('/') & ch == mk_char('*')){
       inp ();
       while( ch){
-        while( ch != '*') {
+        while( ch != mk_char('*')) {
           inp ();
         }
         inp ();
-        if( ch == '/') {
+        if( ch == mk_char('/')) {
           ch=0;
         }
       }
@@ -117,12 +117,12 @@ function next(){
         a = ri8(t);
         t = t + 1;
         tokc=0;
-        while((tokl = ri8(t) - 'b')<0) {
+        while((tokl = ri8(t) - mk_char('b'))<0) {
           t = t + 1;
           tokc = tokc * 64 + tokl + 64;
         }
         t = t + 1;
-        if( l == tok & (a == ch | a == '@')){
+        if( l == tok & (a == ch | a == mk_char('@'))){
           if( a == ch){
             inp ();
             tok = TOK_DUMMY;
