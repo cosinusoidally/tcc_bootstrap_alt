@@ -445,7 +445,7 @@ block(l){
       rsym=gjmp(rsym);
     } else if( tok == TOK_BREAK){
       next();
-      *(int*) l=gjmp(*(int*) l);
+      wi32(l, gjmp(ri32(l)));
     } else if( tok != ';') {
       expr ();
     }
