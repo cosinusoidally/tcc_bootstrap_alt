@@ -221,9 +221,9 @@ function gmov(l, t){
 function unary(l){
   var n, t, a, c;
   n=1;
-  if( tok == '\"'){
+  if( tok == mk_char('\"')){
     li(glo+data_offset);
-    while( ch!='\"'){
+    while( ch!=mk_char('\"')){
       getq ();
       wi8(glo, ch);
       glo = glo + 1;
@@ -244,22 +244,22 @@ function unary(l){
     else if( c == 2){
       unary(0);
       oad(185,0);
-      if( t == '!') {
+      if( t == mk_char('!')) {
         gcmp(a);
       } else {
         o( a);
       }
     }
-    else if( t == '('){
+    else if( t == mk_char('(')){
       expr ();
       next();
     }
-    else if( t == '*'){
+    else if( t == mk_char('*')){
       next();
       t=tok;
       next();
       next();
-      if( tok == '*'){
+      if( tok == mk_char('*')){
         next();
         next();
         next();
@@ -268,7 +268,7 @@ function unary(l){
       }
       next();
       unary(0);
-      if( tok == '='){
+      if( tok == mk_char('=')){
         next();
         o( 80);
         expr ();
@@ -282,17 +282,17 @@ function unary(l){
         }
         ind++;
       }
-    } else if( t == '&'){
+    } else if( t == mk_char('&')){
       gmov(10,tok);
       next();
     }
     else{
       n=0;
-      if( tok == '=' & l){
+      if( tok == mk_char('=') & l){
         next();
         expr ();
         gmov(6,t);
-      } else if( tok != '('){
+      } else if( tok != mk_char('(')){
         gmov(8,t);
         if( tokl == 11){
           gmov(0,t);
@@ -302,15 +302,15 @@ function unary(l){
       }
     }
   }
-  if( tok == '('){
+  if( tok == mk_char('(')){
     if( n)o( 80);
     a=oad(60545,0);
     next();
     l=0;
-    while( tok != ')'){
+    while( tok != mk_char(')')){
       expr ();
       oad(2393225,l);
-      if( tok == ',') {
+      if( tok == mk_char(',')) {
         next();
       }
       l=l+4;
@@ -352,7 +352,7 @@ function sum(l){
         }
         else{
           o( t);
-          if( n == '%') {
+          if( n == mk_char('%')) {
             o( 146);
           }
         }
@@ -407,17 +407,17 @@ function block(l){
       wi32(a, test_expr());
     }
     else{
-      if( tok != ';') {
+      if( tok != mk_char(';')) {
         expr ();
       }
       next();
       n=ind;
       wi32(a, 0);
-      if( tok != ';') {
+      if( tok != mk_char(';')) {
         wi32(a, test_expr());
       }
       next();
-      if( tok != ')'){
+      if( tok != mk_char(')')){
         t=gjmp(0);
         expr ();
         gjmp(n-ind-5);
