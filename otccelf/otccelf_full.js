@@ -430,10 +430,10 @@ function block(l){
     gjmp(n-ind-5);
     gsym(ri32(a));
   }
-  else if( tok == '{'){
+  else if( tok == mk_char('{')){
     next();
     decl(1);
-    while( tok != '}') {
+    while( tok != mk_char('}')) {
       block(l);
     }
     next();
@@ -441,14 +441,14 @@ function block(l){
   else{
     if( tok == TOK_RETURN){
       next();
-      if( tok != ';') {
+      if( tok != mk_char(';')) {
         expr ();
       }
       rsym=gjmp(rsym);
     } else if( tok == TOK_BREAK){
       next();
       wi32(l, gjmp(ri32(l)));
-    } else if( tok != ';') {
+    } else if( tok != mk_char(';')) {
       expr ();
     }
     next();
@@ -461,7 +461,7 @@ function decl(l){
   while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
       next();
-      while( tok != ';'){
+      while( tok != mk_char(';')){
         if( l){
           loc=loc+4;
           wi32(tok, -loc);
@@ -471,7 +471,7 @@ function decl(l){
           glo=glo+4;
         }
         next();
-        if( tok == ',') {
+        if( tok == mk_char(',')) {
           next();
         }
       }
@@ -482,11 +482,11 @@ function decl(l){
       next();
       next();
       a=8;
-      while( tok != ')'){
+      while( tok != mk_char(')')){
         wi32(tok, a);
         a=a+4;
         next();
-        if( tok == ',') {
+        if( tok == mk_char(',')) {
           next();
         }
       }
@@ -689,7 +689,7 @@ function init_globals(){
   SYM_FORWARD = 0;
   SYM_DEFINE  = 1;
 
-  TAG_TOK   =  ' ';
+  TAG_TOK   =  mk_char(' ');
   TAG_MACRO =  2;
 }
 
