@@ -475,12 +475,12 @@ decl(l){
       next();
     }
     else{
-      *(int*) tok=ind;
+      wi32(tok, ind);
       next();
       next();
       a=8;
       while( tok != ')'){
-        *(int*) tok=a;
+        wi32(tok, a);
         a=a+4;
         next();
         if( tok == ',') {
