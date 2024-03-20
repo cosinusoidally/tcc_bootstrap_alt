@@ -24,6 +24,14 @@ function malloc(x){
   return r;
 }
 
+function calloc(x){
+  var r=malloc(x);
+  for(var i=0;i<x;i++){
+    wi8(r+x,0);
+  }
+  return r;
+}
+
 var string_cache={};
 
 function mk_c_string(s){
@@ -86,3 +94,34 @@ function mk_argc_argv(s){
   return {argc:argc,argv:argv};
 }
 
+function wi8(o,v){
+  if(v===undefined){
+    print("wrong use of wi8");
+    err();
+  }
+  var o1=o>>>2;
+  var s=o&3;
+  var v1=heap[o1];
+  v1=v1&(~(0xff<<(s*8))) | ((v&0xff)<<(s*8));
+  heap[o1]=v1;
+};
+
+function ri8(o,dummy){
+  if(dummy!==undefined){
+    print("wrong use of ri8");
+    err();
+  }
+  var o1=o>>>2;
+  var s=o&3;
+  var v1=heap[o1];
+  return (v1>>>(s*8)) &0xff;
+};
+
+function v_strcpy(dest,src){
+  var c;
+  while((c=ri8(src++))!==0){
+    wi8(dest++,c);
+  }
+}
+
+strcpy=v_strcpy;
