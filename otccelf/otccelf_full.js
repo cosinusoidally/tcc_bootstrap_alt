@@ -111,7 +111,7 @@ function next(){
       inp ();
       next();
     } else{
-      t="++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b";
+      t=mk_c_string("++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b");
       while( l = ri8(t)){
         t = t + 1;
         a = ri8(t);
@@ -573,8 +573,8 @@ function elf_out(c){
   glo=glo+text_size;
   dynstr=glo;
   glo++;
-  glo=strcpy(glo,"libc.so.6")+10;
-  glo=strcpy(glo,"libdl.so.2")+11;
+  glo=strcpy(glo,mk_c_string("libc.so.6"))+10;
+  glo=strcpy(glo,mk_c_string("libdl.so.2"))+11;
   elf_reloc(0);
   dynstr_size=glo-dynstr;
   glo=(glo+3)&-4;
@@ -624,7 +624,7 @@ function elf_out(c){
   gphdr1(DYNAMIC_OFFSET, DYNAMIC_SIZE);
   gle32( 6);
   gle32( 4);
-  glo=strcpy(glo,"/lib/ld-linux.so.2")+20;
+  glo=strcpy(glo,mk_c_string("/lib/ld-linux.so.2"))+20;
   gle32( 1);
   gle32( 1);
   gle32( 1);
@@ -647,7 +647,7 @@ function elf_out(c){
   gle32( 8);
   gle32( 0);
   gle32( 0);
-  t=fopen(c,"w");
+  t=fopen(c,mk_c_string("w"));
   fwrite(data,1,glo_saved-data,t);
   fclose(t);
 }
@@ -703,13 +703,13 @@ function main(n,t){
     return 0;
   }
   dstk=strcpy(sym_stk = calloc(1, ALLOC_SIZE),
-              " int if else while break return for define main ") + TOK_STR_SIZE;
+       mk_c_string(" int if else while break return for define main ")) + TOK_STR_SIZE;
   glo = data = calloc(1, ALLOC_SIZE);
   ind = prog = calloc(1, ALLOC_SIZE);
   vars = calloc(1, ALLOC_SIZE);
 
   t = t + 4;
-  file=fopen(ri32(t), "r");
+  file=fopen(ri32(t), mk_c_string("r"));
 
   data_offset = ELF_BASE - data;
   glo = glo + ELFSTART_SIZE;
