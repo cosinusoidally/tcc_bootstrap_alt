@@ -23,22 +23,17 @@ function v_alloca(x) {
 }
 
 function enter() {
-/* FIXME dummy impl */
+/* FIXME detect overflow */
   printf("enter esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
-  return;
-
   v_esp=v_esp-4;
   wi32(v_esp,v_ebp);
   v_ebp=v_esp;
 }
 
 function leave(x) {
-/* FIXME dummy impl */
-  printf("leave esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
-  return;
-
   v_esp=v_ebp;
   v_ebp=ri32(v_esp);
   v_esp=v_esp+4;
+  printf("leave esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
   return x;
 }

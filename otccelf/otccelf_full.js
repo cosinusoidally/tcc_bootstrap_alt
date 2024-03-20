@@ -695,6 +695,7 @@ function init_globals(){
 
 
 function main(n,t){
+  puts("otccelf start");
   init_c();
   init_globals();
   if( n<3){
@@ -719,5 +720,8 @@ function main(n,t){
   decl(0);
   t = t + 4;
   elf_out(ri32(t));
+  puts("otccelf complete");
+/* may be needed to flush stdout */
+/*  fsync(0); */
   return 0;
 }
