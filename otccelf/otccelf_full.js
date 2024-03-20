@@ -50,8 +50,8 @@ next(){
       if( tok == TOK_DEFINE){
         next();
         pdef(TAG_TOK);
-        *(int*) tok=1;
-        *(int*)(tok+4)=dstk;
+        wi32(tok, 1);
+        wi32(tok+4, dstk);
       }
       while( ch != '\n'){
         pdef(ch);
