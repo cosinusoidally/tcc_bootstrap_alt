@@ -380,6 +380,7 @@ function test_expr (){
 function block(l){
   var a , n, t;
   enter();
+  a = v_alloca(4);
   if( tok == TOK_IF){
     next();
     next();
