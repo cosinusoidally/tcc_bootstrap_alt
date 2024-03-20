@@ -144,10 +144,10 @@ o( n){
 }
 
 put32(t, n){
-  *(char*) t++ = n;
-  *(char*) t++ = n>>8;
-  *(char*) t++ = n>>16;
-  *(char*) t++ = n>>24;
+  wi8(t, n);     t = t + 1;
+  wi8(t,  n>>8); t = t + 1;
+  wi8(t, n>>16); t = t + 1;
+  wi8(t, n>>24); t = t + 1;
 }
 
 get32(t){
