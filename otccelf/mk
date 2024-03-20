@@ -38,7 +38,35 @@ chmod +x otccex.exe
 
 ./otccelf1.exe otccelf_full.c otccelf_full_otccelf1.exe
 
+# test JS based build
+# under C
+
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+cd artifacts/
+
+../otccelf_full3.exe otccelf_js.c otccelf_js.exe
+chmod +x otccelf_js.exe
+
+./otccelf_js.exe otccelf_js.c otccelf_js1.exe
+chmod +x otccelf_js1.exe
+
+./otccelf_js1.exe otccelf_js.c otccelf_js2.exe
+chmod +x otccelf_js2.exe
+
+./otccelf_js2.exe otccelf_js.c otccelf_js3.exe
+chmod +x otccelf_js3.exe
+
+./otccelf_js3.exe ../otccelf.c otccelf.exe
+./otccelf_js3.exe ../otccex.c otccex.exe
+
+# under JS
+# todo
+
+cd ..
+
 sha256sum *exe
+sha256sum artifacts/*exe
 diff -s otccelf1.exe otccelf1_gcc.exe
 diff -s otccelf_full3.exe otccelf_full_otccelf1.exe
 diff -s otccelf_full3.exe otccelf_full3_gcc.exe

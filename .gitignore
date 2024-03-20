@@ -4,5 +4,7 @@
 *.swp
 x86/artifact/*
 x86/bin/*
+otccelf/artifact/*
 !x86/bin/placeholder
 !x86/artifact/placeholder
+!otccelf/artifact/placeholder
