@@ -384,18 +384,18 @@ function block(l){
   if( tok == TOK_IF){
     next();
     next();
-    a=test_expr ();
+    wi32(a, test_expr());
     next();
     block(l);
     if( tok == TOK_ELSE){
       next();
       n=gjmp(0);
-      gsym(a);
+      gsym(ri32(a));
       block(l);
       gsym(n);
     }
     else{
-      gsym(a);
+      gsym(ri32(a));
     }
   }
   else if( tok == TOK_WHILE | tok == TOK_FOR){
@@ -404,7 +404,7 @@ function block(l){
     next();
     if( t == TOK_WHILE){
       n=ind;
-      a=test_expr ();
+      wi32(a, test_expr());
     }
     else{
       if( tok != ';') {
@@ -412,9 +412,9 @@ function block(l){
       }
       next();
       n=ind;
-      a=0;
+      wi32(a, 0);
       if( tok != ';') {
-        a=test_expr ();
+        wi32(a, test_expr());
       }
       next();
       if( tok != ')'){
@@ -426,9 +426,9 @@ function block(l){
       }
     }
     next();
-    block(&a);
+    block(a);
     gjmp(n-ind-5);
-    gsym(a);
+    gsym(ri32(a));
   }
   else if( tok == '{'){
     next();
