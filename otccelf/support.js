@@ -1,6 +1,6 @@
 var v_esp, v_ebp, v_stack_size, v_stack;
 var heap_size=16*1024*1024;
-v_stack_size=256*1024;
+var v_stack_size=256*1024;
 var heap=new Array(heap_size/4);
 for(var i=0;i<heap_size/4;i++){
   heap[i]=0;
@@ -8,6 +8,21 @@ for(var i=0;i<heap_size/4;i++){
 
 var v_esp=heap_size-4;
 var v_ebp=v_esp;
+
+var malloc_base=4;
+
+function malloc(x){
+  var r=malloc_base;
+// align to 4 bytes
+  if(x!==((x>>>2)<<2)){
+    x=4+(x>>>2) <<2;
+  }
+  malloc_base=malloc_base+x;
+  if(malloc_base>(heap_size-v_stack_size)){
+    throw "oom malloc";
+  }
+  return r;
+}
 
 var string_cache={};
 
