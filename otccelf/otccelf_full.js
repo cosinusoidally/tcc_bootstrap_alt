@@ -209,12 +209,12 @@ gcmp(t){
 gmov(l, t){
   int d;
   o( l+131);
-  d = *(int*) t;
+  d = ri32(t);
   if( d && d < LOCAL) {
     oad(133,d);
   } else {
     t = t + 4;
-    *(int*) t = oad(5,*(int*) t);
+    wi32(t, oad(5,ri32(t)));
   }
 }
 
