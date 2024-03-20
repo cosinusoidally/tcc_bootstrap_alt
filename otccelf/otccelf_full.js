@@ -75,9 +75,9 @@ next(){
       tokc = strtol(last_id,0,0);
       tok = TOK_NUM;
     } else{
-      *(char*) dstk = TAG_TOK;
+      wi8(dstk, TAG_TOK);
       tok = strstr(sym_stk, last_id - 1) - sym_stk;
-      *(char*) dstk=0;
+      wi8(dstk, 0);
       tok=tok * 8 + TOK_IDENT;
       if( tok>TOK_DEFINE){
         tok=vars+tok;
