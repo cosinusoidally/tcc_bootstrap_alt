@@ -1,5 +1,3 @@
-var v_esp, v_ebp;
-
 function wi32(o, v) {
   wi8(o,v&0xFF);
   v=v>>8;

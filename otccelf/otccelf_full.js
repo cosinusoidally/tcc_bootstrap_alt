@@ -694,6 +694,7 @@ function init_globals(){
 
 
 function main(n,t){
+  init_c();
   init_globals();
   if( n<3){
     printf("usage: otccelf file.c outfile\n");
