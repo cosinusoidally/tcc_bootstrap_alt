@@ -11,7 +11,7 @@ var TOK_IDENT, TOK_INT, TOK_IF, TOK_ELSE, TOK_WHILE, TOK_BREAK, TOK_RETURN;
 var TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
 var SYM_DEFINE, TAG_TOK, TAG_MACRO;
 
-pdef(t){
+function pdef(t){
   wi8(dstk, t);
   dstk = dstk + 1;
 }
@@ -28,11 +28,11 @@ function inp (){
     else ch=fgetc(file);
 }
 
-isid (){
+function isid (){
   return isalnum(ch) | ch == '_';
 }
 
-getq (){
+function getq (){
   if( ch == '\\'){
     inp ();
     if( ch == 'n') {
@@ -41,7 +41,7 @@ getq (){
   }
 }
 
-next(){
+function next(){
   var t, l, a;
   while( isspace(ch) | ch == '#'){
     if( ch == '#'){
@@ -135,7 +135,7 @@ next(){
   }
 }
 
-o( n){
+function o( n){
   while( n && n!=-1){
     wi8(ind, n);
     ind = ind + 1;
@@ -143,20 +143,20 @@ o( n){
   }
 }
 
-put32(t, n){
+function put32(t, n){
   wi8(t, n);     t = t + 1;
   wi8(t,  n>>8); t = t + 1;
   wi8(t, n>>16); t = t + 1;
   wi8(t, n>>24); t = t + 1;
 }
 
-get32(t){
+function get32(t){
   var n;
   return (ri8(t)&255)       | (ri8(t+1)&255)<<8 |
          (ri8(t+2)&255)<<16 | (ri8(t+3)&255)<<24;
 }
 
-gsym1(t, b){
+function gsym1(t, b){
   var d;
   while( t){
     d=get32(t);
@@ -173,11 +173,11 @@ gsym1(t, b){
   }
 }
 
-gsym(t){
+function gsym(t){
   gsym1(t, ind);
 }
 
-oad(n, t){
+function oad(n, t){
   o( n);
   put32(ind, t);
   t = ind;
@@ -185,20 +185,20 @@ oad(n, t){
   return t;
 }
 
-li(t){
+function li(t){
   oad(184, t);
 }
 
-gjmp(t){
+function gjmp(t){
   return oad(233, t);
 }
 
-gtst(l, t){
+function gtst(l, t){
   o( 1032325);
   return oad(132+l, t);
 }
 
-gcmp(t){
+function gcmp(t){
   o( 49465);
   li(0);
   o( 15);
@@ -206,7 +206,7 @@ gcmp(t){
   o( 192);
 }
 
-gmov(l, t){
+function gmov(l, t){
   var d;
   o( l+131);
   d = ri32(t);
@@ -218,7 +218,7 @@ gmov(l, t){
   }
 }
 
-unary(l){
+function unary(l){
   var n, t, a, c;
   n=1;
   if( tok == '\"'){
@@ -329,7 +329,7 @@ unary(l){
   }
 }
 
-sum(l){
+function sum(l){
   var t, n, a;
   if( l--== 1) unary(1);
   else{
@@ -368,16 +368,16 @@ sum(l){
   }
 }
 
-expr (){
+function expr (){
   sum(11);
 }
 
-test_expr (){
+function test_expr (){
   expr ();
   return gtst(0,0);
 }
 
-block(l){
+function block(l){
   var a , n, t;
   if( tok == TOK_IF){
     next();
@@ -453,7 +453,7 @@ block(l){
   }
 }
 
-decl(l){
+function decl(l){
   var a;
   while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
@@ -499,12 +499,12 @@ decl(l){
   }
 }
 
-gle32( n){
+function gle32( n){
   put32(glo,n);
   glo=glo+4;
 }
 
-gphdr1(n,t){
+function gphdr1(n,t){
   gle32( n);
   n = n + ELF_BASE;
   gle32( n);
@@ -513,7 +513,7 @@ gphdr1(n,t){
   gle32( t);
 }
 
-elf_reloc(l){
+function elf_reloc(l){
   var t,a,n,p,b,c;
   p=0;
   t=sym_stk;
@@ -556,7 +556,7 @@ elf_reloc(l){
   }
 }
 
-elf_out(c){
+function elf_out(c){
   var glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
   text=glo;
   text_size=ind-prog;
@@ -649,7 +649,7 @@ elf_out(c){
   fclose(t);
 }
 
-init_globals(){
+function init_globals(){
   ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
@@ -691,7 +691,7 @@ init_globals(){
 }
 
 
-main(n,t){
+function main(n,t){
   init_globals();
   if( n<3){
     printf("usage: otccelf file.c outfile\n");
