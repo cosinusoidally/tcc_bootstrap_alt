@@ -45,8 +45,12 @@ cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
 
 cd artifacts/
 
-../otccelf_full3.exe otccelf_js.c otccelf_js.exe
+gcc -O0 -g otccelf_js.c -o otccelf_js_gcc.exe
+
+tcc otccelf_js.c -o otccelf_js.exe
 chmod +x otccelf_js.exe
+
+# build with version bootstrapped from tcc
 
 ./otccelf_js.exe otccelf_js.c otccelf_js1.exe
 chmod +x otccelf_js1.exe
@@ -61,6 +65,17 @@ chmod +x otccelf_js3.exe
 ./otccelf_js3.exe ../otccelf_full.c otccelf_full.exe
 ./otccelf_js3.exe ../otccex.c otccex.exe
 
+# build with version bootstrapped from gcc
+
+./otccelf_js_gcc.exe otccelf_js.c otccelf_js1_gcc.exe
+chmod +x otccelf_js1_gcc.exe
+
+./otccelf_js1_gcc.exe otccelf_js.c otccelf_js2_gcc.exe
+chmod +x otccelf_js2_gcc.exe
+
+./otccelf_js2_gcc.exe otccelf_js.c otccelf_js3_gcc.exe
+chmod +x otccelf_js3_gcc.exe
+
 # under JS
 # todo
 
@@ -72,4 +87,5 @@ diff -s otccelf1.exe otccelf1_gcc.exe
 diff -s otccelf_full3.exe otccelf_full_otccelf1.exe
 diff -s otccelf_full3.exe otccelf_full3_gcc.exe
 diff -s otccelf_full3.exe artifacts/otccelf_full.exe
+diff -s artifacts/otccelf_js3.exe artifacts/otccelf_js3_gcc.exe
 sha256sum -c otccelf.sums
