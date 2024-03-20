@@ -525,8 +525,8 @@ elf_reloc(l){
     }
     if( t == dstk)break;
     tok = vars + (a - sym_stk) * 8 + TOK_IDENT - 8;
-    b=*(int*) tok;
-    n=*(int*)(tok+4);
+    b = ri32(tok);
+    n = ri32(tok+4);
     if( n&&b!=1){
       if(!b){
         if(!l){
@@ -542,7 +542,7 @@ elf_reloc(l){
           p++;
           while( n){
             a=get32(n);
-            c=*(char*)(n-1)!=5;
+            c = ri8(n-1)!=5;
             put32(n,-c*4);
             gle32( n-prog+text+data_offset);
             gle32( p*256+c+1);
@@ -562,7 +562,7 @@ elf_out(c){
   text_size=ind-prog;
   ind=prog;
   o( 5264472);
-  t = *(int*)(vars + TOK_MAIN);
+  t = ri32(vars + TOK_MAIN);
   oad(232,t-ind-5);
   o( 50057);
   li(1);
