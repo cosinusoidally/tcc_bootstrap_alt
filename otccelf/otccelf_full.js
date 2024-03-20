@@ -520,7 +520,7 @@ elf_reloc(l){
   while( 1){
     t++;
     a=t;
-    while( *(char*) t != TAG_TOK && t < dstk) {
+    while( ri8(t) != TAG_TOK && t < dstk) {
       t++;
     }
     if( t == dstk)break;
