@@ -80,8 +80,8 @@ next(){
       tok=tok * 8 + TOK_IDENT;
       if( tok>TOK_DEFINE){
         tok=vars+tok;
-        if( *(int*) tok == SYM_DEFINE){
-          dptr=*(int*)(tok+4);
+        if( ri32(tok) == SYM_DEFINE){
+          dptr = ri32(tok+4);
           dch=ch;
           inp ();
           next();
