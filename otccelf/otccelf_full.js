@@ -461,10 +461,10 @@ decl(l){
       while( tok != ';'){
         if( l){
           loc=loc+4;
-          *(int*) tok=-loc;
+          wi32(tok, -loc);
         }
         else{
-          *(int*) tok=glo;
+          wi32(tok, glo);
           glo=glo+4;
         }
         next();
