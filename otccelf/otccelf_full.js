@@ -137,7 +137,8 @@ next(){
 
 o( n){
   while( n && n!=-1){
-    *(char*) ind++ = n;
+    wi8(ind, n);
+    ind = ind + 1;
     n = n >> 8;
   }
 }
