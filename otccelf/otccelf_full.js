@@ -153,7 +153,7 @@ gsym1(t, b){
   int d;
   while( t){
     d=get32(t);
-    if( *(char*)(t-1) == 5){
+    if( ri8(t-1) == 5){
       if( b >= data && b < glo)
         put32(t, b + data_offset);
       else
