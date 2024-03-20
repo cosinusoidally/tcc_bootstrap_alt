@@ -12,7 +12,8 @@ int TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
 int SYM_DEFINE, TAG_TOK, TAG_MACRO;
 
 pdef(t){
-  *(char*) dstk++ = t;
+  wi8(dstk, t);
+  dstk = dstk + 1;
 }
 
 function inp (){
