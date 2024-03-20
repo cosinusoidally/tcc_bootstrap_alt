@@ -15,5 +15,13 @@ init_c(){
   v_ebp=v_esp;
 }
 
+mk_char(c){
+  return c;
+}
+
+mk_c_string(s){
+  return s;
+}
+
 #define function 
 #define var int
