@@ -1,15 +1,16 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
+# 1 "otccelf_full.js.c"
+var tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
-int ALLOC_SIZE;
+var ALLOC_SIZE;
 
-int ELF_BASE;
-int PHDR_OFFSET, INTERP_OFFSET, INTERP_SIZE, DYNAMIC_OFFSET, DYNAMIC_SIZE;
-int ELFSTART_SIZE, STARTUP_SIZE, DYNSTR_BASE;
+var ELF_BASE;
+var PHDR_OFFSET, INTERP_OFFSET, INTERP_SIZE, DYNAMIC_OFFSET, DYNAMIC_SIZE;
+var ELFSTART_SIZE, STARTUP_SIZE, DYNSTR_BASE;
 
-int TOK_STR_SIZE;
-int TOK_IDENT, TOK_INT, TOK_IF, TOK_ELSE, TOK_WHILE, TOK_BREAK, TOK_RETURN;
-int TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
-int SYM_DEFINE, TAG_TOK, TAG_MACRO;
+var TOK_STR_SIZE;
+var TOK_IDENT, TOK_INT, TOK_IF, TOK_ELSE, TOK_WHILE, TOK_BREAK, TOK_RETURN;
+var TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
+var SYM_DEFINE, TAG_TOK, TAG_MACRO;
 
 pdef(t){
   wi8(dstk, t);
@@ -42,7 +43,7 @@ getq (){
 }
 
 next(){
-  int t, l, a;
+  var t, l, a;
   while( isspace(ch) | ch == '#'){
     if( ch == '#'){
       inp ();
@@ -151,13 +152,13 @@ put32(t, n){
 }
 
 get32(t){
-  int n;
+  var n;
   return (ri8(t)&255)       | (ri8(t+1)&255)<<8 |
          (ri8(t+2)&255)<<16 | (ri8(t+3)&255)<<24;
 }
 
 gsym1(t, b){
-  int d;
+  var d;
   while( t){
     d=get32(t);
     if( ri8(t-1) == 5){
@@ -207,7 +208,7 @@ gcmp(t){
 }
 
 gmov(l, t){
-  int d;
+  var d;
   o( l+131);
   d = ri32(t);
   if( d && d < LOCAL) {
@@ -219,7 +220,7 @@ gmov(l, t){
 }
 
 unary(l){
-  int n, t, a, c;
+  var n, t, a, c;
   n=1;
   if( tok == '\"'){
     li(glo+data_offset);
@@ -330,7 +331,7 @@ unary(l){
 }
 
 sum(l){
-  int t, n, a;
+  var t, n, a;
   if( l--== 1) unary(1);
   else{
     sum(l);
@@ -378,7 +379,7 @@ test_expr (){
 }
 
 block(l){
-  int a , n, t;
+  var a , n, t;
   if( tok == TOK_IF){
     next();
     next();
@@ -454,7 +455,7 @@ block(l){
 }
 
 decl(l){
-  int a;
+  var a;
   while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
       next();
@@ -514,7 +515,7 @@ gphdr1(n,t){
 }
 
 elf_reloc(l){
-  int t,a,n,p,b,c;
+  var t,a,n,p,b,c;
   p=0;
   t=sym_stk;
   while( 1){
@@ -557,7 +558,7 @@ elf_reloc(l){
 }
 
 elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
+  var glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
   text=glo;
   text_size=ind-prog;
   ind=prog;
