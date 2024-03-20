@@ -1,4 +1,3 @@
-# 1 "otccelf_full.js.c"
 var tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
 
 var ALLOC_SIZE;
