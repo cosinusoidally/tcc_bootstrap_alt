@@ -59,5 +59,15 @@ function mk_char(c){
 }
 
 function mk_argc_argv(s){
-  return {argc:0, argv:0};
+  var argc;
+  var argv;
+  s=s.split(" ");
+  argc=s.length;
+  print(JSON.stringify(s));
+  while(s.length>0){
+    argv=v_alloca(4);
+    wi32(argv,mk_c_string(s.pop()));
+  }
+  return {argc:argc,argv:argv};
 }
+

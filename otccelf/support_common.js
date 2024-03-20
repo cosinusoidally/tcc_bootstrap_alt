@@ -14,12 +14,8 @@ function ri32(o) {
 }
 
 function v_alloca(x) {
-/* FIXME dummy impl */
-  return calloc(1,x);
-/*
   v_esp=v_esp-x;
-  return esp;
-*/
+  return v_esp;
 }
 
 function enter() {
