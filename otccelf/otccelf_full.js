@@ -704,7 +704,7 @@ main(n,t){
   vars = calloc(1, ALLOC_SIZE);
 
   t = t + 4;
-  file=fopen(*(int*)t, "r");
+  file=fopen(ri32(t), "r");
 
   data_offset = ELF_BASE - data;
   glo = glo + ELFSTART_SIZE;
@@ -714,6 +714,6 @@ main(n,t){
   next();
   decl(0);
   t = t + 4;
-  elf_out(*(int*)t);
+  elf_out(ri32(t));
   return 0;
 }
