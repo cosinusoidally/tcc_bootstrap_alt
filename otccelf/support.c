@@ -6,12 +6,13 @@ ri8(o){
  return *(char*)o;
 }
 
-int v_esp, v_ebp;
+int v_esp, v_ebp, v_stack_size, v_stack;
 
 init_c(){
-/* dummy */
-  v_esp=123;
-  v_ebp=345;
+  v_stack_size=64*1024;
+  v_stack=calloc(1,v_stack_size);
+  v_esp=v_stack+v_stack_size-4;
+  v_ebp=v_esp;
 }
 
 #define function 
