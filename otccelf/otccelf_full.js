@@ -225,10 +225,11 @@ unary(l){
     li(glo+data_offset);
     while( ch!='\"'){
       getq ();
-      *(char*) glo++=ch;
+      wi8(glo, ch);
+      glo = glo + 1;
       inp ();
     }
-    *(char*) glo=0;
+    wi8(glo, 0);
     glo=glo+4&-4;
     inp ();
     next();
@@ -322,7 +323,7 @@ unary(l){
     }
     else{
       t=t+4;
-      *(int*) t=oad(232,*(int*) t);
+      wi32(t, oad(232,ri32(t)));
     }
     if( l) oad(50305,l);
   }
