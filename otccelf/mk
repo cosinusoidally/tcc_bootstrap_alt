@@ -58,6 +58,7 @@ chmod +x otccelf_js2.exe
 chmod +x otccelf_js3.exe
 
 ./otccelf_js3.exe ../otccelf.c otccelf.exe
+./otccelf_js3.exe ../otccelf_full.c otccelf_full.exe
 ./otccelf_js3.exe ../otccex.c otccex.exe
 
 # under JS
@@ -70,4 +71,5 @@ sha256sum artifacts/*exe
 diff -s otccelf1.exe otccelf1_gcc.exe
 diff -s otccelf_full3.exe otccelf_full_otccelf1.exe
 diff -s otccelf_full3.exe otccelf_full3_gcc.exe
+diff -s otccelf_full3.exe artifacts/otccelf_full.exe
 sha256sum -c otccelf.sums
