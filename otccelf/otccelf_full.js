@@ -15,9 +15,10 @@ pdef(t){
   *(char*) dstk++ = t;
 }
 
-inp (){
+function inp (){
   if(dptr){
-    ch=*(char*) dptr++;
+    ch = ri8(dptr);
+    dptr = dptr + 1;
     if( ch == TAG_MACRO){
       dptr=0;
       ch=dch;
