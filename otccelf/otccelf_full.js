@@ -379,6 +379,7 @@ function test_expr (){
 
 function block(l){
   var a , n, t;
+  enter();
   if( tok == TOK_IF){
     next();
     next();
@@ -451,6 +452,7 @@ function block(l){
     }
     next();
   }
+  leave(0);
 }
 
 function decl(l){
