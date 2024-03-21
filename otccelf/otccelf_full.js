@@ -24,8 +24,9 @@ function inp (){
       dptr=0;
       ch=dch;
     }
+  } else {
+    ch=fgetc(file);
   }
-    else ch=fgetc(file);
 }
 
 function isid (){
