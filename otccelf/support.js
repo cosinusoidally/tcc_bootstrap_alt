@@ -305,6 +305,80 @@ function memcpy(dest, src, c) {
   return p;
 }
 
+function to_hex(x){
+  var y;
+  var a=[];
+  while(x){
+    y=x&0xff;
+    x=x>>>8;
+    a.push(y);
+  }
+  var b=[];
+  while(a.length>0){
+    b.push(a.pop());
+  }
+  return "0x"+("00000000"+(b.map(function(z){return ("0000"+z.toString(16)).slice(-2)}).join(""))).slice(-8);
+}
+
+function to_printable(x){
+  if(32 <=x  && x <=126){
+    return String.fromCharCode(x);
+  };
+  return ".";
+};
+
+function hd(o,n){
+  var d=[];
+  var l=o+n;
+  while(o<l){
+    d.push(to_hex(o));
+    d.push(": ");
+    var r=[];
+    for(var i=0;i<16;i++){
+      r.push(ri8(o+i));
+    };
+    for(var i=0;i<r.length;i=i+2){
+      d.push(("0000"+(r[i].toString(16))).slice(-2));
+      d.push(("0000"+(r[i+1].toString(16))).slice(-2));
+      d.push(" ");
+    };
+    o=o+16;
+    d.push("  ");
+    d.push(r.map(to_printable).join(""));
+    d.push("\n");
+  };
+  print(d.join(""));
+}
+
+function check(s,compare_file) {
+  f=vfs["otccelf_js_js.exe"];
+  fp=malloc(f.length);
+  for(var i=0;i<f.length;i++){
+    wi8(i+fp,f[i]);
+  }
+  hd(fp,f.length);
+  if(compare_file){
+    print("comparing out.exe");
+    var t=read("out.exe","binary");
+    for(var i=0;i<t.length;i++) {
+      if(ri8(fp+i)!==t[i]){
+        print("diff: "+to_hex(fp+i)+ " i: "+to_hex(i));
+      }
+    }
+  }
+print(to_hex(ind));
+  if(s){
+    var sha=root.sha256(vfs["otccelf_js_js.exe"]);
+    print(sha);
+    if(sha===s){
+      print("OK");
+    } else {
+      print("BAD");
+    }
+  }
+}
+
+
 strcpy=v_strcpy;
 fopen=v_fopen;
 fwrite=v_fwrite;

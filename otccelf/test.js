@@ -13,3 +13,4 @@ e="f99cbf13a24ff16e1732756dea7ad36b3f073d628c8fd4bead71579cf7d543af";
 sha=root.sha256(vfs["otccelf_js_js.exe"]);
 print(sha);
 print(e==sha);
+check(e,true);
