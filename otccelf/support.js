@@ -185,5 +185,13 @@ function isspace(c){
   }
 }
 
+function isalnum(c){
+  return ((((c|32) - mk_char('a')) < 26 ) || isdigit(c));
+}
+
+function isdigit(c){
+  return ((c - mk_char('0')) < 10);
+}
+
 strcpy=v_strcpy;
 fopen=v_fopen;
