@@ -253,5 +253,11 @@ function strstr(haystack, needle){
   return 0;
 }
 
+function strtol(nptr, endptr, base){
+  print("strtol: "+nptr+" "+endptr+" "+base);
+  print("the string:" +mk_js_string(nptr));
+  exit();
+}
+
 strcpy=v_strcpy;
 fopen=v_fopen;
