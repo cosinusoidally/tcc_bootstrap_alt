@@ -23,5 +23,9 @@ mk_c_string(s){
   return s;
 }
 
+dummy(){
+  puts("dummy called");
+}
+
 #define function 
 #define var int

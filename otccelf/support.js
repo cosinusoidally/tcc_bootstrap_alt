@@ -180,7 +180,7 @@ function v_strlen(s){
 }
 
 function isspace(c){
-  if(c==mk_char(' ')){
+  if((c==mk_char(' ')) || (c==mk_char('\n')) || (c==mk_char('\t'))){
     return 1;
   } else {
     return 0;
@@ -275,6 +275,10 @@ function strtol(nptr, endptr, base){
   v=parseInt(t);
   print("strtol: input="+t+" output="+v);
   return v;
+}
+
+function dummy(){
+  debugger;
 }
 
 strcpy=v_strcpy;
