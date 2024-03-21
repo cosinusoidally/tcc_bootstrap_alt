@@ -281,5 +281,16 @@ function dummy(){
   debugger;
 }
 
+function memcpy(dest, src, c) {
+  var i, p;
+  p = dest;
+  for(i=0;i<c;i=i+1){
+    wi8(dest, ri8(src));
+    dest = dest + 1;
+    src = src + 1;
+  }
+  return p;
+}
+
 strcpy=v_strcpy;
 fopen=v_fopen;
