@@ -648,7 +648,7 @@ function elf_out(c){
   gle32( 8);
   gle32( 0);
   gle32( 0);
-  t=fopen(c,mk_c_string("w"));
+  t=fopen(c,mk_c_string("wb"));
   fwrite(data,1,glo_saved-data,t);
   fclose(t);
 }

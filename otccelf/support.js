@@ -1,3 +1,5 @@
+load("../tcc_js/sha256.js");
+
 var v_esp, v_ebp, v_stack_size, v_stack;
 var heap_size=16*1024*1024;
 var v_stack_size=256*1024;
@@ -169,6 +171,17 @@ function fgetc(file){
   return c;
 }
 
+function v_fwrite(ptr, size, nmemb, stream){
+  var f=f_files[stream];
+  for(var i=0;i<size*nmemb;i++){
+    f.data.push(ri8(ptr++)&0xFF);
+  }
+}
+
+function v_fclose(f){
+  delete f_files[f];
+  return 0;
+}
 
 function v_strlen(s){
   var l=0;
@@ -294,3 +307,5 @@ function memcpy(dest, src, c) {
 
 strcpy=v_strcpy;
 fopen=v_fopen;
+fwrite=v_fwrite;
+fclose=v_fclose;
