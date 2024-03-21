@@ -118,10 +118,12 @@ function ri8(o,dummy){
 };
 
 function v_strcpy(dest,src){
-  var c;
+  var c, p;
+  p = dest;
   while((c=ri8(src++))!==0){
     wi8(dest++,c);
   }
+  return p;
 }
 
 f_files={};
@@ -173,7 +175,7 @@ function v_strlen(s){
   while(ri8(s++)){
     l=l+1;
   };
-  print("strlen: "+l);
+/*  print("strlen: "+l); */
   return l;
 }
 
@@ -191,6 +193,64 @@ function isalnum(c){
 
 function isdigit(c){
   return ((c - mk_char('0')) < 10);
+}
+
+function strncmp (a, b, size) {
+  if (size == 0)
+    return 0;
+
+  while (ri8(a) != 0 && ri8(b) != 0 && ri8(a) == ri8(b) && size > 1)
+    {
+      size = size - 1;
+      a = a + 1;
+      b = b + 1;
+    }
+
+  return ri8(a) - ri8(b);
+}
+
+function strlen(s){
+  var l;
+  l=0;
+  while(ri8(s)){
+    s=s+1;
+    l=l+1;
+  }
+  return l;
+}
+
+function strstr(haystack, needle){
+/*
+  puts("strstr");
+  puts("haystack: "+haystack);
+  puts("needle:"+needle);
+*/
+  var lh, ln, o, r;
+  o=0;
+  if((haystack == 0) || (needle == 0)){
+    return 0;
+  }
+  if(ri8(needle) == 0){
+    return haystack;
+  }
+  if(ri8(haystack) == 0 ){
+    return 0;
+  }
+  lh=strlen(haystack);
+  ln=strlen(needle);
+  if(ln > lh) {
+    return 0;
+  }
+  while(o<lh) {
+/*    puts("o: "+o); */
+    r = strncmp(needle, haystack + o, ln);
+/*    puts("r: "+r); */
+    if( r == 0) {
+      return haystack + o;
+    }
+    o = o + 1;
+  }
+  return 0;
 }
 
 strcpy=v_strcpy;

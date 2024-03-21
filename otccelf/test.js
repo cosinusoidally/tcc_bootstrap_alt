@@ -7,3 +7,4 @@ load("otccelf_full.js");
 argc_argv=mk_argc_argv("otccelf artifacts/otccelf_js.c otccelf_js_js.exe");
 print(JSON.stringify(argc_argv));
 main(argc_argv.argc,argc_argv.argv);
+// main(0,0);
