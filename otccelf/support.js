@@ -124,4 +124,46 @@ function v_strcpy(dest,src){
   }
 }
 
+f_files={};
+vfs={};
+
+function v_fopen(f,mode){
+// FIXME ljw non-dummy impl
+  var filename=mk_js_string(f);
+  mode=mk_js_string(mode);
+  print("fopen: filename: "+filename+" mode: "+mode);
+// FIXME hack hack
+  var file_num=malloc(4);
+  file_o={};
+  file_o.filename=filename;
+  file_o.mode=mode;
+  file_o.o=0;
+  f_files[file_num]=file_o;
+  if(mode==="r"){
+    try {
+      file_o.data=read(filename,"binary");
+    } catch (e){
+      v_fclose(file_num);
+      return 0;
+    }
+  } else if(mode==="wb"){
+    file_o.data=[];
+    vfs[filename]=file_o.data;
+  } else {
+    print("unsupported fopen file mode");
+err();
+  }
+  return file_num;
+}
+
+function v_strlen(s){
+  var l=0;
+  while(ri8(s++)){
+    l=l+1;
+  };
+  print("strlen: "+l);
+  return l;
+}
+
 strcpy=v_strcpy;
+fopen=v_fopen;
