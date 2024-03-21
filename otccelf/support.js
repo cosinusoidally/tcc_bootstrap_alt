@@ -263,9 +263,18 @@ function strstr(haystack, needle){
 }
 
 function strtol(nptr, endptr, base){
+  var t, v;
   print("strtol: "+nptr+" "+endptr+" "+base);
   print("the string:" +mk_js_string(nptr));
-  exit();
+  if((endptr !=0) || (base !=0)){
+    puts("strtol not supported endptr/base");
+    exit(1);
+  }
+  /* FIXME this might not be quite correct */
+  t=mk_js_string(nptr);
+  v=parseInt(t);
+  print("strtol: input="+t+" output="+v);
+  return v;
 }
 
 strcpy=v_strcpy;
