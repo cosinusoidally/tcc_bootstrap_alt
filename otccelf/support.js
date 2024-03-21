@@ -156,6 +156,18 @@ err();
   return file_num;
 }
 
+function fgetc(file){
+  file_o=f_files[file];
+//  print(JSON.stringify(file_o));
+  var c=file_o.data[file_o.o++];
+  // eof
+  if(c===undefined){
+    return -1;
+  }
+  return c;
+}
+
+
 function v_strlen(s){
   var l=0;
   while(ri8(s++)){
@@ -163,6 +175,14 @@ function v_strlen(s){
   };
   print("strlen: "+l);
   return l;
+}
+
+function isspace(c){
+  if(c==mk_char(' ')){
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 strcpy=v_strcpy;
