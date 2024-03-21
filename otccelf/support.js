@@ -188,17 +188,20 @@ function isspace(c){
 }
 
 function isalnum(c){
-  var r;
+  var r, t;
   c=c&0xFF;
-/*  print("isalnum:"+c+ " "+String.fromCharCode(c)); */
-  r = (((((c|32) - mk_char('a')) < 26 ) >=0) || isdigit(c));
+  t = (c|32) - mk_char('a');
+  r = ((t < 26 ) && (t >=0)) || isdigit(c);
+/*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
 }
 
 function isdigit(c){
+  var r;
   c=c&0xFF;
 /*  print("isdigit:"+c); */
-  return (((c - mk_char('0')) < 10) >= 0);
+  r = c - mk_char('0');
+  return (r < 10) && (r >= 0);
 }
 
 function strncmp (a, b, size) {
