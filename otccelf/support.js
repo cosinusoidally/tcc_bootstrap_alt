@@ -363,7 +363,7 @@ function check(s,compare_file) {
   hd(fp,f.length);
   if(compare_file){
     print("comparing out.exe");
-    var t=read("out.exe","binary");
+    var t=read("artifacts/otccelf_js3.exe","binary");
     for(var i=0;i<t.length;i++) {
       if(ri8(fp+i)!==t[i]){
         print("diff: "+to_hex(fp+i)+ " i: "+to_hex(i));
