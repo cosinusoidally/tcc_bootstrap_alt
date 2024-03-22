@@ -26,7 +26,11 @@ function malloc(x){
   return r;
 }
 
-function calloc(x){
+function calloc(s,x){
+  if(s!=1){
+    print("calloc can't handle sizes other than 1");
+    exit(1);
+  }
   var r=malloc(x);
   for(var i=0;i<x;i++){
     wi8(r+x,0);
