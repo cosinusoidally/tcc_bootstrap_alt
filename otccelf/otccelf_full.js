@@ -442,6 +442,7 @@ function block(l){
   else{
     if( tok == TOK_RETURN){
       next();
+dummy(); /* LJW debug */
       if( tok != mk_char(';')) {
         expr ();
       }

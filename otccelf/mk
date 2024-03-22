@@ -81,6 +81,9 @@ chmod +x otccelf_js3_gcc.exe
 
 cd ..
 
+# build test exe to compare with JS version
+./artifacts/otccelf_js3_gcc.exe ex1.c out.exe
+
 sha256sum *exe
 sha256sum artifacts/*exe
 diff -s otccelf1.exe otccelf1_gcc.exe
