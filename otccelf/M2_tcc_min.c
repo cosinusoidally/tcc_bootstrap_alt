@@ -1,3 +1,4 @@
+/* This is a cut down x86 only version of M2-Planet */
 /* Copyright (C) 2016 Jeremiah Orians
  * Copyright (C) 2018 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright (C) 2020 deesix <deesix@tuta.io>
