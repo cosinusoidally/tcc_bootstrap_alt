@@ -23,12 +23,6 @@ int memcpy(int a, int b, int c);
 int strcpy(int a, int b);
 int fwrite(int a, int b, int c, int d);
 int puts(char *a);
-int printf(int a);
-
-/*
-int fgetc(int a);
-int fopen(int a, int b);
-int fclose(int a);
-int puts(int a);
-int calloc(int a, int b);
-*/
+int printf(int a){
+  puts("printf not impl");
+}
