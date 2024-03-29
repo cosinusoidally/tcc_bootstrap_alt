@@ -1,5 +1,21 @@
-int wi8(int o, int v);
-int ri8(int o);
+char* heap;
+int int_size;
+
+int ri8(int o) {
+/*  int t=heap[a]; */
+  int o1=o>>2;
+  int s=o&3;
+  int v1;
+  int *h=heap;
+  v1=h[o1*int_size];
+  return (v1>>(s*8)) &0xFF;
+}
+
+int wi8(int o,int v) {
+  heap[o]=v;
+  return;
+}
+
 
 int expr(void);
 int decl(int l);
