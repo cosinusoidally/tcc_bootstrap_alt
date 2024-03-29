@@ -286,7 +286,7 @@ int unary(int l){
         } else {
           o( 48655);
         }
-        ind++;
+        ind = ind + 1;
       }
     } else if( t == mk_char('&')){
       gmov(10,tok);
@@ -337,8 +337,9 @@ int unary(int l){
 
 int sum(int l){
   int t; int n; int a;
-  if( l--== 1) unary(1);
-  else{
+  if( l--== 1) {
+    unary(1);
+  } else{
     sum(l);
     a=0;
     while( l == tokl){
