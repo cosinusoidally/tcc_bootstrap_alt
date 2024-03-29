@@ -1,15 +1,20 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
+int tok; int tokc; int tokl; int ch; int vars; int rsym; int prog; int ind;
+int loc; int glo; int file; int sym_stk; int dstk; int dptr; int dch;
+int last_id; int data; int text; int data_offset;
 
 int ALLOC_SIZE;
 
 int ELF_BASE;
-int PHDR_OFFSET, INTERP_OFFSET, INTERP_SIZE, DYNAMIC_OFFSET, DYNAMIC_SIZE;
-int ELFSTART_SIZE, STARTUP_SIZE, DYNSTR_BASE;
+int PHDR_OFFSET; int INTERP_OFFSET; int INTERP_SIZE; int DYNAMIC_OFFSET;
+int DYNAMIC_SIZE;
+int ELFSTART_SIZE; int STARTUP_SIZE; int DYNSTR_BASE;
 
 int TOK_STR_SIZE;
-int TOK_IDENT, TOK_INT, TOK_IF, TOK_ELSE, TOK_WHILE, TOK_BREAK, TOK_RETURN;
-int TOK_FOR, TOK_DEFINE, TOK_MAIN, TOK_DUMMY, TOK_NUM, LOCAL, SYM_FORWARD;
-int SYM_DEFINE, TAG_TOK, TAG_MACRO;
+int TOK_IDENT; int TOK_INT; int TOK_IF; int TOK_ELSE; int TOK_WHILE;
+int TOK_BREAK; int TOK_RETURN;
+int TOK_FOR; int TOK_DEFINE; int TOK_MAIN; int TOK_DUMMY; int TOK_NUM;
+int LOCAL; int SYM_FORWARD;
+int SYM_DEFINE; int TAG_TOK; int TAG_MACRO;
 
  pdef(t){
   wi8(dstk, t);
