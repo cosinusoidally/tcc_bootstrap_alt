@@ -1,0 +1,1 @@
+ M2 --architecture x86 --bootstrap-mode -f otccelf_cc_x86.c -o artifacts/otccelf_cc_x86.M1
