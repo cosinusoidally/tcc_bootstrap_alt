@@ -337,9 +337,10 @@ int unary(int l){
 
 int sum(int l){
   int t; int n; int a;
-  if( l--== 1) {
+  if( l== 1) {
     unary(1);
   } else{
+    l = l - 1;
     sum(l);
     a=0;
     while( l == tokl){
