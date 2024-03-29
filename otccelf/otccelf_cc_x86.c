@@ -277,7 +277,7 @@ int unary(int l){
       if( tok == mk_char('=')){
         next();
         o( 80);
-        expr ();
+        expr();
         o( 89);
         o( 392+(t == TOK_INT));
       } else if( t){
@@ -314,7 +314,7 @@ int unary(int l){
     next();
     l=0;
     while( tok != mk_char(')')){
-      expr ();
+      expr();
       oad(2393225,l);
       if( tok == mk_char(',')) {
         next();
@@ -335,8 +335,8 @@ int unary(int l){
   }
 }
 
- sum(l){
-  int t, n, a;
+int sum(int l){
+  int t; int n; int a;
   if( l--== 1) unary(1);
   else{
     sum(l);
@@ -374,17 +374,17 @@ int unary(int l){
   }
 }
 
- expr (){
+int expr(void){
   sum(11);
 }
 
- test_expr (){
-  expr ();
+int test_expr(void){
+  expr();
   return gtst(0,0);
 }
 
- block(l){
-  int a , n, t;
+int block(int l){
+  int a ; int n; int t;
   enter();
   a = v_alloca(4);
   if( tok == TOK_IF){
