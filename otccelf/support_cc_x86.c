@@ -1,0 +1,13 @@
+int wi8(int o, int v);
+int ri8(int o);
+int wi32(int o, int v);
+int ri32(int o);
+
+int init_c(void);
+int mk_char(int c);
+int mk_c_string(int s);
+int dummy(void);
+
+int v_alloca(int x);
+int enter(void);
+int leave(int x);
