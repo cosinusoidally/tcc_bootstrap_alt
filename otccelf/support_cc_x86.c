@@ -21,3 +21,4 @@ int isdigit(int a);
 int strtol(int a, int b, int c);
 int strstr(int a, int b);
 int memcpy(int a, int b, int c);
+int strcpy(int a, int b);

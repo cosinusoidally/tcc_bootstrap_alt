@@ -581,7 +581,7 @@ int elf_out(int c){
   o( 32973);
   glo=glo+text_size;
   dynstr=glo;
-  glo++;
+  glo = glo + 1;
   glo=strcpy(glo,mk_c_string("libc.so.6"))+10;
   glo=strcpy(glo,mk_c_string("libdl.so.2"))+11;
   elf_reloc(0);
