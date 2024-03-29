@@ -1,4 +1,6 @@
-int tok, tokc, tokl, ch, vars, rsym, prog, ind, loc, glo, file, sym_stk, dstk,dptr,dch,last_id, data, text, data_offset;
+int tok; int tokc; int tokl; int ch; int vars; int rsym; int prog; int ind;
+int loc; int glo; int file; int sym_stk; int dstk; int dptr; int dch;
+int last_id; int data; int text; int data_offset;
 
 int ALLOC_SIZE;
 
