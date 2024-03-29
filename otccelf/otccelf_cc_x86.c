@@ -601,7 +601,8 @@ int elf_out(int c){
   gle32( 0);
   t=2;
   while( t < n) {
-    gle32( t++);
+    gle32( t);
+    t = t + 1;
   }
   gle32( 0);
   rel=glo;
@@ -661,7 +662,7 @@ int elf_out(int c){
   fclose(t);
 }
 
- init_globals(){
+int init_globals(void){
   ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
@@ -703,7 +704,7 @@ int elf_out(int c){
 }
 
 
- main(n,t){
+int main(int n,int t){
   puts("otccelf start");
   init_c();
   init_globals();
