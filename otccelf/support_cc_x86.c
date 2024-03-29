@@ -1,7 +1,6 @@
 int wi8(int o, int v);
 int ri8(int o);
-int wi32(int o, int v);
-int ri32(int o);
+
 int expr(void);
 int decl(int l);
 
@@ -30,9 +29,39 @@ int dummy(void){
   puts("dummy called");
 }
 
-int v_alloca(int x);
-int enter(void);
-int leave(int x);
+int wi32(int o, int v) {
+  wi8(o,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+2,v&0xFF);
+  v=v>>8;
+  wi8(o+3,v&0xFF);
+}
+
+int ri32(int o) {
+  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
+         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
+}
+
+int v_alloca(int x) {
+  v_esp=v_esp-x;
+  return v_esp;
+}
+
+int enter(void) {
+/* FIXME detect overflow */
+  v_esp=v_esp-4;
+  wi32(v_esp,v_ebp);
+  v_ebp=v_esp;
+}
+
+int leave(int x) {
+  v_esp=v_ebp;
+  v_ebp=ri32(v_esp);
+  v_esp=v_esp+4;
+  return x;
+}
 
 int puts(char *a){
   fputs(a, stdout);
