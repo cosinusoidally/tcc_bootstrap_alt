@@ -1,1 +1,3 @@
- M2 --architecture x86 --bootstrap-mode -f otccelf_cc_x86.c -o artifacts/otccelf_cc_x86.M1
+./mk_clean
+cat support_cc_x86.c otccelf_cc_x86.c > artifacts/otccelf_cc_x86_full.c
+M2 --architecture x86 --bootstrap-mode -f artifacts/otccelf_cc_x86_full.c -o artifacts/otccelf_cc_x86.M1

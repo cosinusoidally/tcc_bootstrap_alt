@@ -16,7 +16,7 @@ int TOK_FOR; int TOK_DEFINE; int TOK_MAIN; int TOK_DUMMY; int TOK_NUM;
 int LOCAL; int SYM_FORWARD;
 int SYM_DEFINE; int TAG_TOK; int TAG_MACRO;
 
- pdef(t){
+int pdef(int t){
   wi8(dstk, t);
   dstk = dstk + 1;
 }
