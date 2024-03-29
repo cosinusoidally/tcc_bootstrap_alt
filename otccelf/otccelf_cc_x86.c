@@ -21,7 +21,7 @@ int pdef(int t){
   dstk = dstk + 1;
 }
 
- inp (){
+int inp (void){
   if(dptr){
     ch = ri8(dptr);
     dptr = dptr + 1;
@@ -34,11 +34,11 @@ int pdef(int t){
   }
 }
 
- isid (){
+int isid (void){
   return isalnum(ch) | ch == mk_char('_');
 }
 
- getq (){
+int getq (void){
   if( ch == mk_char('\\')){
     inp ();
     if( ch == mk_char('n')) {
@@ -47,8 +47,8 @@ int pdef(int t){
   }
 }
 
- next(){
-  int t, l, a;
+int next(void){
+  int t; int l; int a;
   while( isspace(ch) | ch == mk_char('#')){
     if( ch == mk_char('#')){
       inp ();

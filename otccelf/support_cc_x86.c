@@ -11,3 +11,6 @@ int dummy(void);
 int v_alloca(int x);
 int enter(void);
 int leave(int x);
+
+int fgetc(int a);
+int isalnum(int a);
