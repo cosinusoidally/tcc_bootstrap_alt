@@ -9,10 +9,26 @@ int puts(char *a){
   fputs(a, stdout);
 }
 
-int init_c(void);
-int mk_char(int c);
-int mk_c_string(int s);
-int dummy(void);
+int v_esp; int v_ebp; int v_stack_size; int v_stack;
+
+int init_c(void){
+  v_stack_size=64*1024;
+  v_stack=calloc(1,v_stack_size);
+  v_esp=v_stack+v_stack_size-4;
+  v_ebp=v_esp;
+}
+
+int mk_char(int c){
+  return c;
+}
+
+int mk_c_string(int s){
+  return s;
+}
+
+int dummy(void){
+  puts("dummy called");
+}
 
 int v_alloca(int x);
 int enter(void);
