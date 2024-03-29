@@ -550,7 +550,7 @@ int elf_reloc(int l){
           gle32( 16);
           p=p+t-a+1;
         } else{
-          p++;
+          p = p + 1;
           while( n){
             a=get32(n);
             c = ri8(n-1)!=5;
@@ -567,8 +567,9 @@ int elf_reloc(int l){
   }
 }
 
- elf_out(c){
-  int glo_saved, dynstr, dynstr_size, dynsym, hash, rel, n, t, text_size;
+int elf_out(int c){
+  int glo_saved; int dynstr; int dynstr_size; int dynsym; int hash; int rel;
+  int n; int t; int text_size;
   text=glo;
   text_size=ind-prog;
   ind=prog;
