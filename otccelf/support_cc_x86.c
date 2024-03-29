@@ -3,6 +3,7 @@ int ri8(int o);
 int wi32(int o, int v);
 int ri32(int o);
 int expr(void);
+int decl(int l);
 
 int init_c(void);
 int mk_char(int c);

@@ -464,7 +464,7 @@ int block(int l){
   leave(0);
 }
 
- decl(l){
+int decl(int l){
   int a;
   while( tok == TOK_INT | tok != -1 & !l){
     if( tok == TOK_INT){
@@ -510,12 +510,12 @@ int block(int l){
   }
 }
 
- gle32( n){
+int gle32(int n){
   put32(glo,n);
   glo=glo+4;
 }
 
- gphdr1(n,t){
+int gphdr1(int n, int t){
   gle32( n);
   n = n + ELF_BASE;
   gle32( n);
@@ -524,15 +524,15 @@ int block(int l){
   gle32( t);
 }
 
- elf_reloc(l){
-  int t,a,n,p,b,c;
+int elf_reloc(int l){
+  int t; int a; int n; int p; int b; int c;
   p=0;
   t=sym_stk;
   while( 1){
-    t++;
+    t = t + 1;
     a=t;
     while( ri8(t) != TAG_TOK && t < dstk) {
-      t++;
+      t = t + 1;
     }
     if( t == dstk)break;
     tok = vars + (a - sym_stk) * 8 + TOK_IDENT - 8;
