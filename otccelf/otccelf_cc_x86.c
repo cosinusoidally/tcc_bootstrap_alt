@@ -141,7 +141,7 @@ int next(void){
   }
 }
 
- o( n){
+int o(int n){
   while( n && n!=-1){
     wi8(ind, n);
     ind = ind + 1;
@@ -149,20 +149,20 @@ int next(void){
   }
 }
 
- put32(t, n){
+int put32(int t, int n){
   wi8(t, n);     t = t + 1;
   wi8(t,  n>>8); t = t + 1;
   wi8(t, n>>16); t = t + 1;
   wi8(t, n>>24); t = t + 1;
 }
 
- get32(t){
+int get32(int t){
   int n;
   return (ri8(t)&255)       | (ri8(t+1)&255)<<8 |
          (ri8(t+2)&255)<<16 | (ri8(t+3)&255)<<24;
 }
 
- gsym1(t, b){
+int gsym1(int t, int b){
   int d;
   while( t){
     d=get32(t);
@@ -179,11 +179,11 @@ int next(void){
   }
 }
 
- gsym(t){
+int gsym(int t){
   gsym1(t, ind);
 }
 
- oad(n, t){
+int oad(int n, int t){
   o( n);
   put32(ind, t);
   t = ind;
@@ -191,15 +191,15 @@ int next(void){
   return t;
 }
 
- li(t){
+int li(int t){
   oad(184, t);
 }
 
- gjmp(t){
+int gjmp(int t){
   return oad(233, t);
 }
 
- gtst(l, t){
+int gtst(int l, int t){
   o( 1032325);
   return oad(132+l, t);
 }
