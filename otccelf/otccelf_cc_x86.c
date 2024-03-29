@@ -204,7 +204,7 @@ int gtst(int l, int t){
   return oad(132+l, t);
 }
 
- gcmp(t){
+int gcmp(int t){
   o( 49465);
   li(0);
   o( 15);
@@ -212,7 +212,7 @@ int gtst(int l, int t){
   o( 192);
 }
 
- gmov(l, t){
+int gmov(int l, int t){
   int d;
   o( l+131);
   d = ri32(t);
@@ -224,8 +224,8 @@ int gtst(int l, int t){
   }
 }
 
- unary(l){
-  int n, t, a, c;
+int unary(int l){
+  int n; int t; int a; int c;
   n=1;
   if( tok == mk_char('\"')){
     li(glo+data_offset);
