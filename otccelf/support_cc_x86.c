@@ -113,10 +113,55 @@ int strtol(int a, int b, int c){
   puts("strtol not impl");
   exit(1);
 }
-int strstr(int a, int b){
-  puts("strstr not impl");
-  exit(1);
+
+int strncmp (int a,int  b, int size) {
+  if (size == 0)
+    return 0;
+
+  while (ri8(a) != 0 && ri8(b) != 0 && ri8(a) == ri8(b) && size > 1)
+    {
+      size = size - 1;
+      a = a + 1;
+      b = b + 1;
+    }
+
+  return ri8(a) - ri8(b);
 }
+
+int strstr(int haystack, int needle){
+/*
+  puts("strstr");
+  puts("haystack: "+haystack);
+  puts("needle:"+needle);
+*/
+  int lh; int ln; int o; int r;
+  o=0;
+  if((haystack == 0) || (needle == 0)){
+    return 0;
+  }
+  if(ri8(needle) == 0){
+    return haystack;
+  }
+  if(ri8(haystack) == 0 ){
+    return 0;
+  }
+  lh=strlen(haystack);
+  ln=strlen(needle);
+  if(ln > lh) {
+    return 0;
+  }
+  while(o<lh) {
+/*    puts("o: "+o); */
+    r = strncmp(needle, haystack + o, ln);
+/*    puts("r: "+r); */
+    if( r == 0) {
+      return haystack + o;
+    }
+    o = o + 1;
+  }
+  return 0;
+}
+
 int memcpy(int a, int b, int c){
   puts("memcpy not impl");
   exit(1);
