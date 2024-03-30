@@ -5,7 +5,12 @@ cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86.M1 > 
 M0 artifacts/otccelf_cc_x86-0.M1 artifacts/otccelf_cc_x86-0.hex2
 cat  ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86-0.hex2 > ./artifacts/otccelf_cc_x86-0-0.hex2
 hex2-0 ./artifacts/otccelf_cc_x86-0-0.hex2 ./artifacts/otccelf_cc_x86.exe
-./artifacts/otccelf_cc_x86.exe  otccelf.c artifacts/otccelf2.exe
-chmod +x artifacts/otccelf2.exe
-./artifacts/otccelf2.exe  otccelf.c artifacts/otccelf.exe
+
+# build using JS version
+
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+./artifacts/otccelf_cc_x86.exe artifacts/otccelf_js.c artifacts/otccelf_js.exe
+chmod +x artifacts/otccelf_js.exe
+./artifacts/otccelf_js.exe  otccelf.c artifacts/otccelf.exe
 sha256sum -c ./otccelf.sums |grep otccelf.exe
