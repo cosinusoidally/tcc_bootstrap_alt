@@ -1,12 +1,15 @@
 char* heap;
 int int_size;
 
+void puts_num(int x);
+
 int ri8(int o) {
 /*  int t=heap[a]; */
   int o1=o>>2;
   int s=o&3;
   int v1;
   int *h=heap;
+/*  fputs("ri8: ",stdout);puts_num(o); */
   v1=h[o1*int_size];
   return (v1>>(s*8)) &0xFF;
 }
