@@ -7,8 +7,9 @@ cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86.M1 > 
 M0 artifacts/otccelf_cc_x86-0.M1 artifacts/otccelf_cc_x86-0.hex2
 cat  ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86-0.hex2 > ./artifacts/otccelf_cc_x86-0-0.hex2
 hex2-0 ./artifacts/otccelf_cc_x86-0-0.hex2 ./artifacts/otccelf_cc_x86.exe
-# hex2 --architecture x86 --little-endian -f ./artifacts/otccelf_cc_x86-0-0.hex2 --base-address 0x8048000 -o ./artifacts/otccelf_cc_x86.exe
 ./artifacts/otccelf_cc_x86.exe  otccelf.c artifacts/otccelf2.exe
+chmod +x artifacts/otccelf2.exe
+./artifacts/otccelf2.exe  otccelf.c artifacts/otccelf3.exe
 sha256sum -c ./otccelf.sums |grep otccelf.exe
 ls -lh artifacts/*
-diff -u artifacts/otccelf.exe artifacts/otccelf2.exe
+diff -u -s artifacts/otccelf.exe artifacts/otccelf3.exe
