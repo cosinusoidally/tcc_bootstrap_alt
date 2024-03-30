@@ -164,10 +164,10 @@ int get32(int t){
 
 int gsym1(int t, int b){
   int d;
-  while( t){
+  while( t != 0){
     d=get32(t);
     if( ri8(t-1) == 5){
-      if( b >= data && b < glo)
+      if( (b >= data) && (b < glo))
         put32(t, b + data_offset);
       else
         put32(t, b - prog + text + data_offset);
@@ -216,7 +216,7 @@ int gmov(int l, int t){
   int d;
   o( l+131);
   d = ri32(t);
-  if( d && d < LOCAL) {
+  if( (d != 0) && (d < LOCAL)) {
     oad(133,d);
   } else {
     t = t + 4;
@@ -236,7 +236,7 @@ int unary(int l){
       inp ();
     }
     wi8(glo, 0);
-    glo=glo+4&-4;
+    glo=(glo+4) & (-4);
     inp ();
     next();
   } else {
