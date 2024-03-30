@@ -686,8 +686,8 @@ int init_globals(void){
   TOK_ELSE   =  0x138;
   TOK_WHILE  =  0x160;
   TOK_BREAK  =  0x190;
-  TOK_RETURN =  0x1c0;
-  TOK_FOR    =  0x1f8;
+  TOK_RETURN =  0x1C0;
+  TOK_FOR    =  0x1F8;
   TOK_DEFINE =  0x218;
   TOK_MAIN   =  0x250;
 
