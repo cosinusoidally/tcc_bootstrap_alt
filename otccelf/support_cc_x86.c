@@ -87,10 +87,15 @@ int isalnum(int a){
   puts("isalnum not impl");
   exit(1);
 }
-int isspace(int a){
-  puts("isspace not impl");
-  exit(1);
+
+int isspace(int c){
+  if((c==mk_char(' ')) || (c==mk_char('\n')) || (c==mk_char('\t'))){
+    return 1;
+  } else {
+    return 0;
+  }
 }
+
 int isdigit(int a){
   puts("isdigit not impl");
   exit(1);
