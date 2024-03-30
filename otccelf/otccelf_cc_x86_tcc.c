@@ -1,3 +1,4 @@
+extern int stdout;
 void puts_num(int x);
 #include "support.c"
 #include "support_common.js"
