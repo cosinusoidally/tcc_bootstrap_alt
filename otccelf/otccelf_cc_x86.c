@@ -531,16 +531,16 @@ int elf_reloc(int l){
   while( 1){
     t = t + 1;
     a=t;
-    while( ri8(t) != TAG_TOK && t < dstk) {
+    while( (ri8(t) != TAG_TOK) && (t < dstk)) {
       t = t + 1;
     }
-    if( t == dstk)break;
-    tok = vars + (a - sym_stk) * 8 + TOK_IDENT - 8;
+    if( t == dstk) { break; }
+    tok = vars + ((a - sym_stk) * 8) + TOK_IDENT - 8;
     b = ri32(tok);
     n = ri32(tok+4);
-    if( n&&b!=1){
-      if(!b){
-        if(!l){
+    if( (n!=0) && (b != 1)){
+      if(b == 0){
+        if(l == 0){
           memcpy(glo,a,t-a);
           glo=glo+t-a+1;
         } else if( l == 1){
