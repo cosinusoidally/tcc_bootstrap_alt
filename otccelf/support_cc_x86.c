@@ -166,10 +166,13 @@ int strstr(int haystack, int needle){
   return 0;
 }
 
-int memcpy(int a, int b, int c){
-  puts("memcpy not impl");
-  exit(1);
+int memcpy(int dest, int src, int c) {
+  int i;
+  for(i=0;i<c;i=i+1){
+    wi8(dest+i,ri8(src+i));
+  }
 }
+
 int strcpy(int dest, int src){
   int c; int p;
   p = dest;
