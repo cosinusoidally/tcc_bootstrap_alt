@@ -22,7 +22,7 @@ int pdef(int t){
 }
 
 int inp (void){
-  if(dptr){
+  if(dptr != 0){
     ch = ri8(dptr);
     dptr = dptr + 1;
     if( ch == TAG_MACRO){
