@@ -22,15 +22,19 @@ int decl(int l);
 
 int puts(char *a){
   fputs(a, stdout);
+  fputs("\n", stdout);
 }
 
 int v_esp; int v_ebp; int v_stack_size; int v_stack;
 
 int init_c(void){
+  puts("init_c called");
   v_stack_size=64*1024;
   v_stack=calloc(1,v_stack_size);
   v_esp=v_stack+v_stack_size-4;
   v_ebp=v_esp;
+  heap = 0;
+  int_size = 1;
 }
 
 int mk_char(int c){
@@ -106,10 +110,22 @@ int memcpy(int a, int b, int c){
   puts("memcpy not impl");
   exit(1);
 }
-int strcpy(int a, int b){
-  puts("strcpy not impl");
-  exit(1);
+int strcpy(int dest, int src){
+  int c; int p;
+  p = dest;
+  c = 0;
+  while(1){
+    c=ri8(src);
+    if(c == 0){
+      break;
+    }
+    src = src + 1;
+    wi8(dest,c);
+    dest = dest + 1;
+  }
+  return p;
 }
+
 int fwrite(int a, int b, int c, int d){
   puts("fwrite not impl");
   exit(1);
