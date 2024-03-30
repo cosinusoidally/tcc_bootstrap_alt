@@ -294,7 +294,7 @@ int unary(int l){
     }
     else{
       n=0;
-      if( tok == mk_char('=') & l){
+      if( (tok == mk_char('=')) & (l != 0)){
         next();
         expr ();
         gmov(6,t);
@@ -337,7 +337,7 @@ int unary(int l){
 
 int sum(int l){
   int t; int n; int a;
-  if( l== 1) {
+  if( l == 1) {
     unary(1);
   } else{
     l = l - 1;
@@ -355,7 +355,7 @@ int sum(int l){
         o( 80);
         sum(l);
         o( 89);
-        if( l == 4|l == 5){
+        if( (l == 4) | (l == 5)){
           gcmp(t);
         }
         else{
@@ -366,7 +366,7 @@ int sum(int l){
         }
       }
     }
-    if( a&&l>8){
+    if( (a != 0) && (l>8)){
       a=gtst(t,a);
       li(t^1);
       gjmp(5);
@@ -406,7 +406,7 @@ int block(int l){
       gsym(ri32(a));
     }
   }
-  else if( tok == TOK_WHILE | tok == TOK_FOR){
+  else if( (tok == TOK_WHILE) | (tok == TOK_FOR)){
     t=tok;
     next();
     next();
