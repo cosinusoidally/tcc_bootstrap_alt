@@ -110,8 +110,9 @@ int isalnum(int c){
 }
 
 int strtol(int a, int b, int c){
-  puts("strtol not impl");
-  exit(1);
+  puts("strtol:");
+  puts(a);
+  return strtoint(a);
 }
 
 int strncmp (int a,int  b, int size) {
