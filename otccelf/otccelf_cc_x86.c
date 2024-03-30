@@ -70,14 +70,14 @@ int next(void){
   }
   tokl=0;
   tok=ch;
-  if( isid ()){
+  if( isid () != 0){
     pdef(TAG_TOK);
     last_id=dstk;
     while( isid ()){
       pdef(ch);
       inp ();
     }
-    if( isdigit(tok)){
+    if( isdigit(tok) != 0){
       tokc = strtol(last_id,0,0);
       tok = TOK_NUM;
     } else{
