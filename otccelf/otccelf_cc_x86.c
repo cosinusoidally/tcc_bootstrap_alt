@@ -718,6 +718,8 @@ int main(int n,int t){
   ind = prog = calloc(1, ALLOC_SIZE);
   vars = calloc(1, ALLOC_SIZE);
 
+  fputs("ind: ",stdout); puts_num(ind);
+
   t = t + 4;
   file=fopen(ri32(t), mk_c_string("r"));
 
