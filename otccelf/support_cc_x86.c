@@ -191,9 +191,11 @@ int strcpy(int dest, int src){
 
 
 int fwrite(int ptr,int size, int nitems, int stream) {
+  int c;
   int t=size*nitems;
+  c = ptr;
   while(t>0){
-    fputc(ri8(ptr),stream);
+    fputc(ri8(c),stream);
     t=t-1;
     c=c+1;
   }

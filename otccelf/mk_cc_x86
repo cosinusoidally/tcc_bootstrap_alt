@@ -11,3 +11,4 @@ hex2-0 ./artifacts/otccelf_cc_x86-0-0.hex2 ./artifacts/otccelf_cc_x86.exe
 ./artifacts/otccelf_cc_x86.exe  otccelf.c artifacts/otccelf2.exe
 sha256sum -c ./otccelf.sums |grep otccelf.exe
 ls -lh artifacts/*
+diff -u artifacts/otccelf.exe artifacts/otccelf2.exe
