@@ -122,7 +122,7 @@ int strncmp (int a,int  b, int size) {
   if (size == 0)
     return 0;
 
-  while (ri8(a) != 0 && ri8(b) != 0 && ri8(a) == ri8(b) && size > 1)
+  while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && (size > 1))
     {
       size = size - 1;
       a = a + 1;
