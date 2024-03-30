@@ -83,11 +83,6 @@ int leave(int x) {
   return x;
 }
 
-int isalnum(int a){
-  puts("isalnum not impl");
-  exit(1);
-}
-
 int isspace(int c){
   if((c==mk_char(' ')) || (c==mk_char('\n')) || (c==mk_char('\t'))){
     return 1;
@@ -96,10 +91,24 @@ int isspace(int c){
   }
 }
 
-int isdigit(int a){
-  puts("isdigit not impl");
-  exit(1);
+int isdigit(int c){
+  int r;
+  c=c&0xFF;
+/*  print("isdigit:"+c); */
+  r = c - mk_char('0');
+  return (r < 10) && (r >= 0);
 }
+
+int isalnum(int c){
+  int r; int t;
+  c=c&0xFF;
+  t = (c|32) - mk_char('a');
+  r = ((t < 26 ) && (t >=0)) || isdigit(c);
+/*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
+  return r;
+
+}
+
 int strtol(int a, int b, int c){
   puts("strtol not impl");
   exit(1);
