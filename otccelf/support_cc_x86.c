@@ -83,9 +83,6 @@ int leave(int x) {
   return x;
 }
 
-int puts(char *a){
-  fputs(a, stdout);
-}
 int isalnum(int a){
   puts("isalnum not impl");
   exit(1);
