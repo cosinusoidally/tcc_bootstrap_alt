@@ -103,9 +103,9 @@ int next(void){
       tokc=ch;
       inp ();
       inp ();
-    } else if( tok == mk_char('/') & ch == mk_char('*')){
+    } else if( (tok == mk_char('/')) & (ch == mk_char('*'))){
       inp ();
-      while( ch){
+      while( ch != 0){
         while( ch != mk_char('*')) {
           inp ();
         }
@@ -125,10 +125,10 @@ int next(void){
         tokc=0;
         while((tokl = ri8(t) - mk_char('b'))<0) {
           t = t + 1;
-          tokc = tokc * 64 + tokl + 64;
+          tokc = (tokc * 64) + tokl + 64;
         }
         t = t + 1;
-        if( l == tok & (a == ch | a == mk_char('@'))){
+        if( (l == tok) & ((a == ch) | (a == mk_char('@')))){
           if( a == ch){
             inp ();
             tok = TOK_DUMMY;
@@ -142,7 +142,7 @@ int next(void){
 }
 
 int o(int n){
-  while( n && n!=-1){
+  while( (n != 0) && (n != (-1))){
     wi8(ind, n);
     ind = ind + 1;
     n = n >> 8;
