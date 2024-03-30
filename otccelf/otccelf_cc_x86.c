@@ -466,7 +466,7 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while( tok == TOK_INT | tok != -1 & !l){
+  while( (tok == TOK_INT) | ((tok != (-1)) & (l == 0))){
     if( tok == TOK_INT){
       next();
       while( tok != mk_char(';')){
