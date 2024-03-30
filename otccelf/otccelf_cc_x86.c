@@ -35,7 +35,7 @@ int inp (void){
 }
 
 int isid (void){
-  return isalnum(ch) | ch == mk_char('_');
+  return (isalnum(ch) | (ch == mk_char('_')));
 }
 
 int getq (void){
@@ -49,7 +49,7 @@ int getq (void){
 
 int next(void){
   int t; int l; int a;
-  while( isspace(ch) | ch == mk_char('#')){
+  while( (isspace(ch) != 0) | (ch == mk_char('#'))){
     if( ch == mk_char('#')){
       inp ();
       next();
@@ -84,7 +84,7 @@ int next(void){
       wi8(dstk, TAG_TOK);
       tok = strstr(sym_stk, last_id - 1) - sym_stk;
       wi8(dstk, 0);
-      tok=tok * 8 + TOK_IDENT;
+      tok = (tok * 8) + TOK_IDENT;
       if( tok>TOK_DEFINE){
         tok=vars+tok;
         if( ri32(tok) == SYM_DEFINE){
