@@ -189,10 +189,16 @@ int strcpy(int dest, int src){
   return p;
 }
 
-int fwrite(int a, int b, int c, int d){
-  puts("fwrite not impl");
-  exit(1);
+
+int fwrite(int ptr,int size, int nitems, int stream) {
+  int t=size*nitems;
+  while(t>0){
+    fputc(ri8(ptr),stream);
+    t=t-1;
+    c=c+1;
+  }
 }
+
 int printf(int a){
   puts("printf not impl");
   exit(1);
