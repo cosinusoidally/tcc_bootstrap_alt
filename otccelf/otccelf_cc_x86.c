@@ -554,13 +554,13 @@ int elf_reloc(int l){
           while( n){
             a=get32(n);
             c = ri8(n-1)!=5;
-            put32(n,-c*4);
+            put32(n,(-c)*4);
             gle32( n-prog+text+data_offset);
             gle32( p*256+c+1);
             n=a;
           }
         }
-      } else if(!l){
+      } else if(l == 0){
         gsym1(n,b);
       }
     }
@@ -586,7 +586,7 @@ int elf_out(int c){
   glo=strcpy(glo,mk_c_string("libdl.so.2"))+11;
   elf_reloc(0);
   dynstr_size=glo-dynstr;
-  glo=(glo+3)&-4;
+  glo=(glo+3)&(-4);
   dynsym=glo;
   gle32( 0);
   gle32( 0);
