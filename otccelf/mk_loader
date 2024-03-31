@@ -1,10 +1,16 @@
 ./mk_clean
 ./mk_cc_x86
 tcc loader_tcc.c -o artifacts/loader_tcc.exe -ldl
-pushd .
-cd ../tcc_10
-../otccelf/artifacts/loader_tcc.exe -R dummy
-popd
 ./artifacts/otccelf_js.exe loader_boot.c ./artifacts/loader_otcc.exe
 chmod +x ./artifacts/loader_otcc.exe
+pushd .
+cd ../tcc_10
+../otccelf/artifacts/loader_tcc.exe -R dummy &> ../otccelf/artifacts/log_tcc.txt
+../otccelf/artifacts/loader_otcc.exe -R dummy &> ../otccelf/artifacts/log_otcc.txt
+popd
+echo "tcc loader run"
+tail ./artifacts/log_tcc.txt
+echo ""
+echo "otcc loader run"
+tail ./artifacts/log_otcc.txt
 ls -lh artifacts
