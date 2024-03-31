@@ -15,10 +15,12 @@ int TEXT_SIZE;
 int RELOC_ADDR32;
 int RELOC_REL32;
 
+/* HACK otccelf will ignore the if an define call_wrap */
 #if 0
 call_wrap(t, a, b){
   printf("call_wrap called %x %d\n",t, a);
   exit(0);
+  return (*(int(*)())t)(a, b);
 }
 #endif
 
