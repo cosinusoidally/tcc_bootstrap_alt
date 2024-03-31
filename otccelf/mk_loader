@@ -5,4 +5,5 @@ pushd .
 cd ../tcc_10
 ../otccelf/artifacts/load_tcc.exe -R dummy
 popd
+./artifacts/otccelf_js.exe loader_boot.c ./artifacts/loader_otcc.exe
 ls -lh artifacts
