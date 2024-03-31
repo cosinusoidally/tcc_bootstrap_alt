@@ -4,6 +4,7 @@
 chmod +x ./artifacts/loader_otcc.exe
 pushd .
 cd ../tcc_10
-../otccelf/artifacts/loader_otcc.exe -R dummy
-popd
-ls -lh artifacts
+rm tcc.o
+../otccelf/artifacts/loader_otcc.exe -R dummy ../tcc_1_7/dlsym_wrap.c ../tcc_1_7/tcc.c ../tcc_1_7/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_8/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_1_9/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2m/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c ../tcc_2/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c -DNO_LONG_LONG ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c ../tcc_3/tcc.c tcc_dummy_strtod.c -o tcc.o -c tcc.c
+cd ..
+sha256sum -c sum_tcc_10
