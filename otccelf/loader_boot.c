@@ -168,7 +168,7 @@ load_obj(){
 
 main(argc, argv)
 {
-    FUNCTION t;
+    int t;
     int r;
     int optind;
     int loader;
