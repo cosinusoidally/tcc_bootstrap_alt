@@ -142,7 +142,7 @@ load_obj(){
   int off;
   int addr;
   int reloc_type;
-  int *ptr;
+  int ptr;
   while(global_relocs_table<m){
     l=strlen(global_relocs_table);
     a=dlsym_wrap(0,global_relocs_table);
@@ -155,10 +155,10 @@ load_obj(){
       ptr = addr;
       reloc_type=ri32(global_relocs_base+goff);
       if(reloc_type == RELOC_ADDR32) {
-        ptr[0] = a;
+        wi32(ptr, a);
       }
       if(reloc_type == RELOC_REL32) {
-        ptr[0] = a - addr - 4;
+        wi32(ptr, a - addr - 4);
       }
       goff=goff+8;
     }
