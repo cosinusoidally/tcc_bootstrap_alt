@@ -1,5 +1,3 @@
-#include "loader_support_tcc.c"
-
 int prog_rel;
 int data_rel;
 
@@ -168,6 +166,8 @@ int main(int argc, char **argv)
     char *outfile;
     int optind;
     int loader;
+    int p_size;
+    p_size=1;
 
     init_c();
     init_globals();
