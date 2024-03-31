@@ -76,7 +76,8 @@ load_obj(){
   wi8(m2,0x2); wi8(m2+1,0xBE); wi8(m2+2,0xAD); wi8(m2+3,0xDE);
   m3=malloc(4);
   wi8(m3,0x3); wi8(m3+1,0xBE); wi8(m3+2,0xAD); wi8(m3+3,0xDE);
-  m4=3735928324;
+  m4=malloc(4);
+  wi8(m4,0x4); wi8(m4+1,0xBE); wi8(m4+2,0xAD); wi8(m4+3,0xDE);
   t=malloc(4);
   f = fopen("tcc_boot.o", "rb");
   fread(entrypoint,1,4,f);
@@ -121,9 +122,8 @@ load_obj(){
   fread(global_relocs_base,1,ri32(global_reloc_len),f);
 
   fread(t,1,4,f);
-  if(ri32(t) != m4){
+  if(ri32(t) != ri32(m4)){
     puts("sync m4");
-    printf("t: %x m4: %x\n",ri32(t),m4);
     exit(1);
   }
 
