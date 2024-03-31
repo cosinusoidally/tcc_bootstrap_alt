@@ -51,7 +51,7 @@ int dlsym_wrap(int h,int sym){
   return dlsym(h,sym);
 }
 
-int load_obj(void){
+load_obj(){
   puts("Loading object file");
   int f;
   int *text_len=malloc(4);
@@ -166,16 +166,14 @@ int load_obj(void){
   return prog+(entrypoint[0]);
 }
 
-int main(int argc, char **argv)
+main(argc, argv)
 {
     FUNCTION t;
-    char *p;
-    char *r;
-    char *outfile;
+    int r;
     int optind;
     int loader;
     int p_size;
-    p_size=1;
+    p_size=4;
 
     init_c();
     init_globals();
@@ -186,11 +184,11 @@ int main(int argc, char **argv)
     loader = 0;
 
     while (1) {
-        r = argv[optind];
-        if (r[0] != '-')
+        r = ri32(argv + (4*optind));
+        if (ri8(r) != '-')
             break;
         optind = optind + 1;
-        if(r[1] == 'R') {
+        if(ri8(r+1) == 'R') {
             t=load_obj();
             loader=1;
         } else {
