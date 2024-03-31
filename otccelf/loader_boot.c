@@ -70,7 +70,8 @@ load_obj(){
   entrypoint=malloc(4);
   m0=malloc(4);
   wi8(m0,0x0); wi8(m0+1,0xBE); wi8(m0+2,0xAD); wi8(m0+3,0xDE);
-  m1=3735928321;
+  m1=malloc(4);
+  wi8(m1,0x1); wi8(m1+1,0xBE); wi8(m1+2,0xAD); wi8(m1+3,0xDE);
   m2=3735928322;
   m3=3735928323;
   m4=3735928324;
@@ -94,9 +95,8 @@ load_obj(){
   data_rel=malloc(ri32(data_len));
 
   fread(t,1,4,f);
-  if(ri32(t) != m1){
+  if(ri32(t) != ri32(m1)){
     puts("sync m1");
-    printf("t: %x m0: %x\n",ri32(t),m1);
     exit(1);
   }
   relocs_base=malloc(ri32(reloc_len));
@@ -104,6 +104,7 @@ load_obj(){
   fread(t,1,4,f);
   if(ri32(t) != m2){
     puts("sync m2");
+    printf("t: %x m0: %x\n",ri32(t),m2);
     exit(1);
   }
 
