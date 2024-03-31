@@ -58,8 +58,8 @@ load_obj(){
   int data_len=malloc(4);
   int reloc_len=malloc(4);
   int global_reloc_len=malloc(4);
-  int *global_reloc_table_len=malloc(4);
-  int *entrypoint=malloc(4);
+  int global_reloc_table_len=malloc(4);
+  int entrypoint=malloc(4);
   int m0=3735928320;
   int m1=3735928321;
   int m2=3735928322;
@@ -79,9 +79,9 @@ load_obj(){
     puts("sync m0");
     exit(1);
   }
-  global_relocs_table_base=malloc(global_reloc_table_len[0]);
+  global_relocs_table_base=malloc(ri32(global_reloc_table_len));
   global_relocs_table=global_relocs_table_base;
-  fread(global_relocs_table_base,1,global_reloc_table_len[0],f);
+  fread(global_relocs_table_base,1,ri32(global_reloc_table_len),f);
   prog_rel=malloc(ri32(text_len));
   data_rel=malloc(ri32(data_len));
 
@@ -125,7 +125,7 @@ load_obj(){
   memcpy(glo_base, data_rel, ri32(data_len));
   fclose(f);
 
-  int m=global_relocs_table_base+global_reloc_table_len[0];
+  int m=global_relocs_table_base+ri32(global_reloc_table_len);
   int l;
   int a;
   int n;
@@ -163,7 +163,7 @@ load_obj(){
       goff=goff+8;
     }
   }
-  return prog+(entrypoint[0]);
+  return prog+(ri32(entrypoint));
 }
 
 main(argc, argv)
