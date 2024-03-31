@@ -1,3 +1,8 @@
+#ifdef FUNCTION
+#define FUNCTION *(int(*)
+#endif
+
+
 int prog_rel;
 int data_rel;
 
@@ -192,5 +197,6 @@ main(argc, argv)
 
   puts("running loader");
 /*  return call_wrap(t, argc - optind, argv + (p_size*optind)); */
-  return ((int (*)())(t))(argc - optind, argv + (p_size*optind));
+/*  return ((int (*)())(t))(argc - optind, argv + (p_size*optind)); */
+  return ((FUNCTION)t)(argc - optind, argv + (p_size*optind));
 }
