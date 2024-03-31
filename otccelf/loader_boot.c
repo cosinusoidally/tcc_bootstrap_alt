@@ -68,7 +68,8 @@ load_obj(){
   global_reloc_len=malloc(4);
   global_reloc_table_len=malloc(4);
   entrypoint=malloc(4);
-  m0=3735928320;
+  m0=malloc(4);
+  wi8(m0,0x0); wi8(m0+1,0xBE); wi8(m0+2,0xAD); wi8(m0+3,0xDE);
   m1=3735928321;
   m2=3735928322;
   m3=3735928323;
@@ -82,7 +83,7 @@ load_obj(){
   fread(global_reloc_len,1,4,f);
   fread(global_reloc_table_len,1,4,f);
   fread(t,1,4,f);
-  if(ri32(t) != m0){
+  if(ri32(t) != ri32(m0)){
     puts("sync m0");
     exit(1);
   }
@@ -95,6 +96,7 @@ load_obj(){
   fread(t,1,4,f);
   if(ri32(t) != m1){
     puts("sync m1");
+    printf("t: %x m0: %x\n",ri32(t),m1);
     exit(1);
   }
   relocs_base=malloc(ri32(reloc_len));
