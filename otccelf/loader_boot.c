@@ -66,7 +66,7 @@ load_obj(){
   int m3=3735928323;
   int m4=3735928324;
   int i;
-  int *t=malloc(4);
+  int t=malloc(4);
   f = fopen("tcc_boot.o", "rb");
   fread(entrypoint,1,4,f);
   fread(text_len,1,4,f);
@@ -75,7 +75,7 @@ load_obj(){
   fread(global_reloc_len,1,4,f);
   fread(global_reloc_table_len,1,4,f);
   fread(t,1,4,f);
-  if(t[0]!=m0){
+  if(ri32(t) != m0){
     puts("sync m0");
     exit(1);
   }
@@ -86,14 +86,14 @@ load_obj(){
   data_rel=malloc(ri32(data_len));
 
   fread(t,1,4,f);
-  if(t[0]!=m1){
+  if(ri32(t) != m1){
     puts("sync m1");
     exit(1);
   }
   relocs_base=malloc(ri32(reloc_len));
   fread(relocs_base,1,ri32(reloc_len),f);
   fread(t,1,4,f);
-  if(t[0]!=m2){
+  if(ri32(t) != m2){
     puts("sync m2");
     exit(1);
   }
@@ -101,7 +101,7 @@ load_obj(){
   fread(data_rel,1,ri32(data_len),f);
 
   fread(t,1,4,f);
-  if(t[0]!=m3){
+  if(ri32(t) != m3){
     puts("sync m3");
     exit(1);
   }
@@ -110,7 +110,7 @@ load_obj(){
   fread(global_relocs_base,1,ri32(global_reloc_len),f);
 
   fread(t,1,4,f);
-  if(t[0]!=m4){
+  if(ri32(t) != m4){
     puts("sync m4");
     exit(1);
   }
