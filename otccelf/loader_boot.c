@@ -54,10 +54,10 @@ int dlsym_wrap(int h,int sym){
 load_obj(){
   puts("Loading object file");
   int f;
-  int *text_len=malloc(4);
-  int *data_len=malloc(4);
-  int *reloc_len=malloc(4);
-  int *global_reloc_len=malloc(4);
+  int text_len=malloc(4);
+  int data_len=malloc(4);
+  int reloc_len=malloc(4);
+  int global_reloc_len=malloc(4);
   int *global_reloc_table_len=malloc(4);
   int *entrypoint=malloc(4);
   int m0=3735928320;
@@ -82,23 +82,23 @@ load_obj(){
   global_relocs_table_base=malloc(global_reloc_table_len[0]);
   global_relocs_table=global_relocs_table_base;
   fread(global_relocs_table_base,1,global_reloc_table_len[0],f);
-  prog_rel=malloc(text_len[0]);
-  data_rel=malloc(data_len[0]);
+  prog_rel=malloc(ri32(text_len));
+  data_rel=malloc(ri32(data_len));
 
   fread(t,1,4,f);
   if(t[0]!=m1){
     puts("sync m1");
     exit(1);
   }
-  relocs_base=malloc(reloc_len[0]);
-  fread(relocs_base,1,reloc_len[0],f);
+  relocs_base=malloc(ri32(reloc_len));
+  fread(relocs_base,1,ri32(reloc_len),f);
   fread(t,1,4,f);
   if(t[0]!=m2){
     puts("sync m2");
     exit(1);
   }
 
-  fread(data_rel,1,data_len[0],f);
+  fread(data_rel,1,ri32(data_len),f);
 
   fread(t,1,4,f);
   if(t[0]!=m3){
@@ -106,8 +106,8 @@ load_obj(){
     exit(1);
   }
 
-  global_relocs_base=malloc(global_reloc_len[0]);
-  fread(global_relocs_base,1,global_reloc_len[0],f);
+  global_relocs_base=malloc(ri32(global_reloc_len));
+  fread(global_relocs_base,1,ri32(global_reloc_len),f);
 
   fread(t,1,4,f);
   if(t[0]!=m4){
@@ -115,14 +115,14 @@ load_obj(){
     exit(1);
   }
 
-  fread(prog_rel,1,text_len[0],f);
+  fread(prog_rel,1,ri32(text_len),f);
   glo = malloc(DATA_SIZE);
   glo_base=glo;
   memset(glo, 0, DATA_SIZE);
   prog = malloc(TEXT_SIZE);
   ind = prog;
-  memcpy(prog, prog_rel, text_len[0]);
-  memcpy(glo_base, data_rel, data_len[0]);
+  memcpy(prog, prog_rel, ri32(text_len));
+  memcpy(glo_base, data_rel, ri32(data_len));
   fclose(f);
 
   int m=global_relocs_table_base+global_reloc_table_len[0];
@@ -130,7 +130,7 @@ load_obj(){
   int a;
   int n;
   int p;
-  for(i=0;i<reloc_len[0];i=i+12){
+  for(i=0;i<ri32(reloc_len);i=i+12){
     if(relocs_base+i+8==0){
       p=prog;
     } else {
