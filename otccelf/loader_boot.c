@@ -15,12 +15,32 @@ int TEXT_SIZE;
 int RELOC_ADDR32;
 int RELOC_REL32;
 
+int my_break;
+
 /* HACK otccelf will ignore the if an define call_wrap */
 #if 0
+
+stub2(a,b){
+  return a+b;
+}
+
+stub() {
+  return &stub2;
+}
+
 call_wrap(t, a, b){
+  int f;
   printf("call_wrap called %x %d\n",t, a);
-  exit(0);
-  return (*(int(*)())t)(a, b);
+  f=stub();
+  wi8(f,0xB8);
+  wi32(f+1,t);
+  wi8(f+5,0xFF);
+  wi8(f+6,0xE0);
+  printf("stub2 %x\n",f);
+/*  while(my_break){} */
+  return stub2(a, b);
+/*  return(*(int(*)())*(int*)(t))(a, b) */
+/*  exit(0); */
 }
 #endif
 
@@ -29,6 +49,7 @@ init_globals(){
   TEXT_SIZE = (256*1024);
   RELOC_ADDR32 = 1; /* 32 bits relocation */
   RELOC_REL32 = 2; /* 32 bits relative relocation */
+  my_break=1;
 }
 
 wi8(o, v){
