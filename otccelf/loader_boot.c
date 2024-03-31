@@ -1,8 +1,3 @@
-#ifdef FUNCTION
-#define FUNCTION *(int(*)
-#endif
-
-
 int prog_rel;
 int data_rel;
 
@@ -19,6 +14,13 @@ int DATA_SIZE;
 int TEXT_SIZE;
 int RELOC_ADDR32;
 int RELOC_REL32;
+
+#if 0
+call_wrap(t, a, b){
+  printf("call_wrap called %x %d\n",t, a);
+  exit(0);
+}
+#endif
 
 init_globals(){
   DATA_SIZE = (256*1024);
@@ -201,7 +203,5 @@ main(argc, argv)
     }
 
   puts("running loader");
-/*  return call_wrap(t, argc - optind, argv + (p_size*optind)); */
-/*  return ((int (*)())(t))(argc - optind, argv + (p_size*optind)); */
-  return ((FUNCTION)t)(argc - optind, argv + (p_size*optind));
+  return call_wrap(t, argc - optind, argv + (p_size*optind));
 }
