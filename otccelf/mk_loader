@@ -1,9 +1,10 @@
 ./mk_clean
 ./mk_cc_x86
-tcc loader_tcc.c -o artifacts/load_tcc.exe -ldl
+tcc loader_tcc.c -o artifacts/loader_tcc.exe -ldl
 pushd .
 cd ../tcc_10
-../otccelf/artifacts/load_tcc.exe -R dummy
+../otccelf/artifacts/loader_tcc.exe -R dummy
 popd
 ./artifacts/otccelf_js.exe loader_boot.c ./artifacts/loader_otcc.exe
+chmod +x ./artifacts/loader_otcc.exe
 ls -lh artifacts
