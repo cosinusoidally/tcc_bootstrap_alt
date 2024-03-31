@@ -22,20 +22,28 @@ int init_globals(void){
   RELOC_REL32 = 2; /* 32 bits relative relocation */
 }
 
-int r32(int o){
-  int r;
-  int *p;
-  p=o;
-  r=p[0];
-  return r;
+wi8(o, v){
+  *(char*)o = (v & 255);
 }
 
-int w32(int o,int v){
-  int *p;
-  p=o;
-  p[0]=v;
+ri8(o){
+ return *(char*)o;
 }
 
+wi32(o, v) {
+  wi8(o,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+2,v&0xFF);
+  v=v>>8;
+  wi8(o+3,v&0xFF);
+}
+
+ri32(o) {
+  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
+         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
+}
 
 int dlsym_wrap(int h,int sym){
   puts("dlsym lookup:");
@@ -128,7 +136,7 @@ int load_obj(void){
     } else {
       p=glo;
     }
-    w32(prog+r32(relocs_base+i),r32(relocs_base+i+4)+p); 
+    wi32(prog+ri32(relocs_base+i),ri32(relocs_base+i+4)+p);
   }
   int goff=0;
   int off;
@@ -139,13 +147,13 @@ int load_obj(void){
     l=strlen(global_relocs_table);
     a=dlsym_wrap(0,global_relocs_table);
     global_relocs_table = global_relocs_table + l + 1;
-    n=r32(global_relocs_table);
+    n=ri32(global_relocs_table);
     global_relocs_table = global_relocs_table+4;
     for(i=0;i<n;i=i+1){
-      off=r32(global_relocs_base+goff+4);
+      off=ri32(global_relocs_base+goff+4);
       addr = (off+prog);
       ptr = addr;
-      reloc_type=r32(global_relocs_base+goff);
+      reloc_type=ri32(global_relocs_base+goff);
       if(reloc_type == RELOC_ADDR32) {
         ptr[0] = a;
       }
