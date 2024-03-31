@@ -169,7 +169,6 @@ main(argc, argv)
     int p_size;
     p_size=4;
 
-    init_c();
     init_globals();
 
     puts("loader starting");
