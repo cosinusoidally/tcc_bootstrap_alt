@@ -45,7 +45,7 @@ ri32(o) {
          (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
-int dlsym_wrap(int h,int sym){
+dlsym_wrap( h, sym){
   puts("dlsym lookup:");
   puts(sym);
   return dlsym(h,sym);
