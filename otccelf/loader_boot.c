@@ -198,5 +198,6 @@ main(argc, argv)
     }
 
   puts("running loader");
-  return call_wrap(t, argc - optind, argv + (p_size*optind));
+/*  return call_wrap(t, argc - optind, argv + (p_size*optind)); */
+  return ((int (*)())(t))(argc - optind, argv + (p_size*optind));
 }
