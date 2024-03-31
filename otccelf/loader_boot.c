@@ -15,7 +15,7 @@ int TEXT_SIZE;
 int RELOC_ADDR32;
 int RELOC_REL32;
 
-int init_globals(void){
+init_globals(){
   DATA_SIZE = (256*1024);
   TEXT_SIZE = (256*1024);
   RELOC_ADDR32 = 1; /* 32 bits relocation */
