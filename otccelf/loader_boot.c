@@ -52,21 +52,23 @@ dlsym_wrap( h, sym){
 }
 
 load_obj(){
+  int f, text_len, data_len, reloc_len, global_reloc_len;
+  int global_reloc_table_len, entrypoint, m0, m1, m2, m3, m4, i, t;
+  int m; int l; int a; int n; int p;
+  int goff; int off; int addr; int reloc_type; int ptr;
   puts("Loading object file");
-  int f;
-  int text_len=malloc(4);
-  int data_len=malloc(4);
-  int reloc_len=malloc(4);
-  int global_reloc_len=malloc(4);
-  int global_reloc_table_len=malloc(4);
-  int entrypoint=malloc(4);
-  int m0=3735928320;
-  int m1=3735928321;
-  int m2=3735928322;
-  int m3=3735928323;
-  int m4=3735928324;
-  int i;
-  int t=malloc(4);
+  text_len=malloc(4);
+  data_len=malloc(4);
+  reloc_len=malloc(4);
+  global_reloc_len=malloc(4);
+  global_reloc_table_len=malloc(4);
+  entrypoint=malloc(4);
+  m0=3735928320;
+  m1=3735928321;
+  m2=3735928322;
+  m3=3735928323;
+  m4=3735928324;
+  t=malloc(4);
   f = fopen("tcc_boot.o", "rb");
   fread(entrypoint,1,4,f);
   fread(text_len,1,4,f);
@@ -125,11 +127,7 @@ load_obj(){
   memcpy(glo_base, data_rel, ri32(data_len));
   fclose(f);
 
-  int m=global_relocs_table_base+ri32(global_reloc_table_len);
-  int l;
-  int a;
-  int n;
-  int p;
+  m=global_relocs_table_base+ri32(global_reloc_table_len);
   for(i=0;i<ri32(reloc_len);i=i+12){
     if(relocs_base+i+8==0){
       p=prog;
@@ -138,11 +136,7 @@ load_obj(){
     }
     wi32(prog+ri32(relocs_base+i),ri32(relocs_base+i+4)+p);
   }
-  int goff=0;
-  int off;
-  int addr;
-  int reloc_type;
-  int ptr;
+  goff=0;
   while(global_relocs_table<m){
     l=strlen(global_relocs_table);
     a=dlsym_wrap(0,global_relocs_table);
