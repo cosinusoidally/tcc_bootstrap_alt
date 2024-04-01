@@ -1101,7 +1101,7 @@ link(o){
   if(verbose){puts("============================");}
 }
 
-main(int argc, char **argv)
+main(argc, argvi)
 {
   int t;
   int optind;
@@ -1110,6 +1110,8 @@ main(int argc, char **argv)
   int i;
   int j;
   int cur;
+  char **argv;
+  argv = argvi;
 
   init_c();
   init_globals();
