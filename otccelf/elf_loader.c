@@ -658,10 +658,10 @@ load_elf(name){
   int v;
   int k;
   int e;
-  int *obj_struct;
+  int obj_struct;
   obj_struct=calloc(obj_struct_size,1);
-  obj_struct[obj_name_o]=name;
-  obj_struct[obj_linked_o]=0;
+  wi32(obj_struct + (4 * obj_name_o), name);
+  wi32(obj_struct + (4 * obj_linked_o), 0);
   l=0;
   puts("loading elf file:");
   puts(name);
