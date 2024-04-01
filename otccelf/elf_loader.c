@@ -507,8 +507,8 @@ decode_elf(e, os){
     fputs("\n",stdout);
     hex_dump(strtab_mem,sh_size);
   }
-  obj_struct[obj_strtab_o]=strtab_mem;
-  obj_struct[obj_strtab_size_o]=sh_size;
+  wi32(obj_structi + (4 * obj_strtab_o), strtab_mem);
+  wi32(obj_structi + (4 * obj_strtab_size_o), sh_size);
 
   if(verbose){
     fputs(".symtab:\n",stdout);
@@ -542,8 +542,8 @@ decode_elf(e, os){
     fputs("\n",stdout);
     hex_dump(symtab_mem,sh_size);
   }
-  obj_struct[obj_symtab_o]=symtab_mem;
-  obj_struct[obj_symtab_size_o]=sh_size;
+  wi32(obj_structi + (4 * obj_symtab_o), symtab_mem);
+  wi32(obj_structi + (4 * obj_symtab_size_o), sh_size);
 
   if(rel_text!=0){
     if(verbose){
