@@ -1101,7 +1101,7 @@ link(o){
   if(verbose){puts("============================");}
 }
 
-main(argc, argvi)
+main(argc, argv)
 {
   int t;
   int optind;
@@ -1126,7 +1126,7 @@ main(argc, argvi)
 
   optind = 1;
 
-  if(strcmp(ri32(argvi + (4 * optind)),"-v") == 0){
+  if(strcmp(ri32(argv + (4 * optind)),"-v") == 0){
     verbose=1;
     optind = optind + 1;
     puts("verbose mode");
@@ -1135,13 +1135,13 @@ main(argc, argvi)
   puts("running elf files");
   j=0;
   for(i=optind;i<argc;i=i+1){
-    cur= ri32(argvi + (4 *i));
+    cur= ri32(argv + (4 *i));
     if(strcmp(cur, "-l") == 0){
       fputs("load elf file: ",stdout);
       i=i+1;
-      objs_files[j]=ri32(argvi + (4 *i));
+      objs_files[j]=ri32(argv + (4 * i));
       j=j+1;
-      fputs(ri32(argvi + (4 * i)),stdout);
+      fputs(ri32(argv + (4 * i)),stdout);
       fputs("\n",stdout);
       optind=i;
     } else {
@@ -1169,5 +1169,5 @@ main(argc, argvi)
   t=get_main(objs);
   puts("============================");
   puts("calling main from elf file:");
-  return call_wrap(t, argc - optind, argvi + (4*optind));
+  return call_wrap(t, argc - optind, argv + (4*optind));
 }
