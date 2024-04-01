@@ -224,7 +224,7 @@ get_section_header(e, str) {
   return 0;
 }
 
-void init_offsets(void){
+init_offsets(){
   sh_name_o=0;
   sh_size_o=20;
   sh_entsize_o=36;
@@ -268,7 +268,7 @@ void init_offsets(void){
   R_386_32=1;
   R_386_PC32=2;
 }
-void print_relocs(char *name,int *o){
+print_relocs(char *name,int *o){
   int i;
   int r_info;
   int r_sym;
