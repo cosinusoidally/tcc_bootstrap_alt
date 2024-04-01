@@ -926,12 +926,14 @@ resolve_und(os){
   }
 }
 
-int dump_exports(int o){
+int dump_exports(o){
   int *obj;
-  obj=o;
+  int obji;
   int *exports;
   int name;
   int n;
+  obji = o;
+  obj = obji;
   puts("==========");
   puts("dump_exports:");
   fputs("obj: ",stdout);
