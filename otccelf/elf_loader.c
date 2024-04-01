@@ -1,6 +1,6 @@
 #include "elf_loader_support_tcc.c"
 
-char *elf_buf;
+int elf_buf;
 int sh_name_o;
 int sh_size_o;
 int sh_entsize_o;
@@ -667,7 +667,7 @@ int load_elf(char *name){
   puts(name);
   f=fopen(name,"rb");
   while((c=fgetc(f)) >= 0){
-    elf_buf[l]=c;
+    wi8(elf_buf + l, c);
     l=l+1;
   }
   puts("file length");
