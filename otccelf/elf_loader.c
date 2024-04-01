@@ -1106,7 +1106,7 @@ main(argc, argv)
   int t;
   int optind;
   int *objs;
-  int objs_filesi;
+  int objs_files;
   int i;
   int j;
   int cur;
@@ -1120,7 +1120,7 @@ main(argc, argv)
   /* enough for 8 objs */
   objs=calloc(36,1);
   /* filenames of input objects */
-  objs_filesi = calloc(36,1);
+  objs_files = calloc(36,1);
 
   puts("elf loader starting");
 
@@ -1139,7 +1139,7 @@ main(argc, argv)
     if(strcmp(cur, "-l") == 0){
       fputs("load elf file: ",stdout);
       i=i+1;
-      wi32(objs_filesi + (4 * j), ri32(argv + (4 * i)));
+      wi32(objs_files + (4 * j), ri32(argv + (4 * i)));
       j=j+1;
       fputs(ri32(argv + (4 * i)),stdout);
       fputs("\n",stdout);
@@ -1149,12 +1149,12 @@ main(argc, argv)
     }
   }
   objs[0]=mk_host_obj();
-  if(ri32(objs_filesi) == 0){
+  if(ri32(objs_files) == 0){
     objs[1]=load_elf("libc_boot.o");
     objs[2]=load_elf("tcc.o");
   } else {
     i=0;
-    while((cur = ri32(objs_filesi + (4 * i))) !=0){
+    while((cur = ri32(objs_files + (4 * i))) !=0){
       fputs("loading: ",stdout);
       fputs(cur,stdout);
       fputs("\n",stdout);
