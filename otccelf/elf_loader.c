@@ -578,8 +578,8 @@ decode_elf(e, os){
       fputs("\n",stdout);
       hex_dump(rel_text_mem,sh_size);
     }
-    obj_struct[obj_rel_text_o]=rel_text_mem;
-    obj_struct[obj_rel_text_size_o]=sh_size;
+    wi32(obj_structi + (4 * obj_rel_text_o), rel_text_mem);
+    wi32(obj_structi + (4 * obj_rel_text_size_o), sh_size);
     print_relocs(".rel.text", os);
   }
 
@@ -616,8 +616,8 @@ decode_elf(e, os){
       fputs("\n",stdout);
       hex_dump(rel_data_mem,sh_size);
     }
-    obj_struct[obj_rel_data_o]=rel_data_mem;
-    obj_struct[obj_rel_data_size_o]=sh_size;
+    wi32(obj_structi + (4 * obj_rel_data_o), rel_data_mem);
+    wi32(obj_structi + (4 * obj_rel_data_size_o), sh_size);
   }
 
   if(bss!=0){
@@ -645,8 +645,8 @@ decode_elf(e, os){
       fputs(int2str(bss_mem,16,0),stdout);
       fputs("\n",stdout);
     }
-    obj_struct[obj_bss_o]=bss_mem;
-    obj_struct[obj_bss_size_o]=sh_size;
+    wi32(obj_structi + (4 * obj_bss_o), bss_mem);
+    wi32(obj_structi + (4 * obj_bss_size_o), sh_size);
   }
   return os;
 }
