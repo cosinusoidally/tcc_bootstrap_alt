@@ -858,7 +858,7 @@ int gen_und_exports(int o){
 find_sym(os, name){
   int objs;
   int obj;
-  int *exports;
+  int exportsi;
   int m;
   int n;
   int e;
@@ -877,15 +877,15 @@ find_sym(os, name){
       fputs(ri32(obj + (4 * obj_name_o)),stdout);
       fputs("\n",stdout);
     }
-    exports = ri32(obj + (4 * obj_exports_o));
-    if(exports!=0){
+    exportsi = ri32(obj + (4 * obj_exports_o));
+    if(exportsi != 0){
       if(verbose){puts("we have some exports");}
       m=0;
-      while((e=exports[(2*m)+exp_name_o])!=0){
+      while((e = ri32(exportsi + (4 * ((2*m)+exp_name_o)))) != 0){
         if(verbose){puts(e);}
         if(strcmp(e,name)==0){
           if(verbose){puts("found");}
-          return(exports[(2*m)+exp_address_o]);
+          return(ri32(exportsi + (4 * ((2*m)+exp_address_o))));
         }
         m=m+1;
       }
