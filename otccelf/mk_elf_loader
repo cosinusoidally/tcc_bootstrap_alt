@@ -1,0 +1,2 @@
+./mk_loader
+tcc elf_loader.c -o artifacts/elf_loader_tcc.exe
