@@ -167,14 +167,14 @@ dump_symtab(o){
   obji = o;
   obj = obji;
 
-  symtab = ri32(obj + (4 * obj_symtab_o));
+  symtab = ri32(obji + (4 * obj_symtab_o));
   symtab_size = ri32(obji + (4 * obj_symtab_size_o));
   entsize=16;
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
     sym=i+symtab;
     hex_dump(sym,entsize);
     st_name=ri32(sym+st_name_o);
-    st_name_str = ri32(obj + (4 * obj_strtab_o)) + st_name;
+    st_name_str = ri32(obji + (4 * obj_strtab_o)) + st_name;
     st_value=ri32(sym+st_value_o);
     st_info=ri8(sym+st_info_o);
     st_type=st_info & 0xF;
