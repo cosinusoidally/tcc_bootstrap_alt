@@ -649,7 +649,7 @@ decode_elf(e, os){
   return os;
 }
 
-int load_elf(char *name){
+load_elf(name){
   int f;
   int l;
   int c;
@@ -658,8 +658,6 @@ int load_elf(char *name){
   int v;
   int k;
   int e;
-  int off_l;
-  char *off;
   int *obj_struct;
   obj_struct=calloc(obj_struct_size,1);
   obj_struct[obj_name_o]=name;
