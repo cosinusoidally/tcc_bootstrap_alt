@@ -1,0 +1,6 @@
+./mk_clean
+./mk_from_bootstrap_seed_clean
+./mk_seeds
+x86/artifact/kaem-optional-seed ./alt_kaem.x86
+cd ./otccelf
+./mk_loader

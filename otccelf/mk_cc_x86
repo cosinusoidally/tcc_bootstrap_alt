@@ -1,0 +1,19 @@
+./mk_clean
+cat ../M2libc/x86/linux/bootstrap.c ../M2libc/bootstrappable.c support_cc_x86.c otccelf_cc_x86.c > artifacts/otccelf_cc_x86_full.c
+../x86/bin/cc_x86 artifacts/otccelf_cc_x86_full.c artifacts/otccelf_cc_x86.M1
+cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86.M1 > artifacts/otccelf_cc_x86-0.M1
+../x86/bin/M0 artifacts/otccelf_cc_x86-0.M1 artifacts/otccelf_cc_x86-0.hex2
+cat  ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86-0.hex2 > ./artifacts/otccelf_cc_x86-0-0.hex2
+../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86-0-0.hex2 ./artifacts/otccelf_cc_x86.exe
+
+# build JS version
+
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+./artifacts/otccelf_cc_x86.exe artifacts/otccelf_js.c artifacts/otccelf_js.exe
+chmod +x artifacts/otccelf_js.exe
+
+# check otccelf_js.exe can build otccelf.c
+
+./artifacts/otccelf_js.exe  otccelf.c artifacts/otccelf.exe
+sha256sum -c ./otccelf.sums |grep otccelf.exe

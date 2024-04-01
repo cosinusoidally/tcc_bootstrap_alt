@@ -1,0 +1,94 @@
+./mk_clean
+tcc otccelf.c -o otccelf.exe
+tcc otccelfn.c -o otccelfn.exe
+tcc otccelf_full.c -o otccelf_full.exe
+
+gcc -O0 -g otccelf_full.c -o otccelf_full_gcc.exe
+
+# check with tcc build
+
+./otccelf_full.exe otccelf_full.c otccelf_full1.exe
+chmod +x otccelf_full1.exe
+./otccelf_full1.exe otccelf_full.c otccelf_full2.exe
+chmod +x otccelf_full2.exe
+./otccelf_full2.exe otccelf_full.c otccelf_full3.exe
+chmod +x otccelf_full3.exe
+
+./otccelf_full3.exe otccelf.c otccelf1.exe
+chmod +x otccelf1.exe
+
+# check with gcc build
+
+./otccelf_full_gcc.exe otccelf_full.c otccelf_full1_gcc.exe
+chmod +x otccelf_full1_gcc.exe
+./otccelf_full1_gcc.exe otccelf_full.c otccelf_full2_gcc.exe
+chmod +x otccelf_full2_gcc.exe
+./otccelf_full2_gcc.exe otccelf_full.c otccelf_full3_gcc.exe
+chmod +x otccelf_full3_gcc.exe
+
+./otccelf_full3_gcc.exe otccelf.c otccelf1_gcc.exe
+chmod +x otccelf1_gcc.exe
+
+# check otccex.c build
+
+./otccelf_full3.exe otccex.c otccex.exe
+chmod +x otccex.exe
+
+# check otccelf1.exe correctly compiles otccelf_full.c
+
+./otccelf1.exe otccelf_full.c otccelf_full_otccelf1.exe
+
+# test JS based build
+# under C
+
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+cd artifacts/
+
+gcc -O0 -g otccelf_js.c -o otccelf_js_gcc.exe
+
+tcc otccelf_js.c -o otccelf_js.exe
+chmod +x otccelf_js.exe
+
+# build with version bootstrapped from tcc
+
+./otccelf_js.exe otccelf_js.c otccelf_js1.exe
+chmod +x otccelf_js1.exe
+
+./otccelf_js1.exe otccelf_js.c otccelf_js2.exe
+chmod +x otccelf_js2.exe
+
+./otccelf_js2.exe otccelf_js.c otccelf_js3.exe
+chmod +x otccelf_js3.exe
+
+./otccelf_js3.exe ../otccelf.c otccelf.exe
+./otccelf_js3.exe ../otccelf_full.c otccelf_full.exe
+./otccelf_js3.exe ../otccex.c otccex.exe
+
+# build with version bootstrapped from gcc
+
+./otccelf_js_gcc.exe otccelf_js.c otccelf_js1_gcc.exe
+chmod +x otccelf_js1_gcc.exe
+
+./otccelf_js1_gcc.exe otccelf_js.c otccelf_js2_gcc.exe
+chmod +x otccelf_js2_gcc.exe
+
+./otccelf_js2_gcc.exe otccelf_js.c otccelf_js3_gcc.exe
+chmod +x otccelf_js3_gcc.exe
+
+# under JS
+# todo
+
+cd ..
+
+# build test exe to compare with JS version
+./artifacts/otccelf_js3_gcc.exe ex1.c out.exe
+
+sha256sum *exe
+sha256sum artifacts/*exe
+diff -s otccelf1.exe otccelf1_gcc.exe
+diff -s otccelf_full3.exe otccelf_full_otccelf1.exe
+diff -s otccelf_full3.exe otccelf_full3_gcc.exe
+diff -s otccelf_full3.exe artifacts/otccelf_full.exe
+diff -s artifacts/otccelf_js3.exe artifacts/otccelf_js3_gcc.exe
+sha256sum -c otccelf.sums
