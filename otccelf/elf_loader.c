@@ -771,7 +771,7 @@ int gen_und_exports(int o){
   int st_bind;
   int st_type;
   int st_shndx;
-  int *exports;
+  int exportsi;
   int n_exports;
   int *unds;
   int n_unds;
@@ -779,7 +779,7 @@ int gen_und_exports(int o){
   n_exports=0;
   n_unds=0;
   /* FIXME this should not be 1024 it should be calculated */
-  exports=calloc(exp_size*1024,1);
+  exportsi=calloc(exp_size*1024,1);
   unds=calloc(und_size*1024,1);
 
   symtab = ri32(obj + (4 * obj_symtab_o));
@@ -788,7 +788,7 @@ int gen_und_exports(int o){
   if(verbose){
     puts("gen_und_exports (export table and undefined symbol table)");
   }
-  wi32(obj + (4 * obj_exports_o), exports);
+  wi32(obj + (4 * obj_exports_o), exportsi);
   wi32(obj + (4 * obj_und_o), unds);
   for(i=0;i< ri32(obj + (4 * obj_symtab_size_o));i=i+entsize){
     sym=i+symtab;
@@ -836,8 +836,8 @@ int gen_und_exports(int o){
         wi32(sym+st_value_o,st_value);
         if(st_bind==ST_GLOBAL) {
           if(verbose){puts("export");}
-          exports[(n_exports*2)+exp_name_o]=st_name_str;
-          exports[(n_exports*2)+exp_address_o]=st_value;
+          wi32(exportsi + (4 * ((n_exports*2)+exp_name_o)), st_name_str);
+          wi32(exportsi + (4 * ((n_exports*2)+exp_address_o)), st_value);
           n_exports=n_exports+1;
           if(n_exports>1024) {
             puts("too many exports");
@@ -849,7 +849,7 @@ int gen_und_exports(int o){
   }
   if(verbose){
     puts("exports:");
-    hex_dump(exports,n_exports*8);
+    hex_dump(exportsi, n_exports*8);
     puts("unds:");
     hex_dump(unds,n_unds*8);
   }
