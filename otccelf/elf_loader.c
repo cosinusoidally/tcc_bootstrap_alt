@@ -1050,13 +1050,12 @@ relocate(o) {
 }
 
 link(o){
-  int *objs;
   int objsi;
   int *obj;
   int name;
   int i;
+
   objsi = o;
-  objs = objsi;
   i=0;
   if(verbose){
     puts("============================");
@@ -1087,7 +1086,7 @@ link(o){
     puts("============================");
     puts("relocation");
   }
-  while(obj=objs[i]){
+  while(obj = ri32(objsi + (4 * i))){
     if(obj[obj_linked_o]!=0){
       if(verbose){
         fputs("already relocated: ",stdout);
