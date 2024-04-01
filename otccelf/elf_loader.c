@@ -951,7 +951,7 @@ dump_unds(o) {
   }
 }
 
-int relocate_section(int o, int name, int rels, int size, int p){
+relocate_section(o, name, rels, size, p){
   int *obj;
   int entsize;
   int sym_entsize;
