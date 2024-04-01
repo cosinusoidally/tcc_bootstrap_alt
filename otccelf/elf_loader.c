@@ -31,7 +31,6 @@ int exp_size;
 int und_name_o;
 int und_val_o;
 int und_size;
-int st_name_o;
 int st_value_o;
 int st_info_o;
 int st_shndx_o;
@@ -77,128 +76,21 @@ ri32(o) {
 }
 
 #if 0
-int2str(x, base, signed_p){
+int2str(a, b, c){
   puts("int2str unimpl");
-  exit(0);
+  return "blah";
 }
 
 call_wrap(t, a, b){
   puts("call_wrap unimpl");
   exit(0);
 }
-
 #endif
 
 hex_dump(e, l){
-/*
-  int i;
-  int j;
-  int k;
-  int off;
-  int off_l;
-  int v;
-
-  if(verbose == 0){
-    return;
-  }
-
-  i=0;
-  while(i<l) {
-    off=int2str(i,16,0);
-    off_l=strlen(off);
-    for(k=0;k<8-off_l;k=k+1){
-      fputc('0',stdout);
-    }
-    fputs(off,stdout);
-    fputs(": ",stdout);
-    j=0;
-    while(j<8) { 
-      v=ri8(e+i);
-      if(v<16) {
-        fputc('0', stdout);
-      }
-      fputs(int2str(v,16,0), stdout);
-      v=ri8(e+i+1);
-      if(v<16) {
-        fputc('0', stdout);
-      }
-      fputs(int2str(v,16,0), stdout);
-      fputs(" ", stdout);
-      i=i+2;
-      j=j+1;
-    }
-    fputs(" ", stdout);
-    i=i-16;
-    j=0;
-    while(j<16) {
-      v=ri8(e+i);
-      if(((' ' <= v) !=0) && ((v <= '~')!=0)) {
-        fputc(v, stdout);
-      } else {
-        fputc('.', stdout);
-      }
-      i=i+1;
-      j=j+1;
-    }
-    fputs("\n",stdout);
-  }
-  fputs("\n", stdout);
-*/
 }
 
 dump_symtab(o){
-/*
-  int obj;
-  int symtab;
-  int symtab_size;
-  int entsize;
-  int i;
-  int sym;
-  int st_name;
-  int st_name_str;
-  int st_value;
-  int st_info;
-  int st_bind;
-  int st_type;
-  int st_shndx;
-  if(verbose){
-    puts("===========");
-    puts("dump_symtab");
-  }
-
-  obj = o;
-
-  symtab = ri32(obj + (4 * obj_symtab_o));
-  symtab_size = ri32(obj + (4 * obj_symtab_size_o));
-  entsize=16;
-  for(i=0; i < ri32(obj + (4 * obj_symtab_size_o)); i=i+entsize){
-    sym=i+symtab;
-    hex_dump(sym,entsize);
-    st_name=ri32(sym+st_name_o);
-    st_name_str = ri32(obj + (4 * obj_strtab_o)) + st_name;
-    st_value=ri32(sym+st_value_o);
-    st_info=ri8(sym+st_info_o);
-    st_type=st_info & 0xF;
-    st_bind=st_info>>4;
-    st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
-    if(verbose){
-      fputs("st_name: 0x",stdout);fputs(int2str(st_name,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("st_name_str: ",stdout);fputs(st_name_str,stdout);
-      fputs("\n",stdout);
-      fputs("st_value: 0x",stdout);fputs(int2str(st_value,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("st_info: 0x",stdout);fputs(int2str(st_info,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("st_type: 0x",stdout);fputs(int2str(st_type,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("st_bind: 0x",stdout);fputs(int2str(st_bind,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("st_shndx: 0x",stdout);fputs(int2str(st_shndx,16,0),stdout);
-      fputs("\n",stdout);
-    }
-  }
-*/
 }
 
 get_section_header(e, str) {
@@ -217,33 +109,17 @@ get_section_header(e, str) {
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
   e_shstrndx=ri32(e+0x32) & 0xFFFF;
-  if(verbose){puts(".shstrtab:");}
   o=e+e_shoff+(e_shstrndx*e_shentsize);
   sh_offset=ri32(o+16);
-  if(verbose){
-    fputs("get_section: ",stdout);
-    fputs(str,stdout);
-    fputs("\n", stdout);
-  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
     sh_name=ri32(e+o);
-    if(verbose){
-      fputs("sh_name: ",stdout);
-      fputs(int2str(sh_name,16,0),stdout);
-    }
     sh_name_str=e+sh_offset+sh_name;
-    if(verbose){
-      fputs(" sh_name_str: ",stdout);
-      fputs(sh_name_str,stdout);
-      fputs("\n",stdout);
-    }
     if(strcmp(str,sh_name_str) == 0){
       return e+o;
     }
     o=o+e_shentsize;
   }
-  if(verbose){puts("section header not found");}
   return 0;
 }
 
@@ -293,47 +169,6 @@ init_offsets(){
 }
 
 print_relocs(name, o){
-/*
-  int i;
-  int r_info;
-  int r_sym;
-  int ptr;
-  int size;
-  int sym_name;
-  if(verbose==0){
-    return;
-  }
-  ptr=ri32(o + (4*obj_rel_text_o));
-  size=ri32(o + (4*obj_rel_text_size_o));
-  if(verbose){
-    fputs("\n",stdout);
-    fputs(name,stdout);
-    fputs("\n",stdout);
-  }
-  for(i=0;i<size;i=i+8){
-    r_info=ri32(ptr+i+r_info_o);
-*/
-    /* FIXME use unsigned shift */
-/*
-    r_sym=r_info>>8;
-    if(verbose){
-      fputs("r_info: 0x",stdout);
-      fputs(int2str(r_sym,16,0),stdout);
-      fputs("\n",stdout);
-    }
-    sym_name=ri32(o+ (4*obj_strtab_o))+
-             ri32(ri32(o+(4*obj_symtab_o))+(16*r_sym));
-    if(verbose){
-      fputs("sym_name: ",stdout);
-      fputs(sym_name,stdout);
-      fputs("\n",stdout);
-      hex_dump(ptr+i,8);
-    }
-  }
-  if(verbose){
-    fputs("\n",stdout);
-  }
-*/
 }
 
 decode_elf(e, os){
@@ -371,7 +206,6 @@ decode_elf(e, os){
   if(ri8(e+1)!='E') { puts("magic 1");exit(1);}
   if(ri8(e+2)!='L') { puts("magic 2");exit(1);}
   if(ri8(e+3)!='F') { puts("magic 3");exit(1);}
-  if(verbose){puts("ELF magic ok");}
   e_shoff=ri32(e+0x20);
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
   e_shnum=ri32(e+0x30) & 0xFFFF;
@@ -383,201 +217,51 @@ decode_elf(e, os){
   symtab=get_section_header(e,".symtab");
   rel_text=get_section_header(e,".rel.text");
   rel_data=get_section_header(e,".rel.data");
-  if(verbose){
-    fputs("e_shoff: ",stdout);
-    fputs(int2str(e_shoff,10,0),stdout);
-    fputs("\n",stdout);
-    fputs("e_shentsize: ",stdout);
-    fputs(int2str(e_shentsize,10,0),stdout);
-    fputs("\n",stdout);
-    fputs("e_shnum: ",stdout);
-    fputs(int2str(e_shnum,10,0),stdout);
-    fputs("\n",stdout);
-    fputs("e_shstrndx: ",stdout);
-    fputs(int2str(e_shstrndx,10,0),stdout);
-    fputs("\n",stdout);
-    fputs("\n",stdout);
-  }
   o=e_shoff;
   for(i=0;i<e_shnum;i=i+1){
-    if(verbose){
-      fputs("sh_name: ",stdout);
-      fputs(int2str(ri32(e+o),16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_type: ",stdout);
-    }
     sh_type=ri32(e+o+4);
-    if(verbose){
-      fputs(int2str(sh_type,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_offset: ",stdout);
-    }
     sh_offset=ri32(e+o+16);
-    if(verbose){
-      fputs(int2str(sh_offset,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_size: ",stdout);
-    }
     sh_size=ri32(e+o+20);
-    if(verbose){
-      fputs(int2str(sh_size,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_entsize: ",stdout);
-      fputs(int2str(ri32(e+o+36),16,0),stdout);
-      fputs("\n",stdout);
-    }
-    if(sh_type==3){
-      if(verbose){puts("SHT_STRTAB");}
-    }
     if(i==e_shstrndx){
-      if(verbose){puts(".shstrtab:");}
       o=e+sh_offset;
       for(j=0;j<e_shnum;j=j+1){
         sl=strlen(o);
-        if(verbose){
-          fputs(int2str(sl,10,0),stdout);
-          fputs(" ",stdout);
-          fputs(o,stdout);
-        }
         o=o+sl+1;
-        if(verbose){fputs("\n",stdout);}
       }
     }
-    if(verbose){fputs("\n",stdout);}
     o=o+e_shentsize;
   }
 
-  if(verbose){
-    fputs(".text:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(text+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
-  }
   sh_offset=ri32(text+sh_offset_o);
-  if(verbose){
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
-  }
   sh_size=ri32(text+sh_size_o);
-  if(verbose){
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-  }
   text_mem=malloc(sh_size);
   memcpy(text_mem,e+sh_offset,sh_size);
-  if(verbose){
-    fputs("text_mem address: 0x",stdout);
-    fputs(int2str(text_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(text_mem,sh_size);
-    fputs("\n",stdout);
-  }
   wi32(obj_struct+(4*obj_text_o), text_mem);
   wi32(obj_struct+ (4*obj_text_size_o), sh_size);
 
-  if(verbose){
-    fputs(".data:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(data+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
-  }
   sh_offset=ri32(data+sh_offset_o);
-  if(verbose){
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
-  }
   sh_size=ri32(data+sh_size_o);
-  if(verbose){
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-  }
   data_mem=malloc(sh_size);
   memcpy(data_mem,e+sh_offset,sh_size);
-  if(verbose){
-    fputs("data_mem address: 0x",stdout);
-    fputs(int2str(data_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(data_mem,sh_size);
-  }
   wi32(obj_struct + (4 * obj_data_o), data_mem);
   wi32(obj_struct + (4 * obj_data_size_o), sh_size);
 
-  if(verbose){
-    fputs(".strtab:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(strtab+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
-  }
   sh_offset=ri32(strtab+sh_offset_o);
-  if(verbose){
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
-  }
   sh_size=ri32(strtab+sh_size_o);
-  if(verbose){
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-  }
   strtab_mem=malloc(sh_size);
   memcpy(strtab_mem,e+sh_offset,sh_size);
-  if(verbose){
-    fputs("strtab_mem address: 0x",stdout);
-    fputs(int2str(strtab_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(strtab_mem,sh_size);
-  }
   wi32(obj_struct + (4 * obj_strtab_o), strtab_mem);
   wi32(obj_struct + (4 * obj_strtab_size_o), sh_size);
 
-  if(verbose){
-    fputs(".symtab:\n",stdout);
-    fputs("sh_name: 0x",stdout);
-    fputs(int2str(ri32(symtab+sh_name_o),16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_offset: 0x",stdout);
-  }
   sh_offset=ri32(symtab+sh_offset_o);
-  if(verbose){
-    fputs(int2str(sh_offset,16,0),stdout);
-    fputs("\n",stdout);
-    fputs("sh_size: 0x",stdout);
-  }
   sh_size=ri32(symtab+sh_size_o);
-  if(verbose){
-    fputs(int2str(sh_size,16,0),stdout);
-    fputs("\n",stdout);
-  }
   sh_entsize=ri32(symtab+sh_entsize_o);
-  if(verbose){
-    fputs("sh_entsize: 0x",stdout);
-    fputs(int2str(sh_entsize,16,0),stdout);
-    fputs("\n",stdout);
-  }
   symtab_mem=malloc(sh_size);
   memcpy(symtab_mem,e+sh_offset,sh_size);
-  if(verbose){
-    fputs("symtab_mem address: 0x",stdout);
-    fputs(int2str(symtab_mem,16,0),stdout);
-    fputs("\n",stdout);
-    hex_dump(symtab_mem,sh_size);
-  }
   wi32(obj_struct + (4 * obj_symtab_o), symtab_mem);
   wi32(obj_struct + (4 * obj_symtab_size_o), sh_size);
 
   if(rel_text!=0){
-    if(verbose){
-      fputs(".rel.text:\n",stdout);
-      fputs("sh_name: 0x",stdout);
-      fputs(int2str(ri32(rel_text+sh_name_o),16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_offset: 0x",stdout);
-    }
     sh_offset=ri32(rel_text+sh_offset_o);
     if(verbose){
       fputs(int2str(sh_offset,16,0),stdout);
