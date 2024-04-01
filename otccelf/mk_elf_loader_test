@@ -3,7 +3,7 @@ tcc elf_loader.c -o artifacts/elf_loader_tcc.exe -ldl
 
 pushd .
 cd ../tcc_23/
-
+rm tcc.o
 ../otccelf/artifacts/elf_loader_tcc.exe -l ../tcc_10/tcc.o -o tcc.o -c tcc.c
 
 popd

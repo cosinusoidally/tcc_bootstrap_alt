@@ -1,7 +1,5 @@
 #include "elf_loader_support_tcc.c"
 
-int find_sym(int os, char *name);
-
 char *elf_buf;
 int sh_name_o;
 int sh_size_o;
@@ -46,18 +44,18 @@ int r_offset_o;
 int R_386_32;
 int R_386_PC32;
 
-int init_globals(void){
+init_globals(){
 /* FIXME this should be dynamic */
   elf_buf=malloc(1024*1024);
 }
 
-int ru8(int o) {
+ru8(o) {
   char *b;
   b=o;
   return b[0] & 0xFF;
 }
 
-int ri32(int o){
+ri32(o){
   int r;
   r=ru8(o+3);
   r=r << 8;
@@ -69,13 +67,13 @@ int ri32(int o){
   return r;
 }
 
-int wu8(int o, int v) {
+wu8(o, v) {
   char *b;
   b=o;
   b[0] = v & 0xFF;
 }
 
-int wi32(int o, int v){
+wi32(o, v){
   wu8(o,v&0xFF);
   v=v>>8;
   wu8(o+1,v&0xFF);
