@@ -1,0 +1,12 @@
+./mk_loader
+./artifacts/otccelf_js.exe elf_loader.c artifacts/elf_loader_otcc.exe
+chmod +x artifacts/elf_loader_otcc.exe
+
+pushd .
+cd ../tcc_23/
+rm tcc.o
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_10/tcc.o -o tcc.o -c tcc.c
+
+popd
+sha256sum ../tcc_23/tcc.o
+sha256sum -c sum_23
