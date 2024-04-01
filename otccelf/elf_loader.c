@@ -81,10 +81,31 @@ int2str(a, b, c){
   return "blah";
 }
 
-call_wrap(t, a, b){
-  puts("call_wrap unimpl");
-  exit(0);
+/* HACK otccelf will ignore the if an define call_wrap */
+
+stub2(a,b){
+  return a+b;
 }
+
+stub() {
+  return &stub2;
+}
+
+call_wrap(t, a, b){
+  int f;
+  printf("call_wrap called %x %d\n",t, a);
+  f=stub();
+  wi8(f,0xB8);
+  wi32(f+1,t);
+  wi8(f+5,0xFF);
+  wi8(f+6,0xE0);
+  printf("stub2 %x\n",f);
+/*  while(my_break){} */
+  return stub2(a, b);
+/*  return(*(int(*)())*(int*)(t))(a, b) */
+/*  exit(0); */
+}
+
 #endif
 
 hex_dump(e, l){
