@@ -46,6 +46,10 @@ int R_386_PC32;
 int p_size;
 int verbose;
 
+puts_num(x){
+  printf("%u\n",x);
+}
+
 init_globals(){
 /* FIXME this should be dynamic */
   elf_buf=malloc(1024*1024);
