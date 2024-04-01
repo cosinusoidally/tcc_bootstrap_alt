@@ -43,6 +43,8 @@ int ST_GLOBAL;
 int r_offset_o;
 int R_386_32;
 int R_386_PC32;
+int p_size;
+int verbose;
 
 init_globals(){
 /* FIXME this should be dynamic */
@@ -1111,7 +1113,6 @@ main(argc, argv)
   int j;
   int cur;
 
-  init_c();
   init_globals();
   init_offsets();
 

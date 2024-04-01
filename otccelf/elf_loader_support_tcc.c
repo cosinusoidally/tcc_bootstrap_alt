@@ -10,10 +10,6 @@ int call_wrap(FUNCTION t, int a, int b){
   return t(a,b);
 }
 
-int init_c(void){
-  p_size=1;
-}
-
 /* adapted from bootstrappable_load.c */
 char* int2str(int x, int base, int signed_p)
 {
