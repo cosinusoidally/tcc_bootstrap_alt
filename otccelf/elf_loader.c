@@ -1051,7 +1051,7 @@ relocate(o) {
 
 link(o){
   int objs;
-  int obji;
+  int obj;
   int name;
   int i;
 
@@ -1061,18 +1061,18 @@ link(o){
     puts("============================");
     puts("linking");
   }
-  while(obji = ri32(objs + (4 * i))){
-    name = ri32(obji + (4 * obj_name_o));
+  while(obj = ri32(objs + (4 * i))){
+    name = ri32(obj + (4 * obj_name_o));
     if(verbose){puts(name);}
-    if(ri32(obji + (4 * obj_linked_o)) != 0){
+    if(ri32(obj + (4 * obj_linked_o)) != 0){
       if(verbose){fputs("already linked\n",stdout);}
     } else {
       if(verbose){fputs("linking\n",stdout);}
-      gen_und_exports(obji);
+      gen_und_exports(obj);
       if(verbose){
-        dump_symtab(obji);
-        dump_exports(obji);
-        dump_unds(obji);
+        dump_symtab(obj);
+        dump_exports(obj);
+        dump_unds(obj);
       }
     }
     if(verbose){puts("");}
@@ -1086,15 +1086,15 @@ link(o){
     puts("============================");
     puts("relocation");
   }
-  while(obji = ri32(objs + (4 * i))){
-    if(ri32(obji + (4 * obj_linked_o)) != 0){
+  while(obj = ri32(objs + (4 * i))){
+    if(ri32(obj + (4 * obj_linked_o)) != 0){
       if(verbose){
         fputs("already relocated: ",stdout);
-        fputs(ri32(obji + (4 * obj_name_o)),stdout);
+        fputs(ri32(obj + (4 * obj_name_o)),stdout);
         fputs("\n",stdout);
       }
     } else {
-      relocate(obji);
+      relocate(obj);
     }
     i=i+1;
   }
