@@ -145,10 +145,6 @@ hex_dump(e, l){
 }
 
 dump_symtab(o){
-  if(verbose){
-    puts("===========");
-    puts("dump_symtab");
-  }
   int obj;
   int symtab;
   int symtab_size;
@@ -162,6 +158,10 @@ dump_symtab(o){
   int st_bind;
   int st_type;
   int st_shndx;
+  if(verbose){
+    puts("===========");
+    puts("dump_symtab");
+  }
 
   obj = o;
 
@@ -736,7 +736,7 @@ get_main(o){
 }
 
 gen_und_exports(o){
-  int obj=o;
+  int obj;
   int symtab;
   int symtab_size;
   int entsize;
@@ -753,6 +753,8 @@ gen_und_exports(o){
   int n_exports;
   int unds;
   int n_unds;
+
+  obj = o;
 
   n_exports=0;
   n_unds=0;
