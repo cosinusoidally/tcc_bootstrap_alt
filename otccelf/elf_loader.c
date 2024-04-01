@@ -1032,21 +1032,21 @@ relocate_section(o, name, rels, size, p){
   }
 }
 
-int relocate(int o) {
-  int *obj;
-  obj=o;
+relocate(o) {
+  int obji;
+  obji = o;
   if(verbose){
     fputs("relocate: ",stdout);
-    fputs(obj[obj_name_o],stdout);
+    fputs(ri32(obji + (4 * obj_name_o)),stdout);
     fputs("\n",stdout);
   }
-  relocate_section(obj, ".rel.text", obj[obj_rel_text_o],
-                                     obj[obj_rel_text_size_o],
-                                     obj[obj_text_o]);
-  relocate_section(obj, ".rel.data", obj[obj_rel_data_o],
-                                     obj[obj_rel_data_size_o],
-                                     obj[obj_data_o]);
-  obj[obj_linked_o]=1;
+  relocate_section(obji, ".rel.text", ri32(obji + (4 * obj_rel_text_o)),
+                                      ri32(obji + (4 * obj_rel_text_size_o)),
+                                      ri32(obji + (4 * obj_text_o)));
+  relocate_section(obji, ".rel.data", ri32(obji + (4 * obj_rel_data_o)),
+                                      ri32(obji + (4 * obj_rel_data_size_o)),
+                                      ri32(obji + (4 * obj_data_o)));
+  wi32(obji + (4 * obj_linked_o), 1);
 }
 
 int link(int o){
