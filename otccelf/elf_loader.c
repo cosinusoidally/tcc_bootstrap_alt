@@ -72,7 +72,7 @@ ri32(o) {
          (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
-void hex_dump(int e,int l){
+hex_dump(e, l){
   int i;
   int j;
   int k;
@@ -127,7 +127,7 @@ void hex_dump(int e,int l){
   fputs("\n", stdout);
 }
 
-int dump_symtab(int o){
+dump_symtab(o){
   if(verbose){
     puts("===========");
     puts("dump_symtab");
@@ -178,7 +178,7 @@ int dump_symtab(int o){
   }
 }
 
-int get_section_header(int e, char *str) {
+get_section_header(e, str) {
   int e_shoff;
   int e_shentsize;
   int e_shnum;
