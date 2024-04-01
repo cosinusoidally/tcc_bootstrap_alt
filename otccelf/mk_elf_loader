@@ -1,7 +1,11 @@
 ./mk_loader
 tcc elf_loader.c -o artifacts/elf_loader_tcc.exe -ldl
 
+pushd .
 cd ../tcc_23/
 
 ../otccelf/artifacts/elf_loader_tcc.exe -l ../tcc_10/tcc.o -o tcc.o -c tcc.c
-sha256sum tcc.o
+
+popd
+sha256sum ../tcc_23/tcc.o
+sha256sum -c sum_23
