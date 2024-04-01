@@ -44,6 +44,6 @@ char* int2str(int x, int base, int signed_p)
         return p + 1;
 }
 
-void puts_num(int x){
+puts_num(x){
   printf("%u\n",x);
 }
