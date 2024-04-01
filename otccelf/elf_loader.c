@@ -873,6 +873,7 @@ int find_sym(int os, char *name){
   int m;
   int n;
   int e;
+  int r;
   n=0;
   objs=os;
   if(verbose){
@@ -901,10 +902,16 @@ int find_sym(int os, char *name){
     }
     n=n+1;
   }
-  fputs("couldn't find: ",stdout);
-  fputs(name,stdout);
-  fputs("\n",stdout);
-  return 0;
+  r=dlsym(0,name);
+  if(r != 0) {
+    printf("found %s via dlsym\n", name);
+    return r;
+  } else {
+    fputs("couldn't find: ",stdout);
+    fputs(name,stdout);
+    fputs("\n",stdout);
+    return 0;
+  }
 }
 
 int resolve_und(int os){
