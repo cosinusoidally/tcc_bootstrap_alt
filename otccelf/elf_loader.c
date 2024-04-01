@@ -857,7 +857,7 @@ int gen_und_exports(int o){
 
 find_sym(os, name){
   int objs;
-  int *obj;
+  int obj;
   int *exports;
   int m;
   int n;
@@ -874,10 +874,10 @@ find_sym(os, name){
   while((obj = ri32(objs + (4 * n)))!=0){
     if(verbose){
       fputs("looking in: ",stdout);
-      fputs(obj[obj_name_o],stdout);
+      fputs(ri32(obj + (4 * obj_name_o)),stdout);
       fputs("\n",stdout);
     }
-    exports=obj[obj_exports_o];
+    exports = ri32(obj + (4 * obj_exports_o));
     if(exports!=0){
       if(verbose){puts("we have some exports");}
       m=0;
