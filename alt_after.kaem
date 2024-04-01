@@ -19,4 +19,4 @@
 
 # walk up through the tcc versions
 
-./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build.kaem
+./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./alt_build.kaem
