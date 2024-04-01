@@ -926,7 +926,7 @@ resolve_und(os){
   }
 }
 
-int dump_exports(o){
+dump_exports(o){
   int obj;
   int exports;
   int name;
