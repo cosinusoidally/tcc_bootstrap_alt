@@ -866,7 +866,7 @@ find_sym(os, name){
 resolve_und(os){
   int objs;
   int obj;
-  int undsi;
+  int unds;
   int m;
   int n;
   int u;
@@ -882,11 +882,11 @@ resolve_und(os){
       fputs(ri32(obj + (4 * obj_name_o)),stdout);
       fputs("\n",stdout);
     }
-    undsi = ri32(obj + (4 *obj_und_o));
-    if(undsi != 0){
+    unds = ri32(obj + (4 *obj_und_o));
+    if(unds != 0){
       if(verbose){puts("we have some unds:");}
       m=0;
-      while((u = ri32(undsi + (4 * ((2*m)+und_name_o)))) != 0){
+      while((u = ri32(unds + (4 * ((2*m)+und_name_o)))) != 0){
         if(verbose){puts(u);}
         addr=find_sym(os,u);
         if(addr==0){
@@ -894,7 +894,7 @@ resolve_und(os){
           exit(1);
         } else {
           if(verbose){puts("writing address of und sym");}
-          wi32(ri32(undsi + (4 * ((2*m)+und_val_o))), addr);
+          wi32(ri32(unds + (4 * ((2*m)+und_val_o))), addr);
         }
         m=m+1;
       }
