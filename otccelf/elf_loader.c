@@ -1106,6 +1106,7 @@ main(argc, argv)
   int t;
   int optind;
   int *objs;
+  int objsi;
   int objs_files;
   int i;
   int j;
@@ -1118,7 +1119,8 @@ main(argc, argv)
   verbose=0;
 
   /* enough for 8 objs */
-  objs=calloc(36,1);
+  objsi = calloc(36,1);
+  objs = objsi;
   /* filenames of input objects */
   objs_files = calloc(36,1);
 
