@@ -149,7 +149,8 @@ dump_symtab(o){
     puts("===========");
     puts("dump_symtab");
   }
-  int *obj=o;
+  int *obj;
+  int obji;
   int symtab;
   int symtab_size;
   int entsize;
@@ -163,7 +164,10 @@ dump_symtab(o){
   int st_type;
   int st_shndx;
 
-  symtab=obj[obj_symtab_o];
+  obji = o;
+  obj = obji;
+
+  symtab = ri32(obj + (4 * obj_symtab_o));
   symtab_size=obj[obj_symtab_size_o];
   entsize=16;
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
