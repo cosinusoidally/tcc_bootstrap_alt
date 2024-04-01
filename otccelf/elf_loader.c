@@ -1105,7 +1105,7 @@ main(argc, argv)
 {
   int t;
   int optind;
-  int objsi;
+  int objs;
   int objs_files;
   int i;
   int j;
@@ -1118,7 +1118,7 @@ main(argc, argv)
   verbose=0;
 
   /* enough for 8 objs */
-  objsi = calloc(36,1);
+  objs = calloc(36,1);
   /* filenames of input objects */
   objs_files = calloc(36,1);
 
@@ -1148,25 +1148,25 @@ main(argc, argv)
       break;
     }
   }
-  wi32(objsi, mk_host_obj());
+  wi32(objs, mk_host_obj());
   if(ri32(objs_files) == 0){
-    wi32(objsi + (4 * 1), load_elf("libc_boot.o"));
-    wi32(objsi + (4 * 2), load_elf("tcc.o"));
+    wi32(objs + (4 * 1), load_elf("libc_boot.o"));
+    wi32(objs + (4 * 2), load_elf("tcc.o"));
   } else {
     i=0;
     while((cur = ri32(objs_files + (4 * i))) !=0){
       fputs("loading: ",stdout);
       fputs(cur,stdout);
       fputs("\n",stdout);
-      wi32(objsi + (4 * (i+1)), load_elf(cur));
+      wi32(objs + (4 * (i+1)), load_elf(cur));
       i=i+1;
     }
   }
-  link(objsi);
+  link(objs);
   fputs("optind: ",stdout);
   fputs(int2str(optind,10,0),stdout);
   fputs("\n",stdout);
-  t=get_main(objsi);
+  t=get_main(objs);
   puts("============================");
   puts("calling main from elf file:");
   return call_wrap(t, argc - optind, argv + (4*optind));
