@@ -928,7 +928,7 @@ resolve_und(os){
 
 int dump_exports(o){
   int obj;
-  int *exports;
+  int exportsi;
   int name;
   int n;
   obj = o;
@@ -937,13 +937,13 @@ int dump_exports(o){
   fputs("obj: ",stdout);
   fputs(ri32(obj + (4 * obj_name_o)),stdout);
   fputs("\n",stdout);
-  exports = ri32(obj + (4 * obj_exports_o));
+  exportsi = ri32(obj + (4 * obj_exports_o));
   n=0;
-  while((name=exports[(2*n)+exp_name_o])!=0){
+  while((name = ri32(exportsi + (4 * ((2*n)+exp_name_o)))) != 0){
     fputs("name: ",stdout);
     fputs(name,stdout);
     fputs(" address: 0x",stdout);
-    fputs(int2str(exports[(2*n)+exp_address_o],16,0),stdout);
+    fputs(int2str(ri32(exportsi + (4 * ((2*n)+exp_address_o))),16,0),stdout);
     fputs("\n",stdout);
     n=n+1;
   }
