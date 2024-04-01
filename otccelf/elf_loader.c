@@ -953,6 +953,7 @@ dump_unds(o) {
 
 relocate_section(o, name, rels, size, p){
   int *obj;
+  int obji;
   int entsize;
   int sym_entsize;
   int i;
@@ -968,7 +969,8 @@ relocate_section(o, name, rels, size, p){
   int sym_name;
   int loc;
 
-  obj=o;
+  obji = o;
+  obj = obji;
   entsize=8;
   sym_entsize=16;
   symtab=obj[obj_symtab_o];
