@@ -973,13 +973,13 @@ relocate_section(o, name, rels, size, p){
   obj = obji;
   entsize=8;
   sym_entsize=16;
-  symtab=obj[obj_symtab_o];
-  strtab=obj[obj_strtab_o];
+  symtab = ri32(obji + (4 * obj_symtab_o));
+  strtab = ri32(obji + (4 * obj_strtab_o));
   if(verbose){
     fputs("relocating: ",stdout);
     fputs(name, stdout);
     fputs("  in: ", stdout);
-    fputs(obj[obj_name_o], stdout);
+    fputs(ri32(obji + (4 * obj_name_o)), stdout);
     fputs("\n",stdout);
   }
   if(size==0){
