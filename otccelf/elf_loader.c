@@ -930,7 +930,7 @@ int dump_exports(int o){
 
 dump_unds(o) {
   int obj;
-  int undsi;
+  int unds;
   int name;
   int n;
   obj=o;
@@ -939,13 +939,13 @@ dump_unds(o) {
   fputs("obj: ",stdout);
   fputs(ri32(obj + (4 * obj_name_o)),stdout);
   fputs("\n",stdout);
-  undsi = ri32(obj + (4 * obj_und_o));
+  unds = ri32(obj + (4 * obj_und_o));
   n=0;
-  while((name = ri32(undsi +  (4 * ((2*n)+und_name_o)))) != 0){
+  while((name = ri32(unds +  (4 * ((2*n)+und_name_o)))) != 0){
     fputs("name: ",stdout);
     fputs(name,stdout);
     fputs(" address: 0x",stdout);
-    fputs(int2str(ri32(ri32(undsi + (4 * ((2*n)+und_val_o)))),16,0),stdout);
+    fputs(int2str(ri32(ri32(unds + (4 * ((2*n)+und_val_o)))),16,0),stdout);
     fputs("\n",stdout);
     n=n+1;
   }
