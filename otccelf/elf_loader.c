@@ -49,38 +49,27 @@ init_globals(){
   elf_buf=malloc(1024*1024);
 }
 
-ru8(o) {
-  char *b;
-  b=o;
-  return b[0] & 0xFF;
+wi8(o, v){
+  *(char*)o = (v & 255);
 }
 
-ri32(o){
-  int r;
-  r=ru8(o+3);
-  r=r << 8;
-  r = r | ru8(o+2);
-  r=r << 8;
-  r = r | ru8(o+1);
-  r=r << 8;
-  r = r | ru8(o);
-  return r;
+ri8(o){
+ return *(char*)o;
 }
 
-wu8(o, v) {
-  char *b;
-  b=o;
-  b[0] = v & 0xFF;
+wi32(o, v) {
+  wi8(o,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+2,v&0xFF);
+  v=v>>8;
+  wi8(o+3,v&0xFF);
 }
 
-wi32(o, v){
-  wu8(o,v&0xFF);
-  v=v>>8;
-  wu8(o+1,v&0xFF);
-  v=v>>8;
-  wu8(o+2,v&0xFF);
-  v=v>>8;
-  wu8(o+3,v&0xFF);
+ri32(o) {
+  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
+         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
 void hex_dump(int e,int l){
@@ -106,12 +95,12 @@ void hex_dump(int e,int l){
     fputs(": ",stdout);
     j=0;
     while(j<8) { 
-      v=ru8(e+i);
+      v=ri8(e+i);
       if(v<16) {
         fputc('0', stdout);
       }
       fputs(int2str(v,16,0), stdout);
-      v=ru8(e+i+1);
+      v=ri8(e+i+1);
       if(v<16) {
         fputc('0', stdout);
       }
@@ -124,7 +113,7 @@ void hex_dump(int e,int l){
     i=i-16;
     j=0;
     while(j<16) {
-      v=ru8(e+i);
+      v=ri8(e+i);
       if(((' ' <= v) !=0) && ((v <= '~')!=0)) {
         fputc(v, stdout);
       } else {
@@ -166,7 +155,7 @@ int dump_symtab(int o){
     st_name=ri32(sym+st_name_o);
     st_name_str=obj[obj_strtab_o]+st_name;
     st_value=ri32(sym+st_value_o);
-    st_info=ru8(sym+st_info_o);
+    st_info=ri8(sym+st_info_o);
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
@@ -349,10 +338,10 @@ int decode_elf(int e, int os){
 
   obj_struct=os;
 
-  if(ru8(e+0)!=0x7F) { puts("magic 0");exit(1);}
-  if(ru8(e+1)!='E') { puts("magic 1");exit(1);}
-  if(ru8(e+2)!='L') { puts("magic 2");exit(1);}
-  if(ru8(e+3)!='F') { puts("magic 3");exit(1);}
+  if(ri8(e+0)!=0x7F) { puts("magic 0");exit(1);}
+  if(ri8(e+1)!='E') { puts("magic 1");exit(1);}
+  if(ri8(e+2)!='L') { puts("magic 2");exit(1);}
+  if(ri8(e+3)!='F') { puts("magic 3");exit(1);}
   if(verbose){puts("ELF magic ok");}
   e_shoff=ri32(e+0x20);
   e_shentsize=ri32(e+0x2E) & 0xFFFF;
@@ -805,7 +794,7 @@ int gen_und_exports(int o){
     st_name=ri32(sym+st_name_o);
     st_name_str=obj[obj_strtab_o]+st_name;
     st_value=ri32(sym+st_value_o);
-    st_info=ru8(sym+st_info_o);
+    st_info=ri8(sym+st_info_o);
     st_type=st_info & 0xF;
     st_bind=st_info>>4;
     st_shndx=ri32(sym+st_shndx_o) & 0xFFFF;
