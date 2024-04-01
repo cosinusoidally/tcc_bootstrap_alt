@@ -268,7 +268,8 @@ init_offsets(){
   R_386_32=1;
   R_386_PC32=2;
 }
-print_relocs(char *name,int *o){
+
+print_relocs(name, o){
   int i;
   int r_info;
   int r_sym;
@@ -278,8 +279,8 @@ print_relocs(char *name,int *o){
   if(verbose==0){
     return;
   }
-  ptr=o[obj_rel_text_o];
-  size=o[obj_rel_text_size_o];
+  ptr=ri32(o + (4*obj_rel_text_o));
+  size=ri32(o + (4*obj_rel_text_size_o));
   if(verbose){
     fputs("\n",stdout);
     fputs(name,stdout);
@@ -294,7 +295,8 @@ print_relocs(char *name,int *o){
       fputs(int2str(r_sym,16,0),stdout);
       fputs("\n",stdout);
     }
-    sym_name=o[obj_strtab_o]+ri32(o[obj_symtab_o]+(16*r_sym));
+    sym_name=ri32(o+ (4*obj_strtab_o))+
+             ri32(ri32(o+(4*obj_symtab_o))+(16*r_sym));
     if(verbose){
       fputs("sym_name: ",stdout);
       fputs(sym_name,stdout);
