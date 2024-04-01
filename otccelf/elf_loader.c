@@ -864,7 +864,7 @@ find_sym(os, name){
 }
 
 resolve_und(os){
-  int *objs;
+  int objs;
   int *obj;
   int *unds;
   int m;
@@ -873,8 +873,9 @@ resolve_und(os){
   int addr;
   n=0;
   objs=os;
+
   if(verbose){puts("resolve_und");}
-  while((obj=objs[n])!=0){
+  while((obj = ri32(objs + (4 * n))) != 0){
     if(verbose){
       fputs("resolving_und in: ",stdout);
       fputs(obj[obj_name_o],stdout);
