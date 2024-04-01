@@ -1101,9 +1101,9 @@ link(o){
   if(verbose){puts("============================");}
 }
 
-int main(int argc, char **argv)
+main(int argc, char **argv)
 {
-  FUNCTION t;
+  int t;
   int optind;
   int *objs;
   int *objs_files;
