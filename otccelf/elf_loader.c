@@ -748,7 +748,7 @@ mk_host_obj(){
   return obj;
 }
 
-int get_main(int o){
+get_main(o){
   int ms;
   ms=find_sym(o,"main");
   fputs("main address: 0x",stdout);
@@ -759,6 +759,7 @@ int get_main(int o){
 
 int gen_und_exports(int o){
   int *obj=o;
+  int obji=o;
   int symtab;
   int symtab_size;
   int entsize;
@@ -782,14 +783,14 @@ int gen_und_exports(int o){
   exports=calloc(exp_size*1024,1);
   unds=calloc(und_size*1024,1);
 
-  symtab=obj[obj_symtab_o];
-  symtab_size=obj[obj_symtab_size_o];
+  symtab = ri32(obji + (4 * obj_symtab_o));
+  symtab_size = ri32(obji + (4 * obj_symtab_size_o));
   entsize=16;
   if(verbose){
     puts("gen_und_exports (export table and undefined symbol table)");
   }
-  obj[obj_exports_o] = exports;
-  obj[obj_und_o] = unds;
+  wi32(obji + (4 * obj_exports_o), exports);
+  wi32(obji + (4 * obj_und_o), unds);
   for(i=0;i<obj[obj_symtab_size_o];i=i+entsize){
     sym=i+symtab;
     hex_dump(sym,entsize);
