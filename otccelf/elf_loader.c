@@ -1110,8 +1110,6 @@ main(argc, argvi)
   int i;
   int j;
   int cur;
-  char **argv;
-  argv = argvi;
 
   init_c();
   init_globals();
@@ -1128,7 +1126,7 @@ main(argc, argvi)
 
   optind = 1;
 
-  if(strcmp(argv[optind],"-v") == 0){
+  if(strcmp(ri32(argvi + (4 * optind)),"-v") == 0){
     verbose=1;
     optind = optind + 1;
     puts("verbose mode");
