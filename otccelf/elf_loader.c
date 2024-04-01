@@ -679,25 +679,27 @@ load_elf(name){
   return obj_struct;
 }
 
-int not_impl(void){
+not_impl(){
   puts("not impl");
   exit(1);
 }
 
-int mk_host_obj(void){
-  int *obj;
-  int *e;
+mk_host_obj(){
+  int obj;
+  int e;
   int n;
   n=0;
   e=calloc(exp_size*16,1);
   obj=calloc(obj_struct_size,1);
-  obj[obj_name_o]="host.o";
-  obj[obj_linked_o]=1;
-  obj[obj_exports_o]=e;
+  wi32(obj + (4 *obj_name_o), "host.o");
+  wi32(obj + (4 *obj_linked_o), 1);
+  wi32(obj + (4 * obj_exports_o), e);
   /*
     need to use accessors to get addresses of stdout etc since cc_x86 does not
     support &stdout etc
   */
+/* HACK disable all these since not needed with otccelf version */
+/*
   e[n+exp_name_o]="stdout";
   e[n+exp_address_o]=get_stdout();
   n=n+(exp_size>>2);
@@ -742,7 +744,7 @@ int mk_host_obj(void){
   n=n+(exp_size>>2);
   e[n+exp_name_o]="fclose";
   e[n+exp_address_o]=fclose_tramp;
-
+*/
   return obj;
 }
 
