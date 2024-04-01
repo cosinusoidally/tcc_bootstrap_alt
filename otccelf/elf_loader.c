@@ -309,7 +309,7 @@ print_relocs(name, o){
   }
 }
 
-int decode_elf(int e, int os){
+decode_elf(e, os){
   int e_shoff;
   int e_shentsize;
   int e_shnum;
@@ -337,8 +337,10 @@ int decode_elf(int e, int os){
   int rel_text_mem;
   int rel_data_mem;
   int *obj_struct;
+  int obj_structi;
 
   obj_struct=os;
+  obj_structi=os;
 
   if(ri8(e+0)!=0x7F) { puts("magic 0");exit(1);}
   if(ri8(e+1)!='E') { puts("magic 1");exit(1);}
@@ -447,8 +449,8 @@ int decode_elf(int e, int os){
     hex_dump(text_mem,sh_size);
     fputs("\n",stdout);
   }
-  obj_struct[obj_text_o]=text_mem;
-  obj_struct[obj_text_size_o]=sh_size;
+  wi32(obj_structi+(4*obj_text_o), text_mem);
+  wi32(obj_structi+ (4*obj_text_size_o), sh_size);
 
   if(verbose){
     fputs(".data:\n",stdout);
@@ -476,8 +478,8 @@ int decode_elf(int e, int os){
     fputs("\n",stdout);
     hex_dump(data_mem,sh_size);
   }
-  obj_struct[obj_data_o]=data_mem;
-  obj_struct[obj_data_size_o]=sh_size;
+  wi32(obj_structi + (4 * obj_data_o), data_mem);
+  wi32(obj_structi + (4 * obj_data_size_o), sh_size);
 
   if(verbose){
     fputs(".strtab:\n",stdout);
