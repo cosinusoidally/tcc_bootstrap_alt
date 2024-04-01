@@ -1049,18 +1049,20 @@ relocate(o) {
   wi32(obj + (4 * obj_linked_o), 1);
 }
 
-int link(int o){
+link(o){
   int *objs;
+  int objsi;
   int *obj;
   int name;
   int i;
-  objs=o;
+  objsi = o;
+  objs = objsi;
   i=0;
   if(verbose){
     puts("============================");
     puts("linking");
   }
-  while(obj=objs[i]){
+  while(obj = ri32(objsi + (4 * i))){
     name=obj[obj_name_o];
     if(verbose){puts(name);}
     if(obj[obj_linked_o]!=0){
