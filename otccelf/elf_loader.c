@@ -928,18 +928,18 @@ int dump_exports(int o){
   }
 }
 
-int dump_unds(int o) {
-  int *obj;
-  obj=o;
+dump_unds(o) {
+  int obj;
   int *unds;
   int name;
   int n;
+  obj=o;
   puts("==========");
   puts("dump_unds");
   fputs("obj: ",stdout);
-  fputs(obj[obj_name_o],stdout);
+  fputs(ri32(obj + (4 * obj_name_o)),stdout);
   fputs("\n",stdout);
-  unds=obj[obj_und_o];
+  unds = ri32(obj + (4 * obj_und_o));
   n=0;
   while((name=unds[(2*n)+und_name_o])!=0){
     fputs("name: ",stdout);
