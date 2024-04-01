@@ -855,7 +855,7 @@ int gen_und_exports(int o){
   }
 }
 
-int find_sym(int os, char *name){
+find_sym(os, name){
   int *objs;
   int *obj;
   int *exports;
