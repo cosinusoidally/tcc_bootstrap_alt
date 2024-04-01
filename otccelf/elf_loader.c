@@ -700,50 +700,9 @@ mk_host_obj(){
   */
 /* HACK disable all these since not needed with otccelf version */
 /*
-  e[n+exp_name_o]="stdout";
-  e[n+exp_address_o]=get_stdout();
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="stdin";
-  e[n+exp_address_o]=get_stdin();
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="stderr";
-  e[n+exp_address_o]=get_stderr();
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="fputs";
-  e[n+exp_address_o]=fputs_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="calloc";
-  e[n+exp_address_o]=calloc_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="exit";
-  e[n+exp_address_o]=exit_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="fputc";
-  e[n+exp_address_o]=fputc_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="free";
-  e[n+exp_address_o]=free_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="malloc";
-  e[n+exp_address_o]=malloc_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="realloc";
-  e[n+exp_address_o]=realloc_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="open";
-  e[n+exp_address_o]=open_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="close";
-  e[n+exp_address_o]=close_tramp;
-  n=n+(exp_size>>2);
-  e[n+exp_name_o]="read";
-  e[n+exp_address_o]=read_tramp;
-  n=n+(exp_size>>2);
   e[n+exp_name_o]="fopen";
   e[n+exp_address_o]=fopen_tramp;
   n=n+(exp_size>>2);
-  e[n+exp_name_o]="fclose";
-  e[n+exp_address_o]=fclose_tramp;
 */
   return obj;
 }
@@ -904,7 +863,7 @@ find_sym(os, name){
   }
 }
 
-int resolve_und(int os){
+resolve_und(os){
   int *objs;
   int *obj;
   int *unds;
