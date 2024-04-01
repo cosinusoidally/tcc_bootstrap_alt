@@ -716,7 +716,7 @@ get_main(o){
   return ms;
 }
 
-int gen_und_exports(int o){
+gen_und_exports(o){
   int obj=o;
   int symtab;
   int symtab_size;
