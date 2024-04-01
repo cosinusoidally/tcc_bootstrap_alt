@@ -1137,13 +1137,13 @@ main(argc, argvi)
   puts("running elf files");
   j=0;
   for(i=optind;i<argc;i=i+1){
-    cur=argv[i];
+    cur= ri32(argvi + (4 *i));
     if(strcmp(cur, "-l") == 0){
       fputs("load elf file: ",stdout);
       i=i+1;
-      objs_files[j]=argv[i];
+      objs_files[j]=ri32(argvi + (4 *i));
       j=j+1;
-      fputs(argv[i],stdout);
+      fputs(ri32(argvi + (4 * i)),stdout);
       fputs("\n",stdout);
       optind=i;
     } else {
@@ -1171,5 +1171,5 @@ main(argc, argvi)
   t=get_main(objs);
   puts("============================");
   puts("calling main from elf file:");
-  return call_wrap(t, argc - optind, argv + (p_size*optind));
+  return call_wrap(t, argc - optind, argvi + (4*optind));
 }
