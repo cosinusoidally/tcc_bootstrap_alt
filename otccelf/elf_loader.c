@@ -952,8 +952,7 @@ dump_unds(o) {
 }
 
 relocate_section(o, name, rels, size, p){
-  int *obj;
-  int obji;
+  int obj;
   int entsize;
   int sym_entsize;
   int i;
@@ -969,17 +968,16 @@ relocate_section(o, name, rels, size, p){
   int sym_name;
   int loc;
 
-  obji = o;
-  obj = obji;
+  obj = o;
   entsize=8;
   sym_entsize=16;
-  symtab = ri32(obji + (4 * obj_symtab_o));
-  strtab = ri32(obji + (4 * obj_strtab_o));
+  symtab = ri32(obj + (4 * obj_symtab_o));
+  strtab = ri32(obj + (4 * obj_strtab_o));
   if(verbose){
     fputs("relocating: ",stdout);
     fputs(name, stdout);
     fputs("  in: ", stdout);
-    fputs(ri32(obji + (4 * obj_name_o)), stdout);
+    fputs(ri32(obj + (4 * obj_name_o)), stdout);
     fputs("\n",stdout);
   }
   if(size==0){
