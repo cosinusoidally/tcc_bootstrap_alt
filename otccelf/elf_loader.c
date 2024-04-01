@@ -927,19 +927,17 @@ resolve_und(os){
 }
 
 int dump_exports(o){
-  int *obj;
-  int obji;
+  int obj;
   int *exports;
   int name;
   int n;
-  obji = o;
-  obj = obji;
+  obj = o;
   puts("==========");
   puts("dump_exports:");
   fputs("obj: ",stdout);
-  fputs(obj[obj_name_o],stdout);
+  fputs(ri32(obj + (4 * obj_name_o)),stdout);
   fputs("\n",stdout);
-  exports=obj[obj_exports_o];
+  exports = ri32(obj + (4 * obj_exports_o));
   n=0;
   while((name=exports[(2*n)+exp_name_o])!=0){
     fputs("name: ",stdout);
