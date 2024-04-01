@@ -774,13 +774,15 @@ int gen_und_exports(int o){
   int exports;
   int n_exports;
   int *unds;
+  int undsi;
   int n_unds;
 
   n_exports=0;
   n_unds=0;
   /* FIXME this should not be 1024 it should be calculated */
   exports=calloc(exp_size*1024,1);
-  unds=calloc(und_size*1024,1);
+  undsi=calloc(und_size*1024,1);
+  unds=undsi;
 
   symtab = ri32(obj + (4 * obj_symtab_o));
   symtab_size = ri32(obj + (4 * obj_symtab_size_o));
@@ -789,7 +791,7 @@ int gen_und_exports(int o){
     puts("gen_und_exports (export table and undefined symbol table)");
   }
   wi32(obj + (4 * obj_exports_o), exports);
-  wi32(obj + (4 * obj_und_o), unds);
+  wi32(obj + (4 * obj_und_o), undsi);
   for(i=0;i< ri32(obj + (4 * obj_symtab_size_o));i=i+entsize){
     sym=i+symtab;
     hex_dump(sym,entsize);
@@ -821,8 +823,8 @@ int gen_und_exports(int o){
       if(verbose){puts("OBJECT or FUNCTION");}
       if(st_shndx==0){
         if(verbose){puts("UND");}
-        unds[(n_unds*2)+und_name_o]=st_name_str;
-        unds[(n_unds*2)+und_val_o]=sym+st_value_o;
+        wi32(undsi + (4 * ((n_unds*2)+und_name_o)), st_name_str);
+        wi32(undsi + (4 * ((n_unds*2)+und_val_o)), sym+st_value_o);
 /* dummy test */
 /*        wi32(unds[(n_unds*2)+und_val_o],0x12345678); */
         n_unds=n_unds+1;
@@ -851,7 +853,7 @@ int gen_und_exports(int o){
     puts("exports:");
     hex_dump(exports, n_exports*8);
     puts("unds:");
-    hex_dump(unds,n_unds*8);
+    hex_dump(undsi, n_unds*8);
   }
 }
 
