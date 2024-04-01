@@ -1106,7 +1106,6 @@ main(argc, argv)
   int t;
   int optind;
   int *objs;
-  int *objs_files;
   int objs_filesi;
   int i;
   int j;
@@ -1122,7 +1121,6 @@ main(argc, argv)
   objs=calloc(36,1);
   /* filenames of input objects */
   objs_filesi = calloc(36,1);
-  objs_files = objs_filesi;
 
   puts("elf loader starting");
 
@@ -1156,7 +1154,7 @@ main(argc, argv)
     objs[2]=load_elf("tcc.o");
   } else {
     i=0;
-    while((cur = ri32(objs_files + (4 * i))) !=0){
+    while((cur = ri32(objs_filesi + (4 * i))) !=0){
       fputs("loading: ",stdout);
       fputs(cur,stdout);
       fputs("\n",stdout);
