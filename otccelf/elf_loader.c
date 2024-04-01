@@ -758,8 +758,7 @@ get_main(o){
 }
 
 int gen_und_exports(int o){
-  int *obj=o;
-  int obji=o;
+  int obj=o;
   int symtab;
   int symtab_size;
   int entsize;
@@ -783,19 +782,19 @@ int gen_und_exports(int o){
   exports=calloc(exp_size*1024,1);
   unds=calloc(und_size*1024,1);
 
-  symtab = ri32(obji + (4 * obj_symtab_o));
-  symtab_size = ri32(obji + (4 * obj_symtab_size_o));
+  symtab = ri32(obj + (4 * obj_symtab_o));
+  symtab_size = ri32(obj + (4 * obj_symtab_size_o));
   entsize=16;
   if(verbose){
     puts("gen_und_exports (export table and undefined symbol table)");
   }
-  wi32(obji + (4 * obj_exports_o), exports);
-  wi32(obji + (4 * obj_und_o), unds);
-  for(i=0;i< ri32(obji + (4 * obj_symtab_size_o));i=i+entsize){
+  wi32(obj + (4 * obj_exports_o), exports);
+  wi32(obj + (4 * obj_und_o), unds);
+  for(i=0;i< ri32(obj + (4 * obj_symtab_size_o));i=i+entsize){
     sym=i+symtab;
     hex_dump(sym,entsize);
     st_name=ri32(sym+st_name_o);
-    st_name_str = ri32(obji + (4 * obj_strtab_o)) + st_name;
+    st_name_str = ri32(obj + (4 * obj_strtab_o)) + st_name;
     st_value=ri32(sym+st_value_o);
     st_info=ri8(sym+st_info_o);
     st_type=st_info & 0xF;
@@ -833,7 +832,7 @@ int gen_und_exports(int o){
         }
       } else {
         /* patch physical address into symtab */
-        st_value = ri32(obji + (4 * st_shndx)) + st_value;
+        st_value = ri32(obj + (4 * st_shndx)) + st_value;
         wi32(sym+st_value_o,st_value);
         if(st_bind==ST_GLOBAL) {
           if(verbose){puts("export");}
