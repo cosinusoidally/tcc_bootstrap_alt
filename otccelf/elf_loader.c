@@ -78,6 +78,19 @@ ri32(o) {
          (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
+#if 0
+int2str(x, base, signed_p){
+  puts("int2str unimpl");
+  exit(0);
+}
+
+call_wrap(t, a, b){
+  puts("call_wrap unimpl");
+  exit(0);
+}
+
+#endif
+
 hex_dump(e, l){
   int i;
   int j;
