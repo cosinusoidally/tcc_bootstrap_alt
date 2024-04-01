@@ -1,5 +1,5 @@
 ./mk_loader
-tcc elf_loader.c -o artifacts/elf_loader_tcc.exe -ldl
+tcc elf_loader_tcc.c -o artifacts/elf_loader_tcc.exe -ldl
 
 pushd .
 cd ../tcc_23/

@@ -43,3 +43,5 @@ char* int2str(int x, int base, int signed_p)
 
         return p + 1;
 }
+
+#include "elf_loader.c"

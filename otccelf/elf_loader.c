@@ -1,5 +1,3 @@
-#include "elf_loader_support_tcc.c"
-
 int elf_buf;
 int sh_name_o;
 int sh_size_o;
