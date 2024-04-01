@@ -90,6 +90,7 @@ call_wrap(t, a, b){
 #endif
 
 hex_dump(e, l){
+/*
   int i;
   int j;
   int k;
@@ -142,9 +143,11 @@ hex_dump(e, l){
     fputs("\n",stdout);
   }
   fputs("\n", stdout);
+*/
 }
 
 dump_symtab(o){
+/*
   int obj;
   int symtab;
   int symtab_size;
@@ -195,6 +198,7 @@ dump_symtab(o){
       fputs("\n",stdout);
     }
   }
+*/
 }
 
 get_section_header(e, str) {
@@ -289,6 +293,7 @@ init_offsets(){
 }
 
 print_relocs(name, o){
+/*
   int i;
   int r_info;
   int r_sym;
@@ -307,7 +312,9 @@ print_relocs(name, o){
   }
   for(i=0;i<size;i=i+8){
     r_info=ri32(ptr+i+r_info_o);
+*/
     /* FIXME use unsigned shift */
+/*
     r_sym=r_info>>8;
     if(verbose){
       fputs("r_info: 0x",stdout);
@@ -326,6 +333,7 @@ print_relocs(name, o){
   if(verbose){
     fputs("\n",stdout);
   }
+*/
 }
 
 decode_elf(e, os){
@@ -927,6 +935,7 @@ resolve_und(os){
 }
 
 dump_exports(o){
+/*
   int obj;
   int exports;
   int name;
@@ -947,6 +956,7 @@ dump_exports(o){
     fputs("\n",stdout);
     n=n+1;
   }
+*/
 }
 
 dump_unds(o) {
