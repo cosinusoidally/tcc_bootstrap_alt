@@ -27,7 +27,7 @@ function inp (){
   } else {
     ch=fgetc(file);
 /* DEBUG */
-    fputc(ch,stdout);
+/*    fputc(ch,stdout); */
   }
 }
 
