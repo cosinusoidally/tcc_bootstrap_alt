@@ -1,3 +1,5 @@
+# bootstrap path using otccelf
+
 ./mk_clean
 ./mk_from_bootstrap_seed_clean
 cd ./otccelf/
