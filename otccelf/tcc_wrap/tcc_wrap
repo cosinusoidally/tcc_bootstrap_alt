@@ -1,0 +1,5 @@
+#!/bin/bash
+
+scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
+
+$scriptDir/../artifacts/elf_loader_otcc.exe -l $scriptDir/../../tcc_27/libtcc1.o -l $scriptDir/../../tcc_27/tcc.o $@
