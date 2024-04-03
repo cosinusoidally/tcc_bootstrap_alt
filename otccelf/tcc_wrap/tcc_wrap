@@ -1,0 +1,5 @@
+#!/bin/bash
+
+scriptDir=$(dirname -- "$(readlink -f -- "$BASH_SOURCE")")
+
+echo $scriptDir
