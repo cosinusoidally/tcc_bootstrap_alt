@@ -1,3 +1,4 @@
+./mk_otccelf
 pushd .
 cd otccelf/tcc_wrap
 export PATH=$PWD:$PATH
@@ -8,6 +9,6 @@ tcc_wrap -nostdinc -nostdlib -o tcc_bin/tcc_boot3.o -c ../tcc_src/tcc.c -D__linu
 tcc_wrap -nostdinc -nostdlib -o my_libc.o -c my_libc.c -O0 -I ../includes/usr/include/:../includes/usr/include/i386-linux-gnu/:../includes/tmp/tcc/lib/tcc/include/
 tcc_wrap -nostdinc -nostdlib -o stubs.o -c stubs.c -O0 -I ../includes/usr/include/:../includes/usr/include/i386-linux-gnu/:../includes/tmp/tcc/lib/tcc/include/
 
-# ./bootstrap_tcc.sh
-# cd ../../tcc_bootstrap_alt
+./bootstrap_tcc.sh
+cd ../../tcc_bootstrap_alt
 sha256sum -c sum_mmvm
