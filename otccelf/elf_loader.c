@@ -582,6 +582,10 @@ find_sym(os, name){
     n=n+1;
   }
   r=dlsym(0,name);
+  if(r == 0){
+    /* try finding the symbol in libm */
+    r = dlsym(libm, name);
+  }
   if(r != 0) {
     printf("found %s via dlsym\n", name);
     return r;
