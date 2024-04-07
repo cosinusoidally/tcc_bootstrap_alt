@@ -265,7 +265,8 @@ void load(int r, int ft, int fc)
 
         if (v == VT_CONST) {
             o(0x05 + r * 8); /* 0xXX, r */
-printf("\n load1 %x\n",ind);
+// DEBUG LOGGING
+// printf("\n load1 %x\n",ind);
 lt=1;
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
@@ -276,7 +277,8 @@ lt=1;
     } else {
         if (v == VT_CONST) {
             o(0xb8 + r); /* mov $xx, r */
-printf("\n load2 %x\n",ind);
+// DEBUG LOGGING
+// printf("\n load2 %x\n",ind);
 lt=2;
             gen_addr32(fc, ft);
         } else if (v == VT_LOCAL) {
