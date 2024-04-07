@@ -685,7 +685,8 @@ static inline void inp(void)
                 redo=1;
         }
     }
-    printf("%c",ch1);
+// DEBUG LOGGING
+//    printf("%c",ch1);
     if (ch1 == '\n')
         line_num++;
     //    printf("ch1=%c 0x%x\n", ch1, ch1);
