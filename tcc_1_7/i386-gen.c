@@ -316,7 +316,8 @@ void store(r, ft, fc)
     if (fr == VT_CONST) {
         o(0x05 + r * 8); /* mov r,xxx */
 lt=1;
-printf("\nstore 32 ind: %x\n",ind);
+// DEBUG LOGGING
+// printf("\nstore 32 ind: %x\n",ind);
         gen_addr32(fc, ft);
     } else if (fr == VT_LOCAL) {
         oad(0x85 + r * 8, fc); /* mov r,xxx(%ebp) */
