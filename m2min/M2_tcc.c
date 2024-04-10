@@ -533,14 +533,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
 
-int char2hex(int c)
-{
-	if (c >= '0' && c <= '9') return (c - 48);
-	else if (c >= 'a' && c <= 'f') return (c - 87);
-	else if (c >= 'A' && c <= 'F') return (c - 55);
-	else return -1;
-}
-
 int escape_lookup(char* c);
 int weird(char* string)
 {
