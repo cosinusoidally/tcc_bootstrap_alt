@@ -145,6 +145,31 @@ struct conditional_inclusion* conditional_inclusion_top;
 /* point where we are currently modifying the global_token list */
 struct token_list* macro_token;
 
+/* Global lists */
+struct token_list* global_symbol_list;
+struct token_list* global_function_list;
+struct token_list* global_constant_list;
+
+/* Core lists for this file */
+struct token_list* function;
+
+/* What we are currently working on */
+struct type* current_target;
+char* break_target_head;
+char* break_target_func;
+char* break_target_num;
+char* continue_target_head;
+struct token_list* break_frame;
+int current_count;
+
+/* Imported functions */
+char* int2str(int x, int base, int signed_p);
+char* parse_string(char* string);
+int escape_lookup(char* c);
+void require(int bool, char* error);
+struct token_list* reverse_list(struct token_list* head);
+struct type* mirror_type(struct type* source, char* name);
+struct type* add_primitive(struct type* a);
 
 void require(int bool, char* error)
 {
@@ -505,8 +530,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
 
-int escape_lookup(char* c);
-
 /* Lookup escape values */
 int escape_lookup(char* c)
 {
@@ -678,32 +701,6 @@ struct type* type_name()
 	return ret;
 }
 
-
-/* Global lists */
-struct token_list* global_symbol_list;
-struct token_list* global_function_list;
-struct token_list* global_constant_list;
-
-/* Core lists for this file */
-struct token_list* function;
-
-/* What we are currently working on */
-struct type* current_target;
-char* break_target_head;
-char* break_target_func;
-char* break_target_num;
-char* continue_target_head;
-struct token_list* break_frame;
-int current_count;
-
-/* Imported functions */
-char* int2str(int x, int base, int signed_p);
-char* parse_string(char* string);
-int escape_lookup(char* c);
-void require(int bool, char* error);
-struct token_list* reverse_list(struct token_list* head);
-struct type* mirror_type(struct type* source, char* name);
-struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head)
 {
