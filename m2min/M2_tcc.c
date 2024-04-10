@@ -1335,16 +1335,6 @@ char* store_value(unsigned size)
 
 int is_compound_assignment(char* token)
 {
-	if(match("+=", token)) return TRUE;
-	else if(match("-=", token)) return TRUE;
-	else if(match("*=", token)) return TRUE;
-	else if(match("/=", token)) return TRUE;
-	else if(match("%=", token)) return TRUE;
-	else if(match("<<=", token)) return TRUE;
-	else if(match(">>=", token)) return TRUE;
-	else if(match("&=", token)) return TRUE;
-	else if(match("^=", token)) return TRUE;
-	else if(match("|=", token)) return TRUE;
 	return FALSE;
 }
 
@@ -1929,10 +1919,6 @@ void expression()
 		common_recursion(expression);
 		emit_out(store);
 		current_target = integer;
-	}
-	else if(is_compound_assignment(global_token->s))
-	{
-		maybe_bootstrap_error("compound operator");
 	}
 }
 
