@@ -1834,16 +1834,7 @@ void bitwise_expr()
 void primary_expr()
 {
 	require(NULL != global_token, "Received EOF where primary expression expected\n");
-	if(match("&", global_token->s))
-	{
-		Address_of = TRUE;
-		global_token = global_token->next;
-		require(NULL != global_token, "Received EOF after & where primary expression expected\n");
-	}
-	else
-	{
-		Address_of = FALSE;
-	}
+	Address_of = FALSE;
 
 	if(match("sizeof", global_token->s)) unary_expr_sizeof();
 	else if('-' == global_token->s[0])
