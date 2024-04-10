@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "gcc_req.h"
 
 // CONSTANT FALSE 0
 #define FALSE 0
@@ -82,10 +83,6 @@ struct token_list
  * You should have received a copy of the GNU General Public License
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-
 
 #define TRUE 1
 #define FALSE 0
@@ -608,8 +605,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdint.h>
-
 struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
 
@@ -1130,8 +1125,6 @@ struct type* type_name()
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gcc_req.h"
-#include <stdint.h>
 
 /* Global lists */
 struct token_list* global_symbol_list;
@@ -2727,7 +2720,6 @@ void recursive_output(struct token_list* head, FILE* out)
  * You should have received a copy of the GNU General Public License
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "gcc_req.h"
 
 void require(int bool, char* error);
 int strtoint(char* a);
@@ -2814,9 +2806,6 @@ void eat_newline_tokens()
  * You should have received a copy of the GNU General Public License
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include<stdlib.h>
-#include<stdio.h>
-#include<string.h>
 
 /* The core functions */
 void initialize_types();
