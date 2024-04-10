@@ -2896,11 +2896,8 @@ int main(int argc, char** argv)
 	}
 	global_token = reverse_list(global_token);
 
-	if (BOOTSTRAP_MODE)
-	{
-		global_token = remove_line_comment_tokens(global_token);
-		global_token = remove_preprocessor_directives(global_token);
-	}
+	global_token = remove_line_comment_tokens(global_token);
+	global_token = remove_preprocessor_directives(global_token);
 
 	/* the main parser doesn't know how to handle newline tokens */
 	eat_newline_tokens();
@@ -2913,14 +2910,11 @@ int main(int argc, char** argv)
 	/* Output the program we have compiled */
 	fputs("\n# Core program\n", destination_file);
 	recursive_output(output_list, destination_file);
-	if(KNIGHT_NATIVE == Architecture) fputs("\n", destination_file);
-	else if(DEBUG) fputs("\n:ELF_data\n", destination_file);
 	fputs("\n# Program global variables\n", destination_file);
 	recursive_output(globals_list, destination_file);
 	fputs("\n# Program strings\n", destination_file);
 	recursive_output(strings_list, destination_file);
-	if(KNIGHT_NATIVE == Architecture) fputs("\n:STACK\n", destination_file);
-	else if(!DEBUG) fputs("\n:ELF_end\n", destination_file);
+	fputs("\n:ELF_end\n", destination_file);
 
 exit_success:
 	if (destination_file != stdout)
