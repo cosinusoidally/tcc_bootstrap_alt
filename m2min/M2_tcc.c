@@ -2874,7 +2874,7 @@ int main(int argc, char** argv)
 	fclose(in);
 	i = i + 1;
 
-	destination_file = fopen(argv[i + 1], "w");
+	destination_file = fopen(argv[i], "w");
 	if(NULL == destination_file)
 	{
 		fputs("Unable to open for writing file: ", stderr);
@@ -2882,7 +2882,7 @@ int main(int argc, char** argv)
 		fputs("\n Aborting to avoid problems\n", stderr);
 		exit(EXIT_FAILURE);
 	}
-	i = i + 2;
+	i = i + 1;
 
 	BOOTSTRAP_MODE = TRUE;
 

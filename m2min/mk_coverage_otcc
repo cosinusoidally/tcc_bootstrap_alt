@@ -1,5 +1,5 @@
 ./mk_clean
 gcc -g -m32 -O0 --coverage M2_tcc.c -o artifacts/coverage.exe
-./artifacts/coverage.exe otccelf_cc_x86_full.c -o artifacts/otccelf_cc_x86_full.M1
+./artifacts/coverage.exe otccelf_cc_x86_full.c artifacts/otccelf_cc_x86_full.M1
 gcovr artifacts/ --html-details -o artifacts/example.html
 ~/ffnew/firefox/firefox artifacts/example.html
