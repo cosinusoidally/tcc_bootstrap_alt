@@ -2841,7 +2841,7 @@ int main(int argc, char** argv)
 	int DEBUG = FALSE;
 	FILE* in = stdin;
 	FILE* destination_file = stdout;
-	Architecture = 0; /* catch unset */
+	Architecture = X86;
 	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
 	char* arch;
 	char* name;
@@ -2898,23 +2898,13 @@ int main(int argc, char** argv)
 		else if(match(argv[i], "-A") || match(argv[i], "--architecture"))
 		{
 			arch = argv[i + 1];
-			if(match("x86", arch))
-			{
-				Architecture = X86;
-				init_macro_env("__i386__", "1", "--architecture", env);
-				env = env + 1;
-			}
-			else
-			{
-				fputs("Unknown architecture: ", stderr);
-				fputs(arch, stderr);
-				fputs(" know values are: x86\n", stderr);
-				exit(EXIT_FAILURE);
-			}
 			i = i + 2;
 		}
 	}
 	BOOTSTRAP_MODE = TRUE;
+
+	init_macro_env("__i386__", "1", "--architecture", env);
+	env = env + 1;
 
 	/* Deal with special case of architecture not being set */
 	if(0 == Architecture)
