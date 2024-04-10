@@ -898,13 +898,6 @@ void function_call(char* s, int bool)
 		emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-void constant_load(struct token_list* a)
-{
-	emit_out("mov_eax, %");
-	emit_out(a->arguments->s);
-	emit_out("\n");
-}
-
 char* load_value_signed(unsigned size)
 {
 	if(size == 1)
@@ -1095,11 +1088,6 @@ void primary_expr_variable()
 	char* s = global_token->s;
 	global_token = global_token->next;
 	struct token_list* a = sym_lookup(s, global_constant_list);
-	if(NULL != a)
-	{
-		constant_load(a);
-		return;
-	}
 
 	a = sym_lookup(s, function->locals);
 	if(NULL != a)
