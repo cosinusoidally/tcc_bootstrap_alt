@@ -1156,11 +1156,6 @@ void primary_expr_number()
 void primary_expr_variable()
 {
 	int num_dereference = 0;
-	while(global_token->s[0] == '*') {
-		global_token = global_token->next;
-		require(NULL != global_token, "Walked off the end of a variable dereference\n");
-		num_dereference = num_dereference + 1;
-	}
 	char* s = global_token->s;
 	global_token = global_token->next;
 	struct token_list* a = sym_lookup(s, global_constant_list);
