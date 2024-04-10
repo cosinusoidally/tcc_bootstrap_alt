@@ -1480,31 +1480,6 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
  *         postfix-expr . member
  */
 struct type* lookup_member(struct type* parent, char* name);
-void postfix_expr_arrow()
-{
-	emit_out("# looking up offset\n");
-	global_token = global_token->next;
-	require(NULL != global_token, "naked -> not allowed\n");
-
-	struct type* i = lookup_member(current_target, global_token->s);
-	current_target = i->type;
-	global_token = global_token->next;
-	require(NULL != global_token, "Unterminated -> expression not allowed\n");
-
-	if(0 != i->offset)
-	{
-		emit_out("# -> offset calculation\n");
-			emit_out("mov_ebx, %");
-			emit_out(int2str(i->offset, 10, TRUE));
-			emit_out("\nadd_eax,ebx\n");
-	}
-
-	/* We don't yet support assigning structs to structs */
-	if((!match("=", global_token->s) && !is_compound_assignment(global_token->s) && (register_size >= i->size)))
-	{
-		emit_out(load_value(i->size, i->is_signed));
-	}
-}
 
 void postfix_expr_array()
 {
@@ -1573,13 +1548,6 @@ void postfix_expr_stub()
 		postfix_expr_array();
 		postfix_expr_stub();
 	}
-
-	if(match("->", global_token->s))
-	{
-		postfix_expr_arrow();
-		postfix_expr_stub();
-	}
-
 }
 
 void postfix_expr()
