@@ -92,6 +92,56 @@ struct token_list
 	};
 };
 
+/* The core functions */
+void initialize_types();
+struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
+struct token_list* reverse_list(struct token_list* head);
+
+struct token_list* remove_line_comments(struct token_list* head);
+struct token_list* remove_line_comment_tokens(struct token_list* head);
+struct token_list* remove_preprocessor_directives(struct token_list* head);
+
+void eat_newline_tokens();
+void init_macro_env(char* sym, char* value, char* source, int num);
+void preprocess();
+void program();
+void recursive_output(struct token_list* i, FILE* out);
+int strtoint(char *a);
+
+/* What types we have */
+struct type* global_types;
+struct type* prim_types;
+
+/* What we are currently working on */
+struct token_list* global_token;
+
+/* Output reorder collections*/
+struct token_list* output_list;
+struct token_list* strings_list;
+struct token_list* globals_list;
+
+/* Make our string collection more efficient */
+char* hold_string;
+int string_index;
+
+/* Our Target Architecture */
+int Architecture;
+int register_size;
+
+int MAX_STRING;
+struct type* integer;
+
+/* enable bootstrap-mode */
+int BOOTSTRAP_MODE;
+
+
+int strtoint(char *a);
+
+/* Globals */
+FILE* input;
+struct token_list* token;
+int line;
+char* file;
 
 #define TRUE 1
 #define FALSE 0
@@ -183,41 +233,6 @@ char* int2str(int x, int base, int signed_p)
 
 	return p + 1;
 }
-
-/* What types we have */
-struct type* global_types;
-struct type* prim_types;
-
-/* What we are currently working on */
-struct token_list* global_token;
-
-/* Output reorder collections*/
-struct token_list* output_list;
-struct token_list* strings_list;
-struct token_list* globals_list;
-
-/* Make our string collection more efficient */
-char* hold_string;
-int string_index;
-
-/* Our Target Architecture */
-int Architecture;
-int register_size;
-
-int MAX_STRING;
-struct type* integer;
-
-/* enable bootstrap-mode */
-int BOOTSTRAP_MODE;
-
-
-int strtoint(char *a);
-
-/* Globals */
-FILE* input;
-struct token_list* token;
-int line;
-char* file;
 
 int grab_byte()
 {
@@ -2689,23 +2704,6 @@ void eat_newline_tokens()
 		}
 	}
 }
-
-
-/* The core functions */
-void initialize_types();
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
-struct token_list* reverse_list(struct token_list* head);
-
-struct token_list* remove_line_comments(struct token_list* head);
-struct token_list* remove_line_comment_tokens(struct token_list* head);
-struct token_list* remove_preprocessor_directives(struct token_list* head);
-
-void eat_newline_tokens();
-void init_macro_env(char* sym, char* value, char* source, int num);
-void preprocess();
-void program();
-void recursive_output(struct token_list* i, FILE* out);
-int strtoint(char *a);
 
 int main(int argc, char** argv)
 {
