@@ -640,14 +640,6 @@ void initialize_types()
 	integer = new_primitive("int", "int*", "int**", register_size, TRUE);
 	prim_types = add_primitive(integer);
 
-	/* Define uint32_t */
-	hold = new_primitive("uint32_t", "uint32_t*", "uint32_t**", 4, FALSE);
-	prim_types = add_primitive(hold);
-
-	/* Define int32_t */
-	hold = new_primitive("int32_t", "int32_t*", "int32_t**", 4, TRUE);
-	prim_types = add_primitive(hold);
-
 	/* Define char */
 	hold = new_primitive("char", "char*", "char**", 1, TRUE);
 	prim_types = add_primitive(hold);
