@@ -500,20 +500,6 @@ reset:
 	return c;
 }
 
-
-int consume_filename(int c)
-{
-puts("consume_filename unimpl");
-exit(1);
-}
-
-
-int change_filename(int ch)
-{
-puts("change_filename unimpl");
-exit(1);
-}
-
 struct token_list* reverse_list(struct token_list* head)
 {
 	struct token_list* root = NULL;
@@ -539,7 +525,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 	{
 		ch = get_token(ch);
 		require(NULL != token, "Empty files don't need to be compiled\n");
-		if(match("#FILENAME", token->s)) ch = change_filename(ch);
 	}
 
 	return token;
