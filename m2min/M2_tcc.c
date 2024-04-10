@@ -871,14 +871,6 @@ void require_match(char* message, char* required)
 	global_token = global_token->next;
 }
 
-void maybe_bootstrap_error(char* feature)
-{
-	line_error();
-	fputs(feature, stderr);
-	fputs(" is not supported in --bootstrap-mode\n", stderr);
-	exit(EXIT_FAILURE);
-}
-
 void expression();
 void function_call(char* s, int bool)
 {
