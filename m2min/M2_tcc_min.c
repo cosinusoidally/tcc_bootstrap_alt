@@ -695,7 +695,6 @@ char* break_target_num;
 char* continue_target_head;
 struct token_list* break_frame;
 int current_count;
-int Address_of;
 
 /* Imported functions */
 char* int2str(int x, int base, int signed_p);
@@ -914,7 +913,6 @@ void global_load(struct token_list* a)
 	emit_out("\n");
 
 	require(NULL != global_token, "unterminated global load\n");
-	if(TRUE == Address_of) return;
 	if(match("=", global_token->s)) return;
 
 	emit_out(load_value(register_size, current_target->is_signed));
@@ -1246,7 +1244,6 @@ void bitwise_expr()
 void primary_expr()
 {
 	require(NULL != global_token, "Received EOF where primary expression expected\n");
-	Address_of = FALSE;
 
 	if(match("sizeof", global_token->s)) unary_expr_sizeof();
 	else if('-' == global_token->s[0])
@@ -1835,7 +1832,6 @@ void program()
 {
 	unsigned i;
 	function = NULL;
-	Address_of = FALSE;
 	struct type* type_size;
 
 new_type:
