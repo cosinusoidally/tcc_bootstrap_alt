@@ -2837,10 +2837,9 @@ int strtoint(char *a);
 int main(int argc, char** argv)
 {
 	MAX_STRING = 4096;
-	BOOTSTRAP_MODE = FALSE;
-	int DEBUG = FALSE;
-	FILE* in = stdin;
-	FILE* destination_file = stdout;
+	BOOTSTRAP_MODE = TRUE;
+	FILE* in;
+	FILE* destination_file;
 	Architecture = X86;
 	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
 	char* name;
@@ -2883,8 +2882,6 @@ int main(int argc, char** argv)
 		exit(EXIT_FAILURE);
 	}
 	i = i + 1;
-
-	BOOTSTRAP_MODE = TRUE;
 
 	init_macro_env("__i386__", "1", "--architecture", env);
 	env = env + 1;
