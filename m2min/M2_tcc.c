@@ -1153,38 +1153,6 @@ void primary_expr_char()
 	global_token = global_token->next;
 }
 
-int hex2char(int c)
-{
-	if((c >= 0) && (c <= 9)) return (c + 48);
-	else if((c >= 10) && (c <= 15)) return (c + 55);
-	else return -1;
-}
-
-char* number_to_hex(int a, int bytes)
-{
-	require(bytes > 0, "number to hex must have a positive number of bytes greater than zero\n");
-	char* result = calloc(1 + (bytes << 1), sizeof(char));
-	if(NULL == result)
-	{
-		fputs("calloc failed in number_to_hex\n", stderr);
-		exit(EXIT_FAILURE);
-	}
-	int i = 0;
-
-	int divisor = (bytes << 3);
-	require(divisor > 0, "unexpected wrap around in number_to_hex\n");
-
-	/* Simply collect numbers until divisor is gone */
-	while(0 != divisor)
-	{
-		divisor = divisor - 4;
-		result[i] = hex2char((a >> divisor) & 0xF);
-		i = i + 1;
-	}
-
-	return result;
-}
-
 void primary_expr_number()
 {
 		emit_out("mov_eax, %");
