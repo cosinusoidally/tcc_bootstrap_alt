@@ -1071,18 +1071,7 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
 	if(match(name, global_token->s))
 	{
 		common_recursion(f);
-		if(NULL == current_target)
-		{
-			emit_out(s1);
-		}
-		else if(current_target->is_signed)
-		{
-			emit_out(s1);
-		}
-		else
-		{
-			emit_out(s2);
-		}
+		emit_out(s1);
 		iterate();
 	}
 }
