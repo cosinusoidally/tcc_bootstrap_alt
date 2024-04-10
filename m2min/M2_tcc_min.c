@@ -851,10 +851,6 @@ char* store_value(unsigned size)
 	{
 		return "mov_[ebx],al\n";
 	}
-	else if(size == 2)
-	{
-		return "mov_[ebx],ax\n";
-	}
 	else if(size == 4)
 	{
 		return "mov_[ebx],eax\n";
