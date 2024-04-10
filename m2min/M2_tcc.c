@@ -1377,11 +1377,6 @@ void global_load(struct token_list* a)
 
 	require(NULL != global_token, "unterminated global load\n");
 	if(TRUE == Address_of) return;
-	if(match(".", global_token->s))
-	{
-		postfix_expr_stub();
-		return;
-	}
 	if(match("=", global_token->s) || is_compound_assignment(global_token->s)) return;
 
 	emit_out(load_value(register_size, current_target->is_signed));
