@@ -1548,14 +1548,6 @@ unsigned ceil_div(unsigned a, unsigned b)
 /* Process local variable */
 void collect_local()
 {
-	if(NULL != break_target_func)
-	{
-		fputs("Local variable initialized inside of loop in file: ", stderr);
-		line_error();
-		fputs("\nMove the variable outside of the loop to resolve\n", stderr);
-		fputs("Otherwise the binary will segfault while running\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 	struct type* type_size = type_name();
 	require(NULL != global_token, "Received EOF while collecting locals\n");
 	require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in local variable name\n");
