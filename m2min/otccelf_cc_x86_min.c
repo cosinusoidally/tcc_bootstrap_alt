@@ -340,7 +340,7 @@ char* int2str(int x, int base, int signed_p)
 	if(NULL == p) return p;
 
 	p = p + 32;
-	unsigned i;
+	int i;
 	int sign_p = FALSE;
 	char* table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
