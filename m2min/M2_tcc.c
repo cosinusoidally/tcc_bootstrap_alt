@@ -2874,25 +2874,16 @@ int main(int argc, char** argv)
 	fclose(in);
 	i = i + 1;
 
-	while(i <= argc)
+	destination_file = fopen(argv[i + 1], "w");
+	if(NULL == destination_file)
 	{
-		if(NULL == argv[i])
-		{
-			i = i + 1;
-		}
-		else if(match(argv[i], "-o") || match(argv[i], "--output"))
-		{
-			destination_file = fopen(argv[i + 1], "w");
-			if(NULL == destination_file)
-			{
-				fputs("Unable to open for writing file: ", stderr);
-				fputs(argv[i + 1], stderr);
-				fputs("\n Aborting to avoid problems\n", stderr);
-				exit(EXIT_FAILURE);
-			}
-			i = i + 2;
-		}
+		fputs("Unable to open for writing file: ", stderr);
+		fputs(argv[i + 1], stderr);
+		fputs("\n Aborting to avoid problems\n", stderr);
+		exit(EXIT_FAILURE);
 	}
+	i = i + 2;
+
 	BOOTSTRAP_MODE = TRUE;
 
 	init_macro_env("__i386__", "1", "--architecture", env);
