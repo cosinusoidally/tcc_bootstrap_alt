@@ -873,29 +873,18 @@ void function_call(char* s, int bool)
 
 	require_match("ERROR in process_expression_list\nNo ) was found\n", ")");
 
-	if(TRUE == bool)
-	{
-			emit_out("lea_eax,[ebp+DWORD] %");
-			emit_out(s);
-			emit_out("\nmov_eax,[eax]\n");
-			emit_out("mov_ebp,edi\n");
-			emit_out("call_eax\n");
-	}
-	else
-	{
-			emit_out("mov_ebp,edi\n");
-			emit_out("call %FUNCTION_");
-			emit_out(s);
-			emit_out("\n");
-	}
+	emit_out("mov_ebp,edi\n");
+	emit_out("call %FUNCTION_");
+	emit_out(s);
+	emit_out("\n");
 
 	for(; passed > 0; passed = passed - 1)
 	{
 		emit_out("pop_ebx\t# _process_expression_locals\n");
 	}
 
-		emit_out("pop_ebp\t# Restore old base pointer\n");
-		emit_out("pop_edi\t# Prevent overwrite\n");
+	emit_out("pop_ebp\t# Restore old base pointer\n");
+	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
 char* load_value_signed(unsigned size)
