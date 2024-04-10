@@ -625,7 +625,7 @@ void initialize_types()
 	register_size = 4;
 
 	/* Define void */
-	struct type* hold = new_primitive("void", "void*", "void**", register_size, FALSE);
+	struct type* hold = new_primitive("void", "void*", "void**", register_size, TRUE);
 	prim_types = add_primitive(hold);
 
 	/* Define int */
@@ -854,30 +854,9 @@ char* load_value_signed(unsigned size)
 	exit(EXIT_FAILURE);
 }
 
-char* load_value_unsigned(unsigned size)
-{
-	if(size == 1)
-	{
-		return "movzx_eax,BYTE_PTR_[eax]\n";
-	}
-	else if(size == 2)
-	{
-		return "movzx_eax,WORD_PTR_[eax]\n";
-	}
-	else if(size == 4)
-	{
-		return "mov_eax,[eax]\n";
-	}
-	fputs(" Got unsupported size ", stderr);
-	fputs(int2str(size, 10, TRUE), stderr);
-	fputs(" when trying to load value.\n", stderr);
-	exit(EXIT_FAILURE);
-}
-
 char* load_value(unsigned size, int is_signed)
 {
-	if(is_signed) return load_value_signed(size);
-	return load_value_unsigned(size);
+	return load_value_signed(size);
 }
 
 char* store_value(unsigned size)
