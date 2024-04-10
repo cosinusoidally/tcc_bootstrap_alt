@@ -652,17 +652,6 @@ void initialize_types()
 	hold = new_primitive("char", "char*", "char**", 1, TRUE);
 	prim_types = add_primitive(hold);
 
-	/* Define FILE */
-	hold = new_primitive("FILE", "FILE*", "FILE**", register_size, TRUE);
-	prim_types = add_primitive(hold);
-
-	/* Primitives mes.c wanted */
-	hold = new_primitive("size_t", "size_t*", "size_t**", register_size, FALSE);
-	prim_types = add_primitive(hold);
-
-	hold = new_primitive("ssize_t", "ssize_t*", "ssize_t**", register_size, FALSE);
-	prim_types = add_primitive(hold);
-
 	global_types = prim_types;
 }
 
