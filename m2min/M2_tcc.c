@@ -765,45 +765,10 @@ struct type* type_name()
 
 	require(NULL != global_token, "Received EOF instead of type name\n");
 
-	if(match("extern", global_token->s))
-	{
-		global_token = global_token->next;
-		require(NULL != global_token, "unfinished type definition in extern\n");
-	}
-
-	if(match("struct", global_token->s))
-	{
-		global_token = global_token->next;
-		require(NULL != global_token, "structs can not have a EOF type name\n");
-		ret = lookup_type(global_token->s, global_types);
-		if(NULL == ret)
-		{
-			create_struct();
-			return NULL;
-		}
-	}
-	else
-	{
-		ret = lookup_type(global_token->s, global_types);
-		if(NULL == ret)
-		{
-			fputs("Unknown type ", stderr);
-			fputs(global_token->s, stderr);
-			fputs("\n", stderr);
-			line_error();
-			fputs("\n", stderr);
-			exit(EXIT_FAILURE);
-		}
-	}
+	ret = lookup_type(global_token->s, global_types);
 
 	global_token = global_token->next;
 	require(NULL != global_token, "unfinished type definition\n");
-
-	if(match("const", global_token->s))
-	{
-		global_token = global_token->next;
-		require(NULL != global_token, "unfinished type definition in const\n");
-	}
 
 	while(global_token->s[0] == '*')
 	{
