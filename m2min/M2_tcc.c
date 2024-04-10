@@ -275,21 +275,6 @@ void copy_string(char* target, char* source, int max)
 	}
 }
 
-
-void fixup_label()
-{
-	int hold = ':';
-	int prev;
-	int i = 0;
-	do
-	{
-		prev = hold;
-		hold = hold_string[i];
-		hold_string[i] = prev;
-		i = i + 1;
-	} while(0 != hold);
-}
-
 int preserve_keyword(int c, char* S)
 {
 	while(in_set(c, S))
@@ -435,11 +420,6 @@ reset:
 	else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))
 	{
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-		if(':' == c)
-		{
-			fixup_label();
-			c = ' ';
-		}
 	}
 	else if(in_set(c, "<=>|&!^%"))
 	{
