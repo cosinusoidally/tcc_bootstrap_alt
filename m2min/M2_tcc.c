@@ -458,30 +458,10 @@ reset:
 	else if(c == '+')
 	{
 		c = consume_byte(c);
-		if(c == '=')
-		{
-			c = consume_byte(c);
-		}
-		if(c == '+')
-		{
-			c = consume_byte(c);
-		}
 	}
 	else if(c == '-')
 	{
 		c = consume_byte(c);
-		if(c == '=')
-		{
-			c = consume_byte(c);
-		}
-		if(c == '>')
-		{
-			c = consume_byte(c);
-		}
-		if(c == '-')
-		{
-			c = consume_byte(c);
-		}
 	}
 	else
 	{
