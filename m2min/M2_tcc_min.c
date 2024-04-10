@@ -1877,8 +1877,6 @@ void program()
 new_type:
 	/* Deal with garbage input */
 	if (NULL == global_token) return;
-	require('#' != global_token->s[0], "unhandled macro directive\n");
-	require(!match("\n", global_token->s), "unexpected newline token\n");
 
 	type_size = type_name();
 	/* Deal with case of struct definitions */
