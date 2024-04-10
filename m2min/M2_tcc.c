@@ -2843,7 +2843,6 @@ int main(int argc, char** argv)
 	FILE* destination_file = stdout;
 	Architecture = X86;
 	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
-	char* arch;
 	char* name;
 	char* hold;
 	int env=0;
@@ -2897,7 +2896,6 @@ int main(int argc, char** argv)
 		}
 		else if(match(argv[i], "-A") || match(argv[i], "--architecture"))
 		{
-			arch = argv[i + 1];
 			i = i + 2;
 		}
 	}
@@ -2905,21 +2903,6 @@ int main(int argc, char** argv)
 
 	init_macro_env("__i386__", "1", "--architecture", env);
 	env = env + 1;
-
-	/* Deal with special case of architecture not being set */
-	if(0 == Architecture)
-	{
-		puts("must set arch");
-		exit(1);
-	}
-
-	/* Deal with special case of wanting to read from standard input */
-	if(stdin == in)
-	{
-		hold_string = calloc(MAX_STRING + 4, sizeof(char));
-		require(NULL != hold_string, "Impossible Exhaustion has occurred\n");
-		global_token = read_all_tokens(in, global_token, "STDIN");
-	}
 
 	if(NULL == global_token)
 	{
