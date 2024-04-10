@@ -12,4 +12,5 @@ tcc M2_tcc.c -o artifacts/M2_tcc.exe
 
 sha256sum artifacts/*M1
 sha256sum -c sums
+wc M2_tcc.c
 ls -lh artifacts/M2_tcc.exe
