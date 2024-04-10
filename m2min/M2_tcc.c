@@ -143,8 +143,30 @@ struct token_list* token;
 int line;
 char* file;
 
-#define TRUE 1
-#define FALSE 0
+void require(int bool, char* error);
+int strtoint(char* a);
+void line_error_token(struct token_list* list);
+struct token_list* eat_token(struct token_list* head);
+
+struct conditional_inclusion
+{
+	struct conditional_inclusion* prev;
+	int include; /* 1 == include, 0 == skip */
+	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
+};
+
+struct macro_list
+{
+	struct macro_list* next;
+	char* symbol;
+	struct token_list* expansion;
+};
+
+struct macro_list* macro_env;
+struct conditional_inclusion* conditional_inclusion_top;
+
+/* point where we are currently modifying the global_token list */
+struct token_list* macro_token;
 
 
 void require(int bool, char* error)
@@ -2636,31 +2658,6 @@ void recursive_output(struct token_list* head, FILE* out)
 		i = i->next;
 	}
 }
-
-void require(int bool, char* error);
-int strtoint(char* a);
-void line_error_token(struct token_list* list);
-struct token_list* eat_token(struct token_list* head);
-
-struct conditional_inclusion
-{
-	struct conditional_inclusion* prev;
-	int include; /* 1 == include, 0 == skip */
-	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
-};
-
-struct macro_list
-{
-	struct macro_list* next;
-	char* symbol;
-	struct token_list* expansion;
-};
-
-struct macro_list* macro_env;
-struct conditional_inclusion* conditional_inclusion_top;
-
-/* point where we are currently modifying the global_token list */
-struct token_list* macro_token;
 
 void init_macro_env(char* sym, char* value, char* source, int num)
 {
