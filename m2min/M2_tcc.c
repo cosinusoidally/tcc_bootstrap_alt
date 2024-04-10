@@ -2328,26 +2328,6 @@ void process_break()
 	require_match("ERROR in break statement\nMissing ;\n", ";");
 }
 
-void process_continue()
-{
-	if(NULL == continue_target_head)
-	{
-		line_error();
-		fputs("Not inside of a loop\n", stderr);
-		exit(EXIT_FAILURE);
-	}
-	global_token = global_token->next;
-
-	emit_out("jmp %");
-
-	emit_out(continue_target_head);
-	emit_out(break_target_func);
-	emit_out("_");
-	emit_out(break_target_num);
-	emit_out("\n");
-	require_match("ERROR in continue statement\nMissing ;\n", ";");
-}
-
 void recursive_statement()
 {
 	global_token = global_token->next;
@@ -2403,12 +2383,6 @@ void statement()
 	{
 		recursive_statement();
 	}
-	else if(':' == global_token->s[0])
-	{
-		emit_out(global_token->s);
-		emit_out("\t#C goto label\n");
-		global_token = global_token->next;
-	}
 	else if((NULL != lookup_type(global_token->s, prim_types)) ||
 	          match("struct", global_token->s))
 	{
@@ -2434,16 +2408,6 @@ void statement()
 	{
 		process_asm();
 	}
-	else if(match("goto", global_token->s))
-	{
-		global_token = global_token->next;
-		require(NULL != global_token, "naked goto is not supported\n");
-		emit_out("jmp %");
-		emit_out(global_token->s);
-		emit_out("\n");
-		global_token = global_token->next;
-		require_match("ERROR in statement\nMissing ;\n", ";");
-	}
 	else if(match("return", global_token->s))
 	{
 		return_result();
@@ -2451,10 +2415,6 @@ void statement()
 	else if(match("break", global_token->s))
 	{
 		process_break();
-	}
-	else if(match("continue", global_token->s))
-	{
-		process_continue();
 	}
 	else
 	{
