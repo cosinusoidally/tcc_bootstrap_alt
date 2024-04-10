@@ -25,7 +25,7 @@ int EXIT_SUCCESS;
 int TRUE;
 int FALSE;
 
-int fgetc(FILE* f)
+int fgetc(int f)
 {
 	asm("mov_eax, %3"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -41,7 +41,7 @@ int fgetc(FILE* f)
 	    ":FUNCTION_fgetc_Done");
 }
 
-void fputc(char s, FILE* f)
+void fputc(char s, int f)
 {
 	asm("mov_eax, %4"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -51,7 +51,7 @@ void fputc(char s, FILE* f)
 	    "int !0x80");
 }
 
-void fputs(char* s, FILE* f)
+void fputs(char* s, int f)
 {
 	while(0 != s[0])
 	{
@@ -60,7 +60,7 @@ void fputs(char* s, FILE* f)
 	}
 }
 
-FILE* open(char* name, int flag, int mode)
+int open(char* name, int flag, int mode)
 {
 	asm("lea_ebx,[esp+DWORD] %12"
 	    "mov_ebx,[ebx]"
@@ -72,9 +72,9 @@ FILE* open(char* name, int flag, int mode)
 	    "int !0x80");
 }
 
-FILE* fopen(char* filename, char* mode)
+int fopen(char* filename, char* mode)
 {
-	FILE* f;
+	int f;
 	if('w' == mode[0])
 	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
@@ -100,7 +100,7 @@ int close(int fd)
 	    "int !0x80");
 }
 
-int fclose(FILE* stream)
+int fclose(int stream)
 {
 	int error = close(stream);
 	return error;
