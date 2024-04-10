@@ -533,40 +533,12 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
 
-char upcase(char a)
-{
-	if(in_set(a, "abcdefghijklmnopqrstuvwxyz"))
-	{
-		a = a - 32;
-	}
-
-	return a;
-}
-
-
 int char2hex(int c)
 {
 	if (c >= '0' && c <= '9') return (c - 48);
 	else if (c >= 'a' && c <= 'f') return (c - 87);
 	else if (c >= 'A' && c <= 'F') return (c - 55);
 	else return -1;
-}
-
-int hexify(int c, int high)
-{
-	int i = char2hex(c);
-
-	if(0 > i)
-	{
-		fputs("Tried to print non-hex number\n", stderr);
-		exit(EXIT_FAILURE);
-	}
-
-	if(high)
-	{
-		i = i << 4;
-	}
-	return i;
 }
 
 int escape_lookup(char* c);
@@ -595,13 +567,7 @@ int escape_lookup(char* c)
 {
 	if('\\' != c[0]) return c[0];
 
-	if(c[1] == 'x')
-	{
-		int t1 = hexify(c[2], TRUE);
-		int t2 = hexify(c[3], FALSE);
-		return t1 + t2;
-	}
-	else if(c[1] == '0') return 0;
+	if(c[1] == '0') return 0;
 	else if(c[1] == 'a') return 7;
 	else if(c[1] == 'b') return 8;
 	else if(c[1] == 't') return 9;
