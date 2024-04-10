@@ -1,3 +1,28 @@
+/* This is a heavily cut down version of M2-Planet
+ * mofications (C) 2024 Liam Wilson (under same license)
+ * original authors
+ * Copyright (C) 2016 Jeremiah Orians
+ * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * Copyright (C) 2020 deesix <deesix@tuta.io>
+ * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
+ * Copyright (C) 2021 Sanne Wouda
+ * Copyright (C) 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+ * This file is part of M2-Planet.
+ *
+ * M2-Planet is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * M2-Planet is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -67,22 +92,6 @@ struct token_list
 	};
 };
 
-/* Copyright (C) 2016 Jeremiah Orians
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 #define TRUE 1
 #define FALSE 0
@@ -174,23 +183,6 @@ char* int2str(int x, int base, int signed_p)
 
 	return p + 1;
 }
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2020 deesix <deesix@tuta.io>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /* What types we have */
 struct type* global_types;
@@ -217,24 +209,6 @@ struct type* integer;
 
 /* enable bootstrap-mode */
 int BOOTSTRAP_MODE;
-
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 
 int strtoint(char *a);
@@ -587,23 +561,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 
 	return token;
 }
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
@@ -771,23 +728,6 @@ char* parse_string(char* string)
 	if(weird(string)) return collect_weird_string(string);
 	else return collect_regular_string(string);
 }
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2020 deesix <deesix@tuta.io>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /* Imported functions */
 int strtoint(char *a);
@@ -1104,26 +1044,6 @@ struct type* type_name()
 
 	return ret;
 }
-
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * Copyright (C) 2020 deesix <deesix@tuta.io>
- * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 
 /* Global lists */
@@ -2702,25 +2622,6 @@ void recursive_output(struct token_list* head, FILE* out)
 	}
 }
 
-/* Copyright (C) 2021 Sanne Wouda
- * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
- * Copyright (C) 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 void require(int bool, char* error);
 int strtoint(char* a);
 void line_error_token(struct token_list* list);
@@ -2789,23 +2690,6 @@ void eat_newline_tokens()
 	}
 }
 
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2020 deesix <deesix@tuta.io>
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 /* The core functions */
 void initialize_types();
