@@ -87,7 +87,6 @@ void init_macro_env(char* sym, char* value, char* source, int num);
 void preprocess();
 void program();
 void recursive_output(struct token_list* i, FILE* out);
-int strtoint(char *a);
 
 /* What types we have */
 struct type* global_types;
@@ -116,7 +115,6 @@ struct type* integer;
 int BOOTSTRAP_MODE;
 
 
-int strtoint(char *a);
 
 /* Globals */
 FILE* input;
@@ -125,7 +123,6 @@ int line;
 char* file;
 
 void require(int bool, char* error);
-int strtoint(char* a);
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
@@ -190,12 +187,6 @@ int in_set(int c, char* s)
 		s = s + 1;
 	}
 	return FALSE;
-}
-
-int strtoint(char *a)
-{
-  puts("strtoint unimpl");
-  exit(1);
 }
 
 char* int2str(int x, int base, int signed_p)
@@ -748,7 +739,6 @@ char* parse_string(char* string)
 }
 
 /* Imported functions */
-int strtoint(char *a);
 void line_error();
 void require(int bool, char* error);
 
@@ -1084,7 +1074,6 @@ int Address_of;
 
 /* Imported functions */
 char* int2str(int x, int base, int signed_p);
-int strtoint(char *a);
 char* parse_string(char* string);
 int escape_lookup(char* c);
 void require(int bool, char* error);
