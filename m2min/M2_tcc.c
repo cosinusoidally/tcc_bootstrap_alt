@@ -736,21 +736,7 @@ struct type* lookup_type(char* s, struct type* start)
 
 struct type* lookup_member(struct type* parent, char* name)
 {
-	struct type* i;
-	require(NULL != parent, "Not a valid struct type\n");
-	for(i = parent->members; NULL != i; i = i->members)
-	{
-		if(match(i->name, name)) return i;
-	}
-
-	fputs("ERROR in lookup_member ", stderr);
-	fputs(parent->name, stderr);
-	fputs("->", stderr);
-	fputs(global_token->s, stderr);
-	fputs(" does not exist\n", stderr);
-	line_error();
-	fputs("\n", stderr);
-	exit(EXIT_FAILURE);
+puts("lookup_member not impl");exit(1);
 }
 
 struct type* type_name();
@@ -759,100 +745,17 @@ void require_match(char* message, char* required);
 int member_size;
 struct type* build_member(struct type* last, int offset)
 {
-	struct type* i = calloc(1, sizeof(struct type));
-	require(NULL != i, "Exhausted memory while building a struct member\n");
-	i->members = last;
-	i->offset = offset;
-
-	struct type* member_type = type_name();
-	require(NULL != member_type, "struct member type can not be invalid\n");
-	i->type = member_type;
-	i->name = global_token->s;
-	global_token = global_token->next;
-	require(NULL != global_token, "struct member can not be EOF terminated\n");
-
-	/* Check to see if array */
-	if(match( "[", global_token->s))
-	{
-		puts("build_member [ not supported"); exit(1);
-	}
-	else
-	{
-		i->size = member_type->size;
-	}
-	member_size = i->size;
-
-	return i;
+puts("build_member not impl");exit(1);
 }
 
 struct type* build_union(struct type* last, int offset)
 {
-	int size = 0;
-	global_token = global_token->next;
-	require_match("ERROR in build_union\nMissing {\n", "{");
-	while('}' != global_token->s[0])
-	{
-		last = build_member(last, offset);
-		if(member_size > size)
-		{
-			size = member_size;
-		}
-		require_match("ERROR in build_union\nMissing ;\n", ";");
-		require(NULL != global_token, "Unterminated union\n");
-	}
-	member_size = size;
-	global_token = global_token->next;
-	return last;
+puts("build_union not impl");exit(1);
 }
 
 void create_struct()
 {
-	int offset = 0;
-	member_size = 0;
-	struct type* head = calloc(1, sizeof(struct type));
-	require(NULL != head, "Exhausted memory while creating a struct\n");
-	struct type* i = calloc(1, sizeof(struct type));
-	require(NULL != i, "Exhausted memory while creating a struct indirection\n");
-	struct type* ii = calloc(1, sizeof(struct type));
-	require(NULL != ii, "Exhausted memory while creating a struct double indirection\n");
-	head->name = global_token->s;
-	head->type = head;
-	head->indirect = i;
-	head->next = global_types;
-	i->name = global_token->s;
-	i->type = head;
-	i->indirect = ii;
-	i->size = register_size;
-	ii->name = global_token->s;
-	ii->type = i;
-	ii->indirect = ii;
-	ii->size = register_size;
-	global_types = head;
-	global_token = global_token->next;
-	require_match("ERROR in create_struct\n Missing {\n", "{");
-	struct type* last = NULL;
-	require(NULL != global_token, "Incomplete struct definition at end of file\n");
-	while('}' != global_token->s[0])
-	{
-		if(match(global_token->s, "union"))
-		{
-			last = build_union(last, offset);
-		}
-		else
-		{
-			last = build_member(last, offset);
-		}
-		offset = offset + member_size;
-		require_match("ERROR in create_struct\n Missing ;\n", ";");
-		require(NULL != global_token, "Unterminated struct\n");
-	}
-
-	global_token = global_token->next;
-	require_match("ERROR in create_struct\n Missing ;\n", ";");
-
-	head->size = offset;
-	head->members = last;
-	i->members = last;
+puts("create_struct not impl");exit(1);
 }
 
 
