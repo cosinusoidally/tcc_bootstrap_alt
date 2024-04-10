@@ -734,30 +734,10 @@ struct type* lookup_type(char* s, struct type* start)
 	return NULL;
 }
 
-struct type* lookup_member(struct type* parent, char* name)
-{
-puts("lookup_member not impl");exit(1);
-}
-
 struct type* type_name();
 void require_match(char* message, char* required);
 
 int member_size;
-struct type* build_member(struct type* last, int offset)
-{
-puts("build_member not impl");exit(1);
-}
-
-struct type* build_union(struct type* last, int offset)
-{
-puts("build_union not impl");exit(1);
-}
-
-void create_struct()
-{
-puts("create_struct not impl");exit(1);
-}
-
 
 struct type* type_name()
 {
@@ -1341,7 +1321,6 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
  *         postfix-expr -> member
  *         postfix-expr . member
  */
-struct type* lookup_member(struct type* parent, char* name);
 
 void postfix_expr_array()
 {
