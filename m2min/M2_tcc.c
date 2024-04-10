@@ -2547,20 +2547,8 @@ void global_constant()
 	global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
 
 	require(NULL != global_token->next, "CONSTANT lacks a value\n");
-	if(match("sizeof", global_token->next->s))
-	{
-		global_token = global_token->next->next;
-		require_match("ERROR in CONSTANT with sizeof\nMissing (\n", "(");
-		struct type* a = type_name();
-		require_match("ERROR in CONSTANT with sizeof\nMissing )\n", ")");
-		global_token->prev->s = int2str(a->size, 10, TRUE);
-		global_constant_list->arguments = global_token->prev;
-	}
-	else
-	{
-		global_constant_list->arguments = global_token->next;
-		global_token = global_token->next->next;
-	}
+	global_constant_list->arguments = global_token->next;
+	global_token = global_token->next->next;
 }
 
 /*
@@ -2716,49 +2704,21 @@ int main(int argc, char** argv)
 	char* val;
 
 	int i = 1;
-	if(NULL == hold_string)
-	{
-		hold_string = calloc(MAX_STRING + 4, sizeof(char));
-				require(NULL != hold_string, "Impossible Exhaustion has occurred\n");
-	}
+	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
 	name = argv[i];
-	if(NULL == name)
-	{
-		fputs("did not receive a file name\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 
 	in = fopen(name, "r");
-	if(NULL == in)
-	{
-		fputs("Unable to open for reading file: ", stderr);
-		fputs(name, stderr);
-		fputs("\n Aborting to avoid problems\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 	global_token = read_all_tokens(in, global_token, name);
 	fclose(in);
 	i = i + 1;
 
 	destination_file = fopen(argv[i], "w");
-	if(NULL == destination_file)
-	{
-		fputs("Unable to open for writing file: ", stderr);
-		fputs(argv[i + 1], stderr);
-		fputs("\n Aborting to avoid problems\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 	i = i + 1;
 
 	init_macro_env("__i386__", "1", "--architecture", env);
 	env = env + 1;
 
-	if(NULL == global_token)
-	{
-		fputs("Either no input files were given or they were empty\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 	global_token = reverse_list(global_token);
 
 	global_token = remove_line_comment_tokens(global_token);
