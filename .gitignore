@@ -5,6 +5,8 @@
 x86/artifact/*
 x86/bin/*
 otccelf/artifacts/*
+m2min/artifacts/*
 !x86/bin/placeholder
 !x86/artifact/placeholder
 !otccelf/artifacts/placeholder
+!m2min/artifacts/placeholder
