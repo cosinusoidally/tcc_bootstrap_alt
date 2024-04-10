@@ -971,11 +971,7 @@ void postfix_expr_stub();
 void variable_load(struct token_list* a, int num_dereference)
 {
 	require(NULL != global_token, "incomplete variable load received\n");
-	if((match("FUNCTION", a->type->name) || match("FUNCTION*", a->type->name)) && match("(", global_token->s))
-	{
-		function_call(int2str(a->depth, 10, TRUE), TRUE);
-		return;
-	}
+
 	current_target = a->type;
 
 	emit_out("lea_eax,[ebp+DWORD] %");
@@ -988,12 +984,6 @@ void variable_load(struct token_list* a, int num_dereference)
 		emit_out(load_value(current_target->size, current_target->is_signed));
 	}
 
-	while (num_dereference > 0)
-	{
-		current_target = current_target->type;
-		emit_out(load_value(current_target->size, current_target->is_signed));
-		num_dereference = num_dereference - 1;
-	}
 }
 
 void function_load(struct token_list* a)
@@ -1004,10 +994,6 @@ void function_load(struct token_list* a)
 		function_call(a->s, FALSE);
 		return;
 	}
-
-	emit_out("mov_eax, &FUNCTION_");
-	emit_out(a->s);
-	emit_out("\n");
 }
 
 void global_load(struct token_list* a)
@@ -1780,19 +1766,7 @@ void return_result()
 
 void process_break()
 {
-	if(NULL == break_target_head)
-	{
-		line_error();
-		fputs("Not inside of a loop or case statement\n", stderr);
-		exit(EXIT_FAILURE);
-	}
 	struct token_list* i = function->locals;
-	while(i != break_frame)
-	{
-		if(NULL == i) break;
-		emit_out("pop_ebx\t# break_cleanup_locals\n");
-		i = i->next;
-	}
 	global_token = global_token->next;
 
 	emit_out("jmp %");
