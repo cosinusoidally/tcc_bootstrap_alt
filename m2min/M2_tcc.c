@@ -2917,9 +2917,6 @@ int main(int argc, char** argv)
 	fputs("\n:ELF_end\n", destination_file);
 
 exit_success:
-	if (destination_file != stdout)
-	{
-		fclose(destination_file);
-	}
+	fclose(destination_file);
 	return EXIT_SUCCESS;
 }
