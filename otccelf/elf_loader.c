@@ -42,6 +42,7 @@ int R_386_32;
 int R_386_PC32;
 int p_size;
 int verbose;
+int libm;
 
 puts_num(x){
   printf("%u\n",x);
@@ -284,11 +285,6 @@ decode_elf(e, os){
 
   if(rel_text!=0){
     sh_offset=ri32(rel_text+sh_offset_o);
-    if(verbose){
-      fputs(int2str(sh_offset,16,0),stdout);
-      fputs("\n",stdout);
-      fputs("sh_size: 0x",stdout);
-    }
     sh_size=ri32(rel_text+sh_size_o);
     if(verbose){
       fputs(int2str(sh_size,16,0),stdout);
@@ -586,6 +582,10 @@ find_sym(os, name){
     n=n+1;
   }
   r=dlsym(0,name);
+  if(r == 0){
+    /* try finding the symbol in libm */
+    r = dlsym(libm, name);
+  }
   if(r != 0) {
     printf("found %s via dlsym\n", name);
     return r;
@@ -851,6 +851,8 @@ main(argc, argv)
   init_offsets();
 
   verbose=0;
+
+  libm = dlopen("libm.so.6", 2); /* RTLD_NOW */
 
   /* enough for 8 objs */
   objs = calloc(36,1);
