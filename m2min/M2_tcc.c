@@ -2894,10 +2894,6 @@ int main(int argc, char** argv)
 			}
 			i = i + 2;
 		}
-		else if(match(argv[i], "-A") || match(argv[i], "--architecture"))
-		{
-			i = i + 2;
-		}
 	}
 	BOOTSTRAP_MODE = TRUE;
 
