@@ -3,12 +3,12 @@
 echo "gcc build"
 gcc -g -m32 -O0 M2_tcc.c -o artifacts/M2_gcc.exe
 ./artifacts/M2_gcc.exe --architecture x86 --bootstrap-mode -f ../x86/artifact/tcc_js_all.c -o artifacts/tcc_js_all_gcc.M1
-# ./artifacts/M2_gcc.exe --architecture x86 --bootstrap-mode -f otccelf_js.c -o artifacts/otccelf_js_gcc.M1
+./artifacts/M2_gcc.exe --architecture x86 --bootstrap-mode -f otccelf_cc_x86_full.c -o artifacts/otccelf_cc_x86_full_gcc.M1
 
 echo "tcc build"
 tcc M2_tcc.c -o artifacts/M2_tcc.exe
 ./artifacts/M2_tcc.exe --architecture x86 --bootstrap-mode -f ../x86/artifact/tcc_js_all.c -o artifacts/tcc_js_all_tcc.M1
-# ./artifacts/M2_tcc.exe --architecture x86 --bootstrap-mode -f otccelf_js.c -o artifacts/otccelf_js_tcc.M1
+./artifacts/M2_tcc.exe --architecture x86 --bootstrap-mode -f otccelf_cc_x86_full.c -o artifacts/otccelf_cc_x86_full_tcc.M1
 
 sha256sum artifacts/*M1
 sha256sum -c sums
