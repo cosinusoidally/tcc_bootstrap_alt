@@ -534,25 +534,6 @@ struct token_list* emit(char *s, struct token_list* head);
 void require(int bool, char* error);
 
 int escape_lookup(char* c);
-int weird(char* string)
-{
-	int c;
-	string = string + 1;
-weird_reset:
-	c = string[0];
-	if(0 == c) return FALSE;
-	if('\\' == c)
-	{
-		c = escape_lookup(string);
-		if('x' == string[1]) string = string + 2;
-		string = string + 1;
-	}
-
-	if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) return TRUE;
-	if(in_set(c, " \t\n\r") && (':' == string[1])) return TRUE;
-	string = string + 1;
-	goto weird_reset;
-}
 
 /* Lookup escape values */
 int escape_lookup(char* c)
@@ -609,50 +590,11 @@ collect_regular_string_reset:
 	return message;
 }
 
-/* Deal with non-human strings */
-char* collect_weird_string(char* string)
-{
-	string_index = 1;
-	int temp;
-	char* table = "0123456789ABCDEF";
-
-	hold_string[0] = '\'';
-collect_weird_string_reset:
-	require((MAX_STRING - 6) > string_index, "Attempt at parsing weird string exceeds max length\n");
-	string = string + 1;
-	hold_string[string_index] = ' ';
-	temp = escape_lookup(string) & 0xFF;
-	hold_string[string_index + 1] = table[(temp >> 4)];
-	hold_string[string_index + 2] = table[(temp & 15)];
-
-	if(string[0] == '\\')
-	{
-		if(string[1] == 'x') string = string + 2;
-		string = string + 1;
-	}
-
-	string_index = string_index + 3;
-	if(string[1] != 0) goto collect_weird_string_reset;
-
-	hold_string[string_index] = ' ';
-	hold_string[string_index + 1] = '0';
-	hold_string[string_index + 2] = '0';
-	hold_string[string_index + 3] = '\'';
-	hold_string[string_index + 4] = '\n';
-
-	char* hold = calloc(string_index + 6, sizeof(char));
-	require(NULL != hold, "Exhausted available memory while attempting to collect a weird string\n");
-	copy_string(hold, hold_string, string_index + 5);
-	reset_hold_string();
-	return hold;
-}
-
 /* Parse string to deal with hex characters*/
 char* parse_string(char* string)
 {
 	/* the string */
-	if(weird(string)) return collect_weird_string(string);
-	else return collect_regular_string(string);
+	return collect_regular_string(string);
 }
 
 /* Imported functions */
