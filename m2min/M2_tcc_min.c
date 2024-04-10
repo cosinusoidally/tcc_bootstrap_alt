@@ -839,10 +839,6 @@ char* load_value_signed(unsigned size)
 	{
 		return "movsx_eax,BYTE_PTR_[eax]\n";
 	}
-	else if(size == 2)
-	{
-		return "movsx_eax,WORD_PTR_[eax]\n";
-	}
 	else if(size == 4)
 	{
 		return "mov_eax,[eax]\n";
