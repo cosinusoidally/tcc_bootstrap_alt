@@ -2913,18 +2913,6 @@ int main(int argc, char** argv)
 			}
 			i = i + 2;
 		}
-		else if(match(argv[i], "--max-string"))
-		{
-			hold = argv[i+1];
-			if(NULL == hold)
-			{
-				fputs("--max-string requires a numeric argument\n", stderr);
-				exit(EXIT_FAILURE);
-			}
-			MAX_STRING = strtoint(hold);
-			require(0 < MAX_STRING, "Not a valid string size\nAbort and fix your --max-string\n");
-			i = i + 2;
-		}
 		else if(match(argv[i], "--bootstrap-mode"))
 		{
 			BOOTSTRAP_MODE = TRUE;
