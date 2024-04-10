@@ -2849,38 +2849,36 @@ int main(int argc, char** argv)
 	char* val;
 
 	int i = 1;
+	if(NULL == hold_string)
+	{
+		hold_string = calloc(MAX_STRING + 4, sizeof(char));
+				require(NULL != hold_string, "Impossible Exhaustion has occurred\n");
+	}
+
+	name = argv[i];
+	if(NULL == name)
+	{
+		fputs("did not receive a file name\n", stderr);
+		exit(EXIT_FAILURE);
+	}
+
+	in = fopen(name, "r");
+	if(NULL == in)
+	{
+		fputs("Unable to open for reading file: ", stderr);
+		fputs(name, stderr);
+		fputs("\n Aborting to avoid problems\n", stderr);
+		exit(EXIT_FAILURE);
+	}
+	global_token = read_all_tokens(in, global_token, name);
+	fclose(in);
+	i = i + 1;
+
 	while(i <= argc)
 	{
 		if(NULL == argv[i])
 		{
 			i = i + 1;
-		}
-		else if(match(argv[i], "-f") || match(argv[i], "--file"))
-		{
-			if(NULL == hold_string)
-			{
-				hold_string = calloc(MAX_STRING + 4, sizeof(char));
-				require(NULL != hold_string, "Impossible Exhaustion has occurred\n");
-			}
-
-			name = argv[i + 1];
-			if(NULL == name)
-			{
-				fputs("did not receive a file name\n", stderr);
-				exit(EXIT_FAILURE);
-			}
-
-			in = fopen(name, "r");
-			if(NULL == in)
-			{
-				fputs("Unable to open for reading file: ", stderr);
-				fputs(name, stderr);
-				fputs("\n Aborting to avoid problems\n", stderr);
-				exit(EXIT_FAILURE);
-			}
-			global_token = read_all_tokens(in, global_token, name);
-			fclose(in);
-			i = i + 2;
 		}
 		else if(match(argv[i], "-o") || match(argv[i], "--output"))
 		{
