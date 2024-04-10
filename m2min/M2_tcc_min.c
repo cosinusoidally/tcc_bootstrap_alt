@@ -171,6 +171,11 @@ struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
+struct token_list* emit(char *s, struct token_list* head);
+void require(int bool, char* error);
+int member_size;
+void require_match(char* message, char* required);
+
 void require(int bool, char* error)
 {
 	if(!bool)
@@ -527,9 +532,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 	return token;
 }
 
-struct token_list* emit(char *s, struct token_list* head);
-void require(int bool, char* error);
-
 /* Lookup escape values */
 int escape_lookup(char* c)
 {
@@ -591,10 +593,6 @@ char* parse_string(char* string)
 	/* the string */
 	return collect_regular_string(string);
 }
-
-/* Imported functions */
-void line_error();
-void require(int bool, char* error);
 
 /* enable easy primitive extension */
 struct type* add_primitive(struct type* a)
@@ -675,10 +673,6 @@ struct type* lookup_type(char* s, struct type* start)
 	return NULL;
 }
 
-struct type* type_name();
-void require_match(char* message, char* required);
-
-int member_size;
 
 struct type* type_name()
 {
