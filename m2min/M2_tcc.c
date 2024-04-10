@@ -2913,22 +2913,8 @@ int main(int argc, char** argv)
 			}
 			i = i + 2;
 		}
-		else if(match(argv[i], "--bootstrap-mode"))
-		{
-			BOOTSTRAP_MODE = TRUE;
-			i = i + 1;
-		}
-		else if(match(argv[i], "-V") || match(argv[i], "--version"))
-		{
-			fputs("M2-Planet v1.10.0 (cutdown)\n", stderr);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			fputs("UNKNOWN ARGUMENT\n", stdout);
-			exit(EXIT_FAILURE);
-		}
 	}
+	BOOTSTRAP_MODE = TRUE;
 
 	/* Deal with special case of architecture not being set */
 	if(0 == Architecture)
