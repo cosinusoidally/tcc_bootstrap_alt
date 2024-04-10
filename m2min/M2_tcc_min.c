@@ -628,10 +628,6 @@ void initialize_types()
 	struct type* hold = new_primitive("void", "void*", "void**", register_size, FALSE);
 	prim_types = add_primitive(hold);
 
-	/* Define UNSIGNED */
-	hold = new_primitive("unsigned", "unsigned*", "unsigned**", register_size, FALSE);
-	prim_types = add_primitive(hold);
-
 	/* Define int */
 	integer = new_primitive("int", "int*", "int**", register_size, TRUE);
 	prim_types = add_primitive(integer);
