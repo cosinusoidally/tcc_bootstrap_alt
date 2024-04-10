@@ -628,10 +628,6 @@ void initialize_types()
 	struct type* hold = new_primitive("void", "void*", "void**", register_size, FALSE);
 	prim_types = add_primitive(hold);
 
-	/* Define unsigned LONG */
-	hold = new_primitive("SCM","SCM*", "SCM**", register_size, FALSE);
-	prim_types = add_primitive(hold);
-
 	/* Define LONG */
 	hold = new_primitive("long", "long*", "long**", register_size, TRUE);
 	prim_types = add_primitive(hold);
@@ -652,43 +648,20 @@ void initialize_types()
 	hold = new_primitive("int32_t", "int32_t*", "int32_t**", 4, TRUE);
 	prim_types = add_primitive(hold);
 
-	/* Define uint16_t */
-	hold = new_primitive("uint16_t", "uint16_t*", "uint16_t**", 2, FALSE);
-	prim_types = add_primitive(hold);
-
-	/* Define int16_t */
-	hold = new_primitive("int16_t", "int16_t*", "int16_t**", 2, TRUE);
-	prim_types = add_primitive(hold);
-
-	/* Define uint8_t */
-	hold = new_primitive("uint8_t", "uint8_t*", "uint8_t**", 1, FALSE);
-	prim_types = add_primitive(hold);
-
-	/* Define int8_t */
-	hold = new_primitive("int8_t", "int8_t*", "int8_t**", 1, TRUE);
-	prim_types = add_primitive(hold);
-
 	/* Define char */
 	hold = new_primitive("char", "char*", "char**", 1, TRUE);
 	prim_types = add_primitive(hold);
 
-	/* Define FUNCTION */
-	hold = new_primitive("FUNCTION", "FUNCTION*", "FUNCTION**", register_size, FALSE);
+	/* Define FILE */
+	hold = new_primitive("FILE", "FILE*", "FILE**", register_size, TRUE);
 	prim_types = add_primitive(hold);
 
-	if(BOOTSTRAP_MODE)
-	{
-		/* Define FILE */
-		hold = new_primitive("FILE", "FILE*", "FILE**", register_size, TRUE);
-		prim_types = add_primitive(hold);
+	/* Primitives mes.c wanted */
+	hold = new_primitive("size_t", "size_t*", "size_t**", register_size, FALSE);
+	prim_types = add_primitive(hold);
 
-		/* Primitives mes.c wanted */
-		hold = new_primitive("size_t", "size_t*", "size_t**", register_size, FALSE);
-		prim_types = add_primitive(hold);
-
-		hold = new_primitive("ssize_t", "ssize_t*", "ssize_t**", register_size, FALSE);
-		prim_types = add_primitive(hold);
-	}
+	hold = new_primitive("ssize_t", "ssize_t*", "ssize_t**", register_size, FALSE);
+	prim_types = add_primitive(hold);
 
 	global_types = prim_types;
 }
