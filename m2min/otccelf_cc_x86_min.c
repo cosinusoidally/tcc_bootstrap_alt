@@ -1341,7 +1341,7 @@ int elf_out(int c){
   gle32( 11);
   gle32( 16);
   gle32( 17);
-  gle32( rel+data_offset);
+  gle32( add(rel, data_offset));
   gle32( 18);
   gle32( glo_saved-rel);
   gle32( 19);
@@ -1362,10 +1362,10 @@ int init_globals(void){
   INTERP_OFFSET = 0x90;
   INTERP_SIZE =  0x13;
 
-  DYNAMIC_OFFSET = (INTERP_OFFSET + INTERP_SIZE + 1);
+  DYNAMIC_OFFSET = add(INTERP_OFFSET, add(INTERP_SIZE, 1));
   DYNAMIC_SIZE =  (11*8);
 
-  ELFSTART_SIZE = (DYNAMIC_OFFSET + DYNAMIC_SIZE);
+  ELFSTART_SIZE = add(DYNAMIC_OFFSET, DYNAMIC_SIZE);
   STARTUP_SIZE =  17;
 
   DYNSTR_BASE  =  22;
