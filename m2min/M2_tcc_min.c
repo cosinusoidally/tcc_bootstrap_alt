@@ -147,6 +147,10 @@ struct type* add_primitive(struct type* a);
 struct token_list* emit(char *s, struct token_list* head);
 int member_size;
 
+void expression();
+void primary_expr();
+struct type* type_name();
+
 void skip(char* str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = global_token->next;
@@ -523,7 +527,6 @@ struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-void expression();
 void function_call(char* s, int bool) {
 	skip("(");
 	int passed = 0;
@@ -666,8 +669,6 @@ void primary_expr_variable() {
 	exit(EXIT_FAILURE);
 }
 
-void primary_expr();
-
 void common_recursion(FUNCTION f) {
 	emit_out("push_eax\t#_common_recursion\n");
 
@@ -678,10 +679,7 @@ void common_recursion(FUNCTION f) {
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
 
-struct type* type_name();
-
 void primary_expr() {
-
 	if('-' == global_token->s[0]) {
 		emit_out("mov_eax, %0\n");
 		common_recursion(primary_expr);
