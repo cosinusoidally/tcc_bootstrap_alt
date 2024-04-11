@@ -624,14 +624,6 @@ void global_load(struct token_list* a) {
 	emit_out(load_value(register_size, current_target->is_signed));
 }
 
-void primary_expr_failure() {
-	line_error();
-	fputs("Received ", stderr);
-	fputs(global_token->s, stderr);
-	fputs(" in primary_expr\n", stderr);
-	exit(EXIT_FAILURE);
-}
-
 void primary_expr_string() {
 	char* number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
@@ -734,7 +726,7 @@ void primary_expr() {
 	} else if(in_set(global_token->s[0], "0123456789")) {
 		primary_expr_number();
 	} else {
-		primary_expr_failure();
+		exit(1);
 	}
 }
 
