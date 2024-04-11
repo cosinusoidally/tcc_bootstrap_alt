@@ -796,7 +796,7 @@ int strstr(int haystack, int needle){
   if(ri8(needle) == 0){
     return haystack;
   }
-  if(ri8(haystack) == 0 ){
+  if(eq(ri8(haystack), 0)){
     return 0;
   }
   lh=strlen(haystack);
@@ -808,7 +808,7 @@ int strstr(int haystack, int needle){
 /*    puts("o: "+o); */
     r = strncmp(needle, add(haystack, o), ln);
 /*    puts("r: "+r); */
-    if( r == 0) {
+    if(eq(r, 0)) {
       return add(haystack, o);
     }
     o = add(o, 1);
@@ -829,7 +829,7 @@ int strcpy(int dest, int src){
   c = 0;
   while(1){
     c=ri8(src);
-    if(c == 0){
+    if(eq(c, 0)){
       break;
     }
     src = add(src, 1);
@@ -890,7 +890,7 @@ int inp (void){
   if(dptr != 0){
     ch = ri8(dptr);
     dptr = add(dptr, 1);
-    if( ch == TAG_MACRO){
+    if(eq(ch, TAG_MACRO)){
       dptr=0;
       ch=dch;
     }
@@ -900,13 +900,13 @@ int inp (void){
 }
 
 int isid (void){
-  return (isalnum(ch) | (ch == mk_char('_')));
+  return (isalnum(ch) | eq(ch, mk_char('_')));
 }
 
 int getq (void){
-  if( ch == mk_char('\\')){
+  if(eq(ch, mk_char('\\'))){
     inp ();
-    if( ch == mk_char('n')) {
+    if(eq(ch, mk_char('n'))) {
       ch = mk_char('\n');
     }
   }
@@ -914,11 +914,11 @@ int getq (void){
 
 int next(void){
   int t; int l; int a;
-  while( (isspace(ch) != 0) | (ch == mk_char('#'))){
-    if( ch == mk_char('#')){
+  while( (isspace(ch) != 0) | eq(ch, mk_char('#'))){
+    if(eq(ch, mk_char('#'))){
       inp ();
       next();
-      if( tok == TOK_DEFINE){
+      if(eq(tok, TOK_DEFINE)){
         next();
         pdef(TAG_TOK);
         wi32(tok, 1);
