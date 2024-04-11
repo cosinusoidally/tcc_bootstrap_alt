@@ -617,8 +617,6 @@ void primary_expr_string() {
 	strings_list = emit(":STRING_", strings_list);
 	strings_list = uniqueID(function->s, strings_list, number_string);
 
-	/* catch case of just "foo" from segfaulting */
-
 	/* Parse the string */
 	if('"' != global_token->next->s[0]) {
 		strings_list = emit(parse_string(global_token->s), strings_list);
