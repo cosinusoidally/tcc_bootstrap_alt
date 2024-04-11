@@ -1298,65 +1298,29 @@ void recursive_statement()
 	function->locals = frame;
 }
 
-/*
- * statement:
- *     { statement-list-opt }
- *     type-name identifier ;
- *     type-name identifier = expression;
- *     if ( expression ) statement
- *     if ( expression ) statement else statement
- *     do statement while ( expression ) ;
- *     while ( expression ) statement
- *     for ( expression ; expression ; expression ) statement
- *     asm ( "assembly" ... "assembly" ) ;
- *     goto label ;
- *     label:
- *     return ;
- *     break ;
- *     expr ;
- */
-
 struct type* lookup_type(char* s, struct type* start);
-void statement()
-{
+void statement() {
 	require(NULL != global_token, "expected a C statement but received EOF\n");
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
-	if(global_token->s[0] == '{')
-	{
+	if(global_token->s[0] == '{') {
 		recursive_statement();
-	}
-	else if((NULL != lookup_type(global_token->s, prim_types)))
-	{
+	} else if((NULL != lookup_type(global_token->s, prim_types))) {
 		collect_local();
-	}
-	else if(match("if", global_token->s))
-	{
+	} else if(match("if", global_token->s)) {
 		process_if();
-	}
-	else if(match("while", global_token->s))
-	{
+	} else if(match("while", global_token->s)) {
 		process_while();
-	}
-	else if(match("for", global_token->s))
-	{
+	} else if(match("for", global_token->s)) {
 		process_for();
-	}
-	else if(match("asm", global_token->s))
-	{
+	} else if(match("asm", global_token->s)) {
 		process_asm();
-	}
-	else if(match("return", global_token->s))
-	{
+	} else if(match("return", global_token->s)) {
 		return_result();
-	}
-	else if(match("break", global_token->s))
-	{
+	} else if(match("break", global_token->s)) {
 		process_break();
-	}
-	else
-	{
+	} else {
 		expression();
 		require_match("ERROR in statement\nMISSING ;\n", ";");
 	}
