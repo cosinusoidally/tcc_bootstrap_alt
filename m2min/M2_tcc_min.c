@@ -420,14 +420,11 @@ char* collect_regular_string(char* string) {
 
 collect_regular_string_reset:
 	require((MAX_STRING - 3) > string_index, "Attempt at parsing regular string exceeds max length\n");
-	if(string[0] == '\\')
-	{
+	if(string[0] == '\\') {
 		hold_string[string_index] = escape_lookup(string);
 		if (string[1] == 'x') string = string + 2;
 		string = string + 2;
-	}
-	else
-	{
+	} else {
 		hold_string[string_index] = string[0];
 		string = string + 1;
 	}
@@ -445,19 +442,16 @@ collect_regular_string_reset:
 }
 
 /* Parse string to deal with hex characters*/
-char* parse_string(char* string)
-{
+char* parse_string(char* string) {
 	/* the string */
 	return collect_regular_string(string);
 }
 
 /* enable easy primitive extension */
-struct type* add_primitive(struct type* a)
-{
+struct type* add_primitive(struct type* a) {
 	if(NULL == prim_types) return a;
 	struct type* i = prim_types;
-	while(NULL != i->next)
-	{
+	while(NULL != i->next) {
 		i = i->next;
 	}
 	i->next = a;
@@ -466,8 +460,7 @@ struct type* add_primitive(struct type* a)
 }
 
 /* enable easy primitive creation */
-struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign)
-{
+struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
 	/* Create type** */
 	struct type* a = calloc(1, sizeof(struct type));
 	require(NULL != a, "Exhausted memory while declaring new primitive**\n");
@@ -498,8 +491,7 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 }
 
 /* Initialize default types */
-void initialize_types()
-{
+void initialize_types() {
 	register_size = 4;
 
 	/* Define void */

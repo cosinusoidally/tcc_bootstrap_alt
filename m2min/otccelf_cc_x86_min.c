@@ -929,7 +929,7 @@ int printf(int a){
 }
 
 void puts_num(int x){
-  char *s;
+  int s;
   s=int2str(x,10,0);
   puts(s);
   free(s);
