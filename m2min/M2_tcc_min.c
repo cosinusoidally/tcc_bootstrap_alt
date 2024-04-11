@@ -219,15 +219,13 @@ char* int2str(int x, int base, int signed_p) {
 		i = x & (0x7FFFFFFF | (1 << 31));
 	}
 
-	do
-	{
+	do {
 		p[0] = table[i % base];
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
 
-	if(sign_p)
-	{
+	if(sign_p) {
 		p[0] = '-';
 		p = p - 1;
 	}
@@ -235,33 +233,28 @@ char* int2str(int x, int base, int signed_p) {
 	return p + 1;
 }
 
-int grab_byte()
-{
+int grab_byte() {
 	int c = fgetc(input);
 	if(10 == c) line = line + 1;
 	return c;
 }
 
-int clearWhiteSpace(int c)
-{
+int clearWhiteSpace(int c) {
 	if((32 == c) || (9 == c)) return clearWhiteSpace(grab_byte());
 	return c;
 }
 
-int consume_byte(int c)
-{
+int consume_byte(int c) {
 	hold_string[string_index] = c;
 	string_index = string_index + 1;
 	require(MAX_STRING > string_index, "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
 	return grab_byte();
 }
 
-int preserve_string(int c)
-{
+int preserve_string(int c) {
 	int frequent = c;
 	int escape = FALSE;
-	do
-	{
+	do {
 		if(!escape && '\\' == c ) escape = TRUE;
 		else escape = FALSE;
 		c = consume_byte(c);
@@ -270,32 +263,25 @@ int preserve_string(int c)
 	return grab_byte();
 }
 
-
-void copy_string(char* target, char* source, int max)
-{
+void copy_string(char* target, char* source, int max) {
 	int i = 0;
-	while(0 != source[i])
-	{
+	while(0 != source[i]) {
 		target[i] = source[i];
 		i = i + 1;
 		if(i == max) break;
 	}
 }
 
-int preserve_keyword(int c, char* S)
-{
-	while(in_set(c, S))
-	{
+int preserve_keyword(int c, char* S) {
+	while(in_set(c, S)) {
 		c = consume_byte(c);
 	}
 	return c;
 }
 
-void reset_hold_string()
-{
+void reset_hold_string() {
 	int i = MAX_STRING;
-	while(0 <= i)
-	{
+	while(0 <= i) {
 		hold_string[i] = 0;
 		i = i - 1;
 	}
@@ -303,24 +289,20 @@ void reset_hold_string()
 }
 
 /* note if this is the first token in the list, head needs fixing up */
-struct token_list* eat_token(struct token_list* token)
-{
-	if(NULL != token->prev)
-	{
+struct token_list* eat_token(struct token_list* token) {
+	if(NULL != token->prev) {
 		token->prev->next = token->next;
 	}
 
 	/* update backlinks */
-	if(NULL != token->next)
-	{
+	if(NULL != token->next) {
 		token->next->prev = token->prev;
 	}
 
 	return token->next;
 }
 
-void new_token(char* s, int size)
-{
+void new_token(char* s, int size) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
 	require(NULL != current, "Exhausted memory while getting token\n");
 
@@ -336,8 +318,7 @@ void new_token(char* s, int size)
 	token = current;
 }
 
-int get_token(int c)
-{
+int get_token(int c) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
 	require(NULL != current, "Exhausted memory while getting token\n");
 
@@ -346,33 +327,21 @@ reset:
 	string_index = 0;
 
 	c = clearWhiteSpace(c);
-	if(c == EOF)
-	{
+	if(c == EOF) {
 		free(current);
 		return c;
-	}
-	else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))
-	{
+	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	}
-	else if(in_set(c, "<=>|&!^%"))
-	{
+	} else if(in_set(c, "<=>|&!^%")) {
 		c = preserve_keyword(c, "<=>|&!^%");
-	}
-	else if(in_set(c, "'\""))
-	{
+	} else if(in_set(c, "'\"")) {
 		c = preserve_string(c);
-	}
-	else if(c == '/')
-	{
+	} else if(c == '/') {
 		c = consume_byte(c);
-		if(c == '*')
-		{
+		if(c == '*') {
 			c = grab_byte();
-			while(c != '/')
-			{
-				while(c != '*')
-				{
+			while(c != '/') {
+				while(c != '*') {
 					c = grab_byte();
 					require(EOF != c, "Hit EOF inside of block comment\n");
 				}
@@ -382,21 +351,13 @@ reset:
 			c = grab_byte();
 			goto reset;
 		}
-	}
-	else if (c == '\n')
-	{
+	} else if (c == '\n') {
 		c = consume_byte(c);
-	}
-	else if(c == '*')
-	{
+	} else if(c == '*') {
 		c = consume_byte(c);
-	}
-	else if(c == '-')
-	{
+	} else if(c == '-') {
 		c = consume_byte(c);
-	}
-	else
-	{
+	} else {
 		c = consume_byte(c);
 	}
 
