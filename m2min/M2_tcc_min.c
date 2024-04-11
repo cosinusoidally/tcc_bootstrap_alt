@@ -941,8 +941,8 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 	if(match(name, global_token->s))
 	{
 /* LJW debug logging */
-		if(match(name, "!=")){
-			fputs("neq on line: ", stdout);
+		if(match(name, "&")){
+			fputs("and on line: ", stdout);
 			fputs(int2str(global_token->linenumber,10,0), stdout);
 			fputs("\n", stdout);
 		}
