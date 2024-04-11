@@ -359,12 +359,12 @@ int match(int a, int b)
 	int i = -1;
 	do
 	{
-		i = i + 1;
-		if(ri8(a + i) != ri8(b + i))
+		i = add(i, 1);
+		if(ri8(add(a, i)) != ri8(add(b, i)))
 		{
 			return FALSE;
 		}
-	} while((0 != ri8(a + i)) && (0 != ri8(b + i)));
+	} while((0 != ri8(add(a, i))) && (0 != ri8(add(b, i))));
 	return TRUE;
 }
 
@@ -377,7 +377,7 @@ int in_set(int c, int s)
 	while(0 != ri8(s))
 	{
 		if(c == ri8(s)) return TRUE;
-		s = s + 1;
+		s = add(s, 1);
 	}
 	return FALSE;
 }
@@ -386,10 +386,10 @@ int in_set(int c, int s)
 int __index_number(int s, char c)
 {
 	int i = 0;
-	while(ri8(s + i) != c)
+	while(ri8(add(s, i)) != c)
 	{
-		i = i + 1;
-		if(0 == ri8(s + i)) return -1;
+		i = add(i, 1);
+		if(0 == ri8(add(s, i))) return -1;
 	}
 	return i;
 }
@@ -412,13 +412,13 @@ int __set_reader(int set, int mult, int input)
 	if(ri8(input) == '-')
 	{
 		negative_p = TRUE;
-		i = i + 1;
+		i = add(i, 1);
 	}
 
-	while(in_set(ri8(input + i), set))
+	while(in_set(ri8(add(input, i)), set))
 	{
 		n = n * mult;
-		hold = __index_number(set, __toupper(ri8(input + i)));
+		hold = __index_number(set, __toupper(ri8(add(input, i))));
 
 		/* Input managed to change between in_set and index_number */
 		if(-1 == hold) return 0;
@@ -427,7 +427,7 @@ int __set_reader(int set, int mult, int input)
 	}
 
 	/* loop exited before NULL and thus invalid input */
-	if(0 != ri8(input + i)) return 0;
+	if(0 != ri8(add(input, i))) return 0;
 
 	if(negative_p)
 	{
