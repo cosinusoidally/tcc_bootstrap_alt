@@ -148,6 +148,10 @@ struct token_list* emit(char *s, struct token_list* head);
 int member_size;
 void require_match(char* message, char* required);
 
+void skip(char* str) {
+	global_token = global_token->next;
+}
+
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
