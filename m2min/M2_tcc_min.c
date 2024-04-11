@@ -963,12 +963,6 @@ void primary_expr()
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
 	}
-	else if('~' == global_token->s[0])
-	{
-		common_recursion(primary_expr);
-
-		emit_out("not_eax\n");
-	}
 	else if(global_token->s[0] == '(')
 	{
 		global_token = global_token->next;
