@@ -146,7 +146,6 @@ struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head);
 int member_size;
-void require_match(char* message, char* required);
 
 void skip(char* str) {
 /* dummy impl should check and abort if doesn't match */
@@ -524,10 +523,6 @@ struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-void require_match(char* message, char* required) {
-	global_token = global_token->next;
-}
-
 void expression();
 void function_call(char* s, int bool) {
 	skip("(");
@@ -882,8 +877,8 @@ void process_asm() {
 		emit_out("\n");
 		global_token = global_token->next;
 	}
-	require_match("ERROR", ")");
-	require_match("ERROR", ";");
+	skip(")");
+	skip(";");
 }
 
 /* Process while loops */
@@ -907,7 +902,7 @@ void process_while() {
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR", "(");
+	skip("(");
 	expression();
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
@@ -917,7 +912,7 @@ void process_while() {
 	emit_out("# THEN_while_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR", ")");
+	skip(")");
 	statement();
 
 	emit_out("jmp %WHILE_");
@@ -939,7 +934,7 @@ void return_result() {
 	global_token = global_token->next;
 	if(global_token->s[0] != ';') expression();
 
-	require_match("ERROR", ";");
+	skip(";");
 
 	struct token_list* i;
 	unsigned size_local_var;
@@ -965,7 +960,7 @@ void process_break() {
 	emit_out("_");
 	emit_out(break_target_num);
 	emit_out("\n");
-	require_match("ERROR", ";");
+	skip(";");
 }
 
 void recursive_statement() {
@@ -1011,7 +1006,7 @@ void statement() {
 		process_break();
 	} else {
 		expression();
-		require_match("ERROR", ";");
+		skip(";");
 	}
 }
 
