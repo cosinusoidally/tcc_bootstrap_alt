@@ -1254,13 +1254,13 @@ int block(int l){
   int a ; int n; int t;
   enter();
   a = v_alloca(4);
-  if( tok == TOK_IF){
+  if(eq(tok, TOK_IF)){
     next();
     next();
     wi32(a, test_expr());
     next();
     block(l);
-    if( tok == TOK_ELSE){
+    if(eq(tok, TOK_ELSE)){
       next();
       n=gjmp(0);
       gsym(ri32(a));
@@ -1271,11 +1271,11 @@ int block(int l){
       gsym(ri32(a));
     }
   }
-  else if( (tok == TOK_WHILE) | (tok == TOK_FOR)){
+  else if( eq(tok, TOK_WHILE) | eq(tok, TOK_FOR)){
     t=tok;
     next();
     next();
-    if( t == TOK_WHILE){
+    if(eq(t, TOK_WHILE)){
       n=ind;
       wi32(a, test_expr());
     }
@@ -1303,7 +1303,7 @@ int block(int l){
     gjmp(sub(sub(n, ind), 5));
     gsym(ri32(a));
   }
-  else if( tok == mk_char('{')){
+  else if(eq(tok, mk_char('{'))){
     next();
     decl(1);
     while( tok != mk_char('}')) {
@@ -1318,7 +1318,7 @@ int block(int l){
         expr ();
       }
       rsym=gjmp(rsym);
-    } else if( tok == TOK_BREAK){
+    } else if(eq(tok, TOK_BREAK)){
       next();
       wi32(l, gjmp(ri32(l)));
     } else if( tok != mk_char(';')) {
@@ -1331,7 +1331,7 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while( (tok == TOK_INT) | ((tok != (-1)) & (l == 0))){
+  while( eq(tok, TOK_INT) | ((tok != (-1)) & eq(l, 0))){
     if(eq(tok, TOK_INT)){
       next();
       while( tok != mk_char(';')){
