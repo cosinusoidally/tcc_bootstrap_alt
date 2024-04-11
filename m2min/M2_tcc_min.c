@@ -340,23 +340,6 @@ struct token_list* eat_token(struct token_list* token)
 	return token->next;
 }
 
-struct token_list* eat_until_newline(struct token_list* head)
-{
-	while (NULL != head)
-	{
-		if('\n' == head->s[0])
-		{
-			return head;
-		}
-		else
-		{
-			head = eat_token(head);
-		}
-	}
-
-	return NULL;
-}
-
 struct token_list* remove_line_comment_tokens(struct token_list* head)
 {
 	struct token_list* first = NULL;
@@ -411,11 +394,6 @@ reset:
 	{
 		free(current);
 		return c;
-	}
-	else if('#' == c)
-	{
-		c = consume_byte(c);
-		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
 	}
 	else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))
 	{
