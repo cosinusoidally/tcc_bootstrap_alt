@@ -365,12 +365,12 @@ int strtoint(int a)
 	return result;
 }
 
-char* int2str(int x, int base, int signed_p)
+int int2str(int x, int base, int signed_p)
 {
 	require(1 < base, "int2str doesn't support a base less than 2\n");
 	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
-	char* p = calloc(34, sizeof(char));
+	int p = calloc(34, sizeof(char));
 	/* if calloc fails return null to let calling code deal with it */
 	if(NULL == p) return p;
 
@@ -390,14 +390,14 @@ char* int2str(int x, int base, int signed_p)
 
 	do
 	{
-		p[0] = table[i % base];
+		wi8(p, table[i % base]);
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
 
 	if(sign_p)
 	{
-		p[0] = '-';
+		wi8(p, '-');
 		p = p - 1;
 	}
 
