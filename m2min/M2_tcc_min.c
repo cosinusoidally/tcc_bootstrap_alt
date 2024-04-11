@@ -793,11 +793,9 @@ void primary_expr() {
 	}
 }
 
-void expression()
-{
+void expression() {
 	primary_expr();
-	if(match("=", global_token->s))
-	{
+	if(match("=", global_token->s)) {
 		char* store = "";
 		store = store_value(current_target->size);
 		common_recursion(expression);
@@ -807,33 +805,24 @@ void expression()
 }
 
 /* Similar to integer division a / b but rounds up */
-unsigned ceil_div(unsigned a, unsigned b)
-{
+unsigned ceil_div(unsigned a, unsigned b) {
     return (a + b - 1) / b;
 }
 
 /* Process local variable */
-void collect_local()
-{
+void collect_local() {
 	struct type* type_size = type_name();
 	require(NULL != global_token, "Received EOF while collecting locals\n");
 	require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in local variable name\n");
 	require(NULL != type_size, "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
-	if(match("main", function->s) && (NULL == function->locals))
-	{
+	if(match("main", function->s) && (NULL == function->locals)) {
 		a->depth = -20;
-	}
-	else if((NULL == function->arguments) && (NULL == function->locals))
-	{
+	} else if((NULL == function->arguments) && (NULL == function->locals)) {
 		a->depth = -8;
-	}
-	else if(NULL == function->locals)
-	{
+	} else if(NULL == function->locals) {
 		a->depth = function->arguments->depth - 8;
-	}
-	else
-	{
+	} else {
 		a->depth = function->locals->depth - register_size;
 	}
 
@@ -851,8 +840,7 @@ void collect_local()
 	global_token = global_token->next;
 	require(NULL != global_token, "incomplete local missing name\n");
 
-	if(match("=", global_token->s))
-	{
+	if(match("=", global_token->s)) {
 		global_token = global_token->next;
 		require(NULL != global_token, "incomplete local assignment\n");
 		expression();
@@ -861,8 +849,7 @@ void collect_local()
 	require_match("ERROR in collect_local\nMissing ;\n", ";");
 
 	unsigned i = (a->type->size + register_size - 1) / register_size;
-	while(i != 0)
-	{
+	while(i != 0) {
 		emit_out("push_eax\t#");
 		emit_out(a->s);
 		emit_out("\n");
