@@ -39,8 +39,7 @@ int match(char* a, char* b);
 void require(int bool, char* error);
 void reset_hold_string();
 
-struct type
-{
+struct type {
 	struct type* next;
 	int size;
 	int offset;
@@ -51,22 +50,18 @@ struct type
 	char* name;
 };
 
-struct token_list
-{
+struct token_list {
 	struct token_list* next;
-	union
-	{
+	union {
 		struct token_list* locals;
 		struct token_list* prev;
 	};
 	char* s;
-	union
-	{
+	union {
 		struct type* type;
 		char* filename;
 	};
-	union
-	{
+	union {
 		struct token_list* arguments;
 		int depth;
 		int linenumber;
@@ -77,7 +72,6 @@ struct token_list
 void initialize_types();
 struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
 struct token_list* reverse_list(struct token_list* head);
-
 
 void eat_newline_tokens();
 void preprocess();
@@ -110,8 +104,6 @@ struct type* integer;
 /* enable bootstrap-mode */
 int BOOTSTRAP_MODE;
 
-
-
 /* Globals */
 FILE* input;
 struct token_list* token;
@@ -122,15 +114,13 @@ void require(int bool, char* error);
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
-struct conditional_inclusion
-{
+struct conditional_inclusion {
 	struct conditional_inclusion* prev;
 	int include; /* 1 == include, 0 == skip */
 	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
 };
 
-struct macro_list
-{
+struct macro_list {
 	struct macro_list* next;
 	char* symbol;
 	struct token_list* expansion;
@@ -173,50 +163,40 @@ void require(int bool, char* error);
 int member_size;
 void require_match(char* message, char* required);
 
-void require(int bool, char* error)
-{
-	if(!bool)
-	{
+void require(int bool, char* error) {
+	if(!bool) {
 		fputs(error, stderr);
 		exit(EXIT_FAILURE);
 	}
 }
 
-
-int match(char* a, char* b)
-{
+int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
 	if(NULL == b) return FALSE;
 
 	int i = -1;
-	do
-	{
+	do {
 		i = i + 1;
-		if(a[i] != b[i])
-		{
+		if(a[i] != b[i]) {
 			return FALSE;
 		}
 	} while((0 != a[i]) && (0 !=b[i]));
 	return TRUE;
 }
 
-
-int in_set(int c, char* s)
-{
+int in_set(int c, char* s) {
 	/* NULL set is always false */
 	if(NULL == s) return FALSE;
 
-	while(0 != s[0])
-	{
+	while(0 != s[0]) {
 		if(c == s[0]) return TRUE;
 		s = s + 1;
 	}
 	return FALSE;
 }
 
-char* int2str(int x, int base, int signed_p)
-{
+char* int2str(int x, int base, int signed_p) {
 	require(1 < base, "int2str doesn't support a base less than 2\n");
 	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
