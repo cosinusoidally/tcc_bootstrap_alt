@@ -1014,30 +1014,9 @@ void postfix_expr()
 	primary_expr();
 }
 
-void additive_expr()
-{
-	postfix_expr();
-}
-
-
-/*
- * relational-expr:
- *         additive_expr
- *         relational-expr < additive_expr
- *         relational-expr <= additive_expr
- *         relational-expr >= additive_expr
- *         relational-expr > additive_expr
- */
-
-void relational_expr_stub()
-{
-		general_recursion(additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
-}
-
 void relational_expr()
 {
-	additive_expr();
-	relational_expr_stub();
+	postfix_expr();
 }
 
 /*
