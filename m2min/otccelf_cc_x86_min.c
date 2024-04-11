@@ -277,6 +277,20 @@ int neq(int a, int b){
 	);
 }
 
+int xor(int a, int b){
+/*	return a ^ b; */
+	asm(
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"xor_eax,ebx"
+		"ret"
+	);
+}
+
 int wi8(int o,int v) {
 /*
   char *h = 0;
@@ -1285,7 +1299,7 @@ int sum(int l){
     }
     if(and(neq(a, 0), gt(l, 8))){
       a=gtst(t,a);
-      li(t^1);
+      li(xor(t, 1));
       gjmp(5);
       gsym(a);
       li(t);
