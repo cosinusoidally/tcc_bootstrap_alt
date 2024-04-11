@@ -800,16 +800,6 @@ void global_load(struct token_list* a)
 	emit_out(load_value(register_size, current_target->is_signed));
 }
 
-/*
- * primary-expr:
- * FAILURE
- * "String"
- * 'Char'
- * [0-9]*
- * [a-z,A-Z]*
- * ( expression )
- */
-
 void primary_expr_failure()
 {
 	require(NULL != global_token, "hit EOF when expecting primary expression\n");
@@ -935,12 +925,6 @@ void common_recursion(FUNCTION f)
 }
 
 struct type* type_name();
-
-/*
- * expression:
- *         bitwise-or-expr
- *         bitwise-or-expr = expression
- */
 
 void primary_expr()
 {
