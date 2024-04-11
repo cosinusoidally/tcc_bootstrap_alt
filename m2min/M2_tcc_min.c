@@ -1054,6 +1054,12 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
 	require(NULL != global_token, "Received EOF in arithmetic_recursion\n");
 	if(match(name, global_token->s))
 	{
+/* LJW debug logging */
+		if(match(name, "+")){
+			fputs("add on line: ", stdout);
+			fputs(int2str(global_token->linenumber,10,0), stdout);
+			fputs("\n", stdout);
+		}
 		common_recursion(f);
 		emit_out(s1);
 		iterate();
