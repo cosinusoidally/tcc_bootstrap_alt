@@ -1261,7 +1261,7 @@ int elf_reloc(int l){
             a=get32(n);
             c = ri8(n-1)!=5;
             put32(n,(-c)*4);
-            gle32( add(n-prog, add(text,data_offset)));
+            gle32( add(sub(n, prog), add(text,data_offset)));
             gle32( add(p*256,add(c, 1)));
             n=a;
           }
@@ -1277,11 +1277,11 @@ int elf_out(int c){
   int glo_saved; int dynstr; int dynstr_size; int dynsym; int hash; int rel;
   int n; int t; int text_size;
   text=glo;
-  text_size=ind-prog;
+  text_size = sub(ind, prog);
   ind=prog;
   o( 5264472);
   t = ri32(add(vars, TOK_MAIN));
-  oad(232,t-ind-5);
+  oad(232,sub(sub(t, ind), 5));
   o( 50057);
   li(1);
   o( 32973);
@@ -1291,7 +1291,7 @@ int elf_out(int c){
   glo = add(strcpy(glo,mk_c_string("libc.so.6")), 10);
   glo = add(strcpy(glo,mk_c_string("libdl.so.2")), 11);
   elf_reloc(0);
-  dynstr_size=glo-dynstr;
+  dynstr_size = sub(glo, dynstr);
   glo=(add(glo, 3))&(-4);
   dynsym=glo;
   gle32( 0);
@@ -1300,7 +1300,7 @@ int elf_out(int c){
   gle32( 0);
   elf_reloc(1);
   hash=glo;
-  n=(glo-dynsym)/16;
+  n = sub(glo, dynsym) / 16;
   gle32( 1);
   gle32( n);
   gle32( 1);
@@ -1333,7 +1333,7 @@ int elf_out(int c){
   gle32( 4);
   gle32( 1);
   gle32( 1);
-  gphdr1(0,glo_saved-data);
+  gphdr1(0, sub(glo_saved, data));
   gle32( 7);
   gle32( 4096);
   gle32( 2);
@@ -1358,13 +1358,13 @@ int elf_out(int c){
   gle32( 17);
   gle32( add(rel, data_offset));
   gle32( 18);
-  gle32( glo_saved-rel);
+  gle32( sub(glo_saved, rel));
   gle32( 19);
   gle32( 8);
   gle32( 0);
   gle32( 0);
   t=fopen(c,mk_c_string("wb"));
-  fwrite(data,1,glo_saved-data,t);
+  fwrite(data,1,sub(glo_saved, data),t);
   fclose(t);
 }
 
@@ -1439,7 +1439,7 @@ int main(int n,int t){
   t = add(t, 4);
   file=fopen(ri32(t), mk_c_string("r"));
 
-  data_offset = ELF_BASE - data;
+  data_offset = sub(ELF_BASE, data);
   glo = add(glo, ELFSTART_SIZE);
   ind = add(ind, STARTUP_SIZE);
 
