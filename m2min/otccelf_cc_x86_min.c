@@ -83,7 +83,17 @@ int sub(int a, int b){
 }
 
 int mul(int a, int b){
-	return a * b;
+/*	return a * b; */
+	asm(
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"imul_ebx"
+		"ret"
+	);
 }
 
 int ri8(int o) {
