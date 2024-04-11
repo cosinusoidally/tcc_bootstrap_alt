@@ -376,7 +376,7 @@ int fopen(int filename, int mode)
 	}
 
 	/* Negative numbers are error codes */
-	if(0 > f)
+	if(gt(0, f))
 	{
 		return 0;
 	}
@@ -601,7 +601,7 @@ int int2str(int x, int base, int signed_p)
 {
 	int table;
 	require(lt(1, base), "int2str doesn't support a base less than 2\n");
-	require(37 > base, "int2str doesn't support a base more than 36\n");
+	require(gt(37, base), "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	int p = calloc(34, sizeof(char));
 	/* if calloc fails return null to let calling code deal with it */
@@ -724,7 +724,7 @@ int strncmp (int a,int  b, int size) {
   if (size == 0)
     return 0;
 
-  while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && (size > 1))
+  while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && gt(size, 1))
     {
       size = sub(size, 1);
       a = add(a, 1);
@@ -753,7 +753,7 @@ int strstr(int haystack, int needle){
   }
   lh=strlen(haystack);
   ln=strlen(needle);
-  if(ln > lh) {
+  if(gt(ln, lh)) {
     return 0;
   }
   while(lt(o, lh)) {
@@ -796,7 +796,7 @@ int fwrite(int ptr,int size, int nitems, int stream) {
   int c;
   int t = mul(size, nitems);
   c = ptr;
-  while(t>0){
+  while(gt(t, 0)){
     fputc(ri8(c),stream);
     t = sub(t, 1);
     c = add(c, 1);
@@ -902,7 +902,7 @@ int next(void){
       tok = sub(strstr(sym_stk, sub(last_id, 1)), sym_stk);
       wi8(dstk, 0);
       tok = add((mul(tok, 8)), TOK_IDENT);
-      if( tok>TOK_DEFINE){
+      if(gt(tok, TOK_DEFINE)){
         tok = add(vars, tok);
         if( ri32(tok) == SYM_DEFINE){
           dptr = ri32(add(tok, 4));
@@ -1164,7 +1164,7 @@ int sum(int l){
       n=tok;
       t=tokc;
       next();
-      if( l>8){
+      if(gt(l, 8)){
         a=gtst(t,a);
         sum(l);
       }
@@ -1183,7 +1183,7 @@ int sum(int l){
         }
       }
     }
-    if( (a != 0) && (l>8)){
+    if( (a != 0) && gt(l, 8)){
       a=gtst(t,a);
       li(t^1);
       gjmp(5);
