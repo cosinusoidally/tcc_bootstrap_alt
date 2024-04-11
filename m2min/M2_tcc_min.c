@@ -105,14 +105,6 @@ char* file;
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
-struct conditional_inclusion {
-	struct conditional_inclusion* prev;
-	int include; /* 1 == include, 0 == skip */
-	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
-};
-
-struct conditional_inclusion* conditional_inclusion_top;
-
 /* point where we are currently modifying the global_token list */
 struct token_list* macro_token;
 
@@ -138,7 +130,6 @@ char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
-struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head);
