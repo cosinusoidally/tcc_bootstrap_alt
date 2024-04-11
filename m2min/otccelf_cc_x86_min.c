@@ -49,7 +49,6 @@ int EXIT_SUCCESS;
 int TRUE;
 int FALSE;
 
-char* heap;
 int int_size;
 
 void puts_num(int x);
@@ -58,14 +57,15 @@ int ri8(int o) {
   int o1=o>>2;
   int s=o&3;
   int v1;
-  int *h=heap;
+  int *h=0;
 /*  fputs("ri8: ",stdout);puts_num(o); */
   v1=h[o1*int_size];
   return (v1>>(s*8)) &0xFF;
 }
 
 int wi8(int o,int v) {
-  heap[o]=v;
+  char *h = 0;
+  h[o]=v;
   return;
 }
 
@@ -421,7 +421,6 @@ int init_c(void){
   v_stack=calloc(1,v_stack_size);
   v_esp=v_stack+v_stack_size-4;
   v_ebp=v_esp;
-  heap = 0;
   int_size = 1;
 }
 
