@@ -550,7 +550,7 @@ void function_call(char* s, int bool) {
 		}
 	}
 
-	require_match("ERROR", ")");
+	skip(")");
 
 	emit_out("mov_ebp,edi\n");
 	emit_out("call %FUNCTION_");
@@ -694,7 +694,7 @@ void primary_expr() {
 	} else if(global_token->s[0] == '(') {
 		global_token = global_token->next;
 		expression();
-		require_match("ERROR", ")");
+		skip(")");
 	} else if(global_token->s[0] == '\'') {
 		primary_expr_char();
 	} else if(global_token->s[0] == '"') {
@@ -756,7 +756,7 @@ void collect_local() {
 		expression();
 	}
 
-	require_match("ERROR", ";");
+	skip(";");
 
 	unsigned i = (a->type->size + register_size - 1) / register_size;
 	while(i != 0) {
@@ -778,14 +778,14 @@ void process_if() {
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR", "(");
+	skip("(");
 	expression();
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR", ")");
+	skip(")");
 	statement();
 
 	emit_out("jmp %_END_IF_");
@@ -824,7 +824,7 @@ void process_for() {
 
 	global_token = global_token->next;
 
-	require_match("ERROR", "(");
+	skip("(");
 	if(!match(";",global_token->s)) {
 		expression();
 	}
@@ -832,7 +832,7 @@ void process_for() {
 	emit_out(":FOR_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR", ";");
+	skip(";");
 	expression();
 
 	emit_out("test_eax,eax\nje %FOR_END_");
@@ -846,7 +846,7 @@ void process_for() {
 	emit_out(":FOR_ITER_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR", ";");
+	skip(";");
 	expression();
 
 	emit_out("jmp %FOR_");
@@ -856,7 +856,7 @@ void process_for() {
 	emit_out(":FOR_THEN_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR", ")");
+	skip(")");
 	statement();
 
 	emit_out("jmp %FOR_ITER_");
@@ -876,7 +876,7 @@ void process_for() {
 /* Process Assembly statements */
 void process_asm() {
 	global_token = global_token->next;
-	require_match("ERROR", "(");
+	skip("(");
 	while('"' == global_token->s[0]) {
 		emit_out((global_token->s + 1));
 		emit_out("\n");
