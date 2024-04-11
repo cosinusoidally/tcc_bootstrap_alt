@@ -999,7 +999,7 @@ int next(void){
       tokc=ch;
       inp ();
       inp ();
-    } else if(eq(tok, mk_char('/')) & eq(ch, mk_char('*'))){
+    } else if(and(eq(tok, mk_char('/')), eq(ch, mk_char('*')))){
       inp ();
       while(neq(ch, 0)){
         while(neq(ch, mk_char('*'))) {
@@ -1024,7 +1024,7 @@ int next(void){
           tokc = add(add((mul(tokc, 64)), tokl), 64);
         }
         t = add(t, 1);
-        if(eq(l, tok) & (eq(a, ch) | eq(a, mk_char('@')))){
+        if(and(eq(l, tok), (eq(a, ch) | eq(a, mk_char('@'))))){
           if(eq(a, ch)){
             inp ();
             tok = TOK_DUMMY;
@@ -1054,8 +1054,8 @@ int put32(int t, int n){
 
 int get32(int t){
   int n;
-  return (ri8(t)&255)       | shl((ri8(add(t, 1))&255), 8) |
-         shl((ri8(add(t, 2))&255), 16) | shl((ri8(add(t, 3))&255), 24);
+  return and(ri8(t), 255)       | shl(and(ri8(add(t, 1)), 255), 8) |
+         shl(and(ri8(add(t, 2)), 255), 16) | shl(and(ri8(add(t, 3)), 255), 24);
 }
 
 int gsym1(int t, int b){
@@ -1132,7 +1132,7 @@ int unary(int l){
       inp ();
     }
     wi8(glo, 0);
-    glo=(add(glo, 4)) & (-4);
+    glo=and(add(glo, 4), -4);
     inp ();
     next();
   } else {
@@ -1190,7 +1190,7 @@ int unary(int l){
     }
     else{
       n=0;
-      if(eq(tok, mk_char('=')) & neq(l, 0)){
+      if(and(eq(tok, mk_char('=')), neq(l, 0))){
         next();
         expr ();
         gmov(6,t);
@@ -1362,7 +1362,7 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while( eq(tok, TOK_INT) | (neq(tok, (-1)) & eq(l, 0))){
+  while( eq(tok, TOK_INT) | (and(neq(tok, (-1)), eq(l, 0)))){
     if(eq(tok, TOK_INT)){
       next();
       while(neq(tok, mk_char(';'))){
@@ -1482,7 +1482,7 @@ int elf_out(int c){
   glo = add(strcpy(glo,mk_c_string("libdl.so.2")), 11);
   elf_reloc(0);
   dynstr_size = sub(glo, dynstr);
-  glo=(add(glo, 3))&(-4);
+  glo = and(add(glo, 3), -4);
   dynsym=glo;
   gle32( 0);
   gle32( 0);
