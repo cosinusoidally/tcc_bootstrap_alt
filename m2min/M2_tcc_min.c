@@ -71,7 +71,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 struct token_list* reverse_list(struct token_list* head);
 
 void eat_newline_tokens();
-void preprocess();
 void program();
 void recursive_output(struct token_list* i, FILE* out);
 
