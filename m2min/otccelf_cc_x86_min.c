@@ -1159,13 +1159,13 @@ int unary(int l){
     }
     else{
       n=0;
-      if( (tok == mk_char('=')) & (l != 0)){
+      if(eq(tok, mk_char('=')) & (l != 0)){
         next();
         expr ();
         gmov(6,t);
       } else if( tok != mk_char('(')){
         gmov(8,t);
-        if( tokl == 11){
+        if(eq(tokl, 11)){
           gmov(0,t);
           o( tokc);
           next();
@@ -1173,7 +1173,7 @@ int unary(int l){
       }
     }
   }
-  if( tok == mk_char('(')){
+  if(eq(tok, mk_char('('))){
     if( n)o( 80);
     a=oad(60545,0);
     next();
@@ -1181,7 +1181,7 @@ int unary(int l){
     while( tok != mk_char(')')){
       expr();
       oad(2393225,l);
-      if( tok == mk_char(',')) {
+      if(eq(tok, mk_char(','))) {
         next();
       }
       l = add(l, 4);
@@ -1202,13 +1202,13 @@ int unary(int l){
 
 int sum(int l){
   int t; int n; int a;
-  if( l == 1) {
+  if(eq(l, 1)) {
     unary(1);
   } else{
     l = sub(l, 1);
     sum(l);
     a=0;
-    while( l == tokl){
+    while(eq(l, tokl)){
       n=tok;
       t=tokc;
       next();
@@ -1220,12 +1220,12 @@ int sum(int l){
         o( 80);
         sum(l);
         o( 89);
-        if( (l == 4) | (l == 5)){
+        if(eq(l, 4) | eq(l, 5)){
           gcmp(t);
         }
         else{
           o( t);
-          if( n == mk_char('%')) {
+          if(eq(n, mk_char('%'))) {
             o( 146);
           }
         }
@@ -1312,7 +1312,7 @@ int block(int l){
     next();
   }
   else{
-    if( tok == TOK_RETURN){
+    if(eq(tok, TOK_RETURN)){
       next();
       if( tok != mk_char(';')) {
         expr ();
