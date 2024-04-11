@@ -131,10 +131,10 @@ int open(int name, int flag, int mode)
 	    "int !0x80");
 }
 
-int fopen(int filename, char* mode)
+int fopen(int filename, int mode)
 {
 	int f;
-	if('w' == mode[0])
+	if('w' == ri8(mode))
 	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
 	}
