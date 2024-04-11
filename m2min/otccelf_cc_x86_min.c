@@ -160,6 +160,10 @@ int gt(int a, int b){
 	);
 }
 
+int lte(int a, int b){
+	return a <= b;
+}
+
 int ri8(int o) {
 /*
   char *h = 0;
