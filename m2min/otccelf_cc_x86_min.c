@@ -1235,19 +1235,19 @@ int elf_reloc(int l){
           memcpy(glo,a,t-a);
           glo=glo+t-a+1;
         } else if( l == 1){
-          gle32( p + DYNSTR_BASE);
+          gle32( add(p, DYNSTR_BASE));
           gle32( 0);
           gle32( 0);
           gle32( 16);
-          p=p+t-a+1;
+          p = add(add(p, t) - a, 1);
         } else{
-          p = p + 1;
+          p = add(p, 1);
           while( n){
             a=get32(n);
             c = ri8(n-1)!=5;
             put32(n,(-c)*4);
-            gle32( n-prog+text+data_offset);
-            gle32( p*256+c+1);
+            gle32( add(n-prog, add(text,data_offset)));
+            gle32( add(p*256,add(c, 1)));
             n=a;
           }
         }
