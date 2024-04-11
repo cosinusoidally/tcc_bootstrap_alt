@@ -941,8 +941,8 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 	if(match(name, global_token->s))
 	{
 /* LJW debug logging */
-		if(match(name, "&&")){
-			fputs("and on line: ", stdout);
+		if(match(name, "|")){
+			fputs("or on line: ", stdout);
 			fputs(int2str(global_token->linenumber,10,0), stdout);
 			fputs("\n", stdout);
 		}
@@ -982,7 +982,6 @@ void relational_expr()
  */
 void bitwise_expr_stub()
 {
-		general_recursion(relational_expr, "and_eax,ebx\n", "&&", bitwise_expr_stub);
 		general_recursion(relational_expr, "or_eax,ebx\n", "|", bitwise_expr_stub);
 		general_recursion(relational_expr, "or_eax,ebx\n", "||", bitwise_expr_stub);
 		general_recursion(relational_expr, "xor_eax,ebx\n", "^", bitwise_expr_stub);
