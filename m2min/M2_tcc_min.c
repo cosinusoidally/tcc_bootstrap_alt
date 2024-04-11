@@ -646,12 +646,10 @@ void variable_load(struct token_list* a, int num_dereference) {
 	current_target = a->type;
 
 	emit_out("lea_eax,[ebp+DWORD] %");
-
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(!match("=", global_token->s))
-	{
+	if(!match("=", global_token->s)) {
 		emit_out(load_value(current_target->size, current_target->is_signed));
 	}
 
@@ -659,15 +657,13 @@ void variable_load(struct token_list* a, int num_dereference) {
 
 void function_load(struct token_list* a) {
 	require(NULL != global_token, "incomplete function load\n");
-	if(match("(", global_token->s))
-	{
+	if(match("(", global_token->s)) {
 		function_call(a->s, FALSE);
 		return;
 	}
 }
 
-void global_load(struct token_list* a)
-{
+void global_load(struct token_list* a) {
 	current_target = a->type;
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(a->s);
@@ -679,8 +675,7 @@ void global_load(struct token_list* a)
 	emit_out(load_value(register_size, current_target->is_signed));
 }
 
-void primary_expr_failure()
-{
+void primary_expr_failure() {
 	require(NULL != global_token, "hit EOF when expecting primary expression\n");
 	line_error();
 	fputs("Received ", stderr);
@@ -689,8 +684,7 @@ void primary_expr_failure()
 	exit(EXIT_FAILURE);
 }
 
-void primary_expr_string()
-{
+void primary_expr_string() {
 	char* number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 	emit_out("mov_eax, &STRING_");
@@ -704,8 +698,7 @@ void primary_expr_string()
 	require(NULL != global_token->next, "a string by itself is not valid C\n");
 
 	/* Parse the string */
-	if('"' != global_token->next->s[0])
-	{
+	if('"' != global_token->next->s[0]) {
 		strings_list = emit(parse_string(global_token->s), strings_list);
 		global_token = global_token->next;
 	}
