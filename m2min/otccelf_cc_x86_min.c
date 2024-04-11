@@ -849,8 +849,8 @@ int put32(int t, int n){
 
 int get32(int t){
   int n;
-  return (ri8(t)&255)       | (ri8(t+1)&255)<<8 |
-         (ri8(t+2)&255)<<16 | (ri8(t+3)&255)<<24;
+  return (ri8(t)&255)       | (ri8(add(t, 1))&255)<<8 |
+         (ri8(add(t, 2))&255)<<16 | (ri8(add(t, 3))&255)<<24;
 }
 
 int gsym1(int t, int b){
@@ -859,9 +859,9 @@ int gsym1(int t, int b){
     d=get32(t);
     if( ri8(t-1) == 5){
       if( (b >= data) && (b < glo))
-        put32(t, b + data_offset);
+        put32(t, add(b, data_offset));
       else
-        put32(t, b - prog + text + data_offset);
+        put32(t, add(add(b - prog, text), data_offset));
     }
     else{
       put32(t, b - t - 4);
@@ -892,20 +892,20 @@ int gjmp(int t){
 
 int gtst(int l, int t){
   o( 1032325);
-  return oad(132+l, t);
+  return oad(add(132, l), t);
 }
 
 int gcmp(int t){
   o( 49465);
   li(0);
   o( 15);
-  o( t+144);
+  o( add(t, 144));
   o( 192);
 }
 
 int gmov(int l, int t){
   int d;
-  o( l+131);
+  o( add(l, 131));
   d = ri32(t);
   if( (d != 0) && (d < LOCAL)) {
     oad(133,d);
