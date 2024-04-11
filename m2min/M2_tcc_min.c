@@ -402,10 +402,6 @@ reset:
 			c = grab_byte();
 			goto reset;
 		}
-		else if(c == '/')
-		{
-			c = consume_byte(c);
-		}
 	}
 	else if (c == '\n')
 	{
