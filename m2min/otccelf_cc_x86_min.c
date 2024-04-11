@@ -1162,12 +1162,12 @@ int decl(int l){
       next();
       while( tok != mk_char(';')){
         if( l){
-          loc=loc+4;
+          loc = add(loc, 4);
           wi32(tok, -loc);
         }
         else{
           wi32(tok, glo);
-          glo=glo+4;
+          glo = add(glo, 4);
         }
         next();
         if( tok == mk_char(',')) {
@@ -1183,7 +1183,7 @@ int decl(int l){
       a=8;
       while( tok != mk_char(')')){
         wi32(tok, a);
-        a=a+4;
+        a = add(a, 4);
         next();
         if( tok == mk_char(',')) {
           next();
