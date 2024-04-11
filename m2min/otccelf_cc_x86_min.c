@@ -82,6 +82,10 @@ int sub(int a, int b){
 	);
 }
 
+int mul(int a, int b){
+	return a * b;
+}
+
 int ri8(int o) {
 /*
   char *h = 0;
@@ -1378,7 +1382,7 @@ int init_globals(void){
   INTERP_SIZE =  0x13;
 
   DYNAMIC_OFFSET = add(INTERP_OFFSET, add(INTERP_SIZE, 1));
-  DYNAMIC_SIZE =  (11*8);
+  DYNAMIC_SIZE =  mul(11, 8);
 
   ELFSTART_SIZE = add(DYNAMIC_OFFSET, DYNAMIC_SIZE);
   STARTUP_SIZE =  17;
