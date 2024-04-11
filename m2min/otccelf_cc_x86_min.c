@@ -60,7 +60,7 @@ void fputs(char* s, int f)
 	}
 }
 
-int open(char* name, int flag, int mode)
+int open(int name, int flag, int mode)
 {
 	asm("lea_ebx,[esp+DWORD] %12"
 	    "mov_ebx,[ebx]"
@@ -72,7 +72,7 @@ int open(char* name, int flag, int mode)
 	    "int !0x80");
 }
 
-int fopen(char* filename, char* mode)
+int fopen(int filename, char* mode)
 {
 	int f;
 	if('w' == mode[0])
@@ -106,7 +106,7 @@ int fclose(int stream)
 	return error;
 }
 
-int brk(void *addr)
+int brk(int addr)
 {
 	asm("mov_eax,[esp+DWORD] %4"
 	    "push_eax"
@@ -118,7 +118,7 @@ int brk(void *addr)
 int _malloc_ptr;
 int _brk_ptr;
 
-void* malloc(int size)
+int malloc(int size)
 {
 	if(NULL == _brk_ptr)
 	{
@@ -144,7 +144,7 @@ int strlen(char* str )
 	return i;
 }
 
-void* memset(void* ptr, int value, int num)
+int memset(void* ptr, int value, int num)
 {
 	char* s;
 	for(s = ptr; 0 < num; num = num - 1)
@@ -154,7 +154,7 @@ void* memset(void* ptr, int value, int num)
 	}
 }
 
-void* calloc(int count, int size)
+int calloc(int count, int size)
 {
 	void* ret = malloc(count * size);
 	if(NULL == ret) return NULL;
@@ -162,7 +162,7 @@ void* calloc(int count, int size)
 	return ret;
 }
 
-void free(void* l)
+int free(int l)
 {
 	return;
 }
@@ -174,30 +174,6 @@ void exit(int value)
 	    "mov_eax, %1"
 	    "int !0x80");
 }
-/* Copyright (C) 2016 Jeremiah Orians
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-#include <stdio.h>
-#include <stdlib.h>
-
-
-#define TRUE 1
-#define FALSE 0
-
 
 void require(int bool, char* error)
 {
