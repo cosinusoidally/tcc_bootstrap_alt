@@ -573,9 +573,10 @@ int in_set(int c, int s)
 }
 
 /* INTERNAL ONLY */
-int __index_number(int s, char c)
+int __index_number(int s, int c)
 {
 	int i = 0;
+	c = c & 255;
 	while(neq(ri8(add(s, i)), c))
 	{
 		i = add(i, 1);
@@ -667,7 +668,7 @@ int int2str(int x, int base, int signed_p)
 	require(lt(1, base), "int2str doesn't support a base less than 2\n");
 	require(gt(37, base), "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
-	int p = calloc(34, sizeof(char));
+	int p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
 	if(eq(NULL, p)) return p;
 
@@ -705,7 +706,7 @@ int int2str(int x, int base, int signed_p)
 int expr(void);
 int decl(int l);
 
-int puts(char *a){
+int puts(int a){
   fputs(a, stdout);
   fputs("\n", stdout);
 }
