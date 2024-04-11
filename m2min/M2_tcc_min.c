@@ -36,7 +36,6 @@
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
 int match(char* a, char* b);
-void require(int bool, char* error);
 void reset_hold_string();
 
 struct type {
@@ -107,7 +106,6 @@ struct token_list* token;
 int line;
 char* file;
 
-void require(int bool, char* error);
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
@@ -150,22 +148,13 @@ int current_count;
 char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
-void require(int bool, char* error);
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head);
-void require(int bool, char* error);
 int member_size;
 void require_match(char* message, char* required);
-
-void require(int bool, char* error) {
-	if(!bool) {
-		fputs(error, stderr);
-		exit(EXIT_FAILURE);
-	}
-}
 
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
@@ -194,8 +183,6 @@ int in_set(int c, char* s) {
 }
 
 char* int2str(int x, int base, int signed_p) {
-	require(1 < base, "int2str doesn't support a base less than 2\n");
-	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	char* p = calloc(34, sizeof(char));
 	/* if calloc fails return null to let calling code deal with it */
@@ -244,7 +231,6 @@ int clearWhiteSpace(int c) {
 int consume_byte(int c) {
 	hold_string[string_index] = c;
 	string_index = string_index + 1;
-	require(MAX_STRING > string_index, "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
 	return grab_byte();
 }
 
@@ -255,7 +241,6 @@ int preserve_string(int c) {
 		if(!escape && '\\' == c ) escape = TRUE;
 		else escape = FALSE;
 		c = consume_byte(c);
-		require(EOF != c, "Unterminated string\n");
 	} while(escape || (c != frequent));
 	return grab_byte();
 }
@@ -301,11 +286,9 @@ struct token_list* eat_token(struct token_list* token) {
 
 void new_token(char* s, int size) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
-	require(NULL != current, "Exhausted memory while getting token\n");
 
 	/* More efficiently allocate memory for string */
 	current->s = calloc(size, sizeof(char));
-	require(NULL != current->s, "Exhausted memory while trying to copy a token\n");
 	copy_string(current->s, s, MAX_STRING);
 
 	current->prev = token;
@@ -317,7 +300,6 @@ void new_token(char* s, int size) {
 
 int get_token(int c) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
-	require(NULL != current, "Exhausted memory while getting token\n");
 
 reset:
 	reset_hold_string();
@@ -340,10 +322,8 @@ reset:
 			while(c != '/') {
 				while(c != '*') {
 					c = grab_byte();
-					require(EOF != c, "Hit EOF inside of block comment\n");
 				}
 				c = grab_byte();
-				require(EOF != c, "Hit EOF inside of block comment\n");
 			}
 			c = grab_byte();
 			goto reset;
@@ -380,7 +360,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 	int ch = grab_byte();
 	while(EOF != ch) {
 		ch = get_token(ch);
-		require(NULL != token, "Empty files don't need to be compiled\n");
 	}
 
 	return token;
@@ -414,7 +393,6 @@ char* collect_regular_string(char* string) {
 	string_index = 0;
 
 collect_regular_string_reset:
-	require((MAX_STRING - 3) > string_index, "Attempt at parsing regular string exceeds max length\n");
 	if(string[0] == '\\') {
 		hold_string[string_index] = escape_lookup(string);
 		if (string[1] == 'x') string = string + 2;
@@ -430,7 +408,6 @@ collect_regular_string_reset:
 	hold_string[string_index] = '"';
 	hold_string[string_index + 1] = '\n';
 	char* message = calloc(string_index + 3, sizeof(char));
-	require(NULL != message, "Exhausted memory while storing regular string\n");
 	copy_string(message, hold_string, string_index + 2);
 	reset_hold_string();
 	return message;
@@ -458,7 +435,6 @@ struct type* add_primitive(struct type* a) {
 struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
 	/* Create type** */
 	struct type* a = calloc(1, sizeof(struct type));
-	require(NULL != a, "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
 	a->size = register_size;
 	a->indirect = a;
@@ -466,7 +442,6 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 
 	/* Create type* */
 	struct type* b = calloc(1, sizeof(struct type));
-	require(NULL != b, "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
 	b->size = register_size;
 	b->is_signed = sign;
@@ -474,7 +449,6 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 	a->type = b;
 
 	struct type* r = calloc(1, sizeof(struct type));
-	require(NULL != r, "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
 	r->size = size;
 	r->is_signed = sign;
@@ -512,16 +486,13 @@ struct type* lookup_type(char* s, struct type* start) {
 
 struct type* type_name() {
 	struct type* ret;
-	require(NULL != global_token, "Received EOF instead of type name\n");
 	ret = lookup_type(global_token->s, global_types);
 	global_token = global_token->next;
-	require(NULL != global_token, "unfinished type definition\n");
 	return ret;
 }
 
 struct token_list* emit(char *s, struct token_list* head) {
 	struct token_list* t = calloc(1, sizeof(struct token_list));
-	require(NULL != t, "Exhausted memory while generating token to emit\n");
 	t->next = head;
 	t->s = s;
 	return t;
@@ -542,7 +513,6 @@ void uniqueID_out(char* s, char* num) {
 
 struct token_list* sym_declare(char *s, struct type* t, struct token_list* list) {
 	struct token_list* a = calloc(1, sizeof(struct token_list));
-	require(NULL != a, "Exhausted memory while attempting to declare a symbol\n");
 	a->next = list;
 	a->s = s;
 	a->type = t;
@@ -592,7 +562,6 @@ void require_match(char* message, char* required) {
 void expression();
 void function_call(char* s, int bool) {
 	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
-	require(NULL != global_token, "Improper function call\n");
 	int passed = 0;
 
 	emit_out("push_edi\t# Prevent overwriting in recursion\n");
@@ -601,13 +570,11 @@ void function_call(char* s, int bool) {
 
 	if(global_token->s[0] != ')') {
 		expression();
-		require(NULL != global_token, "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
 		while(global_token->s[0] == ',') {
 			global_token = global_token->next;
-			require(NULL != global_token, "incomplete function call, received EOF instead of argument\n");
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
 			passed = passed + 1;
@@ -638,7 +605,6 @@ char* store_value(unsigned size) {
 }
 
 void variable_load(struct token_list* a, int num_dereference) {
-	require(NULL != global_token, "incomplete variable load received\n");
 
 	current_target = a->type;
 
@@ -653,7 +619,6 @@ void variable_load(struct token_list* a, int num_dereference) {
 }
 
 void function_load(struct token_list* a) {
-	require(NULL != global_token, "incomplete function load\n");
 	if(match("(", global_token->s)) {
 		function_call(a->s, FALSE);
 		return;
@@ -666,14 +631,12 @@ void global_load(struct token_list* a) {
 	emit_out(a->s);
 	emit_out("\n");
 
-	require(NULL != global_token, "unterminated global load\n");
 	if(match("=", global_token->s)) return;
 
 	emit_out(load_value(register_size, current_target->is_signed));
 }
 
 void primary_expr_failure() {
-	require(NULL != global_token, "hit EOF when expecting primary expression\n");
 	line_error();
 	fputs("Received ", stderr);
 	fputs(global_token->s, stderr);
@@ -692,7 +655,6 @@ void primary_expr_string() {
 	strings_list = uniqueID(function->s, strings_list, number_string);
 
 	/* catch case of just "foo" from segfaulting */
-	require(NULL != global_token->next, "a string by itself is not valid C\n");
 
 	/* Parse the string */
 	if('"' != global_token->next->s[0]) {
@@ -758,7 +720,6 @@ void common_recursion(FUNCTION f) {
 
 	struct type* last_type = current_target;
 	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF in common_recursion\n");
 	f();
 
 	emit_out("pop_ebx\t# _common_recursion\n");
@@ -767,7 +728,6 @@ void common_recursion(FUNCTION f) {
 struct type* type_name();
 
 void primary_expr() {
-	require(NULL != global_token, "Received EOF where primary expression expected\n");
 
 	if('-' == global_token->s[0]) {
 		emit_out("mov_eax, %0\n");
@@ -809,9 +769,6 @@ unsigned ceil_div(unsigned a, unsigned b) {
 /* Process local variable */
 void collect_local() {
 	struct type* type_size = type_name();
-	require(NULL != global_token, "Received EOF while collecting locals\n");
-	require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in local variable name\n");
-	require(NULL != type_size, "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
 	if(match("main", function->s) && (NULL == function->locals)) {
 		a->depth = -20;
@@ -835,11 +792,9 @@ void collect_local() {
 	emit_out("\n");
 
 	global_token = global_token->next;
-	require(NULL != global_token, "incomplete local missing name\n");
 
 	if(match("=", global_token->s)) {
 		global_token = global_token->next;
-		require(NULL != global_token, "incomplete local assignment\n");
 		expression();
 	}
 
@@ -874,7 +829,6 @@ void process_if() {
 
 	require_match("ERROR in process_if\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
 
 	emit_out("jmp %_END_IF_");
 
@@ -885,9 +839,7 @@ void process_if() {
 
 	if(match("else", global_token->s)) {
 		global_token = global_token->next;
-		require(NULL != global_token, "Received EOF where an else statement expected\n");
 		statement();
-		require(NULL != global_token, "Reached EOF inside of function\n");
 	}
 	emit_out(":_END_IF_");
 	uniqueID_out(function->s, number_string);
@@ -948,7 +900,6 @@ void process_for() {
 
 	require_match("ERROR in process_for\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
 
 	emit_out("jmp %FOR_ITER_");
 
@@ -972,7 +923,6 @@ void process_asm() {
 		emit_out((global_token->s + 1));
 		emit_out("\n");
 		global_token = global_token->next;
-		require(NULL != global_token, "Received EOF inside asm statement\n");
 	}
 	require_match("ERROR in process_asm\nMISSING )\n", ")");
 	require_match("ERROR in process_asm\nMISSING ;\n", ";");
@@ -1011,7 +961,6 @@ void process_while() {
 
 	require_match("ERROR in process_while\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
 
 	emit_out("jmp %WHILE_");
 
@@ -1030,7 +979,6 @@ void process_while() {
 /* Ensure that functions return */
 void return_result() {
 	global_token = global_token->next;
-	require(NULL != global_token, "Incomplete return statement received\n");
 	if(global_token->s[0] != ';') expression();
 
 	require_match("ERROR in return_result\nMISSING ;\n", ";");
@@ -1064,12 +1012,10 @@ void process_break() {
 
 void recursive_statement() {
 	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF in recursive statement\n");
 	struct token_list* frame = function->locals;
 
 	while(!match("}", global_token->s)) {
 		statement();
-		require(NULL != global_token, "Received EOF in recursive statement prior to }\n");
 	}
 	global_token = global_token->next;
 
@@ -1086,7 +1032,6 @@ void recursive_statement() {
 
 struct type* lookup_type(char* s, struct type* start);
 void statement() {
-	require(NULL != global_token, "expected a C statement but received EOF\n");
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
@@ -1115,20 +1060,16 @@ void statement() {
 /* Collect function arguments */
 void collect_arguments() {
 	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
 	struct type* type_size;
 	struct token_list* a;
 
 	while(!match(")", global_token->s)) {
 		type_size = type_name();
-		require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
-		require(NULL != type_size, "Must have non-null type\n");
 		if(global_token->s[0] == ')') {
 			/* foo(int,char,void) doesn't need anything done */
 			continue;
 		} else if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
-			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
 			if(NULL == function->arguments) {
 				a->depth = -4;
@@ -1137,17 +1078,14 @@ void collect_arguments() {
 			}
 
 			global_token = global_token->next;
-			require(NULL != global_token, "Incomplete argument list\n");
 			function->arguments = a;
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
 		if(global_token->s[0] == ',') {
 			global_token = global_token->next;
-			require(NULL != global_token, "naked comma in collect arguments\n");
 		}
 
-		require(NULL != global_token, "Argument list never completed\n");
 	}
 	global_token = global_token->next;
 }
@@ -1160,7 +1098,6 @@ void declare_function() {
 	global_function_list = function;
 	collect_arguments();
 
-	require(NULL != global_token, "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
 	if(global_token->s[0] == ';') {
 		global_token = global_token->next;
@@ -1190,8 +1127,6 @@ new_type:
 	type_size = type_name();
 	/* Deal with case of struct definitions */
 	if(NULL == type_size) goto new_type;
-
-	require(NULL != global_token->next, "Unterminated global\n");
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
