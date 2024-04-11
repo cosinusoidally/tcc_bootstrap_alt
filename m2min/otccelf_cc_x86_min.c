@@ -1175,11 +1175,11 @@ int unary(int l){
     }
     else{
       n=0;
-      if(eq(tok, mk_char('=')) & (l != 0)){
+      if(eq(tok, mk_char('=')) & neq(l, 0)){
         next();
         expr ();
         gmov(6,t);
-      } else if( tok != mk_char('(')){
+      } else if(neq(tok, mk_char('('))){
         gmov(8,t);
         if(eq(tokl, 11)){
           gmov(0,t);
@@ -1194,7 +1194,7 @@ int unary(int l){
     a=oad(60545,0);
     next();
     l=0;
-    while( tok != mk_char(')')){
+    while(neq(tok, mk_char(')'))){
       expr();
       oad(2393225,l);
       if(eq(tok, mk_char(','))) {
@@ -1247,7 +1247,7 @@ int sum(int l){
         }
       }
     }
-    if( (a != 0) && gt(l, 8)){
+    if( neq(a, 0) && gt(l, 8)){
       a=gtst(t,a);
       li(t^1);
       gjmp(5);
@@ -1296,7 +1296,7 @@ int block(int l){
       wi32(a, test_expr());
     }
     else{
-      if( tok != mk_char(';')) {
+      if(neq(tok, mk_char(';'))) {
         expr ();
       }
       next();
@@ -1306,7 +1306,7 @@ int block(int l){
         wi32(a, test_expr());
       }
       next();
-      if( tok != mk_char(')')){
+      if(neq(tok, mk_char(')'))){
         t=gjmp(0);
         expr ();
         gjmp(sub(sub(n, ind), 5));
@@ -1322,7 +1322,7 @@ int block(int l){
   else if(eq(tok, mk_char('{'))){
     next();
     decl(1);
-    while( tok != mk_char('}')) {
+    while(neq(tok, mk_char('}'))) {
       block(l);
     }
     next();
@@ -1330,14 +1330,14 @@ int block(int l){
   else{
     if(eq(tok, TOK_RETURN)){
       next();
-      if( tok != mk_char(';')) {
+      if(neq(tok != mk_char(';'))) {
         expr ();
       }
       rsym=gjmp(rsym);
     } else if(eq(tok, TOK_BREAK)){
       next();
       wi32(l, gjmp(ri32(l)));
-    } else if( tok != mk_char(';')) {
+    } else if(neq(tok, mk_char(';'))) {
       expr ();
     }
     next();
@@ -1347,7 +1347,7 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while( eq(tok, TOK_INT) | ((tok != (-1)) & eq(l, 0))){
+  while( eq(tok, TOK_INT) | (neq(tok, (-1)) & eq(l, 0))){
     if(eq(tok, TOK_INT)){
       next();
       while(neq(tok, mk_char(';'))){
