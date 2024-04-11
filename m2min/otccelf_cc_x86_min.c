@@ -556,7 +556,7 @@ void require(int bool, int error)
 
 int match(int a, int b)
 {
-	if(eq(NULL, a) && eq(NULL, b)) return TRUE;
+	if(and(eq(NULL, a), eq(NULL, b))) return TRUE;
 	if(eq(NULL, a)) return FALSE;
 	if(eq(NULL, b)) return FALSE;
 
@@ -568,7 +568,7 @@ int match(int a, int b)
 		{
 			return FALSE;
 		}
-	} while(neq(0, ri8(add(a, i))) && neq(0, ri8(add(b, i))));
+	} while(and(neq(0, ri8(add(a, i))), neq(0, ri8(add(b, i)))));
 	return TRUE;
 }
 
@@ -651,12 +651,12 @@ int strtoint(int a)
 		result = 0;
 	}
 	/* Deal with binary */
-	else if (eq('0', ri8(a)) && eq('b', ri8(add(a, 1))))
+	else if (and(eq('0', ri8(a)), eq('b', ri8(add(a, 1)))))
 	{
 		result = __set_reader("01", 2, add(a, 2));
 	}
 	/* Deal with hex */
-	else if (eq('0', ri8(a)) &&  eq('x', ri8(add(a, 1))))
+	else if (and(eq('0', ri8(a)), eq('x', ri8(add(a, 1)))))
 	{
 		result = __set_reader("0123456789ABCDEFabcdef", 16, add(a, 2));
 	}
@@ -691,7 +691,7 @@ int int2str(int x, int base, int signed_p)
 	int sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && eq(10, base) && neq(0, and(x, 0x80000000)))
+	if(and(and(signed_p, eq(10, base)), neq(0, and(x, 0x80000000))))
 	{
 		/* Truncate to 31bits */
 		i = and(-x, 0x7FFFFFFF);
@@ -780,7 +780,7 @@ int isdigit(int c){
   c = and(c, 0xFF);
 /*  print("isdigit:"+c); */
   r = sub(c, mk_char('0'));
-  return lt(r, 10) && gte(r, 0);
+  return and(lt(r, 10), gte(r, 0));
 }
 
 int isalnum(int c){
