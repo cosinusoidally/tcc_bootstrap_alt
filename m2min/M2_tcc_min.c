@@ -150,6 +150,8 @@ int member_size;
 void expression();
 void primary_expr();
 struct type* type_name();
+void statement();
+
 
 void skip(char* str) {
 /* dummy impl should check and abort if doesn't match */
@@ -759,8 +761,6 @@ void collect_local() {
 		i = i - 1;
 	}
 }
-
-void statement();
 
 /* Evaluate if statements */
 void process_if() {
