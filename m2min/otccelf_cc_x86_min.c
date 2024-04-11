@@ -147,6 +147,22 @@ int wi8(int o,int v) {
 	);
 }
 
+int div(int a, int b){
+/*	return a / b; */
+	asm(
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"xchg_ebx,eax"
+		"cdq"
+		"idiv_ebx"
+		"ret"
+	);
+}
+
 int wi32(int o, int v) {
   wi8(o,v&0xFF);
   v=v>>8;
@@ -528,7 +544,7 @@ int int2str(int x, int base, int signed_p)
 	{
 		wi8(p, ri8(add(table, (i % base))));
 		p = sub(p, 1);
-		i = i / base;
+		i = div(i, base);
 	} while(0 < i);
 
 	if(sign_p)
@@ -1314,7 +1330,7 @@ int elf_out(int c){
   gle32( 0);
   elf_reloc(1);
   hash=glo;
-  n = sub(glo, dynsym) / 16;
+  n = div(sub(glo, dynsym), 16);
   gle32( 1);
   gle32( n);
   gle32( 1);
