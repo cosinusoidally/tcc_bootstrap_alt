@@ -863,7 +863,6 @@ char* store_value(unsigned size)
 	exit(EXIT_FAILURE);
 }
 
-void postfix_expr_stub();
 void variable_load(struct token_list* a, int num_dereference)
 {
 	require(NULL != global_token, "incomplete variable load received\n");
@@ -1061,50 +1060,6 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
 	}
 }
 
-
-/*
- * postfix-expr:
- *         primary-expr
- *         postfix-expr [ expression ]
- *         postfix-expr ( expression-list-opt )
- *         postfix-expr -> member
- *         postfix-expr . member
- */
-
-void postfix_expr_array()
-{
-	struct type* array = current_target;
-	common_recursion(expression);
-	current_target = array;
-	require(NULL != current_target, "Arrays only apply to variables\n");
-
-	char* assign = load_value(register_size, current_target->is_signed);
-
-	/* Add support for Ints */
-	if(match("char*", current_target->name))
-	{
-		assign = load_value(1, TRUE);
-	}
-	else
-	{
-		emit_out("push_ebx\nmov_ebx, %");
-		emit_out(int2str(current_target->type->size, 10, TRUE));
-		emit_out("\nmul_ebx\npop_ebx\n");
-	}
-
-	emit_out("add_eax,ebx\n");
-
-	require_match("ERROR in postfix_expr\nMissing ]\n", "]");
-	require(NULL != global_token, "truncated array expression\n");
-
-	if(match("=", global_token->s))
-	{
-		assign = "";
-	}
-
-	emit_out(assign);
-}
-
 /*
  * unary-expr:
  *         &postfix-expr
@@ -1126,20 +1081,9 @@ void unary_expr_sizeof()
 	emit_out("\n");
 }
 
-void postfix_expr_stub()
-{
-	require(NULL != global_token, "Unexpected EOF, improperly terminated primary expression\n");
-	if(match("[", global_token->s))
-	{
-		postfix_expr_array();
-		postfix_expr_stub();
-	}
-}
-
 void postfix_expr()
 {
 	primary_expr();
-	postfix_expr_stub();
 }
 
 /*
