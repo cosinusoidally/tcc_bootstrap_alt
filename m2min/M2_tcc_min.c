@@ -1327,34 +1327,26 @@ void statement() {
 }
 
 /* Collect function arguments */
-void collect_arguments()
-{
+void collect_arguments() {
 	global_token = global_token->next;
 	require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
 	struct type* type_size;
 	struct token_list* a;
 
-	while(!match(")", global_token->s))
-	{
+	while(!match(")", global_token->s)) {
 		type_size = type_name();
 		require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
 		require(NULL != type_size, "Must have non-null type\n");
-		if(global_token->s[0] == ')')
-		{
+		if(global_token->s[0] == ')') {
 			/* foo(int,char,void) doesn't need anything done */
 			continue;
-		}
-		else if(global_token->s[0] != ',')
-		{
+		} else if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
 			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
-			if(NULL == function->arguments)
-			{
+			if(NULL == function->arguments) {
 				a->depth = -4;
-			}
-			else
-			{
+			} else {
 				a->depth = function->arguments->depth - register_size;
 			}
 
@@ -1364,8 +1356,7 @@ void collect_arguments()
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(global_token->s[0] == ',')
-		{
+		if(global_token->s[0] == ',') {
 			global_token = global_token->next;
 			require(NULL != global_token, "naked comma in collect arguments\n");
 		}
@@ -1375,8 +1366,7 @@ void collect_arguments()
 	global_token = global_token->next;
 }
 
-void declare_function()
-{
+void declare_function() {
 	current_count = 0;
 	function = sym_declare(global_token->prev->s, NULL, global_function_list);
 
@@ -1386,9 +1376,9 @@ void declare_function()
 
 	require(NULL != global_token, "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
-	if(global_token->s[0] == ';') global_token = global_token->next;
-	else
-	{
+	if(global_token->s[0] == ';') {
+		global_token = global_token->next;
+	} else {
 		emit_out("# Defining function ");
 		emit_out(function->s);
 		emit_out("\n");
@@ -1402,27 +1392,6 @@ void declare_function()
 	}
 }
 
-/*
- * program:
- *     declaration
- *     declaration program
- *
- * declaration:
- *     CONSTANT identifer value
- *     typedef identifer type;
- *     type-name identifier ;
- *     type-name identifier = value ;
- *     type-name identifier [ value ];
- *     type-name identifier ( parameter-list ) ;
- *     type-name identifier ( parameter-list ) statement
- *
- * parameter-list:
- *     parameter-declaration
- *     parameter-list, parameter-declaration
- *
- * parameter-declaration:
- *     type-name identifier-opt
- */
 void program()
 {
 	unsigned i;
