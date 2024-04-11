@@ -196,19 +196,19 @@ int malloc(int size)
 	return old_malloc;
 }
 
-int strlen(char* str )
+int strlen(int str )
 {
 	int i = 0;
-	while(0 != str[i]) i = i + 1;
+	while(0 != ri8(str+i)) i = i + 1;
 	return i;
 }
 
-int memset(void* ptr, int value, int num)
+int memset(int ptr, int value, int num)
 {
-	char* s;
+	int s;
 	for(s = ptr; 0 < num; num = num - 1)
 	{
-		s[0] = value;
+		wi8(s, value);
 		s = s + 1;
 	}
 }
