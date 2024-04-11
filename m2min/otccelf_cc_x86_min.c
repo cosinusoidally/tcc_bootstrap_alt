@@ -1413,25 +1413,25 @@ int main(int n,int t){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
-  dstk=strcpy(sym_stk = calloc(1, ALLOC_SIZE),
-       mk_c_string(" int if else while break return for define main ")) + TOK_STR_SIZE;
+  dstk=add(strcpy(sym_stk = calloc(1, ALLOC_SIZE),
+       mk_c_string(" int if else while break return for define main ")), TOK_STR_SIZE);
   glo = data = calloc(1, ALLOC_SIZE);
   ind = prog = calloc(1, ALLOC_SIZE);
   vars = calloc(1, ALLOC_SIZE);
 
   fputs("ind: ",stdout); puts_num(ind);
 
-  t = t + 4;
+  t = add(t, 4);
   file=fopen(ri32(t), mk_c_string("r"));
 
   data_offset = ELF_BASE - data;
-  glo = glo + ELFSTART_SIZE;
-  ind = ind + STARTUP_SIZE;
+  glo = add(glo, ELFSTART_SIZE);
+  ind = add(ind, STARTUP_SIZE);
 
   inp();
   next();
   decl(0);
-  t = t + 4;
+  t = add(t, 4);
   elf_out(ri32(t));
   puts("otccelf complete");
 
