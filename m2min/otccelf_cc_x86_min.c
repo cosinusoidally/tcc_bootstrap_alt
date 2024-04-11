@@ -1220,20 +1220,20 @@ int elf_reloc(int l){
   p=0;
   t=sym_stk;
   while( 1){
-    t = t + 1;
+    t = add(t, 1);
     a=t;
     while( (ri8(t) != TAG_TOK) && (t < dstk)) {
-      t = t + 1;
+      t = add(t, 1);
     }
     if( t == dstk) { break; }
     tok = vars + ((a - sym_stk) * 8) + TOK_IDENT - 8;
     b = ri32(tok);
-    n = ri32(tok+4);
+    n = ri32(add(tok, 4));
     if( (n!=0) && (b != 1)){
       if(b == 0){
         if(l == 0){
           memcpy(glo,a,t-a);
-          glo=glo+t-a+1;
+          glo = add(add(glo, t)-a, 1);
         } else if( l == 1){
           gle32( add(p, DYNSTR_BASE));
           gle32( 0);
