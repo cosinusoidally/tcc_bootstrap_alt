@@ -503,37 +503,26 @@ void initialize_types() {
 	global_types = prim_types;
 }
 
-struct type* lookup_type(char* s, struct type* start)
-{
+struct type* lookup_type(char* s, struct type* start) {
 	struct type* i;
-	for(i = start; NULL != i; i = i->next)
-	{
-		if(match(i->name, s))
-		{
+	for(i = start; NULL != i; i = i->next) {
+		if(match(i->name, s)) {
 			return i;
 		}
 	}
 	return NULL;
 }
 
-
-struct type* type_name()
-{
+struct type* type_name() {
 	struct type* ret;
-
 	require(NULL != global_token, "Received EOF instead of type name\n");
-
 	ret = lookup_type(global_token->s, global_types);
-
 	global_token = global_token->next;
 	require(NULL != global_token, "unfinished type definition\n");
-
 	return ret;
 }
 
-
-struct token_list* emit(char *s, struct token_list* head)
-{
+struct token_list* emit(char *s, struct token_list* head) {
 	struct token_list* t = calloc(1, sizeof(struct token_list));
 	require(NULL != t, "Exhausted memory while generating token to emit\n");
 	t->next = head;
@@ -541,8 +530,7 @@ struct token_list* emit(char *s, struct token_list* head)
 	return t;
 }
 
-void emit_out(char* s)
-{
+void emit_out(char* s) {
 	output_list = emit(s, output_list);
 }
 
