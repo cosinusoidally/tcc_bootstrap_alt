@@ -49,6 +49,41 @@ int EXIT_SUCCESS;
 int TRUE;
 int FALSE;
 
+char* heap;
+int int_size;
+
+void puts_num(int x);
+
+int ri8(int o) {
+  int o1=o>>2;
+  int s=o&3;
+  int v1;
+  int *h=heap;
+/*  fputs("ri8: ",stdout);puts_num(o); */
+  v1=h[o1*int_size];
+  return (v1>>(s*8)) &0xFF;
+}
+
+int wi8(int o,int v) {
+  heap[o]=v;
+  return;
+}
+
+int wi32(int o, int v) {
+  wi8(o,v&0xFF);
+  v=v>>8;
+  wi8(o+1,v&0xFF);
+  v=v>>8;
+  wi8(o+2,v&0xFF);
+  v=v>>8;
+  wi8(o+3,v&0xFF);
+}
+
+int ri32(int o) {
+  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
+         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
+}
+
 int fgetc(int f)
 {
 	asm("mov_eax, %3"
@@ -368,26 +403,6 @@ char* int2str(int x, int base, int signed_p)
 
 	return p + 1;
 }
-char* heap;
-int int_size;
-
-void puts_num(int x);
-
-int ri8(int o) {
-/*  int t=heap[a]; */
-  int o1=o>>2;
-  int s=o&3;
-  int v1;
-  int *h=heap;
-/*  fputs("ri8: ",stdout);puts_num(o); */
-  v1=h[o1*int_size];
-  return (v1>>(s*8)) &0xFF;
-}
-
-int wi8(int o,int v) {
-  heap[o]=v;
-  return;
-}
 
 
 int expr(void);
@@ -420,21 +435,6 @@ int mk_c_string(int s){
 
 int dummy(void){
   puts("dummy called");
-}
-
-int wi32(int o, int v) {
-  wi8(o,v&0xFF);
-  v=v>>8;
-  wi8(o+1,v&0xFF);
-  v=v>>8;
-  wi8(o+2,v&0xFF);
-  v=v>>8;
-  wi8(o+3,v&0xFF);
-}
-
-int ri32(int o) {
-  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
-         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
 int v_alloca(int x) {
