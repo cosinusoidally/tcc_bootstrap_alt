@@ -277,13 +277,13 @@ int in_set(int c, int s)
 }
 
 /* INTERNAL ONLY */
-int __index_number(char* s, char c)
+int __index_number(int s, char c)
 {
 	int i = 0;
-	while(s[i] != c)
+	while(ri8(s + i) != c)
 	{
 		i = i + 1;
-		if(0 == s[i]) return -1;
+		if(0 == ri8(s + i)) return -1;
 	}
 	return i;
 }
