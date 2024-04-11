@@ -1332,7 +1332,7 @@ int block(int l){
 int decl(int l){
   int a;
   while( (tok == TOK_INT) | ((tok != (-1)) & (l == 0))){
-    if( tok == TOK_INT){
+    if(eq(tok, TOK_INT)){
       next();
       while( tok != mk_char(';')){
         if( l){
@@ -1344,7 +1344,7 @@ int decl(int l){
           glo = add(glo, 4);
         }
         next();
-        if( tok == mk_char(',')) {
+        if(eq(tok, mk_char(','))) {
           next();
         }
       }
@@ -1359,7 +1359,7 @@ int decl(int l){
         wi32(tok, a);
         a = add(a, 4);
         next();
-        if( tok == mk_char(',')) {
+        if(eq(tok, mk_char(','))) {
           next();
         }
       }
@@ -1399,16 +1399,16 @@ int elf_reloc(int l){
     while( (ri8(t) != TAG_TOK) && (lt(t, dstk))) {
       t = add(t, 1);
     }
-    if( t == dstk) { break; }
+    if(eq(t, dstk)) { break; }
     tok = sub(add(add(vars, (mul(sub(a, sym_stk), 8))), TOK_IDENT), 8);
     b = ri32(tok);
     n = ri32(add(tok, 4));
     if( (n!=0) && (b != 1)){
-      if(b == 0){
-        if(l == 0){
+      if(eq(b, 0)){
+        if(eq(l, 0)){
           memcpy(glo,a,sub(t, a));
           glo = add(sub(add(glo, t), a), 1);
-        } else if( l == 1){
+        } else if(eq(l, 1)){
           gle32( add(p, DYNSTR_BASE));
           gle32( 0);
           gle32( 0);
@@ -1425,7 +1425,7 @@ int elf_reloc(int l){
             n=a;
           }
         }
-      } else if(l == 0){
+      } else if(eq(l, 0)){
         gsym1(n,b);
       }
     }
