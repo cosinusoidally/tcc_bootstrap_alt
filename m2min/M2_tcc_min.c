@@ -992,15 +992,7 @@ void expression()
 	if(match("=", global_token->s))
 	{
 		char* store = "";
-		if(match("]", global_token->prev->s))
-		{
-			store = store_value(current_target->type->size);
-		}
-		else
-		{
-			store = store_value(current_target->size);
-		}
-
+		store = store_value(current_target->size);
 		common_recursion(expression);
 		emit_out(store);
 		current_target = integer;
