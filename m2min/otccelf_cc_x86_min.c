@@ -79,9 +79,29 @@ int ri8(int o) {
 }
 
 int wi8(int o,int v) {
+/*
   char *h = 0;
   h[o]=v;
   return;
+*/
+	asm(
+		"mov_eax, %0"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-16"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"add_eax,ebx"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"mov_[ebx],al"
+		"pop_ebx"
+		"ret"
+	);
 }
 
 int wi32(int o, int v) {
