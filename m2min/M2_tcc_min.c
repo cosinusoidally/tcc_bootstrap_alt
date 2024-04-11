@@ -632,8 +632,8 @@ void primary_expr_char() {
 }
 
 void primary_expr_number() {
-		emit_out("mov_eax, %");
-		emit_out(global_token->s);
+	emit_out("mov_eax, %");
+	emit_out(global_token->s);
 	emit_out("\n");
 	global_token = global_token->next;
 }
