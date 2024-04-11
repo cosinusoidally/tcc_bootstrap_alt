@@ -576,7 +576,7 @@ void exit(int value)
 
 void require(int bool, int error)
 {
-	if(!bool)
+	if(eq(bool, 0))
 	{
 		fputs(error, stderr);
 		exit(EXIT_FAILURE);
