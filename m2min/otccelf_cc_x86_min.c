@@ -215,7 +215,7 @@ int memset(void* ptr, int value, int num)
 
 int calloc(int count, int size)
 {
-	void* ret = malloc(count * size);
+	int ret = malloc(count * size);
 	if(NULL == ret) return NULL;
 	memset(ret, 0, (count * size));
 	return ret;
