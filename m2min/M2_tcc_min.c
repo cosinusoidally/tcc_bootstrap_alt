@@ -80,7 +80,6 @@ struct token_list* reverse_list(struct token_list* head);
 
 
 void eat_newline_tokens();
-void init_macro_env(char* sym, char* value, char* source, int num);
 void preprocess();
 void program();
 void recursive_output(struct token_list* i, FILE* out);
@@ -1392,8 +1391,7 @@ void declare_function() {
 	}
 }
 
-void program()
-{
+void program() {
 	unsigned i;
 	function = NULL;
 	struct type* type_size;
@@ -1413,8 +1411,7 @@ new_type:
 	global_token = global_token->next;
 
 	/* Deal with global variables */
-	if(match(";", global_token->s))
-	{
+	if(match(";", global_token->s)) {
 		/* Ensure enough bytes are allocated to store global variable.
 		   In some cases it allocates too much but that is harmless. */
 		globals_list = emit(":GLOBAL_", globals_list);
@@ -1423,8 +1420,7 @@ new_type:
 		/* round up division */
 		i = ceil_div(type_size->size, register_size);
 		globals_list = emit("\n", globals_list);
-		while(i != 0)
-		{
+		while(i != 0) {
 			globals_list = emit("NULL\n", globals_list);
 			i = i - 1;
 		}
@@ -1433,8 +1429,7 @@ new_type:
 	}
 
 	/* Deal with global functions */
-	if(match("(", global_token->s))
-	{
+	if(match("(", global_token->s)) {
 		declare_function();
 		goto new_type;
 	}
@@ -1447,26 +1442,12 @@ new_type:
 	exit(EXIT_FAILURE);
 }
 
-void recursive_output(struct token_list* head, FILE* out)
-{
+void recursive_output(struct token_list* head, FILE* out) {
 	struct token_list* i = reverse_list(head);
-	while(NULL != i)
-	{
+	while(NULL != i) {
 		fputs(i->s, out);
 		i = i->next;
 	}
-}
-
-void init_macro_env(char* sym, char* value, char* source, int num)
-{
-	struct macro_list* hold = macro_env;
-	macro_env = calloc(1, sizeof(struct macro_list));
-	macro_env->symbol = sym;
-	macro_env->next = hold;
-	macro_env->expansion = calloc(1, sizeof(struct token_list));
-	macro_env->expansion->s = value;
-	macro_env->expansion->filename = source;
-	macro_env->expansion->linenumber = num;
 }
 
 void eat_current_token()
@@ -1507,7 +1488,6 @@ int main(int argc, char** argv)
 	FILE* in;
 	FILE* destination_file;
 	Architecture = X86;
-	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
 	char* name;
 	char* hold;
 	int env=0;
@@ -1526,7 +1506,6 @@ int main(int argc, char** argv)
 	destination_file = fopen(argv[i], "w");
 	i = i + 1;
 
-	init_macro_env("__i386__", "1", "--architecture", env);
 	env = env + 1;
 
 	global_token = reverse_list(global_token);
