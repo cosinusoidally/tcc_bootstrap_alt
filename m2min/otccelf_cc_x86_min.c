@@ -1226,7 +1226,7 @@ int elf_reloc(int l){
       t = add(t, 1);
     }
     if( t == dstk) { break; }
-    tok = vars + ((a - sym_stk) * 8) + TOK_IDENT - 8;
+    tok = add(add(vars, ((a - sym_stk) * 8)), TOK_IDENT) - 8;
     b = ri32(tok);
     n = ri32(add(tok, 4));
     if( (n!=0) && (b != 1)){
