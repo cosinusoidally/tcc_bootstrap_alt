@@ -422,8 +422,8 @@ int __set_reader(int set, int mult, int input)
 
 		/* Input managed to change between in_set and index_number */
 		if(-1 == hold) return 0;
-		n = n + hold;
-		i = i + 1;
+		n = add(n, hold);
+		i = add(i, 1);
 	}
 
 	/* loop exited before NULL and thus invalid input */
@@ -446,19 +446,19 @@ int strtoint(int a)
 		result = 0;
 	}
 	/* Deal with binary */
-	else if ('0' == ri8(a) && 'b' == ri8(a + 1))
+	else if ('0' == ri8(a) && 'b' == ri8(add(a, 1)))
 	{
-		result = __set_reader("01", 2, a+2);
+		result = __set_reader("01", 2, add(a, 2));
 	}
 	/* Deal with hex */
-	else if ('0' == ri8(a) &&  'x' == ri8(a + 1))
+	else if ('0' == ri8(a) &&  'x' == ri8(add(a, 1)))
 	{
-		result = __set_reader("0123456789ABCDEFabcdef", 16, a+2);
+		result = __set_reader("0123456789ABCDEFabcdef", 16, add(a, 2));
 	}
 	/* Deal with octal */
 	else if('0' == ri8(a))
 	{
-		result = __set_reader("01234567", 8, a+1);
+		result = __set_reader("01234567", 8, add(a, 1));
 	}
 	/* Deal with decimal */
 	else
@@ -481,7 +481,7 @@ int int2str(int x, int base, int signed_p)
 	/* if calloc fails return null to let calling code deal with it */
 	if(NULL == p) return p;
 
-	p = p + 32;
+	p = add(p, 32);
 	int i;
 	int sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -497,7 +497,7 @@ int int2str(int x, int base, int signed_p)
 
 	do
 	{
-		wi8(p, ri8(table + (i % base)));
+		wi8(p, ri8(add(table, (i % base))));
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
@@ -508,7 +508,7 @@ int int2str(int x, int base, int signed_p)
 		p = p - 1;
 	}
 
-	return p + 1;
+	return add(p, 1);
 }
 
 
