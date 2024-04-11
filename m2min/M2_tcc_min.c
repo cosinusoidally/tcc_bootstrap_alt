@@ -952,19 +952,7 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 	}
 }
 
-/*
- * unary-expr:
- *         &postfix-expr
- *         - postfix-expr
- *         !postfix-expr
- *         sizeof ( type )
- */
 struct type* type_name();
-
-void postfix_expr()
-{
-	primary_expr();
-}
 
 /*
  * expression:
@@ -988,13 +976,13 @@ void primary_expr()
 	{
 		emit_out("mov_eax, %1\n");
 
-		common_recursion(postfix_expr);
+		common_recursion(primary_expr);
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
 	}
 	else if('~' == global_token->s[0])
 	{
-		common_recursion(postfix_expr);
+		common_recursion(primary_expr);
 
 		emit_out("not_eax\n");
 	}
