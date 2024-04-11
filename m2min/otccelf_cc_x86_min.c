@@ -660,11 +660,11 @@ int int2str(int x, int base, int signed_p)
 	int sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && (10 == base) && (0 != (x & 0x80000000)))
+	if(signed_p && eq(10, base) && (0 != (x & 0x80000000)))
 	{
 		/* Truncate to 31bits */
 		i = -x & 0x7FFFFFFF;
-		if(0 == i) return "-2147483648";
+		if(eq(0, i)) return "-2147483648";
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
 	else i = x & (0x7FFFFFFF | shl(1, 31));
@@ -737,7 +737,7 @@ int leave(int x) {
 }
 
 int isspace(int c){
-  if((c==mk_char(' ')) || (c==mk_char('\n')) || (c==mk_char('\t'))){
+  if(eq(c, mk_char(' ')) || eq(c, mk_char('\n')) || eq(c, mk_char('\t'))){
     return 1;
   } else {
     return 0;
@@ -772,7 +772,7 @@ int strncmp (int a,int  b, int size) {
   if (size == 0)
     return 0;
 
-  while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && gt(size, 1))
+  while ((ri8(a) != 0) && (ri8(b) != 0) && eq(ri8(a), ri8(b)) && gt(size, 1))
     {
       size = sub(size, 1);
       a = add(a, 1);
@@ -790,10 +790,10 @@ int strstr(int haystack, int needle){
 */
   int lh; int ln; int o; int r;
   o=0;
-  if((haystack == 0) || (needle == 0)){
+  if(eq(haystack, 0) || eq(needle, 0)){
     return 0;
   }
-  if(ri8(needle) == 0){
+  if(eq(ri8(needle), 0)){
     return haystack;
   }
   if(eq(ri8(haystack), 0)){
