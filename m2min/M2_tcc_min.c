@@ -532,7 +532,7 @@ void require_match(char* message, char* required) {
 
 void expression();
 void function_call(char* s, int bool) {
-	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
+	require_match("ERROR", "(");
 	int passed = 0;
 
 	emit_out("push_edi\t# Prevent overwriting in recursion\n");
@@ -552,7 +552,7 @@ void function_call(char* s, int bool) {
 		}
 	}
 
-	require_match("ERROR in process_expression_list\nNo ) was found\n", ")");
+	require_match("ERROR", ")");
 
 	emit_out("mov_ebp,edi\n");
 	emit_out("call %FUNCTION_");
@@ -696,7 +696,7 @@ void primary_expr() {
 	} else if(global_token->s[0] == '(') {
 		global_token = global_token->next;
 		expression();
-		require_match("Error in Primary expression\nDidn't get )\n", ")");
+		require_match("ERROR", ")");
 	} else if(global_token->s[0] == '\'') {
 		primary_expr_char();
 	} else if(global_token->s[0] == '"') {
@@ -758,7 +758,7 @@ void collect_local() {
 		expression();
 	}
 
-	require_match("ERROR in collect_local\nMissing ;\n", ";");
+	require_match("ERROR", ";");
 
 	unsigned i = (a->type->size + register_size - 1) / register_size;
 	while(i != 0) {
@@ -780,14 +780,14 @@ void process_if() {
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR in process_if\nMISSING (\n", "(");
+	require_match("ERROR", "(");
 	expression();
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR in process_if\nMISSING )\n", ")");
+	require_match("ERROR", ")");
 	statement();
 
 	emit_out("jmp %_END_IF_");
@@ -826,7 +826,7 @@ void process_for() {
 
 	global_token = global_token->next;
 
-	require_match("ERROR in process_for\nMISSING (\n", "(");
+	require_match("ERROR", "(");
 	if(!match(";",global_token->s)) {
 		expression();
 	}
@@ -834,7 +834,7 @@ void process_for() {
 	emit_out(":FOR_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR in process_for\nMISSING ;1\n", ";");
+	require_match("ERROR", ";");
 	expression();
 
 	emit_out("test_eax,eax\nje %FOR_END_");
@@ -848,7 +848,7 @@ void process_for() {
 	emit_out(":FOR_ITER_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR in process_for\nMISSING ;2\n", ";");
+	require_match("ERROR", ";");
 	expression();
 
 	emit_out("jmp %FOR_");
@@ -858,7 +858,7 @@ void process_for() {
 	emit_out(":FOR_THEN_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR in process_for\nMISSING )\n", ")");
+	require_match("ERROR", ")");
 	statement();
 
 	emit_out("jmp %FOR_ITER_");
@@ -878,14 +878,14 @@ void process_for() {
 /* Process Assembly statements */
 void process_asm() {
 	global_token = global_token->next;
-	require_match("ERROR in process_asm\nMISSING (\n", "(");
+	require_match("ERROR", "(");
 	while('"' == global_token->s[0]) {
 		emit_out((global_token->s + 1));
 		emit_out("\n");
 		global_token = global_token->next;
 	}
-	require_match("ERROR in process_asm\nMISSING )\n", ")");
-	require_match("ERROR in process_asm\nMISSING ;\n", ";");
+	require_match("ERROR", ")");
+	require_match("ERROR", ";");
 }
 
 /* Process while loops */
@@ -909,7 +909,7 @@ void process_while() {
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR in process_while\nMISSING (\n", "(");
+	require_match("ERROR", "(");
 	expression();
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
@@ -919,7 +919,7 @@ void process_while() {
 	emit_out("# THEN_while_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR in process_while\nMISSING )\n", ")");
+	require_match("ERROR", ")");
 	statement();
 
 	emit_out("jmp %WHILE_");
@@ -941,7 +941,7 @@ void return_result() {
 	global_token = global_token->next;
 	if(global_token->s[0] != ';') expression();
 
-	require_match("ERROR in return_result\nMISSING ;\n", ";");
+	require_match("ERROR", ";");
 
 	struct token_list* i;
 	unsigned size_local_var;
@@ -967,7 +967,7 @@ void process_break() {
 	emit_out("_");
 	emit_out(break_target_num);
 	emit_out("\n");
-	require_match("ERROR in break statement\nMissing ;\n", ";");
+	require_match("ERROR", ";");
 }
 
 void recursive_statement() {
@@ -1013,7 +1013,7 @@ void statement() {
 		process_break();
 	} else {
 		expression();
-		require_match("ERROR in statement\nMISSING ;\n", ";");
+		require_match("ERROR", ";");
 	}
 }
 
