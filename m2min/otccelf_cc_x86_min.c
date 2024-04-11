@@ -331,26 +331,26 @@ int __set_reader(int set, int mult, int input)
 	return n;
 }
 
-int strtoint(char *a)
+int strtoint(int a)
 {
 	int result = 0;
 	/* If NULL string */
-	if(0 == a[0])
+	if(0 == ri8(a))
 	{
 		result = 0;
 	}
 	/* Deal with binary */
-	else if ('0' == a[0] && 'b' == a[1])
+	else if ('0' == ri8(a) && 'b' == ri8(a + 1))
 	{
 		result = __set_reader("01", 2, a+2);
 	}
 	/* Deal with hex */
-	else if ('0' == a[0] &&  'x' == a[1])
+	else if ('0' == ri8(a) &&  'x' == ri8(a + 1))
 	{
 		result = __set_reader("0123456789ABCDEFabcdef", 16, a+2);
 	}
 	/* Deal with octal */
-	else if('0' == a[0])
+	else if('0' == ri8(a))
 	{
 		result = __set_reader("01234567", 8, a+1);
 	}
