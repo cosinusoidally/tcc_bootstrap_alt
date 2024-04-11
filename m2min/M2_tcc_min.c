@@ -1055,8 +1055,8 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
 	if(match(name, global_token->s))
 	{
 /* LJW debug logging */
-		if(match(name, "+")){
-			fputs("add on line: ", stdout);
+		if(match(name, "-")){
+			fputs("sub on line: ", stdout);
 			fputs(int2str(global_token->linenumber,10,0), stdout);
 			fputs("\n", stdout);
 		}
@@ -1105,7 +1105,6 @@ void postfix_expr()
  */
 void additive_expr_stub()
 {
-		arithmetic_recursion(postfix_expr, "add_eax,ebx\n", "add_eax,ebx\n", "+", additive_expr_stub);
 		arithmetic_recursion(postfix_expr, "sub_ebx,eax\nmov_eax,ebx\n", "sub_ebx,eax\nmov_eax,ebx\n", "-", additive_expr_stub);
 		arithmetic_recursion(postfix_expr, "imul_ebx\n", "mul_ebx\n", "*", additive_expr_stub);
 		arithmetic_recursion(postfix_expr, "xchg_ebx,eax\ncdq\nidiv_ebx\n", "xchg_ebx,eax\nmov_edx, %0\ndiv_ebx\n", "/", additive_expr_stub);
