@@ -94,7 +94,6 @@ char* hold_string;
 int string_index;
 
 /* Our Target Architecture */
-int Architecture;
 int register_size;
 
 int MAX_STRING;
@@ -1170,7 +1169,6 @@ int main(int argc, char** argv)
 	MAX_STRING = 4096;
 	FILE* in;
 	FILE* destination_file;
-	Architecture = X86;
 	char* name;
 	char* hold;
 	int env=0;
