@@ -365,12 +365,10 @@ reset:
 	return c;
 }
 
-struct token_list* reverse_list(struct token_list* head)
-{
+struct token_list* reverse_list(struct token_list* head) {
 	struct token_list* root = NULL;
 	struct token_list* next;
-	while(NULL != head)
-	{
+	while(NULL != head) {
 		next = head->next;
 		head->next = root;
 		root = head;
@@ -379,15 +377,13 @@ struct token_list* reverse_list(struct token_list* head)
 	return root;
 }
 
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename)
-{
+struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename) {
 	input  = a;
 	line = 1;
 	file = filename;
 	token = current;
 	int ch = grab_byte();
-	while(EOF != ch)
-	{
+	while(EOF != ch) {
 		ch = get_token(ch);
 		require(NULL != token, "Empty files don't need to be compiled\n");
 	}
@@ -396,8 +392,7 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 }
 
 /* Lookup escape values */
-int escape_lookup(char* c)
-{
+int escape_lookup(char* c) {
 	if('\\' != c[0]) return c[0];
 
 	if(c[1] == '0') return 0;
@@ -420,8 +415,7 @@ int escape_lookup(char* c)
 }
 
 /* Deal with human strings */
-char* collect_regular_string(char* string)
-{
+char* collect_regular_string(char* string) {
 	string_index = 0;
 
 collect_regular_string_reset:
