@@ -1088,26 +1088,9 @@ void postfix_expr()
 	primary_expr();
 }
 
-/*
- * additive-expr:
- *         postfix-expr
- *         additive-expr * postfix-expr
- *         additive-expr / postfix-expr
- *         additive-expr % postfix-expr
- *         additive-expr + postfix-expr
- *         additive-expr - postfix-expr
- *         additive-expr << postfix-expr
- *         additive-expr >> postfix-expr
- */
-void additive_expr_stub()
-{
-}
-
-
 void additive_expr()
 {
 	postfix_expr();
-	additive_expr_stub();
 }
 
 
