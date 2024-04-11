@@ -910,7 +910,7 @@ int gmov(int l, int t){
   if( (d != 0) && (d < LOCAL)) {
     oad(133,d);
   } else {
-    t = t + 4;
+    t = add(t, 4);
     wi32(t, oad(5,ri32(t)));
   }
 }
@@ -919,15 +919,15 @@ int unary(int l){
   int n; int t; int a; int c;
   n=1;
   if( tok == mk_char('\"')){
-    li(glo+data_offset);
+    li(add(glo, data_offset));
     while( ch!=mk_char('\"')){
       getq ();
       wi8(glo, ch);
-      glo = glo + 1;
+      glo = add(glo, 1);
       inp ();
     }
     wi8(glo, 0);
-    glo=(glo+4) & (-4);
+    glo=(add(glo, 4)) & (-4);
     inp ();
     next();
   } else {
@@ -970,14 +970,14 @@ int unary(int l){
         o( 80);
         expr();
         o( 89);
-        o( 392+(t == TOK_INT));
+        o( add(392, (t == TOK_INT)));
       } else if( t){
         if( t == TOK_INT) {
           o( 139);
         } else {
           o( 48655);
         }
-        ind = ind + 1;
+        ind = add(ind, 1);
       }
     } else if( t == mk_char('&')){
       gmov(10,tok);
@@ -1010,16 +1010,16 @@ int unary(int l){
       if( tok == mk_char(',')) {
         next();
       }
-      l=l+4;
+      l = add(l, 4);
     }
     put32(a,l);
     next();
     if( n){
       oad(2397439,l);
-      l=l+4;
+      l = add(l, 4);
     }
     else{
-      t=t+4;
+      t = add(t, 4);
       wi32(t, oad(232,ri32(t)));
     }
     if( l) oad(50305,l);
@@ -1121,7 +1121,7 @@ int block(int l){
         expr ();
         gjmp(n-ind-5);
         gsym(t);
-        n=t+4;
+        n = add(t, 4);
       }
     }
     next();
