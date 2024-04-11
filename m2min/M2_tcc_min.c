@@ -1065,14 +1065,12 @@ void process_break() {
 	require_match("ERROR in break statement\nMissing ;\n", ";");
 }
 
-void recursive_statement()
-{
+void recursive_statement() {
 	global_token = global_token->next;
 	require(NULL != global_token, "Received EOF in recursive statement\n");
 	struct token_list* frame = function->locals;
 
-	while(!match("}", global_token->s))
-	{
+	while(!match("}", global_token->s)) {
 		statement();
 		require(NULL != global_token, "Received EOF in recursive statement prior to }\n");
 	}
@@ -1080,11 +1078,9 @@ void recursive_statement()
 
 	/* Clean up any locals added */
 
-	if( !match("ret\n", output_list->s))
-	{
+	if( !match("ret\n", output_list->s)) {
 		struct token_list* i;
-		for(i = function->locals; frame != i; i = i->next)
-		{
+		for(i = function->locals; frame != i; i = i->next) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
 		}
 	}
