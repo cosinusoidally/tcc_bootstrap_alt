@@ -263,14 +263,14 @@ int match(int a, int b)
 }
 
 
-int in_set(int c, char* s)
+int in_set(int c, int s)
 {
 	/* NULL set is always false */
 	if(NULL == s) return FALSE;
 
-	while(0 != s[0])
+	while(0 != ri8(s))
 	{
-		if(c == s[0]) return TRUE;
+		if(c == ri8(s)) return TRUE;
 		s = s + 1;
 	}
 	return FALSE;
