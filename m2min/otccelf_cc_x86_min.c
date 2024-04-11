@@ -526,7 +526,7 @@ int init_c(void){
   puts("init_c called");
   v_stack_size=64*1024;
   v_stack=calloc(1,v_stack_size);
-  v_esp=v_stack+v_stack_size-4;
+  v_esp = add(v_stack, v_stack_size) - 4;
   v_ebp=v_esp;
   int_size = 1;
 }
@@ -558,7 +558,7 @@ int enter(void) {
 int leave(int x) {
   v_esp=v_ebp;
   v_ebp=ri32(v_esp);
-  v_esp=v_esp+4;
+  v_esp = add(v_esp, 4);
   return x;
 }
 
@@ -601,8 +601,8 @@ int strncmp (int a,int  b, int size) {
   while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && (size > 1))
     {
       size = size - 1;
-      a = a + 1;
-      b = b + 1;
+      a = add(a, 1);
+      b = add(b, 1);
     }
 
   return ri8(a) - ri8(b);
@@ -632,20 +632,20 @@ int strstr(int haystack, int needle){
   }
   while(o<lh) {
 /*    puts("o: "+o); */
-    r = strncmp(needle, haystack + o, ln);
+    r = strncmp(needle, add(haystack, o), ln);
 /*    puts("r: "+r); */
     if( r == 0) {
-      return haystack + o;
+      return add(haystack, o);
     }
-    o = o + 1;
+    o = add(o, 1);
   }
   return 0;
 }
 
 int memcpy(int dest, int src, int c) {
   int i;
-  for(i=0;i<c;i=i+1){
-    wi8(dest+i,ri8(src+i));
+  for(i=0;i<c;i = add(i, 1)){
+    wi8(add(dest, i),ri8(add(src, i)));
   }
 }
 
