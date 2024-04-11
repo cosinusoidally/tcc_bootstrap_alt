@@ -786,7 +786,7 @@ int leave(int x) {
 }
 
 int isspace(int c){
-  if(eq(c, mk_char(' ')) || eq(c, mk_char('\n')) || eq(c, mk_char('\t'))){
+  if(or(or(eq(c, mk_char(' ')), eq(c, mk_char('\n'))), eq(c, mk_char('\t')))){
     return 1;
   } else {
     return 0;
@@ -805,7 +805,7 @@ int isalnum(int c){
   int r; int t;
   c = and(c, 0xFF);
   t = sub(or(c, 32), mk_char('a'));
-  r = and(lt(t, 26), gte(t, 0)) || isdigit(c);
+  r = or(and(lt(t, 26), gte(t, 0)), isdigit(c));
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
 
@@ -840,7 +840,7 @@ int strstr(int haystack, int needle){
 */
   int lh; int ln; int o; int r;
   o=0;
-  if(eq(haystack, 0) || eq(needle, 0)){
+  if(or(eq(haystack, 0), eq(needle, 0))){
     return 0;
   }
   if(eq(ri8(needle), 0)){
