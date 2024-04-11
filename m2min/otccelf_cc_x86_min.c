@@ -1350,7 +1350,7 @@ int decl(int l){
   while( eq(tok, TOK_INT) | ((tok != (-1)) & eq(l, 0))){
     if(eq(tok, TOK_INT)){
       next();
-      while( tok != mk_char(';')){
+      while(neq(tok, mk_char(';'))){
         if( l){
           loc = add(loc, 4);
           wi32(tok, -loc);
@@ -1371,7 +1371,7 @@ int decl(int l){
       next();
       next();
       a=8;
-      while( tok != mk_char(')')){
+      while(neq(tok, mk_char(')'))){
         wi32(tok, a);
         a = add(a, 4);
         next();
@@ -1412,14 +1412,14 @@ int elf_reloc(int l){
   while( 1){
     t = add(t, 1);
     a=t;
-    while( (ri8(t) != TAG_TOK) && (lt(t, dstk))) {
+    while( neq(ri8(t), TAG_TOK) && (lt(t, dstk))) {
       t = add(t, 1);
     }
     if(eq(t, dstk)) { break; }
     tok = sub(add(add(vars, (mul(sub(a, sym_stk), 8))), TOK_IDENT), 8);
     b = ri32(tok);
     n = ri32(add(tok, 4));
-    if( (n!=0) && (b != 1)){
+    if( neq(n, 0) && neq(b, 1)){
       if(eq(b, 0)){
         if(eq(l, 0)){
           memcpy(glo,a,sub(t, a));
@@ -1434,7 +1434,7 @@ int elf_reloc(int l){
           p = add(p, 1);
           while( n){
             a=get32(n);
-            c = ri8(sub(n, 1)) != 5;
+            c = neq(ri8(sub(n, 1)), 5);
             put32(n, mul((-c), 4));
             gle32( add(sub(n, prog), add(text,data_offset)));
             gle32( add(mul(p, 256),add(c, 1)));
