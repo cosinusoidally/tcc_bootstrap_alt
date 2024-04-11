@@ -586,19 +586,23 @@ void require(int bool, int error)
 
 int match(int a, int b)
 {
+	int c;
 	if(and(eq(NULL, a), eq(NULL, b))) return TRUE;
 	if(eq(NULL, a)) return FALSE;
 	if(eq(NULL, b)) return FALSE;
 
 	int i = -1;
-	do
+	while(1)
 	{
+		if(and(neq(0, ri8(add(a, i))), neq(0, ri8(add(b, i))))){
+			break;
+		}
 		i = add(i, 1);
 		if(neq(ri8(add(a, i)), ri8(add(b, i))))
 		{
 			return FALSE;
 		}
-	} while(and(neq(0, ri8(add(a, i))), neq(0, ri8(add(b, i)))));
+	}
 	return TRUE;
 }
 
@@ -711,6 +715,7 @@ int strtoint(int a)
 int int2str(int x, int base, int signed_p)
 {
 	int table;
+	int cond;
 	require(lt(1, base), "int2str doesn't support a base less than 2\n");
 	require(gt(37, base), "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
@@ -732,12 +737,15 @@ int int2str(int x, int base, int signed_p)
 	} /* Truncate to 32bits */
 	else i = and(x, or(0x7FFFFFFF, shl(1, 31)));
 
-	do
+	while(1)
 	{
+		if(lt(0, i)){
+			break;
+		}
 		wi8(p, ri8(add(table, mod(i, base))));
 		p = sub(p, 1);
 		i = div(i, base);
-	} while(lt(0, i));
+	}
 
 	if(sign_p)
 	{
