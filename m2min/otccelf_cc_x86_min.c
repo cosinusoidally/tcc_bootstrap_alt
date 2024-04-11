@@ -296,23 +296,23 @@ int __toupper(int c)
 }
 
 /* INTERNAL ONLY */
-int __set_reader(char* set, int mult, char* input)
+int __set_reader(int set, int mult, int input)
 {
 	int n = 0;
 	int i = 0;
 	int hold;
 	int negative_p = FALSE;
 
-	if(input[0] == '-')
+	if(ri8(input) == '-')
 	{
 		negative_p = TRUE;
 		i = i + 1;
 	}
 
-	while(in_set(input[i], set))
+	while(in_set(ri8(input + i), set))
 	{
 		n = n * mult;
-		hold = __index_number(set, __toupper(input[i]));
+		hold = __index_number(set, __toupper(ri8(input + i)));
 
 		/* Input managed to change between in_set and index_number */
 		if(-1 == hold) return 0;
@@ -321,7 +321,7 @@ int __set_reader(char* set, int mult, char* input)
 	}
 
 	/* loop exited before NULL and thus invalid input */
-	if(0 != input[i]) return 0;
+	if(0 != ri8(input + i)) return 0;
 
 	if(negative_p)
 	{
