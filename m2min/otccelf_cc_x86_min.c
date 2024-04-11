@@ -333,8 +333,8 @@ int wi32(int o, int v) {
 }
 
 int ri32(int o) {
-  return (ri8(o)&255)       | shl((ri8(add(o, 1))&255), 8) |
-         shl((ri8(add(o, 2))&255), 16) | shl((ri8(add(o, 3))&255), 24);
+  return and(ri8(o), 255)       | shl(and(ri8(add(o, 1)), 255), 8) |
+         shl(and(ri8(add(o, 2)), 255), 16) | shl(and(ri8(add(o, 3)), 255), 24);
 }
 
 int fgetc(int f)
@@ -590,7 +590,7 @@ int in_set(int c, int s)
 int __index_number(int s, int c)
 {
 	int i = 0;
-	c = c & 255;
+	c = and(c, 255);
 	while(neq(ri8(add(s, i)), c))
 	{
 		i = add(i, 1);
@@ -602,7 +602,7 @@ int __index_number(int s, int c)
 /* INTERNAL ONLY */
 int __toupper(int c)
 {
-	if(in_set(c, "abcdefghijklmnopqrstuvwxyz")) return (c & 0xDF);
+	if(in_set(c, "abcdefghijklmnopqrstuvwxyz")) { return and(c, 0xDF); }
 	return c;
 }
 
@@ -672,7 +672,7 @@ int strtoint(int a)
 	}
 
 	/* Deal with sign extension for 64bit hosts */
-	if(neq(0, (0x80000000 & result))) result = shl(0xFFFFFFFF, 31) | result;
+	if(neq(0, and(0x80000000, result))) result = shl(0xFFFFFFFF, 31) | result;
 	return result;
 }
 
@@ -691,14 +691,14 @@ int int2str(int x, int base, int signed_p)
 	int sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && eq(10, base) && neq(0, (x & 0x80000000)))
+	if(signed_p && eq(10, base) && neq(0, and(x, 0x80000000)))
 	{
 		/* Truncate to 31bits */
-		i = -x & 0x7FFFFFFF;
+		i = and(-x, 0x7FFFFFFF);
 		if(eq(0, i)) return "-2147483648";
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
-	else i = x & (0x7FFFFFFF | shl(1, 31));
+	else i = and(x, (0x7FFFFFFF | shl(1, 31)));
 
 	do
 	{
@@ -777,7 +777,7 @@ int isspace(int c){
 
 int isdigit(int c){
   int r;
-  c=c&0xFF;
+  c = and(c, 0xFF);
 /*  print("isdigit:"+c); */
   r = sub(c, mk_char('0'));
   return lt(r, 10) && gte(r, 0);
@@ -785,7 +785,7 @@ int isdigit(int c){
 
 int isalnum(int c){
   int r; int t;
-  c=c&0xFF;
+  c = and(c, 0xFF);
   t = sub((c|32), mk_char('a'));
   r = (lt(t, 26) && gte(t, 0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
