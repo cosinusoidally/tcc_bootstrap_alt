@@ -149,6 +149,7 @@ int member_size;
 void require_match(char* message, char* required);
 
 void skip(char* str) {
+/* dummy impl should check and abort if doesn't match */
 	global_token = global_token->next;
 }
 
@@ -529,7 +530,7 @@ void require_match(char* message, char* required) {
 
 void expression();
 void function_call(char* s, int bool) {
-	require_match("ERROR", "(");
+	skip("(");
 	int passed = 0;
 
 	emit_out("push_edi\t# Prevent overwriting in recursion\n");
