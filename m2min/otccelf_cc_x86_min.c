@@ -952,7 +952,7 @@ int next(void){
       tok = add((mul(tok, 8)), TOK_IDENT);
       if(gt(tok, TOK_DEFINE)){
         tok = add(vars, tok);
-        if( ri32(tok) == SYM_DEFINE){
+        if(eq(ri32(tok), SYM_DEFINE)){
           dptr = ri32(add(tok, 4));
           dch=ch;
           inp ();
@@ -962,20 +962,20 @@ int next(void){
     }
   } else{
     inp ();
-    if( tok == mk_char('\'')){
+    if(eq(tok, mk_char('\''))){
       tok = TOK_NUM;
       getq ();
       tokc=ch;
       inp ();
       inp ();
-    } else if( (tok == mk_char('/')) & (ch == mk_char('*'))){
+    } else if(eq(tok, mk_char('/')) & eq(ch, mk_char('*'))){
       inp ();
       while( ch != 0){
         while( ch != mk_char('*')) {
           inp ();
         }
         inp ();
-        if( ch == mk_char('/')) {
+        if(eq(ch, mk_char('/'))) {
           ch=0;
         }
       }
@@ -993,8 +993,8 @@ int next(void){
           tokc = add(add((mul(tokc, 64)), tokl), 64);
         }
         t = add(t, 1);
-        if( (l == tok) & ((a == ch) | (a == mk_char('@')))){
-          if( a == ch){
+        if(eq(l, tok) & (eq(a, ch) | eq(a, mk_char('@')))){
+          if(eq(a, ch)){
             inp ();
             tok = TOK_DUMMY;
           }
@@ -1139,7 +1139,7 @@ int unary(int l){
       }
       next();
       unary(0);
-      if( tok == mk_char('=')){
+      if(eq(tok, mk_char('='))){
         next();
         o( 80);
         expr();
