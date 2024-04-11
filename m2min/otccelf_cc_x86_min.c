@@ -776,15 +776,15 @@ int init_c(void){
   int_size = 1;
 }
 
-int mk_char(int c){
+int mk_char(int c) {
   return c;
 }
 
-int mk_c_string(int s){
+int mk_c_string(int s) {
   return s;
 }
 
-int dummy(void){
+int dummy(void) {
   puts("dummy called");
 }
 
