@@ -615,12 +615,12 @@ int strncmp (int a,int  b, int size) {
 
   while ((ri8(a) != 0) && (ri8(b) != 0) && (ri8(a) == ri8(b)) && (size > 1))
     {
-      size = size - 1;
+      size = sub(size, 1);
       a = add(a, 1);
       b = add(b, 1);
     }
 
-  return ri8(a) - ri8(b);
+  return sub(ri8(a), ri8(b));
 }
 
 int strstr(int haystack, int needle){
@@ -687,7 +687,7 @@ int fwrite(int ptr,int size, int nitems, int stream) {
   c = ptr;
   while(t>0){
     fputc(ri8(c),stream);
-    t=t-1;
+    t = sub(t, 1);
     c = add(c, 1);
   }
 }
@@ -788,7 +788,7 @@ int next(void){
       tok = TOK_NUM;
     } else{
       wi8(dstk, TAG_TOK);
-      tok = strstr(sym_stk, last_id - 1) - sym_stk;
+      tok = sub(strstr(sym_stk, sub(last_id, 1)), sym_stk);
       wi8(dstk, 0);
       tok = add((tok * 8), TOK_IDENT);
       if( tok>TOK_DEFINE){
@@ -829,7 +829,7 @@ int next(void){
         a = ri8(t);
         t = add(t, 1);
         tokc=0;
-        while((tokl = ri8(t) - mk_char('b'))<0) {
+        while((tokl = sub(ri8(t), mk_char('b')))<0) {
           t = add(t, 1);
           tokc = add(add((tokc * 64), tokl), 64);
         }
@@ -872,14 +872,14 @@ int gsym1(int t, int b){
   int d;
   while( t != 0){
     d=get32(t);
-    if( ri8(t-1) == 5){
+    if( ri8(sub(t, 1)) == 5){
       if( (b >= data) && (b < glo))
         put32(t, add(b, data_offset));
       else
-        put32(t, add(add(b - prog, text), data_offset));
+        put32(t, add(add(sub(b, prog), text), data_offset));
     }
     else{
-      put32(t, b - t - 4);
+      put32(t, sub(sub(b, t), 4));
     }
     t = d;
   }
@@ -1046,7 +1046,7 @@ int sum(int l){
   if( l == 1) {
     unary(1);
   } else{
-    l = l - 1;
+    l = sub(l, 1);
     sum(l);
     a=0;
     while( l == tokl){
