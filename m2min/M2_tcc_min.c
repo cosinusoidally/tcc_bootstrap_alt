@@ -114,13 +114,6 @@ struct conditional_inclusion {
 	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
 };
 
-struct macro_list {
-	struct macro_list* next;
-	char* symbol;
-	struct token_list* expansion;
-};
-
-struct macro_list* macro_env;
 struct conditional_inclusion* conditional_inclusion_top;
 
 /* point where we are currently modifying the global_token list */
