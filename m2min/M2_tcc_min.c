@@ -992,12 +992,24 @@ void primary_expr()
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
 	}
-	else if(global_token->s[0] == '\'') primary_expr_char();
-	else if(global_token->s[0] == '"') primary_expr_string();
-	else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) primary_expr_variable();
-	else if(global_token->s[0] == '*') primary_expr_variable();
-	else if(in_set(global_token->s[0], "0123456789")) primary_expr_number();
-	else primary_expr_failure();
+	else if(global_token->s[0] == '\'') {
+		primary_expr_char();
+	}
+	else if(global_token->s[0] == '"') {
+		primary_expr_string();
+	}
+	else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+		primary_expr_variable();
+	}
+	else if(global_token->s[0] == '*') {
+		primary_expr_variable();
+	}
+	else if(in_set(global_token->s[0], "0123456789")) {
+		primary_expr_number();
+	}
+	else {
+		primary_expr_failure();
+	}
 }
 
 void expression()
