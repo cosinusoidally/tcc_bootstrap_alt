@@ -323,13 +323,13 @@ int mod(int a, int b){
 }
 
 int wi32(int o, int v) {
-  wi8(o,v&0xFF);
+  wi8(o, and(v, 0xFF));
   v = shr(v, 8);
-  wi8(add(o, 1),v&0xFF);
+  wi8(add(o, 1), and(v, 0xFF));
   v = shr(v, 8);
-  wi8(add(o, 2),v&0xFF);
+  wi8(add(o, 2), and(v, 0xFF));
   v = shr(v, 8);
-  wi8(add(o, 3),v&0xFF);
+  wi8(add(o, 3), and(v, 0xFF));
 }
 
 int ri32(int o) {
