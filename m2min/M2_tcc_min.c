@@ -1105,7 +1105,6 @@ void postfix_expr()
  */
 void additive_expr_stub()
 {
-		arithmetic_recursion(postfix_expr, "mov_ecx,eax\nmov_eax,ebx\nsar_eax,cl\n", "mov_ecx,eax\nmov_eax,ebx\nshr_eax,cl\n", ">>", additive_expr_stub);
 }
 
 

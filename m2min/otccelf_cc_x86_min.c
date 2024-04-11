@@ -214,11 +214,11 @@ int mod(int a, int b){
 
 int wi32(int o, int v) {
   wi8(o,v&0xFF);
-  v=v>>8;
+  v = shr(v, 8);
   wi8(add(o, 1),v&0xFF);
-  v=v>>8;
+  v = shr(v, 8);
   wi8(add(o, 2),v&0xFF);
-  v=v>>8;
+  v = shr(v, 8);
   wi8(add(o, 3),v&0xFF);
 }
 
@@ -930,15 +930,15 @@ int o(int n){
   while( (n != 0) && (n != (-1))){
     wi8(ind, n);
     ind = add(ind, 1);
-    n = n >> 8;
+    n = shr(n, 8);
   }
 }
 
 int put32(int t, int n){
   wi8(t, n);     t = add(t, 1);
-  wi8(t,  n>>8); t = add(t, 1);
-  wi8(t, n>>16); t = add(t, 1);
-  wi8(t, n>>24); t = add(t, 1);
+  wi8(t, shr(n, 8)); t = add(t, 1);
+  wi8(t, shr(n, 16)); t = add(t, 1);
+  wi8(t, shr(n, 24)); t = add(t, 1);
 }
 
 int get32(int t){
