@@ -347,8 +347,10 @@ int wi32(int o, int v) {
 }
 
 int ri32(int o) {
-  return and(ri8(o), 255)       | shl(and(ri8(add(o, 1)), 255), 8) |
-         shl(and(ri8(add(o, 2)), 255), 16) | shl(and(ri8(add(o, 3)), 255), 24);
+  return or(or(and(ri8(o), 255),
+		shl(and(ri8(add(o, 1)), 255), 8)),
+		or(shl(and(ri8(add(o, 2)), 255), 16),
+		shl(and(ri8(add(o, 3)), 255), 24)));
 }
 
 int fgetc(int f)
@@ -686,7 +688,9 @@ int strtoint(int a)
 	}
 
 	/* Deal with sign extension for 64bit hosts */
-	if(neq(0, and(0x80000000, result))) result = shl(0xFFFFFFFF, 31) | result;
+	if(neq(0, and(0x80000000, result))) {
+		result = or(shl(0xFFFFFFFF, 31), result);
+	}
 	return result;
 }
 
@@ -712,7 +716,7 @@ int int2str(int x, int base, int signed_p)
 		if(eq(0, i)) return "-2147483648";
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
-	else i = and(x, (0x7FFFFFFF | shl(1, 31)));
+	else i = and(x, or(0x7FFFFFFF, shl(1, 31)));
 
 	do
 	{
@@ -800,7 +804,7 @@ int isdigit(int c){
 int isalnum(int c){
   int r; int t;
   c = and(c, 0xFF);
-  t = sub((c|32), mk_char('a'));
+  t = sub(or(c, 32), mk_char('a'));
   r = and(lt(t, 26), gte(t, 0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
@@ -946,7 +950,7 @@ int inp (void){
 }
 
 int isid (void){
-  return (isalnum(ch) | eq(ch, mk_char('_')));
+  return or(isalnum(ch), eq(ch, mk_char('_')));
 }
 
 int getq (void){
@@ -960,7 +964,7 @@ int getq (void){
 
 int next(void){
   int t; int l; int a;
-  while( neq(isspace(ch), 0) | eq(ch, mk_char('#'))){
+  while(or(neq(isspace(ch), 0), eq(ch, mk_char('#')))){
     if(eq(ch, mk_char('#'))){
       inp ();
       next();
@@ -1069,8 +1073,10 @@ int put32(int t, int n){
 
 int get32(int t){
   int n;
-  return and(ri8(t), 255)       | shl(and(ri8(add(t, 1)), 255), 8) |
-         shl(and(ri8(add(t, 2)), 255), 16) | shl(and(ri8(add(t, 3)), 255), 24);
+  return or(or(and(ri8(t), 255),
+		shl(and(ri8(add(t, 1)), 255), 8)),
+		or(shl(and(ri8(add(t, 2)), 255), 16),
+		shl(and(ri8(add(t, 3)), 255), 24)));
 }
 
 int gsym1(int t, int b){
@@ -1377,7 +1383,7 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while( eq(tok, TOK_INT) | (and(neq(tok, (-1)), eq(l, 0)))){
+  while(or(eq(tok, TOK_INT), (and(neq(tok, (-1)), eq(l, 0))))){
     if(eq(tok, TOK_INT)){
       next();
       while(neq(tok, mk_char(';'))){
