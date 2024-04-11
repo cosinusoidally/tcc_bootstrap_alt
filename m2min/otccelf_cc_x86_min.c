@@ -658,9 +658,9 @@ int strcpy(int dest, int src){
     if(c == 0){
       break;
     }
-    src = src + 1;
+    src = add(src, 1);
     wi8(dest,c);
-    dest = dest + 1;
+    dest = add(dest, 1);
   }
   return p;
 }
@@ -673,7 +673,7 @@ int fwrite(int ptr,int size, int nitems, int stream) {
   while(t>0){
     fputc(ri8(c),stream);
     t=t-1;
-    c=c+1;
+    c = add(c, 1);
   }
 }
 
@@ -709,13 +709,13 @@ int SYM_DEFINE; int TAG_TOK; int TAG_MACRO;
 
 int pdef(int t){
   wi8(dstk, t);
-  dstk = dstk + 1;
+  dstk = add(dstk, 1);
 }
 
 int inp (void){
   if(dptr != 0){
     ch = ri8(dptr);
-    dptr = dptr + 1;
+    dptr = add(dptr, 1);
     if( ch == TAG_MACRO){
       dptr=0;
       ch=dch;
@@ -748,7 +748,7 @@ int next(void){
         next();
         pdef(TAG_TOK);
         wi32(tok, 1);
-        wi32(tok+4, dstk);
+        wi32(add(tok, 4), dstk);
       }
       while( ch != mk_char('\n')){
         pdef(ch);
@@ -775,11 +775,11 @@ int next(void){
       wi8(dstk, TAG_TOK);
       tok = strstr(sym_stk, last_id - 1) - sym_stk;
       wi8(dstk, 0);
-      tok = (tok * 8) + TOK_IDENT;
+      tok = add((tok * 8), TOK_IDENT);
       if( tok>TOK_DEFINE){
-        tok=vars+tok;
+        tok = add(vars, tok);
         if( ri32(tok) == SYM_DEFINE){
-          dptr = ri32(tok+4);
+          dptr = ri32(add(tok, 4));
           dch=ch;
           inp ();
           next();
@@ -815,10 +815,10 @@ int next(void){
         t = add(t, 1);
         tokc=0;
         while((tokl = ri8(t) - mk_char('b'))<0) {
-          t = t + 1;
+          t = add(t, 1);
           tokc = add(add((tokc * 64), tokl), 64);
         }
-        t = t + 1;
+        t = add(t, 1);
         if( (l == tok) & ((a == ch) | (a == mk_char('@')))){
           if( a == ch){
             inp ();
