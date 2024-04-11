@@ -541,7 +541,7 @@ int init_c(void){
   puts("init_c called");
   v_stack_size=64*1024;
   v_stack=calloc(1,v_stack_size);
-  v_esp = add(v_stack, v_stack_size) - 4;
+  v_esp = sub(add(v_stack, v_stack_size), 4);
   v_ebp=v_esp;
   int_size = 1;
 }
@@ -559,7 +559,7 @@ int dummy(void){
 }
 
 int v_alloca(int x) {
-  v_esp=v_esp-x;
+  v_esp = sub(v_esp, x);
   return v_esp;
 }
 
