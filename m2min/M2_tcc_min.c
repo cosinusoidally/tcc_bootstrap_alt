@@ -982,7 +982,6 @@ void relational_expr()
  */
 void bitwise_expr_stub()
 {
-		general_recursion(relational_expr, "and_eax,ebx\n", "&", bitwise_expr_stub);
 		general_recursion(relational_expr, "and_eax,ebx\n", "&&", bitwise_expr_stub);
 		general_recursion(relational_expr, "or_eax,ebx\n", "|", bitwise_expr_stub);
 		general_recursion(relational_expr, "or_eax,ebx\n", "||", bitwise_expr_stub);
