@@ -747,19 +747,7 @@ void function_call(char* s, int bool)
 
 char* load_value_signed(unsigned size)
 {
-	if(size == 1)
-	{
-		return "movsx_eax,BYTE_PTR_[eax]\n";
-	}
-	else if(size == 4)
-	{
-		return "mov_eax,[eax]\n";
-	}
-	line_error();
-	fputs(" Got unsupported size ", stderr);
-	fputs(int2str(size, 10, TRUE), stderr);
-	fputs(" when trying to load value.\n", stderr);
-	exit(EXIT_FAILURE);
+	return "mov_eax,[eax]\n";
 }
 
 char* load_value(unsigned size, int is_signed)
@@ -769,20 +757,7 @@ char* load_value(unsigned size, int is_signed)
 
 char* store_value(unsigned size)
 {
-	if(size == 1)
-	{
-		return "mov_[ebx],al\n";
-	}
-	else if(size == 4)
-	{
-		return "mov_[ebx],eax\n";
-	}
-	/* Should not happen but print error message. */
-	fputs("Got unsupported size ", stderr);
-	fputs(int2str(size, 10, TRUE), stderr);
-	fputs(" when storing number in register.\n", stderr);
-	line_error();
-	exit(EXIT_FAILURE);
+	return "mov_[ebx],eax\n";
 }
 
 void variable_load(struct token_list* a, int num_dereference)
