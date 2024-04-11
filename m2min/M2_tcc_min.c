@@ -935,23 +935,6 @@ void common_recursion(FUNCTION f)
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
 
-void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
-{
-	require(NULL != global_token, "Received EOF in general_recursion\n");
-	if(match(name, global_token->s))
-	{
-/* LJW debug logging */
-		if(match(name, "^")){
-			fputs("xor on line: ", stdout);
-			fputs(int2str(global_token->linenumber,10,0), stdout);
-			fputs("\n", stdout);
-		}
-		common_recursion(f);
-		emit_out(s);
-		iterate();
-	}
-}
-
 struct type* type_name();
 
 /*
