@@ -207,8 +207,8 @@ int wi32(int o, int v) {
 }
 
 int ri32(int o) {
-  return (ri8(o)&255)       | (ri8(add(o, 1))&255)<<8 |
-         (ri8(add(o, 2))&255)<<16 | (ri8(add(o, 3))&255)<<24;
+  return (ri8(o)&255)       | shl((ri8(add(o, 1))&255), 8) |
+         shl((ri8(add(o, 2))&255), 16) | shl((ri8(add(o, 3))&255), 24);
 }
 
 int fgetc(int f)
@@ -545,7 +545,7 @@ int strtoint(int a)
 	}
 
 	/* Deal with sign extension for 64bit hosts */
-	if(0 != (0x80000000 & result)) result = (0xFFFFFFFF << 31) | result;
+	if(0 != (0x80000000 & result)) result = shl(0xFFFFFFFF, 31) | result;
 	return result;
 }
 
@@ -571,7 +571,7 @@ int int2str(int x, int base, int signed_p)
 		if(0 == i) return "-2147483648";
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
-	else i = x & (0x7FFFFFFF | (1 << 31));
+	else i = x & (0x7FFFFFFF | shl(1, 31));
 
 	do
 	{
@@ -927,8 +927,8 @@ int put32(int t, int n){
 
 int get32(int t){
   int n;
-  return (ri8(t)&255)       | (ri8(add(t, 1))&255)<<8 |
-         (ri8(add(t, 2))&255)<<16 | (ri8(add(t, 3))&255)<<24;
+  return (ri8(t)&255)       | shl((ri8(add(t, 1))&255), 8) |
+         shl((ri8(add(t, 2))&255), 16) | shl((ri8(add(t, 3))&255), 24);
 }
 
 int gsym1(int t, int b){
