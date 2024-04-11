@@ -121,16 +121,16 @@ int wi8(int o,int v) {
 int wi32(int o, int v) {
   wi8(o,v&0xFF);
   v=v>>8;
-  wi8(o+1,v&0xFF);
+  wi8(add(o, 1),v&0xFF);
   v=v>>8;
-  wi8(o+2,v&0xFF);
+  wi8(add(o, 2),v&0xFF);
   v=v>>8;
-  wi8(o+3,v&0xFF);
+  wi8(add(o, 3),v&0xFF);
 }
 
 int ri32(int o) {
-  return (ri8(o)&255)       | (ri8(o+1)&255)<<8 |
-         (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
+  return (ri8(o)&255)       | (ri8(add(o, 1))&255)<<8 |
+         (ri8(add(o, 2))&255)<<16 | (ri8(add(o, 3))&255)<<24;
 }
 
 int fgetc(int f)
@@ -291,21 +291,21 @@ int malloc(int size)
 		_malloc_ptr = _brk_ptr;
 	}
 
-	if(_brk_ptr < _malloc_ptr + size)
+	if(_brk_ptr < add(_malloc_ptr, size))
 	{
-		_brk_ptr = brk(_malloc_ptr + size);
+		_brk_ptr = brk(add(_malloc_ptr, size));
 		if(-1 == _brk_ptr) return 0;
 	}
 
 	int old_malloc = _malloc_ptr;
-	_malloc_ptr = _malloc_ptr + size;
+	_malloc_ptr = add(_malloc_ptr, size);
 	return old_malloc;
 }
 
 int strlen(int str )
 {
 	int i = 0;
-	while(0 != ri8(str+i)) i = i + 1;
+	while(0 != ri8(add(str, i))) { i = add(i, 1); }
 	return i;
 }
 
@@ -315,7 +315,7 @@ int memset(int ptr, int value, int num)
 	for(s = ptr; 0 < num; num = num - 1)
 	{
 		wi8(s, value);
-		s = s + 1;
+		s = add(s, 1);
 	}
 }
 
