@@ -602,15 +602,13 @@ void function_call(char* s, int bool) {
 	emit_out("push_ebp\t# Protect the old base pointer\n");
 	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(global_token->s[0] != ')')
-	{
+	if(global_token->s[0] != ')') {
 		expression();
 		require(NULL != global_token, "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(global_token->s[0] == ',')
-		{
+		while(global_token->s[0] == ',') {
 			global_token = global_token->next;
 			require(NULL != global_token, "incomplete function call, received EOF instead of argument\n");
 			expression();
@@ -626,8 +624,7 @@ void function_call(char* s, int bool) {
 	emit_out(s);
 	emit_out("\n");
 
-	for(; passed > 0; passed = passed - 1)
-	{
+	for(; passed > 0; passed = passed - 1) {
 		emit_out("pop_ebx\t# _process_expression_locals\n");
 	}
 
@@ -635,23 +632,15 @@ void function_call(char* s, int bool) {
 	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-char* load_value_signed(unsigned size)
-{
+char* load_value(unsigned size, int is_signed) {
 	return "mov_eax,[eax]\n";
 }
 
-char* load_value(unsigned size, int is_signed)
-{
-	return load_value_signed(size);
-}
-
-char* store_value(unsigned size)
-{
+char* store_value(unsigned size) {
 	return "mov_[ebx],eax\n";
 }
 
-void variable_load(struct token_list* a, int num_dereference)
-{
+void variable_load(struct token_list* a, int num_dereference) {
 	require(NULL != global_token, "incomplete variable load received\n");
 
 	current_target = a->type;
@@ -668,8 +657,7 @@ void variable_load(struct token_list* a, int num_dereference)
 
 }
 
-void function_load(struct token_list* a)
-{
+void function_load(struct token_list* a) {
 	require(NULL != global_token, "incomplete function load\n");
 	if(match("(", global_token->s))
 	{
