@@ -527,22 +527,6 @@ struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-void line_error_token(struct token_list *token) {
-	if(NULL == token) {
-		fputs("EOF reached inside of line_error\n", stderr);
-		fputs("problem at end of file\n", stderr);
-		return;
-	}
-	fputs(token->filename, stderr);
-	fputs(":", stderr);
-	fputs(int2str(token->linenumber, 10, TRUE), stderr);
-	fputs(":", stderr);
-}
-
-void line_error() {
-	line_error_token(global_token);
-}
-
 void require_match(char* message, char* required) {
 	global_token = global_token->next;
 }
@@ -687,7 +671,6 @@ void primary_expr_variable() {
 		return;
 	}
 
-	line_error();
 	fputs(s ,stderr);
 	fputs(" is not a defined symbol\n", stderr);
 	exit(EXIT_FAILURE);
@@ -1137,7 +1120,6 @@ new_type:
 	}
 
 	/* Everything else is just an error */
-	line_error();
 	fputs("Received ", stderr);
 	fputs(global_token->s, stderr);
 	fputs(" in program\n", stderr);
