@@ -982,8 +982,7 @@ void process_asm() {
 }
 
 /* Process while loops */
-void process_while()
-{
+void process_while() {
 	struct token_list* nested_locals = break_frame;
 	char* nested_break_head = break_target_head;
 	char* nested_break_func = break_target_func;
@@ -1032,8 +1031,7 @@ void process_while()
 }
 
 /* Ensure that functions return */
-void return_result()
-{
+void return_result() {
 	global_token = global_token->next;
 	require(NULL != global_token, "Incomplete return statement received\n");
 	if(global_token->s[0] != ';') expression();
@@ -1042,11 +1040,9 @@ void return_result()
 
 	struct token_list* i;
 	unsigned size_local_var;
-	for(i = function->locals; NULL != i; i = i->next)
-	{
+	for(i = function->locals; NULL != i; i = i->next) {
 		size_local_var = ceil_div(i->type->size, register_size);
-		while(size_local_var != 0)
-		{
+		while(size_local_var != 0) {
 			emit_out("pop_ebx\t# _return_result_locals\n");
 			size_local_var = size_local_var - 1;
 		}
@@ -1055,8 +1051,7 @@ void return_result()
 	emit_out("ret\n");
 }
 
-void process_break()
-{
+void process_break() {
 	struct token_list* i = function->locals;
 	global_token = global_token->next;
 
