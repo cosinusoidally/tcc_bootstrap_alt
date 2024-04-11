@@ -966,31 +966,6 @@ void postfix_expr()
 	primary_expr();
 }
 
-void relational_expr()
-{
-	postfix_expr();
-}
-
-/*
- * bitwise-expr:
- *         relational-expr
- *         bitwise-expr & bitwise-expr
- *         bitwise-expr && bitwise-expr
- *         bitwise-expr | bitwise-expr
- *         bitwise-expr || bitwise-expr
- *         bitwise-expr ^ bitwise-expr
- */
-void bitwise_expr_stub()
-{
-}
-
-
-void bitwise_expr()
-{
-	relational_expr();
-	bitwise_expr_stub();
-}
-
 /*
  * expression:
  *         bitwise-or-expr
@@ -1039,7 +1014,7 @@ void primary_expr()
 
 void expression()
 {
-	bitwise_expr();
+	primary_expr();
 	if(match("=", global_token->s))
 	{
 		char* store = "";
