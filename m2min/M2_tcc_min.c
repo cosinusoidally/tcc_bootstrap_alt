@@ -950,17 +950,13 @@ void primary_expr()
 	if('-' == global_token->s[0])
 	{
 		emit_out("mov_eax, %0\n");
-
 		common_recursion(primary_expr);
-
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
 	}
 	else if('!' == global_token->s[0])
 	{
 		emit_out("mov_eax, %1\n");
-
 		common_recursion(primary_expr);
-
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
 	}
 	else if(global_token->s[0] == '(')
