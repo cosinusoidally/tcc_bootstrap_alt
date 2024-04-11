@@ -583,7 +583,7 @@ int __set_reader(int set, int mult, int input)
 	int hold;
 	int negative_p = FALSE;
 
-	if(ri8(input) == '-')
+	if(eq(ri8(input), '-'))
 	{
 		negative_p = TRUE;
 		i = add(i, 1);
@@ -595,7 +595,7 @@ int __set_reader(int set, int mult, int input)
 		hold = __index_number(set, __toupper(ri8(add(input, i))));
 
 		/* Input managed to change between in_set and index_number */
-		if(-1 == hold) return 0;
+		if(eq(-1, hold)) return 0;
 		n = add(n, hold);
 		i = add(i, 1);
 	}
@@ -615,22 +615,22 @@ int strtoint(int a)
 {
 	int result = 0;
 	/* If NULL string */
-	if(0 == ri8(a))
+	if(eq(0, ri8(a)))
 	{
 		result = 0;
 	}
 	/* Deal with binary */
-	else if ('0' == ri8(a) && 'b' == ri8(add(a, 1)))
+	else if (eq('0', ri8(a)) && eq('b', ri8(add(a, 1))))
 	{
 		result = __set_reader("01", 2, add(a, 2));
 	}
 	/* Deal with hex */
-	else if ('0' == ri8(a) &&  'x' == ri8(add(a, 1)))
+	else if (eq('0', ri8(a)) &&  eq('x', ri8(add(a, 1))))
 	{
 		result = __set_reader("0123456789ABCDEFabcdef", 16, add(a, 2));
 	}
 	/* Deal with octal */
-	else if('0' == ri8(a))
+	else if(eq('0', ri8(a)))
 	{
 		result = __set_reader("01234567", 8, add(a, 1));
 	}
@@ -653,7 +653,7 @@ int int2str(int x, int base, int signed_p)
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	int p = calloc(34, sizeof(char));
 	/* if calloc fails return null to let calling code deal with it */
-	if(NULL == p) return p;
+	if(eq(NULL, p)) return p;
 
 	p = add(p, 32);
 	int i;
@@ -769,7 +769,7 @@ int strtol(int a, int b, int c){
 }
 
 int strncmp (int a,int  b, int size) {
-  if (size == 0)
+  if (eq(size, 0))
     return 0;
 
   while ((ri8(a) != 0) && (ri8(b) != 0) && eq(ri8(a), ri8(b)) && gt(size, 1))
