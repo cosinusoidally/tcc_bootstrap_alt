@@ -353,8 +353,6 @@ reset:
 		}
 	} else if (c == '\n') {
 		c = consume_byte(c);
-	} else if(c == '*') {
-		c = consume_byte(c);
 	} else if(c == '-') {
 		c = consume_byte(c);
 	} else {
