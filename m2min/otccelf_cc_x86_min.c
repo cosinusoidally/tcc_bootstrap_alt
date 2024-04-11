@@ -234,7 +234,7 @@ void exit(int value)
 	    "int !0x80");
 }
 
-void require(int bool, char* error)
+void require(int bool, int error)
 {
 	if(!bool)
 	{
@@ -244,7 +244,7 @@ void require(int bool, char* error)
 }
 
 
-int match(char* a, char* b)
+int match(int a, int b)
 {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
@@ -254,11 +254,11 @@ int match(char* a, char* b)
 	do
 	{
 		i = i + 1;
-		if(a[i] != b[i])
+		if(ri8(a + i) != ri8(b + i))
 		{
 			return FALSE;
 		}
-	} while((0 != a[i]) && (0 !=b[i]));
+	} while((0 != ri8(a + i)) && (0 != ri8(b + i)));
 	return TRUE;
 }
 
