@@ -1031,7 +1031,7 @@ int gsym1(int t, int b){
   int d;
   while( t != 0){
     d=get32(t);
-    if( ri8(sub(t, 1)) == 5){
+    if(eq(ri8(sub(t, 1)), 5)){
       if( gte(b, data) && (lt(b, glo)))
         put32(t, add(b, data_offset));
       else
@@ -1092,7 +1092,7 @@ int gmov(int l, int t){
 int unary(int l){
   int n; int t; int a; int c;
   n=1;
-  if( tok == mk_char('\"')){
+  if(eq(tok, mk_char('\"'))){
     li(add(glo, data_offset));
     while( ch!=mk_char('\"')){
       getq ();
@@ -1109,28 +1109,28 @@ int unary(int l){
     a=tokc;
     t=tok;
     next();
-    if( t == TOK_NUM){
+    if(eq(t, TOK_NUM)){
       li(a);
     }
-    else if( c == 2){
+    else if(eq(c, 2)){
       unary(0);
       oad(185,0);
-      if( t == mk_char('!')) {
+      if(eq(t, mk_char('!'))) {
         gcmp(a);
       } else {
         o( a);
       }
     }
-    else if( t == mk_char('(')){
+    else if(eq(t, mk_char('('))){
       expr();
       next();
     }
-    else if( t == mk_char('*')){
+    else if(eq(t, mk_char('*'))){
       next();
       t=tok;
       next();
       next();
-      if( tok == mk_char('*')){
+      if(eq(tok, mk_char('*'))){
         next();
         next();
         next();
@@ -1144,16 +1144,16 @@ int unary(int l){
         o( 80);
         expr();
         o( 89);
-        o( add(392, (t == TOK_INT)));
+        o( add(392, eq(t, TOK_INT)));
       } else if( t){
-        if( t == TOK_INT) {
+        if(eq(t, TOK_INT)) {
           o( 139);
         } else {
           o( 48655);
         }
         ind = add(ind, 1);
       }
-    } else if( t == mk_char('&')){
+    } else if(eq(t, mk_char('&'))){
       gmov(10,tok);
       next();
     }
