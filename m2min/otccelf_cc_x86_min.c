@@ -401,7 +401,7 @@ int malloc(int size)
 		_malloc_ptr = _brk_ptr;
 	}
 
-	if(_brk_ptr < add(_malloc_ptr, size))
+	if(lt(_brk_ptr, add(_malloc_ptr, size)))
 	{
 		_brk_ptr = brk(add(_malloc_ptr, size));
 		if(-1 == _brk_ptr) return 0;
@@ -422,7 +422,7 @@ int strlen(int str )
 int memset(int ptr, int value, int num)
 {
 	int s;
-	for(s = ptr; 0 < num; num = sub(num, 1))
+	for(s = ptr; lt(0, num); num = sub(num, 1))
 	{
 		wi8(s, value);
 		s = add(s, 1);
@@ -584,7 +584,7 @@ int strtoint(int a)
 int int2str(int x, int base, int signed_p)
 {
 	int table;
-	require(1 < base, "int2str doesn't support a base less than 2\n");
+	require(lt(1, base), "int2str doesn't support a base less than 2\n");
 	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	int p = calloc(34, sizeof(char));
@@ -610,7 +610,7 @@ int int2str(int x, int base, int signed_p)
 		wi8(p, ri8(add(table, mod(i, base))));
 		p = sub(p, 1);
 		i = div(i, base);
-	} while(0 < i);
+	} while(lt(0, i));
 
 	if(sign_p)
 	{
