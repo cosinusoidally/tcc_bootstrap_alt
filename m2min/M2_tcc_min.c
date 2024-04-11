@@ -1055,8 +1055,8 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
 	if(match(name, global_token->s))
 	{
 /* LJW debug logging */
-		if(match(name, "%")){
-			fputs("mod on line: ", stdout);
+		if(match(name, "<<")){
+			fputs("shl on line: ", stdout);
 			fputs(int2str(global_token->linenumber,10,0), stdout);
 			fputs("\n", stdout);
 		}
