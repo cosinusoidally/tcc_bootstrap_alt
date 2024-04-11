@@ -733,14 +733,14 @@ int isdigit(int c){
   c=c&0xFF;
 /*  print("isdigit:"+c); */
   r = sub(c, mk_char('0'));
-  return lt(r, 10) && (r >= 0);
+  return lt(r, 10) && gte(r, 0);
 }
 
 int isalnum(int c){
   int r; int t;
   c=c&0xFF;
   t = sub((c|32), mk_char('a'));
-  r = (lt(t, 26) && (t >=0)) || isdigit(c);
+  r = (lt(t, 26) && gte(t, 0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
 
@@ -1016,7 +1016,7 @@ int gsym1(int t, int b){
   while( t != 0){
     d=get32(t);
     if( ri8(sub(t, 1)) == 5){
-      if( (b >= data) && (lt(b, glo)))
+      if( gte(b, data) && (lt(b, glo)))
         put32(t, add(b, data_offset));
       else
         put32(t, add(add(sub(b, prog), text), data_offset));
