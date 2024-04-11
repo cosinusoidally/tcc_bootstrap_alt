@@ -54,13 +54,8 @@ int int_size;
 void puts_num(int x);
 
 int ri8(int o) {
-  int o1=o>>2;
-  int s=o&3;
-  int v1;
-  int *h=0;
-/*  fputs("ri8: ",stdout);puts_num(o); */
-  v1=h[o1*int_size];
-  return (v1>>(s*8)) &0xFF;
+  char *h = 0;
+  return h[o] & 0xFF;
 }
 
 int wi8(int o,int v) {
