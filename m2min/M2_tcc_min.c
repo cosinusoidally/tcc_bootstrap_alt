@@ -532,13 +532,6 @@ struct type* type_name()
 	global_token = global_token->next;
 	require(NULL != global_token, "unfinished type definition\n");
 
-	while(global_token->s[0] == '*')
-	{
-		ret = ret->indirect;
-		global_token = global_token->next;
-		require(NULL != global_token, "unfinished type definition in indirection\n");
-	}
-
 	return ret;
 }
 
