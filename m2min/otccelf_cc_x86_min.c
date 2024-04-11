@@ -350,9 +350,9 @@ int memset(int ptr, int value, int num)
 
 int calloc(int count, int size)
 {
-	int ret = malloc(count * size);
+	int ret = malloc(mul(count, size));
 	if(NULL == ret) return NULL;
-	memset(ret, 0, (count * size));
+	memset(ret, 0, mul(count, size));
 	return ret;
 }
 
@@ -446,7 +446,7 @@ int __set_reader(int set, int mult, int input)
 
 	while(in_set(ri8(add(input, i)), set))
 	{
-		n = n * mult;
+		n = mul(n, mult);
 		hold = __index_number(set, __toupper(ri8(add(input, i))));
 
 		/* Input managed to change between in_set and index_number */
@@ -553,7 +553,7 @@ int v_esp; int v_ebp; int v_stack_size; int v_stack;
 
 int init_c(void){
   puts("init_c called");
-  v_stack_size=64*1024;
+  v_stack_size = mul(64, 1024);
   v_stack=calloc(1,v_stack_size);
   v_esp = sub(add(v_stack, v_stack_size), 4);
   v_ebp=v_esp;
@@ -697,7 +697,7 @@ int strcpy(int dest, int src){
 
 int fwrite(int ptr,int size, int nitems, int stream) {
   int c;
-  int t=size*nitems;
+  int t = mul(size, nitems);
   c = ptr;
   while(t>0){
     fputc(ri8(c),stream);
@@ -804,7 +804,7 @@ int next(void){
       wi8(dstk, TAG_TOK);
       tok = sub(strstr(sym_stk, sub(last_id, 1)), sym_stk);
       wi8(dstk, 0);
-      tok = add((tok * 8), TOK_IDENT);
+      tok = add((mul(tok, 8)), TOK_IDENT);
       if( tok>TOK_DEFINE){
         tok = add(vars, tok);
         if( ri32(tok) == SYM_DEFINE){
@@ -845,7 +845,7 @@ int next(void){
         tokc=0;
         while((tokl = sub(ri8(t), mk_char('b')))<0) {
           t = add(t, 1);
-          tokc = add(add((tokc * 64), tokl), 64);
+          tokc = add(add((mul(tokc, 64)), tokl), 64);
         }
         t = add(t, 1);
         if( (l == tok) & ((a == ch) | (a == mk_char('@')))){
@@ -1255,7 +1255,7 @@ int elf_reloc(int l){
       t = add(t, 1);
     }
     if( t == dstk) { break; }
-    tok = sub(add(add(vars, (sub(a, sym_stk) * 8)), TOK_IDENT), 8);
+    tok = sub(add(add(vars, (mul(sub(a, sym_stk), 8))), TOK_IDENT), 8);
     b = ri32(tok);
     n = ri32(add(tok, 4));
     if( (n!=0) && (b != 1)){
@@ -1274,9 +1274,9 @@ int elf_reloc(int l){
           while( n){
             a=get32(n);
             c = ri8(sub(n, 1)) != 5;
-            put32(n,(-c)*4);
+            put32(n, mul((-c), 4));
             gle32( add(sub(n, prog), add(text,data_offset)));
-            gle32( add(p*256,add(c, 1)));
+            gle32( add(mul(p, 256),add(c, 1)));
             n=a;
           }
         }
