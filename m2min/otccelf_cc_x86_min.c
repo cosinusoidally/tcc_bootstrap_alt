@@ -1265,19 +1265,19 @@ int elf_out(int c){
   text_size=ind-prog;
   ind=prog;
   o( 5264472);
-  t = ri32(vars + TOK_MAIN);
+  t = ri32(add(vars, TOK_MAIN));
   oad(232,t-ind-5);
   o( 50057);
   li(1);
   o( 32973);
-  glo=glo+text_size;
+  glo = add(glo, text_size);
   dynstr=glo;
-  glo = glo + 1;
-  glo=strcpy(glo,mk_c_string("libc.so.6"))+10;
-  glo=strcpy(glo,mk_c_string("libdl.so.2"))+11;
+  glo = add(glo, 1);
+  glo = add(strcpy(glo,mk_c_string("libc.so.6")), 10);
+  glo = add(strcpy(glo,mk_c_string("libdl.so.2")), 11);
   elf_reloc(0);
   dynstr_size=glo-dynstr;
-  glo=(glo+3)&(-4);
+  glo=(add(glo, 3))&(-4);
   dynsym=glo;
   gle32( 0);
   gle32( 0);
@@ -1293,7 +1293,7 @@ int elf_out(int c){
   t=2;
   while( t < n) {
     gle32( t);
-    t = t + 1;
+    t = add(t, 1);
   }
   gle32( 0);
   rel=glo;
@@ -1307,7 +1307,7 @@ int elf_out(int c){
   gle32( 0);
   gle32( 196610);
   gle32( 1);
-  gle32( text+data_offset);
+  gle32( add(text, data_offset));
   gle32( PHDR_OFFSET);
   gle32( 0);
   gle32( 0);
@@ -1325,17 +1325,17 @@ int elf_out(int c){
   gphdr1(DYNAMIC_OFFSET, DYNAMIC_SIZE);
   gle32( 6);
   gle32( 4);
-  glo=strcpy(glo,mk_c_string("/lib/ld-linux.so.2"))+20;
+  glo = add(strcpy(glo,mk_c_string("/lib/ld-linux.so.2")), 20);
   gle32( 1);
   gle32( 1);
   gle32( 1);
   gle32( 11);
   gle32( 4);
-  gle32( hash+data_offset);
+  gle32( add(hash, data_offset));
   gle32( 6);
-  gle32( dynsym+data_offset);
+  gle32( add(dynsym, data_offset));
   gle32( 5);
-  gle32( dynstr+data_offset);
+  gle32( add(dynstr, data_offset));
   gle32( 10);
   gle32( dynstr_size);
   gle32( 11);
