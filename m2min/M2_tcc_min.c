@@ -704,53 +704,46 @@ void primary_expr_string() {
 	}
 }
 
-void primary_expr_char()
-{
+void primary_expr_char() {
 	emit_out("mov_eax, %");
 	emit_out(int2str(escape_lookup(global_token->s + 1), 10, TRUE));
 	emit_out("\n");
 	global_token = global_token->next;
 }
 
-void primary_expr_number()
-{
+void primary_expr_number() {
 		emit_out("mov_eax, %");
 		emit_out(global_token->s);
 	emit_out("\n");
 	global_token = global_token->next;
 }
 
-void primary_expr_variable()
-{
+void primary_expr_variable() {
 	int num_dereference = 0;
 	char* s = global_token->s;
 	global_token = global_token->next;
 	struct token_list* a = sym_lookup(s, global_constant_list);
 
 	a = sym_lookup(s, function->locals);
-	if(NULL != a)
-	{
+	if(NULL != a) {
 		variable_load(a, num_dereference);
 		return;
 	}
 
 	a = sym_lookup(s, function->arguments);
-	if(NULL != a)
-	{
+	if(NULL != a) {
 		variable_load(a, num_dereference);
 		return;
 	}
 
 	a = sym_lookup(s, global_function_list);
-	if(NULL != a)
-	{
+	if(NULL != a) {
 		function_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, global_symbol_list);
-	if(NULL != a)
-	{
+	if(NULL != a) {
 		global_load(a);
 		return;
 	}
