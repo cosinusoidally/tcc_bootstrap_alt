@@ -685,14 +685,14 @@ int isdigit(int c){
   c=c&0xFF;
 /*  print("isdigit:"+c); */
   r = sub(c, mk_char('0'));
-  return (r < 10) && (r >= 0);
+  return lt(r, 10) && (r >= 0);
 }
 
 int isalnum(int c){
   int r; int t;
   c=c&0xFF;
   t = sub((c|32), mk_char('a'));
-  r = ((t < 26 ) && (t >=0)) || isdigit(c);
+  r = (lt(t, 26) && (t >=0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
 
@@ -740,7 +740,7 @@ int strstr(int haystack, int needle){
   if(ln > lh) {
     return 0;
   }
-  while(o<lh) {
+  while(lt(o, lh)) {
 /*    puts("o: "+o); */
     r = strncmp(needle, add(haystack, o), ln);
 /*    puts("r: "+r); */
@@ -754,7 +754,7 @@ int strstr(int haystack, int needle){
 
 int memcpy(int dest, int src, int c) {
   int i;
-  for(i=0;i<c;i = add(i, 1)){
+  for(i=0;lt(i, c);i = add(i, 1)){
     wi8(add(dest, i),ri8(add(src, i)));
   }
 }
@@ -924,7 +924,7 @@ int next(void){
         a = ri8(t);
         t = add(t, 1);
         tokc=0;
-        while((tokl = sub(ri8(t), mk_char('b')))<0) {
+        while(lt(tokl = sub(ri8(t), mk_char('b')), 0)) {
           t = add(t, 1);
           tokc = add(add((mul(tokc, 64)), tokl), 64);
         }
@@ -968,7 +968,7 @@ int gsym1(int t, int b){
   while( t != 0){
     d=get32(t);
     if( ri8(sub(t, 1)) == 5){
-      if( (b >= data) && (b < glo))
+      if( (b >= data) && (lt(b, glo)))
         put32(t, add(b, data_offset));
       else
         put32(t, add(add(sub(b, prog), text), data_offset));
@@ -1017,7 +1017,7 @@ int gmov(int l, int t){
   int d;
   o( add(l, 131));
   d = ri32(t);
-  if( (d != 0) && (d < LOCAL)) {
+  if( (d != 0) && (lt(d, LOCAL))) {
     oad(133,d);
   } else {
     t = add(t, 4);
@@ -1332,7 +1332,7 @@ int elf_reloc(int l){
   while( 1){
     t = add(t, 1);
     a=t;
-    while( (ri8(t) != TAG_TOK) && (t < dstk)) {
+    while( (ri8(t) != TAG_TOK) && (lt(t, dstk))) {
       t = add(t, 1);
     }
     if( t == dstk) { break; }
@@ -1401,7 +1401,7 @@ int elf_out(int c){
   gle32( 1);
   gle32( 0);
   t=2;
-  while( t < n) {
+  while( lt(t, n)) {
     gle32( t);
     t = add(t, 1);
   }
@@ -1519,7 +1519,7 @@ int main(int n,int t){
   puts("otccelf start");
   init_c();
   init_globals();
-  if( n<3){
+  if( lt(n, 3)){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
