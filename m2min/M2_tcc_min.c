@@ -756,8 +756,7 @@ void primary_expr_variable() {
 
 void primary_expr();
 
-void common_recursion(FUNCTION f)
-{
+void common_recursion(FUNCTION f) {
 	emit_out("push_eax\t#_common_recursion\n");
 
 	struct type* last_type = current_target;
@@ -770,35 +769,26 @@ void common_recursion(FUNCTION f)
 
 struct type* type_name();
 
-void primary_expr()
-{
+void primary_expr() {
 	require(NULL != global_token, "Received EOF where primary expression expected\n");
 
-	if('-' == global_token->s[0])
-	{
+	if('-' == global_token->s[0]) {
 		emit_out("mov_eax, %0\n");
 		common_recursion(primary_expr);
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
-	}
-	else if(global_token->s[0] == '(')
-	{
+	} else if(global_token->s[0] == '(') {
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
-	}
-	else if(global_token->s[0] == '\'') {
+	} else if(global_token->s[0] == '\'') {
 		primary_expr_char();
-	}
-	else if(global_token->s[0] == '"') {
+	} else if(global_token->s[0] == '"') {
 		primary_expr_string();
-	}
-	else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+	} else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
-	}
-	else if(in_set(global_token->s[0], "0123456789")) {
+	} else if(in_set(global_token->s[0], "0123456789")) {
 		primary_expr_number();
-	}
-	else {
+	} else {
 		primary_expr_failure();
 	}
 }
