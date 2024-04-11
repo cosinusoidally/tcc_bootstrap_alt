@@ -100,7 +100,7 @@ int fgetc(int f)
 	    ":FUNCTION_fgetc_Done");
 }
 
-void fputc(char s, int f)
+void fputc(int s, int f)
 {
 	asm("mov_eax, %4"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -367,6 +367,7 @@ int strtoint(int a)
 
 int int2str(int x, int base, int signed_p)
 {
+	int table;
 	require(1 < base, "int2str doesn't support a base less than 2\n");
 	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
@@ -377,7 +378,7 @@ int int2str(int x, int base, int signed_p)
 	p = p + 32;
 	int i;
 	int sign_p = FALSE;
-	char* table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	if(signed_p && (10 == base) && (0 != (x & 0x80000000)))
 	{
