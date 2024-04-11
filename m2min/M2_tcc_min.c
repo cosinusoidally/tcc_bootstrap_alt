@@ -966,8 +966,8 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 	if(match(name, global_token->s))
 	{
 /* LJW debug logging */
-		if(match(name, "==")){
-			fputs("eq on line: ", stdout);
+		if(match(name, "!=")){
+			fputs("neq on line: ", stdout);
 			fputs(int2str(global_token->linenumber,10,0), stdout);
 			fputs("\n", stdout);
 		}
@@ -1031,7 +1031,6 @@ void additive_expr()
 
 void relational_expr_stub()
 {
-		general_recursion(additive_expr, "cmp\nsete_al\nmovzx_eax,al\n", "==", relational_expr_stub);
 		general_recursion(additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
 }
 

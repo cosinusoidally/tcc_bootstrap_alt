@@ -414,7 +414,7 @@ int open(int name, int flag, int mode)
 int fopen(int filename, int mode)
 {
 	int f;
-	if('w' == ri8(mode))
+	if(eq('w', ri8(mode)))
 	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
 	}
@@ -459,7 +459,7 @@ int _brk_ptr;
 
 int malloc(int size)
 {
-	if(NULL == _brk_ptr)
+	if(eq(NULL, _brk_ptr))
 	{
 		_brk_ptr = brk(0);
 		_malloc_ptr = _brk_ptr;
@@ -468,7 +468,7 @@ int malloc(int size)
 	if(lt(_brk_ptr, add(_malloc_ptr, size)))
 	{
 		_brk_ptr = brk(add(_malloc_ptr, size));
-		if(-1 == _brk_ptr) return 0;
+		if(eq(-1, _brk_ptr)) return 0;
 	}
 
 	int old_malloc = _malloc_ptr;
@@ -496,7 +496,7 @@ int memset(int ptr, int value, int num)
 int calloc(int count, int size)
 {
 	int ret = malloc(mul(count, size));
-	if(NULL == ret) return NULL;
+	if(eq(NULL, ret)) return NULL;
 	memset(ret, 0, mul(count, size));
 	return ret;
 }
@@ -526,9 +526,9 @@ void require(int bool, int error)
 
 int match(int a, int b)
 {
-	if((NULL == a) && (NULL == b)) return TRUE;
-	if(NULL == a) return FALSE;
-	if(NULL == b) return FALSE;
+	if(eq(NULL, a) && eq(NULL, b)) return TRUE;
+	if(eq(NULL, a)) return FALSE;
+	if(eq(NULL, b)) return FALSE;
 
 	int i = -1;
 	do
@@ -546,11 +546,11 @@ int match(int a, int b)
 int in_set(int c, int s)
 {
 	/* NULL set is always false */
-	if(NULL == s) return FALSE;
+	if(eq(NULL, s)) return FALSE;
 
 	while(0 != ri8(s))
 	{
-		if(c == ri8(s)) return TRUE;
+		if(eq(c, ri8(s))) return TRUE;
 		s = add(s, 1);
 	}
 	return FALSE;
@@ -563,7 +563,7 @@ int __index_number(int s, char c)
 	while(ri8(add(s, i)) != c)
 	{
 		i = add(i, 1);
-		if(0 == ri8(add(s, i))) return -1;
+		if(eq(0, ri8(add(s, i)))) return -1;
 	}
 	return i;
 }
