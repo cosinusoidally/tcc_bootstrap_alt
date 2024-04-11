@@ -1183,56 +1183,6 @@ void process_asm()
 	require_match("ERROR in process_asm\nMISSING ;\n", ";");
 }
 
-/* Process do while loops */
-void process_do()
-{
-	struct token_list* nested_locals = break_frame;
-	char* nested_break_head = break_target_head;
-	char* nested_break_func = break_target_func;
-	char* nested_break_num = break_target_num;
-	char* nested_continue_head = continue_target_head;
-
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
-
-	break_target_head = "DO_END_";
-	continue_target_head = "DO_TEST_";
-	break_target_num = number_string;
-	break_frame = function->locals;
-	break_target_func = function->s;
-
-	emit_out(":DO_");
-	uniqueID_out(function->s, number_string);
-
-	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF where do statement is expected\n");
-	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
-
-	emit_out(":DO_TEST_");
-	uniqueID_out(function->s, number_string);
-
-	require_match("ERROR in process_do\nMISSING while\n", "while");
-	require_match("ERROR in process_do\nMISSING (\n", "(");
-	expression();
-	require_match("ERROR in process_do\nMISSING )\n", ")");
-	require_match("ERROR in process_do\nMISSING ;\n", ";");
-
-	emit_out("test_eax,eax\njne %DO_");
-
-	uniqueID_out(function->s, number_string);
-
-	emit_out(":DO_END_");
-	uniqueID_out(function->s, number_string);
-
-	break_frame = nested_locals;
-	break_target_head = nested_break_head;
-	break_target_func = nested_break_func;
-	break_target_num = nested_break_num;
-	continue_target_head = nested_continue_head;
-}
-
-
 /* Process while loops */
 void process_while()
 {
@@ -1385,10 +1335,6 @@ void statement()
 	else if(match("if", global_token->s))
 	{
 		process_if();
-	}
-	else if(match("do", global_token->s))
-	{
-		process_do();
 	}
 	else if(match("while", global_token->s))
 	{
