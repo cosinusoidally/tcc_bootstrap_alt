@@ -860,8 +860,7 @@ void collect_local() {
 void statement();
 
 /* Evaluate if statements */
-void process_if()
-{
+void process_if() {
 	char* number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 
@@ -887,8 +886,7 @@ void process_if()
 	emit_out(":ELSE_");
 	uniqueID_out(function->s, number_string);
 
-	if(match("else", global_token->s))
-	{
+	if(match("else", global_token->s)) {
 		global_token = global_token->next;
 		require(NULL != global_token, "Received EOF where an else statement expected\n");
 		statement();
@@ -898,8 +896,7 @@ void process_if()
 	uniqueID_out(function->s, number_string);
 }
 
-void process_for()
-{
+void process_for() {
 	struct token_list* nested_locals = break_frame;
 	char* nested_break_head = break_target_head;
 	char* nested_break_func = break_target_func;
@@ -921,8 +918,7 @@ void process_for()
 	global_token = global_token->next;
 
 	require_match("ERROR in process_for\nMISSING (\n", "(");
-	if(!match(";",global_token->s))
-	{
+	if(!match(";",global_token->s)) {
 		expression();
 	}
 
@@ -972,12 +968,10 @@ void process_for()
 }
 
 /* Process Assembly statements */
-void process_asm()
-{
+void process_asm() {
 	global_token = global_token->next;
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
-	while('"' == global_token->s[0])
-	{
+	while('"' == global_token->s[0]) {
 		emit_out((global_token->s + 1));
 		emit_out("\n");
 		global_token = global_token->next;
