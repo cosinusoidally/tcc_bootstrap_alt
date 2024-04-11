@@ -53,6 +53,20 @@ int int_size;
 
 void puts_num(int x);
 
+int add(int a, int b){
+/*	return a + b; */
+	asm(
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"add_eax,ebx"
+		"ret"
+	);
+}
+
 int ri8(int o) {
 /*
   char *h = 0;
