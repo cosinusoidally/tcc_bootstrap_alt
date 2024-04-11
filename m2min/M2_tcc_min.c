@@ -755,9 +755,6 @@ void primary_expr_variable() {
 }
 
 void primary_expr();
-struct type* promote_type(struct type* a, struct type* b) {
-	return a;
-}
 
 void common_recursion(FUNCTION f)
 {
@@ -767,7 +764,6 @@ void common_recursion(FUNCTION f)
 	global_token = global_token->next;
 	require(NULL != global_token, "Received EOF in common_recursion\n");
 	f();
-	current_target = promote_type(current_target, last_type);
 
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
