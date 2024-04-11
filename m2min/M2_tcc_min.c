@@ -485,10 +485,6 @@ reset:
 	{
 		c = consume_byte(c);
 	}
-	else if(c == '+')
-	{
-		c = consume_byte(c);
-	}
 	else if(c == '-')
 	{
 		c = consume_byte(c);
