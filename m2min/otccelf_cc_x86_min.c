@@ -951,14 +951,14 @@ int next(void){
   }
   tokl=0;
   tok=ch;
-  if( isid () != 0){
+  if(neq(isid (), 0)){
     pdef(TAG_TOK);
     last_id=dstk;
     while( isid ()){
       pdef(ch);
       inp ();
     }
-    if( isdigit(tok) != 0){
+    if(neq(isdigit(tok), 0)){
       tokc = strtol(last_id,0,0);
       tok = TOK_NUM;
     } else{
@@ -986,8 +986,8 @@ int next(void){
       inp ();
     } else if(eq(tok, mk_char('/')) & eq(ch, mk_char('*'))){
       inp ();
-      while( ch != 0){
-        while( ch != mk_char('*')) {
+      while(neq(ch, 0)){
+        while(neq(ch, mk_char('*'))) {
           inp ();
         }
         inp ();
@@ -1023,7 +1023,7 @@ int next(void){
 }
 
 int o(int n){
-  while( (n != 0) && (n != (-1))){
+  while(neq(n, 0) && neq(n, (-1))){
     wi8(ind, n);
     ind = add(ind, 1);
     n = shr(n, 8);
@@ -1045,7 +1045,7 @@ int get32(int t){
 
 int gsym1(int t, int b){
   int d;
-  while( t != 0){
+  while(neq(t, 0)){
     d=get32(t);
     if(eq(ri8(sub(t, 1)), 5)){
       if( gte(b, data) && (lt(b, glo)))
@@ -1097,7 +1097,7 @@ int gmov(int l, int t){
   int d;
   o( add(l, 131));
   d = ri32(t);
-  if( (d != 0) && (lt(d, LOCAL))) {
+  if( neq(d, 0) && (lt(d, LOCAL))) {
     oad(133,d);
   } else {
     t = add(t, 4);
@@ -1110,7 +1110,7 @@ int unary(int l){
   n=1;
   if(eq(tok, mk_char('\"'))){
     li(add(glo, data_offset));
-    while( ch!=mk_char('\"')){
+    while(neq(ch, mk_char('\"'))){
       getq ();
       wi8(glo, ch);
       glo = add(glo, 1);
@@ -1302,7 +1302,7 @@ int block(int l){
       next();
       n=ind;
       wi32(a, 0);
-      if( tok != mk_char(';')) {
+      if(neq(tok, mk_char(';'))) {
         wi32(a, test_expr());
       }
       next();
@@ -1330,7 +1330,7 @@ int block(int l){
   else{
     if(eq(tok, TOK_RETURN)){
       next();
-      if(neq(tok != mk_char(';'))) {
+      if(neq(tok, mk_char(';'))) {
         expr ();
       }
       rsym=gjmp(rsym);
