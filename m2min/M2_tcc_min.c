@@ -1327,8 +1327,7 @@ void statement()
 	{
 		recursive_statement();
 	}
-	else if((NULL != lookup_type(global_token->s, prim_types)) ||
-	          match("struct", global_token->s))
+	else if((NULL != lookup_type(global_token->s, prim_types)))
 	{
 		collect_local();
 	}
