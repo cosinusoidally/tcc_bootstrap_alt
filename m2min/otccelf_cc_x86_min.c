@@ -495,7 +495,7 @@ int malloc(int size)
 int strlen(int str )
 {
 	int i = 0;
-	while(0 != ri8(add(str, i))) { i = add(i, 1); }
+	while(neq(0, ri8(add(str, i)))) { i = add(i, 1); }
 	return i;
 }
 
@@ -550,11 +550,11 @@ int match(int a, int b)
 	do
 	{
 		i = add(i, 1);
-		if(ri8(add(a, i)) != ri8(add(b, i)))
+		if(neq(ri8(add(a, i)), ri8(add(b, i))))
 		{
 			return FALSE;
 		}
-	} while((0 != ri8(add(a, i))) && (0 != ri8(add(b, i))));
+	} while(neq(0, ri8(add(a, i))) && neq(0, ri8(add(b, i))));
 	return TRUE;
 }
 
@@ -564,7 +564,7 @@ int in_set(int c, int s)
 	/* NULL set is always false */
 	if(eq(NULL, s)) return FALSE;
 
-	while(0 != ri8(s))
+	while(neq(0, ri8(s)))
 	{
 		if(eq(c, ri8(s))) return TRUE;
 		s = add(s, 1);
@@ -576,7 +576,7 @@ int in_set(int c, int s)
 int __index_number(int s, char c)
 {
 	int i = 0;
-	while(ri8(add(s, i)) != c)
+	while(neq(ri8(add(s, i)), c))
 	{
 		i = add(i, 1);
 		if(eq(0, ri8(add(s, i)))) return -1;
@@ -617,7 +617,7 @@ int __set_reader(int set, int mult, int input)
 	}
 
 	/* loop exited before NULL and thus invalid input */
-	if(0 != ri8(add(input, i))) return 0;
+	if(neq(0, ri8(add(input, i)))) return 0;
 
 	if(negative_p)
 	{
@@ -657,7 +657,7 @@ int strtoint(int a)
 	}
 
 	/* Deal with sign extension for 64bit hosts */
-	if(0 != (0x80000000 & result)) result = shl(0xFFFFFFFF, 31) | result;
+	if(neq(0, (0x80000000 & result))) result = shl(0xFFFFFFFF, 31) | result;
 	return result;
 }
 
@@ -676,7 +676,7 @@ int int2str(int x, int base, int signed_p)
 	int sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && eq(10, base) && (0 != (x & 0x80000000)))
+	if(signed_p && eq(10, base) && neq(0, (x & 0x80000000)))
 	{
 		/* Truncate to 31bits */
 		i = -x & 0x7FFFFFFF;
@@ -788,7 +788,7 @@ int strncmp (int a,int  b, int size) {
   if (eq(size, 0))
     return 0;
 
-  while ((ri8(a) != 0) && (ri8(b) != 0) && eq(ri8(a), ri8(b)) && gt(size, 1))
+  while (neq(ri8(a), 0) && neq(ri8(b), 0) && eq(ri8(a), ri8(b)) && gt(size, 1))
     {
       size = sub(size, 1);
       a = add(a, 1);
@@ -903,7 +903,7 @@ int pdef(int t){
 }
 
 int inp (void){
-  if(dptr != 0){
+  if(neq(dptr, 0)){
     ch = ri8(dptr);
     dptr = add(dptr, 1);
     if(eq(ch, TAG_MACRO)){
@@ -930,7 +930,7 @@ int getq (void){
 
 int next(void){
   int t; int l; int a;
-  while( (isspace(ch) != 0) | eq(ch, mk_char('#'))){
+  while( neq(isspace(ch), 0) | eq(ch, mk_char('#'))){
     if(eq(ch, mk_char('#'))){
       inp ();
       next();
@@ -940,7 +940,7 @@ int next(void){
         wi32(tok, 1);
         wi32(add(tok, 4), dstk);
       }
-      while( ch != mk_char('\n')){
+      while(neq(ch, mk_char('\n'))){
         pdef(ch);
         inp ();
       }
