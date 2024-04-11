@@ -810,13 +810,13 @@ int next(void){
     } else{
       t=mk_c_string("++#m--%am*@R<^1c/@%[_[H3c%@%[_[H3c+@.B#d-@%:_^BKd<<Z/03e>>`/03e<=0f>=/f<@.f>@1f==&g!='g&&k||#l&@.BCh^@.BSi|@.B+j~@/%Yd!@&d*@b");
       while( l = ri8(t)){
-        t = t + 1;
+        t = add(t, 1);
         a = ri8(t);
-        t = t + 1;
+        t = add(t, 1);
         tokc=0;
         while((tokl = ri8(t) - mk_char('b'))<0) {
           t = t + 1;
-          tokc = (tokc * 64) + tokl + 64;
+          tokc = add(add((tokc * 64), tokl), 64);
         }
         t = t + 1;
         if( (l == tok) & ((a == ch) | (a == mk_char('@')))){
@@ -827,7 +827,7 @@ int next(void){
           break;
         }
       }
-      t = t + 1;
+      t = add(t, 1);
     }
   }
 }
@@ -835,16 +835,16 @@ int next(void){
 int o(int n){
   while( (n != 0) && (n != (-1))){
     wi8(ind, n);
-    ind = ind + 1;
+    ind = add(ind, 1);
     n = n >> 8;
   }
 }
 
 int put32(int t, int n){
-  wi8(t, n);     t = t + 1;
-  wi8(t,  n>>8); t = t + 1;
-  wi8(t, n>>16); t = t + 1;
-  wi8(t, n>>24); t = t + 1;
+  wi8(t, n);     t = add(t, 1);
+  wi8(t,  n>>8); t = add(t, 1);
+  wi8(t, n>>16); t = add(t, 1);
+  wi8(t, n>>24); t = add(t, 1);
 }
 
 int get32(int t){
@@ -878,7 +878,7 @@ int oad(int n, int t){
   o( n);
   put32(ind, t);
   t = ind;
-  ind = ind + 4;
+  ind = add(ind, 4);
   return t;
 }
 
