@@ -79,7 +79,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* remove_line_comment_tokens(struct token_list* head);
-struct token_list* remove_preprocessor_directives(struct token_list* head);
 
 void eat_newline_tokens();
 void init_macro_env(char* sym, char* value, char* source, int num);
@@ -367,29 +366,6 @@ struct token_list* remove_line_comment_tokens(struct token_list* head)
 		if(match("//", head->s))
 		{
 			head = eat_token(head);
-		}
-		else
-		{
-			if(NULL == first)
-			{
-				first = head;
-			}
-			head = head->next;
-		}
-	}
-
-	return first;
-}
-
-struct token_list* remove_preprocessor_directives(struct token_list* head)
-{
-	struct token_list* first = NULL;
-
-	while (NULL != head)
-	{
-		if('#' == head->s[0])
-		{
-			head = eat_until_newline(head);
 		}
 		else
 		{
@@ -1877,7 +1853,6 @@ int main(int argc, char** argv)
 	global_token = reverse_list(global_token);
 
 	global_token = remove_line_comment_tokens(global_token);
-	global_token = remove_preprocessor_directives(global_token);
 
 	/* the main parser doesn't know how to handle newline tokens */
 	eat_newline_tokens();
