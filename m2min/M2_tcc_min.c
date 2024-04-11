@@ -960,18 +960,6 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
  *         sizeof ( type )
  */
 struct type* type_name();
-void unary_expr_sizeof()
-{
-	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF when starting sizeof\n");
-	require_match("ERROR in unary_expr\nMissing (\n", "(");
-	struct type* a = type_name();
-	require_match("ERROR in unary_expr\nMissing )\n", ")");
-
-	emit_out("mov_eax, %");
-	emit_out(int2str(a->size, 10, TRUE));
-	emit_out("\n");
-}
 
 void postfix_expr()
 {
@@ -1018,8 +1006,7 @@ void primary_expr()
 {
 	require(NULL != global_token, "Received EOF where primary expression expected\n");
 
-	if(match("sizeof", global_token->s)) unary_expr_sizeof();
-	else if('-' == global_token->s[0])
+	if('-' == global_token->s[0])
 	{
 		emit_out("mov_eax, %0\n");
 
