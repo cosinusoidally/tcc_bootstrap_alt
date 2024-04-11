@@ -787,7 +787,7 @@ int isalnum(int c){
   int r; int t;
   c = and(c, 0xFF);
   t = sub((c|32), mk_char('a'));
-  r = (lt(t, 26) && gte(t, 0)) || isdigit(c);
+  r = and(lt(t, 26), gte(t, 0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
 
@@ -803,7 +803,8 @@ int strncmp (int a,int  b, int size) {
   if (eq(size, 0))
     return 0;
 
-  while (neq(ri8(a), 0) && neq(ri8(b), 0) && eq(ri8(a), ri8(b)) && gt(size, 1))
+  while (and(and(neq(ri8(a), 0), neq(ri8(b), 0)),
+             and(eq(ri8(a), ri8(b)), gt(size, 1))))
     {
       size = sub(size, 1);
       a = add(a, 1);
@@ -1038,7 +1039,7 @@ int next(void){
 }
 
 int o(int n){
-  while(neq(n, 0) && neq(n, (-1))){
+  while(and(neq(n, 0), neq(n, (-1)))){
     wi8(ind, n);
     ind = add(ind, 1);
     n = shr(n, 8);
@@ -1063,7 +1064,7 @@ int gsym1(int t, int b){
   while(neq(t, 0)){
     d=get32(t);
     if(eq(ri8(sub(t, 1)), 5)){
-      if( gte(b, data) && (lt(b, glo)))
+      if(and(gte(b, data), (lt(b, glo))))
         put32(t, add(b, data_offset));
       else
         put32(t, add(add(sub(b, prog), text), data_offset));
@@ -1112,7 +1113,7 @@ int gmov(int l, int t){
   int d;
   o( add(l, 131));
   d = ri32(t);
-  if( neq(d, 0) && (lt(d, LOCAL))) {
+  if(and(neq(d, 0), (lt(d, LOCAL)))) {
     oad(133,d);
   } else {
     t = add(t, 4);
@@ -1262,7 +1263,7 @@ int sum(int l){
         }
       }
     }
-    if( neq(a, 0) && gt(l, 8)){
+    if(and(neq(a, 0), gt(l, 8))){
       a=gtst(t,a);
       li(t^1);
       gjmp(5);
@@ -1427,14 +1428,14 @@ int elf_reloc(int l){
   while( 1){
     t = add(t, 1);
     a=t;
-    while( neq(ri8(t), TAG_TOK) && (lt(t, dstk))) {
+    while(and(neq(ri8(t), TAG_TOK), (lt(t, dstk)))) {
       t = add(t, 1);
     }
     if(eq(t, dstk)) { break; }
     tok = sub(add(add(vars, (mul(sub(a, sym_stk), 8))), TOK_IDENT), 8);
     b = ri32(tok);
     n = ri32(add(tok, 4));
-    if( neq(n, 0) && neq(b, 1)){
+    if( and(neq(n, 0), neq(b, 1))){
       if(eq(b, 0)){
         if(eq(l, 0)){
           memcpy(glo,a,sub(t, a));
