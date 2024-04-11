@@ -101,9 +101,6 @@ int register_size;
 int MAX_STRING;
 struct type* integer;
 
-/* enable bootstrap-mode */
-int BOOTSTRAP_MODE;
-
 /* Globals */
 FILE* input;
 struct token_list* token;
@@ -1274,7 +1271,6 @@ void eat_newline_tokens()
 int main(int argc, char** argv)
 {
 	MAX_STRING = 4096;
-	BOOTSTRAP_MODE = TRUE;
 	FILE* in;
 	FILE* destination_file;
 	Architecture = X86;
