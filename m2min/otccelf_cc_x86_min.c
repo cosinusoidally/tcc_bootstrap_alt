@@ -163,6 +163,23 @@ int div(int a, int b){
 	);
 }
 
+int mod(int a, int b){
+/*	return a % b; */
+	asm(
+		"lea_eax,[ebp+DWORD] %-4"
+		"mov_eax,[eax]"
+		"push_eax"
+		"lea_eax,[ebp+DWORD] %-8"
+		"mov_eax,[eax]"
+		"pop_ebx"
+		"xchg_ebx,eax"
+		"cdq"
+		"idiv_ebx"
+		"mov_eax,edx"
+		"ret"
+	);
+}
+
 int wi32(int o, int v) {
   wi8(o,v&0xFF);
   v=v>>8;
@@ -542,7 +559,7 @@ int int2str(int x, int base, int signed_p)
 
 	do
 	{
-		wi8(p, ri8(add(table, (i % base))));
+		wi8(p, ri8(add(table, mod(i, base))));
 		p = sub(p, 1);
 		i = div(i, base);
 	} while(0 < i);
