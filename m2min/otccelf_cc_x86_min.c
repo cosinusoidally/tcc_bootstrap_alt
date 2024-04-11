@@ -1203,12 +1203,12 @@ int decl(int l){
 
 int gle32(int n){
   put32(glo,n);
-  glo=glo+4;
+  glo = add(glo, 4);
 }
 
 int gphdr1(int n, int t){
   gle32( n);
-  n = n + ELF_BASE;
+  n = add(n, ELF_BASE);
   gle32( n);
   gle32( n);
   gle32( t);
