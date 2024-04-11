@@ -1043,7 +1043,7 @@ int next(void){
           tokc = add(add((mul(tokc, 64)), tokl), 64);
         }
         t = add(t, 1);
-        if(and(eq(l, tok), (eq(a, ch) | eq(a, mk_char('@'))))){
+        if(and(eq(l, tok), (or(eq(a, ch), eq(a, mk_char('@')))))){
           if(eq(a, ch)){
             inp ();
             tok = TOK_DUMMY;
@@ -1272,7 +1272,7 @@ int sum(int l){
         o( 80);
         sum(l);
         o( 89);
-        if(eq(l, 4) | eq(l, 5)){
+        if(or(eq(l, 4), eq(l, 5))){
           gcmp(t);
         }
         else{
@@ -1323,7 +1323,7 @@ int block(int l){
       gsym(ri32(a));
     }
   }
-  else if( eq(tok, TOK_WHILE) | eq(tok, TOK_FOR)){
+  else if(or(eq(tok, TOK_WHILE), eq(tok, TOK_FOR))){
     t=tok;
     next();
     next();
