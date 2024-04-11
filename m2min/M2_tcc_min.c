@@ -534,19 +534,16 @@ void emit_out(char* s) {
 	output_list = emit(s, output_list);
 }
 
-struct token_list* uniqueID(char* s, struct token_list* l, char* num)
-{
+struct token_list* uniqueID(char* s, struct token_list* l, char* num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
 
-void uniqueID_out(char* s, char* num)
-{
+void uniqueID_out(char* s, char* num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(char *s, struct type* t, struct token_list* list)
-{
+struct token_list* sym_declare(char *s, struct type* t, struct token_list* list) {
 	struct token_list* a = calloc(1, sizeof(struct token_list));
 	require(NULL != a, "Exhausted memory while attempting to declare a symbol\n");
 	a->next = list;
@@ -555,20 +552,16 @@ struct token_list* sym_declare(char *s, struct type* t, struct token_list* list)
 	return a;
 }
 
-struct token_list* sym_lookup(char *s, struct token_list* symbol_list)
-{
+struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
 	struct token_list* i;
-	for(i = symbol_list; NULL != i; i = i->next)
-	{
+	for(i = symbol_list; NULL != i; i = i->next) {
 		if(match(i->s, s)) return i;
 	}
 	return NULL;
 }
 
-void line_error_token(struct token_list *token)
-{
-	if(NULL == token)
-	{
+void line_error_token(struct token_list *token) {
+	if(NULL == token) {
 		fputs("EOF reached inside of line_error\n", stderr);
 		fputs("problem at end of file\n", stderr);
 		return;
@@ -579,23 +572,19 @@ void line_error_token(struct token_list *token)
 	fputs(":", stderr);
 }
 
-void line_error()
-{
+void line_error() {
 	line_error_token(global_token);
 }
 
-void require_match(char* message, char* required)
-{
-	if(NULL == global_token)
-	{
+void require_match(char* message, char* required) {
+	if(NULL == global_token) {
 		line_error();
 		fputs("EOF reached inside of require match\n", stderr);
 		fputs("problem at end of file\n", stderr);
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
 	}
-	if(!match(global_token->s, required))
-	{
+	if(!match(global_token->s, required)) {
 		line_error();
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
@@ -604,15 +593,14 @@ void require_match(char* message, char* required)
 }
 
 void expression();
-void function_call(char* s, int bool)
-{
+void function_call(char* s, int bool) {
 	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
 	require(NULL != global_token, "Improper function call\n");
 	int passed = 0;
 
-		emit_out("push_edi\t# Prevent overwriting in recursion\n");
-		emit_out("push_ebp\t# Protect the old base pointer\n");
-		emit_out("mov_edi,esp\t# Copy new base pointer\n");
+	emit_out("push_edi\t# Prevent overwriting in recursion\n");
+	emit_out("push_ebp\t# Protect the old base pointer\n");
+	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
 	if(global_token->s[0] != ')')
 	{
