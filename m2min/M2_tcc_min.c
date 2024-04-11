@@ -31,8 +31,6 @@
 #define FALSE 0
 #define TRUE 1
 
-#define X86 3
-
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
 int match(char* a, char* b);
