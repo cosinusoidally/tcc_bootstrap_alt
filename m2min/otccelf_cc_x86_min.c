@@ -327,7 +327,7 @@ int strlen(int str )
 int memset(int ptr, int value, int num)
 {
 	int s;
-	for(s = ptr; 0 < num; num = num - 1)
+	for(s = ptr; 0 < num; num = sub(num, 1))
 	{
 		wi8(s, value);
 		s = add(s, 1);
@@ -446,7 +446,7 @@ int __set_reader(int set, int mult, int input)
 
 	if(negative_p)
 	{
-		n = 0 - n;
+		n = sub(0, n);
 	}
 
 	return n;
@@ -513,14 +513,14 @@ int int2str(int x, int base, int signed_p)
 	do
 	{
 		wi8(p, ri8(add(table, (i % base))));
-		p = p - 1;
+		p = sub(p, 1);
 		i = i / base;
 	} while(0 < i);
 
 	if(sign_p)
 	{
 		wi8(p, '-');
-		p = p - 1;
+		p = sub(p, 1);
 	}
 
 	return add(p, 1);
@@ -565,7 +565,7 @@ int v_alloca(int x) {
 
 int enter(void) {
 /* FIXME detect overflow */
-  v_esp=v_esp-4;
+  v_esp = sub(v_esp, 4);
   wi32(v_esp,v_ebp);
   v_ebp=v_esp;
 }
@@ -589,14 +589,14 @@ int isdigit(int c){
   int r;
   c=c&0xFF;
 /*  print("isdigit:"+c); */
-  r = c - mk_char('0');
+  r = sub(c, mk_char('0'));
   return (r < 10) && (r >= 0);
 }
 
 int isalnum(int c){
   int r; int t;
   c=c&0xFF;
-  t = (c|32) - mk_char('a');
+  t = sub((c|32), mk_char('a'));
   r = ((t < 26 ) && (t >=0)) || isdigit(c);
 /*  print("isalnum:"+c+" "+r+ " "+String.fromCharCode(c)); */
   return r;
