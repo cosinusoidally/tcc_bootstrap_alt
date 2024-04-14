@@ -305,6 +305,8 @@ reset:
 		}
 	} else if (c == '\n') {
 		c = consume_byte(c);
+/* eat newlines here */
+		goto reset;
 	} else {
 		c = consume_byte(c);
 	}
@@ -983,7 +985,9 @@ int main(int argc, char** argv) {
 	global_token = reverse_list(global_token);
 
 	/* the main parser doesn't know how to handle newline tokens */
+/*
 	eat_newline_tokens();
+*/
 
 	initialize_types();
 	reset_hold_string();
