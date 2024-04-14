@@ -552,7 +552,7 @@ void function_call(char* s, int bool) {
 	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-char* load_value(unsigned size, int is_signed) {
+char* load_value() {
 	return "mov_eax,[eax]\n";
 }
 
@@ -569,7 +569,7 @@ void variable_load(struct token_list* a, int num_dereference) {
 	emit_out("\n");
 
 	if(!match("=", global_token->s)) {
-		emit_out(load_value(current_target->size, current_target->is_signed));
+		emit_out(load_value());
 	}
 
 }
@@ -589,7 +589,7 @@ void global_load(struct token_list* a) {
 
 	if(match("=", global_token->s)) return;
 
-	emit_out(load_value(register_size, current_target->is_signed));
+	emit_out(load_value());
 }
 
 void primary_expr_string() {
