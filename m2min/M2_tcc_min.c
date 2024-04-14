@@ -311,8 +311,6 @@ reset:
 		}
 	} else if (c == '\n') {
 		c = consume_byte(c);
-	} else if(c == '-') {
-		c = consume_byte(c);
 	} else {
 		c = consume_byte(c);
 	}
@@ -910,7 +908,9 @@ new_type:
 
 	type_size = type_name();
 	/* Deal with case of struct definitions */
-	if(NULL == type_size) goto new_type;
+	if(NULL == type_size) {
+		goto new_type;
+	}
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
