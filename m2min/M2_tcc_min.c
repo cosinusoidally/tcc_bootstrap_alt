@@ -40,7 +40,6 @@ struct type {
 	struct type* next;
 	int size;
 	int offset;
-	int is_signed;
 	struct type* indirect;
 	struct type* members;
 	struct type* type;
@@ -427,20 +426,17 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 	a->name = name2;
 	a->size = register_size;
 	a->indirect = a;
-	a->is_signed = sign;
 
 	/* Create type* */
 	struct type* b = calloc(1, sizeof(struct type));
 	b->name = name1;
 	b->size = register_size;
-	b->is_signed = sign;
 	b->indirect = a;
 	a->type = b;
 
 	struct type* r = calloc(1, sizeof(struct type));
 	r->name = name0;
 	r->size = size;
-	r->is_signed = sign;
 	r->indirect = b;
 	r->type = r;
 	b->type = r;
