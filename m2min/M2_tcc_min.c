@@ -605,6 +605,9 @@ void primary_expr_variable() {
 void primary_expr() {
 	struct type* last_type;
 	if('-' == global_token->s[0]) {
+fputs("here: ",stdout);
+fputs(int2str(global_token->linenumber,10,0),stdout);
+fputs("\n",stdout);
 		emit_out("mov_eax, %0\n");
 		last_type = current_target;
 		emit_out("push_eax\t#_common_recursion\n");

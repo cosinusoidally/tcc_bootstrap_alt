@@ -528,7 +528,7 @@ int malloc(int size)
 	if(lt(_brk_ptr, add(_malloc_ptr, size)))
 	{
 		_brk_ptr = brk(add(_malloc_ptr, size));
-		if(eq(-1, _brk_ptr)) return 0;
+		if(eq(sub(0,1), _brk_ptr)) return 0;
 	}
 
 	int old_malloc = _malloc_ptr;
