@@ -729,7 +729,7 @@ void process_while() {
 
 /* Ensure that functions return */
 void return_result() {
-	global_token = global_token->next;
+	advance();
 	if(global_token->s[0] != ';') expression();
 
 	skip(";");
@@ -745,7 +745,7 @@ void return_result() {
 
 void process_break() {
 	struct token_list* i = function->locals;
-	global_token = global_token->next;
+	advance();
 
 	emit_out("jmp %");
 
@@ -758,13 +758,13 @@ void process_break() {
 }
 
 void recursive_statement() {
-	global_token = global_token->next;
+	advance();
 	struct token_list* frame = function->locals;
 
 	while(!match("}", global_token->s)) {
 		statement();
 	}
-	global_token = global_token->next;
+	advance();
 
 	/* Clean up any locals added */
 
@@ -804,7 +804,7 @@ void statement() {
 
 /* Collect function arguments */
 void collect_arguments() {
-	global_token = global_token->next;
+	advance();
 	struct token_list* a;
 
 	while(!match(")", global_token->s)) {
@@ -821,13 +821,13 @@ void collect_arguments() {
 				a->depth = function->arguments->depth - register_size;
 			}
 
-			global_token = global_token->next;
+			advance();
 			function->arguments = a;
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
 		if(global_token->s[0] == ',') {
-			global_token = global_token->next;
+			advance();
 		}
 
 	}
