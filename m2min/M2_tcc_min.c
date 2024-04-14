@@ -538,7 +538,7 @@ void primary_expr_number() {
 void primary_expr_variable() {
 	int num_dereference = 0;
 	char* s = global_token->s;
-	global_token = global_token->next;
+	advance();
 	struct token_list* a = sym_lookup(s, global_constant_list);
 
 	a = sym_lookup(s, function->locals);
@@ -573,7 +573,7 @@ void primary_expr_variable() {
 void expression() {
 	struct type* last_type;
 	if(global_token->s[0] == '(') {
-		global_token = global_token->next;
+		advance();
 		expression();
 		skip(")");
 	} else if(global_token->s[0] == '\'') {
@@ -593,7 +593,7 @@ void expression() {
 		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
 		last_type = current_target;
-		global_token = global_token->next;
+		advance();
 		expression();
 		emit_out("pop_ebx\t# _common_recursion\n");
 		emit_out(store);
@@ -621,10 +621,10 @@ void collect_local() {
 	emit_out(global_token->s);
 	emit_out("\n");
 
-	global_token = global_token->next;
+	advance();
 
 	if(match("=", global_token->s)) {
-		global_token = global_token->next;
+		advance();
 		expression();
 	}
 
@@ -643,7 +643,7 @@ void process_if() {
 	emit_out("# IF_");
 	uniqueID_out(function->s, number_string);
 
-	global_token = global_token->next;
+	advance();
 	skip("(");
 	expression();
 
@@ -662,7 +662,7 @@ void process_if() {
 	uniqueID_out(function->s, number_string);
 
 	if(match("else", global_token->s)) {
-		global_token = global_token->next;
+		advance();
 		statement();
 	}
 	emit_out(":_END_IF_");
@@ -671,12 +671,12 @@ void process_if() {
 
 /* Process Assembly statements */
 void process_asm() {
-	global_token = global_token->next;
+	advance();
 	skip("(");
 	while('"' == global_token->s[0]) {
 		emit_out((global_token->s + 1));
 		emit_out("\n");
-		global_token = global_token->next;
+		advance();
 	}
 	skip(")");
 	skip(";");
@@ -700,7 +700,7 @@ void process_while() {
 	emit_out(":WHILE_");
 	uniqueID_out(function->s, number_string);
 
-	global_token = global_token->next;
+	advance();
 	skip("(");
 	expression();
 
