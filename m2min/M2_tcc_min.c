@@ -688,11 +688,6 @@ void expression() {
 	}
 }
 
-/* Similar to integer division a / b but rounds up */
-unsigned ceil_div(unsigned a, unsigned b) {
-    return (a + b - 1) / b;
-}
-
 /* Process local variable */
 void collect_local() {
 	struct type* type_size = type_name();
@@ -706,11 +701,6 @@ void collect_local() {
 	} else {
 		a->depth = function->locals->depth - register_size;
 	}
-
-	/* Adjust the depth of local structs. When stack grows downwards, we want them to 
-	   start at the bottom of allocated space. */
-	unsigned struct_depth_adjustment = (ceil_div(a->type->size, register_size) - 1) * register_size;
-	a->depth = a->depth - struct_depth_adjustment;
 
 	function->locals = a;
 
@@ -838,11 +828,7 @@ void return_result() {
 	struct token_list* i;
 	unsigned size_local_var;
 	for(i = function->locals; NULL != i; i = i->next) {
-		size_local_var = ceil_div(i->type->size, register_size);
-		while(size_local_var != 0) {
-			emit_out("pop_ebx\t# _return_result_locals\n");
-			size_local_var = size_local_var - 1;
-		}
+		emit_out("pop_ebx\t# _return_result_locals\n");
 	}
 
 	emit_out("ret\n");
@@ -989,8 +975,7 @@ new_type:
 		globals_list = emit(":GLOBAL_", globals_list);
 		globals_list = emit(global_token->prev->s, globals_list);
 
-		/* round up division */
-		i = ceil_div(type_size->size, register_size);
+		i = 1;
 		globals_list = emit("\n", globals_list);
 		while(i != 0) {
 			globals_list = emit("NULL\n", globals_list);
