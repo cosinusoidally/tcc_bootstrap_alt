@@ -128,7 +128,6 @@ struct token_list* reverse_list(struct token_list* head);
 struct token_list* emit(char *s, struct token_list* head);
 
 void expression();
-void primary_expr();
 struct type* type_name();
 void statement();
 
@@ -600,7 +599,8 @@ void primary_expr_variable() {
 	exit(EXIT_FAILURE);
 }
 
-void primary_expr() {
+void expression() {
+	struct type* last_type;
 	if(global_token->s[0] == '(') {
 		global_token = global_token->next;
 		expression();
@@ -616,11 +616,7 @@ void primary_expr() {
 	} else {
 		exit(1);
 	}
-}
 
-void expression() {
-	struct type* last_type;
-	primary_expr();
 	if(match("=", global_token->s)) {
 		char* store = "";
 		store = store_value();
