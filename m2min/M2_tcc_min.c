@@ -406,32 +406,24 @@ char* parse_string(char* string) {
 
 /* enable easy primitive creation */
 struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
-	/* Create type** */
-	struct type* a = calloc(1, sizeof(struct type));
-	a->name = name2;
-	a->size = register_size;
-
-	/* Create type* */
-	struct type* b = calloc(1, sizeof(struct type));
-	b->name = name1;
-	b->size = register_size;
-	a->type = b;
-
 	struct type* r = calloc(1, sizeof(struct type));
 	r->name = name0;
 	r->size = size;
 	r->type = r;
-	b->type = r;
 
 	return r;
 }
 
 /* Initialize default types */
 void initialize_types() {
+	struct type* r = calloc(1, sizeof(struct type));
 	register_size = 4;
+	r->name = "int";
+	r->size = register_size;
+	r->type = r;
 
 	/* Define int */
-	integer = new_primitive("int", "int*", "int**", register_size, TRUE);
+	integer = r;
 	prim_types = integer;
 
 	global_types = prim_types;
