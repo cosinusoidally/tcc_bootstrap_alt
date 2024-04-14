@@ -784,76 +784,6 @@ void process_if() {
 	uniqueID_out(function->s, number_string);
 }
 
-void process_for() {
-	struct token_list* nested_locals = break_frame;
-	char* nested_break_head = break_target_head;
-	char* nested_break_func = break_target_func;
-	char* nested_break_num = break_target_num;
-	char* nested_continue_head = continue_target_head;
-
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
-
-	break_target_head = "FOR_END_";
-	continue_target_head = "FOR_ITER_";
-	break_target_num = number_string;
-	break_frame = function->locals;
-	break_target_func = function->s;
-
-	emit_out("# FOR_initialization_");
-	uniqueID_out(function->s, number_string);
-
-	global_token = global_token->next;
-
-	skip("(");
-	if(!match(";",global_token->s)) {
-		expression();
-	}
-
-	emit_out(":FOR_");
-	uniqueID_out(function->s, number_string);
-
-	skip(";");
-	expression();
-
-	emit_out("test_eax,eax\nje %FOR_END_");
-
-	uniqueID_out(function->s, number_string);
-
-	emit_out("jmp %FOR_THEN_");
-
-	uniqueID_out(function->s, number_string);
-
-	emit_out(":FOR_ITER_");
-	uniqueID_out(function->s, number_string);
-
-	skip(";");
-	expression();
-
-	emit_out("jmp %FOR_");
-
-	uniqueID_out(function->s, number_string);
-
-	emit_out(":FOR_THEN_");
-	uniqueID_out(function->s, number_string);
-
-	skip(")");
-	statement();
-
-	emit_out("jmp %FOR_ITER_");
-
-	uniqueID_out(function->s, number_string);
-
-	emit_out(":FOR_END_");
-	uniqueID_out(function->s, number_string);
-
-	break_target_head = nested_break_head;
-	break_target_func = nested_break_func;
-	break_target_num = nested_break_num;
-	continue_target_head = nested_continue_head;
-	break_frame = nested_locals;
-}
-
 /* Process Assembly statements */
 void process_asm() {
 	global_token = global_token->next;
@@ -982,8 +912,6 @@ void statement() {
 		process_if();
 	} else if(match("while", global_token->s)) {
 		process_while();
-	} else if(match("for", global_token->s)) {
-		process_for();
 	} else if(match("asm", global_token->s)) {
 		process_asm();
 	} else if(match("return", global_token->s)) {
