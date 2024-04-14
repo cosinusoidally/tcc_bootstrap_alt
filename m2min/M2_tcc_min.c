@@ -773,8 +773,6 @@ void recursive_statement() {
 
 struct type* lookup_type(char* s, struct type* start);
 void statement() {
-	/* Always an integer until told otherwise */
-
 	if(global_token->s[0] == '{') {
 		recursive_statement();
 	} else if((NULL != lookup_type(global_token->s, prim_types))) {
