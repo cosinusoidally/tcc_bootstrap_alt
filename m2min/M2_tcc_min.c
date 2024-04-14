@@ -659,13 +659,9 @@ void collect_local() {
 
 	skip(";");
 
-	unsigned i = (a->type->size + register_size - 1) / register_size;
-	while(i != 0) {
-		emit_out("push_eax\t#");
-		emit_out(a->s);
-		emit_out("\n");
-		i = i - 1;
-	}
+	emit_out("push_eax\t#");
+	emit_out(a->s);
+	emit_out("\n");
 }
 
 /* Evaluate if statements */
