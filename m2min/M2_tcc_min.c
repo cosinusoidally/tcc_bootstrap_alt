@@ -979,7 +979,6 @@ int main(int argc, char** argv) {
 	FILE* destination_file;
 	char* name;
 	char* hold;
-	int env=0;
 	char* val;
 
 	int i = 1;
@@ -994,8 +993,6 @@ int main(int argc, char** argv) {
 
 	destination_file = fopen(argv[i], "w");
 	i = i + 1;
-
-	env = env + 1;
 
 	global_token = reverse_list(global_token);
 
