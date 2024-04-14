@@ -443,10 +443,6 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 void initialize_types() {
 	register_size = 4;
 
-	/* Define void */
-	struct type* hold = new_primitive("void", "void*", "void**", register_size, TRUE);
-	prim_types = add_primitive(hold);
-
 	/* Define int */
 	integer = new_primitive("int", "int*", "int**", register_size, TRUE);
 	prim_types = add_primitive(integer);
