@@ -51,7 +51,7 @@ int FALSE;
 
 int int_size;
 
-void puts_num(int x);
+int puts_num(int x);
 
 int add(int a, int b){
 /*	return a + b; */
@@ -383,7 +383,7 @@ int fgetc(int f)
 	    ":FUNCTION_fgetc_Done");
 }
 
-void fputc(int s, int f)
+int fputc(int s, int f)
 {
 	asm("mov_eax, %4"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -393,7 +393,7 @@ void fputc(int s, int f)
 	    "int !0x80");
 }
 
-void fputs(int si, int f)
+int fputs(int si, int f)
 {
 /*
 	char *s;
@@ -568,7 +568,7 @@ int free(int l)
 	return;
 }
 
-void exit(int value)
+int exit(int value)
 {
 	asm("pop_ebx"
 	    "pop_ebx"
@@ -576,7 +576,7 @@ void exit(int value)
 	    "int !0x80");
 }
 
-void require(int bool, int error)
+int require(int bool, int error)
 {
 	if(eq(bool, 0))
 	{
@@ -759,7 +759,7 @@ int int2str(int x, int base, int signed_p)
 }
 
 
-int expr(void);
+int expr();
 int decl(int l);
 
 int puts(int a){
@@ -769,7 +769,7 @@ int puts(int a){
 
 int v_esp; int v_ebp; int v_stack_size; int v_stack;
 
-int init_c(void){
+int init_c(){
   puts("init_c called");
   v_stack_size = mul(64, 1024);
   v_stack=calloc(1,v_stack_size);
@@ -786,7 +786,7 @@ int mk_c_string(int s) {
   return s;
 }
 
-int dummy(void) {
+int dummy() {
   puts("dummy called");
 }
 
@@ -795,7 +795,7 @@ int v_alloca(int x) {
   return v_esp;
 }
 
-int enter(void) {
+int enter() {
 /* FIXME detect overflow */
   v_esp = sub(v_esp, 4);
   wi32(v_esp,v_ebp);
@@ -932,7 +932,7 @@ int printf(int a){
   exit(1);
 }
 
-void puts_num(int x){
+int puts_num(int x){
   int s;
   s=int2str(x,10,0);
   puts(s);
@@ -962,7 +962,7 @@ int pdef(int t){
   dstk = add(dstk, 1);
 }
 
-int inp (void){
+int inp (){
   if(neq(dptr, 0)){
     ch = ri8(dptr);
     dptr = add(dptr, 1);
@@ -975,11 +975,11 @@ int inp (void){
   }
 }
 
-int isid (void){
+int isid (){
   return or(isalnum(ch), eq(ch, mk_char('_')));
 }
 
-int getq (void){
+int getq (){
   if(eq(ch, mk_char('\\'))){
     inp ();
     if(eq(ch, mk_char('n'))) {
@@ -988,7 +988,7 @@ int getq (void){
   }
 }
 
-int next(void){
+int next(){
   int t; int l; int a;
   while(or(neq(isspace(ch), 0), eq(ch, mk_char('#')))){
     if(eq(ch, mk_char('#'))){
@@ -1319,11 +1319,11 @@ int sum(int l){
   }
 }
 
-int expr(void){
+int expr(){
   sum(11);
 }
 
-int test_expr(void){
+int test_expr(){
   expr();
   return gtst(0,0);
 }
@@ -1605,7 +1605,7 @@ int elf_out(int c){
   fclose(t);
 }
 
-int init_globals(void){
+int init_globals(){
   ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
