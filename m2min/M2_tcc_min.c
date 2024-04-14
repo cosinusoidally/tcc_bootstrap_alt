@@ -516,7 +516,7 @@ struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-void function_call(char* s, int bool) {
+void function_call(char* s) {
 	skip("(");
 	int passed = 0;
 
@@ -576,7 +576,7 @@ void variable_load(struct token_list* a, int num_dereference) {
 
 void function_load(struct token_list* a) {
 	if(match("(", global_token->s)) {
-		function_call(a->s, FALSE);
+		function_call(a->s);
 		return;
 	}
 }
