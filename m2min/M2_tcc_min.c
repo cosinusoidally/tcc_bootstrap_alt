@@ -811,10 +811,7 @@ void collect_arguments() {
 
 	while(!match(")", global_token->s)) {
 		advance();
-		if(global_token->s[0] == ')') {
-			/* foo(int,char,void) doesn't need anything done */
-			continue;
-		} else if(global_token->s[0] != ',') {
+		if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token->s, function->arguments);
 			if(NULL == function->arguments) {
