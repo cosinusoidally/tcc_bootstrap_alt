@@ -442,7 +442,7 @@ void function_call(char* s) {
 		passed = 1;
 
 		while(global_token->s[0] == ',') {
-			global_token = global_token->next;
+			advance();
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
 			passed = passed + 1;
@@ -517,7 +517,7 @@ void primary_expr_string() {
 	/* Parse the string */
 	if('"' != global_token->next->s[0]) {
 		strings_list = emit(parse_string(global_token->s), strings_list);
-		global_token = global_token->next;
+		advance();
 	}
 }
 
@@ -525,14 +525,14 @@ void primary_expr_char() {
 	emit_out("mov_eax, %");
 	emit_out(int2str(escape_lookup(global_token->s + 1), 10, TRUE));
 	emit_out("\n");
-	global_token = global_token->next;
+	advance();
 }
 
 void primary_expr_number() {
 	emit_out("mov_eax, %");
 	emit_out(global_token->s);
 	emit_out("\n");
-	global_token = global_token->next;
+	advance();
 }
 
 void primary_expr_variable() {
