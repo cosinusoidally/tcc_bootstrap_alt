@@ -118,7 +118,7 @@ struct token_list* reverse_list(struct token_list* head);
 struct token_list* emit(char *s, struct token_list* head);
 
 void expression();
-struct type* type_name();
+void advance();
 void statement();
 
 void skip(char* str) {
@@ -389,11 +389,8 @@ struct type* lookup_type(char* s, struct type* start) {
 	return NULL;
 }
 
-struct type* type_name() {
-	struct type* ret;
-	ret = lookup_type(global_token->s, global_types);
+void advance() {
 	global_token = global_token->next;
-	return ret;
 }
 
 struct token_list* emit(char *s, struct token_list* head) {
@@ -606,7 +603,7 @@ void expression() {
 
 /* Process local variable */
 void collect_local() {
-	type_name();
+	advance();
 	struct token_list* a = sym_declare(global_token->s, function->locals);
 	if(match("main", function->s) && (NULL == function->locals)) {
 		a->depth = -20;
@@ -811,7 +808,7 @@ void collect_arguments() {
 	struct token_list* a;
 
 	while(!match(")", global_token->s)) {
-		type_name();
+		advance();
 		if(global_token->s[0] == ')') {
 			/* foo(int,char,void) doesn't need anything done */
 			continue;
@@ -872,7 +869,7 @@ new_type:
 		return;
 	}
 
-	type_name();
+	advance();
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, global_symbol_list);
