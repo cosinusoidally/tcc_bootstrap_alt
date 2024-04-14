@@ -547,7 +547,7 @@ char* load_value() {
 	return "mov_eax,[eax]\n";
 }
 
-char* store_value(unsigned size) {
+char* store_value() {
 	return "mov_[ebx],eax\n";
 }
 
@@ -685,7 +685,7 @@ void expression() {
 	primary_expr();
 	if(match("=", global_token->s)) {
 		char* store = "";
-		store = store_value(current_target->size);
+		store = store_value();
 		common_recursion(expression);
 		emit_out(store);
 		current_target = integer;
