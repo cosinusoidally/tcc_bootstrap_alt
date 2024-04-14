@@ -560,7 +560,7 @@ char* store_value(unsigned size) {
 	return "mov_[ebx],eax\n";
 }
 
-void variable_load(struct token_list* a, int num_dereference) {
+void variable_load(struct token_list* a) {
 
 	current_target = a->type;
 
@@ -631,13 +631,13 @@ void primary_expr_variable() {
 
 	a = sym_lookup(s, function->locals);
 	if(NULL != a) {
-		variable_load(a, num_dereference);
+		variable_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, function->arguments);
 	if(NULL != a) {
-		variable_load(a, num_dereference);
+		variable_load(a);
 		return;
 	}
 
