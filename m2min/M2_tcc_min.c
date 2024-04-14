@@ -904,13 +904,9 @@ void program() {
 
 new_type:
 	/* Deal with garbage input */
-	if (NULL == global_token) return;
+	if (NULL == global_token) { return; }
 
 	type_size = type_name();
-	/* Deal with case of struct definitions */
-	if(NULL == type_size) {
-		goto new_type;
-	}
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
