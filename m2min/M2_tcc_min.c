@@ -126,6 +126,12 @@ void skip(char* str) {
 	global_token = global_token->next;
 }
 
+/* advance to next token */
+void advance() {
+	global_token = global_token->next;
+}
+
+
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
@@ -387,10 +393,6 @@ struct type* lookup_type(char* s, struct type* start) {
 		}
 	}
 	return NULL;
-}
-
-void advance() {
-	global_token = global_token->next;
 }
 
 struct token_list* emit(char *s, struct token_list* head) {
@@ -831,7 +833,7 @@ void collect_arguments() {
 		}
 
 	}
-	global_token = global_token->next;
+	advance();
 }
 
 void declare_function() {
@@ -844,7 +846,7 @@ void declare_function() {
 
 	/* If just a prototype don't waste time */
 	if(global_token->s[0] == ';') {
-		global_token = global_token->next;
+		advance();
 	} else {
 		emit_out("# Defining function ");
 		emit_out(function->s);
@@ -873,7 +875,7 @@ new_type:
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, global_symbol_list);
-	global_token = global_token->next;
+	advance();
 
 	/* Deal with global variables */
 	if(match(";", global_token->s)) {
@@ -888,7 +890,7 @@ new_type:
 			globals_list = emit("NULL\n", globals_list);
 			i = i - 1;
 		}
-		global_token = global_token->next;
+		advance();
 		goto new_type;
 	}
 
