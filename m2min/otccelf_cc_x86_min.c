@@ -546,10 +546,12 @@ int strlen(int str )
 int memset(int ptr, int value, int num)
 {
 	int s;
-	for(s = ptr; lt(0, num); num = sub(num, 1))
+	s = ptr;
+	while(lt(0, num))
 	{
 		wi8(s, value);
 		s = add(s, 1);
+		num = sub(num, 1);
 	}
 }
 
@@ -890,8 +892,10 @@ int strstr(int haystack, int needle){
 
 int memcpy(int dest, int src, int c) {
   int i;
-  for(i=0;lt(i, c);i = add(i, 1)){
+  i=0;
+  while(lt(i, c)) {
     wi8(add(dest, i),ri8(add(src, i)));
+    i = add(i, 1);
   }
 }
 
