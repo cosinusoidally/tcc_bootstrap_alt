@@ -98,7 +98,6 @@ struct token_list* token;
 int line;
 char* file;
 
-void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
 /* point where we are currently modifying the global_token list */
