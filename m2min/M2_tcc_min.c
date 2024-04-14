@@ -49,10 +49,7 @@ struct token_list {
 		struct token_list* prev;
 	};
 	char* s;
-	union {
-		struct type* type;
-		char* filename;
-	};
+	struct type* type;
 	union {
 		struct token_list* arguments;
 		int depth;
@@ -62,7 +59,7 @@ struct token_list {
 
 /* The core functions */
 void initialize_types();
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
+struct token_list* read_all_tokens(FILE* a, struct token_list* current);
 struct token_list* reverse_list(struct token_list* head);
 
 void eat_newline_tokens();
@@ -273,7 +270,6 @@ void new_token(char* s, int size) {
 	current->prev = token;
 	current->next = token;
 	current->linenumber = line;
-	current->filename = file;
 	token = current;
 }
 
@@ -329,10 +325,9 @@ struct token_list* reverse_list(struct token_list* head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename) {
+struct token_list* read_all_tokens(FILE* a, struct token_list* current) {
 	input  = a;
 	line = 1;
-	file = filename;
 	token = current;
 	int ch = grab_byte();
 	while(EOF != ch) {
@@ -981,7 +976,7 @@ int main(int argc, char** argv) {
 	name = argv[i];
 
 	in = fopen(name, "r");
-	global_token = read_all_tokens(in, global_token, name);
+	global_token = read_all_tokens(in, global_token);
 	fclose(in);
 	i = i + 1;
 
