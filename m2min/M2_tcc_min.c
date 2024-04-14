@@ -338,10 +338,7 @@ int escape_lookup(char* c) {
 	else if(c[1] == '\'') return 39;
 	else if(c[1] == '\\') return 92;
 
-	fputs("Unknown escape received: ", stderr);
-	fputs(c, stderr);
-	fputs(" Unable to process\n", stderr);
-	exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE + 1);
 }
 
 char* parse_string(char* string) {
@@ -560,9 +557,7 @@ void primary_expr_variable() {
 		return;
 	}
 
-	fputs(s ,stderr);
-	fputs(" is not a defined symbol\n", stderr);
-	exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE + 2);
 }
 
 void expression() {
