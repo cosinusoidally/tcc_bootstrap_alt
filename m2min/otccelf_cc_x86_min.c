@@ -593,7 +593,7 @@ int match(int a, int b)
 	if(eq(NULL, a)) return FALSE;
 	if(eq(NULL, b)) return FALSE;
 
-	int i = -1;
+	int i = sub(0, 1);
 	while(1)
 	{
 		if(and(neq(0, ri8(add(a, i))), neq(0, ri8(add(b, i))))){
@@ -630,7 +630,7 @@ int __index_number(int s, int c)
 	while(neq(ri8(add(s, i)), c))
 	{
 		i = add(i, 1);
-		if(eq(0, ri8(add(s, i)))) return -1;
+		if(eq(0, ri8(add(s, i)))) { return sub(0, 1); }
 	}
 	return i;
 }
@@ -662,7 +662,7 @@ int __set_reader(int set, int mult, int input)
 		hold = __index_number(set, __toupper(ri8(add(input, i))));
 
 		/* Input managed to change between in_set and index_number */
-		if(eq(-1, hold)) return 0;
+		if(eq(sub(0, 1), hold)) return 0;
 		n = add(n, hold);
 		i = add(i, 1);
 	}
@@ -733,7 +733,7 @@ int int2str(int x, int base, int signed_p)
 	if(and(and(signed_p, eq(10, base)), neq(0, and(x, 0x80000000))))
 	{
 		/* Truncate to 31bits */
-		i = and(-x, 0x7FFFFFFF);
+		i = and(sub(0, x), 0x7FFFFFFF);
 		if(eq(0, i)) return "-2147483648";
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
