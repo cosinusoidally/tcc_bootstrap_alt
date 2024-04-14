@@ -38,7 +38,6 @@ void reset_hold_string();
 
 struct type {
 	struct type* next;
-	int size;
 	struct type* type;
 	char* name;
 };
@@ -394,7 +393,6 @@ void initialize_types() {
 	struct type* r = calloc(1, sizeof(struct type));
 	register_size = 4;
 	r->name = "int";
-	r->size = register_size;
 	r->type = r;
 
 	/* Define int */
