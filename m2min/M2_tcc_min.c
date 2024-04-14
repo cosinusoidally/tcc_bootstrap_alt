@@ -444,7 +444,7 @@ void initialize_types() {
 
 	/* Define int */
 	integer = new_primitive("int", "int*", "int**", register_size, TRUE);
-	prim_types = add_primitive(integer);
+	prim_types = integer;
 
 	global_types = prim_types;
 }
