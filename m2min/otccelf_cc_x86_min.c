@@ -1083,7 +1083,7 @@ int next(){
 }
 
 int o(int n){
-  while(and(neq(n, 0), neq(n, (-1)))){
+  while(and(neq(n, 0), neq(n, (sub (0, 1))))){
     wi8(ind, n);
     ind = add(ind, 1);
     n = shr(n, 8);
@@ -1179,7 +1179,7 @@ int unary(int l){
       inp ();
     }
     wi8(glo, 0);
-    glo=and(add(glo, 4), -4);
+    glo=and(add(glo, 4), sub(0, 4));
     inp ();
     next();
   } else {
@@ -1409,13 +1409,13 @@ int block(int l){
 
 int decl(int l){
   int a;
-  while(or(eq(tok, TOK_INT), (and(neq(tok, (-1)), eq(l, 0))))){
+  while(or(eq(tok, TOK_INT), (and(neq(tok, (sub(0, 1))), eq(l, 0))))){
     if(eq(tok, TOK_INT)){
       next();
       while(neq(tok, mk_char(';'))){
         if( l){
           loc = add(loc, 4);
-          wi32(tok, -loc);
+          wi32(tok, sub(0, loc));
         }
         else{
           wi32(tok, glo);
@@ -1497,7 +1497,7 @@ int elf_reloc(int l){
           while( n){
             a=get32(n);
             c = neq(ri8(sub(n, 1)), 5);
-            put32(n, mul((-c), 4));
+            put32(n, mul(sub(0, c), 4));
             gle32( add(sub(n, prog), add(text,data_offset)));
             gle32( add(mul(p, 256),add(c, 1)));
             n=a;
@@ -1529,7 +1529,7 @@ int elf_out(int c){
   glo = add(strcpy(glo,mk_c_string("libdl.so.2")), 11);
   elf_reloc(0);
   dynstr_size = sub(glo, dynstr);
-  glo = and(add(glo, 3), -4);
+  glo = and(add(glo, 3), sub(0, 4));
   dynsym=glo;
   gle32( 0);
   gle32( 0);
@@ -1650,7 +1650,7 @@ int init_globals(){
   stdin = 0;
   stdout = 1;
   stderr = 2;
-  EOF = -1;
+  EOF = sub(0, 1);
   NULL = 0;
   EXIT_FAILURE = 1;
   EXIT_SUCCESS = 0;
