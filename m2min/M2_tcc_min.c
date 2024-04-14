@@ -126,7 +126,6 @@ int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* emit(char *s, struct token_list* head);
-int member_size;
 
 void expression();
 void primary_expr();
