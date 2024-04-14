@@ -132,7 +132,6 @@ void primary_expr();
 struct type* type_name();
 void statement();
 
-
 void skip(char* str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = global_token->next;
@@ -343,7 +342,6 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 	while(EOF != ch) {
 		ch = get_token(ch);
 	}
-
 	return token;
 }
 
