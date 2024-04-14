@@ -1021,39 +1021,34 @@ void recursive_output(struct token_list* head, FILE* out) {
 	}
 }
 
-void eat_current_token()
-{
+void eat_current_token() {
 	int update_global_token = FALSE;
-	if (macro_token == global_token)
+	if (macro_token == global_token) {
 		update_global_token = TRUE;
+	}
 
 	macro_token = eat_token(macro_token);
 
-	if(update_global_token)
+	if(update_global_token) {
 		global_token = macro_token;
+	}
 }
 
-void eat_newline_tokens()
-{
+void eat_newline_tokens() {
 	macro_token = global_token;
 
-	while(TRUE)
-	{
+	while(TRUE) {
 		if(NULL == macro_token) return;
 
-		if(match("\n", macro_token->s))
-		{
+		if(match("\n", macro_token->s)) {
 			eat_current_token();
-		}
-		else
-		{
+		} else {
 			macro_token = macro_token->next;
 		}
 	}
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	MAX_STRING = 4096;
 	FILE* in;
 	FILE* destination_file;
@@ -1096,7 +1091,6 @@ int main(int argc, char** argv)
 	recursive_output(strings_list, destination_file);
 	fputs("\n:ELF_end\n", destination_file);
 
-exit_success:
 	fclose(destination_file);
 	return EXIT_SUCCESS;
 }
