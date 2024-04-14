@@ -404,16 +404,6 @@ char* parse_string(char* string) {
 	return collect_regular_string(string);
 }
 
-/* enable easy primitive creation */
-struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
-	struct type* r = calloc(1, sizeof(struct type));
-	r->name = name0;
-	r->size = size;
-	r->type = r;
-
-	return r;
-}
-
 /* Initialize default types */
 void initialize_types() {
 	struct type* r = calloc(1, sizeof(struct type));
