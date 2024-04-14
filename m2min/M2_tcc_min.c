@@ -124,7 +124,6 @@ char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
-struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head);
 int member_size;
