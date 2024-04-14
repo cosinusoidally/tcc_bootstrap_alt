@@ -434,11 +434,10 @@ void uniqueID_out(char* s, char* num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(char *s, struct type* t, struct token_list* list) {
+struct token_list* sym_declare(char *s, struct token_list* list) {
 	struct token_list* a = calloc(1, sizeof(struct token_list));
 	a->next = list;
 	a->s = s;
-	a->type = t;
 	return a;
 }
 
@@ -626,7 +625,7 @@ void expression() {
 /* Process local variable */
 void collect_local() {
 	struct type* type_size = type_name();
-	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
+	struct token_list* a = sym_declare(global_token->s, function->locals);
 	if(match("main", function->s) && (NULL == function->locals)) {
 		a->depth = -20;
 	} else if((NULL == function->arguments) && (NULL == function->locals)) {
@@ -837,7 +836,7 @@ void collect_arguments() {
 			continue;
 		} else if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
-			a = sym_declare(global_token->s, type_size, function->arguments);
+			a = sym_declare(global_token->s, function->arguments);
 			if(NULL == function->arguments) {
 				a->depth = -4;
 			} else {
@@ -859,7 +858,7 @@ void collect_arguments() {
 
 void declare_function() {
 	current_count = 0;
-	function = sym_declare(global_token->prev->s, NULL, global_function_list);
+	function = sym_declare(global_token->prev->s, global_function_list);
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = function;
@@ -889,12 +888,14 @@ void program() {
 
 new_type:
 	/* Deal with garbage input */
-	if (NULL == global_token) { return; }
+	if (NULL == global_token) {
+		return;
+	}
 
 	type_size = type_name();
 
 	/* Add to global symbol table */
-	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
+	global_symbol_list = sym_declare(global_token->s, global_symbol_list);
 	global_token = global_token->next;
 
 	/* Deal with global variables */
