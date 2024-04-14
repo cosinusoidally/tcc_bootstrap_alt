@@ -538,7 +538,6 @@ void primary_expr_number() {
 }
 
 void primary_expr_variable() {
-	int num_dereference = 0;
 	char* s = global_token->s;
 	advance();
 	struct token_list* a = sym_lookup(s, global_constant_list);
