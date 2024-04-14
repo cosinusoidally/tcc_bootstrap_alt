@@ -62,7 +62,6 @@ void initialize_types();
 struct token_list* read_all_tokens(FILE* a, struct token_list* current);
 struct token_list* reverse_list(struct token_list* head);
 
-void eat_newline_tokens();
 void program();
 void recursive_output(struct token_list* i, FILE* out);
 
@@ -93,11 +92,6 @@ FILE* input;
 struct token_list* token;
 int line;
 char* file;
-
-struct token_list* eat_token(struct token_list* head);
-
-/* point where we are currently modifying the global_token list */
-struct token_list* macro_token;
 
 /* Global lists */
 struct token_list* global_symbol_list;
@@ -244,20 +238,6 @@ void reset_hold_string() {
 		i = i - 1;
 	}
 	string_index = 0;
-}
-
-/* note if this is the first token in the list, head needs fixing up */
-struct token_list* eat_token(struct token_list* token) {
-	if(NULL != token->prev) {
-		token->prev->next = token->next;
-	}
-
-	/* update backlinks */
-	if(NULL != token->next) {
-		token->next->prev = token->prev;
-	}
-
-	return token->next;
 }
 
 void new_token(char* s, int size) {
@@ -936,33 +916,6 @@ void recursive_output(struct token_list* head, FILE* out) {
 	}
 }
 
-void eat_current_token() {
-	int update_global_token = FALSE;
-	if (macro_token == global_token) {
-		update_global_token = TRUE;
-	}
-
-	macro_token = eat_token(macro_token);
-
-	if(update_global_token) {
-		global_token = macro_token;
-	}
-}
-
-void eat_newline_tokens() {
-	macro_token = global_token;
-
-	while(TRUE) {
-		if(NULL == macro_token) return;
-
-		if(match("\n", macro_token->s)) {
-			eat_current_token();
-		} else {
-			macro_token = macro_token->next;
-		}
-	}
-}
-
 int main(int argc, char** argv) {
 	MAX_STRING = 4096;
 	FILE* in;
@@ -983,11 +936,6 @@ int main(int argc, char** argv) {
 	i = i + 1;
 
 	global_token = reverse_list(global_token);
-
-	/* the main parser doesn't know how to handle newline tokens */
-/*
-	eat_newline_tokens();
-*/
 
 	initialize_types();
 	reset_hold_string();
