@@ -40,7 +40,6 @@ struct type {
 	struct type* next;
 	int size;
 	int offset;
-	struct type* members;
 	struct type* type;
 	char* name;
 };
