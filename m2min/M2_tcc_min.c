@@ -895,18 +895,15 @@ int main(int argc, char** argv) {
 	FILE* destination_file;
 	char* name;
 
-	int i = 1;
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
-	name = argv[i];
+	name = argv[1];
 
 	in = fopen(name, "r");
 	global_token = read_all_tokens(in, global_token);
 	fclose(in);
-	i = i + 1;
 
-	destination_file = fopen(argv[i], "w");
-	i = i + 1;
+	destination_file = fopen(argv[2], "w");
 
 	global_token = reverse_list(global_token);
 
