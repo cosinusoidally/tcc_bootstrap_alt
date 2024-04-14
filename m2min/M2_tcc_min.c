@@ -368,8 +368,7 @@ int escape_lookup(char* c) {
 	exit(EXIT_FAILURE);
 }
 
-/* Deal with human strings */
-char* collect_regular_string(char* string) {
+char* parse_string(char* string) {
 	string_index = 0;
 
 collect_regular_string_reset:
@@ -391,12 +390,6 @@ collect_regular_string_reset:
 	copy_string(message, hold_string, string_index + 2);
 	reset_hold_string();
 	return message;
-}
-
-/* Parse string to deal with hex characters*/
-char* parse_string(char* string) {
-	/* the string */
-	return collect_regular_string(string);
 }
 
 /* Initialize default types */
