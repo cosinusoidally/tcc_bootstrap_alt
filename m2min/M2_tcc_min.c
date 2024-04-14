@@ -602,12 +602,16 @@ void primary_expr_variable() {
 	exit(EXIT_FAILURE);
 }
 
-void common_recursion(FUNCTION f) {
+void common_recursion(int f) {
 	emit_out("push_eax\t#_common_recursion\n");
 
 	struct type* last_type = current_target;
 	global_token = global_token->next;
-	f();
+	if(f == 0) {
+		primary_expr();
+	} else {
+		expression();
+	}
 
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
@@ -615,7 +619,7 @@ void common_recursion(FUNCTION f) {
 void primary_expr() {
 	if('-' == global_token->s[0]) {
 		emit_out("mov_eax, %0\n");
-		common_recursion(primary_expr);
+		common_recursion(0);
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
 	} else if(global_token->s[0] == '(') {
 		global_token = global_token->next;
@@ -639,7 +643,7 @@ void expression() {
 	if(match("=", global_token->s)) {
 		char* store = "";
 		store = store_value();
-		common_recursion(expression);
+		common_recursion(1);
 		emit_out(store);
 		current_target = integer;
 	}
