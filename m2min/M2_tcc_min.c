@@ -39,7 +39,6 @@ void reset_hold_string();
 struct type {
 	struct type* next;
 	int size;
-	int offset;
 	struct type* type;
 	char* name;
 };
