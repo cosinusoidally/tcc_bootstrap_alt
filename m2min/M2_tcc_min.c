@@ -404,18 +404,6 @@ char* parse_string(char* string) {
 	return collect_regular_string(string);
 }
 
-/* enable easy primitive extension */
-struct type* add_primitive(struct type* a) {
-	if(NULL == prim_types) return a;
-	struct type* i = prim_types;
-	while(NULL != i->next) {
-		i = i->next;
-	}
-	i->next = a;
-
-	return prim_types;
-}
-
 /* enable easy primitive creation */
 struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
 	/* Create type** */
