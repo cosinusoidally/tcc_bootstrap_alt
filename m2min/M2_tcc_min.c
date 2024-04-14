@@ -966,8 +966,6 @@ int main(int argc, char** argv) {
 	FILE* in;
 	FILE* destination_file;
 	char* name;
-	char* hold;
-	char* val;
 
 	int i = 1;
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
