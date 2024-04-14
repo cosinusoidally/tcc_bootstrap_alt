@@ -880,10 +880,7 @@ new_type:
 	}
 
 	/* Everything else is just an error */
-	fputs("Received ", stderr);
-	fputs(global_token->s, stderr);
-	fputs(" in program\n", stderr);
-	exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE + 3);
 }
 
 void recursive_output(struct token_list* head, FILE* out) {
