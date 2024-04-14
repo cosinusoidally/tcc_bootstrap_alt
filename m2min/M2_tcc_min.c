@@ -624,7 +624,7 @@ void expression() {
 
 /* Process local variable */
 void collect_local() {
-	struct type* type_size = type_name();
+	type_name();
 	struct token_list* a = sym_declare(global_token->s, function->locals);
 	if(match("main", function->s) && (NULL == function->locals)) {
 		a->depth = -20;
@@ -826,11 +826,10 @@ void statement() {
 /* Collect function arguments */
 void collect_arguments() {
 	global_token = global_token->next;
-	struct type* type_size;
 	struct token_list* a;
 
 	while(!match(")", global_token->s)) {
-		type_size = type_name();
+		type_name();
 		if(global_token->s[0] == ')') {
 			/* foo(int,char,void) doesn't need anything done */
 			continue;
@@ -884,7 +883,6 @@ void declare_function() {
 void program() {
 	unsigned i;
 	function = NULL;
-	struct type* type_size;
 
 new_type:
 	/* Deal with garbage input */
@@ -892,7 +890,7 @@ new_type:
 		return;
 	}
 
-	type_size = type_name();
+	type_name();
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, global_symbol_list);
