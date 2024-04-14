@@ -101,8 +101,6 @@ struct token_list* global_constant_list;
 /* Core lists for this file */
 struct token_list* function;
 
-/* What we are currently working on */
-struct type* current_target;
 char* break_target_head;
 char* break_target_func;
 char* break_target_num;
@@ -476,7 +474,6 @@ char* store_value() {
 
 void variable_load(struct token_list* a) {
 
-	current_target = a->type;
 
 	emit_out("lea_eax,[ebp+DWORD] %");
 	emit_out(int2str(a->depth, 10, TRUE));
@@ -496,7 +493,6 @@ void function_load(struct token_list* a) {
 }
 
 void global_load(struct token_list* a) {
-	current_target = a->type;
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(a->s);
 	emit_out("\n");
@@ -572,7 +568,6 @@ void primary_expr_variable() {
 }
 
 void expression() {
-	struct type* last_type;
 	if(global_token->s[0] == '(') {
 		advance();
 		expression();
@@ -593,12 +588,10 @@ void expression() {
 		char* store = "";
 		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
-		last_type = current_target;
 		advance();
 		expression();
 		emit_out("pop_ebx\t# _common_recursion\n");
 		emit_out(store);
-		current_target = integer;
 	}
 }
 
@@ -781,7 +774,6 @@ void recursive_statement() {
 struct type* lookup_type(char* s, struct type* start);
 void statement() {
 	/* Always an integer until told otherwise */
-	current_target = integer;
 
 	if(global_token->s[0] == '{') {
 		recursive_statement();
