@@ -845,7 +845,8 @@ function inp(){
 /* input with '\\n' handling */
 // static inline void minp(void)
 function minp() {
-    var redo=1;
+    var redo;
+    redo = 1;
     while(redo){
         redo=0;
         ch = ch1;
@@ -918,10 +919,11 @@ function tok_ext_size(t) {
 
 // void tok_add(int **tok_str, int *tok_len, int t)
 function tok_add(tok_str, tok_len, t) {
-    enter();
 //     int len, *str;
     var len;
-    var str=v_alloca(4);
+    var str;
+    enter();
+    str = v_alloca(4);
     len=ri32(tok_len);
     wi32(str, ri32(tok_str));
     if ((len & 63) == 0) {
@@ -939,9 +941,9 @@ function tok_add(tok_str, tok_len, t) {
 
 // void tok_add2(int **tok_str, int *tok_len, int t, CValue *cv)
 function tok_add2(tok_str, tok_len, t, cv) {
-    enter();
     var n;
     var i;
+    enter();
 
     tok_add(tok_str, tok_len, t);
     n = tok_ext_size(t);
@@ -977,14 +979,17 @@ function tok_get(tok_str, cv) {
 /* XXX: should be more factorized */
 // void define_symbol(char *sym)
 function define_symbol(sym) {
-    enter();
 //     TokenSym *ts;
     var ts;
-//     int *str, len;
-    var str=v_alloca(4);
-    var len=v_alloca(4);
+    var str;
+    var len;
 //     CValue cval;
-    var cval=v_alloca(CValue_size);
+    var cval;
+    enter();
+//     int *str, len;
+    str = v_alloca(4);
+    len = v_alloca(4);
+    cval = v_alloca(CValue_size);
 
     ts = tok_alloc(sym, 0);
     wi32(str,0);
