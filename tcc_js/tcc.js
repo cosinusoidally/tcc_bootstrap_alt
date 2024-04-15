@@ -708,10 +708,11 @@ function sym_find1(st, v) {
 //     Sym *s;
     var s;
     var h;
+    var a;
 
     h=HASH_SYM(v);
     print("sym_find1 hash: "+h); /* dbg log */
-    var a=st+SymStack_hash_o+(4*h);
+    a = st+SymStack_hash_o+(4*h);
     s = ri32(a);
     print("s: "+s); /* dbg log */
      while (s) {
@@ -726,11 +727,11 @@ function sym_find1(st, v) {
 // Sym *sym_push1(SymStack *st, int v, int t, int c)
 function sym_push1(st, v, t, c) {
 print("sym_push1: v: "+v+" t: "+t+" c: "+c);
-    enter();
 //     Sym *s, **ps;
     var s;
     var ps;
     var h;
+    enter();
     s = sym_push2(st+SymStack_top_o, v, t, c);
     /* add in hash table */
     if (v) {
@@ -820,7 +821,8 @@ function handle_eof() {
 /* read next char from current input file */
 // static inline void inp(void)
 function inp(){
-    var redo=1;
+    var redo;
+    redo = 1;
     while(redo){
         redo=0;
         /* faster than fgetc */
