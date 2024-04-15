@@ -1,3 +1,4 @@
+./mk_cc_x86
 pushd .
 cd ../tcc_js
 js ../otccelf/js_to_c_alt.js &> ../otccelf/artifacts/tcc_js_otccelf.c
