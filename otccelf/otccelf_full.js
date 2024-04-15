@@ -656,8 +656,7 @@ function elf_out(c){
 }
 
 function init_globals(){
-/* bump so tcc.js will compile */
-  ALLOC_SIZE = 999999;
+  ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
   PHDR_OFFSET = 0x30;
