@@ -500,15 +500,18 @@ function dummy(){
 
 // TokenSym *tok_alloc(char *str, int len)
 function tok_alloc(str, len) {
+    var ts;
+    var pts;
+    var ptable;
+    var h;
+    var i;
 if(line_num == 5){ dummy();}
     enter();
     print("tok_alloc str: "+to_hex(str)+" len: "+len+ " str contents: "+ mk_js_string_len(str,len));
 //     TokenSym *ts, **pts, **ptable;
-    var ts=v_alloca(4);
-    var pts=v_alloca(4);
-    var ptable=v_alloca(4);
-    var h;
-    var i;
+    ts = v_alloca(4);
+    pts = v_alloca(4);
+    ptable =v_alloca(4);
 
     if (len <= 0) {
         len = v_strlen(str);
@@ -598,15 +601,17 @@ if(line_num == 5){ dummy();}
 /* XXX: buffer overflow */
 // char *get_tok_str(int v, CValue *cv)
 function get_tok_str(v, cv) {
+    var buf;
+//     TokenSym *ts;
+    var ts;
+    var p;
+    var i;
     enter();
 //     static char buf[STRING_MAX_SIZE + 1];
 // FIXME ljw should this be reserved on the heap?
-    var buf=v_alloca(STRING_MAX_SIZE + 1);
-//     TokenSym *ts;
-    var ts;
+    buf = v_alloca(STRING_MAX_SIZE + 1);
 //     char *p;
-    var p=v_alloca(4);
-    var i;
+    p=v_alloca(4);
 
     print("v: "+v); /* dbg log */
     if (v == TOK_NUM) {
@@ -655,9 +660,10 @@ err();
 /* push, without hashing */
 // Sym *sym_push2(Sym **ps, int v, int t, int c)
 function sym_push2(ps, v, t, c) {
+    var s;
     enter();
 //     Sym *s;
-    var s=v_alloca(4);
+    s = v_alloca(4);
 //     s = v_malloc(sizeof(Sym));
     wi32(s, v_malloc(Sym_size));
     if (ri32(s) == 0){
