@@ -1,0 +1,4 @@
+pushd .
+cd ../tcc_js
+js ../otccelf/js_to_c_alt.js &> ../otccelf/artifacts/tcc_js_otccelf.c
+popd
