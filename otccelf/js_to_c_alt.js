@@ -38,11 +38,11 @@ while(f.length>0){
     fn=t[1];
     a=l.split("(")[1].split(")")[0].split(",");
     if(a[0]!=="") {
-      a=a.map(function(x){return "int "+x}).join(", ");
+      a=a.map(function(x){return x}).join(", ");
     } else {
-      a="void";
+      a="";
     }
-    d="int "+fn+"("+a+")";
+    d=fn+"("+a+")";
     decls.push(d);
     b.push(d+" {");
     if(dbg) {
@@ -100,7 +100,7 @@ for(var i=0;i<gd.length;i++){
 print("");
 
 print("/* init globals */");
-print("void init_globals(void) {");
+print("init_globals() {");
 for(var i=0;i<gi.length;i++){
   print("    "+gi[i]);
 }
