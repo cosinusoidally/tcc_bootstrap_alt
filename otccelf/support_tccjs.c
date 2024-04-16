@@ -1,5 +1,3 @@
-#define v_free free
-#define v_realloc realloc
 #define v_memcpy memcpy
 #define v_memset memset
 #define v_fopen fopen
@@ -29,6 +27,15 @@ v_strcpy(dst, src){
   r = strcpy(dst, src);
   printf("strcpy %s %s\n", dst, src);
   return r;
+}
+
+v_free(v){
+  return 0;
+}
+
+v_realloc(ptr, size){
+  printf("realloc ptr: %d size: %d\n", ptr, size);
+  return realloc(ptr, size);
 }
 
 wi8(o, v){
