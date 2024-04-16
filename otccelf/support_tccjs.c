@@ -3,6 +3,13 @@
 #define v_strcpy strcpy
 #define v_free free
 
+int NULL;
+int int_size;
+int stack_size;
+int v_stack;
+int esp;
+int ebp;
+
 wi8(){
   puts("wi8 not impl");
   exit(1);
@@ -120,7 +127,36 @@ v_memset(){
   exit(1);
 }
 
-main(){
-  puts("main not impl");
+mk_argc_argv(){
+  puts("mk_argc_argv not impl");
   exit(1);
+}
+
+init_runtime() {
+  puts("init_runtime");
+  stack_size=256*1024;
+  v_stack=malloc(stack_size);
+  esp=v_stack+stack_size-4;
+  ebp=esp;
+}
+
+
+init_c(){
+  int_size=1;
+  NULL=0;
+}
+
+main(){
+  int args;
+  int v_argc;
+  int v_argv;
+  init_c();
+  puts("running js_to_c generated code");
+  init_runtime();
+  args=mk_argc_argv("tcc -r test-dlsym_wrap.c");
+  v_argc=ri32(args);
+  v_argv=ri32(args+4);
+  printf("argc: %d\n",v_argc);
+  printf("argv: %d\n",v_argv);
+  tcc_main(v_argc,v_argv);
 }
