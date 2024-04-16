@@ -18,5 +18,5 @@ chmod +x tcc_js_otccelf.exe
 
 export PATH=$PWD:$PATH
 
-cd ../tcc_js
+cd ../../tcc_js
 tcc_js_otccelf.exe
