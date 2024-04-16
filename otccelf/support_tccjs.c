@@ -1,5 +1,3 @@
-#define v_memset memset
-#define v_fopen fopen
 #define v_getc_unlocked getc_unlocked
 
 int NULL;
@@ -40,6 +38,16 @@ v_realloc(ptr, size){
 v_memcpy(dest, src,n){
   printf("memcpy dest: %d src: %d n %d\n", dest, src, n);
   return memcpy(dest, src, n);
+}
+
+v_memset(s, c, n){
+  printf("memset s %d c %c n %d\n", s, c, n);
+  return memset(s, c, n);
+}
+
+v_fopen(pathname, mode){
+  printf("fopen pathname %s mode %s\n", pathname, mode);
+  return fopen(pathname, mode);
 }
 
 wi8(o, v){
