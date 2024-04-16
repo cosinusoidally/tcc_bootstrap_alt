@@ -3467,13 +3467,18 @@ function expr_const() {
 
 // void block(int *bsym, int *csym, int *case_sym, int *def_sym, int case_reg)
 function block(bsym, csym, case_sym, def_sym, case_reg) {
-    enter();
-    var a=v_alloca(4);
-    var b=v_alloca(4);
-    var c=v_alloca(4);
+    var a;
+    var b;
+    var c;
     var d;
 //     Sym *s;
     var s;
+
+    enter();
+
+    a = v_alloca(4);
+    b = v_alloca(4);
+    c = v_alloca(4);
 
     if (tok == TOK_IF) {
         /* if test */
@@ -3661,15 +3666,17 @@ err();
 //                      int *cur_index, Sym **cur_field, 
 //                      int size_only)
 function decl_designator(t, c, cur_index, cur_field, size_only) {
-    enter();
 //     Sym *s, *f;
     var s;
     var f;
-
     var notfirst;
     var index;
-    var align=v_alloca(4);
+    var align;
     var l;
+
+    enter();
+
+    align = v_alloca(4);
 
     notfirst = 0;
 
