@@ -656,8 +656,7 @@ function elf_out(c){
 }
 
 function init_globals(){
-/* bump to allow more of tcc.js to build */
-  ALLOC_SIZE = 999999;
+  ALLOC_SIZE = 99999;
 
   ELF_BASE = 0x08048000;
   PHDR_OFFSET = 0x30;
@@ -706,11 +705,14 @@ function main(n,t){
     printf("usage: otccelf file.c outfile\n");
     return 0;
   }
-  dstk=strcpy(sym_stk = calloc(1, ALLOC_SIZE),
+/* bump this allocation to allow tcc.js compilation to get further */
+/* have to do this as bumping ALLOC_SIZE will cause crashes */
+  dstk=strcpy(sym_stk = calloc(1, ALLOC_SIZE * 10),
        mk_c_string(" int if else while break return for define main ")) + TOK_STR_SIZE;
   glo = data = calloc(1, ALLOC_SIZE);
   ind = prog = calloc(1, ALLOC_SIZE);
-  vars = calloc(1, ALLOC_SIZE);
+/* bump this allocation to allow tcc.js compilation to get further */
+  vars = calloc(1, ALLOC_SIZE * 10);
 
   t = t + 4;
   file=fopen(ri32(t), mk_c_string("r"));
