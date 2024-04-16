@@ -11,3 +11,6 @@ cat support.c support_common.js otccelf_full_tmp.js > artifacts/otccelf_js_tmp.c
 ./artifacts/otccelf_js.exe artifacts//otccelf_js_tmp.c artifacts//otccelf_js_tmp.exe
 chmod +x artifacts//otccelf_js_tmp.exe
 ./artifacts/otccelf_js_tmp.exe artifacts/tcc_js_otccelf.c artifacts/tcc_js_otccelf.exe
+chmod +x artifacts/tcc_js_otccelf.exe
+
+./artifacts/tcc_js_otccelf.exe
