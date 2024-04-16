@@ -4413,53 +4413,67 @@ function resolve_extern_syms() {
 
 // void gen_obj(int e){
 function gen_obj(e){
-  enter();
-  print("Generating object file\n");
   var f;
-
-  var text_len=v_alloca(4);
-  wi32(text_len,ind-prog);
-
-  var data_len=v_alloca(4);
-  wi32(data_len,glo-glo_base);
-
-  var reloc_len=v_alloca(4);
-  wi32(reloc_len,relocs-relocs_base);
-
-  var global_reloc_len=v_alloca(4);
-  wi32(global_reloc_len,global_relocs-global_relocs_base);
-
-  var global_reloc_table_len=v_alloca(4);
-  wi32(global_reloc_table_len,global_relocs_table-global_relocs_table_base);
-
+  var text_len;
+  var data_len;
+  var reloc_len;
+  var global_reloc_len;
+  var global_reloc_table_len;
   var prog_rel;
   var data_rel;
-  var entrypoint=v_alloca(4);
+  var global_reloc_table_len;
+  var entrypoint;
+  var m0;
+  var m1;
+  var m2;
+  var m3;
+  var m4;
+  var i;
+
+  enter();
+
+  print("Generating object file\n");
+
+  text_len=v_alloca(4);
+  wi32(text_len,ind-prog);
+
+  data_len=v_alloca(4);
+  wi32(data_len,glo-glo_base);
+
+  reloc_len=v_alloca(4);
+  wi32(reloc_len,relocs-relocs_base);
+
+  global_reloc_len=v_alloca(4);
+  wi32(global_reloc_len,global_relocs-global_relocs_base);
+
+  global_reloc_table_len=v_alloca(4);
+  wi32(global_reloc_table_len,global_relocs_table-global_relocs_table_base);
+
+  entrypoint=v_alloca(4);
   wi32(entrypoint,e-prog);
 
-  var m0=v_alloca(4);
+  m0=v_alloca(4);
 /* js_to_c compiled code cannot handle unsigned ints that are too big to be
    represented by an int32 (below were 0xDEADBE00,01,02...) */
 //  wi32(m0,0xDEADBE00);
   wi32(m0,-559038976);
 
-  var m1=v_alloca(4);
+  m1=v_alloca(4);
 //  wi32(m1,0xDEADBE01);
   wi32(m1,-559038975);
 
-  var m2=v_alloca(4);
+  m2=v_alloca(4);
 //  wi32(m2,0xDEADBE02);
   wi32(m2,-559038974);
 
-  var m3=v_alloca(4);
+  m3=v_alloca(4);
 //  wi32(m3,0xDEADBE03);
   wi32(m3,-559038973);
 
-  var m4=v_alloca(4);
+  m4=v_alloca(4);
 //  wi32(m4,0xDEADBE04);
   wi32(m4,-559038972);
 
-  var i;
   f = v_fopen(mk_c_string("tcc_boot.o"), mk_c_string("wb"));
   v_fwrite(entrypoint,1,4,f);
   v_fwrite(text_len,1,4,f);
