@@ -129,3 +129,13 @@ v_fwrite(){
   puts("v_fwrite not impl");
   exit(1);
 }
+
+v_memset(){
+  puts("v_memset not impl");
+  exit(1);
+}
+
+main(){
+  puts("main not impl");
+  exit(1);
+}
