@@ -1646,14 +1646,20 @@ err();
 /* return next token with macro substitution */
 // void next(void)
 function next() {
-    enter();
 //     int len, *ptr;
-    var len=v_alloca(4);
-    var ptr=v_alloca(4);
-    var redo=1;
+    var len;
+    var ptr;
+    var redo;
     var cont;
 //     Sym *nested_list;
-    var nested_list=v_alloca(4);
+    var nested_list;
+
+    enter();
+
+    len = v_alloca(4);
+    ptr = v_alloca(4);
+    redo = 1;
+    nested_list = v_alloca(4);
 
     /* special 'ungettok' case for label parsing */
     if (tok1) {
@@ -1729,10 +1735,12 @@ function vsetc(t, vc) {
 // void vset(int t, int v)
 function vset(t, v) {
     print("t: "+t+" v: "+v); /* dbg log */
-    enter();
 //     CValue cval;
-    var cval=v_malloc(CValue_size);
+    var cval;
 
+    enter();
+
+    cval = v_malloc(CValue_size);
 //     cval.i = v;
     wi32(cval, v);
     vsetc(t, cval);
