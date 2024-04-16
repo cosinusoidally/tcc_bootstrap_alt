@@ -1,17 +1,7 @@
-v_malloc(){
-  puts("v_malloc not impl");
-  exit(1);
-}
-
-v_strlen(){
-  puts("v_strlen not impl");
-  exit(1);
-}
-
-v_strcpy(){
-  puts("v_strcpy not impl");
-  exit(1);
-}
+#define v_malloc malloc
+#define v_strlen strlen
+#define v_strcpy strcpy
+#define v_free free
 
 wi8(){
   puts("wi8 not impl");
@@ -44,11 +34,6 @@ urs(){
 }
 
 int NULL;
-
-v_free(){
-  puts("v_free not impl");
-  exit(1);
-}
 
 v_alloca(){
   puts("v_alloca not impl");
