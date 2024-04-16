@@ -6,6 +6,7 @@
 #define v_memcpy memcpy
 #define v_memset memset
 #define v_fopen fopen
+#define v_getc_unlocked getc_unlocked
 
 int NULL;
 int int_size;
@@ -22,6 +23,10 @@ ri8(o){
  return *(char*)o;
 }
 
+v_memcmp(){
+  puts("memcmp not impl");
+  exit(1);
+}
 
 wi32(o, v) {
   wi8(o,v&0xFF);
@@ -69,11 +74,6 @@ enter() {
   v_ebp=v_esp;
 }
 
-v_memcmp(){
-  puts("v_memcmp not impl");
-  exit(1);
-}
-
 leave(x) {
   v_esp=v_ebp;
   v_ebp=ri32(v_esp);
@@ -84,11 +84,6 @@ leave(x) {
 
 v_fclose(){
   puts("v_fclose not impl");
-  exit(1);
-}
-
-v_getc_unlocked(){
-  puts("v_getc_unlocked not impl");
   exit(1);
 }
 
