@@ -2832,11 +2832,12 @@ err();
    type. If v is true, then also put variable name in 'vtop->c' */
 // int type_decl(int *v, int t, int td)
 function type_decl(v, t, td) {
-    enter();
     var u;
     var p;
 //     Sym *s;
     var s;
+
+    enter();
 
     t = t & -3; /* suppress the ored '2' */
     while (tok == mk_char('*')) {
@@ -2935,18 +2936,23 @@ err();
 
 // void unary(void)
 function unary() {
-    enter();
-    var n=v_alloca(4);
+    var n;
     var t;
     var ft;
     var fc;
     var p;
-    var align=v_alloca(4);
+    var align;
     var size;
 //     Sym *s;
     var s;
 //     GFuncContext gf;
-    var gf=v_alloca(4);
+    var gf;
+
+    enter();
+
+    n = v_alloca(4);
+    align = v_alloca(4);
+    gf = v_alloca(4);
 
     if (tok == TOK_NUM || tok == TOK_CCHAR || tok == TOK_LCHAR) {
 //         vset(VT_CONST | VT_INT, tokc.i);
