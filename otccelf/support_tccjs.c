@@ -4,6 +4,8 @@
 #define v_free free
 #define v_realloc realloc
 #define v_memcpy memcpy
+#define v_memset memset
+#define v_fopen fopen
 
 int NULL;
 int int_size;
@@ -72,9 +74,12 @@ v_memcmp(){
   exit(1);
 }
 
-leave(){
-  puts("leave not impl");
-  exit(1);
+leave(x) {
+  v_esp=v_ebp;
+  v_ebp=ri32(v_esp);
+  v_esp=v_esp+4;
+  printf("leave esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
+  return x;
 }
 
 v_fclose(){
@@ -97,11 +102,6 @@ v_strcat(){
   exit(1);
 }
 
-v_fopen(){
-  puts("v_fopen not impl");
-  exit(1);
-}
-
 v_strdup(){
   puts("v_strdup not impl");
   exit(1);
@@ -114,11 +114,6 @@ warning(){
 
 v_fwrite(){
   puts("v_fwrite not impl");
-  exit(1);
-}
-
-v_memset(){
-  puts("v_memset not impl");
   exit(1);
 }
 
