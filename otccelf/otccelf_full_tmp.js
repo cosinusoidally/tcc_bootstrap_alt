@@ -656,7 +656,7 @@ function elf_out(c){
 }
 
 function init_globals(){
-  ALLOC_SIZE = 99999;
+  ALLOC_SIZE = 120000;
 
   ELF_BASE = 0x08048000;
   PHDR_OFFSET = 0x30;
