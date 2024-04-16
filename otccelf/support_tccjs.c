@@ -70,3 +70,43 @@ enter(){
   exit(1);
 }
 
+v_memcmp(){
+  puts("v_memcmp not impl");
+  exit(1);
+}
+
+leave(){
+  puts("leave not impl");
+  exit(1);
+}
+
+v_realloc(){
+  puts("v_realloc not impl");
+  exit(1);
+}
+
+v_memcpy(){
+  puts("v_mempcy not impl");
+  exit(1);
+}
+
+v_fclose(){
+  puts("v_fclose not impl");
+  exit(1);
+}
+
+v_getc_unlocked(){
+  puts("v_getc_unlocked not impl");
+  exit(1);
+}
+
+v_strrchr(){
+  puts("v_strrchr not impl");
+  exit(1);
+}
+
+v_strcat(){
+  puts("v_strcat not impl");
+  exit(1);
+}
+
