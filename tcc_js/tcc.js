@@ -4078,22 +4078,35 @@ print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
 /* 'l' is VT_LOCAL or VT_CONST to define default storage type */
 // void decl(int l)
 function decl(l) {
-    enter();
 //     int *a, t, b, v, u, addr, has_init, size, align;
-    var a=v_alloca(4);
-    var t=v_alloca(4);
-    var b=v_alloca(4);
-    var v=v_alloca(4);
-    var u=v_alloca(4);
-    var addr=v_alloca(4);
-    var has_init=v_alloca(4);
-    var size=v_alloca(4);
-    var align=v_alloca(4);
+    var a;
+    var t;
+    var b;
+    var v;
+    var u;
+    var addr;
+    var has_init;
+    var size;
+    var align;
 //     Sym *sym;
     var sym;
-    /* cc_c86 doesn't support continue so we need this hack */
     var cont;
+
+    enter();
+
+    a = v_alloca(4);
+    t = v_alloca(4);
+    b = v_alloca(4);
+    v = v_alloca(4);
+    u = v_alloca(4);
+    addr = v_alloca(4);
+    has_init = v_alloca(4);
+    size = v_alloca(4);
+    align = v_alloca(4);
+
+    /* cc_c86 doesn't support continue so we need this hack */
     cont=1;
+
     while(cont){
     cont=0;
     while (1) {
