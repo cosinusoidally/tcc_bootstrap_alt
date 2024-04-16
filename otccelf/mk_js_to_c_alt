@@ -5,7 +5,6 @@ cat ../otccelf/support_tccjs.c > ../otccelf/artifacts/tcc_js_otccelf.c
 js ../otccelf/js_to_c_alt.js >> ../otccelf/artifacts/tcc_js_otccelf.c
 popd
 
-
 # HACK until I figure out the ALLOC_SIZE issue
 cat support.c support_common.js otccelf_full_tmp.js > artifacts/otccelf_js_tmp.c
 
@@ -13,6 +12,11 @@ cat support.c support_common.js otccelf_full_tmp.js > artifacts/otccelf_js_tmp.c
 ./artifacts/otccelf_js.exe artifacts//otccelf_js_tmp.c artifacts//otccelf_js_tmp.exe
 chmod +x artifacts//otccelf_js_tmp.exe
 ./artifacts/otccelf_js_tmp.exe artifacts/tcc_js_otccelf.c artifacts/tcc_js_otccelf.exe
-chmod +x artifacts/tcc_js_otccelf.exe
 
-./artifacts/tcc_js_otccelf.exe
+cd artifacts
+chmod +x tcc_js_otccelf.exe
+
+export PATH=$PWD:$PATH
+
+cd ../tcc_js
+tcc_js_otccelf.exe
