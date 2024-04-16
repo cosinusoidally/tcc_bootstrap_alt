@@ -4310,10 +4310,12 @@ err();
 /* compile a C file. Return non zero if errors. */
 // int tcc_compile_file(const char *filename1)
 function tcc_compile_file(filename1) {
-    enter();
-    print("filename: "+mk_js_string(ri32(filename1)));
 //     Sym *define_start;
     var define_start;
+
+    enter();
+
+    print("filename: "+mk_js_string(ri32(filename1)));
 
     filename = ri32(filename1);
 
@@ -4355,9 +4357,6 @@ function tcc_compile_file(filename1) {
 
 // void resolve_extern_syms(void)
 function resolve_extern_syms() {
-    enter();
-    /* HACK RELOC */
-    reloc_global=1;
 //     Sym *s, *s1;
     var s;
     var s1;
@@ -4365,8 +4364,12 @@ function resolve_extern_syms() {
     var str;
 //     int addr;
     var addr;
-
     var count;
+
+    enter();
+
+    /* HACK RELOC */
+    reloc_global=1;
     s = ri32(extern_stack+SymStack_top_o);
     while (s != NULL) {
         s1 = ri32(s+Sym_prev_o);
