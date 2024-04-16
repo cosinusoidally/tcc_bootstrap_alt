@@ -1,4 +1,3 @@
-#define v_strlen strlen
 #define v_strcpy strcpy
 #define v_free free
 #define v_realloc realloc
@@ -17,6 +16,13 @@ int v_ebp;
 v_malloc(s){
   printf("malloc %d\n",s);
   return malloc(s);
+}
+
+v_strlen(s){
+  int r;
+  r = strlen(s);
+  printf("strlen %d %s\n", r, s);
+  return r;
 }
 
 wi8(o, v){
