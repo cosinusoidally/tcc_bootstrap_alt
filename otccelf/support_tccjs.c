@@ -2,6 +2,8 @@
 #define v_strlen strlen
 #define v_strcpy strcpy
 #define v_free free
+#define v_realloc realloc
+#define v_memcpy memcpy
 
 int NULL;
 int int_size;
@@ -57,9 +59,12 @@ expect(){
   exit(1);
 }
 
-enter(){
-  puts("enter not impl");
-  exit(1);
+enter() {
+/* FIXME detect overflow */
+  printf("enter esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
+  v_esp=v_esp-4;
+  wi32(v_esp,v_ebp);
+  v_ebp=v_esp;
 }
 
 v_memcmp(){
@@ -69,16 +74,6 @@ v_memcmp(){
 
 leave(){
   puts("leave not impl");
-  exit(1);
-}
-
-v_realloc(){
-  puts("v_realloc not impl");
-  exit(1);
-}
-
-v_memcpy(){
-  puts("v_mempcy not impl");
   exit(1);
 }
 
