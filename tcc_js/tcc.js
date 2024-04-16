@@ -2500,13 +2500,12 @@ function inc(post, c) {
 /* enum/struct/union declaration */
 // int struct_decl(int u)
 function struct_decl(u) {
-    enter();
     var a;
     var t;
     var b;
-    var v=v_alloca(4);
+    var v;
     var size;
-    var align=v_alloca(4);
+    var align;
     var maxalign;
     var c;
     var offset;
@@ -2518,7 +2517,14 @@ function struct_decl(u) {
 //     Sym *s, *ss, **ps;
     var s;
     var ss;
-    var ps=v_alloca(4);
+    var ps;
+
+    enter();
+
+    v = v_alloca(4);
+    align = v_alloca(4);
+    ps = v_alloca(4);
+
     a = tok; /* save decl type */
     next();
     while(1){
