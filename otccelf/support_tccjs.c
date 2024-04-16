@@ -1,4 +1,3 @@
-#define v_strcpy strcpy
 #define v_free free
 #define v_realloc realloc
 #define v_memcpy memcpy
@@ -22,6 +21,13 @@ v_strlen(s){
   int r;
   r = strlen(s);
   printf("strlen %d %s\n", r, s);
+  return r;
+}
+
+v_strcpy(dst, src){
+  int r;
+  r = strcpy(dst, src);
+  printf("strcpy %s %s\n", dst, src);
   return r;
 }
 
