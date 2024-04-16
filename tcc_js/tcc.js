@@ -1520,18 +1520,21 @@ function next_nomacro() {
 /* handle the '##' operator LJW HACK DELETED CODE*/
 // int *macro_twosharps(int *macro_str)
 function macro_twosharps(macro_str) {
-enter();
 //     TokenSym *ts;
     var ts;
 //     int *macro_str1, macro_str1_len, *macro_ptr1;
-    var macro_str1=v_alloca(4);
-    var macro_str1_len=v_alloca(4);
-    var macro_ptr1=v_alloca(4);
+    var macro_str1;
+    var macro_str1_len;
+    var macro_ptr1;
     var t;
 //     char *p;
     var p;
 //     CValue cval;
     var cval;
+enter();
+    macro_str1 = v_alloca(4);
+    macro_str1_len = v_alloca(4);
+    macro_ptr1 = v_alloca(4);
 
     wi32(macro_str1, NULL);
     wi32(macro_str1_len, 0);
