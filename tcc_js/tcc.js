@@ -2948,6 +2948,18 @@ function unary() {
 //     GFuncContext gf;
     var gf;
 
+// hoisted declarations outside of later loop to allow M2 to compile this (and
+// otccelf)
+    var rett;
+    var retc;
+    var sa;
+    var str;
+    var len;
+    var parlevel;
+    var saved_macro_ptr;
+    var args;
+    var s1;
+
     enter();
 
     n = v_alloca(4);
@@ -3091,16 +3103,6 @@ err();
         }
     }
 
-// hoisted declarations to move outside the loop to allow M2 to compile this
-    var rett;
-    var retc;
-    var sa;
-    var str;
-    var len;
-    var parlevel;
-    var saved_macro_ptr;
-    var args;
-    var s1;
     /* post operations */
     while (1) {
         if (tok == TOK_INC | tok == TOK_DEC) {
