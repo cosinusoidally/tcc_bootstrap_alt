@@ -1,5 +1,3 @@
-#define v_getc_unlocked getc_unlocked
-
 int NULL;
 int int_size;
 int stack_size;
@@ -48,6 +46,13 @@ v_memset(s, c, n){
 v_fopen(pathname, mode){
   printf("fopen pathname %s mode %s\n", pathname, mode);
   return fopen(pathname, mode);
+}
+
+v_getc_unlocked(f){
+  int c;
+  c = getc_unlocked(f);
+  printf("getc_unlocked: %c\n",c);
+  return c;
 }
 
 wi8(o, v){
