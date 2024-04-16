@@ -129,5 +129,3 @@ v_fwrite(){
   puts("v_fwrite not impl");
   exit(1);
 }
-
-#define v_memset memset
