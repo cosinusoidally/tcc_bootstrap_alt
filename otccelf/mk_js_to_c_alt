@@ -4,6 +4,8 @@ cd ../tcc_js
 js ../otccelf/js_to_c_alt.js &> ../otccelf/artifacts/tcc_js_otccelf.c
 popd
 
+cat support_tccjs.c >> ./artifacts/tcc_js_otccelf.c
+
 # HACK until I figure out the ALLOC_SIZE issue
 cat support.c support_common.js otccelf_full_tmp.js > artifacts/otccelf_js_tmp.c
 
