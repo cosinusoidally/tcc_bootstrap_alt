@@ -7,8 +7,8 @@ int NULL;
 int int_size;
 int stack_size;
 int v_stack;
-int esp;
-int ebp;
+int v_esp;
+int v_ebp;
 
 wi8(){
   puts("wi8 not impl");
@@ -30,26 +30,22 @@ ri32(){
   exit(1);
 }
 
-mk_c_string(){
-  puts("mk_c_string not impl");
-  exit(1);
-}
-
 urs(){
   puts("urs not impl");
   exit(1);
 }
 
-int NULL;
-
-v_alloca(){
-  puts("v_alloca not impl");
-  exit(1);
+v_alloca(x) {
+  v_esp=v_esp-x;
+  return v_esp;
 }
 
-mk_char(){
-  puts("v_alloca not impl");
-  exit(1);
+mk_char(c){
+  return c;
+}
+
+mk_c_string(s){
+  return s;
 }
 
 expect(){
@@ -127,17 +123,51 @@ v_memset(){
   exit(1);
 }
 
-mk_argc_argv(){
-  puts("mk_argc_argv not impl");
-  exit(1);
+mk_argc_argv(s){
+  int argv_r;
+  int argc_argv;
+  int argc;
+  int argv;
+  int c;
+  int i;
+  int hs;
+
+  argc_argv=v_alloca(8);
+  argc=0;
+  argv;
+  i=0;
+  hs=mk_c_string(s);
+
+  argv=v_alloca(4);
+  wi32(argv,hs);
+  while((c=ri8(hs+i))!=0){
+    i=i+1;
+    if(c==' ') {
+      argc=argc+1;
+      wi8(hs+i-1,0);
+      argv=v_alloca(4);
+      wi32(argv,hs+i);
+    }
+  }
+  argc=argc+1;
+/* reverse argv */
+  argv_r=argv;
+  for(i=0;i<argc;i=i+1){
+    argv=v_alloca(4);
+    wi32(argv,ri32(argv_r));
+    argv_r=argv_r+4;
+  }
+  wi32(argc_argv,argc);
+  wi32(argc_argv+4,argv);
+  return argc_argv;
 }
 
 init_runtime() {
   puts("init_runtime");
   stack_size=256*1024;
   v_stack=malloc(stack_size);
-  esp=v_stack+stack_size-4;
-  ebp=esp;
+  v_esp=v_stack+stack_size-4;
+  v_ebp=v_esp;
 }
 
 
