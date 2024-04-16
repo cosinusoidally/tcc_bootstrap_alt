@@ -1749,9 +1749,11 @@ function vset(t, v) {
 
 // void vswap(void)
 function vswap() {
-    enter();
 //     SValue tmp;
-    var tmp=v_alloca(SValue_size);
+    var tmp;
+    enter();
+
+    tmp = v_alloca(SValue_size);
 //     tmp = vtop[0];
     v_memcpy(tmp, vtop,SValue_size);
 //     vtop[0] = vtop[-1];
@@ -1819,12 +1821,15 @@ function save_reg(r) {
 /* find a free register of class 'rc'. If none, save one register */
 // int get_reg(int rc)
 function get_reg(rc) {
-    enter();
     var r;
     var i;
     var notfound;
 //     SValue *p;
-    var p=v_alloca(SValue_size);
+    var p;
+
+    enter();
+
+    p = v_alloca(SValue_size);
 
     /* find a free register */
     for(r=0;r<NB_REGS;r=r+1) {
@@ -1915,12 +1920,13 @@ function gen_opc(op) {
     var c1;
     var c2;
     var n;
-    var general_case=0;
+    var general_case;
 //     SValue *v1, *v2;
     var v1;
     var v2;
     var tmp;
 
+    general_case = 0;
     v1 = vtop - SValue_size;
     v2 = vtop;
     /* currently, we cannot do computations with forward symbols */
@@ -2043,8 +2049,9 @@ function gen_opc(op) {
 
 // int pointed_size(int t)
 function pointed_size(t) {
+    var tmp;
     enter();
-    var tmp=v_alloca(4);
+    tmp = v_alloca(4);
     wi32(tmp,t);
 //    return type_size(pointed_type(t), &t);
     return leave(type_size(pointed_type(ri32(tmp)), tmp));
@@ -2359,11 +2366,15 @@ err();
    casts if needed */
 // void gen_assign_cast(int dt)
 function gen_assign_cast(dt) {
-    enter();
     var st;
 //     char buf1[256], buf2[256];
-    var buf1=v_alloca(256);
-    var buf2=v_alloca(256);
+    var buf1;
+    var buf2;
+
+    enter();
+
+    buf1 = v_alloca(256);
+    buf2 = v_alloca(256);
     st = ri32(vtop+SValue_t_o); /* destination type */
     if (check_assign_types(dt, st) == 0) {
 err();
