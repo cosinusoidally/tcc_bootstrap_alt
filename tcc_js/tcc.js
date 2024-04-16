@@ -1556,25 +1556,36 @@ enter();
 // void macro_subst(int **tok_str, int *tok_len, 
 //                  Sym **nested_list, int *macro_str)
 function macro_subst(tok_str, tok_len, nested_list, macro_str) {
-    enter();
 //     Sym *s, *args, *sa, *sa1;
-    var s=v_alloca(4);
-    var args=v_alloca(4);
-    var sa=v_alloca(4);
-    var sa1=v_alloca(4);
+    var s;
+    var args;
+    var sa;
+    var sa1;
 //     int *str, parlevel, len, *mstr, t, *saved_macro_ptr;
-    var str=v_alloca(4);
-    var parlevel=v_alloca(4);
-    var len=v_alloca(4);
-    var mstr=v_alloca(4);
-    var t=v_alloca(4);
+    var str;
+    var parlevel;
+    var len;
+    var mstr;
+    var t;
     var saved_macro_ptr;
 //     int mstr_allocated, *macro_str1;
-    var mstr_allocated=v_alloca(4);
+    var mstr_allocated;
     var macro_str1;
     var no_subst;
 //     CValue cval;
-    var cval=v_alloca(CValue_size);
+    var cval;
+    enter();
+    s = v_alloca(4);
+    args = v_alloca(4);
+    sa = v_alloca(4);
+    sa1 = v_alloca(4);
+    str = v_alloca(4);
+    parlevel = v_alloca(4);
+    len = v_alloca(4);
+    mstr = v_alloca(4);
+    t = v_alloca(4);
+    mstr_allocated = v_alloca(4);
+    cval = v_alloca(CValue_size);
 
     saved_macro_ptr = ri32(macro_ptr);
     wi32(macro_ptr, macro_str);
