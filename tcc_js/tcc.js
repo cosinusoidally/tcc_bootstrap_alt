@@ -2388,17 +2388,21 @@ err();
 /* store vtop in lvalue pushed on stack */
 // void vstore(void)
 function vstore() {
-    enter();
     var ft;
     var fc;
     var r;
     var t;
     var size;
-    var align=v_alloca(4);
+    var align;
     var bit_size;
     var bit_pos;
 //     GFuncContext gf;
-    var gf=v_alloca(GFuncContext_size);
+    var gf;
+
+    enter();
+
+    align = v_alloca(4);
+    gf = v_alloca(GFuncContext_size);
 
 //     ft = vtop[-1].t;
     ft = ri32(vtop-SValue_size+SValue_t_o);
