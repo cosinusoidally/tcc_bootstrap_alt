@@ -4257,13 +4257,14 @@ err();
    extern_stack too */
 // void resolve_global_syms(void)
 function resolve_global_syms() {
-    enter();
 //     Sym *s, *s1, *ext_sym;
     var s;
     var s1;
     var ext_sym;
 //     Reloc **p;
     var p;
+
+    enter();
 
     s = ri32(global_stack+SymStack_top_o);
 //     while (s != NULL) {
