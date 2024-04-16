@@ -1,4 +1,3 @@
-#define v_memcpy memcpy
 #define v_memset memset
 #define v_fopen fopen
 #define v_getc_unlocked getc_unlocked
@@ -36,6 +35,11 @@ v_free(v){
 v_realloc(ptr, size){
   printf("realloc ptr: %d size: %d\n", ptr, size);
   return realloc(ptr, size);
+}
+
+v_memcpy(dest, src,n){
+  printf("memcpy dest: %d src: %d n %d\n", dest, src, n);
+  return memcpy(dest, src, n);
 }
 
 wi8(o, v){
