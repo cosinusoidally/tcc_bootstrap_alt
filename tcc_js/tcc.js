@@ -3815,23 +3815,30 @@ err();
 // void decl_initializer(int t, int c, int first, int size_only)
 function decl_initializer(t, c, first, size_only) {
     print("decl_initializer: t: "+t+" c: "+c+" first: "+first+" size_only: "+size_only); /* dbg log */
-    enter();
-    var index=v_alloca(4);
+
+    var index;
     var array_length;
     var n;
     var no_oblock;
     var nb;
     var parlevel;
     var i;
-
     var t1;
     var size1;
-    var align1=v_alloca(4);
+    var align1;
 //     Sym *s, *f;
-    var s=v_alloca(4);
-    var f=v_alloca(4);
+    var s;
+    var f;
 //     TokenSym *ts;
-    var ts=v_alloca(4);
+    var ts;
+
+    enter();
+
+    index = v_alloca(4);
+    align1 = v_alloca(4);
+    s = v_alloca(4);
+    f = v_alloca(4);
+    ts = v_alloca(4);
 
     if (t & VT_ARRAY) {
         s = sym_find((urs(t, VT_STRUCT_SHIFT)));
@@ -3980,16 +3987,22 @@ err();
 // int decl_initializer_alloc(int t, int has_init)
 function decl_initializer_alloc(t, has_init) {
 print("decl_initializer_alloc: t: "+t+" has_init: "+has_init);
-    enter();
     var size;
-    var align=v_alloca(4);
+    var align;
     var addr;
     var tok1;
 //     int *init_str, init_len, level, *saved_macro_ptr;
-    var init_str=v_alloca(4);
-    var init_len=v_alloca(4);
-    var level=v_alloca(4);
+    var init_str;
+    var init_len;
+    var level;
     var saved_macro_ptr;
+
+    enter();
+
+    align = v_alloca(4);
+    init_str = v_alloca(4);
+    init_len = v_alloca(4);
+    level = v_alloca(4);
 
     size = type_size(t, align);
     /* If unknown size, we must evaluate it before
