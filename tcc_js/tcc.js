@@ -2646,11 +2646,13 @@ function basic_type(t, u){
  */
 // int ist(void)
 function ist() {
-    enter();
     var t;
     var u;
 //     Sym *s;
     var s;
+
+    enter();
+
     t = 0;
     while(1) {
         if(tok==TOK_CHAR) {
@@ -2710,18 +2712,27 @@ function ist() {
 // int post_type(int t)
 // {
 function post_type(t) {
-    enter();
-    var p=v_alloca(4);
-    var n=v_alloca(4);
+    var p;
+    var n;
     var pt;
-    var l=v_alloca(4);
-    var t1=v_alloca(4);
+    var l;
+    var t1;
 //     int foo=v_alloca(4);
     var foo;
 //     Sym **plast, *s, *first;
-    var plast=v_alloca(4);
-    var s=v_alloca(4);
-    var first=v_alloca(4);
+    var plast;
+    var s;
+    var first;
+
+    enter();
+
+    p = v_alloca(4);
+    n = v_alloca(4);
+    l = v_alloca(4);
+    t1 = v_alloca(4);
+    plast = v_alloca(4);
+    s = v_alloca(4);
+    first = v_alloca(4);
 
 // FIXME ljw there is some bug that I have introduced that causes function
 // declarations of the form int foo(a,b) to not parse correctly
