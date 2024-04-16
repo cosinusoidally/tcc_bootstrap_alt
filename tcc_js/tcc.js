@@ -4517,21 +4517,29 @@ var data_rel;
 
 // int main(int argc, char **argv)
 function tcc_main(argc,argv){
-    init_globals();
-    init_i386_gen();
-    enter();
-     puts("tcc 1_7 start");
 //     Sym *s;
-    var s=v_alloca(4);
+    var s;
 //     int (*t)();
-    var t=v_alloca(4);
+    var t;
 //     char *p, *r, *outfile;
     var p;
     var r;
-    var outfile=v_alloca(4);
+    var outfile;
 
     var optind;
     var c;
+    var loader;
+
+    init_globals();
+    init_i386_gen();
+
+    enter();
+
+     puts("tcc 1_7 start");
+
+    s=v_alloca(4);
+    t=v_alloca(4);
+    outfile=v_alloca(4);
 
     wi32(include_paths,mk_c_string("../tcc_1_7/"));
     nb_include_paths = 1;
@@ -4564,7 +4572,7 @@ function tcc_main(argc,argv){
     optind = 1;
     outfile = NULL;
 
-    var loader=0;
+    loader=0;
     while (1) {
         if (optind >= argc) {
 err();
