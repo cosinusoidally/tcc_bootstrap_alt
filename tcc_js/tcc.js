@@ -1010,23 +1010,30 @@ function preprocess() {
     var c;
     var v;
     var t;
-    var str=v_alloca(4);
-    var len=v_alloca(4);
+    var str;
+    var len;
 //     int found=0;
-    var found=0;
+    var found;
 //     char buf[1024], *q, *p;
-    var buf_size=1024;
-    var buf=v_alloca(buf_size);
+    var buf_size;
+    var buf;
     var q;
     var p;
 //     char buf1[1024];
-    var buf1=v_alloca(buf_size);
+    var buf1;
 //     FILE *f;
     var f;
 //     Sym **ps, *first, *s;
     var ps;
     var first;
     var s;
+
+    str = v_alloca(4);
+    len = v_alloca(4);
+    found = 0;
+    buf_size = 1024;
+    buf = v_alloca(buf_size);
+    buf1 = v_alloca(buf_size);
 
     cinp();
     next_nomacro();
@@ -1329,12 +1336,12 @@ err();
 /* return next token without macro substitution */
 // void next_nomacro1(void)
 function next_nomacro1() {
-    enter();
     var b;
 //     char *q;
     var q;
 //     TokenSym *ts;
     var ts;
+    enter();
 
     /* skip spaces */
     while(1) {
