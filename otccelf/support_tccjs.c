@@ -110,3 +110,24 @@ v_strcat(){
   exit(1);
 }
 
+v_fopen(){
+  puts("v_fopen not impl");
+  exit(1);
+}
+
+v_strdup(){
+  puts("v_strdup not impl");
+  exit(1);
+}
+
+warning(){
+  puts("warning not impl");
+  exit(1);
+}
+
+v_fwrite(){
+  puts("v_fwrite not impl");
+  exit(1);
+}
+
+#define v_memset memset
