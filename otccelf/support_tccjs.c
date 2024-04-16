@@ -1,4 +1,3 @@
-#define v_malloc malloc
 #define v_strlen strlen
 #define v_strcpy strcpy
 #define v_free free
@@ -15,17 +14,17 @@ int v_stack;
 int v_esp;
 int v_ebp;
 
+v_malloc(s){
+  printf("malloc %d\n",s);
+  return malloc(s);
+}
+
 wi8(o, v){
   *(char*)o = (v & 255);
 }
 
 ri8(o){
  return *(char*)o;
-}
-
-v_memcmp(){
-  puts("memcmp not impl");
-  exit(1);
 }
 
 wi32(o, v) {
@@ -102,6 +101,11 @@ v_strdup(){
   exit(1);
 }
 
+v_memcmp(){
+  puts("v_memcmp not impl");
+  exit(1);
+}
+
 warning(){
   puts("warning not impl");
   exit(1);
@@ -154,7 +158,7 @@ mk_argc_argv(s){
 init_runtime() {
   puts("init_runtime");
   stack_size=256*1024;
-  v_stack=malloc(stack_size);
+  v_stack=v_malloc(stack_size);
   v_esp=v_stack+stack_size-4;
   v_ebp=v_esp;
 }
