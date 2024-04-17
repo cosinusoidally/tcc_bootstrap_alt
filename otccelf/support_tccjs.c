@@ -50,9 +50,15 @@ v_free(v){
   exit(1);
 }
 
-v_realloc(ptr, size){
-  puts("v_realloc not impl");
-  exit(1);
+v_realloc(x, size){
+/*  puts("v_realloc not impl"); exit(1); */
+  int i;
+  int r;
+  r = v_malloc(size);
+  for(i=0;i<size;i=i+1){
+    wi8(r+i,ri8(x+i));
+  }
+  return r;
 }
 
 v_memcpy(dest, src,n){
