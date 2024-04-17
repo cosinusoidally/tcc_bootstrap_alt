@@ -60,6 +60,11 @@ wi8(o, v){
   *(char*)o1 = (v & 255);
 }
 
+/* real heap rather than virtual */
+r_ri8(o){
+  return *(char*)o;
+}
+
 ri8(o){
   int o1;
   o1 = heap + o;
@@ -96,8 +101,20 @@ mk_char(c){
 }
 
 mk_c_string(s){
-  puts("mk_c_string not impl");
-  exit(1);
+/*  puts("unimpl mk_c_string"); */
+/*  printf("mk_c_string: %s\n",s); */
+  int l;
+  int sh;
+  int i;
+
+  l=strlen(s);
+  sh=v_malloc(l+1);
+/*  printf("strlen %d\n",l); */
+  for(i=0;i<l;i=i+1){
+    wi8(sh+i,r_ri8(s+i));
+  }
+  wi8(sh+i,0);
+  return sh;
 }
 
 expect(){
