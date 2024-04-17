@@ -69,9 +69,12 @@ v_memcpy(dest, src, count){
   }
 }
 
-v_memset(s, c, n){
-  puts("v_memset not impl");
-  exit(1);
+v_memset(x, v, size){
+/* puts("v_memset not impl"); exit(1); */
+  int i;
+  for(i=0;i<size;i=i+1){
+    wi8(x+i,v);
+  }
 }
 
 v_fopen(pathname, mode){
