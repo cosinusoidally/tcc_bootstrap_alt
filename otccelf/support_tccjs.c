@@ -1,9 +1,13 @@
 int NULL;
 int int_size;
+
+int heap_size;
 int stack_size;
-int v_stack;
+int heap;
+
 int esp;
 int ebp;
+int malloc_base;
 
 v_malloc(s){
   puts("v_malloc not impl");
@@ -189,10 +193,12 @@ mk_argc_argv(s){
 
 init_runtime() {
   puts("init_runtime");
+  heap_size=16*1024*1024;
   stack_size=256*1024;
-  v_stack=v_malloc(stack_size);
-  esp=v_stack+stack_size-4;
+  heap=malloc(heap_size);
+  esp=heap_size-4;
   ebp=esp;
+  malloc_base=4;
 }
 
 
