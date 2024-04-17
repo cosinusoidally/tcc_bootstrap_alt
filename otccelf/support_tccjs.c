@@ -9,14 +9,23 @@ int esp;
 int ebp;
 int malloc_base;
 
-v_malloc(s){
-  puts("v_malloc not impl");
-  exit(1);
+v_malloc(x){
+/*  puts("v_malloc not impl"); exit(1); */
+  int r;
+  r=malloc_base;
+  if(x!=((x>>2)<<2)){
+    x=4+(x>>2) <<2;
+  }
+  malloc_base=malloc_base+x;
+  if(malloc_base>(heap_size-stack_size)){
+    puts("oom malloc");
+    exit(1);
+  }
+  return r;
 }
 
 v_strlen(s){
-  puts("v_malloc not impl");
-  exit(1);
+  puts("v_strlen not impl"); exit(1);
 }
 
 v_strcpy(dst, src){
