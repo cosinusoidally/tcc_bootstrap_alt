@@ -55,11 +55,15 @@ v_getc_unlocked(f){
 }
 
 wi8(o, v){
-  *(char*)o = (v & 255);
+  int o1;
+  o1 = heap + o;
+  *(char*)o1 = (v & 255);
 }
 
 ri8(o){
- return *(char*)o;
+  int o1;
+  o1 = heap + o;
+  return *(char*)o1;
 }
 
 wi32(o, v) {
