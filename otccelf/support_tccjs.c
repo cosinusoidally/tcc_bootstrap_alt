@@ -259,7 +259,8 @@ init_runtime() {
   puts("init_runtime");
   heap_size=16*1024*1024;
   stack_size=256*1024;
-  heap=malloc(heap_size);
+  heap = malloc(heap_size);
+  printf("heap: %d\n", heap);
   esp=heap_size-4;
   ebp=esp;
   malloc_base=4;
