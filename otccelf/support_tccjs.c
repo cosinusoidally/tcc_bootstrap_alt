@@ -127,14 +127,14 @@ v_strrchr(s, c){
   return strrchr(s, c);
 }
 
-v_strcat(){
-  puts("v_strcat not impl");
-  exit(1);
+v_strcat(dest, src){
+  puts("strcat");
+  return strcat(dest, src);
 }
 
-v_strdup(){
-  puts("v_strdup not impl");
-  exit(1);
+v_strdup(s, n){
+  puts("strdup");
+  return strdup(s, n);
 }
 
 v_memcmp(s1, s2, n){
