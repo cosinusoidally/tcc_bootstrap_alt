@@ -25,7 +25,14 @@ v_malloc(x){
 }
 
 v_strlen(s){
-  puts("v_strlen not impl"); exit(1);
+/*  puts("v_strlen not impl"); exit(1); */
+  int l;
+  l = 0;
+  while(ri8(s)){
+    s=s+1;
+    l=l+1;
+  }
+  return l;
 }
 
 v_strcpy(dst, src){
