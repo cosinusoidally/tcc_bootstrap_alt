@@ -81,15 +81,20 @@ v_fopen(a, b){
 /* puts("v_fopen not impl"); exit(1); */
   int filename;
   int mode;
+  int r;
   filename = heap+a;
   mode = heap+b;
+  r = fopen(filename, mode);
   printf("v_fopen filename: %s mode: %s\n", filename,mode);
-  return fopen(filename, mode);
+  return r;
 }
 
-v_getc_unlocked(f){
-  puts("v_getc_unlocked not impl");
-  exit(1);
+v_getc_unlocked(a){
+/* puts("v_getc_unlocked not impl"); exit(1); */
+  int c;
+  c = getc_unlocked(a);
+  printf("getc_unlocked: %c\n",c);
+  return c;
 }
 
 wi8(o, v){
