@@ -137,9 +137,9 @@ v_strdup(){
   exit(1);
 }
 
-v_memcmp(){
-  puts("v_memcmp not impl");
-  exit(1);
+v_memcmp(s1, s2, n){
+  printf("memcmp s1 %d s2 %d n %d\n", s1, s2, n);
+  return memcmp(s1, s2, n);
 }
 
 warning(){
