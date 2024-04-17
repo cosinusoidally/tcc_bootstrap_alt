@@ -2,57 +2,52 @@ int NULL;
 int int_size;
 int stack_size;
 int v_stack;
-int v_esp;
-int v_ebp;
+int esp;
+int ebp;
 
 v_malloc(s){
-  printf("malloc %d\n",s);
-  return malloc(s);
+  puts("v_malloc not impl");
+  exit(1);
 }
 
 v_strlen(s){
-  int r;
-  r = strlen(s);
-  printf("strlen %d %s\n", r, s);
-  return r;
+  puts("v_malloc not impl");
+  exit(1);
 }
 
 v_strcpy(dst, src){
-  int r;
-  r = strcpy(dst, src);
-  printf("strcpy %s %s\n", dst, src);
-  return r;
+  puts("v_strcpy not impl");
+  exit(1);
 }
 
 v_free(v){
-  return 0;
+  puts("v_free not impl");
+  exit(1);
 }
 
 v_realloc(ptr, size){
-  printf("realloc ptr: %d size: %d\n", ptr, size);
-  return realloc(ptr, size);
+  puts("v_realloc not impl");
+  exit(1);
 }
 
 v_memcpy(dest, src,n){
-  printf("memcpy dest: %d src: %d n %d\n", dest, src, n);
-  return memcpy(dest, src, n);
+  puts("v_memcpy not impl");
+  exit(1);
 }
 
 v_memset(s, c, n){
-  printf("memset s %d c %c n %d\n", s, c, n);
-  return memset(s, c, n);
+  puts("v_memset not impl");
+  exit(1);
 }
 
 v_fopen(pathname, mode){
-  printf("fopen pathname %s mode %s\n", pathname, mode);
-  return fopen(pathname, mode);
+  puts("v_fopen not impl");
+  exit(1);
 }
 
 v_getc_unlocked(f){
-  int c;
-  c = getc_unlocked(f);
-  printf("getc_unlocked: %c\n",c);
-  return c;
+  puts("v_getc_unlocked not impl");
+  exit(1);
 }
 
 wi8(o, v){
@@ -84,8 +79,8 @@ urs(){
 }
 
 v_alloca(x) {
-  v_esp=v_esp-x;
-  return v_esp;
+  esp=esp-x;
+  return esp;
 }
 
 mk_char(c){
@@ -93,7 +88,8 @@ mk_char(c){
 }
 
 mk_c_string(s){
-  return s;
+  puts("mk_c_string not impl");
+  exit(1);
 }
 
 expect(){
@@ -103,17 +99,17 @@ expect(){
 
 enter() {
 /* FIXME detect overflow */
-  printf("enter esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
-  v_esp=v_esp-4;
-  wi32(v_esp,v_ebp);
-  v_ebp=v_esp;
+  printf("enter esp: 0x%x ebp: 0x%x\n", esp, ebp);
+  esp=esp-4;
+  wi32(esp,ebp);
+  ebp=esp;
 }
 
 leave(x) {
-  v_esp=v_ebp;
-  v_ebp=ri32(v_esp);
-  v_esp=v_esp+4;
-  printf("leave esp: 0x%x ebp: 0x%x\n", v_esp, v_ebp);
+  esp=ebp;
+  ebp=ri32(esp);
+  esp=esp+4;
+  printf("leave esp: 0x%x ebp: 0x%x\n", esp, ebp);
   return x;
 }
 
@@ -123,23 +119,23 @@ v_fclose(){
 }
 
 v_strrchr(s, c){
-  printf("strrchr\n");
-  return strrchr(s, c);
+  puts("v_strrchr not impl");
+  exit(1);
 }
 
 v_strcat(dest, src){
-  puts("strcat");
-  return strcat(dest, src);
+  puts("v_strcat not impl");
+  exit(1);
 }
 
 v_strdup(s, n){
   puts("strdup");
-  return strdup(s, n);
+  exit(1);
 }
 
 v_memcmp(s1, s2, n){
-  printf("memcmp s1 %d s2 %d n %d\n", s1, s2, n);
-  return memcmp(s1, s2, n);
+  puts("v_strdup not impl");
+  exit(1);
 }
 
 warning(){
@@ -195,8 +191,8 @@ init_runtime() {
   puts("init_runtime");
   stack_size=256*1024;
   v_stack=v_malloc(stack_size);
-  v_esp=v_stack+stack_size-4;
-  v_ebp=v_esp;
+  esp=v_stack+stack_size-4;
+  ebp=esp;
 }
 
 
