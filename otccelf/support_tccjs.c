@@ -122,9 +122,9 @@ v_fclose(){
   exit(1);
 }
 
-v_strrchr(){
-  puts("v_strrchr not impl");
-  exit(1);
+v_strrchr(s, c){
+  printf("strrchr\n");
+  return strrchr(s, c);
 }
 
 v_strcat(){
