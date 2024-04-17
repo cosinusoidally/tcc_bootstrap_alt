@@ -77,9 +77,14 @@ v_memset(x, v, size){
   }
 }
 
-v_fopen(pathname, mode){
-  puts("v_fopen not impl");
-  exit(1);
+v_fopen(a, b){
+/* puts("v_fopen not impl"); exit(1); */
+  int filename;
+  int mode;
+  filename = heap+a;
+  mode = heap+b;
+  printf("v_fopen filename: %s mode: %s\n", filename,mode);
+  return fopen(filename, mode);
 }
 
 v_getc_unlocked(f){
