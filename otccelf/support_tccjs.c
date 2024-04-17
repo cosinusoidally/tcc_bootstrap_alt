@@ -61,9 +61,12 @@ v_realloc(x, size){
   return r;
 }
 
-v_memcpy(dest, src,n){
-  puts("v_memcpy not impl");
-  exit(1);
+v_memcpy(dest, src, count){
+/* puts("v_memcpy not impl"); exit(1); */
+  int i;
+  for(i=0;i<count;i=i+1){
+    wi8(dest+i,ri8(src+i));
+  }
 }
 
 v_memset(s, c, n){
