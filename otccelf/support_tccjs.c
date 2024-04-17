@@ -35,9 +35,14 @@ v_strlen(s){
   return l;
 }
 
-v_strcpy(dst, src){
-  puts("v_strcpy not impl");
-  exit(1);
+v_strcpy(dest, src){
+/*  puts("v_strcpy not impl"); exit(1); */
+  int c;
+  while((c=ri8(src))!=0){
+    src=src+1;
+    wi8(dest,c);
+    dest=dest+1;
+  }
 }
 
 v_free(v){
