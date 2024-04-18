@@ -199,15 +199,27 @@ v_strrchr(s, c){
 }
 
 v_strcat(dest, src){
-  puts("v_strcat not impl");
-  exit(1);
+/* puts("v_strcat not impl"); exit(1); */
+  int d;
+  int c;
+  d = dest;
+  while(ri8(dest)){
+    dest=dest+1;
+  }
+  while(c=ri8(src)){
+    src=src+1;
+    wi8(dest,c);
+    dest=dest+1;
+  }
+  wi8(dest,0);
+  return d;
 }
 
 v_strdup(src){
+/* puts("v_strdup not impl"); exit(1); */
   int i;
   int l;
   int dest;
-  puts("strdup"); exit(1);
   l=v_strlen(src);
   dest=v_malloc(l+1);
   for(i=0;i<l;i=i+1){
