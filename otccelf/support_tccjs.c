@@ -129,9 +129,25 @@ ri32(o) {
          (ri8(o+2)&255)<<16 | (ri8(o+3)&255)<<24;
 }
 
-urs(){
-  puts("urs not impl");
-  exit(1);
+/* unsigned right shift (urs) */
+urs(v, n){
+/* puts("urs not impl"); exit(1); */
+  int m;
+  int m2;
+  int t;
+  if(n==0) {
+    return v;
+  }
+  m2=0x40000000;
+/* was 0x80000000 but that literal is too large for tcc_js.c to parse */
+  m=m2 << 1;
+  t=v&m;
+  v=v & ~m;
+  v=v >> n;
+  if(t){
+    v=v | (m2 >> (n-1));
+  }
+  return v;
 }
 
 v_alloca(x) {
