@@ -4421,7 +4421,6 @@ function gen_obj(e){
   var global_reloc_table_len;
   var prog_rel;
   var data_rel;
-  var global_reloc_table_len;
   var entrypoint;
   var m0;
   var m1;

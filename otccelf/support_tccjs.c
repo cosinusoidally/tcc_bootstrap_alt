@@ -181,9 +181,9 @@ leave(x) {
   return x;
 }
 
-v_fclose(){
-  puts("v_fclose not impl");
-  exit(1);
+v_fclose(a){
+/*  puts("v_fclose not impl"); exit(1); */
+  return fclose(a);
 }
 
 v_strrchr(s, c){
