@@ -211,8 +211,17 @@ v_strdup(src){
 }
 
 v_memcmp(s1, s2, n){
-  puts("v_memcmp not impl");
-  exit(1);
+/* puts("v_memcmp not impl"); exit(1); */
+  int i;
+  int r;
+  r=0;
+  for(i=0;i<n;i=i+1){
+    if(ri8(s1+i)!=ri8(s2+i)){
+/* FIXME ljw not quite right */
+      r=1;
+    }
+  }
+  return r;
 }
 
 warning(){
