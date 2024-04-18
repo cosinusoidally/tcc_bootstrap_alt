@@ -187,8 +187,15 @@ v_fclose(){
 }
 
 v_strrchr(s, c){
-  puts("v_strrchr not impl");
-  exit(1);
+/* puts("v_strrchr not impl"); exit(1); */
+  int c1;
+  while(c1=ri8(s)){
+    s=s+1;
+    if(c1==c){
+      return s-1;
+    }
+  }
+  return 0;
 }
 
 v_strcat(dest, src){
