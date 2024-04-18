@@ -196,13 +196,22 @@ v_strcat(dest, src){
   exit(1);
 }
 
-v_strdup(s, n){
-  puts("strdup");
-  exit(1);
+v_strdup(src){
+  int i;
+  int l;
+  int dest;
+  puts("strdup"); exit(1);
+  l=v_strlen(src);
+  dest=v_malloc(l+1);
+  for(i=0;i<l;i=i+1){
+    wi8(dest+i, ri8(src+i));
+  }
+  wi8(dest+l, 0);
+  return dest;
 }
 
 v_memcmp(s1, s2, n){
-  puts("v_strdup not impl");
+  puts("v_memcmp not impl");
   exit(1);
 }
 
