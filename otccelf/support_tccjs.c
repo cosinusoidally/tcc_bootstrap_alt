@@ -46,8 +46,8 @@ v_strcpy(dest, src){
 }
 
 v_free(v){
-  puts("v_free not impl");
-  exit(1);
+/* puts("v_free not impl"); exit(1); */
+  return 0;
 }
 
 v_realloc(x, size){
