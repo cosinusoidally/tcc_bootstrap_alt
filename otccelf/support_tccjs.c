@@ -264,9 +264,9 @@ warning(){
   exit(1);
 }
 
-v_fwrite(){
-  puts("v_fwrite not impl");
-  exit(1);
+v_fwrite(a, b, c, d){
+/* puts("v_fwrite not impl"); exit(1); */
+  return fwrite(heap+a ,b ,c , d);
 }
 
 mk_argc_argv(s){
