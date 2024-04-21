@@ -142,7 +142,6 @@ struct type* current_target;
 char* break_target_head;
 char* break_target_func;
 char* break_target_num;
-char* continue_target_head;
 struct token_list* break_frame;
 int current_count;
 
@@ -898,13 +897,11 @@ void process_for() {
 	char* nested_break_head = break_target_head;
 	char* nested_break_func = break_target_func;
 	char* nested_break_num = break_target_num;
-	char* nested_continue_head = continue_target_head;
 
 	char* number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 
 	break_target_head = "FOR_END_";
-	continue_target_head = "FOR_ITER_";
 	break_target_num = number_string;
 	break_frame = function->locals;
 	break_target_func = function->s;
@@ -960,7 +957,6 @@ void process_for() {
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
 	break_target_num = nested_break_num;
-	continue_target_head = nested_continue_head;
 	break_frame = nested_locals;
 }
 
@@ -984,13 +980,11 @@ void process_while() {
 	char* nested_break_head = break_target_head;
 	char* nested_break_func = break_target_func;
 	char* nested_break_num = break_target_num;
-	char* nested_continue_head = continue_target_head;
 
 	char* number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 
 	break_target_head = "END_WHILE_";
-	continue_target_head = "WHILE_";
 	break_target_num = number_string;
 	break_frame = function->locals;
 	break_target_func = function->s;
@@ -1023,7 +1017,6 @@ void process_while() {
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
 	break_target_num = nested_break_num;
-	continue_target_head = nested_continue_head;
 	break_frame = nested_locals;
 }
 
