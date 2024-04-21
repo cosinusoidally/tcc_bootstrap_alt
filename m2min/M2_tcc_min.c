@@ -346,7 +346,6 @@ char* parse_string(char* string) {
 collect_regular_string_reset:
 	if(string[0] == '\\') {
 		hold_string[string_index] = escape_lookup(string);
-		if (string[1] == 'x') string = string + 2;
 		string = string + 2;
 	} else {
 		hold_string[string_index] = string[0];
