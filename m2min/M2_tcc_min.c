@@ -95,7 +95,6 @@ char* file;
 /* Global lists */
 struct token_list* global_symbol_list;
 struct token_list* global_function_list;
-struct token_list* global_constant_list;
 
 /* Core lists for this file */
 struct token_list* function;
@@ -529,9 +528,9 @@ void primary_expr_number() {
 }
 
 void primary_expr_variable() {
+	struct token_list* a;
 	char* s = global_token->s;
 	advance();
-	struct token_list* a = sym_lookup(s, global_constant_list);
 
 	a = sym_lookup(s, function->locals);
 	if(NULL != a) {
