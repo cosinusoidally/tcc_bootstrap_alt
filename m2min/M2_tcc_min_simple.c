@@ -56,7 +56,7 @@ int sizeof_token_list;
 /* The core functions */
 void initialize_types();
 struct token_list* read_all_tokens(int a, struct token_list* current);
-struct token_list* reverse_list(struct token_list* head);
+int reverse_list(int head);
 
 void program();
 int recursive_output(struct token_list* i, int out);
@@ -101,7 +101,6 @@ int current_count;
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
 int escape_lookup(int c);
-struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* emit(int s, struct token_list* head);
 
@@ -431,7 +430,7 @@ int get_token(int c) {
 	return c;
 }
 
-struct token_list* reverse_list(struct token_list* head) {
+int reverse_list(int head) {
 	struct token_list* root;
 	struct token_list* next;
 
