@@ -59,7 +59,7 @@ struct token_list* read_all_tokens(int a, struct token_list* current);
 struct token_list* reverse_list(struct token_list* head);
 
 void program();
-void recursive_output(struct token_list* i, int out);
+int recursive_output(struct token_list* i, int out);
 
 /* What we are currently working on */
 struct token_list* global_token;
@@ -962,8 +962,9 @@ void program() {
 	exit(add(EXIT_FAILURE, 3));
 }
 
-void recursive_output(struct token_list* head, int out) {
-	struct token_list* i = reverse_list(head);
+int recursive_output(struct token_list* head, int out) {
+	struct token_list* i;
+	i = reverse_list(head);
 	while(neq(NULL, i)) {
 		fputs(i->s, out);
 		i = i->next;
