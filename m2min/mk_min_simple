@@ -24,6 +24,6 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 
 diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
 sha256sum artifacts/*M1
-wc M2_tcc_min.c
+wc M2_tcc_min_simple.c
 ls -l artifacts/*.exe
 sha256sum -c sums_min
