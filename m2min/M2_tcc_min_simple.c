@@ -58,11 +58,11 @@ void initialize_types();
 struct token_list* read_all_tokens(int a, struct token_list* current);
 int reverse_list(int head);
 
-void program();
+int program();
 int recursive_output(struct token_list* i, int out);
 
 /* What we are currently working on */
-struct token_list* global_token;
+int global_token;
 
 /* Output reorder collections*/
 int output_list;
@@ -1004,7 +1004,7 @@ int declare_function() {
 	}
 }
 
-void program() {
+int program() {
 	int i;
 	int new_type;
 	function = NULL;
