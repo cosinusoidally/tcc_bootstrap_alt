@@ -819,6 +819,7 @@ int process_break() {
 
 void recursive_statement() {
 	struct token_list* frame;
+	struct token_list* i;
 
 	advance();
 	frame = function->locals;
@@ -828,8 +829,7 @@ void recursive_statement() {
 	advance();
 
 	/* Clean up any locals added */
-	if( !match("ret\n", output_list->s)) {
-		struct token_list* i;
+	if(eq(0, match("ret\n", output_list->s))) {
 		for(i = function->locals; frame != i; i = i->next) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
 		}
