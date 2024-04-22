@@ -32,6 +32,27 @@ int EXIT_FAILURE;
 
 int EOF;
 
+/* delare primitives */
+int add(int a, int b);
+int and(int a, int b);
+int div(int a, int b);
+int eq(int a, int b);
+int gt(int a, int b);
+int gte(int a, int b);
+int lte(int a, int b);
+int mod(int a, int b);
+int mul(int a, int b);
+int neq(int a, int b);
+int or(int a, int b);
+int shl(int a, int b);
+int shr(int a, int b);
+int sub(int a, int b);
+
+/* declare base memory operations */
+int ri8(int o);
+int wi8(int o,int v);
+
+/* misc functions */
 int copy_string(int target, int source, int max);
 int in_set(int c, int s);
 int match(int a, int b);
