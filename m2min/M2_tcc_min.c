@@ -63,10 +63,6 @@ struct token_list* reverse_list(struct token_list* head);
 void program();
 void recursive_output(struct token_list* i, FILE* out);
 
-/* What types we have */
-struct type* global_types;
-struct type* prim_types;
-
 /* What we are currently working on */
 struct token_list* global_token;
 
@@ -364,15 +360,7 @@ collect_regular_string_reset:
 
 /* Initialize default types */
 void initialize_types() {
-	struct type* r = calloc(1, sizeof(struct type));
 	register_size = 4;
-	r->name = "int";
-
-	/* Define int */
-	integer = r;
-	prim_types = integer;
-
-	global_types = prim_types;
 }
 
 struct type* lookup_type(char* s, struct type* start) {
@@ -763,7 +751,7 @@ struct type* lookup_type(char* s, struct type* start);
 void statement() {
 	if(global_token->s[0] == '{') {
 		recursive_statement();
-	} else if((NULL != lookup_type(global_token->s, prim_types))) {
+	} else if(match("int", global_token->s)) {
 		collect_local();
 	} else if(match("if", global_token->s)) {
 		process_if();
