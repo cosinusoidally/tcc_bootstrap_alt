@@ -69,7 +69,7 @@ int strings_list;
 int globals_list;
 
 /* Make our string collection more efficient */
-char* hold_string;
+int hold_string;
 int string_index;
 
 /* Our Target Architecture */
@@ -79,20 +79,20 @@ int MAX_STRING;
 
 /* Globals */
 int input;
-struct token_list* token;
+int token;
 int line;
-char* file;
+int file;
 
 /* Global lists */
-struct token_list* global_symbol_list;
-struct token_list* global_function_list;
+int global_symbol_list;
+int global_function_list;
 
 /* Core lists for this file */
-struct token_list* function;
+int function;
 
-char* break_target_head;
-char* break_target_func;
-char* break_target_num;
+int break_target_head;
+int break_target_func;
+int break_target_num;
 struct token_list* break_frame;
 int current_count;
 
