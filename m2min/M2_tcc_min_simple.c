@@ -100,7 +100,7 @@ int current_count;
 /* Imported functions */
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
-int escape_lookup(char* c);
+int escape_lookup(int c);
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* emit(char *s, struct token_list* head);
@@ -374,7 +374,7 @@ struct token_list* read_all_tokens(int a, struct token_list* current) {
 }
 
 /* Lookup escape values */
-int escape_lookup(char* c) {
+int escape_lookup(int c) {
 	int c1;
 	c1 = ri8(add(c,1));
 	if(neq('\\', ri8(c))) {
