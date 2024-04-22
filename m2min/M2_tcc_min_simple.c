@@ -625,6 +625,7 @@ int primary_expr_variable() {
 }
 
 int expression() {
+	int store;
 	if(global_token_char0() == '(') {
 		advance();
 		expression();
@@ -642,7 +643,6 @@ int expression() {
 	}
 
 	if(match("=", global_token_string())) {
-		char* store = "";
 		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
 		advance();
@@ -653,7 +653,7 @@ int expression() {
 }
 
 /* Process local variable */
-void collect_local() {
+int collect_local() {
 	advance();
 	struct token_list* a = sym_declare(global_token_string(), function->locals);
 	if((NULL == function->arguments) && (NULL == function->locals)) {
