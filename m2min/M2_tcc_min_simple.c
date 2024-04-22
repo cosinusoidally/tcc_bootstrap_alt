@@ -375,6 +375,8 @@ struct token_list* read_all_tokens(int a, struct token_list* current) {
 
 /* Lookup escape values */
 int escape_lookup(char* c) {
+	int c1;
+	c1 = ri8(add(c,1));
 	if(neq('\\', ri8(c))) {
 		return c[0];
 	}
@@ -383,13 +385,19 @@ int escape_lookup(char* c) {
 		return 0;
 	} else if(c[1] == 'a') {
 		return 7;
-	} else if(c[1] == 'b') return 8;
-	else if(c[1] == 't') return 9;
-	else if(c[1] == 'n') return 10;
-	else if(c[1] == 'v') return 11;
-	else if(c[1] == 'f') return 12;
-	else if(c[1] == 'r') return 13;
-	else if(c[1] == 'e') return 27;
+	} else if(c[1] == 'b') {
+		return 8;
+	} else if(c[1] == 't') {
+		return 9;
+	} else if(c[1] == 'n') {
+		return 10;
+	} else if(c[1] == 'v') {
+		return 11;
+	} else if(c[1] == 'f') {
+		return 12;
+	} else if(c[1] == 'r') {
+		return 13;
+	} else if(c[1] == 'e') return 27;
 	else if(c[1] == '"') return 34;
 	else if(c[1] == '\'') return 39;
 	else if(c[1] == '\\') return 92;
