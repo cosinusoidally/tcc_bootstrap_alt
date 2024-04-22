@@ -888,7 +888,7 @@ int collect_arguments() {
 	advance();
 }
 
-void declare_function() {
+int declare_function() {
 	current_count = 0;
 	function = sym_declare(global_token->prev->s, global_function_list);
 
@@ -897,7 +897,7 @@ void declare_function() {
 	collect_arguments();
 
 	/* If just a prototype don't waste time */
-	if(global_token_char0() == ';') {
+	if(eq(global_token_char0(), ';')) {
 		advance();
 	} else {
 		emit_out("# Defining function ");
@@ -909,7 +909,9 @@ void declare_function() {
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(!match("ret\n", output_list->s)) emit_out("ret\n");
+		if(eq(0, match("ret\n", output_list->s))) {
+			emit_out("ret\n");
+		}
 	}
 }
 
