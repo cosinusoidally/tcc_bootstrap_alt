@@ -109,20 +109,6 @@ int expression();
 int advance();
 int statement();
 
-int skip(int str) {
-/* dummy impl should check and abort if doesn't match */
-	global_token = global_token->next;
-}
-
-/* advance to next token */
-int advance() {
-	global_token = global_token->next;
-}
-
-int token_string(struct token_list* a) {
-	return a->s;
-}
-
 int set_token_s(int t,int v) {
 	struct token_list* tok;
 	tok = t;
@@ -157,6 +143,20 @@ int get_token_next(int t) {
 	struct token_list* tok;
 	tok = t;
 	return tok->next;
+}
+
+int skip(int str) {
+/* dummy impl should check and abort if doesn't match */
+	global_token = global_token->next;
+}
+
+/* advance to next token */
+int advance() {
+	global_token = global_token->next;
+}
+
+int token_string(struct token_list* a) {
+	return a->s;
 }
 
 int global_token_string() {
