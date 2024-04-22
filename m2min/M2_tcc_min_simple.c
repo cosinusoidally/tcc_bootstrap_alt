@@ -598,30 +598,30 @@ int primary_expr_variable() {
 	advance();
 
 	a = sym_lookup(s, function->locals);
-	if(NULL != a) {
+	if(neq(NULL, a)) {
 		variable_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, function->arguments);
-	if(NULL != a) {
+	if(neq(NULL, a)) {
 		variable_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, global_function_list);
-	if(NULL != a) {
+	if(neq(NULL, a)) {
 		function_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, global_symbol_list);
-	if(NULL != a) {
+	if(neq(NULL, a)) {
 		global_load(a);
 		return;
 	}
 
-	exit(EXIT_FAILURE + 2);
+	exit(add(EXIT_FAILURE, 2));
 }
 
 void expression() {
