@@ -99,7 +99,7 @@ int current_count;
 
 /* Imported functions */
 int int2str(int x, int base, int signed_p);
-char* parse_string(char* string);
+int parse_string(char* string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
 
@@ -383,47 +383,51 @@ int escape_lookup(char* c) {
 
 	if(eq(c1, '0')) {
 		return 0;
-	} else if(c1 == 'a') {
+	} else if(eq(c1, 'a')) {
 		return 7;
-	} else if(c1 == 'b') {
+	} else if(eq(c1, 'b')) {
 		return 8;
-	} else if(c1 == 't') {
+	} else if(eq(c1, 't')) {
 		return 9;
-	} else if(c1 == 'n') {
+	} else if(eq(c1, 'n')) {
 		return 10;
-	} else if(c1 == 'v') {
+	} else if(eq(c1, 'v')) {
 		return 11;
-	} else if(c1 == 'f') {
+	} else if(eq(c1, 'f')) {
 		return 12;
-	} else if(c1 == 'r') {
+	} else if(eq(c1, 'r')) {
 		return 13;
-	} else if(c1 == 'e') {
+	} else if(eq(c1, 'e')) {
 		return 27;
-	} else if(c1 == '"') {
+	} else if(eq(c1, '"')) {
 		return 34;
-	} else if(c1 == '\'') {
+	} else if(eq(c1, '\'')) {
 		return 39;
-	} else if(c1 == '\\') {
+	} else if(eq(c1, '\\')) {
 		return 92;
 	}
 
 	exit(EXIT_FAILURE + 1);
 }
 
-char* parse_string(char* string) {
+int parse_string(char* string) {
+	int collect_regular_string_reset;
 	string_index = 0;
 
-collect_regular_string_reset:
-	if(string[0] == '\\') {
-		hold_string[string_index] = escape_lookup(string);
-		string = string + 2;
+	collect_regular_string_reset = 1;
+	while(eq(collect_regular_string_reset, 1)) {
+	collect_regular_string_reset = 0;
+	if(eq(ri8(string),'\\')) {
+		wi8(add(hold_string, string_index), escape_lookup(string));
+		string = add(string, 2);
 	} else {
-		hold_string[string_index] = string[0];
-		string = string + 1;
+		wi8(add(hold_string, string_index), ri8(string));
+		string = add(string, 1);
 	}
 
-	string_index = string_index + 1;
-	if(string[0] != 0) goto collect_regular_string_reset;
+	string_index = add(string_index, 1);
+	if(string[0] != 0) collect_regular_string_reset = 1;
+	}
 
 	hold_string[string_index] = '"';
 	hold_string[string_index + 1] = '\n';
