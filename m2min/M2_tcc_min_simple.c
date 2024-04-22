@@ -873,6 +873,7 @@ int main(int argc, char** argv) {
 	FILE* in;
 	FILE* destination_file;
 	char* name;
+	int argvi = argv;
 
 	initialize_globals();
 
