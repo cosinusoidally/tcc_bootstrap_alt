@@ -768,7 +768,7 @@ int process_while() {
 	break_target_func = get_token_s(function);
 
 	emit_out(":WHILE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	advance();
 	skip("(");
@@ -776,20 +776,20 @@ int process_while() {
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	emit_out("# THEN_while_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	skip(")");
 	statement();
 
 	emit_out("jmp %WHILE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	emit_out(":END_WHILE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
