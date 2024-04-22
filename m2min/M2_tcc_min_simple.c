@@ -902,8 +902,8 @@ int process_break() {
 }
 
 void recursive_statement() {
-	struct token_list* frame;
-	struct token_list* i;
+	int frame;
+	int i;
 
 	advance();
 	frame = get_locals(function);
@@ -946,7 +946,7 @@ int statement() {
 
 /* Collect function arguments */
 int collect_arguments() {
-	struct token_list* a;
+	int a;
 
 	advance();
 	while(eq(0, match(")", global_token_string()))) {
