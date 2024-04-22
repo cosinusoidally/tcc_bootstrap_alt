@@ -131,9 +131,15 @@ char global_token_char0() {
 
 int match(char* a, char* b) {
 	int i;
-	if((NULL == a) && (NULL == b)) return TRUE;
-	if(NULL == a) return FALSE;
-	if(NULL == b) return FALSE;
+	if(and((NULL == a), (NULL == b))) {
+		return TRUE;
+	}
+	if(NULL == a) {
+		return FALSE;
+	}
+	if(NULL == b) {
+		return FALSE;
+	}
 
 	i = sub(0, 1);
 	do {
