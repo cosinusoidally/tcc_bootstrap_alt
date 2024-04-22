@@ -104,24 +104,24 @@ struct token_list* reverse_list(struct token_list* head);
 struct token_list* emit(char *s, struct token_list* head);
 
 void expression();
-void advance();
+int advance();
 void statement();
 
-void skip(char* str) {
+int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = global_token->next;
 }
 
 /* advance to next token */
-void advance() {
+int advance() {
 	global_token = global_token->next;
 }
 
-char *token_string(struct token_list* a) {
+int token_string(struct token_list* a) {
 	return a->s;
 }
 
-char *global_token_string(void) {
+int global_token_string() {
 	return token_string(global_token);
 }
 
