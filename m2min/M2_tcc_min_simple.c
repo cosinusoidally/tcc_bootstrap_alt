@@ -157,9 +157,7 @@ int get_token_linenumber(int t) {
 }
 
 int set_depth(int t,int v) {
-	struct token_list* tok;
-	tok = t;
-	tok->depth = v;
+	wi32(add(t, token_list_depth_offset), v);
 }
 
 int get_depth(int t) {
@@ -167,9 +165,7 @@ int get_depth(int t) {
 }
 
 int set_locals(int t,int v) {
-	struct token_list* tok;
-	tok = t;
-	tok->locals = v;
+	wi32(add(t, token_list_locals_offset), v);
 }
 
 int get_locals(int t) {
@@ -177,9 +173,7 @@ int get_locals(int t) {
 }
 
 int set_arguments(int t,int v) {
-	struct token_list* tok;
-	tok = t;
-	tok->arguments = v;
+	wi32(add(t, token_list_arguments_offset), v);
 }
 
 int get_arguments(int t) {
