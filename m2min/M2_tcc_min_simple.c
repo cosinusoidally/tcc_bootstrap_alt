@@ -512,7 +512,7 @@ void function_call(char* s) {
 	emit_out(s);
 	emit_out("\n");
 
-	while(passed > 0) {
+	while(gt(passed, 0)) {
 		emit_out("pop_ebx\t# _process_expression_locals\n");
 		passed = sub(passed, 1);
 	}
