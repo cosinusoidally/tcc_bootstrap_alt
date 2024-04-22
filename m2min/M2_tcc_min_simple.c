@@ -742,11 +742,11 @@ int collect_local() {
 
 	advance();
 	a = sym_declare(global_token_string(), get_locals(function));
-	if(and(eq(NULL, function->arguments),
+	if(and(eq(NULL, get_arguments(function)),
 			eq(NULL, get_locals(function)))) {
 		set_depth(a, sub(0, mul(register_size, 2)));
 	} else if(eq(NULL, get_locals(function))) {
-		set_depth(a, sub(get_depth(function->arguments),
+		set_depth(a, sub(get_depth(get_arguments(function)),
 					mul(register_size, 2)));
 	} else {
 		set_depth(a, sub(get_depth(get_locals(function)),
@@ -956,11 +956,14 @@ int collect_arguments() {
 		advance();
 		if(neq(global_token_char0(), ',')) {
 			/* deal with foo(int a, char b) */
-			a = sym_declare(global_token_string(), function->arguments);
+			a = sym_declare(global_token_string(),
+						get_arguments(function));
 			if(eq(NULL, function->arguments)) {
 				set_depth(a, sub(0, register_size));
 			} else {
-				set_depth(a, sub(get_depth(function->arguments), register_size));
+				set_depth(a, sub(get_depth(
+						get_arguments(function)),
+						register_size));
 			}
 			advance();
 			function->arguments = a;
