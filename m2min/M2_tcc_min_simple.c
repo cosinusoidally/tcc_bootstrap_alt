@@ -51,6 +51,8 @@ struct token_list {
 	};
 };
 
+int sizeof_token_list;
+
 /* The core functions */
 void initialize_types();
 struct token_list* read_all_tokens(int a, struct token_list* current);
@@ -284,10 +286,11 @@ int reset_hold_string() {
 }
 
 int new_token(int s, int size) {
-	struct token_list* current = calloc(1, sizeof(struct token_list));
+	struct token_list* current;
+	current = calloc(1, sizeof_token_list);
 
 	/* More efficiently allocate memory for string */
-	current->s = calloc(size, sizeof(char));
+	current->s = calloc(size, 1);
 	copy_string(current->s, s, MAX_STRING);
 
 	current->prev = token;
@@ -915,6 +918,8 @@ void initialize_globals() {
 	EXIT_FAILURE = 1;
 
 	EOF = sub(0, 1);
+
+	sizeof_token_list = mul(register_size, 4);
 }
 
 int main(int argc, int argv) {
