@@ -105,9 +105,9 @@ struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* emit(int s, struct token_list* head);
 
-void expression();
+int expression();
 int advance();
-void statement();
+int statement();
 
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
@@ -624,7 +624,7 @@ int primary_expr_variable() {
 	exit(add(EXIT_FAILURE, 2));
 }
 
-void expression() {
+int expression() {
 	if(global_token_char0() == '(') {
 		advance();
 		expression();
@@ -826,7 +826,7 @@ void recursive_statement() {
 	function->locals = frame;
 }
 
-void statement() {
+int statement() {
 	if(global_token_char0() == '{') {
 		recursive_statement();
 	} else if(match("int", global_token_string())) {
