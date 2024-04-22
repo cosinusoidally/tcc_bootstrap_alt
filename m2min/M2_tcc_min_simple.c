@@ -480,7 +480,7 @@ int parse_string(int string) {
 struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof_token_list);
-	t->next = head;
+	set_token_next(t, head);
 	set_token_s(t, s);
 	return t;
 }
