@@ -12,6 +12,10 @@ int mul(int a, int b) {
 	return a * b;
 }
 
+int neq(int a, int b) {
+	return a != b;
+}
+
 int or(int a, int b) {
 	return a | b;
 }

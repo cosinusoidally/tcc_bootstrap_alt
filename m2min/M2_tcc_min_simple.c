@@ -858,7 +858,7 @@ new_type:
 
 void recursive_output(struct token_list* head, int out) {
 	struct token_list* i = reverse_list(head);
-	while(NULL != i) {
+	while(neq(NULL, i)) {
 		fputs(i->s, out);
 		i = i->next;
 	}
