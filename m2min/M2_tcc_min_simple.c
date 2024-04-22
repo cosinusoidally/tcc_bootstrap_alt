@@ -93,14 +93,14 @@ int function;
 int break_target_head;
 int break_target_func;
 int break_target_num;
-struct token_list* break_frame;
+int break_frame;
 int current_count;
 
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
 int escape_lookup(int c);
 
-struct token_list* emit(int s, struct token_list* head);
+int emit(int s, int head);
 
 int expression();
 int advance();
@@ -522,8 +522,8 @@ int parse_string(int string) {
 	return message;
 }
 
-struct token_list* emit(int s, struct token_list* head) {
-	struct token_list* t;
+int emit(int s, int head) {
+	int t;
 	t = calloc(1, sizeof_token_list);
 	set_token_next(t, head);
 	set_s(t, s);
