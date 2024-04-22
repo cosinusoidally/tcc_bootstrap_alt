@@ -529,7 +529,7 @@ int escape_lookup(int c) {
 		return 92;
 	}
 
-	exit(EXIT_FAILURE + 1);
+	exit(add(EXIT_FAILURE, 1));
 }
 
 int parse_string(int string) {
@@ -605,7 +605,7 @@ int sym_lookup(int s, int symbol_list) {
 	return NULL;
 }
 
-void function_call(char* s) {
+int function_call(int s) {
 	int passed;
 	passed = 0;
 	skip("(");
@@ -916,7 +916,7 @@ int return_result() {
 	int size_local_var;
 
 	advance();
-	if(global_token_char0() != ';') {
+	if(neq(global_token_char0(), ';')) {
 		expression();
 	}
 	skip(";");
