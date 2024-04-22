@@ -283,7 +283,7 @@ int reset_hold_string() {
 	string_index = 0;
 }
 
-void new_token(char* s, int size) {
+int new_token(int s, int size) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
 
 	/* More efficiently allocate memory for string */
