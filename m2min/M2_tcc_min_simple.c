@@ -27,8 +27,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#define FALSE 0
-#define TRUE 1
+int FALSE;
+int TRUE;
 
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
@@ -862,8 +862,10 @@ void recursive_output(struct token_list* head, FILE* out) {
 	}
 }
 
-void initialize_types() {
+void initialize_globals() {
 	register_size = 4;
+	FALSE = 0;
+	TRUE = 1;
 }
 
 int main(int argc, char** argv) {
@@ -871,6 +873,8 @@ int main(int argc, char** argv) {
 	FILE* in;
 	FILE* destination_file;
 	char* name;
+
+	initialize_globals();
 
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
@@ -884,7 +888,6 @@ int main(int argc, char** argv) {
 
 	global_token = reverse_list(global_token);
 
-	initialize_types();
 	reset_hold_string();
 	output_list = NULL;
 	program();
