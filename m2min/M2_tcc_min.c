@@ -122,6 +122,9 @@ void advance() {
 	global_token = global_token->next;
 }
 
+char *token_string(struct token_list* a) {
+	return a->s;
+}
 
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
@@ -459,7 +462,7 @@ void variable_load(struct token_list* a) {
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(!match("=", global_token->s)) {
+	if(!match("=", token_string(global_token))) {
 		emit_out(load_value());
 	}
 
