@@ -147,16 +147,16 @@ int get_token_next(int t) {
 
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
-	global_token = global_token->next;
+	global_token = get_token_next(global_token);
 }
 
 /* advance to next token */
 int advance() {
-	global_token = global_token->next;
+	global_token = get_token_next(global_token);
 }
 
 int token_string(struct token_list* a) {
-	return a->s;
+	return get_token_s(a);
 }
 
 int global_token_string() {
