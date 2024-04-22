@@ -654,8 +654,10 @@ int expression() {
 
 /* Process local variable */
 int collect_local() {
+	struct token_list* a;
+
 	advance();
-	struct token_list* a = sym_declare(global_token_string(), function->locals);
+	a = sym_declare(global_token_string(), function->locals);
 	if((NULL == function->arguments) && (NULL == function->locals)) {
 		a->depth = -(register_size * 2);
 	} else if(NULL == function->locals) {
