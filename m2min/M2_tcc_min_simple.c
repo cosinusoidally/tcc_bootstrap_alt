@@ -705,7 +705,7 @@ int process_if() {
 	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	advance();
 	skip("(");
@@ -713,24 +713,24 @@ int process_if() {
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	skip(")");
 	statement();
 
 	emit_out("jmp %_END_IF_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	emit_out(":ELSE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	if(match("else", global_token_string())) {
 		advance();
 		statement();
 	}
 	emit_out(":_END_IF_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 }
 
 /* Process Assembly statements */
