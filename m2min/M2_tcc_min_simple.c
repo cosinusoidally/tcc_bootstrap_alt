@@ -187,8 +187,10 @@ int int2str(int x, int base, int signed_p) {
 
 	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
 		/* Truncate to 31bits */
-		i = -x & 0x7FFFFFFF;
-		if(0 == i) return "-2147483648";
+		i = and(sub(0, x), 0x7FFFFFFF);
+		if(eq(0, i)) {
+			return "-2147483648";
+		}
 		sign_p = TRUE;
 	} else {
 		/* Truncate to 32bits */
