@@ -572,9 +572,9 @@ void collect_local() {
 	advance();
 	struct token_list* a = sym_declare(global_token_string(), function->locals);
 	if((NULL == function->arguments) && (NULL == function->locals)) {
-		a->depth = -8;
+		a->depth = -(register_size * 2);
 	} else if(NULL == function->locals) {
-		a->depth = function->arguments->depth - 8;
+		a->depth = function->arguments->depth - (register_size * 2);
 	} else {
 		a->depth = function->locals->depth - register_size;
 	}
@@ -773,7 +773,7 @@ void collect_arguments() {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(), function->arguments);
 			if(NULL == function->arguments) {
-				a->depth = -4;
+				a->depth = -register_size;
 			} else {
 				a->depth = function->arguments->depth - register_size;
 			}
