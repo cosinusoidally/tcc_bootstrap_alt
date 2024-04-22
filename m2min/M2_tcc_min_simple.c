@@ -147,6 +147,18 @@ int get_token_prev(int t) {
 	return tok->prev;
 }
 
+int set_token_next(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->next = v;
+}
+
+int get_token_next(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->next;
+}
+
 int global_token_string() {
 	return token_string(global_token);
 }
@@ -318,7 +330,7 @@ int new_token(int s, int size) {
 	copy_string(get_token_s(current), s, MAX_STRING);
 
 	set_token_prev(current, token);
-	current->next = token;
+	set_token_next(current, token);
 	current->linenumber = line;
 	token = current;
 }
