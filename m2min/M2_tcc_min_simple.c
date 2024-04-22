@@ -841,7 +841,7 @@ void recursive_statement() {
 	advance();
 
 	/* Clean up any locals added */
-	if(eq(0, match("ret\n", output_list->s))) {
+	if(eq(0, match("ret\n", get_token_s(output_list)))) {
 		i = function->locals;
 		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
@@ -902,7 +902,8 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(global_token->prev->s, global_function_list);
+	function = sym_declare(get_token_s(global_token->prev),
+				global_function_list);
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = function;
