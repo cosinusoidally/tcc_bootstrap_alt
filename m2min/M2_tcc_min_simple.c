@@ -866,10 +866,10 @@ void initialize_globals() {
 	register_size = 4;
 	FALSE = 0;
 	TRUE = 1;
+	MAX_STRING = 4096;
 }
 
 int main(int argc, int argv) {
-	MAX_STRING = 4096;
 	int in;
 	int destination_file;
 	int name;
