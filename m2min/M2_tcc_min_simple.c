@@ -198,7 +198,7 @@ int int2str(int x, int base, int signed_p) {
 	}
 
 	do {
-		wi8(p, ri8(add(table, (i % base))));
+		wi8(p, ri8(add(table, mod(i, base))));
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
