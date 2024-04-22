@@ -847,7 +847,7 @@ new_type:
 	advance();
 
 	/* Deal with global variables */
-	if(match(";", token_string(global_token))) {
+	if(match(";", global_token_string())) {
 		/* Ensure enough bytes are allocated to store global variable.
 		   In some cases it allocates too much but that is harmless. */
 		globals_list = emit(":GLOBAL_", globals_list);
@@ -864,7 +864,7 @@ new_type:
 	}
 
 	/* Deal with global functions */
-	if(match("(", token_string(global_token))) {
+	if(match("(", global_token_string())) {
 		declare_function();
 		goto new_type;
 	}
