@@ -521,28 +521,26 @@ void function_call(char* s) {
 	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-char* load_value() {
+int load_value() {
 	return "mov_eax,[eax]\n";
 }
 
-char* store_value() {
+int store_value() {
 	return "mov_[ebx],eax\n";
 }
 
-void variable_load(struct token_list* a) {
-
-
+int variable_load(struct token_list* a) {
 	emit_out("lea_eax,[ebp+DWORD] %");
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(!match("=", global_token_string())) {
+	if(eq(0,match("=", global_token_string()))) {
 		emit_out(load_value());
 	}
 
 }
 
-void function_load(struct token_list* a) {
+int function_load(struct token_list* a) {
 	if(match("(", global_token_string())) {
 		function_call(a->s);
 		return;
