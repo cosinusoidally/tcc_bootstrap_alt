@@ -242,11 +242,16 @@ int preserve_string(int c) {
 
 	frequent = c;
 	escape = FALSE;
-	do {
-		if(!escape && '\\' == c ) escape = TRUE;
+	while(1) {
+		if(and(eq(0, escape), eq('\\', c))) {
+			escape = TRUE;
+		}
 		else escape = FALSE;
 		c = consume_byte(c);
-	} while(escape || (c != frequent));
+		if(eq(0,or(escape, (neq(c, frequent))))){
+			break;
+		}
+	}
 	return grab_byte();
 }
 
