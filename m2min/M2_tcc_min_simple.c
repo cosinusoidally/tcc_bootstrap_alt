@@ -874,7 +874,7 @@ void initialize_globals() {
 	EXIT_SUCCESS = 0;
 	EXIT_FAILURE = 1;
 
-	EOF = -1;
+	EOF = sub(0, 1);
 }
 
 int main(int argc, int argv) {
