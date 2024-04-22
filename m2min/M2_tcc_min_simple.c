@@ -683,7 +683,7 @@ int global_load(int a) {
 int primary_expr_string() {
 	int number_string;
 	number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+	current_count = add(current_count, 1);
 	emit_out("mov_eax, &STRING_");
 	uniqueID_out(get_s(function), number_string);
 
