@@ -109,7 +109,7 @@ int expression();
 int advance();
 int statement();
 
-int set_token_s(int t,int v) {
+int set_s(int t,int v) {
 	struct token_list* tok;
 	tok = t;
 	tok->s = v;
@@ -350,7 +350,7 @@ int new_token(int s, int size) {
 	current = calloc(1, sizeof_token_list);
 
 	/* More efficiently allocate memory for string */
-	set_token_s(current, calloc(size, 1));
+	set_s(current, calloc(size, 1));
 	copy_string(get_s(current), s, MAX_STRING);
 
 	set_token_prev(current, token);
@@ -505,7 +505,7 @@ struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof_token_list);
 	set_token_next(t, head);
-	set_token_s(t, s);
+	set_s(t, s);
 	return t;
 }
 
@@ -526,7 +526,7 @@ struct token_list* sym_declare(int s, struct token_list* list) {
 	struct token_list* a;
 	a = calloc(1, sizeof_token_list);
 	set_token_next(a, list);
-	set_token_s(a, s);
+	set_s(a, s);
 	return a;
 }
 
