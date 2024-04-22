@@ -892,7 +892,7 @@ int main(int argc, int argv) {
 	global_token = read_all_tokens(in, global_token);
 	fclose(in);
 
-	destination_file = fopen(ri32(add(argv,(4*2))), "w");
+	destination_file = fopen(ri32(add(argv,mul(4, 2))), "w");
 
 	global_token = reverse_list(global_token);
 
