@@ -367,7 +367,7 @@ int reset_hold_string() {
 }
 
 int new_token(int s, int size) {
-	struct token_list* current;
+	int current;
 	current = calloc(1, sizeof_token_list);
 
 	/* More efficiently allocate memory for string */
@@ -381,7 +381,7 @@ int new_token(int s, int size) {
 }
 
 int get_token(int c) {
-	struct token_list* current;
+	int current;
 	int reset;
 	current = calloc(1, sizeof_token_list);
 
@@ -429,8 +429,8 @@ int get_token(int c) {
 }
 
 int reverse_list(int head) {
-	struct token_list* root;
-	struct token_list* next;
+	int root;
+	int next;
 
 	root = NULL;
 
@@ -534,7 +534,7 @@ int emit_out(int s) {
 	output_list = emit(s, output_list);
 }
 
-struct token_list* uniqueID(int s, struct token_list* l, int num) {
+int uniqueID(int s, int l, int num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
