@@ -583,7 +583,7 @@ void expression() {
 /* Process local variable */
 void collect_local() {
 	advance();
-	struct token_list* a = sym_declare(token_string(global_token), function->locals);
+	struct token_list* a = sym_declare(global_token_string(), function->locals);
 	if((NULL == function->arguments) && (NULL == function->locals)) {
 		a->depth = -8;
 	} else if(NULL == function->locals) {
@@ -595,12 +595,12 @@ void collect_local() {
 	function->locals = a;
 
 	emit_out("# Defining local ");
-	emit_out(token_string(global_token));
+	emit_out(global_token_string());
 	emit_out("\n");
 
 	advance();
 
-	if(match("=", token_string(global_token))) {
+	if(match("=", global_token_string())) {
 		advance();
 		expression();
 	}
@@ -638,7 +638,7 @@ void process_if() {
 	emit_out(":ELSE_");
 	uniqueID_out(function->s, number_string);
 
-	if(match("else", token_string(global_token))) {
+	if(match("else", global_token_string())) {
 		advance();
 		statement();
 	}
