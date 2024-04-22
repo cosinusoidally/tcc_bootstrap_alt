@@ -590,9 +590,9 @@ int primary_expr_number() {
 	advance();
 }
 
-void primary_expr_variable() {
+int primary_expr_variable() {
 	struct token_list* a;
-	char* s;
+	int s;
 
 	s = global_token_string();
 	advance();
