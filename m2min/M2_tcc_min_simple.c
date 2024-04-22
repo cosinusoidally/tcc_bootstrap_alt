@@ -803,12 +803,12 @@ int return_result() {
 	emit_out("ret\n");
 }
 
-void process_break() {
-	struct token_list* i = function->locals;
+int process_break() {
+	struct token_list* i;
+	i = function->locals;
+
 	advance();
-
 	emit_out("jmp %");
-
 	emit_out(break_target_head);
 	emit_out(break_target_func);
 	emit_out("_");
