@@ -48,6 +48,10 @@ int shl(int a, int b) {
 	return a << b;
 }
 
+int shr(int a, int b) {
+	return a >> b;
+}
+
 int sub(int a, int b) {
 	return a - b;
 }
@@ -70,4 +74,14 @@ int wi8(int o,int v) {
 	char *h = 0;
 	h[o]=v;
 	return;
+}
+
+int wi32(int o, int v) {
+  wi8(o, and(v, 0xFF));
+  v = shr(v, 8);
+  wi8(add(o, 1), and(v, 0xFF));
+  v = shr(v, 8);
+  wi8(add(o, 2), and(v, 0xFF));
+  v = shr(v, 8);
+  wi8(add(o, 3), and(v, 0xFF));
 }

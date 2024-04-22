@@ -127,7 +127,7 @@ int statement();
 int set_s(int t,int v) {
 	struct token_list* tok;
 	tok = t;
-	tok->s = v;
+	wi32(add(t, token_list_s_offset), v);
 }
 
 int get_s(int t) {
