@@ -115,7 +115,7 @@ int set_token_s(int t,int v) {
 	tok->s = v;
 }
 
-int get_token_s(int t) {
+int get_s(int t) {
 	struct token_list* tok;
 	tok = t;
 	return tok->s;
@@ -180,7 +180,7 @@ int advance() {
 }
 
 int token_string(int a) {
-	return get_token_s(a);
+	return get_s(a);
 }
 
 int global_token_string() {
@@ -351,7 +351,7 @@ int new_token(int s, int size) {
 
 	/* More efficiently allocate memory for string */
 	set_token_s(current, calloc(size, 1));
-	copy_string(get_token_s(current), s, MAX_STRING);
+	copy_string(get_s(current), s, MAX_STRING);
 
 	set_token_prev(current, token);
 	set_token_next(current, token);
@@ -535,7 +535,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 
 	i = symbol_list;
 	while(neq(NULL, i)) {
-		if(match(get_token_s(i), s)) {
+		if(match(get_s(i), s)) {
 			return i;
 		}
 		i = get_token_next(i);
@@ -602,14 +602,14 @@ int variable_load(struct token_list* a) {
 
 int function_load(struct token_list* a) {
 	if(match("(", global_token_string())) {
-		function_call(get_token_s(a));
+		function_call(get_s(a));
 		return;
 	}
 }
 
 int global_load(struct token_list* a) {
 	emit_out("mov_eax, &GLOBAL_");
-	emit_out(get_token_s(a));
+	emit_out(get_s(a));
 	emit_out("\n");
 
 	if(match("=", global_token_string())) {
@@ -623,14 +623,14 @@ int primary_expr_string() {
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 	emit_out("mov_eax, &STRING_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	/* The target */
 	strings_list = emit(":STRING_", strings_list);
-	strings_list = uniqueID(get_token_s(function), strings_list, number_string);
+	strings_list = uniqueID(get_s(function), strings_list, number_string);
 
 	/* Parse the string */
-	if(neq('"', ri8(get_token_s(get_token_next(global_token))))) {
+	if(neq('"', ri8(get_s(get_token_next(global_token))))) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
@@ -743,7 +743,7 @@ int collect_local() {
 	skip(";");
 
 	emit_out("push_eax\t#");
-	emit_out(get_token_s(a));
+	emit_out(get_s(a));
 	emit_out("\n");
 }
 
@@ -754,7 +754,7 @@ int process_if() {
 	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	advance();
 	skip("(");
@@ -762,24 +762,24 @@ int process_if() {
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	skip(")");
 	statement();
 
 	emit_out("jmp %_END_IF_");
 
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	emit_out(":ELSE_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	if(match("else", global_token_string())) {
 		advance();
 		statement();
 	}
 	emit_out(":_END_IF_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 }
 
 /* Process Assembly statements */
@@ -814,10 +814,10 @@ int process_while() {
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
 	break_frame = function->locals;
-	break_target_func = get_token_s(function);
+	break_target_func = get_s(function);
 
 	emit_out(":WHILE_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	advance();
 	skip("(");
@@ -825,20 +825,20 @@ int process_while() {
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
 
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	emit_out("# THEN_while_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	skip(")");
 	statement();
 
 	emit_out("jmp %WHILE_");
 
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	emit_out(":END_WHILE_");
-	uniqueID_out(get_token_s(function), number_string);
+	uniqueID_out(get_s(function), number_string);
 
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
@@ -890,7 +890,7 @@ void recursive_statement() {
 	advance();
 
 	/* Clean up any locals added */
-	if(eq(0, match("ret\n", get_token_s(output_list)))) {
+	if(eq(0, match("ret\n", get_s(output_list)))) {
 		i = function->locals;
 		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
@@ -951,7 +951,7 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(get_token_s(get_token_prev(global_token)),
+	function = sym_declare(get_s(get_token_prev(global_token)),
 				global_function_list);
 
 	/* allow previously defined functions to be looked up */
@@ -963,15 +963,15 @@ int declare_function() {
 		advance();
 	} else {
 		emit_out("# Defining function ");
-		emit_out(get_token_s(function));
+		emit_out(get_s(function));
 		emit_out("\n");
 		emit_out(":FUNCTION_");
-		emit_out(get_token_s(function));
+		emit_out(get_s(function));
 		emit_out("\n");
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(eq(0, match("ret\n", get_token_s(output_list)))) {
+		if(eq(0, match("ret\n", get_s(output_list)))) {
 			emit_out("ret\n");
 		}
 	}
@@ -1001,7 +1001,7 @@ void program() {
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(":GLOBAL_", globals_list);
-			globals_list = emit(get_token_s(get_token_prev(global_token)),
+			globals_list = emit(get_s(get_token_prev(global_token)),
 						globals_list);
 
 			i = 1;
@@ -1029,7 +1029,7 @@ int recursive_output(struct token_list* head, int out) {
 	struct token_list* i;
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
-		fputs(get_token_s(i), out);
+		fputs(get_s(i), out);
 		i = get_token_next(i);
 	}
 }
