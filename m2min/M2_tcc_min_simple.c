@@ -412,9 +412,11 @@ int escape_lookup(char* c) {
 
 int parse_string(char* string) {
 	int collect_regular_string_reset;
-	string_index = 0;
+	int message;
 
+	string_index = 0;
 	collect_regular_string_reset = 1;
+
 	while(eq(collect_regular_string_reset, 1)) {
 		collect_regular_string_reset = 0;
 		if(eq(ri8(string),'\\')) {
@@ -431,9 +433,9 @@ int parse_string(char* string) {
 		}
 	}
 
-	hold_string[string_index] = '"';
+	wi8(add(hold_string, string_index), '"');
 	hold_string[string_index + 1] = '\n';
-	char* message = calloc(string_index + 3, sizeof(char));
+	message = calloc(string_index + 3, 1);
 	copy_string(message, hold_string, string_index + 2);
 	reset_hold_string();
 	return message;
