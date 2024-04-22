@@ -267,7 +267,7 @@ int copy_string(int target, int source, int max) {
 	}
 }
 
-int preserve_keyword(int c, char* S) {
+int preserve_keyword(int c, int S) {
 	while(in_set(c, S)) {
 		c = consume_byte(c);
 	}
@@ -276,9 +276,9 @@ int preserve_keyword(int c, char* S) {
 
 void reset_hold_string() {
 	int i = MAX_STRING;
-	while(0 <= i) {
-		hold_string[i] = 0;
-		i = i - 1;
+	while(lte(0, i)) {
+		wi8(add(hold_string, i),0);
+		i = sub(i, 1);
 	}
 	string_index = 0;
 }

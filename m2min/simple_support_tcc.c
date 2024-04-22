@@ -20,6 +20,10 @@ int gte(int a, int b) {
 	return a >= b;
 }
 
+int lte(int a, int b) {
+	return a <= b;
+}
+
 int mod(int a, int b) {
 	return a % b;
 }
