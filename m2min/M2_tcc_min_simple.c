@@ -786,18 +786,18 @@ int process_while() {
 }
 
 /* Ensure that functions return */
-void return_result() {
-	advance();
-	if(global_token_char0() != ';') expression();
-
-	skip(";");
-
+int return_result() {
 	struct token_list* i;
-	unsigned size_local_var;
+	int size_local_var;
+
+	advance();
+	if(global_token_char0() != ';') {
+		expression();
+	}
+	skip(";");
 	for(i = function->locals; NULL != i; i = i->next) {
 		emit_out("pop_ebx\t# _return_result_locals\n");
 	}
-
 	emit_out("ret\n");
 }
 
