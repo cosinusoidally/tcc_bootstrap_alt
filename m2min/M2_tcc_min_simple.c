@@ -65,9 +65,9 @@ int recursive_output(struct token_list* i, int out);
 struct token_list* global_token;
 
 /* Output reorder collections*/
-struct token_list* output_list;
-struct token_list* strings_list;
-struct token_list* globals_list;
+int output_list;
+int strings_list;
+int globals_list;
 
 /* Make our string collection more efficient */
 char* hold_string;
@@ -97,7 +97,6 @@ char* break_target_num;
 struct token_list* break_frame;
 int current_count;
 
-/* Imported functions */
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
 int escape_lookup(int c);
