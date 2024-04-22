@@ -552,8 +552,9 @@ void global_load(struct token_list* a) {
 	emit_out(a->s);
 	emit_out("\n");
 
-	if(match("=", global_token_string())) return;
-
+	if(match("=", global_token_string())) {
+		return;
+	}
 	emit_out(load_value());
 }
 
