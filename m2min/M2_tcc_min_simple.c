@@ -795,8 +795,10 @@ int return_result() {
 		expression();
 	}
 	skip(";");
-	for(i = function->locals; NULL != i; i = i->next) {
+	i = function->locals;
+	while(neq(NULL, i)) {
 		emit_out("pop_ebx\t# _return_result_locals\n");
+		i = i->next;
 	}
 	emit_out("ret\n");
 }
