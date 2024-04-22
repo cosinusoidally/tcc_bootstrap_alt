@@ -133,14 +133,10 @@ int get_s(int t) {
 }
 
 int set_token_prev(int t,int v) {
-	struct token_list* tok;
-	tok = t;
 	wi32(add(t, token_list_prev_offset), v);
 }
 
 int get_token_prev(int t) {
-	struct token_list* tok;
-	tok = t;
 	return ri32(add(t, token_list_prev_offset));
 }
 
