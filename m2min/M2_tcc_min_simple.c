@@ -840,7 +840,7 @@ void recursive_statement() {
 }
 
 int statement() {
-	if(global_token_char0() == '{') {
+	if(eq(global_token_char0(), '{')) {
 		recursive_statement();
 	} else if(match("int", global_token_string())) {
 		collect_local();
@@ -861,11 +861,11 @@ int statement() {
 }
 
 /* Collect function arguments */
-void collect_arguments() {
-	advance();
+int collect_arguments() {
 	struct token_list* a;
 
-	while(!match(")", global_token_string())) {
+	advance();
+	while(eq(0, match(")", global_token_string()))) {
 		advance();
 		if(global_token_char0() != ',') {
 			/* deal with foo(int a, char b) */
