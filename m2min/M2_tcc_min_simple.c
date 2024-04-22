@@ -34,7 +34,7 @@ int EOF;
 
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
-int match(char* a, char* b);
+int match(int a, int b);
 void reset_hold_string();
 
 struct token_list {
@@ -129,15 +129,15 @@ char global_token_char0() {
 	return ri8(token_string(global_token));
 }
 
-int match(char* a, char* b) {
+int match(int a, int b) {
 	int i;
-	if(and((NULL == a), (NULL == b))) {
+	if(and(eq(NULL, a), eq(NULL, b))) {
 		return TRUE;
 	}
-	if(NULL == a) {
+	if(eq(NULL, a)) {
 		return FALSE;
 	}
-	if(NULL == b) {
+	if(eq(NULL, b)) {
 		return FALSE;
 	}
 
