@@ -35,7 +35,7 @@ int EOF;
 int copy_string(int target, int source, int max);
 int in_set(int c, int s);
 int match(int a, int b);
-void reset_hold_string();
+int reset_hold_string();
 
 struct token_list {
 	struct token_list* next;
@@ -274,7 +274,7 @@ int preserve_keyword(int c, int S) {
 	return c;
 }
 
-void reset_hold_string() {
+int reset_hold_string() {
 	int i = MAX_STRING;
 	while(lte(0, i)) {
 		wi8(add(hold_string, i),0);
