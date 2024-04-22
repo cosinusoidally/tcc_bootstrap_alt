@@ -722,11 +722,11 @@ int process_if() {
 }
 
 /* Process Assembly statements */
-void process_asm() {
+int process_asm() {
 	advance();
 	skip("(");
-	while('"' == global_token_char0()) {
-		emit_out((global_token_string() + 1));
+	while(eq('"', global_token_char0())) {
+		emit_out(add(global_token_string(), 1));
 		emit_out("\n");
 		advance();
 	}
