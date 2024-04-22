@@ -1,18 +1,22 @@
 /* primitives */
 
-int add(int a, int b){
+int add(int a, int b) {
 	return a + b;
 }
 
-int and(int a, int b){
+int and(int a, int b) {
 	return a & b;
 }
 
-int or(int a, int b){
+int mul(int a, int b) {
+	return a * b;
+}
+
+int or(int a, int b) {
 	return a | b;
 }
 
-int shl(int a, int b){
+int shl(int a, int b) {
 	return a << b;
 }
 
