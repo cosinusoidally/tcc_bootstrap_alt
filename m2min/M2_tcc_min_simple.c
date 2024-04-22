@@ -971,7 +971,7 @@ int recursive_output(struct token_list* head, int out) {
 	}
 }
 
-void initialize_globals() {
+int initialize_globals() {
 	NULL = 0;
 	register_size = 4;
 	FALSE = 0;
