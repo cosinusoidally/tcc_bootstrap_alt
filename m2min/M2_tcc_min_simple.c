@@ -54,7 +54,6 @@ struct token_list {
 int sizeof_token_list;
 
 /* The core functions */
-void initialize_types();
 int read_all_tokens(int a, int current);
 int reverse_list(int head);
 
