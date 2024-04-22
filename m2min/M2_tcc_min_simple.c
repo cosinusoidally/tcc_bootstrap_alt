@@ -818,16 +818,16 @@ int process_break() {
 }
 
 void recursive_statement() {
-	advance();
-	struct token_list* frame = function->locals;
+	struct token_list* frame;
 
-	while(!match("}", global_token_string())) {
+	advance();
+	frame = function->locals;
+	while(eq(0, match("}", global_token_string()))) {
 		statement();
 	}
 	advance();
 
 	/* Clean up any locals added */
-
 	if( !match("ret\n", output_list->s)) {
 		struct token_list* i;
 		for(i = function->locals; frame != i; i = i->next) {
