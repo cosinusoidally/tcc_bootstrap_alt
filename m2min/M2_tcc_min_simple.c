@@ -964,7 +964,7 @@ void program() {
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(":GLOBAL_", globals_list);
-			globals_list = emit(get_token_s(global_token->prev),
+			globals_list = emit(get_token_s(get_token_prev(global_token)),
 						globals_list);
 
 			i = 1;
