@@ -634,7 +634,7 @@ void process_if() {
 	emit_out(":ELSE_");
 	uniqueID_out(function->s, number_string);
 
-	if(match("else", global_token->s)) {
+	if(match("else", token_string(global_token))) {
 		advance();
 		statement();
 	}
@@ -647,7 +647,7 @@ void process_asm() {
 	advance();
 	skip("(");
 	while('"' == global_token->s[0]) {
-		emit_out((global_token->s + 1));
+		emit_out((token_string(global_token) + 1));
 		emit_out("\n");
 		advance();
 	}
@@ -734,7 +734,7 @@ void recursive_statement() {
 	advance();
 	struct token_list* frame = function->locals;
 
-	while(!match("}", global_token->s)) {
+	while(!match("}", token_string(global_token))) {
 		statement();
 	}
 	advance();
@@ -754,17 +754,17 @@ struct type* lookup_type(char* s, struct type* start);
 void statement() {
 	if(global_token->s[0] == '{') {
 		recursive_statement();
-	} else if(match("int", global_token->s)) {
+	} else if(match("int", token_string(global_token))) {
 		collect_local();
-	} else if(match("if", global_token->s)) {
+	} else if(match("if", token_string(global_token))) {
 		process_if();
-	} else if(match("while", global_token->s)) {
+	} else if(match("while", token_string(global_token))) {
 		process_while();
-	} else if(match("asm", global_token->s)) {
+	} else if(match("asm", token_string(global_token))) {
 		process_asm();
-	} else if(match("return", global_token->s)) {
+	} else if(match("return", token_string(global_token))) {
 		return_result();
-	} else if(match("break", global_token->s)) {
+	} else if(match("break", token_string(global_token))) {
 		process_break();
 	} else {
 		expression();
