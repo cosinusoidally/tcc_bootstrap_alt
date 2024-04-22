@@ -561,7 +561,7 @@ int function_load(struct token_list* a) {
 
 int global_load(struct token_list* a) {
 	emit_out("mov_eax, &GLOBAL_");
-	emit_out(a->s);
+	emit_out(get_token_s(a));
 	emit_out("\n");
 
 	if(match("=", global_token_string())) {
@@ -575,11 +575,11 @@ int primary_expr_string() {
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 	emit_out("mov_eax, &STRING_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(get_token_s(function), number_string);
 
 	/* The target */
 	strings_list = emit(":STRING_", strings_list);
-	strings_list = uniqueID(function->s, strings_list, number_string);
+	strings_list = uniqueID(get_token_s(function), strings_list, number_string);
 
 	/* Parse the string */
 	if(neq('"', global_token->next->s[0])) {
@@ -694,7 +694,7 @@ int collect_local() {
 	skip(";");
 
 	emit_out("push_eax\t#");
-	emit_out(a->s);
+	emit_out(get_token_s(a));
 	emit_out("\n");
 }
 
