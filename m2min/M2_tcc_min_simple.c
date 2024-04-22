@@ -52,6 +52,15 @@ int sub(int a, int b);
 int ri8(int o);
 int wi8(int o,int v);
 
+/* libc functions */
+int calloc(int a, int b);
+int fgetc(int a);
+int free(int a);
+int exit(int a);
+int fputs(int a, int b);
+int fopen(int a, int b);
+int fclose(int a);
+
 /* misc functions */
 int copy_string(int target, int source, int max);
 int in_set(int c, int s);
