@@ -237,8 +237,11 @@ int consume_byte(int c) {
 }
 
 int preserve_string(int c) {
-	int frequent = c;
-	int escape = FALSE;
+	int frequent;
+	int escape;
+
+	frequent = c;
+	escape = FALSE;
 	do {
 		if(!escape && '\\' == c ) escape = TRUE;
 		else escape = FALSE;
