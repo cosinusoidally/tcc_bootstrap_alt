@@ -390,8 +390,8 @@ struct token_list* reverse_list(struct token_list* head) {
 	root = NULL;
 
 	while(neq(NULL, head)) {
-		next = head->next;
-		head->next = root;
+		next = get_token_next(head);
+		set_token_next(head, root);
 		root = head;
 		head = next;
 	}
