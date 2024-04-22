@@ -312,7 +312,7 @@ int get_token(int c) {
 		string_index = 0;
 
 		c = clearWhiteSpace(c);
-		if(c == EOF) {
+		if(eq(c, EOF)) {
 			free(current);
 			return c;
 		} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
@@ -321,12 +321,12 @@ int get_token(int c) {
 			c = preserve_keyword(c, "=");
 		} else if(in_set(c, "'\"")) {
 			c = preserve_string(c);
-		} else if(c == '/') {
+		} else if(eq(c, '/')) {
 			c = consume_byte(c);
-			if(c == '*') {
+			if(eq(c, '*')) {
 				c = grab_byte();
-				while(c != '/') {
-					while(c != '*') {
+				while(neq(c, '/')) {
+					while(neq(c, '*')) {
 						c = grab_byte();
 					}
 					c = grab_byte();
@@ -334,7 +334,7 @@ int get_token(int c) {
 				c = grab_byte();
 				reset = 1;
 			}
-		} else if (c == '\n') {
+		} else if (eq(c, '\n')) {
 			/* eat newlines here */
 			c = consume_byte(c);
 			reset = 1;
@@ -343,14 +343,17 @@ int get_token(int c) {
 		}
 	}
 
-	new_token(hold_string, string_index + 2);
+	new_token(hold_string, add(string_index, 2));
 	return c;
 }
 
 struct token_list* reverse_list(struct token_list* head) {
-	struct token_list* root = NULL;
+	struct token_list* root;
 	struct token_list* next;
-	while(NULL != head) {
+
+	root = NULL;
+
+	while(neq(NULL, head)) {
 		next = head->next;
 		head->next = root;
 		root = head;
@@ -364,7 +367,7 @@ struct token_list* read_all_tokens(int a, struct token_list* current) {
 	line = 1;
 	token = current;
 	int ch = grab_byte();
-	while(EOF != ch) {
+	while(neq(EOF, ch)) {
 		ch = get_token(ch);
 	}
 	return token;
