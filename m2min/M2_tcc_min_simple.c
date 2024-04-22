@@ -224,7 +224,9 @@ int grab_byte() {
 }
 
 int clearWhiteSpace(int c) {
-	if((32 == c) || (9 == c)) return clearWhiteSpace(grab_byte());
+	if(or(eq(32, c), eq(9, c))) {
+		return clearWhiteSpace(grab_byte());
+	}
 	return c;
 }
 
