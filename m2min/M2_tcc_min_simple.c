@@ -582,7 +582,7 @@ int primary_expr_string() {
 	strings_list = uniqueID(get_token_s(function), strings_list, number_string);
 
 	/* Parse the string */
-	if(neq('"', global_token->next->s[0])) {
+	if(neq('"', ri8(get_token_s(global_token->next)))) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
@@ -980,7 +980,7 @@ int recursive_output(struct token_list* head, int out) {
 	struct token_list* i;
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
-		fputs(i->s, out);
+		fputs(get_token_s(i), out);
 		i = i->next;
 	}
 }
