@@ -561,13 +561,13 @@ void expression() {
 		advance();
 		expression();
 		skip(")");
-	} else if(global_token->s[0] == '\'') {
+	} else if(global_token_char0() == '\'') {
 		primary_expr_char();
-	} else if(global_token->s[0] == '"') {
+	} else if(global_token_char0() == '"') {
 		primary_expr_string();
-	} else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+	} else if(in_set(global_token_char0(), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
-	} else if(in_set(global_token->s[0], "0123456789")) {
+	} else if(in_set(global_token_char0(), "0123456789")) {
 		primary_expr_number();
 	} else {
 		exit(1);
@@ -654,7 +654,7 @@ void process_if() {
 void process_asm() {
 	advance();
 	skip("(");
-	while('"' == global_token->s[0]) {
+	while('"' == global_token_char0()) {
 		emit_out((global_token_string() + 1));
 		emit_out("\n");
 		advance();
@@ -711,7 +711,7 @@ void process_while() {
 /* Ensure that functions return */
 void return_result() {
 	advance();
-	if(global_token->s[0] != ';') expression();
+	if(global_token_char0() != ';') expression();
 
 	skip(";");
 
@@ -760,7 +760,7 @@ void recursive_statement() {
 
 struct type* lookup_type(char* s, struct type* start);
 void statement() {
-	if(global_token->s[0] == '{') {
+	if(global_token_char0() == '{') {
 		recursive_statement();
 	} else if(match("int", global_token_string())) {
 		collect_local();
@@ -787,7 +787,7 @@ void collect_arguments() {
 
 	while(!match(")", global_token_string())) {
 		advance();
-		if(global_token->s[0] != ',') {
+		if(global_token_char0() != ',') {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(), function->arguments);
 			if(NULL == function->arguments) {
@@ -801,7 +801,7 @@ void collect_arguments() {
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(global_token->s[0] == ',') {
+		if(global_token_char0() == ',') {
 			advance();
 		}
 
@@ -818,7 +818,7 @@ void declare_function() {
 	collect_arguments();
 
 	/* If just a prototype don't waste time */
-	if(global_token->s[0] == ';') {
+	if(global_token_char0() == ';') {
 		advance();
 	} else {
 		emit_out("# Defining function ");
