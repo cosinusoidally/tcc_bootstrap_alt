@@ -932,9 +932,9 @@ int collect_arguments() {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(), function->arguments);
 			if(eq(NULL, function->arguments)) {
-				a->depth = sub(0, register_size);
+				set_depth(a, sub(0, register_size));
 			} else {
-				a->depth = sub(function->arguments->depth, register_size);
+				set_depth(a, sub(get_depth(function->arguments), register_size));
 			}
 			advance();
 			function->arguments = a;
