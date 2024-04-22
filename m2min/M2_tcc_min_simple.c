@@ -300,7 +300,8 @@ int new_token(int s, int size) {
 }
 
 int get_token(int c) {
-	struct token_list* current = calloc(1, sizeof(struct token_list));
+	struct token_list* current;
+	current = calloc(1, sizeof_token_list);
 
 reset:
 	reset_hold_string();
