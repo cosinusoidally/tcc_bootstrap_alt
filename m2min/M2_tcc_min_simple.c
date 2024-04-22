@@ -147,7 +147,7 @@ int match(char* a, char* b) {
 		if(a[i] != b[i]) {
 			return FALSE;
 		}
-	} while((0 != a[i]) && (0 !=b[i]));
+	} while(and(neq(0, ri8(add(a,i))), neq(0, ri8(add(b, i)))));
 	return TRUE;
 }
 
