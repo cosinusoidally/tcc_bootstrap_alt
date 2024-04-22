@@ -449,11 +449,11 @@ struct token_list* emit(int s, struct token_list* head) {
 	return t;
 }
 
-void emit_out(char* s) {
+int emit_out(int s) {
 	output_list = emit(s, output_list);
 }
 
-struct token_list* uniqueID(char* s, struct token_list* l, char* num) {
+struct token_list* uniqueID(int s, struct token_list* l, int num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
