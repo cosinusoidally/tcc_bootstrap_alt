@@ -126,6 +126,10 @@ char *token_string(struct token_list* a) {
 	return a->s;
 }
 
+char *global_token_string(void) {
+	return token_string(global_token);
+}
+
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
@@ -462,7 +466,7 @@ void variable_load(struct token_list* a) {
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(!match("=", token_string(global_token))) {
+	if(!match("=", global_token_string())) {
 		emit_out(load_value());
 	}
 
