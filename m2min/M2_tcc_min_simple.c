@@ -501,7 +501,7 @@ int uniqueID_out(int s, int num) {
 struct token_list* sym_declare(int s, struct token_list* list) {
 	struct token_list* a;
 	a = calloc(1, sizeof_token_list);
-	a->next = list;
+	set_token_next(a, list);
 	set_token_s(a, s);
 	return a;
 }
