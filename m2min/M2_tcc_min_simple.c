@@ -719,11 +719,12 @@ int collect_local() {
 	advance();
 	a = sym_declare(global_token_string(), function->locals);
 	if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
-		a->depth = sub(0, mul(register_size, 2));
+		set_token_depth(a, sub(0, mul(register_size, 2)));
 	} else if(eq(NULL, function->locals)) {
-		a->depth = sub(function->arguments->depth, mul(register_size, 2));
+		set_token_depth(a, sub(get_token_depth(function->arguments),
+					mul(register_size, 2)));
 	} else {
-		a->depth = sub(function->locals->depth, register_size);
+		set_token_depth(a, sub(get_token_depth(function->locals), register_size));
 	}
 
 	function->locals = a;
