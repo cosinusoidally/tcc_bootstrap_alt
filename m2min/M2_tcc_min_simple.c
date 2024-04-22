@@ -543,8 +543,8 @@ int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(int s, struct token_list* list) {
-	struct token_list* a;
+int sym_declare(int s, int list) {
+	int a;
 	a = calloc(1, sizeof_token_list);
 	set_token_next(a, list);
 	set_s(a, s);
