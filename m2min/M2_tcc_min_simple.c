@@ -547,7 +547,7 @@ int function_load(struct token_list* a) {
 	}
 }
 
-void global_load(struct token_list* a) {
+int global_load(struct token_list* a) {
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(a->s);
 	emit_out("\n");
@@ -558,8 +558,9 @@ void global_load(struct token_list* a) {
 	emit_out(load_value());
 }
 
-void primary_expr_string() {
-	char* number_string = int2str(current_count, 10, TRUE);
+int primary_expr_string() {
+	int number_string;
+	number_string = int2str(current_count, 10, TRUE);
 	current_count = current_count + 1;
 	emit_out("mov_eax, &STRING_");
 	uniqueID_out(function->s, number_string);
@@ -569,7 +570,7 @@ void primary_expr_string() {
 	strings_list = uniqueID(function->s, strings_list, number_string);
 
 	/* Parse the string */
-	if('"' != global_token->next->s[0]) {
+	if(neq('"', global_token->next->s[0])) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
