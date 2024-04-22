@@ -869,7 +869,7 @@ void recursive_statement() {
 		i = function->locals;
 		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
-			i = i->next;
+			i = get_token_next(i);
 		}
 	}
 	function->locals = frame;
