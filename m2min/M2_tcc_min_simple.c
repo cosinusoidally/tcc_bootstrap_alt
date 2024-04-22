@@ -658,9 +658,9 @@ int collect_local() {
 
 	advance();
 	a = sym_declare(global_token_string(), function->locals);
-	if((NULL == function->arguments) && (NULL == function->locals)) {
+	if(eq(NULL, function->arguments) && eq(NULL, function->locals)) {
 		a->depth = -(register_size * 2);
-	} else if(NULL == function->locals) {
+	} else if(eq(NULL, function->locals)) {
 		a->depth = function->arguments->depth - (register_size * 2);
 	} else {
 		a->depth = function->locals->depth - register_size;
