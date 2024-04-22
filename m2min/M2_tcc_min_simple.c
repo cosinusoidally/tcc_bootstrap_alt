@@ -135,6 +135,18 @@ int get_token_s(int t) {
 	return tok->s;
 }
 
+int set_token_prev(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->prev = v;
+}
+
+int get_token_prev(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->prev;
+}
+
 int global_token_string() {
 	return token_string(global_token);
 }
@@ -305,7 +317,7 @@ int new_token(int s, int size) {
 	set_token_s(current, calloc(size, 1));
 	copy_string(get_token_s(current), s, MAX_STRING);
 
-	current->prev = token;
+	set_token_prev(current, token);
 	current->next = token;
 	current->linenumber = line;
 	token = current;
@@ -902,7 +914,7 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(get_token_s(global_token->prev),
+	function = sym_declare(get_token_s(get_token_prev(global_token)),
 				global_function_list);
 
 	/* allow previously defined functions to be looked up */
