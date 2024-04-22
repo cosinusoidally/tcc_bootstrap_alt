@@ -301,41 +301,46 @@ int new_token(int s, int size) {
 
 int get_token(int c) {
 	struct token_list* current;
+	int reset;
 	current = calloc(1, sizeof_token_list);
 
-reset:
-	reset_hold_string();
-	string_index = 0;
+	reset = 1;
 
-	c = clearWhiteSpace(c);
-	if(c == EOF) {
-		free(current);
-		return c;
-	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
-		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	} else if(in_set(c, "=")) {
-		c = preserve_keyword(c, "=");
-	} else if(in_set(c, "'\"")) {
-		c = preserve_string(c);
-	} else if(c == '/') {
-		c = consume_byte(c);
-		if(c == '*') {
-			c = grab_byte();
-			while(c != '/') {
-				while(c != '*') {
+	while(eq(reset, 1)) {
+		reset = 0;
+		reset_hold_string();
+		string_index = 0;
+
+		c = clearWhiteSpace(c);
+		if(c == EOF) {
+			free(current);
+			return c;
+		} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
+			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
+		} else if(in_set(c, "=")) {
+			c = preserve_keyword(c, "=");
+		} else if(in_set(c, "'\"")) {
+			c = preserve_string(c);
+		} else if(c == '/') {
+			c = consume_byte(c);
+			if(c == '*') {
+				c = grab_byte();
+				while(c != '/') {
+					while(c != '*') {
+						c = grab_byte();
+					}
 					c = grab_byte();
 				}
 				c = grab_byte();
+				reset = 1;
 			}
-			c = grab_byte();
-			goto reset;
+		} else if (c == '\n') {
+			/* eat newlines here */
+			c = consume_byte(c);
+			reset = 1;
+		} else {
+			c = consume_byte(c);
 		}
-	} else if (c == '\n') {
-		c = consume_byte(c);
-/* eat newlines here */
-		goto reset;
-	} else {
-		c = consume_byte(c);
 	}
 
 	new_token(hold_string, string_index + 2);
