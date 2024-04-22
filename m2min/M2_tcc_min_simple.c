@@ -256,9 +256,10 @@ int preserve_string(int c) {
 }
 
 void copy_string(char* target, char* source, int max) {
-	int i = 0;
-	while(0 != source[i]) {
-		target[i] = source[i];
+	int i;
+	i = 0;
+	while(neq(0, ri8(add(source, i)))) {
+		wi8(add(target, i), ri8(add(source, i)));
 		i = i + 1;
 		if(i == max) break;
 	}
