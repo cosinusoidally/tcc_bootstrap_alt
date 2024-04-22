@@ -171,7 +171,9 @@ int in_set(int c, int s) {
 
 int int2str(int x, int base, int signed_p) {
 	int p;
-	unsigned i;
+	int i;
+	int sign_p;
+	int table;
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
@@ -179,9 +181,9 @@ int int2str(int x, int base, int signed_p) {
 		return p;
 	}
 
-	p = p + 32;
-	int sign_p = FALSE;
-	char* table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	p = add(p, 32);
+	sign_p = FALSE;
+	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 	if(signed_p && (10 == base) && (0 != (x & 0x80000000))) {
 		/* Truncate to 31bits */
@@ -194,7 +196,7 @@ int int2str(int x, int base, int signed_p) {
 	}
 
 	do {
-		wi8(p, table[i % base]);
+		wi8(p, ri8(add(table, (i % base))));
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
