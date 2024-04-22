@@ -661,9 +661,9 @@ int collect_local() {
 	if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
 		a->depth = sub(0, mul(register_size, 2));
 	} else if(eq(NULL, function->locals)) {
-		a->depth = function->arguments->depth - (register_size * 2);
+		a->depth = sub(function->arguments->depth, mul(register_size, 2));
 	} else {
-		a->depth = function->locals->depth - register_size;
+		a->depth = sub(function->locals->depth, register_size);
 	}
 
 	function->locals = a;
