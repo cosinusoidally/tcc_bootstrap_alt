@@ -157,13 +157,13 @@ int get_token_linenumber(int t) {
 	return tok->linenumber;
 }
 
-int set_token_depth(int t,int v) {
+int set_depth(int t,int v) {
 	struct token_list* tok;
 	tok = t;
 	tok->depth = v;
 }
 
-int get_token_depth(int t) {
+int get_depth(int t) {
 	struct token_list* tok;
 	tok = t;
 	return tok->depth;
@@ -591,7 +591,7 @@ int store_value() {
 
 int variable_load(struct token_list* a) {
 	emit_out("lea_eax,[ebp+DWORD] %");
-	emit_out(int2str(get_token_depth(a), 10, TRUE));
+	emit_out(int2str(get_depth(a), 10, TRUE));
 	emit_out("\n");
 
 	if(eq(0,match("=", global_token_string()))) {
@@ -719,12 +719,12 @@ int collect_local() {
 	advance();
 	a = sym_declare(global_token_string(), function->locals);
 	if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
-		set_token_depth(a, sub(0, mul(register_size, 2)));
+		set_depth(a, sub(0, mul(register_size, 2)));
 	} else if(eq(NULL, function->locals)) {
-		set_token_depth(a, sub(get_token_depth(function->arguments),
+		set_depth(a, sub(get_depth(function->arguments),
 					mul(register_size, 2)));
 	} else {
-		set_token_depth(a, sub(get_token_depth(function->locals), register_size));
+		set_depth(a, sub(get_depth(function->locals), register_size));
 	}
 
 	function->locals = a;
