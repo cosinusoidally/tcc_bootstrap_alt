@@ -37,6 +37,9 @@ int in_set(int c, int s);
 int match(int a, int b);
 int reset_hold_string();
 
+/* token_list structure for reference */
+
+/*
 struct token_list {
 	struct token_list* next;
 	union {
@@ -50,6 +53,7 @@ struct token_list {
 		int linenumber;
 	};
 };
+*/
 
 int token_list_next_offset;
 int token_list_locals_offset;
