@@ -35,11 +35,6 @@ int in_set(int c, char* s);
 int match(char* a, char* b);
 void reset_hold_string();
 
-struct type {
-	struct type* next;
-	char* name;
-};
-
 struct token_list {
 	struct token_list* next;
 	union {
@@ -47,7 +42,6 @@ struct token_list {
 		struct token_list* prev;
 	};
 	char* s;
-	struct type* type;
 	union {
 		struct token_list* arguments;
 		int depth;
@@ -79,7 +73,6 @@ int string_index;
 int register_size;
 
 int MAX_STRING;
-struct type* integer;
 
 /* Globals */
 FILE* input;
