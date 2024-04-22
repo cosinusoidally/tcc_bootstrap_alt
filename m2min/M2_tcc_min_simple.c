@@ -170,13 +170,16 @@ int in_set(int c, int s) {
 }
 
 int int2str(int x, int base, int signed_p) {
+	int p;
+	unsigned i;
 	/* Be overly conservative and save space for 32binary digits and padding null */
-	char* p = calloc(34, 1);
+	p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
-	if(NULL == p) return p;
+	if(eq(NULL, p)) {
+		return p;
+	}
 
 	p = p + 32;
-	unsigned i;
 	int sign_p = FALSE;
 	char* table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -191,13 +194,13 @@ int int2str(int x, int base, int signed_p) {
 	}
 
 	do {
-		p[0] = table[i % base];
+		wi8(p, table[i % base]);
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
 
 	if(sign_p) {
-		p[0] = '-';
+		wi8(p, '-');
 		p = p - 1;
 	}
 

@@ -45,3 +45,9 @@ int ri32(int o) {
 		or(shl(and(ri8(add(o, 2)), 255), 16),
 		shl(and(ri8(add(o, 3)), 255), 24)));
 }
+
+int wi8(int o,int v) {
+	char *h = 0;
+	h[o]=v;
+	return;
+}
