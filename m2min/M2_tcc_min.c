@@ -374,16 +374,6 @@ void initialize_types() {
 	register_size = 4;
 }
 
-struct type* lookup_type(char* s, struct type* start) {
-	struct type* i;
-	for(i = start; NULL != i; i = i->next) {
-		if(match(i->name, s)) {
-			return i;
-		}
-	}
-	return NULL;
-}
-
 struct token_list* emit(char *s, struct token_list* head) {
 	struct token_list* t = calloc(1, sizeof(struct token_list));
 	t->next = head;
@@ -758,7 +748,6 @@ void recursive_statement() {
 	function->locals = frame;
 }
 
-struct type* lookup_type(char* s, struct type* start);
 void statement() {
 	if(global_token_char0() == '{') {
 		recursive_statement();
