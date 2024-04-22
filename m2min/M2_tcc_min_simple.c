@@ -922,7 +922,7 @@ int declare_function() {
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(eq(0, match("ret\n", output_list->s))) {
+		if(eq(0, match("ret\n", get_token_s(output_list)))) {
 			emit_out("ret\n");
 		}
 	}
@@ -952,7 +952,8 @@ void program() {
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(":GLOBAL_", globals_list);
-			globals_list = emit(global_token->prev->s, globals_list);
+			globals_list = emit(get_token_s(global_token->prev),
+						globals_list);
 
 			i = 1;
 			globals_list = emit("\n", globals_list);
