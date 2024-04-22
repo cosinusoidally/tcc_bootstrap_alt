@@ -777,11 +777,11 @@ void collect_arguments() {
 	advance();
 	struct token_list* a;
 
-	while(!match(")", global_token->s)) {
+	while(!match(")", token_string(global_token))) {
 		advance();
 		if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
-			a = sym_declare(global_token->s, function->arguments);
+			a = sym_declare(token_string(global_token), function->arguments);
 			if(NULL == function->arguments) {
 				a->depth = -4;
 			} else {
@@ -839,11 +839,11 @@ new_type:
 	advance();
 
 	/* Add to global symbol table */
-	global_symbol_list = sym_declare(global_token->s, global_symbol_list);
+	global_symbol_list = sym_declare(token_string(global_token), global_symbol_list);
 	advance();
 
 	/* Deal with global variables */
-	if(match(";", global_token->s)) {
+	if(match(";", token_string(global_token))) {
 		/* Ensure enough bytes are allocated to store global variable.
 		   In some cases it allocates too much but that is harmless. */
 		globals_list = emit(":GLOBAL_", globals_list);
@@ -860,7 +860,7 @@ new_type:
 	}
 
 	/* Deal with global functions */
-	if(match("(", global_token->s)) {
+	if(match("(", token_string(global_token))) {
 		declare_function();
 		goto new_type;
 	}
