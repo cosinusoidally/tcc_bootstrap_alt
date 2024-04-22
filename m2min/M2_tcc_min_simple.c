@@ -103,7 +103,7 @@ int parse_string(int string);
 int escape_lookup(int c);
 struct token_list* reverse_list(struct token_list* head);
 
-struct token_list* emit(char *s, struct token_list* head);
+struct token_list* emit(int s, struct token_list* head);
 
 void expression();
 int advance();
@@ -441,7 +441,7 @@ int parse_string(int string) {
 	return message;
 }
 
-struct token_list* emit(char *s, struct token_list* head) {
+struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof(struct token_list));
 	t->next = head;
