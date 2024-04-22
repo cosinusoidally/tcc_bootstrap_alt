@@ -924,7 +924,7 @@ void program() {
 	while(eq(new_type, 1)) {
 		new_type = 0;
 		/* Deal with garbage input */
-		if (NULL == global_token) {
+		if (eq(NULL, global_token)) {
 			return;
 		}
 
@@ -943,9 +943,9 @@ void program() {
 
 			i = 1;
 			globals_list = emit("\n", globals_list);
-			while(i != 0) {
+			while(neq(i, 0)) {
 				globals_list = emit("NULL\n", globals_list);
-				i = i - 1;
+				i = sub(i, 1);
 			}
 			advance();
 			new_type = 1;
@@ -959,7 +959,7 @@ void program() {
 	}
 
 	/* Everything else is just an error */
-	exit(EXIT_FAILURE + 3);
+	exit(add(EXIT_FAILURE, 3));
 }
 
 void recursive_output(struct token_list* head, int out) {
