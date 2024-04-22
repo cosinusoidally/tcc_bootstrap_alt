@@ -576,14 +576,14 @@ int primary_expr_string() {
 	}
 }
 
-void primary_expr_char() {
+int primary_expr_char() {
 	emit_out("mov_eax, %");
-	emit_out(int2str(escape_lookup(global_token_string() + 1), 10, TRUE));
+	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
 	emit_out("\n");
 	advance();
 }
 
-void primary_expr_number() {
+int primary_expr_number() {
 	emit_out("mov_eax, %");
 	emit_out(global_token_string());
 	emit_out("\n");
@@ -592,7 +592,9 @@ void primary_expr_number() {
 
 void primary_expr_variable() {
 	struct token_list* a;
-	char* s = global_token_string();
+	char* s;
+
+	s = global_token_string();
 	advance();
 
 	a = sym_lookup(s, function->locals);
