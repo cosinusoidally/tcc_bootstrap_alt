@@ -469,7 +469,7 @@ void variable_load(struct token_list* a) {
 }
 
 void function_load(struct token_list* a) {
-	if(match("(", global_token->s)) {
+	if(match("(", token_string(global_token))) {
 		function_call(a->s);
 		return;
 	}
@@ -480,7 +480,7 @@ void global_load(struct token_list* a) {
 	emit_out(a->s);
 	emit_out("\n");
 
-	if(match("=", global_token->s)) return;
+	if(match("=", token_string(global_token))) return;
 
 	emit_out(load_value());
 }
@@ -497,28 +497,28 @@ void primary_expr_string() {
 
 	/* Parse the string */
 	if('"' != global_token->next->s[0]) {
-		strings_list = emit(parse_string(global_token->s), strings_list);
+		strings_list = emit(parse_string(token_string(global_token)), strings_list);
 		advance();
 	}
 }
 
 void primary_expr_char() {
 	emit_out("mov_eax, %");
-	emit_out(int2str(escape_lookup(global_token->s + 1), 10, TRUE));
+	emit_out(int2str(escape_lookup(token_string(global_token) + 1), 10, TRUE));
 	emit_out("\n");
 	advance();
 }
 
 void primary_expr_number() {
 	emit_out("mov_eax, %");
-	emit_out(global_token->s);
+	emit_out(token_string(global_token));
 	emit_out("\n");
 	advance();
 }
 
 void primary_expr_variable() {
 	struct token_list* a;
-	char* s = global_token->s;
+	char* s = token_string(global_token);
 	advance();
 
 	a = sym_lookup(s, function->locals);
@@ -565,7 +565,7 @@ void expression() {
 		exit(1);
 	}
 
-	if(match("=", global_token->s)) {
+	if(match("=", token_string(global_token))) {
 		char* store = "";
 		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
@@ -579,7 +579,7 @@ void expression() {
 /* Process local variable */
 void collect_local() {
 	advance();
-	struct token_list* a = sym_declare(global_token->s, function->locals);
+	struct token_list* a = sym_declare(token_string(global_token), function->locals);
 	if((NULL == function->arguments) && (NULL == function->locals)) {
 		a->depth = -8;
 	} else if(NULL == function->locals) {
@@ -591,12 +591,12 @@ void collect_local() {
 	function->locals = a;
 
 	emit_out("# Defining local ");
-	emit_out(global_token->s);
+	emit_out(token_string(global_token));
 	emit_out("\n");
 
 	advance();
 
-	if(match("=", global_token->s)) {
+	if(match("=", token_string(global_token))) {
 		advance();
 		expression();
 	}
