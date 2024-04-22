@@ -733,7 +733,7 @@ int collect_local() {
 	if(and(eq(NULL, function->arguments),
 			eq(NULL, get_locals(function)))) {
 		set_depth(a, sub(0, mul(register_size, 2)));
-	} else if(eq(NULL, function->locals)) {
+	} else if(eq(NULL, get_locals(function))) {
 		set_depth(a, sub(get_depth(function->arguments),
 					mul(register_size, 2)));
 	} else {
@@ -870,7 +870,7 @@ int return_result() {
 		expression();
 	}
 	skip(";");
-	i = function->locals;
+	i = get_locals(function);
 	while(neq(NULL, i)) {
 		emit_out("pop_ebx\t# _return_result_locals\n");
 		i = get_token_next(i);
@@ -880,7 +880,7 @@ int return_result() {
 
 int process_break() {
 	struct token_list* i;
-	i = function->locals;
+	i = get_locals(function);
 
 	advance();
 	emit_out("jmp %");
@@ -897,7 +897,7 @@ void recursive_statement() {
 	struct token_list* i;
 
 	advance();
-	frame = function->locals;
+	frame = get_locals(function);
 	while(eq(0, match("}", global_token_string()))) {
 		statement();
 	}
@@ -905,13 +905,13 @@ void recursive_statement() {
 
 	/* Clean up any locals added */
 	if(eq(0, match("ret\n", get_s(output_list)))) {
-		i = function->locals;
+		i = get_locals(function);
 		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
 			i = get_token_next(i);
 		}
 	}
-	function->locals = frame;
+	set_locals(function, frame);
 }
 
 int statement() {
