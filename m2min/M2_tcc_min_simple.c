@@ -497,11 +497,11 @@ void function_call(char* s) {
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(global_token_char0() == ',') {
+		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
-			passed = passed + 1;
+			passed = add(passed, 1);
 		}
 	}
 
@@ -512,8 +512,9 @@ void function_call(char* s) {
 	emit_out(s);
 	emit_out("\n");
 
-	for(; passed > 0; passed = passed - 1) {
+	while(passed > 0) {
 		emit_out("pop_ebx\t# _process_expression_locals\n");
+		passed = sub(passed, 1);
 	}
 
 	emit_out("pop_ebp\t# Restore old base pointer\n");
