@@ -473,7 +473,7 @@ void variable_load(struct token_list* a) {
 }
 
 void function_load(struct token_list* a) {
-	if(match("(", token_string(global_token))) {
+	if(match("(", global_token_string())) {
 		function_call(a->s);
 		return;
 	}
@@ -484,7 +484,7 @@ void global_load(struct token_list* a) {
 	emit_out(a->s);
 	emit_out("\n");
 
-	if(match("=", token_string(global_token))) return;
+	if(match("=", global_token_string())) return;
 
 	emit_out(load_value());
 }
@@ -501,28 +501,28 @@ void primary_expr_string() {
 
 	/* Parse the string */
 	if('"' != global_token->next->s[0]) {
-		strings_list = emit(parse_string(token_string(global_token)), strings_list);
+		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
 }
 
 void primary_expr_char() {
 	emit_out("mov_eax, %");
-	emit_out(int2str(escape_lookup(token_string(global_token) + 1), 10, TRUE));
+	emit_out(int2str(escape_lookup(global_token_string() + 1), 10, TRUE));
 	emit_out("\n");
 	advance();
 }
 
 void primary_expr_number() {
 	emit_out("mov_eax, %");
-	emit_out(token_string(global_token));
+	emit_out(global_token_string());
 	emit_out("\n");
 	advance();
 }
 
 void primary_expr_variable() {
 	struct token_list* a;
-	char* s = token_string(global_token);
+	char* s = global_token_string();
 	advance();
 
 	a = sym_lookup(s, function->locals);
@@ -569,7 +569,7 @@ void expression() {
 		exit(1);
 	}
 
-	if(match("=", token_string(global_token))) {
+	if(match("=", global_token_string())) {
 		char* store = "";
 		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
