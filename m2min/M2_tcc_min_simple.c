@@ -135,13 +135,13 @@ int get_s(int t) {
 int set_token_prev(int t,int v) {
 	struct token_list* tok;
 	tok = t;
-	tok->prev = v;
+	wi32(add(t, token_list_prev_offset), v);
 }
 
 int get_token_prev(int t) {
 	struct token_list* tok;
 	tok = t;
-	return tok->prev;
+	return ri32(add(t, token_list_prev_offset));
 }
 
 int set_token_next(int t,int v) {
