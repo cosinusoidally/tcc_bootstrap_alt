@@ -149,15 +149,11 @@ int get_token_next(int t) {
 }
 
 int set_token_linenumber(int t,int v) {
-	struct token_list* tok;
-	tok = t;
-	tok->linenumber = v;
+	wi32(add(t, token_list_linenumber_offset), v);
 }
 
 int get_token_linenumber(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->linenumber;
+	return ri32(add(t, token_list_linenumber_offset));
 }
 
 int set_depth(int t,int v) {
