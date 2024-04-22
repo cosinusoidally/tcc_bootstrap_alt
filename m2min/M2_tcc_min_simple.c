@@ -484,14 +484,15 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 }
 
 void function_call(char* s) {
+	int passed;
+	passed = 0;
 	skip("(");
-	int passed = 0;
 
 	emit_out("push_edi\t# Prevent overwriting in recursion\n");
 	emit_out("push_ebp\t# Protect the old base pointer\n");
 	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(global_token_char0() != ')') {
+	if(neq(global_token_char0(), ')')) {
 		expression();
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
