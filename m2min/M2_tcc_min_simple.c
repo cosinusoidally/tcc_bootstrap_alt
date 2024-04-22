@@ -181,6 +181,18 @@ int get_locals(int t) {
 	return tok->locals;
 }
 
+int set_arguments(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->arguments = v;
+}
+
+int get_arguments(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->arguments;
+}
+
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_token_next(global_token);
@@ -675,7 +687,7 @@ int primary_expr_variable() {
 		return;
 	}
 
-	a = sym_lookup(s, function->arguments);
+	a = sym_lookup(s, get_arguments(function));
 	if(neq(NULL, a)) {
 		variable_load(a);
 		return;
