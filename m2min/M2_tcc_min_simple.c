@@ -914,10 +914,10 @@ int declare_function() {
 		advance();
 	} else {
 		emit_out("# Defining function ");
-		emit_out(function->s);
+		emit_out(get_token_s(function));
 		emit_out("\n");
 		emit_out(":FUNCTION_");
-		emit_out(function->s);
+		emit_out(get_token_s(function));
 		emit_out("\n");
 		statement();
 
