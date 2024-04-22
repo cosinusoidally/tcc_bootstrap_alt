@@ -457,7 +457,7 @@ struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof_token_list);
 	t->next = head;
-	t->s = s;
+	set_token_s(t, s);
 	return t;
 }
 
@@ -478,7 +478,7 @@ struct token_list* sym_declare(int s, struct token_list* list) {
 	struct token_list* a;
 	a = calloc(1, sizeof_token_list);
 	a->next = list;
-	a->s = s;
+	set_token_s(a, s);
 	return a;
 }
 
@@ -487,7 +487,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 
 	i = symbol_list;
 	while(neq(NULL, i)) {
-		if(match(i->s, s)) {
+		if(match(get_token_s(i), s)) {
 			return i;
 		}
 		i = i->next;
@@ -554,7 +554,7 @@ int variable_load(struct token_list* a) {
 
 int function_load(struct token_list* a) {
 	if(match("(", global_token_string())) {
-		function_call(a->s);
+		function_call(get_token_s(a));
 		return;
 	}
 }
