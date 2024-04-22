@@ -126,15 +126,16 @@ char *global_token_string(void) {
 }
 
 char global_token_char0() {
-	return (token_string(global_token))[0];
+	return ri8(token_string(global_token));
 }
 
 int match(char* a, char* b) {
+	int i;
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
 	if(NULL == b) return FALSE;
 
-	int i = -1;
+	i = sub(0, 1);
 	do {
 		i = i + 1;
 		if(a[i] != b[i]) {
