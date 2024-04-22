@@ -626,13 +626,13 @@ int primary_expr_variable() {
 
 int expression() {
 	int store;
-	if(global_token_char0() == '(') {
+	if(eq(global_token_char0(), '(')) {
 		advance();
 		expression();
 		skip(")");
-	} else if(global_token_char0() == '\'') {
+	} else if(eq(global_token_char0(), '\'')) {
 		primary_expr_char();
-	} else if(global_token_char0() == '"') {
+	} else if(eq(global_token_char0(), '"')) {
 		primary_expr_string();
 	} else if(in_set(global_token_char0(), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
