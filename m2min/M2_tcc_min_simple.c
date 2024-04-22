@@ -23,12 +23,14 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 int FALSE;
 int TRUE;
+int NULL;
+
+int EXIT_SUCCESS;
+int EXIT_FAILURE;
+
+int EOF;
 
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
@@ -51,11 +53,11 @@ struct token_list {
 
 /* The core functions */
 void initialize_types();
-struct token_list* read_all_tokens(FILE* a, struct token_list* current);
+struct token_list* read_all_tokens(int a, struct token_list* current);
 struct token_list* reverse_list(struct token_list* head);
 
 void program();
-void recursive_output(struct token_list* i, FILE* out);
+void recursive_output(struct token_list* i, int out);
 
 /* What we are currently working on */
 struct token_list* global_token;
@@ -75,7 +77,7 @@ int register_size;
 int MAX_STRING;
 
 /* Globals */
-FILE* input;
+int input;
 struct token_list* token;
 int line;
 char* file;
@@ -308,7 +310,7 @@ struct token_list* reverse_list(struct token_list* head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(FILE* a, struct token_list* current) {
+struct token_list* read_all_tokens(int a, struct token_list* current) {
 	input  = a;
 	line = 1;
 	token = current;
@@ -854,7 +856,7 @@ new_type:
 	exit(EXIT_FAILURE + 3);
 }
 
-void recursive_output(struct token_list* head, FILE* out) {
+void recursive_output(struct token_list* head, int out) {
 	struct token_list* i = reverse_list(head);
 	while(NULL != i) {
 		fputs(i->s, out);
@@ -863,10 +865,16 @@ void recursive_output(struct token_list* head, FILE* out) {
 }
 
 void initialize_globals() {
+	NULL = 0;
 	register_size = 4;
 	FALSE = 0;
 	TRUE = 1;
 	MAX_STRING = 4096;
+
+	EXIT_SUCCESS = 0;
+	EXIT_FAILURE = 1;
+
+	EOF = -1;
 }
 
 int main(int argc, int argv) {
