@@ -416,17 +416,19 @@ int parse_string(char* string) {
 
 	collect_regular_string_reset = 1;
 	while(eq(collect_regular_string_reset, 1)) {
-	collect_regular_string_reset = 0;
-	if(eq(ri8(string),'\\')) {
-		wi8(add(hold_string, string_index), escape_lookup(string));
-		string = add(string, 2);
-	} else {
-		wi8(add(hold_string, string_index), ri8(string));
-		string = add(string, 1);
-	}
+		collect_regular_string_reset = 0;
+		if(eq(ri8(string),'\\')) {
+			wi8(add(hold_string, string_index), escape_lookup(string));
+			string = add(string, 2);
+		} else {
+			wi8(add(hold_string, string_index), ri8(string));
+			string = add(string, 1);
+		}
 
-	string_index = add(string_index, 1);
-	if(string[0] != 0) collect_regular_string_reset = 1;
+		string_index = add(string_index, 1);
+		if(neq(ri8(string), 0)) {
+			collect_regular_string_reset = 1;
+		}
 	}
 
 	hold_string[string_index] = '"';
