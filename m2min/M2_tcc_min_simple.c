@@ -868,24 +868,23 @@ void initialize_globals() {
 	TRUE = 1;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, int argv) {
 	MAX_STRING = 4096;
 	FILE* in;
 	FILE* destination_file;
 	char* name;
-	int argvi = argv;
 
 	initialize_globals();
 
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
-	name = argv[1];
+	name = ri32(argv+4);
 
 	in = fopen(name, "r");
 	global_token = read_all_tokens(in, global_token);
 	fclose(in);
 
-	destination_file = fopen(argv[2], "w");
+	destination_file = fopen(ri32(argv +(4*2)), "w");
 
 	global_token = reverse_list(global_token);
 
