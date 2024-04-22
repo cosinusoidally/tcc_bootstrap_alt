@@ -687,9 +687,10 @@ int collect_local() {
 }
 
 /* Evaluate if statements */
-void process_if() {
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+int process_if() {
+	int number_string;
+	number_string = int2str(current_count, 10, TRUE);
+	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
 	uniqueID_out(function->s, number_string);
