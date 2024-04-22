@@ -129,6 +129,12 @@ int set_token_s(int t,int v) {
 	tok->s = v;
 }
 
+int get_token_s(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->s;
+}
+
 int global_token_string() {
 	return token_string(global_token);
 }
@@ -297,7 +303,7 @@ int new_token(int s, int size) {
 
 	/* More efficiently allocate memory for string */
 	set_token_s(current, calloc(size, 1));
-	copy_string(current->s, s, MAX_STRING);
+	copy_string(get_token_s(current), s, MAX_STRING);
 
 	current->prev = token;
 	current->next = token;
