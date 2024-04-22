@@ -125,15 +125,11 @@ int advance();
 int statement();
 
 int set_s(int t,int v) {
-	struct token_list* tok;
-	tok = t;
 	wi32(add(t, token_list_s_offset), v);
 }
 
 int get_s(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->s;
+	return ri32(add(t, token_list_s_offset));
 }
 
 int set_token_prev(int t,int v) {
