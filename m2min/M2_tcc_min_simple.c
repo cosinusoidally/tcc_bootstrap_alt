@@ -55,7 +55,7 @@ int sizeof_token_list;
 
 /* The core functions */
 void initialize_types();
-struct token_list* read_all_tokens(int a, struct token_list* current);
+int read_all_tokens(int a, int current);
 int reverse_list(int head);
 
 int program();
@@ -444,7 +444,7 @@ int reverse_list(int head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(int a, struct token_list* current) {
+int read_all_tokens(int a, int current) {
 	input  = a;
 	line = 1;
 	token = current;
