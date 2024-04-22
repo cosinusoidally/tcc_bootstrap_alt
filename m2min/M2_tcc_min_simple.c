@@ -1005,7 +1005,7 @@ int recursive_output(struct token_list* head, int out) {
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
 		fputs(get_token_s(i), out);
-		i = i->next;
+		i = get_token_next(i);
 	}
 }
 
