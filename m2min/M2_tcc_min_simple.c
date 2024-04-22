@@ -514,7 +514,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 		if(match(get_token_s(i), s)) {
 			return i;
 		}
-		i = i->next;
+		i = get_token_next(i);
 	}
 	return NULL;
 }
@@ -606,7 +606,7 @@ int primary_expr_string() {
 	strings_list = uniqueID(get_token_s(function), strings_list, number_string);
 
 	/* Parse the string */
-	if(neq('"', ri8(get_token_s(global_token->next)))) {
+	if(neq('"', ri8(get_token_s(get_token_next(global_token))))) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
@@ -834,7 +834,7 @@ int return_result() {
 	i = function->locals;
 	while(neq(NULL, i)) {
 		emit_out("pop_ebx\t# _return_result_locals\n");
-		i = i->next;
+		i = get_token_next(i);
 	}
 	emit_out("ret\n");
 }
