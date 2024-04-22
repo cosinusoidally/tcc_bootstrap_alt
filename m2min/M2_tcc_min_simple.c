@@ -917,41 +917,45 @@ int declare_function() {
 
 void program() {
 	int i;
+	int new_type;
 	function = NULL;
 
-new_type:
-	/* Deal with garbage input */
-	if (NULL == global_token) {
-		return;
-	}
-
-	advance();
-
-	/* Add to global symbol table */
-	global_symbol_list = sym_declare(global_token_string(), global_symbol_list);
-	advance();
-
-	/* Deal with global variables */
-	if(match(";", global_token_string())) {
-		/* Ensure enough bytes are allocated to store global variable.
-		   In some cases it allocates too much but that is harmless. */
-		globals_list = emit(":GLOBAL_", globals_list);
-		globals_list = emit(global_token->prev->s, globals_list);
-
-		i = 1;
-		globals_list = emit("\n", globals_list);
-		while(i != 0) {
-			globals_list = emit("NULL\n", globals_list);
-			i = i - 1;
+	new_type = 1;
+	while(eq(new_type, 1)) {
+		new_type = 0;
+		/* Deal with garbage input */
+		if (NULL == global_token) {
+			return;
 		}
-		advance();
-		goto new_type;
-	}
 
-	/* Deal with global functions */
-	if(match("(", global_token_string())) {
-		declare_function();
-		goto new_type;
+		advance();
+
+		/* Add to global symbol table */
+		global_symbol_list = sym_declare(global_token_string(), global_symbol_list);
+		advance();
+
+		/* Deal with global variables */
+		if(match(";", global_token_string())) {
+			/* Ensure enough bytes are allocated to store global variable.
+			   In some cases it allocates too much but that is harmless. */
+			globals_list = emit(":GLOBAL_", globals_list);
+			globals_list = emit(global_token->prev->s, globals_list);
+
+			i = 1;
+			globals_list = emit("\n", globals_list);
+			while(i != 0) {
+				globals_list = emit("NULL\n", globals_list);
+				i = i - 1;
+			}
+			advance();
+			new_type = 1;
+		}
+
+		/* Deal with global functions */
+		if(match("(", global_token_string())) {
+			declare_function();
+			new_type = 1;
+		}
 	}
 
 	/* Everything else is just an error */
