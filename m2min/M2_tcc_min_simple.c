@@ -735,7 +735,7 @@ int process_asm() {
 }
 
 /* Process while loops */
-void process_while() {
+int process_while() {
 	struct token_list* nested_locals = break_frame;
 	char* nested_break_head = break_target_head;
 	char* nested_break_func = break_target_func;
