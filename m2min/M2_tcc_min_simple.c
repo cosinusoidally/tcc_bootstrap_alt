@@ -169,6 +169,18 @@ int get_depth(int t) {
 	return tok->depth;
 }
 
+int set_locals(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->locals = v;
+}
+
+int get_locals(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->locals;
+}
+
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_token_next(global_token);
@@ -657,7 +669,7 @@ int primary_expr_variable() {
 	s = global_token_string();
 	advance();
 
-	a = sym_lookup(s, function->locals);
+	a = sym_lookup(s, get_locals(function));
 	if(neq(NULL, a)) {
 		variable_load(a);
 		return;
@@ -717,7 +729,7 @@ int collect_local() {
 	struct token_list* a;
 
 	advance();
-	a = sym_declare(global_token_string(), function->locals);
+	a = sym_declare(global_token_string(), get_locals(function));
 	if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
 		set_depth(a, sub(0, mul(register_size, 2)));
 	} else if(eq(NULL, function->locals)) {
