@@ -96,7 +96,7 @@ struct token_list* break_frame;
 int current_count;
 
 /* Imported functions */
-char* int2str(int x, int base, int signed_p);
+int int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
@@ -169,9 +169,9 @@ int in_set(int c, int s) {
 	return FALSE;
 }
 
-char* int2str(int x, int base, int signed_p) {
+int int2str(int x, int base, int signed_p) {
 	/* Be overly conservative and save space for 32binary digits and padding null */
-	char* p = calloc(34, sizeof(char));
+	char* p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
 	if(NULL == p) return p;
 
