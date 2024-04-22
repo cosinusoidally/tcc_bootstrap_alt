@@ -814,7 +814,7 @@ void declare_function() {
 }
 
 void program() {
-	unsigned i;
+	int i;
 	function = NULL;
 
 new_type:
