@@ -870,9 +870,9 @@ void initialize_globals() {
 
 int main(int argc, int argv) {
 	MAX_STRING = 4096;
-	FILE* in;
-	FILE* destination_file;
-	char* name;
+	int in;
+	int destination_file;
+	int name;
 
 	initialize_globals();
 
