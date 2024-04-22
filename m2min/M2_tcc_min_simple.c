@@ -443,7 +443,7 @@ int parse_string(int string) {
 
 struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
-	t = calloc(1, sizeof(struct token_list));
+	t = calloc(1, sizeof_token_list);
 	t->next = head;
 	t->s = s;
 	return t;
@@ -463,7 +463,7 @@ void uniqueID_out(char* s, char* num) {
 }
 
 struct token_list* sym_declare(char *s, struct token_list* list) {
-	struct token_list* a = calloc(1, sizeof(struct token_list));
+	struct token_list* a = calloc(1, sizeof_token_list);
 	a->next = list;
 	a->s = s;
 	return a;
