@@ -867,15 +867,14 @@ int collect_arguments() {
 	advance();
 	while(eq(0, match(")", global_token_string()))) {
 		advance();
-		if(global_token_char0() != ',') {
+		if(neq(global_token_char0(), ',')) {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(), function->arguments);
-			if(NULL == function->arguments) {
-				a->depth = -register_size;
+			if(eq(NULL, function->arguments)) {
+				a->depth = sub(0, register_size);
 			} else {
-				a->depth = function->arguments->depth - register_size;
+				a->depth = sub(function->arguments->depth, register_size);
 			}
-
 			advance();
 			function->arguments = a;
 		}
