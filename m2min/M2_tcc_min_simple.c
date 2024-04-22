@@ -163,9 +163,7 @@ int set_depth(int t,int v) {
 }
 
 int get_depth(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->depth;
+	return ri32(add(t, token_list_depth_offset));
 }
 
 int set_locals(int t,int v) {
@@ -175,9 +173,7 @@ int set_locals(int t,int v) {
 }
 
 int get_locals(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->locals;
+	return ri32(add(t, token_list_locals_offset));
 }
 
 int set_arguments(int t,int v) {
@@ -187,9 +183,7 @@ int set_arguments(int t,int v) {
 }
 
 int get_arguments(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->arguments;
+	return ri32(add(t, token_list_arguments_offset));
 }
 
 int skip(int str) {
