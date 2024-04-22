@@ -1,11 +1,14 @@
 ./mk_clean
 
+cat simple_support_tcc.c > artifacts/M2_tcc_min_simple_full.c
+cat M2_tcc_min_simple.c >> artifacts/M2_tcc_min_simple_full.c
+
 echo "gcc build"
-gcc -g -m32 -O0 M2_tcc_min_simple.c -o artifacts/M2_min_gcc.exe
+gcc -g -m32 -O0 artifacts/M2_tcc_min_simple_full.c -o artifacts/M2_min_gcc.exe
 ./artifacts/M2_min_gcc.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_gcc.M1
 
 echo "tcc build"
-tcc M2_tcc_min_simple.c -o artifacts/M2_min_tcc.exe
+tcc artifacts/M2_tcc_min_simple_full.c -o artifacts/M2_min_tcc.exe
 ./artifacts/M2_min_tcc.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
 
 echo "build otccelf_cc_x86_min.exe"
