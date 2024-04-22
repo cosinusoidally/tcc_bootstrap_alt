@@ -194,7 +194,7 @@ int int2str(int x, int base, int signed_p) {
 		sign_p = TRUE;
 	} else {
 		/* Truncate to 32bits */
-		i = x & (0x7FFFFFFF | (1 << 31));
+		i = and(x, or(0x7FFFFFFF, shl(1, 31)));
 	}
 
 	do {
