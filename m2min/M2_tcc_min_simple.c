@@ -830,8 +830,10 @@ void recursive_statement() {
 
 	/* Clean up any locals added */
 	if(eq(0, match("ret\n", output_list->s))) {
-		for(i = function->locals; frame != i; i = i->next) {
+		i = function->locals;
+		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
+			i = i->next;
 		}
 	}
 	function->locals = frame;
