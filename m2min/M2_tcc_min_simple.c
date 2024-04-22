@@ -99,7 +99,7 @@ int current_count;
 
 /* Imported functions */
 int int2str(int x, int base, int signed_p);
-int parse_string(char* string);
+int parse_string(int string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
 
@@ -378,7 +378,7 @@ int escape_lookup(char* c) {
 	int c1;
 	c1 = ri8(add(c,1));
 	if(neq('\\', ri8(c))) {
-		return c[0];
+		return ri8(c);
 	}
 
 	if(eq(c1, '0')) {
@@ -410,7 +410,7 @@ int escape_lookup(char* c) {
 	exit(EXIT_FAILURE + 1);
 }
 
-int parse_string(char* string) {
+int parse_string(int string) {
 	int collect_regular_string_reset;
 	int message;
 
