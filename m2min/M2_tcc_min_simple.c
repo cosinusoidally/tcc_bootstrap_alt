@@ -155,7 +155,7 @@ int advance() {
 	global_token = get_token_next(global_token);
 }
 
-int token_string(struct token_list* a) {
+int token_string(int a) {
 	return get_token_s(a);
 }
 
