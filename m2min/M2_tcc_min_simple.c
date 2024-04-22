@@ -32,7 +32,7 @@ int EXIT_FAILURE;
 
 int EOF;
 
-void copy_string(char* target, char* source, int max);
+int copy_string(int target, int source, int max);
 int in_set(int c, int s);
 int match(int a, int b);
 void reset_hold_string();
@@ -255,13 +255,15 @@ int preserve_string(int c) {
 	return grab_byte();
 }
 
-void copy_string(char* target, char* source, int max) {
+int copy_string(int target, int source, int max) {
 	int i;
 	i = 0;
 	while(neq(0, ri8(add(source, i)))) {
 		wi8(add(target, i), ri8(add(source, i)));
-		i = i + 1;
-		if(i == max) break;
+		i = add(i, 1);
+		if(eq(i, max)) {
+			break;
+		}
 	}
 }
 
