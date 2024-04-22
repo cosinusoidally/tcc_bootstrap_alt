@@ -185,7 +185,7 @@ int int2str(int x, int base, int signed_p) {
 	sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && (10 == base) && (0 != (x & 0x80000000))) {
+	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
 		/* Truncate to 31bits */
 		i = -x & 0x7FFFFFFF;
 		if(0 == i) return "-2147483648";
