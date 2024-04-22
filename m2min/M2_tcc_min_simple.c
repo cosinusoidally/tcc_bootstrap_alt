@@ -51,6 +51,24 @@ struct token_list {
 	};
 };
 
+int token_list_next_offset;
+int token_list_locals_offset;
+int token_list_prev_offset;
+int token_list_s_offset;
+int token_list_arguments_offset;
+int token_list_depth_offset;
+int token_list_linenumber_offset;
+
+int token_list_layout_init(){
+	token_list_next_offset = 0;
+	token_list_locals_offset = 4;
+	token_list_prev_offset = 4;
+	token_list_s_offset = 8;
+	token_list_arguments_offset = 12;
+	token_list_depth_offset = 12;
+	token_list_linenumber_offset = 12;
+}
+
 int sizeof_token_list;
 
 /* The core functions */
@@ -1073,6 +1091,8 @@ int initialize_globals() {
 	EOF = sub(0, 1);
 
 	sizeof_token_list = mul(register_size, 4);
+
+	token_list_layout_init();
 }
 
 int main(int argc, int argv) {
