@@ -434,9 +434,9 @@ int parse_string(char* string) {
 	}
 
 	wi8(add(hold_string, string_index), '"');
-	hold_string[string_index + 1] = '\n';
-	message = calloc(string_index + 3, 1);
-	copy_string(message, hold_string, string_index + 2);
+	wi8(add(add(hold_string, string_index), 1), '\n');
+	message = calloc(add(string_index, 3), 1);
+	copy_string(message, hold_string, add(string_index, 2));
 	reset_hold_string();
 	return message;
 }
