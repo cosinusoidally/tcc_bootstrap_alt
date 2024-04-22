@@ -765,7 +765,7 @@ int process_while() {
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
 	break_frame = function->locals;
-	break_target_func = function->s;
+	break_target_func = get_token_s(function);
 
 	emit_out(":WHILE_");
 	uniqueID_out(function->s, number_string);
