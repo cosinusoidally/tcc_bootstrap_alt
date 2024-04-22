@@ -157,6 +157,18 @@ int get_token_linenumber(int t) {
 	return tok->linenumber;
 }
 
+int set_token_depth(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->depth = v;
+}
+
+int get_token_depth(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->depth;
+}
+
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_token_next(global_token);
@@ -579,7 +591,7 @@ int store_value() {
 
 int variable_load(struct token_list* a) {
 	emit_out("lea_eax,[ebp+DWORD] %");
-	emit_out(int2str(a->depth, 10, TRUE));
+	emit_out(int2str(get_token_depth(a), 10, TRUE));
 	emit_out("\n");
 
 	if(eq(0,match("=", global_token_string()))) {
