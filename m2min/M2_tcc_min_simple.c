@@ -458,21 +458,24 @@ struct token_list* uniqueID(int s, struct token_list* l, int num) {
 	return l;
 }
 
-void uniqueID_out(char* s, char* num) {
+int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(char *s, struct token_list* list) {
-	struct token_list* a = calloc(1, sizeof_token_list);
+struct token_list* sym_declare(int s, struct token_list* list) {
+	struct token_list* a;
+	a = calloc(1, sizeof_token_list);
 	a->next = list;
 	a->s = s;
 	return a;
 }
 
-struct token_list* sym_lookup(char *s, struct token_list* symbol_list) {
+struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 	struct token_list* i;
-	for(i = symbol_list; NULL != i; i = i->next) {
-		if(match(i->s, s)) return i;
+	for(i = symbol_list; neq(NULL, i); i = i->next) {
+		if(match(i->s, s)) {
+			return i;
+		}
 	}
 	return NULL;
 }
