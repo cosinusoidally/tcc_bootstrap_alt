@@ -267,8 +267,8 @@ reset:
 		return c;
 	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	} else if(in_set(c, "<=>|&!^%")) {
-		c = preserve_keyword(c, "<=>|&!^%");
+	} else if(in_set(c, "=")) {
+		c = preserve_keyword(c, "=");
 	} else if(in_set(c, "'\"")) {
 		c = preserve_string(c);
 	} else if(c == '/') {
