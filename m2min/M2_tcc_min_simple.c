@@ -551,8 +551,8 @@ int sym_declare(int s, int list) {
 	return a;
 }
 
-struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
-	struct token_list* i;
+int sym_lookup(int s, int symbol_list) {
+	int i;
 
 	i = symbol_list;
 	while(neq(NULL, i)) {
@@ -610,7 +610,7 @@ int store_value() {
 	return "mov_[ebx],eax\n";
 }
 
-int variable_load(struct token_list* a) {
+int variable_load(int a) {
 	emit_out("lea_eax,[ebp+DWORD] %");
 	emit_out(int2str(get_depth(a), 10, TRUE));
 	emit_out("\n");
@@ -621,14 +621,14 @@ int variable_load(struct token_list* a) {
 
 }
 
-int function_load(struct token_list* a) {
+int function_load(int a) {
 	if(match("(", global_token_string())) {
 		function_call(get_s(a));
 		return;
 	}
 }
 
-int global_load(struct token_list* a) {
+int global_load(int a) {
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(get_s(a));
 	emit_out("\n");
@@ -672,7 +672,7 @@ int primary_expr_number() {
 }
 
 int primary_expr_variable() {
-	struct token_list* a;
+	int a;
 	int s;
 
 	s = global_token_string();
@@ -735,7 +735,7 @@ int expression() {
 
 /* Process local variable */
 int collect_local() {
-	struct token_list* a;
+	int a;
 
 	advance();
 	a = sym_declare(global_token_string(), get_locals(function));
@@ -820,7 +820,7 @@ int process_asm() {
 
 /* Process while loops */
 int process_while() {
-	struct token_list* nested_locals;
+	int nested_locals;
 	int nested_break_head;
 	int nested_break_func;
 	int nested_break_num;
@@ -871,7 +871,7 @@ int process_while() {
 
 /* Ensure that functions return */
 int return_result() {
-	struct token_list* i;
+	int i;
 	int size_local_var;
 
 	advance();
@@ -888,7 +888,7 @@ int return_result() {
 }
 
 int process_break() {
-	struct token_list* i;
+	int i;
 	i = get_locals(function);
 
 	advance();
