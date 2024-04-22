@@ -26,7 +26,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "gcc_req.h"
 
 #define FALSE 0
 #define TRUE 1
