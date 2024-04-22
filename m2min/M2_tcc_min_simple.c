@@ -375,11 +375,15 @@ struct token_list* read_all_tokens(int a, struct token_list* current) {
 
 /* Lookup escape values */
 int escape_lookup(char* c) {
-	if('\\' != c[0]) return c[0];
+	if(neq('\\', ri8(c))) {
+		return c[0];
+	}
 
-	if(c[1] == '0') return 0;
-	else if(c[1] == 'a') return 7;
-	else if(c[1] == 'b') return 8;
+	if(eq(c[1], '0')) {
+		return 0;
+	} else if(c[1] == 'a') {
+		return 7;
+	} else if(c[1] == 'b') return 8;
 	else if(c[1] == 't') return 9;
 	else if(c[1] == 'n') return 10;
 	else if(c[1] == 'v') return 11;
