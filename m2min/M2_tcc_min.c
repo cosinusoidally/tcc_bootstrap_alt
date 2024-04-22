@@ -130,6 +130,10 @@ char *global_token_string(void) {
 	return token_string(global_token);
 }
 
+char global_token_char0() {
+	return (token_string(global_token))[0];
+}
+
 int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
@@ -423,12 +427,12 @@ void function_call(char* s) {
 	emit_out("push_ebp\t# Protect the old base pointer\n");
 	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(global_token->s[0] != ')') {
+	if(global_token_char0() != ')') {
 		expression();
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(global_token->s[0] == ',') {
+		while(global_token_char0() == ',') {
 			advance();
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
@@ -553,7 +557,7 @@ void primary_expr_variable() {
 }
 
 void expression() {
-	if(global_token->s[0] == '(') {
+	if(global_token_char0() == '(') {
 		advance();
 		expression();
 		skip(")");
