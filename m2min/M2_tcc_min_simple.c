@@ -880,7 +880,7 @@ int collect_arguments() {
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(global_token_char0() == ',') {
+		if(eq(global_token_char0(), ',')) {
 			advance();
 		}
 
