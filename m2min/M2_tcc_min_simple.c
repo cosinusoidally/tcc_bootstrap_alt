@@ -141,15 +141,11 @@ int get_token_prev(int t) {
 }
 
 int set_token_next(int t,int v) {
-	struct token_list* tok;
-	tok = t;
-	tok->next = v;
+	wi32(add(t, token_list_next_offset), v);
 }
 
 int get_token_next(int t) {
-	struct token_list* tok;
-	tok = t;
-	return tok->next;
+	return ri32(add(t, token_list_next_offset));
 }
 
 int set_token_linenumber(int t,int v) {
