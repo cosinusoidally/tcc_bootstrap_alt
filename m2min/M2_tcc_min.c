@@ -651,7 +651,7 @@ void process_asm() {
 	advance();
 	skip("(");
 	while('"' == global_token->s[0]) {
-		emit_out((token_string(global_token) + 1));
+		emit_out((global_token_string() + 1));
 		emit_out("\n");
 		advance();
 	}
@@ -738,7 +738,7 @@ void recursive_statement() {
 	advance();
 	struct token_list* frame = function->locals;
 
-	while(!match("}", token_string(global_token))) {
+	while(!match("}", global_token_string())) {
 		statement();
 	}
 	advance();
@@ -758,17 +758,17 @@ struct type* lookup_type(char* s, struct type* start);
 void statement() {
 	if(global_token->s[0] == '{') {
 		recursive_statement();
-	} else if(match("int", token_string(global_token))) {
+	} else if(match("int", global_token_string())) {
 		collect_local();
-	} else if(match("if", token_string(global_token))) {
+	} else if(match("if", global_token_string())) {
 		process_if();
-	} else if(match("while", token_string(global_token))) {
+	} else if(match("while", global_token_string())) {
 		process_while();
-	} else if(match("asm", token_string(global_token))) {
+	} else if(match("asm", global_token_string())) {
 		process_asm();
-	} else if(match("return", token_string(global_token))) {
+	} else if(match("return", global_token_string())) {
 		return_result();
-	} else if(match("break", token_string(global_token))) {
+	} else if(match("break", global_token_string())) {
 		process_break();
 	} else {
 		expression();
@@ -781,11 +781,11 @@ void collect_arguments() {
 	advance();
 	struct token_list* a;
 
-	while(!match(")", token_string(global_token))) {
+	while(!match(")", global_token_string())) {
 		advance();
 		if(global_token->s[0] != ',') {
 			/* deal with foo(int a, char b) */
-			a = sym_declare(token_string(global_token), function->arguments);
+			a = sym_declare(global_token_string(), function->arguments);
 			if(NULL == function->arguments) {
 				a->depth = -4;
 			} else {
@@ -843,7 +843,7 @@ new_type:
 	advance();
 
 	/* Add to global symbol table */
-	global_symbol_list = sym_declare(token_string(global_token), global_symbol_list);
+	global_symbol_list = sym_declare(global_token_string(), global_symbol_list);
 	advance();
 
 	/* Deal with global variables */
