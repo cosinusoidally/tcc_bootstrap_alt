@@ -958,7 +958,7 @@ int collect_arguments() {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(),
 						get_arguments(function));
-			if(eq(NULL, function->arguments)) {
+			if(eq(NULL, get_arguments(function))) {
 				set_depth(a, sub(0, register_size));
 			} else {
 				set_depth(a, sub(get_depth(
@@ -966,7 +966,7 @@ int collect_arguments() {
 						register_size));
 			}
 			advance();
-			function->arguments = a;
+			set_arguments(function, a);
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
