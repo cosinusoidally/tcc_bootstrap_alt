@@ -199,16 +199,16 @@ int int2str(int x, int base, int signed_p) {
 
 	do {
 		wi8(p, ri8(add(table, mod(i, base))));
-		p = p - 1;
-		i = i / base;
+		p = sub(p, 1);
+		i = div(i, base);
 	} while(0 < i);
 
 	if(sign_p) {
 		wi8(p, '-');
-		p = p - 1;
+		p = sub(p, 1);
 	}
 
-	return p + 1;
+	return add(p, 1);
 }
 
 int grab_byte() {
