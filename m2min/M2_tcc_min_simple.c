@@ -145,6 +145,18 @@ int get_token_next(int t) {
 	return tok->next;
 }
 
+int set_token_linenumber(int t,int v) {
+	struct token_list* tok;
+	tok = t;
+	tok->linenumber = v;
+}
+
+int get_token_linenumber(int t) {
+	struct token_list* tok;
+	tok = t;
+	return tok->linenumber;
+}
+
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_token_next(global_token);
@@ -331,7 +343,7 @@ int new_token(int s, int size) {
 
 	set_token_prev(current, token);
 	set_token_next(current, token);
-	current->linenumber = line;
+	set_token_linenumber(current, line);
 	token = current;
 }
 
