@@ -737,10 +737,11 @@ int collect_local() {
 		set_depth(a, sub(get_depth(function->arguments),
 					mul(register_size, 2)));
 	} else {
-		set_depth(a, sub(get_depth(function->locals), register_size));
+		set_depth(a, sub(get_depth(get_locals(function)),
+						register_size));
 	}
 
-	function->locals = a;
+	set_locals(function, a);
 
 	emit_out("# Defining local ");
 	emit_out(global_token_string());
@@ -826,7 +827,7 @@ int process_while() {
 
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
-	break_frame = function->locals;
+	break_frame = get_locals(function);
 	break_target_func = get_s(function);
 
 	emit_out(":WHILE_");
