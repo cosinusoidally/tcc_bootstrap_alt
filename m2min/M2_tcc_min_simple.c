@@ -53,13 +53,13 @@ int ri8(int o);
 int wi8(int o,int v);
 
 /* libc functions */
-int calloc(int a, int b);
-int fgetc(int a);
-int free(int a);
-int exit(int a);
-int fputs(int a, int b);
-int fopen(int a, int b);
-int fclose(int a);
+int calloc(int count, int size);
+int fgetc(int f);
+int free(int l);
+int exit(int value);
+int fputs(int si, int f);
+int fopen(int filename, int mode);
+int fclose(int stream);
 
 /* misc functions */
 int copy_string(int target, int source, int max);
