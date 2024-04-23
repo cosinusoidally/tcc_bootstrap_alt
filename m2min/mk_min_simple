@@ -36,7 +36,10 @@ cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_min_simple_m2-0.hex2 > artifacts/M2_tc
 
 chmod +x artifacts/M2_tcc_min_simple_m2.exe
 
+./artifacts/M2_tcc_min_simple_m2.exe artifacts/M2_tcc_min_simple_m2.c artifacts/M2_tcc_min_simple_self.M1
+
 diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
+diff -u -s artifacts/M2_tcc_min_simple_self.M1 artifacts/M2_tcc_min_simple_m2.M1
 sha256sum artifacts/*M1
 wc M2_tcc_min_simple.c
 ls -l artifacts/*.exe
