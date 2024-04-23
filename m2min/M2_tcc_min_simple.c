@@ -782,7 +782,10 @@ int collect_local() {
 
 	advance();
 	a = sym_declare(global_token_string(), get_locals(function));
-	if(and(eq(NULL, get_arguments(function)),
+
+        if(and(match("main", get_s(function)), eq(NULL, get_locals(function)))) {
+                set_depth(a, sub(0, 20));
+        } else if(and(eq(NULL, get_arguments(function)),
 			eq(NULL, get_locals(function)))) {
 		set_depth(a, sub(0, mul(register_size, 2)));
 	} else if(eq(NULL, get_locals(function))) {
