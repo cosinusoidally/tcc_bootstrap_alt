@@ -22,6 +22,9 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 
 ./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
 
+cat M2_tcc_min_simple.c > artifacts/M2_tcc_min_simple_m2.c
+cat simple_support_m2.c >> artifacts/M2_tcc_min_simple_m2.c
+
 diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
 sha256sum artifacts/*M1
 wc M2_tcc_min_simple.c
