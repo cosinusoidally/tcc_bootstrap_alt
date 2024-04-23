@@ -32,6 +32,8 @@ int EXIT_FAILURE;
 
 int EOF;
 
+int quote_string;
+
 /* delare primitives */
 int add(int a, int b);
 int and(int a, int b);
@@ -441,7 +443,7 @@ int get_token(int c) {
 			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
 		} else if(in_set(c, "=")) {
 			c = preserve_keyword(c, "=");
-		} else if(in_set(c, "'\"")) {
+		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
 		} else if(eq(c, '/')) {
 			c = consume_byte(c);
@@ -1116,6 +1118,11 @@ int initialize_globals() {
 	sizeof_token_list = mul(register_size, 4);
 
 	token_list_layout_init();
+
+	quote_string=calloc(1, 16); /* round up */
+	wi8(quote_string, '\'');
+	wi8(add(quote_string, 1), '"');
+	wi8(add(quote_string, 2), 0);
 }
 
 int main(int argc, int argv) {
