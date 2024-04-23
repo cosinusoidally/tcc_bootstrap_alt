@@ -3,7 +3,7 @@
 cat M2_tcc_min_simple.c > artifacts/M2_tcc_min_simple_m2.c
 cat simple_support_m2.c >> artifacts/M2_tcc_min_simple_m2.c
 
-./artifacts/M2_min_tcc.exe artifacts/M2_tcc_min_simple_m2.c artifacts/M2_tcc_min_simple_m2.M1
+../x86/bin/cc_x86 artifacts/M2_tcc_min_simple_m2.c artifacts/M2_tcc_min_simple_m2.M1
 
 cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_tcc_min_simple_m2.M1 > artifacts/M2_tcc_min_simple_m2-0.M1
 ../x86/bin/M0 artifacts/M2_tcc_min_simple_m2-0.M1 artifacts/M2_tcc_min_simple_m2-0.hex2
