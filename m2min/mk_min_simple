@@ -22,8 +22,19 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 
 ./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
 
+# building self hosted M2_tcc_min_simple.c
+
 cat M2_tcc_min_simple.c > artifacts/M2_tcc_min_simple_m2.c
 cat simple_support_m2.c >> artifacts/M2_tcc_min_simple_m2.c
+
+./artifacts/M2_min_tcc.exe artifacts/M2_tcc_min_simple_m2.c  artifacts/M2_tcc_min_simple_m2.M1
+
+cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_tcc_min_simple_m2.M1 > artifacts/M2_tcc_min_simple_m2-0.M1
+../x86/bin/M0 artifacts/M2_tcc_min_simple_m2-0.M1 artifacts/M2_tcc_min_simple_m2-0.hex2
+cat ../x86/ELF-i386.hex2  artifacts/M2_tcc_min_simple_m2-0.hex2 >  artifacts/M2_tcc_min_simple_m2-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_tcc_min_simple_m2-0-0.hex2 artifacts/M2_tcc_min_simple_m2.exe
+
+chmod +x artifacts/M2_tcc_min_simple_m2.exe
 
 diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
 sha256sum artifacts/*M1
