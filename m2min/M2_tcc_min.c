@@ -571,7 +571,10 @@ void expression() {
 void collect_local() {
 	advance();
 	struct token_list* a = sym_declare(global_token_string(), function->locals);
-	if((NULL == function->arguments) && (NULL == function->locals)) {
+/* LJW main is special */
+        if(match("main", function->s) && (NULL == function->locals)) {
+                a->depth = -20;
+        } else if ((NULL == function->arguments) && (NULL == function->locals)) {
 		a->depth = -(register_size * 2);
 	} else if(NULL == function->locals) {
 		a->depth = function->arguments->depth - (register_size * 2);
