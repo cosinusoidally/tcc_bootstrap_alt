@@ -643,7 +643,7 @@ int function_call(int s) {
 }
 
 int load_value() {
-	return "load\n";
+	return "load ";
 }
 
 int store_value() {
@@ -651,7 +651,7 @@ int store_value() {
 }
 
 int variable_load(int a) {
-	emit_out("lea_eax,[ebp+DWORD] %");
+	emit_out("local %");
 	emit_out(int2str(get_depth(a), 10, TRUE));
 	emit_out(" ");
 
