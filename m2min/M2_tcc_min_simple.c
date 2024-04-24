@@ -189,7 +189,7 @@ int set_prev(int t,int v) {
 	wi32(add(t, token_list_prev_offset), v);
 }
 
-int get_token_prev(int t) {
+int get_prev(int t) {
 	return ri32(add(t, token_list_prev_offset));
 }
 
@@ -1023,7 +1023,7 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(get_s(get_token_prev(global_token)),
+	function = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
 
 	/* allow previously defined functions to be looked up */
@@ -1073,7 +1073,7 @@ int program() {
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(":GLOBAL_", globals_list);
-			globals_list = emit(get_s(get_token_prev(global_token)),
+			globals_list = emit(get_s(get_prev(global_token)),
 						globals_list);
 
 			i = 1;
