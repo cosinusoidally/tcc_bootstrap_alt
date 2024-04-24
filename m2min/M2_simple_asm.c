@@ -687,10 +687,10 @@ int function_call(int s) {
 
 	indented_emit_out("do_call %FUNCTION_");
 	emit_out(s);
-	emit_out("\n");
+	emit_out(" ");
 
 	if(neq(0, passed)) {
-		indented_emit_out("cleanup_args_bytes !");
+		emit_out("cleanup_args_bytes !");
 		emit_out(int2str(mul(passed, register_size), 10, TRUE));
 		emit_out("\n");
 	}
@@ -759,14 +759,14 @@ int primary_expr_string() {
 int primary_expr_char() {
 	indented_emit_out("constant %");
 	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
-	emit_out(" ");
+	emit_out(" "); no_indent = 1;
 	advance();
 }
 
 int primary_expr_number() {
 	indented_emit_out("constant %");
 	emit_out(global_token_string());
-	emit_out(" ");
+	emit_out(" "); no_indent = 1;
 	advance();
 }
 
@@ -866,7 +866,7 @@ int collect_local() {
 
 	skip(";");
 
-	emit_out("reserve_stack_slot\n");
+	indented_emit_out("reserve_stack_slot\n");
 }
 
 /* Evaluate if statements */
@@ -889,7 +889,7 @@ int process_if() {
 	skip(")");
 	statement();
 
-	emit_out("jmp %_END_IF_");
+	indented_emit_out("jmp %_END_IF_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -955,7 +955,7 @@ int process_while() {
 	skip(")");
 	statement();
 
-	emit_out("jmp %WHILE_");
+	indented_emit_out("jmp %WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -999,7 +999,7 @@ int process_break() {
 	i = get_locals(function);
 
 	advance();
-	emit_out("jmp %");
+	indented_emit_out("jmp %");
 	emit_out(break_target_head);
 	emit_out(break_target_func);
 	emit_out("_");
