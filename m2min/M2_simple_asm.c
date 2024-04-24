@@ -680,7 +680,7 @@ int function_call(int s) {
 
 	skip(")");
 
-	emit_out("do_call %FUNCTION_");
+	indented_emit_out("do_call %FUNCTION_");
 	emit_out(s);
 	emit_out("\n");
 
@@ -1115,7 +1115,7 @@ int declare_function() {
 
 		/* Prevent duplicate RETURNS */
 		if(eq(0, match("ret\n", get_s(output_list)))) {
-			emit_out("ret\n");
+			indented_emit_out("ret\n");
 		}
 		decrease_indent();
 	}
