@@ -829,9 +829,7 @@ int collect_local() {
 
 	skip(";");
 
-	emit_out("push_eax\t#");
-	emit_out(get_s(a));
-	emit_out("\n");
+	emit_out("reserve_stack_slot\n");
 }
 
 /* Evaluate if statements */
