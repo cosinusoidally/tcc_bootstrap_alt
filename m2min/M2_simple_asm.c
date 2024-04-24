@@ -988,7 +988,8 @@ int return_result() {
 	if(neq(0, c)) {
 		emit_out("\ncleanup_locals_bytes !");
 		emit_out(int2str(mul(c, register_size), 10, TRUE));
-		emit_out("\n");
+		emit_out(" ");
+		no_indent = 1;
 	}
 	indented_emit_out("ret\n");
 }
@@ -1030,7 +1031,8 @@ void recursive_statement() {
 		if(neq(0, c)) {
 			emit_out("\ncleanup_locals_bytes !");
 			emit_out(int2str(mul(c, register_size), 10, TRUE));
-			emit_out("\n");
+			emit_out(" ");
+			no_indent = 1;
 		}
 	}
 	set_locals(function, frame);
