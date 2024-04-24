@@ -641,13 +641,13 @@ int function_call(int s) {
 
 	if(neq(global_token_char0(), ')')) {
 		expression();
-		emit_out("push_eax\t#_process_expression1\n");
+		emit_out("push_arg\n");
 		passed = 1;
 
 		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
-			emit_out("push_eax\t#_process_expression2\n");
+			emit_out("push_arg\n");
 			passed = add(passed, 1);
 		}
 	}
@@ -789,7 +789,7 @@ int expression() {
 	}
 
 	if(match("=", global_token_string())) {
-		emit_out("push_eax\t#_common_recursion\n");
+		emit_out("push_address\n");
 		advance();
 		expression();
 		emit_out("store\n");

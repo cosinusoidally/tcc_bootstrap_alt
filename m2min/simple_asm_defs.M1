@@ -51,3 +51,11 @@ DEFINE reserve_stack_slot 50
 # test_eax,eax
 # je (32 bit relative)
 DEFINE cond_branch 85C00F84
+
+# push_arg is:
+# push_eax
+DEFINE push_arg 50
+
+# push_address is:
+# push_eax
+DEFINE push_address 50
