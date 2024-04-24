@@ -709,7 +709,7 @@ int primary_expr_string() {
 	int number_string;
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
-	emit_out("mov_eax, &STRING_");
+	emit_out("constant &STRING_");
 	uniqueID_out(get_s(function), number_string);
 
 	/* The target */
@@ -724,16 +724,16 @@ int primary_expr_string() {
 }
 
 int primary_expr_char() {
-	emit_out("mov_eax, %");
+	emit_out("constant %");
 	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
-	emit_out("\n");
+	emit_out(" ");
 	advance();
 }
 
 int primary_expr_number() {
-	emit_out("mov_eax, %");
+	emit_out("constant %");
 	emit_out(global_token_string());
-	emit_out("\n");
+	emit_out(" ");
 	advance();
 }
 
