@@ -912,7 +912,7 @@ int process_while() {
 	skip("(");
 	expression();
 
-	emit_out("test_eax,eax\nje %END_WHILE_");
+	emit_out("cond_branch %END_WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 
