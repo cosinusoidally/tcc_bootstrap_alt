@@ -642,7 +642,7 @@ int function_call(int s) {
 }
 
 int load_value() {
-	return "mov_eax,[eax]\n";
+	return "load\n";
 }
 
 int store_value() {
