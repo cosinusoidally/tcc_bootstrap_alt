@@ -201,7 +201,7 @@ int get_token_next(int t) {
 	return ri32(add(t, token_list_next_offset));
 }
 
-int set_token_linenumber(int t,int v) {
+int set_linenumber(int t,int v) {
 	wi32(add(t, token_list_linenumber_offset), v);
 }
 
@@ -419,7 +419,7 @@ int new_token(int s, int size) {
 
 	set_prev(current, token);
 	set_next(current, token);
-	set_token_linenumber(current, line);
+	set_linenumber(current, line);
 	token = current;
 }
 
