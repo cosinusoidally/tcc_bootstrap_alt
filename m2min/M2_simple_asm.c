@@ -152,6 +152,7 @@ int break_frame;
 int current_count;
 
 int indent;
+int no_indent;
 
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
@@ -251,9 +252,13 @@ int decrease_indent() {
 int indented_emit_out(int s) {
 	int c;
 	c = 0;
-	while(lt(c, indent)) {
-		emit_out(" ");
-		c = add(c, 1);
+	if(no_indent) {
+		no_indent = 0;
+	} else {
+		while(lt(c, indent)) {
+			emit_out(" ");
+			c = add(c, 1);
+		}
 	}
 	emit_out(s);
 }
@@ -695,6 +700,7 @@ int function_call(int s) {
 }
 
 int load_value() {
+	no_indent = 1;
 	return "load ";
 }
 
@@ -845,7 +851,7 @@ int collect_local() {
 
 	set_locals(function, a);
 
-	emit_out("DEFINE LOCAL_");
+	indented_emit_out("DEFINE LOCAL_");
 	emit_out(global_token_string());
 	emit_out(" ");
 	emit_out(to_hex(get_depth(a)));
@@ -876,7 +882,7 @@ int process_if() {
 	skip("(");
 	expression();
 
-	emit_out("cond_branch %ELSE_");
+	indented_emit_out("cond_branch %ELSE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -939,7 +945,7 @@ int process_while() {
 	skip("(");
 	expression();
 
-	emit_out("cond_branch %END_WHILE_");
+	indented_emit_out("cond_branch %END_WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -984,7 +990,7 @@ int return_result() {
 		emit_out(int2str(mul(c, register_size), 10, TRUE));
 		emit_out("\n");
 	}
-	emit_out("ret\n");
+	indented_emit_out("ret\n");
 }
 
 int process_break() {
@@ -1198,7 +1204,9 @@ int initialize_globals() {
 	wi8(quote_string, '\'');
 	wi8(add(quote_string, 1), '"');
 	wi8(add(quote_string, 2), 0);
+
 	indent = 0;
+	no_indent = 0;
 }
 
 int main(int argc, int argv) {
