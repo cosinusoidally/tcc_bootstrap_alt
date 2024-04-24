@@ -158,6 +158,7 @@ int parse_string(int string);
 int escape_lookup(int c);
 
 int emit(int s, int head);
+int emit_out(int s);
 
 int expression();
 int advance();
@@ -246,6 +247,17 @@ int decrease_indent() {
 		indent = 0;
 	}
 }
+
+int indented_newline() {
+	int c;
+	c = 0;
+	emit_out("\n");
+	while(lt(c, indent)) {
+		emit_out(" ");
+		c = add(c, 1);
+	}
+}
+
 
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
@@ -651,17 +663,18 @@ int function_call(int s) {
 	passed = 0;
 	skip("(");
 
-	emit_out("(fn_call\n");
+	emit_out("(fn_call");
+	increase_indent(); indented_newline();
 
 	if(neq(global_token_char0(), ')')) {
 		expression();
-		emit_out("push_arg\n");
+		emit_out("push_arg"); indented_newline();
 		passed = 1;
 
 		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
-			emit_out("push_arg\n");
+			emit_out("push_arg"); indented_newline();
 			passed = add(passed, 1);
 		}
 	}
@@ -670,8 +683,7 @@ int function_call(int s) {
 
 	emit_out("do_call %FUNCTION_");
 	emit_out(s);
-	increase_indent();
-	emit_out("\n");
+	indented_newline();
 
 	if(neq(0, passed)) {
 		emit_out("cleanup_args_bytes !");
@@ -1088,7 +1100,8 @@ int declare_function() {
 	} else {
 		emit_out(":FUNCTION_");
 		emit_out(get_s(function));
-		emit_out("\n");
+		increase_indent();
+		indented_newline();
 
 		a = get_arguments(function);
 		while(neq(0, a)) {
@@ -1105,6 +1118,7 @@ int declare_function() {
 		if(eq(0, match("ret\n", get_s(output_list)))) {
 			emit_out("ret\n");
 		}
+		decrease_indent();
 	}
 }
 
