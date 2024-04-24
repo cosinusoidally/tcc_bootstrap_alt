@@ -24,6 +24,10 @@ int gte(int a, int b) {
 	return a >= b;
 }
 
+int lt(int a, int b) {
+	return a < b;
+}
+
 int lte(int a, int b) {
 	return a <= b;
 }

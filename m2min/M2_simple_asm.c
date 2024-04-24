@@ -41,6 +41,7 @@ int div(int a, int b);
 int eq(int a, int b);
 int gt(int a, int b);
 int gte(int a, int b);
+int lt(int a, int b);
 int lte(int a, int b);
 int mod(int a, int b);
 int mul(int a, int b);
@@ -150,6 +151,8 @@ int break_target_num;
 int break_frame;
 int current_count;
 
+int indent;
+
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
 int escape_lookup(int c);
@@ -231,6 +234,17 @@ int set_arguments(int t,int v) {
 
 int get_arguments(int t) {
 	return ri32(add(t, token_list_arguments_offset));
+}
+
+int increase_indent() {
+	indent = add(indent, 2);
+}
+
+int decrease_indent() {
+	indent = sub(indent, 2);
+	if(lt(0,indent)) {
+		indent = 0;
+	}
 }
 
 int skip(int str) {
@@ -656,6 +670,7 @@ int function_call(int s) {
 
 	emit_out("do_call %FUNCTION_");
 	emit_out(s);
+	increase_indent();
 	emit_out("\n");
 
 	if(neq(0, passed)) {
@@ -665,6 +680,7 @@ int function_call(int s) {
 	}
 
 	emit_out("/fn_call)\n");
+	decrease_indent();
 }
 
 int load_value() {
@@ -1169,6 +1185,7 @@ int initialize_globals() {
 	wi8(quote_string, '\'');
 	wi8(add(quote_string, 1), '"');
 	wi8(add(quote_string, 2), 0);
+	indent = 0;
 }
 
 int main(int argc, int argv) {
