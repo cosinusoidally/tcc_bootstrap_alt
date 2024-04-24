@@ -799,8 +799,10 @@ int collect_local() {
 
 	set_locals(function, a);
 
-	emit_out("# Defining local ");
+	emit_out("# DEFINE LOCAL_");
 	emit_out(global_token_string());
+	emit_out(" ");
+	emit_out(int2str(get_depth(a), 10, TRUE));
 	emit_out("\n");
 
 	advance();
