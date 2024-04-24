@@ -17,3 +17,7 @@ DEFINE /fn_call) 5D5F
 # load is:
 # mov_eax,[eax]
 DEFINE load 8B00
+
+# cleanup_args is:
+# add8_esp, (immediate 8 bit value)
+DEFINE cleanup_args 83C4

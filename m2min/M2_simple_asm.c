@@ -609,6 +609,7 @@ int sym_lookup(int s, int symbol_list) {
 
 int function_call(int s) {
 	int passed;
+	int passed_nz;
 	passed = 0;
 	skip("(");
 
@@ -633,9 +634,16 @@ int function_call(int s) {
 	emit_out(s);
 	emit_out("\n");
 
+	passed_nz = passed;
 	while(gt(passed, 0)) {
-		emit_out("pop_ebx\t# _process_expression_locals\n");
+		emit_out("pop_ebx ");
 		passed = sub(passed, 1);
+	}
+
+	if(neq(0, passed_nz)) {
+		emit_out("# cleanup_args !");
+		emit_out(int2str(passed_nz, 10, TRUE));
+		emit_out("\n");
 	}
 
 	emit_out("/fn_call)\n");
