@@ -1010,6 +1010,7 @@ int collect_arguments() {
 						register_size));
 			}
 			advance();
+
 			set_arguments(function, a);
 		}
 
@@ -1023,6 +1024,7 @@ int collect_arguments() {
 }
 
 int declare_function() {
+	int a;
 	current_count = 0;
 	function = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
@@ -1041,6 +1043,16 @@ int declare_function() {
 		emit_out(":FUNCTION_");
 		emit_out(get_s(function));
 		emit_out("\n");
+
+		a = get_arguments(function);
+		while(neq(0, a)) {
+			emit_out("# DEFINE LOCAL_");
+			emit_out(get_s(a));
+			emit_out(" ");
+			emit_out(int2str(get_depth(a),10,TRUE));
+			emit_out("\n");
+			a = get_next(a);
+		}
 		statement();
 
 		/* Prevent duplicate RETURNS */
