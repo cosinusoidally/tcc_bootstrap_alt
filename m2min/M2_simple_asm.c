@@ -652,7 +652,7 @@ int store_value() {
 int variable_load(int a) {
 	emit_out("lea_eax,[ebp+DWORD] %");
 	emit_out(int2str(get_depth(a), 10, TRUE));
-	emit_out("\n");
+	emit_out(" ");
 
 	if(eq(0,match("=", global_token_string()))) {
 		emit_out(load_value());
