@@ -667,13 +667,13 @@ int function_call(int s) {
 
 	if(neq(global_token_char0(), ')')) {
 		expression();
-		emit_out("push_arg\n");
+		indented_emit_out("push_arg\n");
 		passed = 1;
 
 		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
-			emit_out("push_arg\n");
+			indented_emit_out("push_arg\n");
 			passed = add(passed, 1);
 		}
 	}
@@ -819,7 +819,7 @@ int expression() {
 		emit_out("push_address\n");
 		advance();
 		expression();
-		emit_out("store\n");
+		indented_emit_out("store\n");
 	}
 }
 
