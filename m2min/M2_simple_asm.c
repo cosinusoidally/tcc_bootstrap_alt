@@ -629,8 +629,7 @@ int function_call(int s) {
 
 	skip(")");
 
-	emit_out("mov_ebp,edi\n");
-	emit_out("call %FUNCTION_");
+	emit_out("do_call %FUNCTION_");
 	emit_out(s);
 	emit_out("\n");
 
