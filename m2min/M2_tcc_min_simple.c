@@ -185,7 +185,7 @@ int get_s(int t) {
 	return ri32(add(t, token_list_s_offset));
 }
 
-int set_token_prev(int t,int v) {
+int set_prev(int t,int v) {
 	wi32(add(t, token_list_prev_offset), v);
 }
 
@@ -417,7 +417,7 @@ int new_token(int s, int size) {
 	set_s(current, calloc(size, 1));
 	copy_string(get_s(current), s, MAX_STRING);
 
-	set_token_prev(current, token);
+	set_prev(current, token);
 	set_token_next(current, token);
 	set_token_linenumber(current, line);
 	token = current;
