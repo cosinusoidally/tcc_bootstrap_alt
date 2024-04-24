@@ -248,16 +248,15 @@ int decrease_indent() {
 	}
 }
 
-int indented_newline() {
+int indented_emit_out(int s) {
 	int c;
 	c = 0;
-	emit_out("\n");
 	while(lt(c, indent)) {
 		emit_out(" ");
 		c = add(c, 1);
 	}
+	emit_out(s);
 }
-
 
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
@@ -663,18 +662,18 @@ int function_call(int s) {
 	passed = 0;
 	skip("(");
 
-	emit_out("(fn_call");
-	increase_indent(); indented_newline();
+	indented_emit_out("(fn_call\n");
+	increase_indent();
 
 	if(neq(global_token_char0(), ')')) {
 		expression();
-		emit_out("push_arg"); indented_newline();
+		emit_out("push_arg\n");
 		passed = 1;
 
 		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
-			emit_out("push_arg"); indented_newline();
+			emit_out("push_arg\n");
 			passed = add(passed, 1);
 		}
 	}
@@ -683,7 +682,7 @@ int function_call(int s) {
 
 	emit_out("do_call %FUNCTION_");
 	emit_out(s);
-	indented_newline();
+	emit_out("\n");
 
 	if(neq(0, passed)) {
 		emit_out("cleanup_args_bytes !");
@@ -691,8 +690,8 @@ int function_call(int s) {
 		emit_out("\n");
 	}
 
-	emit_out("/fn_call)\n");
 	decrease_indent();
+	indented_emit_out("/fn_call)\n");
 }
 
 int load_value() {
@@ -1101,11 +1100,11 @@ int declare_function() {
 		emit_out(":FUNCTION_");
 		emit_out(get_s(function));
 		increase_indent();
-		indented_newline();
+		emit_out("\n");
 
 		a = get_arguments(function);
 		while(neq(0, a)) {
-			emit_out("DEFINE ARG_");
+			indented_emit_out("DEFINE ARG_");
 			emit_out(get_s(a));
 			emit_out(" ");
 			emit_out(to_hex(get_depth(a)));
