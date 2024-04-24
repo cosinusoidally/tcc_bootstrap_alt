@@ -193,7 +193,7 @@ int get_token_prev(int t) {
 	return ri32(add(t, token_list_prev_offset));
 }
 
-int set_token_next(int t,int v) {
+int set_next(int t,int v) {
 	wi32(add(t, token_list_next_offset), v);
 }
 
@@ -418,7 +418,7 @@ int new_token(int s, int size) {
 	copy_string(get_s(current), s, MAX_STRING);
 
 	set_prev(current, token);
-	set_token_next(current, token);
+	set_next(current, token);
 	set_token_linenumber(current, line);
 	token = current;
 }
@@ -479,7 +479,7 @@ int reverse_list(int head) {
 
 	while(neq(NULL, head)) {
 		next = get_token_next(head);
-		set_token_next(head, root);
+		set_next(head, root);
 		root = head;
 		head = next;
 	}
@@ -568,7 +568,7 @@ int parse_string(int string) {
 int emit(int s, int head) {
 	int t;
 	t = calloc(1, sizeof_token_list);
-	set_token_next(t, head);
+	set_next(t, head);
 	set_s(t, s);
 	return t;
 }
@@ -589,7 +589,7 @@ int uniqueID_out(int s, int num) {
 int sym_declare(int s, int list) {
 	int a;
 	a = calloc(1, sizeof_token_list);
-	set_token_next(a, list);
+	set_next(a, list);
 	set_s(a, s);
 	return a;
 }
