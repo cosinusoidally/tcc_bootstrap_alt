@@ -671,9 +671,13 @@ int load_value() {
 	return "load ";
 }
 
-int variable_load(int a) {
+int variable_load(int a, int is_arg) {
 	emit_out("local ");
-	emit_out("LOCAL_");
+	if(eq(is_arg, TRUE)) {
+		emit_out("ARG_");
+	} else {
+		emit_out("LOCAL_");
+	}
 	emit_out(get_s(a));
 	emit_out(" ");
 
@@ -742,13 +746,13 @@ int primary_expr_variable() {
 
 	a = sym_lookup(s, get_locals(function));
 	if(neq(NULL, a)) {
-		variable_load(a);
+		variable_load(a, FALSE);
 		return;
 	}
 
 	a = sym_lookup(s, get_arguments(function));
 	if(neq(NULL, a)) {
-		variable_load(a);
+		variable_load(a, TRUE);
 		return;
 	}
 
@@ -1066,16 +1070,13 @@ int declare_function() {
 	if(eq(global_token_char0(), ';')) {
 		advance();
 	} else {
-		emit_out("# Defining function ");
-		emit_out(get_s(function));
-		emit_out("\n");
 		emit_out(":FUNCTION_");
 		emit_out(get_s(function));
 		emit_out("\n");
 
 		a = get_arguments(function);
 		while(neq(0, a)) {
-			emit_out("DEFINE LOCAL_");
+			emit_out("DEFINE ARG_");
 			emit_out(get_s(a));
 			emit_out(" ");
 			emit_out(to_hex(get_depth(a)));
