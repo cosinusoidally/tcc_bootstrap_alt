@@ -205,7 +205,7 @@ int set_linenumber(int t,int v) {
 	wi32(add(t, token_list_linenumber_offset), v);
 }
 
-int get_token_linenumber(int t) {
+int get_linenumber(int t) {
 	return ri32(add(t, token_list_linenumber_offset));
 }
 
