@@ -671,10 +671,6 @@ int load_value() {
 	return "load ";
 }
 
-int store_value() {
-	return "mov_[ebx],eax\n";
-}
-
 int variable_load(int a) {
 	emit_out("local ");
 	emit_out("LOCAL_");
@@ -772,7 +768,6 @@ int primary_expr_variable() {
 }
 
 int expression() {
-	int store;
 	if(eq(global_token_char0(), '(')) {
 		advance();
 		expression();
@@ -790,12 +785,10 @@ int expression() {
 	}
 
 	if(match("=", global_token_string())) {
-		store = store_value();
 		emit_out("push_eax\t#_common_recursion\n");
 		advance();
 		expression();
-		emit_out("pop_ebx\t# _common_recursion\n");
-		emit_out(store);
+		emit_out("store\n");
 	}
 }
 

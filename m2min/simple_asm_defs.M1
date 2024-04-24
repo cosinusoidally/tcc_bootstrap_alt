@@ -37,3 +37,8 @@ DEFINE constant B8
 # cleanup_locals_bytes is:
 # add8_esp, (immediate 8 bit value)
 DEFINE cleanup_locals_bytes 83C4
+
+# store is:
+# pop_ebx
+# mov_[ebx],eax
+DEFINE store 5B8903
