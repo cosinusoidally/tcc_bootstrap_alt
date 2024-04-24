@@ -13,3 +13,7 @@ DEFINE do_call 89FDE8
 # pop_ebp
 # pop_edi
 DEFINE /fn_call) 5D5F
+
+# load is:
+# mov_eax,[eax]
+DEFINE load 8B00
