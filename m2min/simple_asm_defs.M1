@@ -29,3 +29,7 @@ DEFINE local 8D85
 # global is:
 # mov_eax, (32 bit immediate)
 DEFINE global B8
+
+# cleanup_locals_bytes is:
+# add8_esp, (immediate 8 bit value)
+DEFINE cleanup_locals_bytes 83C4

@@ -944,6 +944,8 @@ int process_while() {
 int return_result() {
 	int i;
 	int size_local_var;
+	int c;
+	c = 0;
 
 	advance();
 	if(neq(global_token_char0(), ';')) {
@@ -952,8 +954,13 @@ int return_result() {
 	skip(";");
 	i = get_locals(function);
 	while(neq(NULL, i)) {
-		emit_out("pop_ebx\t# _return_result_locals\n");
 		i = get_next(i);
+		c = add(c, 1);
+	}
+	if(neq(0, c)) {
+		emit_out("\ncleanup_locals_bytes !");
+		emit_out(int2str(mul(c, register_size), 10, TRUE));
+		emit_out("\n");
 	}
 	emit_out("ret\n");
 }
