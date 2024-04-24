@@ -456,7 +456,8 @@ int preserve_keyword(int c, int S) {
 }
 
 int reset_hold_string() {
-	int i = MAX_STRING;
+	int i;
+	i = MAX_STRING;
 	while(lte(0, i)) {
 		wi8(add(hold_string, i),0);
 		i = sub(i, 1);

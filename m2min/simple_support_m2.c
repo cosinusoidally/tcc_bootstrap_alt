@@ -466,6 +466,7 @@ int _brk_ptr;
 
 int malloc(int size)
 {
+	int old_malloc;
 	if(eq(NULL, _brk_ptr))
 	{
 		_brk_ptr = brk(0);
@@ -478,7 +479,7 @@ int malloc(int size)
 		if(eq(sub(0,1), _brk_ptr)) return 0;
 	}
 
-	int old_malloc = _malloc_ptr;
+	old_malloc = _malloc_ptr;
 	_malloc_ptr = add(_malloc_ptr, size);
 	return old_malloc;
 }
