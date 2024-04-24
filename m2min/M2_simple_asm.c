@@ -982,6 +982,8 @@ int process_break() {
 void recursive_statement() {
 	int frame;
 	int i;
+	int c;
+	c = 0;
 
 	advance();
 	frame = get_locals(function);
@@ -994,8 +996,13 @@ void recursive_statement() {
 	if(eq(0, match("ret\n", get_s(output_list)))) {
 		i = get_locals(function);
 		while(neq(frame,i)) {
-			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
+			c = add(c, 1);
 			i = get_next(i);
+		}
+		if(neq(0, c)) {
+			emit_out("\ncleanup_locals_bytes !");
+			emit_out(int2str(mul(c, register_size), 10, TRUE));
+			emit_out("\n");
 		}
 	}
 	set_locals(function, frame);
