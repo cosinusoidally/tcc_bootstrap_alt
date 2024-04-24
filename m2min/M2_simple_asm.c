@@ -668,10 +668,11 @@ int function_call(int s) {
 	passed = 0;
 	skip("(");
 
-	indented_emit_out("(fn_call\n");
+	indented_emit_out("(fn_call");
 	increase_indent();
 
 	if(neq(global_token_char0(), ')')) {
+		emit_out("\n");
 		expression();
 		indented_emit_out("push_arg\n");
 		passed = 1;
@@ -682,6 +683,8 @@ int function_call(int s) {
 			indented_emit_out("push_arg\n");
 			passed = add(passed, 1);
 		}
+	} else {
+		emit_out(" "); no_indent = 1;
 	}
 
 	skip(")");
@@ -690,10 +693,13 @@ int function_call(int s) {
 	emit_out(s);
 	emit_out(" ");
 
+
 	if(neq(0, passed)) {
 		emit_out("cleanup_args_bytes !");
 		emit_out(int2str(mul(passed, register_size), 10, TRUE));
 		emit_out("\n");
+	} else {
+		no_indent = 1;
 	}
 
 	decrease_indent();
