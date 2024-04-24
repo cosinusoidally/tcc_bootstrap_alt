@@ -685,7 +685,7 @@ int function_call(int s) {
 	emit_out("\n");
 
 	if(neq(0, passed)) {
-		emit_out("cleanup_args_bytes !");
+		indented_emit_out("cleanup_args_bytes !");
 		emit_out(int2str(mul(passed, register_size), 10, TRUE));
 		emit_out("\n");
 	}
@@ -699,7 +699,7 @@ int load_value() {
 }
 
 int variable_load(int a, int is_arg) {
-	emit_out("local ");
+	indented_emit_out("local ");
 	if(eq(is_arg, TRUE)) {
 		emit_out("ARG_");
 	} else {
@@ -722,7 +722,7 @@ int function_load(int a) {
 }
 
 int global_load(int a) {
-	emit_out("global &GLOBAL_");
+	indented_emit_out("global &GLOBAL_");
 	emit_out(get_s(a));
 	emit_out(" ");
 
