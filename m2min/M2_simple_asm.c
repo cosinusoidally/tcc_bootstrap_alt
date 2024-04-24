@@ -243,7 +243,7 @@ int increase_indent() {
 
 int decrease_indent() {
 	indent = sub(indent, 2);
-	if(lt(0,indent)) {
+	if(lt(indent,0)) {
 		indent = 0;
 	}
 }
@@ -758,7 +758,7 @@ int primary_expr_char() {
 }
 
 int primary_expr_number() {
-	emit_out("constant %");
+	indented_emit_out("constant %");
 	emit_out(global_token_string());
 	emit_out(" ");
 	advance();
