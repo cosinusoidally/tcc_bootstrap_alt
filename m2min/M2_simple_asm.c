@@ -638,8 +638,7 @@ int function_call(int s) {
 		passed = sub(passed, 1);
 	}
 
-	emit_out("pop_ebp\t# Restore old base pointer\n");
-	emit_out("pop_edi\t# Prevent overwrite\n");
+	emit_out("/fn_call)\n");
 }
 
 int load_value() {
