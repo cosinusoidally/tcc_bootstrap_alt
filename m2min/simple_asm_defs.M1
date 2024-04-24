@@ -46,3 +46,8 @@ DEFINE store 5B8903
 # reserve_stack_slot is:
 # push_eax
 DEFINE reserve_stack_slot 50
+
+# cond_branch is:
+# test_eax,eax
+# je (32 bit relative)
+DEFINE cond_branch 85C00F84

@@ -849,7 +849,7 @@ int process_if() {
 	skip("(");
 	expression();
 
-	emit_out("test_eax,eax\nje %ELSE_");
+	emit_out("cond_branch %ELSE_");
 
 	uniqueID_out(get_s(function), number_string);
 
