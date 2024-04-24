@@ -197,7 +197,7 @@ int set_next(int t,int v) {
 	wi32(add(t, token_list_next_offset), v);
 }
 
-int get_token_next(int t) {
+int get_next(int t) {
 	return ri32(add(t, token_list_next_offset));
 }
 
@@ -235,12 +235,12 @@ int get_arguments(int t) {
 
 int skip(int str) {
 /* dummy impl should check and abort if doesn't match */
-	global_token = get_token_next(global_token);
+	global_token = get_next(global_token);
 }
 
 /* advance to next token */
 int advance() {
-	global_token = get_token_next(global_token);
+	global_token = get_next(global_token);
 }
 
 int token_string(int a) {
@@ -478,7 +478,7 @@ int reverse_list(int head) {
 	root = NULL;
 
 	while(neq(NULL, head)) {
-		next = get_token_next(head);
+		next = get_next(head);
 		set_next(head, root);
 		root = head;
 		head = next;
@@ -602,7 +602,7 @@ int sym_lookup(int s, int symbol_list) {
 		if(match(get_s(i), s)) {
 			return i;
 		}
-		i = get_token_next(i);
+		i = get_next(i);
 	}
 	return NULL;
 }
@@ -694,7 +694,7 @@ int primary_expr_string() {
 	strings_list = uniqueID(get_s(function), strings_list, number_string);
 
 	/* Parse the string */
-	if(neq('"', ri8(get_s(get_token_next(global_token))))) {
+	if(neq('"', ri8(get_s(get_next(global_token))))) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
@@ -928,7 +928,7 @@ int return_result() {
 	i = get_locals(function);
 	while(neq(NULL, i)) {
 		emit_out("pop_ebx\t# _return_result_locals\n");
-		i = get_token_next(i);
+		i = get_next(i);
 	}
 	emit_out("ret\n");
 }
@@ -963,7 +963,7 @@ void recursive_statement() {
 		i = get_locals(function);
 		while(neq(frame,i)) {
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
-			i = get_token_next(i);
+			i = get_next(i);
 		}
 	}
 	set_locals(function, frame);
@@ -1102,7 +1102,7 @@ int recursive_output(int head, int out) {
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
 		fputs(get_s(i), out);
-		i = get_token_next(i);
+		i = get_next(i);
 	}
 }
 
