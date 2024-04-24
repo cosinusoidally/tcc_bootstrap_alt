@@ -695,9 +695,9 @@ int function_load(int a) {
 }
 
 int global_load(int a) {
-	emit_out("mov_eax, &GLOBAL_");
+	emit_out("global &GLOBAL_");
 	emit_out(get_s(a));
-	emit_out("\n");
+	emit_out(" ");
 
 	if(match("=", global_token_string())) {
 		return;

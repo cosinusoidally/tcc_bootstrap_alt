@@ -25,3 +25,7 @@ DEFINE cleanup_args_bytes 83C4
 # local is:
 # lea_eax,[ebp+DWORD] (immediate 32 bit value)
 DEFINE local 8D85
+
+# global is:
+# mov_eax, (32 bit immediate)
+DEFINE global B8
