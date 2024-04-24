@@ -8,3 +8,8 @@ DEFINE (fn_call 575589E7
 # mov_ebp,edi
 # call (32 bit offset)
 DEFINE do_call 89FDE8
+
+# /fn_call) is:
+# pop_ebp
+# pop_edi
+DEFINE /fn_call) 5D5F
