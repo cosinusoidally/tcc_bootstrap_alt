@@ -1,1 +1,5 @@
+# (fn_call is:
+# push_edi
+# push_ebp
+# mov_edi,esp
 DEFINE (fn_call 575589E7

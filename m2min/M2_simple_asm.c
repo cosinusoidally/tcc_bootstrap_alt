@@ -612,9 +612,7 @@ int function_call(int s) {
 	passed = 0;
 	skip("(");
 
-	emit_out("push_edi\t# Prevent overwriting in recursion\n");
-	emit_out("push_ebp\t# Protect the old base pointer\n");
-	emit_out("mov_edi,esp\t# Copy new base pointer\n");
+	emit_out("(fn_call\n");
 
 	if(neq(global_token_char0(), ')')) {
 		expression();
