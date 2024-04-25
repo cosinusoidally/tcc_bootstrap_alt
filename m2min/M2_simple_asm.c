@@ -295,18 +295,17 @@ int to_hex_digit(int a) {
 	return a;
 }
 
-int to_hex(int a) {
+int to_hex_le(int a) {
 	int o;
+	int i;
+	i = 0;
 	o = calloc(17,1);
-	wi8(add(o, 1), to_hex_digit(a));
-	wi8(o, to_hex_digit(shr(a,4)));
-/* HACK FIXME should process all digits */
-	wi8(add(o, 2), 'F');
-	wi8(add(o, 3), 'F');
-	wi8(add(o, 4), 'F');
-	wi8(add(o, 5), 'F');
-	wi8(add(o, 6), 'F');
-	wi8(add(o, 7), 'F');
+	while(lt(i, 4)) {
+		wi8(add(o, add(mul(i,2), 1)), to_hex_digit(a));
+		wi8(add(o, mul(i, 2)), to_hex_digit(shr(a,4)));
+		a = shr(a, 8);
+		i = add(i, 1);
+	}
 	return o;
 }
 
@@ -861,7 +860,7 @@ int collect_local() {
 	indented_emit_out("DEFINE LOCAL_");
 	emit_out(global_token_string());
 	emit_out(" ");
-	emit_out(to_hex(get_depth(a)));
+	emit_out(to_hex_le(get_depth(a)));
 	emit_out("\n");
 
 	advance();
@@ -1124,7 +1123,7 @@ int declare_function() {
 			indented_emit_out("DEFINE ARG_");
 			emit_out(get_s(a));
 			emit_out(" ");
-			emit_out(to_hex(get_depth(a)));
+			emit_out(to_hex_le(get_depth(a)));
 			emit_out("\n");
 			a = get_next(a);
 		}
