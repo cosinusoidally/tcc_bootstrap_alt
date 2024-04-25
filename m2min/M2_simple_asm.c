@@ -695,7 +695,7 @@ int function_call(int s) {
 
 
 	if(neq(0, passed)) {
-		emit_out("cleanup_args_bytes !");
+		emit_out("cleanup_args_bytes %");
 		emit_out(int2str(mul(passed, register_size), 10, TRUE));
 		emit_out("\n");
 	} else {
@@ -993,7 +993,7 @@ int return_result() {
 		c = add(c, 1);
 	}
 	if(neq(0, c)) {
-		indented_emit_out("cleanup_locals_bytes !");
+		indented_emit_out("cleanup_locals_bytes %");
 		emit_out(int2str(mul(c, register_size), 10, TRUE));
 		emit_out(" ");
 		no_indent = 1;
@@ -1036,7 +1036,7 @@ void recursive_statement() {
 			i = get_next(i);
 		}
 		if(neq(0, c)) {
-			indented_emit_out("cleanup_locals_bytes !");
+			indented_emit_out("cleanup_locals_bytes %");
 			emit_out(int2str(mul(c, register_size), 10, TRUE));
 			emit_out(" ");
 			no_indent = 1;
