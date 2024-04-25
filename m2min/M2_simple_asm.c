@@ -1115,6 +1115,8 @@ int declare_function() {
 		emit_out(":FUNCTION_");
 		emit_out(get_s(function));
 		increase_indent();
+		emit_out(" # line:");
+		emit_out(int2str(get_linenumber(global_token), 10, TRUE));
 		emit_out("\n");
 
 		a = get_arguments(function);
