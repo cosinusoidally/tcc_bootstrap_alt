@@ -1,18 +1,18 @@
-# (fn_call is:
+# ( is:
 # push_edi
 # push_ebp
 # mov_edi,esp
-DEFINE (fn_call 575589E7
+DEFINE ( 575589E7
 
 # do_call is:
 # mov_ebp,edi
 # call (32 bit offset)
 DEFINE do_call 89FDE8
 
-# /fn_call) is:
+# ) is:
 # pop_ebp
 # pop_edi
-DEFINE /fn_call) 5D5F
+DEFINE ) 5D5F
 
 # load is:
 # mov_eax,[eax]

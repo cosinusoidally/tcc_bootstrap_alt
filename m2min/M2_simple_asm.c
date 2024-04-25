@@ -668,11 +668,11 @@ int function_call(int s) {
 	passed = 0;
 	skip("(");
 
-	indented_emit_out("(fn_call");
+	indented_emit_out("(");
 	increase_indent();
 
 	if(neq(global_token_char0(), ')')) {
-		emit_out("\n");
+		emit_out(" "); no_indent = 1;
 		expression();
 		indented_emit_out("push_arg\n");
 		passed = 1;
@@ -703,7 +703,7 @@ int function_call(int s) {
 	}
 
 	decrease_indent();
-	indented_emit_out("/fn_call)\n");
+	indented_emit_out(")\n");
 }
 
 int load_value() {
