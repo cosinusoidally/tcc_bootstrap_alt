@@ -354,8 +354,8 @@ int fgetc(int f) {
 	int c;
 	if(gt(f, 2)) {
 /*
-		if(gt(in_o, in_len)) {
-			r = read(f, input_buffer, 1);
+		if(gte(in_o, in_len)) {
+			r = read(f, input_buffer, 4096);
 			if(eq(r, 0)){
 				return sub(0,1);
 			}
@@ -364,15 +364,6 @@ int fgetc(int f) {
 		}
 		c = ri8(add(input_buffer, in_o));
 		in_o = add(in_o, 1);
-		return c;
-*/
-/*
-		r = read(f, input_buffer, 1);
-
-		if(eq(r, 0)) {
-			return sub(0, 1);
-		}
-		c = ri8(input_buffer);
 		return c;
 */
 		return fgetc_unbuffered(f);
