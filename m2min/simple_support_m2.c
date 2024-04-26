@@ -344,15 +344,11 @@ int fputc(int s, int f)
 	    "int !0x80");
 }
 
-int fputs_unbuffered(int si, int f) {
+int fputs(int si, int f) {
 	while(neq(0, ri8(si))) {
 		fputc(ri8(si), f);
 		si = add(si, 1);
 	}
-}
-
-int fputs(int si, int f) {
-	return fputs_unbuffered(si, f);
 }
 
 int open(int name, int flag, int mode)
