@@ -21,6 +21,11 @@ int stdin;
 int stdout;
 int stderr;
 
+int out_stream;
+int out_stream_buffer;
+int out_stream_o;
+int out_stream_len;
+
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -334,7 +339,7 @@ int fgetc(int f)
 	    ":FUNCTION_fgetc_Done");
 }
 
-int fputc(int s, int f)
+int fputc_unbuffered(int s, int f)
 {
 	asm("mov_eax, %4"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -342,6 +347,30 @@ int fputc(int s, int f)
 	    "lea_ecx,[esp+DWORD] %8"
 	    "mov_edx, %1"
 	    "int !0x80");
+}
+
+int write(int fd, int buf, int count) {
+	int i;
+	i = 0;
+	while(lt(i, count)) {
+		fputc_unbuffered(ri8(add(buf, i)), fd);
+		i = add(i, 1);
+	}
+}
+
+int fputc(int s, int f) {
+	if(eq(f, out_stream)) {
+/*
+		if(eq(out_stream_len, out_stream_o)) {
+			write(f, out_stream_buffer, out_stream_len);
+		}
+*/
+		wi8(add(out_stream_buffer, out_stream_o), s);
+		out_stream_o = add(out_stream_o, 1);
+		return;
+	} else {
+		return fputc_unbuffered(s, f);
+	}
 }
 
 int fputs(int si, int f) {
@@ -369,6 +398,7 @@ int fopen(int filename, int mode)
 	if(eq('w', ri8(mode)))
 	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
+		out_stream = f;
 	}
 	else
 	{ /* Everything else is a read */
@@ -393,7 +423,15 @@ int close(int fd)
 
 int fclose(int stream)
 {
-	int error = close(stream);
+	int error;
+	if(eq(stream, out_stream)) {
+		fputs("flushing out_stream\n", stdout);
+		fputs("stream length: ", stdout);
+		fputs(int2str(out_stream_o, 10, TRUE), stdout);
+		fputs("\n", stdout);
+		write(stream, out_stream_buffer, out_stream_o);
+	}
+	error = close(stream);
 	return error;
 }
 
@@ -466,4 +504,8 @@ int init_support(){
 	stdin = 0;
 	stdout = 1;
 	stderr = 2;
+
+	out_stream_buffer = calloc(1000000, 1);
+	out_stream_o = 0;
+	out_stream_len = 4096;
 }
