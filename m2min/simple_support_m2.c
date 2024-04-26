@@ -21,6 +21,10 @@ int stdin;
 int stdout;
 int stderr;
 
+int input_buffer;
+int in_len;
+int in_o;
+
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -349,11 +353,27 @@ int read(int fd, int buf, int count) {
 	    "push_eax"
 	    "pop_edx"
 	    "mov_eax, %3"
-	    "int !0x80");
+	    "int !0x80"
+	    "ret");
 }
 
 int fgetc(int f) {
+	int r;
+	int c;
 	if(gt(f, 2)) {
+/*
+		if(gt(in_o, in_len)) {
+			r = read(f, input_buffer, 1);
+			if(eq(r, 0)){
+				return sub(0,1);
+			}
+			in_len = r;
+			in_o = 0;
+		}
+		c = ri8(add(input_buffer, in_o));
+		in_o = add(in_o, 1);
+		return c;
+*/
 		return fgetc_unbuffered(f);
 	} else {
 		return fgetc_unbuffered(f);
@@ -492,4 +512,8 @@ int init_support(){
 	stdin = 0;
 	stdout = 1;
 	stderr = 2;
+
+	input_buffer = calloc(4096,1);
+	in_o = 1;
+	in_len = 0;
 }
