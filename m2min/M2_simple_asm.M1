@@ -1042,34 +1042,51 @@
 :FUNCTION_reset_hold_string
   DEFINE LOCAL_i F8FFFFFF
   reserve_stack_slot
+  DEFINE LOCAL_o F4FFFFFF
+  reserve_stack_slot
   local LOCAL_i push_address
-  global &GLOBAL_MAX_STRING load store
+  constant %0 store
 :WHILE_reset_hold_string_0
-  ( constant %0 push_arg
-    local LOCAL_i load push_arg
-    do_call %FUNCTION_lte cleanup_args_bytes %8
+  ( local LOCAL_i load push_arg
+    global &GLOBAL_MAX_STRING load push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
   )
   cond_branch %END_WHILE_reset_hold_string_0
 # THEN_while_reset_hold_string_0
-  ( ( global &GLOBAL_hold_string load push_arg
-      local LOCAL_i load push_arg
-      do_call %FUNCTION_add cleanup_args_bytes %8
+  local LOCAL_o push_address
+  ( global &GLOBAL_hold_string load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+# IF_reset_hold_string_1
+  ( ( local LOCAL_o load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
     )
     push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_reset_hold_string_1
+  jmp %END_WHILE_reset_hold_string_0
+  jmp %_END_IF_reset_hold_string_1
+:ELSE_reset_hold_string_1
+:_END_IF_reset_hold_string_1
+  ( local LOCAL_o load push_arg
     constant %0 push_arg
     do_call %FUNCTION_wi8 cleanup_args_bytes %8
   )
   local LOCAL_i push_address
   ( local LOCAL_i load push_arg
     constant %1 push_arg
-    do_call %FUNCTION_sub cleanup_args_bytes %8
+    do_call %FUNCTION_add cleanup_args_bytes %8
   )
   store
   jmp %WHILE_reset_hold_string_0
 :END_WHILE_reset_hold_string_0
   global &GLOBAL_string_index push_address
   constant %0 store
-  cleanup_locals_bytes %4 ret
+  cleanup_locals_bytes %8 ret
 :FUNCTION_new_token
   DEFINE ARG_size F8FFFFFF
   DEFINE ARG_s FCFFFFFF

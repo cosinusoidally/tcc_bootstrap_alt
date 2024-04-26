@@ -456,10 +456,15 @@ int preserve_keyword(int c, int S) {
 
 int reset_hold_string() {
 	int i;
-	i = MAX_STRING;
-	while(lte(0, i)) {
-		wi8(add(hold_string, i),0);
-		i = sub(i, 1);
+	int o;
+	i = 0;
+	while(lt(i, MAX_STRING)) {
+		o = add(hold_string, i);
+		if(eq(ri8(o), 0)) {
+			break;
+		}
+		wi8(o, 0);
+		i = add(i, 1);
 	}
 	string_index = 0;
 }
