@@ -339,22 +339,14 @@ int fgetc_unbuffered(int f)
 }
 
 int read(int fd, int buf, int count) {
-	asm(
-	    "lea_eax,[ebp+DWORD] %-4"
-	    "mov_eax,[eax]"
-	    "push_eax"
-	    "pop_ebx"
-	    "lea_eax,[ebp+DWORD] %-8"
-	    "mov_eax,[eax]"
-	    "push_eax"
-	    "pop_ecx"
-	    "lea_eax,[ebp+DWORD] %-12"
-	    "mov_eax,[eax]"
-	    "push_eax"
-	    "pop_edx"
+	asm("lea_ebx,[esp+DWORD] %12"
+	    "mov_ebx,[ebx]"
+	    "lea_ecx,[esp+DWORD] %8"
+	    "mov_ecx,[ecx]"
+	    "lea_edx,[esp+DWORD] %4"
+	    "mov_edx,[edx]"
 	    "mov_eax, %3"
-	    "int !0x80"
-	    "ret");
+	    "int !0x80");
 }
 
 int fgetc(int f) {
@@ -372,6 +364,15 @@ int fgetc(int f) {
 		}
 		c = ri8(add(input_buffer, in_o));
 		in_o = add(in_o, 1);
+		return c;
+*/
+/*
+		r = read(f, input_buffer, 1);
+
+		if(eq(r, 0)) {
+			return sub(0, 1);
+		}
+		c = ri8(input_buffer);
 		return c;
 */
 		return fgetc_unbuffered(f);
