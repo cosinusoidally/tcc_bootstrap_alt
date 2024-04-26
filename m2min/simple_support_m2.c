@@ -17,6 +17,10 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+int stdin;
+int stdout;
+int stderr;
+
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -340,70 +344,11 @@ int fputc(int s, int f)
 	    "int !0x80");
 }
 
-int fputs(int si, int f)
-{
-/*
-	char *s;
-	s = si;
-	while(0 != s[0])
-	{
-		fputc(s[0], f);
-		s = s + 1;
+int fputs(int si, int f) {
+	while(neq(0, ri8(si))) {
+		fputc(ri8(si), f);
+		si = add(si, 1);
 	}
-*/
-/* annoyingly changing the above to use ri8 would segfault hence asm: */
-	asm(
-		":WHILE_fputs_0"
-		"mov_eax, %0"
-		"push_eax        #_common_recursion"
-		"lea_eax,[ebp+DWORD] %-4"
-		"mov_eax,[eax]"
-		"push_eax        #_common_recursion"
-		"mov_eax, %0"
-		"pop_ebx # _common_recursion"
-		"add_eax,ebx"
-		"movsx_eax,BYTE_PTR_[eax]"
-		"pop_ebx # _common_recursion"
-		"cmp"
-		"setne_al"
-		"movzx_eax,al"
-		"test_eax,eax"
-		"je %END_WHILE_fputs_0"
-		"# THEN_while_fputs_0"
-		"push_edi        # Prevent overwriting in recursion"
-		"push_ebp        # Protect the old base pointer"
-		"mov_edi,esp     # Copy new base pointer"
-		"lea_eax,[ebp+DWORD] %-4"
-		"mov_eax,[eax]"
-		"push_eax        #_common_recursion"
-		"mov_eax, %0"
-		"pop_ebx # _common_recursion"
-		"add_eax,ebx"
-		"movsx_eax,BYTE_PTR_[eax]"
-		"push_eax        #_process_expression1"
-		"lea_eax,[ebp+DWORD] %-8"
-		"mov_eax,[eax]"
-		"push_eax        #_process_expression2"
-		"mov_ebp,edi"
-		"call %FUNCTION_fputc"
-		"pop_ebx # _process_expression_locals"
-		"pop_ebx # _process_expression_locals"
-		"pop_ebp # Restore old base pointer"
-		"pop_edi # Prevent overwrite"
-		"lea_eax,[ebp+DWORD] %-4"
-		"push_eax        #_common_recursion"
-		"lea_eax,[ebp+DWORD] %-4"
-		"mov_eax,[eax]"
-		"push_eax        #_common_recursion"
-		"mov_eax, %1"
-		"pop_ebx # _common_recursion"
-		"add_eax,ebx"
-		"pop_ebx # _common_recursion"
-		"mov_[ebx],eax"
-		"jmp %WHILE_fputs_0"
-		":END_WHILE_fputs_0"
-		"ret"
-	);
 }
 
 int open(int name, int flag, int mode)
@@ -448,7 +393,8 @@ int close(int fd)
 
 int fclose(int stream)
 {
-	int error = close(stream);
+	int error;
+	error = close(stream);
 	return error;
 }
 
@@ -515,4 +461,10 @@ int exit(int value)
 	    "pop_ebx"
 	    "mov_eax, %1"
 	    "int !0x80");
+}
+
+int init_support(){
+	stdin = 0;
+	stdout = 1;
+	stderr = 2;
 }

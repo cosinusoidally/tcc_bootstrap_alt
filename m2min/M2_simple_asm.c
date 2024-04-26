@@ -34,6 +34,9 @@ int EOF;
 
 int quote_string;
 
+/* init support code */
+int init_support();
+
 /* delare primitives */
 int add(int a, int b);
 int and(int a, int b);
@@ -456,10 +459,15 @@ int preserve_keyword(int c, int S) {
 
 int reset_hold_string() {
 	int i;
-	i = MAX_STRING;
-	while(lte(0, i)) {
-		wi8(add(hold_string, i),0);
-		i = sub(i, 1);
+	int o;
+	i = 0;
+	while(lt(i, MAX_STRING)) {
+		o = add(hold_string, i);
+		if(eq(ri8(o), 0)) {
+			break;
+		}
+		wi8(o, 0);
+		i = add(i, 1);
 	}
 	string_index = 0;
 }
@@ -1222,6 +1230,7 @@ int main(int argc, int argv) {
 	int destination_file;
 	int name;
 
+	init_support();
 	initialize_globals();
 
 	hold_string = calloc(add(MAX_STRING, 4), 1);

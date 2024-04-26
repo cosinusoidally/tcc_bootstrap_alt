@@ -1042,34 +1042,51 @@
 :FUNCTION_reset_hold_string
   DEFINE LOCAL_i F8FFFFFF
   reserve_stack_slot
+  DEFINE LOCAL_o F4FFFFFF
+  reserve_stack_slot
   local LOCAL_i push_address
-  global &GLOBAL_MAX_STRING load store
+  constant %0 store
 :WHILE_reset_hold_string_0
-  ( constant %0 push_arg
-    local LOCAL_i load push_arg
-    do_call %FUNCTION_lte cleanup_args_bytes %8
+  ( local LOCAL_i load push_arg
+    global &GLOBAL_MAX_STRING load push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
   )
   cond_branch %END_WHILE_reset_hold_string_0
 # THEN_while_reset_hold_string_0
-  ( ( global &GLOBAL_hold_string load push_arg
-      local LOCAL_i load push_arg
-      do_call %FUNCTION_add cleanup_args_bytes %8
+  local LOCAL_o push_address
+  ( global &GLOBAL_hold_string load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+# IF_reset_hold_string_1
+  ( ( local LOCAL_o load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
     )
     push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_reset_hold_string_1
+  jmp %END_WHILE_reset_hold_string_0
+  jmp %_END_IF_reset_hold_string_1
+:ELSE_reset_hold_string_1
+:_END_IF_reset_hold_string_1
+  ( local LOCAL_o load push_arg
     constant %0 push_arg
     do_call %FUNCTION_wi8 cleanup_args_bytes %8
   )
   local LOCAL_i push_address
   ( local LOCAL_i load push_arg
     constant %1 push_arg
-    do_call %FUNCTION_sub cleanup_args_bytes %8
+    do_call %FUNCTION_add cleanup_args_bytes %8
   )
   store
   jmp %WHILE_reset_hold_string_0
 :END_WHILE_reset_hold_string_0
   global &GLOBAL_string_index push_address
   constant %0 store
-  cleanup_locals_bytes %4 ret
+  cleanup_locals_bytes %8 ret
 :FUNCTION_new_token
   DEFINE ARG_size F8FFFFFF
   DEFINE ARG_s FCFFFFFF
@@ -3481,6 +3498,7 @@
   reserve_stack_slot
   DEFINE LOCAL_name E4FFFFFF
   reserve_stack_slot
+  ( do_call %FUNCTION_init_support )
   ( do_call %FUNCTION_initialize_globals )
   global &GLOBAL_hold_string push_address
   ( ( global &GLOBAL_MAX_STRING load push_arg
@@ -3862,55 +3880,30 @@ int !0x80
   DEFINE ARG_f F8FFFFFF
   DEFINE ARG_si FCFFFFFF
 :WHILE_fputs_0
-mov_eax, %0
-push_eax        #_common_recursion
-lea_eax,[ebp+DWORD] %-4
-mov_eax,[eax]
-push_eax        #_common_recursion
-mov_eax, %0
-pop_ebx # _common_recursion
-add_eax,ebx
-movsx_eax,BYTE_PTR_[eax]
-pop_ebx # _common_recursion
-cmp
-setne_al
-movzx_eax,al
-test_eax,eax
-je %END_WHILE_fputs_0
+  ( constant %0 push_arg
+    ( local ARG_si load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_fputs_0
 # THEN_while_fputs_0
-push_edi        # Prevent overwriting in recursion
-push_ebp        # Protect the old base pointer
-mov_edi,esp     # Copy new base pointer
-lea_eax,[ebp+DWORD] %-4
-mov_eax,[eax]
-push_eax        #_common_recursion
-mov_eax, %0
-pop_ebx # _common_recursion
-add_eax,ebx
-movsx_eax,BYTE_PTR_[eax]
-push_eax        #_process_expression1
-lea_eax,[ebp+DWORD] %-8
-mov_eax,[eax]
-push_eax        #_process_expression2
-mov_ebp,edi
-call %FUNCTION_fputc
-pop_ebx # _process_expression_locals
-pop_ebx # _process_expression_locals
-pop_ebp # Restore old base pointer
-pop_edi # Prevent overwrite
-lea_eax,[ebp+DWORD] %-4
-push_eax        #_common_recursion
-lea_eax,[ebp+DWORD] %-4
-mov_eax,[eax]
-push_eax        #_common_recursion
-mov_eax, %1
-pop_ebx # _common_recursion
-add_eax,ebx
-pop_ebx # _common_recursion
-mov_[ebx],eax
-jmp %WHILE_fputs_0
+  ( ( local ARG_si load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    local ARG_f load push_arg
+    do_call %FUNCTION_fputc cleanup_args_bytes %8
+  )
+  local ARG_si push_address
+  ( local ARG_si load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_fputs_0
 :END_WHILE_fputs_0
-ret
   ret
 :FUNCTION_open
   DEFINE ARG_mode F4FFFFFF
@@ -3977,10 +3970,12 @@ int !0x80
 :FUNCTION_fclose
   DEFINE ARG_stream FCFFFFFF
   DEFINE LOCAL_error F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_error push_address
   ( local ARG_stream load push_arg
     do_call %FUNCTION_close cleanup_args_bytes %4
   )
-  reserve_stack_slot
+  store
   local LOCAL_error load cleanup_locals_bytes %4 ret
 :FUNCTION_brk
   DEFINE ARG_addr FCFFFFFF
@@ -4131,6 +4126,14 @@ pop_ebx
 mov_eax, %1
 int !0x80
   ret
+:FUNCTION_init_support
+  global &GLOBAL_stdin push_address
+  constant %0 store
+  global &GLOBAL_stdout push_address
+  constant %1 store
+  global &GLOBAL_stderr push_address
+  constant %2 store
+  ret
 
 # Program global variables
 :GLOBAL_FALSE
@@ -4206,6 +4209,12 @@ NULL
 :GLOBAL_indent
 NULL
 :GLOBAL_no_indent
+NULL
+:GLOBAL_stdin
+NULL
+:GLOBAL_stdout
+NULL
+:GLOBAL_stderr
 NULL
 :GLOBAL__malloc_ptr
 NULL
