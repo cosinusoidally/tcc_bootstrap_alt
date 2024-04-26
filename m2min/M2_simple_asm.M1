@@ -3498,6 +3498,7 @@
   reserve_stack_slot
   DEFINE LOCAL_name E4FFFFFF
   reserve_stack_slot
+  ( do_call %FUNCTION_init_support )
   ( do_call %FUNCTION_initialize_globals )
   global &GLOBAL_hold_string push_address
   ( ( global &GLOBAL_MAX_STRING load push_arg
@@ -4123,6 +4124,14 @@ pop_ebx
 mov_eax, %1
 int !0x80
   ret
+:FUNCTION_init_support
+  global &GLOBAL_stdin push_address
+  constant %0 store
+  global &GLOBAL_stdout push_address
+  constant %1 store
+  global &GLOBAL_stderr push_address
+  constant %2 store
+  ret
 
 # Program global variables
 :GLOBAL_FALSE
@@ -4198,6 +4207,12 @@ NULL
 :GLOBAL_indent
 NULL
 :GLOBAL_no_indent
+NULL
+:GLOBAL_stdin
+NULL
+:GLOBAL_stdout
+NULL
+:GLOBAL_stderr
 NULL
 :GLOBAL__malloc_ptr
 NULL
