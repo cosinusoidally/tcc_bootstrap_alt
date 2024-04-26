@@ -34,6 +34,8 @@ int EOF;
 
 int quote_string;
 
+int init_support();
+
 /* delare primitives */
 int add(int a, int b);
 int and(int a, int b);
@@ -1133,6 +1135,7 @@ int main(int argc, int argv) {
 	int destination_file;
 	int name;
 
+	init_support();
 	initialize_globals();
 
 	hold_string = calloc(add(MAX_STRING, 4), 1);
