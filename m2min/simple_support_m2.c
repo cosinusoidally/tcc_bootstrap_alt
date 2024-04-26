@@ -334,6 +334,24 @@ int fgetc_unbuffered(int f)
 	    ":FUNCTION_fgetc_Done");
 }
 
+int read(int fd, int buf, int count) {
+	asm(
+	    "lea_eax,[ebp+DWORD] %-4"
+	    "mov_eax,[eax]"
+	    "push_eax"
+	    "pop_ebx"
+	    "lea_eax,[ebp+DWORD] %-8"
+	    "mov_eax,[eax]"
+	    "push_eax"
+	    "pop_ecx"
+	    "lea_eax,[ebp+DWORD] %-12"
+	    "mov_eax,[eax]"
+	    "push_eax"
+	    "pop_edx"
+	    "mov_eax, %3"
+	    "int !0x80");
+}
+
 int fgetc(int f) {
 	if(gt(f, 2)) {
 		return fgetc_unbuffered(f);
