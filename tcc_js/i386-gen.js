@@ -152,8 +152,10 @@ function greloc_patch(s, val) {
 //     Reloc *p, *p1;
     var p;
     var p1;
-    var count=0;
-    var rt=0;
+    var count;
+    var rt;
+    count = 0;
+    rt = 0;
 //     p = (Reloc *)s->c;
     p = ri32(s+Sym_c_o);
     while (p != NULL) {
@@ -365,8 +367,9 @@ function gfunc_start(c) {
 // void gfunc_param(GFuncContext *c)
 function gfunc_param(c) {
     var size;
-    var align=v_alloca(4);
+    var align;
     var r;
+    align = v_alloca(4);
 
     if ((ri32(vtop+SValue_t_o) & (VT_BTYPE | VT_LVAL)) == (VT_STRUCT | VT_LVAL)) {
 err();

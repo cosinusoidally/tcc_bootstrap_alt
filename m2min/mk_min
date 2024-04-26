@@ -1,0 +1,26 @@
+./mk_clean
+
+echo "gcc build"
+gcc -g -m32 -O0 M2_tcc_min.c -o artifacts/M2_min_gcc.exe
+./artifacts/M2_min_gcc.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_gcc.M1
+
+echo "tcc build"
+tcc M2_tcc_min.c -o artifacts/M2_min_tcc.exe
+./artifacts/M2_min_tcc.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
+
+echo "build otccelf_cc_x86_min.exe"
+
+cat ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
+../x86/bin/M0 artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
+cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
+../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
+
+chmod +x ./artifacts/otccelf_cc_x86_min.exe
+
+./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
+
+diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
+sha256sum artifacts/*M1
+wc M2_tcc_min.c
+ls -l artifacts/*.exe
+sha256sum -c sums_min

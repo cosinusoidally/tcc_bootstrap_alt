@@ -1,9 +1,12 @@
-/* This is a cut down x86 only version of M2-Planet */
-/* Copyright (C) 2016 Jeremiah Orians
- * Copyright (C) 2018 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
+/* This is a heavily cut down version of M2-Planet
+ * modifications (C) 2024 Liam Wilson (under same license)
+ * original authors
+ * Copyright (C) 2016 Jeremiah Orians
+ * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright (C) 2020 deesix <deesix@tuta.io>
  * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
  * Copyright (C) 2021 Sanne Wouda
+ * Copyright (C) 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * This file is part of M2-Planet.
  *
  * M2-Planet is free software: you can redistribute it and/or modify
@@ -20,26 +23,21 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-
 #include "gcc_req.h"
 
-// CONSTANT FALSE 0
 #define FALSE 0
-// CONSTANT TRUE 1
 #define TRUE 1
 
-// CONSTANT X86 3
 #define X86 3
 
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
 int match(char* a, char* b);
+void require(int bool, char* error);
 void reset_hold_string();
-
 
 struct type
 {
@@ -75,6 +73,20 @@ struct token_list
 	};
 };
 
+/* The core functions */
+void initialize_types();
+struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
+struct token_list* reverse_list(struct token_list* head);
+
+struct token_list* remove_line_comment_tokens(struct token_list* head);
+struct token_list* remove_preprocessor_directives(struct token_list* head);
+
+void eat_newline_tokens();
+void init_macro_env(char* sym, char* value, char* source, int num);
+void preprocess();
+void program();
+void recursive_output(struct token_list* i, FILE* out);
+
 /* What types we have */
 struct type* global_types;
 struct type* prim_types;
@@ -103,17 +115,46 @@ int BOOTSTRAP_MODE;
 
 
 
-
 /* Globals */
 FILE* input;
 struct token_list* token;
 int line;
 char* file;
 
+void require(int bool, char* error);
+void line_error_token(struct token_list* list);
+struct token_list* eat_token(struct token_list* head);
 
-struct token_list* emit(char *s, struct token_list* head);
+struct conditional_inclusion
+{
+	struct conditional_inclusion* prev;
+	int include; /* 1 == include, 0 == skip */
+	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
+};
 
-int escape_lookup(char* c);
+struct macro_list
+{
+	struct macro_list* next;
+	char* symbol;
+	struct token_list* expansion;
+};
+
+struct macro_list* macro_env;
+struct conditional_inclusion* conditional_inclusion_top;
+
+/* point where we are currently modifying the global_token list */
+struct token_list* macro_token;
+
+
+void require(int bool, char* error)
+{
+	if(!bool)
+	{
+		fputs(error, stderr);
+		exit(EXIT_FAILURE);
+	}
+}
+
 
 int match(char* a, char* b)
 {
@@ -149,6 +190,8 @@ int in_set(int c, char* s)
 
 char* int2str(int x, int base, int signed_p)
 {
+	require(1 < base, "int2str doesn't support a base less than 2\n");
+	require(37 > base, "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	char* p = calloc(34, sizeof(char));
 	/* if calloc fails return null to let calling code deal with it */
@@ -183,6 +226,7 @@ char* int2str(int x, int base, int signed_p)
 
 	return p + 1;
 }
+
 int grab_byte()
 {
 	int c = fgetc(input);
@@ -200,6 +244,7 @@ int consume_byte(int c)
 {
 	hold_string[string_index] = c;
 	string_index = string_index + 1;
+	require(MAX_STRING > string_index, "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
 	return grab_byte();
 }
 
@@ -212,6 +257,7 @@ int preserve_string(int c)
 		if(!escape && '\\' == c ) escape = TRUE;
 		else escape = FALSE;
 		c = consume_byte(c);
+		require(EOF != c, "Unterminated string\n");
 	} while(escape || (c != frequent));
 	return grab_byte();
 }
@@ -278,6 +324,8 @@ struct token_list* eat_until_newline(struct token_list* head)
 			head = eat_token(head);
 		}
 	}
+
+	return NULL;
 }
 
 struct token_list* remove_line_comment_tokens(struct token_list* head)
@@ -286,11 +334,18 @@ struct token_list* remove_line_comment_tokens(struct token_list* head)
 
 	while (NULL != head)
 	{
-		if(NULL == first)
+		if(match("//", head->s))
 		{
-			first = head;
+			head = eat_token(head);
 		}
-		head = head->next;
+		else
+		{
+			if(NULL == first)
+			{
+				first = head;
+			}
+			head = head->next;
+		}
 	}
 
 	return first;
@@ -322,9 +377,11 @@ struct token_list* remove_preprocessor_directives(struct token_list* head)
 void new_token(char* s, int size)
 {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
+	require(NULL != current, "Exhausted memory while getting token\n");
 
 	/* More efficiently allocate memory for string */
 	current->s = calloc(size, sizeof(char));
+	require(NULL != current->s, "Exhausted memory while trying to copy a token\n");
 	copy_string(current->s, s, MAX_STRING);
 
 	current->prev = token;
@@ -337,13 +394,19 @@ void new_token(char* s, int size)
 int get_token(int c)
 {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
+	require(NULL != current, "Exhausted memory while getting token\n");
 
 reset:
 	reset_hold_string();
 	string_index = 0;
 
 	c = clearWhiteSpace(c);
-	if('#' == c)
+	if(c == EOF)
+	{
+		free(current);
+		return c;
+	}
+	else if('#' == c)
 	{
 		c = consume_byte(c);
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
@@ -371,12 +434,34 @@ reset:
 				while(c != '*')
 				{
 					c = grab_byte();
+					require(EOF != c, "Hit EOF inside of block comment\n");
 				}
 				c = grab_byte();
+				require(EOF != c, "Hit EOF inside of block comment\n");
 			}
 			c = grab_byte();
 			goto reset;
 		}
+		else if(c == '/')
+		{
+			c = consume_byte(c);
+		}
+	}
+	else if (c == '\n')
+	{
+		c = consume_byte(c);
+	}
+	else if(c == '*')
+	{
+		c = consume_byte(c);
+	}
+	else if(c == '+')
+	{
+		c = consume_byte(c);
+	}
+	else if(c == '-')
+	{
+		c = consume_byte(c);
 	}
 	else
 	{
@@ -411,11 +496,16 @@ struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* fi
 	while(EOF != ch)
 	{
 		ch = get_token(ch);
+		require(NULL != token, "Empty files don't need to be compiled\n");
 	}
 
 	return token;
 }
 
+struct token_list* emit(char *s, struct token_list* head);
+void require(int bool, char* error);
+
+int escape_lookup(char* c);
 
 /* Lookup escape values */
 int escape_lookup(char* c)
@@ -434,6 +524,11 @@ int escape_lookup(char* c)
 	else if(c[1] == '"') return 34;
 	else if(c[1] == '\'') return 39;
 	else if(c[1] == '\\') return 92;
+
+	fputs("Unknown escape received: ", stderr);
+	fputs(c, stderr);
+	fputs(" Unable to process\n", stderr);
+	exit(EXIT_FAILURE);
 }
 
 /* Deal with human strings */
@@ -442,8 +537,18 @@ char* collect_regular_string(char* string)
 	string_index = 0;
 
 collect_regular_string_reset:
+	require((MAX_STRING - 3) > string_index, "Attempt at parsing regular string exceeds max length\n");
+	if(string[0] == '\\')
+	{
+		hold_string[string_index] = escape_lookup(string);
+		if (string[1] == 'x') string = string + 2;
+		string = string + 2;
+	}
+	else
+	{
 		hold_string[string_index] = string[0];
 		string = string + 1;
+	}
 
 	string_index = string_index + 1;
 	if(string[0] != 0) goto collect_regular_string_reset;
@@ -451,6 +556,7 @@ collect_regular_string_reset:
 	hold_string[string_index] = '"';
 	hold_string[string_index + 1] = '\n';
 	char* message = calloc(string_index + 3, sizeof(char));
+	require(NULL != message, "Exhausted memory while storing regular string\n");
 	copy_string(message, hold_string, string_index + 2);
 	reset_hold_string();
 	return message;
@@ -464,6 +570,8 @@ char* parse_string(char* string)
 }
 
 /* Imported functions */
+void line_error();
+void require(int bool, char* error);
 
 /* enable easy primitive extension */
 struct type* add_primitive(struct type* a)
@@ -484,6 +592,7 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 {
 	/* Create type** */
 	struct type* a = calloc(1, sizeof(struct type));
+	require(NULL != a, "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
 	a->size = register_size;
 	a->indirect = a;
@@ -491,6 +600,7 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 
 	/* Create type* */
 	struct type* b = calloc(1, sizeof(struct type));
+	require(NULL != b, "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
 	b->size = register_size;
 	b->is_signed = sign;
@@ -498,6 +608,7 @@ struct type* new_primitive(char* name0, char* name1, char* name2, int size, int 
 	a->type = b;
 
 	struct type* r = calloc(1, sizeof(struct type));
+	require(NULL != r, "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
 	r->size = size;
 	r->is_signed = sign;
@@ -604,20 +715,22 @@ struct type* type_name()
 {
 	struct type* ret;
 
+	require(NULL != global_token, "Received EOF instead of type name\n");
 
 	ret = lookup_type(global_token->s, global_types);
 
 	global_token = global_token->next;
+	require(NULL != global_token, "unfinished type definition\n");
 
 	while(global_token->s[0] == '*')
 	{
 		ret = ret->indirect;
 		global_token = global_token->next;
+		require(NULL != global_token, "unfinished type definition in indirection\n");
 	}
 
 	return ret;
 }
-
 
 
 /* Global lists */
@@ -642,6 +755,7 @@ int Address_of;
 char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
+void require(int bool, char* error);
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
@@ -649,6 +763,7 @@ struct type* add_primitive(struct type* a);
 struct token_list* emit(char *s, struct token_list* head)
 {
 	struct token_list* t = calloc(1, sizeof(struct token_list));
+	require(NULL != t, "Exhausted memory while generating token to emit\n");
 	t->next = head;
 	t->s = s;
 	return t;
@@ -673,6 +788,7 @@ void uniqueID_out(char* s, char* num)
 struct token_list* sym_declare(char *s, struct type* t, struct token_list* list)
 {
 	struct token_list* a = calloc(1, sizeof(struct token_list));
+	require(NULL != a, "Exhausted memory while attempting to declare a symbol\n");
 	a->next = list;
 	a->s = s;
 	a->type = t;
@@ -689,15 +805,49 @@ struct token_list* sym_lookup(char *s, struct token_list* symbol_list)
 	return NULL;
 }
 
+void line_error_token(struct token_list *token)
+{
+	if(NULL == token)
+	{
+		fputs("EOF reached inside of line_error\n", stderr);
+		fputs("problem at end of file\n", stderr);
+		return;
+	}
+	fputs(token->filename, stderr);
+	fputs(":", stderr);
+	fputs(int2str(token->linenumber, 10, TRUE), stderr);
+	fputs(":", stderr);
+}
+
+void line_error()
+{
+	line_error_token(global_token);
+}
+
 void require_match(char* message, char* required)
 {
+	if(NULL == global_token)
+	{
+		line_error();
+		fputs("EOF reached inside of require match\n", stderr);
+		fputs("problem at end of file\n", stderr);
+		fputs(message, stderr);
+		exit(EXIT_FAILURE);
+	}
+	if(!match(global_token->s, required))
+	{
+		line_error();
+		fputs(message, stderr);
+		exit(EXIT_FAILURE);
+	}
 	global_token = global_token->next;
 }
 
 void expression();
 void function_call(char* s, int bool)
 {
-	require_match("ERROR\n", "(");
+	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
+	require(NULL != global_token, "Improper function call\n");
 	int passed = 0;
 
 		emit_out("push_edi\t# Prevent overwriting in recursion\n");
@@ -707,24 +857,37 @@ void function_call(char* s, int bool)
 	if(global_token->s[0] != ')')
 	{
 		expression();
+		require(NULL != global_token, "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
 		while(global_token->s[0] == ',')
 		{
 			global_token = global_token->next;
+			require(NULL != global_token, "incomplete function call, received EOF instead of argument\n");
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
 			passed = passed + 1;
 		}
 	}
 
-	require_match("ERROR\n", ")");
+	require_match("ERROR in process_expression_list\nNo ) was found\n", ")");
 
+	if(TRUE == bool)
+	{
+			emit_out("lea_eax,[ebp+DWORD] %");
+			emit_out(s);
+			emit_out("\nmov_eax,[eax]\n");
+			emit_out("mov_ebp,edi\n");
+			emit_out("call_eax\n");
+	}
+	else
+	{
 			emit_out("mov_ebp,edi\n");
 			emit_out("call %FUNCTION_");
 			emit_out(s);
 			emit_out("\n");
+	}
 
 	for(; passed > 0; passed = passed - 1)
 	{
@@ -735,21 +898,58 @@ void function_call(char* s, int bool)
 		emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
+void constant_load(struct token_list* a)
+{
+	emit_out("mov_eax, %");
+	emit_out(a->arguments->s);
+	emit_out("\n");
+}
+
 char* load_value_signed(unsigned size)
 {
 	if(size == 1)
 	{
 		return "movsx_eax,BYTE_PTR_[eax]\n";
 	}
+	else if(size == 2)
+	{
+		return "movsx_eax,WORD_PTR_[eax]\n";
+	}
 	else if(size == 4)
 	{
 		return "mov_eax,[eax]\n";
 	}
+	line_error();
+	fputs(" Got unsupported size ", stderr);
+	fputs(int2str(size, 10, TRUE), stderr);
+	fputs(" when trying to load value.\n", stderr);
+	exit(EXIT_FAILURE);
+}
+
+char* load_value_unsigned(unsigned size)
+{
+	if(size == 1)
+	{
+		return "movzx_eax,BYTE_PTR_[eax]\n";
+	}
+	else if(size == 2)
+	{
+		return "movzx_eax,WORD_PTR_[eax]\n";
+	}
+	else if(size == 4)
+	{
+		return "mov_eax,[eax]\n";
+	}
+	fputs(" Got unsupported size ", stderr);
+	fputs(int2str(size, 10, TRUE), stderr);
+	fputs(" when trying to load value.\n", stderr);
+	exit(EXIT_FAILURE);
 }
 
 char* load_value(unsigned size, int is_signed)
 {
-	return load_value_signed(size);
+	if(is_signed) return load_value_signed(size);
+	return load_value_unsigned(size);
 }
 
 char* store_value(unsigned size)
@@ -758,30 +958,36 @@ char* store_value(unsigned size)
 	{
 		return "mov_[ebx],al\n";
 	}
+	else if(size == 2)
+	{
+		return "mov_[ebx],ax\n";
+	}
 	else if(size == 4)
 	{
 		return "mov_[ebx],eax\n";
 	}
+	/* Should not happen but print error message. */
+	fputs("Got unsupported size ", stderr);
+	fputs(int2str(size, 10, TRUE), stderr);
+	fputs(" when storing number in register.\n", stderr);
+	line_error();
+	exit(EXIT_FAILURE);
 }
 
 int is_compound_assignment(char* token)
 {
-	if(match("+=", token)) return TRUE;
-	else if(match("-=", token)) return TRUE;
-	else if(match("*=", token)) return TRUE;
-	else if(match("/=", token)) return TRUE;
-	else if(match("%=", token)) return TRUE;
-	else if(match("<<=", token)) return TRUE;
-	else if(match(">>=", token)) return TRUE;
-	else if(match("&=", token)) return TRUE;
-	else if(match("^=", token)) return TRUE;
-	else if(match("|=", token)) return TRUE;
 	return FALSE;
 }
 
 void postfix_expr_stub();
 void variable_load(struct token_list* a, int num_dereference)
 {
+	require(NULL != global_token, "incomplete variable load received\n");
+	if((match("FUNCTION", a->type->name) || match("FUNCTION*", a->type->name)) && match("(", global_token->s))
+	{
+		function_call(int2str(a->depth, 10, TRUE), TRUE);
+		return;
+	}
 	current_target = a->type;
 
 	emit_out("lea_eax,[ebp+DWORD] %");
@@ -789,21 +995,31 @@ void variable_load(struct token_list* a, int num_dereference)
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(TRUE == Address_of) return;
 	if(!match("=", global_token->s) && !is_compound_assignment(global_token->s))
 	{
 		emit_out(load_value(current_target->size, current_target->is_signed));
+	}
+
+	while (num_dereference > 0)
+	{
+		current_target = current_target->type;
+		emit_out(load_value(current_target->size, current_target->is_signed));
+		num_dereference = num_dereference - 1;
 	}
 }
 
 void function_load(struct token_list* a)
 {
+	require(NULL != global_token, "incomplete function load\n");
 	if(match("(", global_token->s))
 	{
 		function_call(a->s, FALSE);
 		return;
 	}
 
+	emit_out("mov_eax, &FUNCTION_");
+	emit_out(a->s);
+	emit_out("\n");
 }
 
 void global_load(struct token_list* a)
@@ -813,6 +1029,7 @@ void global_load(struct token_list* a)
 	emit_out(a->s);
 	emit_out("\n");
 
+	require(NULL != global_token, "unterminated global load\n");
 	if(TRUE == Address_of) return;
 	if(match("=", global_token->s) || is_compound_assignment(global_token->s)) return;
 
@@ -829,6 +1046,16 @@ void global_load(struct token_list* a)
  * ( expression )
  */
 
+void primary_expr_failure()
+{
+	require(NULL != global_token, "hit EOF when expecting primary expression\n");
+	line_error();
+	fputs("Received ", stderr);
+	fputs(global_token->s, stderr);
+	fputs(" in primary_expr\n", stderr);
+	exit(EXIT_FAILURE);
+}
+
 void primary_expr_string()
 {
 	char* number_string = int2str(current_count, 10, TRUE);
@@ -841,6 +1068,7 @@ void primary_expr_string()
 	strings_list = uniqueID(function->s, strings_list, number_string);
 
 	/* catch case of just "foo" from segfaulting */
+	require(NULL != global_token->next, "a string by itself is not valid C\n");
 
 	/* Parse the string */
 	if('"' != global_token->next->s[0])
@@ -869,10 +1097,14 @@ void primary_expr_number()
 void primary_expr_variable()
 {
 	int num_dereference = 0;
-
 	char* s = global_token->s;
 	global_token = global_token->next;
 	struct token_list* a = sym_lookup(s, global_constant_list);
+	if(NULL != a)
+	{
+		constant_load(a);
+		return;
+	}
 
 	a = sym_lookup(s, function->locals);
 	if(NULL != a)
@@ -902,11 +1134,17 @@ void primary_expr_variable()
 		return;
 	}
 
+	line_error();
+	fputs(s ,stderr);
+	fputs(" is not a defined symbol\n", stderr);
+	exit(EXIT_FAILURE);
 }
 
 void primary_expr();
 struct type* promote_type(struct type* a, struct type* b)
 {
+	require(NULL != b, "impossible case 1 in promote_type\n");
+	require(NULL != a, "impossible case 2 in promote_type\n");
 
 	if(a == b) return a;
 
@@ -920,6 +1158,7 @@ struct type* promote_type(struct type* a, struct type* b)
 		if(a->name == i->indirect->indirect->name) break;
 		if(b->name == i->indirect->indirect->name) break;
 	}
+	require(NULL != i, "impossible case 3 in promote_type\n");
 	return i;
 }
 
@@ -929,6 +1168,7 @@ void common_recursion(FUNCTION f)
 
 	struct type* last_type = current_target;
 	global_token = global_token->next;
+	require(NULL != global_token, "Received EOF in common_recursion\n");
 	f();
 	current_target = promote_type(current_target, last_type);
 
@@ -937,6 +1177,7 @@ void common_recursion(FUNCTION f)
 
 void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 {
+	require(NULL != global_token, "Received EOF in general_recursion\n");
 	if(match(name, global_token->s))
 	{
 		common_recursion(f);
@@ -947,10 +1188,22 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 
 void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION iterate)
 {
+	require(NULL != global_token, "Received EOF in arithmetic_recursion\n");
 	if(match(name, global_token->s))
 	{
 		common_recursion(f);
-		emit_out(s1);
+		if(NULL == current_target)
+		{
+			emit_out(s1);
+		}
+		else if(current_target->is_signed)
+		{
+			emit_out(s1);
+		}
+		else
+		{
+			emit_out(s2);
+		}
 		iterate();
 	}
 }
@@ -964,26 +1217,40 @@ void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION i
  *         postfix-expr -> member
  *         postfix-expr . member
  */
-struct type* lookup_member(struct type* parent, char* name);
 
 void postfix_expr_array()
 {
 	struct type* array = current_target;
 	common_recursion(expression);
 	current_target = array;
+	require(NULL != current_target, "Arrays only apply to variables\n");
 
 	char* assign = load_value(register_size, current_target->is_signed);
 
 	/* Add support for Ints */
+	if(match("char*", current_target->name))
+	{
 		assign = load_value(1, TRUE);
+	}
+	else
+	{
+		emit_out("push_ebx\nmov_ebx, %");
+		emit_out(int2str(current_target->type->size, 10, TRUE));
+		emit_out("\nmul_ebx\npop_ebx\n");
+	}
 
 	emit_out("add_eax,ebx\n");
 
-	require_match("ERROR\n", "]");
+	require_match("ERROR in postfix_expr\nMissing ]\n", "]");
+	require(NULL != global_token, "truncated array expression\n");
 
 	if(match("=", global_token->s) || is_compound_assignment(global_token->s) || match(".", global_token->s))
 	{
 		assign = "";
+	}
+	if(match("[", global_token->s))
+	{
+		current_target = current_target->type;
 	}
 
 	emit_out(assign);
@@ -997,15 +1264,27 @@ void postfix_expr_array()
  *         sizeof ( type )
  */
 struct type* type_name();
+void unary_expr_sizeof()
+{
+	global_token = global_token->next;
+	require(NULL != global_token, "Received EOF when starting sizeof\n");
+	require_match("ERROR in unary_expr\nMissing (\n", "(");
+	struct type* a = type_name();
+	require_match("ERROR in unary_expr\nMissing )\n", ")");
+
+	emit_out("mov_eax, %");
+	emit_out(int2str(a->size, 10, TRUE));
+	emit_out("\n");
+}
 
 void postfix_expr_stub()
 {
+	require(NULL != global_token, "Unexpected EOF, improperly terminated primary expression\n");
 	if(match("[", global_token->s))
 	{
 		postfix_expr_array();
 		postfix_expr_stub();
 	}
-
 }
 
 void postfix_expr()
@@ -1102,9 +1381,11 @@ void bitwise_expr()
 
 void primary_expr()
 {
-		Address_of = FALSE;
+	require(NULL != global_token, "Received EOF where primary expression expected\n");
+	Address_of = FALSE;
 
-	if('-' == global_token->s[0])
+	if(match("sizeof", global_token->s)) unary_expr_sizeof();
+	else if('-' == global_token->s[0])
 	{
 		emit_out("mov_eax, %0\n");
 
@@ -1120,17 +1401,24 @@ void primary_expr()
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
 	}
+	else if('~' == global_token->s[0])
+	{
+		common_recursion(postfix_expr);
+
+		emit_out("not_eax\n");
+	}
 	else if(global_token->s[0] == '(')
 	{
 		global_token = global_token->next;
 		expression();
-		require_match("ERROR\n", ")");
+		require_match("Error in Primary expression\nDidn't get )\n", ")");
 	}
 	else if(global_token->s[0] == '\'') primary_expr_char();
 	else if(global_token->s[0] == '"') primary_expr_string();
 	else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) primary_expr_variable();
 	else if(global_token->s[0] == '*') primary_expr_variable();
 	else if(in_set(global_token->s[0], "0123456789")) primary_expr_number();
+	else primary_expr_failure();
 }
 
 void expression()
@@ -1155,6 +1443,43 @@ void expression()
 }
 
 
+int iskeywordp(char* s)
+{
+	if(match("auto", s)) return TRUE;
+	if(match("break", s)) return TRUE;
+	if(match("case", s)) return TRUE;
+	if(match("char", s)) return TRUE;
+	if(match("const", s)) return TRUE;
+	if(match("continue", s)) return TRUE;
+	if(match("default", s)) return TRUE;
+	if(match("do", s)) return TRUE;
+	if(match("double", s)) return TRUE;
+	if(match("else", s)) return TRUE;
+	if(match("enum", s)) return TRUE;
+	if(match("extern", s)) return TRUE;
+	if(match("float", s)) return TRUE;
+	if(match("for", s)) return TRUE;
+	if(match("goto", s)) return TRUE;
+	if(match("if", s)) return TRUE;
+	if(match("int", s)) return TRUE;
+	if(match("long", s)) return TRUE;
+	if(match("register", s)) return TRUE;
+	if(match("return", s)) return TRUE;
+	if(match("short", s)) return TRUE;
+	if(match("signed", s)) return TRUE;
+	if(match("sizeof", s)) return TRUE;
+	if(match("static", s)) return TRUE;
+	if(match("struct", s)) return TRUE;
+	if(match("switch", s)) return TRUE;
+	if(match("typedef", s)) return TRUE;
+	if(match("union", s)) return TRUE;
+	if(match("unsigned", s)) return TRUE;
+	if(match("void", s)) return TRUE;
+	if(match("volatile", s)) return TRUE;
+	if(match("while", s)) return TRUE;
+	return FALSE;
+}
+
 /* Similar to integer division a / b but rounds up */
 unsigned ceil_div(unsigned a, unsigned b)
 {
@@ -1165,8 +1490,16 @@ unsigned ceil_div(unsigned a, unsigned b)
 void collect_local()
 {
 	struct type* type_size = type_name();
+	require(NULL != global_token, "Received EOF while collecting locals\n");
+	require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in local variable name\n");
+	require(!iskeywordp(global_token->s), "You are not allowed to use a keyword as a local variable name\n");
+	require(NULL != type_size, "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
-	if((NULL == function->arguments) && (NULL == function->locals))
+	if(match("main", function->s) && (NULL == function->locals))
+	{
+		a->depth = -20;
+	}
+	else if((NULL == function->arguments) && (NULL == function->locals))
 	{
 		a->depth = -8;
 	}
@@ -1191,8 +1524,16 @@ void collect_local()
 	emit_out("\n");
 
 	global_token = global_token->next;
+	require(NULL != global_token, "incomplete local missing name\n");
 
-	require_match("ERROR\n", ";");
+	if(match("=", global_token->s))
+	{
+		global_token = global_token->next;
+		require(NULL != global_token, "incomplete local assignment\n");
+		expression();
+	}
+
+	require_match("ERROR in collect_local\nMissing ;\n", ";");
 
 	unsigned i = (a->type->size + register_size - 1) / register_size;
 	while(i != 0)
@@ -1216,15 +1557,16 @@ void process_if()
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR\n", "(");
+	require_match("ERROR in process_if\nMISSING (\n", "(");
 	expression();
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR\n", ")");
+	require_match("ERROR in process_if\nMISSING )\n", ")");
 	statement();
+	require(NULL != global_token, "Reached EOF inside of function\n");
 
 	emit_out("jmp %_END_IF_");
 
@@ -1236,11 +1578,152 @@ void process_if()
 	if(match("else", global_token->s))
 	{
 		global_token = global_token->next;
+		require(NULL != global_token, "Received EOF where an else statement expected\n");
 		statement();
+		require(NULL != global_token, "Reached EOF inside of function\n");
 	}
 	emit_out(":_END_IF_");
 	uniqueID_out(function->s, number_string);
 }
+
+void process_for()
+{
+	struct token_list* nested_locals = break_frame;
+	char* nested_break_head = break_target_head;
+	char* nested_break_func = break_target_func;
+	char* nested_break_num = break_target_num;
+	char* nested_continue_head = continue_target_head;
+
+	char* number_string = int2str(current_count, 10, TRUE);
+	current_count = current_count + 1;
+
+	break_target_head = "FOR_END_";
+	continue_target_head = "FOR_ITER_";
+	break_target_num = number_string;
+	break_frame = function->locals;
+	break_target_func = function->s;
+
+	emit_out("# FOR_initialization_");
+	uniqueID_out(function->s, number_string);
+
+	global_token = global_token->next;
+
+	require_match("ERROR in process_for\nMISSING (\n", "(");
+	if(!match(";",global_token->s))
+	{
+		expression();
+	}
+
+	emit_out(":FOR_");
+	uniqueID_out(function->s, number_string);
+
+	require_match("ERROR in process_for\nMISSING ;1\n", ";");
+	expression();
+
+	emit_out("test_eax,eax\nje %FOR_END_");
+
+	uniqueID_out(function->s, number_string);
+
+	emit_out("jmp %FOR_THEN_");
+
+	uniqueID_out(function->s, number_string);
+
+	emit_out(":FOR_ITER_");
+	uniqueID_out(function->s, number_string);
+
+	require_match("ERROR in process_for\nMISSING ;2\n", ";");
+	expression();
+
+	emit_out("jmp %FOR_");
+
+	uniqueID_out(function->s, number_string);
+
+	emit_out(":FOR_THEN_");
+	uniqueID_out(function->s, number_string);
+
+	require_match("ERROR in process_for\nMISSING )\n", ")");
+	statement();
+	require(NULL != global_token, "Reached EOF inside of function\n");
+
+	emit_out("jmp %FOR_ITER_");
+
+	uniqueID_out(function->s, number_string);
+
+	emit_out(":FOR_END_");
+	uniqueID_out(function->s, number_string);
+
+	break_target_head = nested_break_head;
+	break_target_func = nested_break_func;
+	break_target_num = nested_break_num;
+	continue_target_head = nested_continue_head;
+	break_frame = nested_locals;
+}
+
+/* Process Assembly statements */
+void process_asm()
+{
+	global_token = global_token->next;
+	require_match("ERROR in process_asm\nMISSING (\n", "(");
+	while('"' == global_token->s[0])
+	{
+		emit_out((global_token->s + 1));
+		emit_out("\n");
+		global_token = global_token->next;
+		require(NULL != global_token, "Received EOF inside asm statement\n");
+	}
+	require_match("ERROR in process_asm\nMISSING )\n", ")");
+	require_match("ERROR in process_asm\nMISSING ;\n", ";");
+}
+
+/* Process do while loops */
+void process_do()
+{
+	struct token_list* nested_locals = break_frame;
+	char* nested_break_head = break_target_head;
+	char* nested_break_func = break_target_func;
+	char* nested_break_num = break_target_num;
+	char* nested_continue_head = continue_target_head;
+
+	char* number_string = int2str(current_count, 10, TRUE);
+	current_count = current_count + 1;
+
+	break_target_head = "DO_END_";
+	continue_target_head = "DO_TEST_";
+	break_target_num = number_string;
+	break_frame = function->locals;
+	break_target_func = function->s;
+
+	emit_out(":DO_");
+	uniqueID_out(function->s, number_string);
+
+	global_token = global_token->next;
+	require(NULL != global_token, "Received EOF where do statement is expected\n");
+	statement();
+	require(NULL != global_token, "Reached EOF inside of function\n");
+
+	emit_out(":DO_TEST_");
+	uniqueID_out(function->s, number_string);
+
+	require_match("ERROR in process_do\nMISSING while\n", "while");
+	require_match("ERROR in process_do\nMISSING (\n", "(");
+	expression();
+	require_match("ERROR in process_do\nMISSING )\n", ")");
+	require_match("ERROR in process_do\nMISSING ;\n", ";");
+
+	emit_out("test_eax,eax\njne %DO_");
+
+	uniqueID_out(function->s, number_string);
+
+	emit_out(":DO_END_");
+	uniqueID_out(function->s, number_string);
+
+	break_frame = nested_locals;
+	break_target_head = nested_break_head;
+	break_target_func = nested_break_func;
+	break_target_num = nested_break_num;
+	continue_target_head = nested_continue_head;
+}
+
 
 /* Process while loops */
 void process_while()
@@ -1264,7 +1747,7 @@ void process_while()
 	uniqueID_out(function->s, number_string);
 
 	global_token = global_token->next;
-	require_match("ERROR\n", "(");
+	require_match("ERROR in process_while\nMISSING (\n", "(");
 	expression();
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
@@ -1274,8 +1757,9 @@ void process_while()
 	emit_out("# THEN_while_");
 	uniqueID_out(function->s, number_string);
 
-	require_match("ERROR\n", ")");
+	require_match("ERROR in process_while\nMISSING )\n", ")");
 	statement();
+	require(NULL != global_token, "Reached EOF inside of function\n");
 
 	emit_out("jmp %WHILE_");
 
@@ -1295,9 +1779,10 @@ void process_while()
 void return_result()
 {
 	global_token = global_token->next;
+	require(NULL != global_token, "Incomplete return statement received\n");
 	if(global_token->s[0] != ';') expression();
 
-	require_match("ERROR\n", ";");
+	require_match("ERROR in return_result\nMISSING ;\n", ";");
 
 	struct token_list* i;
 	unsigned size_local_var;
@@ -1316,7 +1801,19 @@ void return_result()
 
 void process_break()
 {
+	if(NULL == break_target_head)
+	{
+		line_error();
+		fputs("Not inside of a loop or case statement\n", stderr);
+		exit(EXIT_FAILURE);
+	}
 	struct token_list* i = function->locals;
+	while(i != break_frame)
+	{
+		if(NULL == i) break;
+		emit_out("pop_ebx\t# break_cleanup_locals\n");
+		i = i->next;
+	}
 	global_token = global_token->next;
 
 	emit_out("jmp %");
@@ -1326,17 +1823,19 @@ void process_break()
 	emit_out("_");
 	emit_out(break_target_num);
 	emit_out("\n");
-	require_match("ERROR\n", ";");
+	require_match("ERROR in break statement\nMissing ;\n", ";");
 }
 
 void recursive_statement()
 {
 	global_token = global_token->next;
+	require(NULL != global_token, "Received EOF in recursive statement\n");
 	struct token_list* frame = function->locals;
 
 	while(!match("}", global_token->s))
 	{
 		statement();
+		require(NULL != global_token, "Received EOF in recursive statement prior to }\n");
 	}
 	global_token = global_token->next;
 
@@ -1374,6 +1873,7 @@ void recursive_statement()
 struct type* lookup_type(char* s, struct type* start);
 void statement()
 {
+	require(NULL != global_token, "expected a C statement but received EOF\n");
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
@@ -1390,9 +1890,21 @@ void statement()
 	{
 		process_if();
 	}
+	else if(match("do", global_token->s))
+	{
+		process_do();
+	}
 	else if(match("while", global_token->s))
 	{
 		process_while();
+	}
+	else if(match("for", global_token->s))
+	{
+		process_for();
+	}
+	else if(match("asm", global_token->s))
+	{
+		process_asm();
 	}
 	else if(match("return", global_token->s))
 	{
@@ -1405,7 +1917,7 @@ void statement()
 	else
 	{
 		expression();
-		require_match("ERROR\n", ";");
+		require_match("ERROR in statement\nMISSING ;\n", ";");
 	}
 }
 
@@ -1413,12 +1925,15 @@ void statement()
 void collect_arguments()
 {
 	global_token = global_token->next;
+	require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
 	struct type* type_size;
 	struct token_list* a;
 
 	while(!match(")", global_token->s))
 	{
 		type_size = type_name();
+		require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
+		require(NULL != type_size, "Must have non-null type\n");
 		if(global_token->s[0] == ')')
 		{
 			/* foo(int,char,void) doesn't need anything done */
@@ -1427,6 +1942,8 @@ void collect_arguments()
 		else if(global_token->s[0] != ',')
 		{
 			/* deal with foo(int a, char b) */
+			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
+			require(!iskeywordp(global_token->s), "You are not allowed to use a keyword as a argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
 			if(NULL == function->arguments)
 			{
@@ -1438,6 +1955,7 @@ void collect_arguments()
 			}
 
 			global_token = global_token->next;
+			require(NULL != global_token, "Incomplete argument list\n");
 			function->arguments = a;
 		}
 
@@ -1445,8 +1963,10 @@ void collect_arguments()
 		if(global_token->s[0] == ',')
 		{
 			global_token = global_token->next;
+			require(NULL != global_token, "naked comma in collect arguments\n");
 		}
 
+		require(NULL != global_token, "Argument list never completed\n");
 	}
 	global_token = global_token->next;
 }
@@ -1460,6 +1980,7 @@ void declare_function()
 	global_function_list = function;
 	collect_arguments();
 
+	require(NULL != global_token, "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
 	if(global_token->s[0] == ';') global_token = global_token->next;
 	else
@@ -1475,6 +1996,17 @@ void declare_function()
 		/* Prevent duplicate RETURNS */
 		if(!match("ret\n", output_list->s)) emit_out("ret\n");
 	}
+}
+
+void global_constant()
+{
+	global_token = global_token->next;
+	require(NULL != global_token, "CONSTANT lacks a name\n");
+	global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
+
+	require(NULL != global_token->next, "CONSTANT lacks a value\n");
+	global_constant_list->arguments = global_token->next;
+	global_token = global_token->next->next;
 }
 
 /*
@@ -1508,11 +2040,21 @@ void program()
 new_type:
 	/* Deal with garbage input */
 	if (NULL == global_token) return;
+	require('#' != global_token->s[0], "unhandled macro directive\n");
+	require(!match("\n", global_token->s), "unexpected newline token\n");
+
+	/* Handle cc_* CONSTANT statements */
+	if(match("CONSTANT", global_token->s))
+	{
+		global_constant();
+		goto new_type;
+	}
 
 	type_size = type_name();
 	/* Deal with case of struct definitions */
 	if(NULL == type_size) goto new_type;
 
+	require(NULL != global_token->next, "Unterminated global\n");
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
@@ -1544,6 +2086,13 @@ new_type:
 		declare_function();
 		goto new_type;
 	}
+
+	/* Everything else is just an error */
+	line_error();
+	fputs("Received ", stderr);
+	fputs(global_token->s, stderr);
+	fputs(" in program\n", stderr);
+	exit(EXIT_FAILURE);
 }
 
 void recursive_output(struct token_list* head, FILE* out)
@@ -1555,30 +2104,6 @@ void recursive_output(struct token_list* head, FILE* out)
 		i = i->next;
 	}
 }
-
-
-
-struct token_list* eat_token(struct token_list* head);
-
-struct conditional_inclusion
-{
-	struct conditional_inclusion* prev;
-	int include; /* 1 == include, 0 == skip */
-	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
-};
-
-struct macro_list
-{
-	struct macro_list* next;
-	char* symbol;
-	struct token_list* expansion;
-};
-
-struct macro_list* macro_env;
-struct conditional_inclusion* conditional_inclusion_top;
-
-/* point where we are currently modifying the global_token list */
-struct token_list* macro_token;
 
 void init_macro_env(char* sym, char* value, char* source, int num)
 {
@@ -1595,9 +2120,13 @@ void init_macro_env(char* sym, char* value, char* source, int num)
 void eat_current_token()
 {
 	int update_global_token = FALSE;
+	if (macro_token == global_token)
+		update_global_token = TRUE;
 
 	macro_token = eat_token(macro_token);
 
+	if(update_global_token)
+		global_token = macro_token;
 }
 
 void eat_newline_tokens()
@@ -1619,83 +2148,39 @@ void eat_newline_tokens()
 	}
 }
 
-/* The core functions */
-void initialize_types();
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
-struct token_list* reverse_list(struct token_list* head);
-
-struct token_list* remove_line_comment_tokens(struct token_list* head);
-struct token_list* remove_preprocessor_directives(struct token_list* head);
-
-void eat_newline_tokens();
-void init_macro_env(char* sym, char* value, char* source, int num);
-void preprocess();
-void program();
-void recursive_output(struct token_list* i, FILE* out);
-
 int main(int argc, char** argv)
 {
 	MAX_STRING = 4096;
-	BOOTSTRAP_MODE = FALSE;
-	int DEBUG = FALSE;
-	FILE* in = stdin;
-	FILE* destination_file = stdout;
-	Architecture = 0; /* catch unset */
+	BOOTSTRAP_MODE = TRUE;
+	FILE* in;
+	FILE* destination_file;
+	Architecture = X86;
 	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
-	char* arch;
 	char* name;
 	char* hold;
 	int env=0;
 	char* val;
 
 	int i = 1;
-	while(i <= argc)
-	{
-		if(NULL == argv[i])
-		{
-			i = i + 1;
-		}
-		else if(match(argv[i], "-f") || match(argv[i], "--file"))
-		{
-			if(NULL == hold_string)
-			{
-				hold_string = calloc(MAX_STRING + 4, sizeof(char));
-			}
+	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
-			name = argv[i + 1];
+	name = argv[i];
 
-			in = fopen(name, "r");
-			global_token = read_all_tokens(in, global_token, name);
-			fclose(in);
-			i = i + 2;
-		}
-		else if(match(argv[i], "-o") || match(argv[i], "--output"))
-		{
-			destination_file = fopen(argv[i + 1], "w");
-			i = i + 2;
-		}
-		else if(match(argv[i], "-A") || match(argv[i], "--architecture"))
-		{
-			arch = argv[i + 1];
-				Architecture = X86;
-				init_macro_env("__i386__", "1", "--architecture", env);
-				env = env + 1;
-			i = i + 2;
-		}
-		else if(match(argv[i], "--bootstrap-mode"))
-		{
-			BOOTSTRAP_MODE = TRUE;
-			i = i + 1;
-		}
-	}
+	in = fopen(name, "r");
+	global_token = read_all_tokens(in, global_token, name);
+	fclose(in);
+	i = i + 1;
+
+	destination_file = fopen(argv[i], "w");
+	i = i + 1;
+
+	init_macro_env("__i386__", "1", "--architecture", env);
+	env = env + 1;
 
 	global_token = reverse_list(global_token);
 
-	if (BOOTSTRAP_MODE)
-	{
-		global_token = remove_line_comment_tokens(global_token);
-		global_token = remove_preprocessor_directives(global_token);
-	}
+	global_token = remove_line_comment_tokens(global_token);
+	global_token = remove_preprocessor_directives(global_token);
 
 	/* the main parser doesn't know how to handle newline tokens */
 	eat_newline_tokens();
@@ -1715,9 +2200,6 @@ int main(int argc, char** argv)
 	fputs("\n:ELF_end\n", destination_file);
 
 exit_success:
-	if (destination_file != stdout)
-	{
-		fclose(destination_file);
-	}
+	fclose(destination_file);
 	return EXIT_SUCCESS;
 }

@@ -1,0 +1,61 @@
+# ( is:
+# push_edi
+# push_ebp
+# mov_edi,esp
+DEFINE ( 575589E7
+
+# do_call is:
+# mov_ebp,edi
+# call (32 bit offset)
+DEFINE do_call 89FDE8
+
+# ) is:
+# pop_ebp
+# pop_edi
+DEFINE ) 5D5F
+
+# load is:
+# mov_eax,[eax]
+DEFINE load 8B00
+
+# cleanup_args_bytes is:
+# add_esp, (immediate 32 bit value)
+DEFINE cleanup_args_bytes 81C4
+
+# local is:
+# lea_eax,[ebp+DWORD] (immediate 32 bit value)
+DEFINE local 8D85
+
+# global is:
+# mov_eax, (32 bit immediate)
+DEFINE global B8
+
+# constant is:
+# mov_eax, (32 bit immediate)
+DEFINE constant B8
+
+# cleanup_locals_bytes is:
+# add_esp, (immediate 32 bit value)
+DEFINE cleanup_locals_bytes 81C4
+
+# store is:
+# pop_ebx
+# mov_[ebx],eax
+DEFINE store 5B8903
+
+# reserve_stack_slot is:
+# push_eax
+DEFINE reserve_stack_slot 50
+
+# cond_branch is:
+# test_eax,eax
+# je (32 bit relative)
+DEFINE cond_branch 85C00F84
+
+# push_arg is:
+# push_eax
+DEFINE push_arg 50
+
+# push_address is:
+# push_eax
+DEFINE push_address 50

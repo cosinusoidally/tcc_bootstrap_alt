@@ -1,0 +1,4460 @@
+
+# Core program
+:FUNCTION_token_list_layout_init
+  global &GLOBAL_token_list_next_offset push_address
+  constant %0 store
+  global &GLOBAL_token_list_locals_offset push_address
+  constant %4 store
+  global &GLOBAL_token_list_prev_offset push_address
+  constant %4 store
+  global &GLOBAL_token_list_s_offset push_address
+  constant %8 store
+  global &GLOBAL_token_list_arguments_offset push_address
+  constant %12 store
+  global &GLOBAL_token_list_depth_offset push_address
+  constant %12 store
+  global &GLOBAL_token_list_linenumber_offset push_address
+  constant %12 store
+  ret
+:FUNCTION_ri32
+  DEFINE ARG_o FCFFFFFF
+  ( ( ( ( local ARG_o load push_arg
+          do_call %FUNCTION_ri8 cleanup_args_bytes %4
+        )
+        push_arg
+        constant %255 push_arg
+        do_call %FUNCTION_and cleanup_args_bytes %8
+      )
+      push_arg
+      ( ( ( ( local ARG_o load push_arg
+              constant %1 push_arg
+              do_call %FUNCTION_add cleanup_args_bytes %8
+            )
+            push_arg
+            do_call %FUNCTION_ri8 cleanup_args_bytes %4
+          )
+          push_arg
+          constant %255 push_arg
+          do_call %FUNCTION_and cleanup_args_bytes %8
+        )
+        push_arg
+        constant %8 push_arg
+        do_call %FUNCTION_shl cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_or cleanup_args_bytes %8
+    )
+    push_arg
+    ( ( ( ( ( local ARG_o load push_arg
+              constant %2 push_arg
+              do_call %FUNCTION_add cleanup_args_bytes %8
+            )
+            push_arg
+            do_call %FUNCTION_ri8 cleanup_args_bytes %4
+          )
+          push_arg
+          constant %255 push_arg
+          do_call %FUNCTION_and cleanup_args_bytes %8
+        )
+        push_arg
+        constant %16 push_arg
+        do_call %FUNCTION_shl cleanup_args_bytes %8
+      )
+      push_arg
+      ( ( ( ( local ARG_o load push_arg
+              constant %3 push_arg
+              do_call %FUNCTION_add cleanup_args_bytes %8
+            )
+            push_arg
+            do_call %FUNCTION_ri8 cleanup_args_bytes %4
+          )
+          push_arg
+          constant %255 push_arg
+          do_call %FUNCTION_and cleanup_args_bytes %8
+        )
+        push_arg
+        constant %24 push_arg
+        do_call %FUNCTION_shl cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_or cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_or cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_wi32
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_o FCFFFFFF
+  ( local ARG_o load push_arg
+    ( local ARG_v load push_arg
+      constant %0xFF push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_v push_address
+  ( local ARG_v load push_arg
+    constant %8 push_arg
+    do_call %FUNCTION_shr cleanup_args_bytes %8
+  )
+  store
+  ( ( local ARG_o load push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_v load push_arg
+      constant %0xFF push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_v push_address
+  ( local ARG_v load push_arg
+    constant %8 push_arg
+    do_call %FUNCTION_shr cleanup_args_bytes %8
+  )
+  store
+  ( ( local ARG_o load push_arg
+      constant %2 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_v load push_arg
+      constant %0xFF push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_v push_address
+  ( local ARG_v load push_arg
+    constant %8 push_arg
+    do_call %FUNCTION_shr cleanup_args_bytes %8
+  )
+  store
+  ( ( local ARG_o load push_arg
+      constant %3 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_v load push_arg
+      constant %0xFF push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_set_s
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_s_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_s
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_s_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_prev
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_prev_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_prev
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_prev_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_next
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_next_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_next
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_next_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_linenumber
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_linenumber_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_linenumber
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_linenumber_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_depth
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_depth_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_depth
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_depth_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_locals
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_locals_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_locals
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_locals_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_set_arguments
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_arguments_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_v load push_arg
+    do_call %FUNCTION_wi32 cleanup_args_bytes %8
+  )
+  ret
+:FUNCTION_get_arguments
+  DEFINE ARG_t FCFFFFFF
+  ( ( local ARG_t load push_arg
+      global &GLOBAL_token_list_arguments_offset load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_increase_indent
+  global &GLOBAL_indent push_address
+  ( global &GLOBAL_indent load push_arg
+    constant %2 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  ret
+:FUNCTION_decrease_indent
+  global &GLOBAL_indent push_address
+  ( global &GLOBAL_indent load push_arg
+    constant %2 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+# IF_decrease_indent_0
+  ( global &GLOBAL_indent load push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_decrease_indent_0
+  global &GLOBAL_indent push_address
+  constant %0 store
+  jmp %_END_IF_decrease_indent_0
+:ELSE_decrease_indent_0
+:_END_IF_decrease_indent_0
+  ret
+:FUNCTION_indented_emit_out
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_c F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_c push_address
+  constant %0 store
+# IF_indented_emit_out_0
+  global &GLOBAL_no_indent load cond_branch %ELSE_indented_emit_out_0
+  global &GLOBAL_no_indent push_address
+  constant %0 store
+  jmp %_END_IF_indented_emit_out_0
+:ELSE_indented_emit_out_0
+:WHILE_indented_emit_out_1
+  ( local LOCAL_c load push_arg
+    global &GLOBAL_indent load push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_indented_emit_out_1
+# THEN_while_indented_emit_out_1
+  ( constant &STRING_indented_emit_out_2
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  local LOCAL_c push_address
+  ( local LOCAL_c load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_indented_emit_out_1
+:END_WHILE_indented_emit_out_1
+:_END_IF_indented_emit_out_0
+  ( local ARG_s load push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_skip
+  DEFINE ARG_str FCFFFFFF
+  global &GLOBAL_global_token push_address
+  ( global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  ret
+:FUNCTION_advance
+  global &GLOBAL_global_token push_address
+  ( global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  ret
+:FUNCTION_token_string
+  DEFINE ARG_a FCFFFFFF
+  ( local ARG_a load push_arg
+    do_call %FUNCTION_get_s cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_global_token_string
+  ( global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_token_string cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_global_token_char0
+  ( ( global &GLOBAL_global_token load push_arg
+      do_call %FUNCTION_token_string cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_ri8 cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_to_hex_digit
+  DEFINE ARG_a FCFFFFFF
+  local ARG_a push_address
+  ( constant %15 push_arg
+    local ARG_a load push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  store
+# IF_to_hex_digit_0
+  ( local ARG_a load push_arg
+    constant %9 push_arg
+    do_call %FUNCTION_gt cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_to_hex_digit_0
+  local ARG_a push_address
+  ( ( local ARG_a load push_arg
+      constant %10 push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    constant %65 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_to_hex_digit_0
+:ELSE_to_hex_digit_0
+  local ARG_a push_address
+  ( local ARG_a load push_arg
+    constant %48 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+:_END_IF_to_hex_digit_0
+  local ARG_a load ret
+:FUNCTION_to_hex_le
+  DEFINE ARG_a FCFFFFFF
+  DEFINE LOCAL_o F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_i F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  constant %0 store
+  local LOCAL_o push_address
+  ( constant %17 push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+:WHILE_to_hex_le_0
+  ( local LOCAL_i load push_arg
+    constant %4 push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_to_hex_le_0
+# THEN_while_to_hex_le_0
+  ( ( local LOCAL_o load push_arg
+      ( ( local LOCAL_i load push_arg
+          constant %2 push_arg
+          do_call %FUNCTION_mul cleanup_args_bytes %8
+        )
+        push_arg
+        constant %1 push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_a load push_arg
+      do_call %FUNCTION_to_hex_digit cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  ( ( local LOCAL_o load push_arg
+      ( local LOCAL_i load push_arg
+        constant %2 push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( ( local ARG_a load push_arg
+        constant %4 push_arg
+        do_call %FUNCTION_shr cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_to_hex_digit cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_a push_address
+  ( local ARG_a load push_arg
+    constant %8 push_arg
+    do_call %FUNCTION_shr cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_to_hex_le_0
+:END_WHILE_to_hex_le_0
+  local LOCAL_o load cleanup_locals_bytes %8 ret
+:FUNCTION_match
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+  DEFINE LOCAL_i F0FFFFFF
+  reserve_stack_slot
+# IF_match_0
+  ( ( global &GLOBAL_NULL load push_arg
+      local ARG_a load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    ( global &GLOBAL_NULL load push_arg
+      local ARG_b load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_match_0
+  global &GLOBAL_TRUE load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_match_0
+:ELSE_match_0
+:_END_IF_match_0
+# IF_match_1
+  ( global &GLOBAL_NULL load push_arg
+    local ARG_a load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_match_1
+  global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_match_1
+:ELSE_match_1
+:_END_IF_match_1
+# IF_match_2
+  ( global &GLOBAL_NULL load push_arg
+    local ARG_b load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_match_2
+  global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_match_2
+:ELSE_match_2
+:_END_IF_match_2
+  local LOCAL_i push_address
+  ( constant %0 push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+:WHILE_match_3
+  constant %1 cond_branch %END_WHILE_match_3
+# THEN_while_match_3
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+# IF_match_4
+  ( ( ( local ARG_a load push_arg
+        local LOCAL_i load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    ( ( local ARG_b load push_arg
+        local LOCAL_i load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_match_4
+  global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_match_4
+:ELSE_match_4
+:_END_IF_match_4
+# IF_match_5
+  ( constant %0 push_arg
+    ( ( constant %0 push_arg
+        ( ( local ARG_a load push_arg
+            local LOCAL_i load push_arg
+            do_call %FUNCTION_add cleanup_args_bytes %8
+          )
+          push_arg
+          do_call %FUNCTION_ri8 cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_neq cleanup_args_bytes %8
+      )
+      push_arg
+      ( constant %0 push_arg
+        ( ( local ARG_b load push_arg
+            local LOCAL_i load push_arg
+            do_call %FUNCTION_add cleanup_args_bytes %8
+          )
+          push_arg
+          do_call %FUNCTION_ri8 cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_neq cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_match_5
+  jmp %END_WHILE_match_3
+  jmp %_END_IF_match_5
+:ELSE_match_5
+:_END_IF_match_5
+  jmp %WHILE_match_3
+:END_WHILE_match_3
+  global &GLOBAL_TRUE load cleanup_locals_bytes %4 ret
+:FUNCTION_in_set
+  DEFINE ARG_s F8FFFFFF
+  DEFINE ARG_c FCFFFFFF
+# IF_in_set_0
+  ( global &GLOBAL_NULL load push_arg
+    local ARG_s load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_in_set_0
+  global &GLOBAL_FALSE load ret
+  jmp %_END_IF_in_set_0
+:ELSE_in_set_0
+:_END_IF_in_set_0
+:WHILE_in_set_1
+  ( constant %0 push_arg
+    ( local ARG_s load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_in_set_1
+# THEN_while_in_set_1
+# IF_in_set_2
+  ( local ARG_c load push_arg
+    ( local ARG_s load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_in_set_2
+  global &GLOBAL_TRUE load ret
+  jmp %_END_IF_in_set_2
+:ELSE_in_set_2
+:_END_IF_in_set_2
+  local ARG_s push_address
+  ( local ARG_s load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_in_set_1
+:END_WHILE_in_set_1
+  global &GLOBAL_FALSE load ret
+:FUNCTION_int2str
+  DEFINE ARG_signed_p F4FFFFFF
+  DEFINE ARG_base F8FFFFFF
+  DEFINE ARG_x FCFFFFFF
+  DEFINE LOCAL_p ECFFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_i E8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_sign_p E4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_table E0FFFFFF
+  reserve_stack_slot
+  local LOCAL_p push_address
+  ( constant %34 push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+# IF_int2str_0
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_p load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_int2str_0
+  local LOCAL_p load cleanup_locals_bytes %16 ret
+  jmp %_END_IF_int2str_0
+:ELSE_int2str_0
+:_END_IF_int2str_0
+  local LOCAL_p push_address
+  ( local LOCAL_p load push_arg
+    constant %32 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_sign_p push_address
+  global &GLOBAL_FALSE load store
+  local LOCAL_table push_address
+  constant &STRING_int2str_1
+  store
+# IF_int2str_2
+  ( ( local ARG_signed_p load push_arg
+      ( constant %10 push_arg
+        local ARG_base load push_arg
+        do_call %FUNCTION_eq cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_and cleanup_args_bytes %8
+    )
+    push_arg
+    ( constant %0 push_arg
+      ( local ARG_x load push_arg
+        constant %0x80000000 push_arg
+        do_call %FUNCTION_and cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_neq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_int2str_2
+  local LOCAL_i push_address
+  ( ( constant %0 push_arg
+      local ARG_x load push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    constant %0x7FFFFFFF push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  store
+# IF_int2str_3
+  ( constant %0 push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_int2str_3
+  constant &STRING_int2str_4
+  cleanup_locals_bytes %16 ret
+  jmp %_END_IF_int2str_3
+:ELSE_int2str_3
+:_END_IF_int2str_3
+  local LOCAL_sign_p push_address
+  global &GLOBAL_TRUE load store
+  jmp %_END_IF_int2str_2
+:ELSE_int2str_2
+  local LOCAL_i push_address
+  ( local ARG_x load push_arg
+    ( constant %0x7FFFFFFF push_arg
+      ( constant %1 push_arg
+        constant %31 push_arg
+        do_call %FUNCTION_shl cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_or cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  store
+:_END_IF_int2str_2
+:WHILE_int2str_5
+  constant %1 cond_branch %END_WHILE_int2str_5
+# THEN_while_int2str_5
+  ( local LOCAL_p load push_arg
+    ( ( local LOCAL_table load push_arg
+        ( local LOCAL_i load push_arg
+          local ARG_base load push_arg
+          do_call %FUNCTION_mod cleanup_args_bytes %8
+        )
+        push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_p push_address
+  ( local LOCAL_p load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    local ARG_base load push_arg
+    do_call %FUNCTION_div cleanup_args_bytes %8
+  )
+  store
+# IF_int2str_6
+  ( constant %0 push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_gte cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_int2str_6
+  jmp %END_WHILE_int2str_5
+  jmp %_END_IF_int2str_6
+:ELSE_int2str_6
+:_END_IF_int2str_6
+  jmp %WHILE_int2str_5
+:END_WHILE_int2str_5
+# IF_int2str_7
+  local LOCAL_sign_p load cond_branch %ELSE_int2str_7
+  ( local LOCAL_p load push_arg
+    constant %45 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_p push_address
+  ( local LOCAL_p load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_int2str_7
+:ELSE_int2str_7
+:_END_IF_int2str_7
+  ( local LOCAL_p load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  cleanup_locals_bytes %16 ret
+:FUNCTION_grab_byte
+  DEFINE LOCAL_c F8FFFFFF
+  reserve_stack_slot
+  local LOCAL_c push_address
+  ( global &GLOBAL_input load push_arg
+    do_call %FUNCTION_fgetc cleanup_args_bytes %4
+  )
+  store
+# IF_grab_byte_0
+  ( constant %10 push_arg
+    local LOCAL_c load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_grab_byte_0
+  global &GLOBAL_line push_address
+  ( global &GLOBAL_line load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_grab_byte_0
+:ELSE_grab_byte_0
+:_END_IF_grab_byte_0
+  local LOCAL_c load cleanup_locals_bytes %4 ret
+:FUNCTION_clearWhiteSpace
+  DEFINE ARG_c FCFFFFFF
+# IF_clearWhiteSpace_0
+  ( ( constant %32 push_arg
+      local ARG_c load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    ( constant %9 push_arg
+      local ARG_c load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_or cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_clearWhiteSpace_0
+  ( ( do_call %FUNCTION_grab_byte )
+    push_arg
+    do_call %FUNCTION_clearWhiteSpace cleanup_args_bytes %4
+  )
+  ret
+  jmp %_END_IF_clearWhiteSpace_0
+:ELSE_clearWhiteSpace_0
+:_END_IF_clearWhiteSpace_0
+  local ARG_c load ret
+:FUNCTION_consume_byte
+  DEFINE ARG_c FCFFFFFF
+  ( ( global &GLOBAL_hold_string load push_arg
+      global &GLOBAL_string_index load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    local ARG_c load push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  global &GLOBAL_string_index push_address
+  ( global &GLOBAL_string_index load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  ( do_call %FUNCTION_grab_byte )
+  ret
+:FUNCTION_preserve_string
+  DEFINE ARG_c FCFFFFFF
+  DEFINE LOCAL_frequent F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_escape F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_frequent push_address
+  local ARG_c load store
+  local LOCAL_escape push_address
+  global &GLOBAL_FALSE load store
+:WHILE_preserve_string_0
+  constant %1 cond_branch %END_WHILE_preserve_string_0
+# THEN_while_preserve_string_0
+# IF_preserve_string_1
+  ( ( constant %0 push_arg
+      local LOCAL_escape load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    ( constant %92 push_arg
+      local ARG_c load push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_preserve_string_1
+  local LOCAL_escape push_address
+  global &GLOBAL_TRUE load store
+  jmp %_END_IF_preserve_string_1
+:ELSE_preserve_string_1
+  local LOCAL_escape push_address
+  global &GLOBAL_FALSE load store
+:_END_IF_preserve_string_1
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_consume_byte cleanup_args_bytes %4
+  )
+  store
+# IF_preserve_string_2
+  ( constant %0 push_arg
+    ( local LOCAL_escape load push_arg
+      ( local ARG_c load push_arg
+        local LOCAL_frequent load push_arg
+        do_call %FUNCTION_neq cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_or cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_preserve_string_2
+  jmp %END_WHILE_preserve_string_0
+  jmp %_END_IF_preserve_string_2
+:ELSE_preserve_string_2
+:_END_IF_preserve_string_2
+  jmp %WHILE_preserve_string_0
+:END_WHILE_preserve_string_0
+  ( do_call %FUNCTION_grab_byte )
+  cleanup_locals_bytes %8 ret
+:FUNCTION_copy_string
+  DEFINE ARG_max F4FFFFFF
+  DEFINE ARG_source F8FFFFFF
+  DEFINE ARG_target FCFFFFFF
+  DEFINE LOCAL_i ECFFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  constant %0 store
+:WHILE_copy_string_0
+  ( constant %0 push_arg
+    ( ( local ARG_source load push_arg
+        local LOCAL_i load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_copy_string_0
+# THEN_while_copy_string_0
+  ( ( local ARG_target load push_arg
+      local LOCAL_i load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( ( local ARG_source load push_arg
+        local LOCAL_i load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+# IF_copy_string_1
+  ( local LOCAL_i load push_arg
+    local ARG_max load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_copy_string_1
+  jmp %END_WHILE_copy_string_0
+  jmp %_END_IF_copy_string_1
+:ELSE_copy_string_1
+:_END_IF_copy_string_1
+  jmp %WHILE_copy_string_0
+:END_WHILE_copy_string_0
+  cleanup_locals_bytes %4 ret
+:FUNCTION_preserve_keyword
+  DEFINE ARG_S F8FFFFFF
+  DEFINE ARG_c FCFFFFFF
+:WHILE_preserve_keyword_0
+  ( local ARG_c load push_arg
+    local ARG_S load push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_preserve_keyword_0
+# THEN_while_preserve_keyword_0
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_consume_byte cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_preserve_keyword_0
+:END_WHILE_preserve_keyword_0
+  local ARG_c load ret
+:FUNCTION_reset_hold_string
+  DEFINE LOCAL_i F8FFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  global &GLOBAL_MAX_STRING load store
+:WHILE_reset_hold_string_0
+  ( constant %0 push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_lte cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_reset_hold_string_0
+# THEN_while_reset_hold_string_0
+  ( ( global &GLOBAL_hold_string load push_arg
+      local LOCAL_i load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_reset_hold_string_0
+:END_WHILE_reset_hold_string_0
+  global &GLOBAL_string_index push_address
+  constant %0 store
+  cleanup_locals_bytes %4 ret
+:FUNCTION_new_token
+  DEFINE ARG_size F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_current F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_current push_address
+  ( constant %1 push_arg
+    global &GLOBAL_sizeof_token_list load push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  ( local LOCAL_current load push_arg
+    ( local ARG_size load push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_calloc cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_s cleanup_args_bytes %8
+  )
+  ( ( local LOCAL_current load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local ARG_s load push_arg
+    global &GLOBAL_MAX_STRING load push_arg
+    do_call %FUNCTION_copy_string cleanup_args_bytes %12
+  )
+  ( local LOCAL_current load push_arg
+    global &GLOBAL_token load push_arg
+    do_call %FUNCTION_set_prev cleanup_args_bytes %8
+  )
+  ( local LOCAL_current load push_arg
+    global &GLOBAL_token load push_arg
+    do_call %FUNCTION_set_next cleanup_args_bytes %8
+  )
+  ( local LOCAL_current load push_arg
+    global &GLOBAL_line load push_arg
+    do_call %FUNCTION_set_linenumber cleanup_args_bytes %8
+  )
+  global &GLOBAL_token push_address
+  local LOCAL_current load store
+  cleanup_locals_bytes %4 ret
+:FUNCTION_get_token
+  DEFINE ARG_c FCFFFFFF
+  DEFINE LOCAL_current F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_reset F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_current push_address
+  ( constant %1 push_arg
+    global &GLOBAL_sizeof_token_list load push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_reset push_address
+  constant %1 store
+:WHILE_get_token_0
+  ( local LOCAL_reset load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_get_token_0
+# THEN_while_get_token_0
+  local LOCAL_reset push_address
+  constant %0 store
+  ( do_call %FUNCTION_reset_hold_string )
+  global &GLOBAL_string_index push_address
+  constant %0 store
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_clearWhiteSpace cleanup_args_bytes %4
+  )
+  store
+# IF_get_token_1
+  ( local ARG_c load push_arg
+    global &GLOBAL_EOF load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_1
+  ( local LOCAL_current load push_arg
+    do_call %FUNCTION_free cleanup_args_bytes %4
+  )
+  local ARG_c load cleanup_locals_bytes %8 ret
+  jmp %_END_IF_get_token_1
+:ELSE_get_token_1
+# IF_get_token_2
+  ( local ARG_c load push_arg
+    constant &STRING_get_token_3
+    push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_2
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    constant &STRING_get_token_4
+    push_arg
+    do_call %FUNCTION_preserve_keyword cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_get_token_2
+:ELSE_get_token_2
+# IF_get_token_5
+  ( local ARG_c load push_arg
+    constant &STRING_get_token_6
+    push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_5
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    constant &STRING_get_token_7
+    push_arg
+    do_call %FUNCTION_preserve_keyword cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_get_token_5
+:ELSE_get_token_5
+# IF_get_token_8
+  ( local ARG_c load push_arg
+    global &GLOBAL_quote_string load push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_8
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_preserve_string cleanup_args_bytes %4
+  )
+  store
+  jmp %_END_IF_get_token_8
+:ELSE_get_token_8
+# IF_get_token_9
+  ( local ARG_c load push_arg
+    constant %47 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_9
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_consume_byte cleanup_args_bytes %4
+  )
+  store
+# IF_get_token_10
+  ( local ARG_c load push_arg
+    constant %42 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_10
+  local ARG_c push_address
+  ( do_call %FUNCTION_grab_byte )
+  store
+:WHILE_get_token_11
+  ( local ARG_c load push_arg
+    constant %47 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_get_token_11
+# THEN_while_get_token_11
+:WHILE_get_token_12
+  ( local ARG_c load push_arg
+    constant %42 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_get_token_12
+# THEN_while_get_token_12
+  local ARG_c push_address
+  ( do_call %FUNCTION_grab_byte )
+  store
+  jmp %WHILE_get_token_12
+:END_WHILE_get_token_12
+  local ARG_c push_address
+  ( do_call %FUNCTION_grab_byte )
+  store
+  jmp %WHILE_get_token_11
+:END_WHILE_get_token_11
+  local ARG_c push_address
+  ( do_call %FUNCTION_grab_byte )
+  store
+  local LOCAL_reset push_address
+  constant %1 store
+  jmp %_END_IF_get_token_10
+:ELSE_get_token_10
+:_END_IF_get_token_10
+  jmp %_END_IF_get_token_9
+:ELSE_get_token_9
+# IF_get_token_13
+  ( local ARG_c load push_arg
+    constant %10 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_get_token_13
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_consume_byte cleanup_args_bytes %4
+  )
+  store
+  local LOCAL_reset push_address
+  constant %1 store
+  jmp %_END_IF_get_token_13
+:ELSE_get_token_13
+  local ARG_c push_address
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_consume_byte cleanup_args_bytes %4
+  )
+  store
+:_END_IF_get_token_13
+:_END_IF_get_token_9
+:_END_IF_get_token_8
+:_END_IF_get_token_5
+:_END_IF_get_token_2
+:_END_IF_get_token_1
+  jmp %WHILE_get_token_0
+:END_WHILE_get_token_0
+  ( global &GLOBAL_hold_string load push_arg
+    ( global &GLOBAL_string_index load push_arg
+      constant %2 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_new_token cleanup_args_bytes %8
+  )
+  local ARG_c load cleanup_locals_bytes %8 ret
+:FUNCTION_reverse_list
+  DEFINE ARG_head FCFFFFFF
+  DEFINE LOCAL_root F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_next F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_root push_address
+  global &GLOBAL_NULL load store
+:WHILE_reverse_list_0
+  ( global &GLOBAL_NULL load push_arg
+    local ARG_head load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_reverse_list_0
+# THEN_while_reverse_list_0
+  local LOCAL_next push_address
+  ( local ARG_head load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  ( local ARG_head load push_arg
+    local LOCAL_root load push_arg
+    do_call %FUNCTION_set_next cleanup_args_bytes %8
+  )
+  local LOCAL_root push_address
+  local ARG_head load store
+  local ARG_head push_address
+  local LOCAL_next load store
+  jmp %WHILE_reverse_list_0
+:END_WHILE_reverse_list_0
+  local LOCAL_root load cleanup_locals_bytes %8 ret
+:FUNCTION_read_all_tokens
+  DEFINE ARG_current F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+  global &GLOBAL_input push_address
+  local ARG_a load store
+  global &GLOBAL_line push_address
+  constant %1 store
+  global &GLOBAL_token push_address
+  local ARG_current load store
+  DEFINE LOCAL_ch F0FFFFFF
+  ( do_call %FUNCTION_grab_byte )
+  reserve_stack_slot
+:WHILE_read_all_tokens_0
+  ( global &GLOBAL_EOF load push_arg
+    local LOCAL_ch load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_read_all_tokens_0
+# THEN_while_read_all_tokens_0
+  local LOCAL_ch push_address
+  ( local LOCAL_ch load push_arg
+    do_call %FUNCTION_get_token cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_read_all_tokens_0
+:END_WHILE_read_all_tokens_0
+  global &GLOBAL_token load cleanup_locals_bytes %4 ret
+:FUNCTION_escape_lookup
+  DEFINE ARG_c FCFFFFFF
+  DEFINE LOCAL_c1 F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_c1 push_address
+  ( ( local ARG_c load push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri8 cleanup_args_bytes %4
+  )
+  store
+# IF_escape_lookup_0
+  ( constant %92 push_arg
+    ( local ARG_c load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_0
+  ( local ARG_c load push_arg
+    do_call %FUNCTION_ri8 cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_0
+:ELSE_escape_lookup_0
+:_END_IF_escape_lookup_0
+# IF_escape_lookup_1
+  ( local LOCAL_c1 load push_arg
+    constant %48 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_1
+  constant %0 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_1
+:ELSE_escape_lookup_1
+# IF_escape_lookup_2
+  ( local LOCAL_c1 load push_arg
+    constant %97 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_2
+  constant %7 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_2
+:ELSE_escape_lookup_2
+# IF_escape_lookup_3
+  ( local LOCAL_c1 load push_arg
+    constant %98 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_3
+  constant %8 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_3
+:ELSE_escape_lookup_3
+# IF_escape_lookup_4
+  ( local LOCAL_c1 load push_arg
+    constant %116 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_4
+  constant %9 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_4
+:ELSE_escape_lookup_4
+# IF_escape_lookup_5
+  ( local LOCAL_c1 load push_arg
+    constant %110 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_5
+  constant %10 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_5
+:ELSE_escape_lookup_5
+# IF_escape_lookup_6
+  ( local LOCAL_c1 load push_arg
+    constant %118 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_6
+  constant %11 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_6
+:ELSE_escape_lookup_6
+# IF_escape_lookup_7
+  ( local LOCAL_c1 load push_arg
+    constant %102 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_7
+  constant %12 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_7
+:ELSE_escape_lookup_7
+# IF_escape_lookup_8
+  ( local LOCAL_c1 load push_arg
+    constant %114 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_8
+  constant %13 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_8
+:ELSE_escape_lookup_8
+# IF_escape_lookup_9
+  ( local LOCAL_c1 load push_arg
+    constant %101 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_9
+  constant %27 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_9
+:ELSE_escape_lookup_9
+# IF_escape_lookup_10
+  ( local LOCAL_c1 load push_arg
+    constant %34 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_10
+  constant %34 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_10
+:ELSE_escape_lookup_10
+# IF_escape_lookup_11
+  ( local LOCAL_c1 load push_arg
+    constant %39 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_11
+  constant %39 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_11
+:ELSE_escape_lookup_11
+# IF_escape_lookup_12
+  ( local LOCAL_c1 load push_arg
+    constant %92 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_escape_lookup_12
+  constant %92 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_escape_lookup_12
+:ELSE_escape_lookup_12
+:_END_IF_escape_lookup_12
+:_END_IF_escape_lookup_11
+:_END_IF_escape_lookup_10
+:_END_IF_escape_lookup_9
+:_END_IF_escape_lookup_8
+:_END_IF_escape_lookup_7
+:_END_IF_escape_lookup_6
+:_END_IF_escape_lookup_5
+:_END_IF_escape_lookup_4
+:_END_IF_escape_lookup_3
+:_END_IF_escape_lookup_2
+:_END_IF_escape_lookup_1
+  ( ( global &GLOBAL_EXIT_FAILURE load push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_exit cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_parse_string
+  DEFINE ARG_string FCFFFFFF
+  DEFINE LOCAL_collect_regular_string_reset F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_message F0FFFFFF
+  reserve_stack_slot
+  global &GLOBAL_string_index push_address
+  constant %0 store
+  local LOCAL_collect_regular_string_reset push_address
+  constant %1 store
+:WHILE_parse_string_0
+  ( local LOCAL_collect_regular_string_reset load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_parse_string_0
+# THEN_while_parse_string_0
+  local LOCAL_collect_regular_string_reset push_address
+  constant %0 store
+# IF_parse_string_1
+  ( ( local ARG_string load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    constant %92 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_parse_string_1
+  ( ( global &GLOBAL_hold_string load push_arg
+      global &GLOBAL_string_index load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_string load push_arg
+      do_call %FUNCTION_escape_lookup cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_string push_address
+  ( local ARG_string load push_arg
+    constant %2 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %_END_IF_parse_string_1
+:ELSE_parse_string_1
+  ( ( global &GLOBAL_hold_string load push_arg
+      global &GLOBAL_string_index load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    ( local ARG_string load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local ARG_string push_address
+  ( local ARG_string load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+:_END_IF_parse_string_1
+  global &GLOBAL_string_index push_address
+  ( global &GLOBAL_string_index load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+# IF_parse_string_2
+  ( ( local ARG_string load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_parse_string_2
+  local LOCAL_collect_regular_string_reset push_address
+  constant %1 store
+  jmp %_END_IF_parse_string_2
+:ELSE_parse_string_2
+:_END_IF_parse_string_2
+  jmp %WHILE_parse_string_0
+:END_WHILE_parse_string_0
+  ( ( global &GLOBAL_hold_string load push_arg
+      global &GLOBAL_string_index load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %34 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  ( ( ( global &GLOBAL_hold_string load push_arg
+        global &GLOBAL_string_index load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %10 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_message push_address
+  ( ( global &GLOBAL_string_index load push_arg
+      constant %3 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  ( local LOCAL_message load push_arg
+    global &GLOBAL_hold_string load push_arg
+    ( global &GLOBAL_string_index load push_arg
+      constant %2 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_copy_string cleanup_args_bytes %12
+  )
+  ( do_call %FUNCTION_reset_hold_string )
+  local LOCAL_message load cleanup_locals_bytes %8 ret
+:FUNCTION_emit
+  DEFINE ARG_head F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_t F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_t push_address
+  ( constant %1 push_arg
+    global &GLOBAL_sizeof_token_list load push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  ( local LOCAL_t load push_arg
+    local ARG_head load push_arg
+    do_call %FUNCTION_set_next cleanup_args_bytes %8
+  )
+  ( local LOCAL_t load push_arg
+    local ARG_s load push_arg
+    do_call %FUNCTION_set_s cleanup_args_bytes %8
+  )
+  local LOCAL_t load cleanup_locals_bytes %4 ret
+:FUNCTION_emit_out
+  DEFINE ARG_s FCFFFFFF
+  global &GLOBAL_output_list push_address
+  ( local ARG_s load push_arg
+    global &GLOBAL_output_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  ret
+:FUNCTION_uniqueID
+  DEFINE ARG_num F4FFFFFF
+  DEFINE ARG_l F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  local ARG_l push_address
+  ( constant &STRING_uniqueID_0
+    push_arg
+    ( local ARG_num load push_arg
+      ( constant &STRING_uniqueID_1
+        push_arg
+        ( local ARG_s load push_arg
+          local ARG_l load push_arg
+          do_call %FUNCTION_emit cleanup_args_bytes %8
+        )
+        push_arg
+        do_call %FUNCTION_emit cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_emit cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  local ARG_l load ret
+:FUNCTION_uniqueID_out
+  DEFINE ARG_num F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  global &GLOBAL_output_list push_address
+  ( local ARG_s load push_arg
+    global &GLOBAL_output_list load push_arg
+    local ARG_num load push_arg
+    do_call %FUNCTION_uniqueID cleanup_args_bytes %12
+  )
+  store
+  ret
+:FUNCTION_sym_declare
+  DEFINE ARG_list F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_a F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_a push_address
+  ( constant %1 push_arg
+    global &GLOBAL_sizeof_token_list load push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  ( local LOCAL_a load push_arg
+    local ARG_list load push_arg
+    do_call %FUNCTION_set_next cleanup_args_bytes %8
+  )
+  ( local LOCAL_a load push_arg
+    local ARG_s load push_arg
+    do_call %FUNCTION_set_s cleanup_args_bytes %8
+  )
+  local LOCAL_a load cleanup_locals_bytes %4 ret
+:FUNCTION_sym_lookup
+  DEFINE ARG_symbol_list F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_i F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  local ARG_symbol_list load store
+:WHILE_sym_lookup_0
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_sym_lookup_0
+# THEN_while_sym_lookup_0
+# IF_sym_lookup_1
+  ( ( local LOCAL_i load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local ARG_s load push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_sym_lookup_1
+  local LOCAL_i load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_sym_lookup_1
+:ELSE_sym_lookup_1
+:_END_IF_sym_lookup_1
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_sym_lookup_0
+:END_WHILE_sym_lookup_0
+  global &GLOBAL_NULL load cleanup_locals_bytes %4 ret
+:FUNCTION_function_call
+  DEFINE ARG_s FCFFFFFF
+  DEFINE LOCAL_passed F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_passed push_address
+  constant %0 store
+  ( constant &STRING_function_call_0
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( constant &STRING_function_call_1
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_increase_indent )
+# IF_function_call_2
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %41 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_function_call_2
+  ( constant &STRING_function_call_3
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_function_call_4
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  local LOCAL_passed push_address
+  constant %1 store
+:WHILE_function_call_5
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %44 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_function_call_5
+# THEN_while_function_call_5
+  ( do_call %FUNCTION_advance )
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_function_call_6
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  local LOCAL_passed push_address
+  ( local LOCAL_passed load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_function_call_5
+:END_WHILE_function_call_5
+  jmp %_END_IF_function_call_2
+:ELSE_function_call_2
+  ( constant &STRING_function_call_7
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+:_END_IF_function_call_2
+  ( constant &STRING_function_call_8
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( constant &STRING_function_call_9
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( local ARG_s load push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_function_call_10
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+# IF_function_call_11
+  ( constant %0 push_arg
+    local LOCAL_passed load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_function_call_11
+  ( constant &STRING_function_call_12
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( local LOCAL_passed load push_arg
+        global &GLOBAL_register_size load push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      constant %10 push_arg
+      global &GLOBAL_TRUE load push_arg
+      do_call %FUNCTION_int2str cleanup_args_bytes %12
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_function_call_13
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  jmp %_END_IF_function_call_11
+:ELSE_function_call_11
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+:_END_IF_function_call_11
+  ( do_call %FUNCTION_decrease_indent )
+  ( constant &STRING_function_call_14
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_load_value
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  constant &STRING_load_value_0
+  ret
+:FUNCTION_variable_load
+  DEFINE ARG_is_arg F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+  ( constant &STRING_variable_load_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+# IF_variable_load_1
+  ( local ARG_is_arg load push_arg
+    global &GLOBAL_TRUE load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_variable_load_1
+  ( constant &STRING_variable_load_2
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  jmp %_END_IF_variable_load_1
+:ELSE_variable_load_1
+  ( constant &STRING_variable_load_3
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+:_END_IF_variable_load_1
+  ( ( local ARG_a load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_variable_load_4
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+# IF_variable_load_5
+  ( constant %0 push_arg
+    ( constant &STRING_variable_load_6
+      push_arg
+      ( do_call %FUNCTION_global_token_string )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_variable_load_5
+  ( ( do_call %FUNCTION_load_value )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  jmp %_END_IF_variable_load_5
+:ELSE_variable_load_5
+:_END_IF_variable_load_5
+  ret
+:FUNCTION_function_load
+  DEFINE ARG_a FCFFFFFF
+# IF_function_load_0
+  ( constant &STRING_function_load_1
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_function_load_0
+  ( ( local ARG_a load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_function_call cleanup_args_bytes %4
+  )
+  ret
+  jmp %_END_IF_function_load_0
+:ELSE_function_load_0
+:_END_IF_function_load_0
+  ret
+:FUNCTION_global_load
+  DEFINE ARG_a FCFFFFFF
+  ( constant &STRING_global_load_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( local ARG_a load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_global_load_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+# IF_global_load_2
+  ( constant &STRING_global_load_3
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_global_load_2
+  ret
+  jmp %_END_IF_global_load_2
+:ELSE_global_load_2
+:_END_IF_global_load_2
+  ( ( do_call %FUNCTION_load_value )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_primary_expr_string
+  DEFINE LOCAL_number_string F8FFFFFF
+  reserve_stack_slot
+  local LOCAL_number_string push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %10 push_arg
+    global &GLOBAL_TRUE load push_arg
+    do_call %FUNCTION_int2str cleanup_args_bytes %12
+  )
+  store
+  global &GLOBAL_current_count push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  ( constant &STRING_primary_expr_string_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  global &GLOBAL_strings_list push_address
+  ( constant &STRING_primary_expr_string_1
+    push_arg
+    global &GLOBAL_strings_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_strings_list push_address
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    global &GLOBAL_strings_list load push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID cleanup_args_bytes %12
+  )
+  store
+# IF_primary_expr_string_2
+  ( constant %34 push_arg
+    ( ( ( global &GLOBAL_global_token load push_arg
+          do_call %FUNCTION_get_next cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_get_s cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_primary_expr_string_2
+  global &GLOBAL_strings_list push_address
+  ( ( ( do_call %FUNCTION_global_token_string )
+      push_arg
+      do_call %FUNCTION_parse_string cleanup_args_bytes %4
+    )
+    push_arg
+    global &GLOBAL_strings_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  ( do_call %FUNCTION_advance )
+  jmp %_END_IF_primary_expr_string_2
+:ELSE_primary_expr_string_2
+:_END_IF_primary_expr_string_2
+  cleanup_locals_bytes %4 ret
+:FUNCTION_primary_expr_char
+  ( constant &STRING_primary_expr_char_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( ( ( do_call %FUNCTION_global_token_string )
+          push_arg
+          constant %1 push_arg
+          do_call %FUNCTION_add cleanup_args_bytes %8
+        )
+        push_arg
+        do_call %FUNCTION_escape_lookup cleanup_args_bytes %4
+      )
+      push_arg
+      constant %10 push_arg
+      global &GLOBAL_TRUE load push_arg
+      do_call %FUNCTION_int2str cleanup_args_bytes %12
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_primary_expr_char_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  ( do_call %FUNCTION_advance )
+  ret
+:FUNCTION_primary_expr_number
+  ( constant &STRING_primary_expr_number_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_primary_expr_number_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  ( do_call %FUNCTION_advance )
+  ret
+:FUNCTION_primary_expr_variable
+  DEFINE LOCAL_a F8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_s F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_s push_address
+  ( do_call %FUNCTION_global_token_string )
+  store
+  ( do_call %FUNCTION_advance )
+  local LOCAL_a push_address
+  ( local LOCAL_s load push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_locals cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_sym_lookup cleanup_args_bytes %8
+  )
+  store
+# IF_primary_expr_variable_0
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_primary_expr_variable_0
+  ( local LOCAL_a load push_arg
+    global &GLOBAL_FALSE load push_arg
+    do_call %FUNCTION_variable_load cleanup_args_bytes %8
+  )
+  cleanup_locals_bytes %8 ret
+  jmp %_END_IF_primary_expr_variable_0
+:ELSE_primary_expr_variable_0
+:_END_IF_primary_expr_variable_0
+  local LOCAL_a push_address
+  ( local LOCAL_s load push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_sym_lookup cleanup_args_bytes %8
+  )
+  store
+# IF_primary_expr_variable_1
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_primary_expr_variable_1
+  ( local LOCAL_a load push_arg
+    global &GLOBAL_TRUE load push_arg
+    do_call %FUNCTION_variable_load cleanup_args_bytes %8
+  )
+  cleanup_locals_bytes %8 ret
+  jmp %_END_IF_primary_expr_variable_1
+:ELSE_primary_expr_variable_1
+:_END_IF_primary_expr_variable_1
+  local LOCAL_a push_address
+  ( local LOCAL_s load push_arg
+    global &GLOBAL_global_function_list load push_arg
+    do_call %FUNCTION_sym_lookup cleanup_args_bytes %8
+  )
+  store
+# IF_primary_expr_variable_2
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_primary_expr_variable_2
+  ( local LOCAL_a load push_arg
+    do_call %FUNCTION_function_load cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %8 ret
+  jmp %_END_IF_primary_expr_variable_2
+:ELSE_primary_expr_variable_2
+:_END_IF_primary_expr_variable_2
+  local LOCAL_a push_address
+  ( local LOCAL_s load push_arg
+    global &GLOBAL_global_symbol_list load push_arg
+    do_call %FUNCTION_sym_lookup cleanup_args_bytes %8
+  )
+  store
+# IF_primary_expr_variable_3
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_primary_expr_variable_3
+  ( local LOCAL_a load push_arg
+    do_call %FUNCTION_global_load cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %8 ret
+  jmp %_END_IF_primary_expr_variable_3
+:ELSE_primary_expr_variable_3
+:_END_IF_primary_expr_variable_3
+  ( ( global &GLOBAL_EXIT_FAILURE load push_arg
+      constant %2 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_exit cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %8 ret
+:FUNCTION_expression
+# IF_expression_0
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %40 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_0
+  ( do_call %FUNCTION_advance )
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_expression_1
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  jmp %_END_IF_expression_0
+:ELSE_expression_0
+# IF_expression_2
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %39 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_2
+  ( do_call %FUNCTION_primary_expr_char )
+  jmp %_END_IF_expression_2
+:ELSE_expression_2
+# IF_expression_3
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %34 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_3
+  ( do_call %FUNCTION_primary_expr_string )
+  jmp %_END_IF_expression_3
+:ELSE_expression_3
+# IF_expression_4
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant &STRING_expression_5
+    push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_4
+  ( do_call %FUNCTION_primary_expr_variable )
+  jmp %_END_IF_expression_4
+:ELSE_expression_4
+# IF_expression_6
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant &STRING_expression_7
+    push_arg
+    do_call %FUNCTION_in_set cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_6
+  ( do_call %FUNCTION_primary_expr_number )
+  jmp %_END_IF_expression_6
+:ELSE_expression_6
+  ( constant %1 push_arg
+    do_call %FUNCTION_exit cleanup_args_bytes %4
+  )
+:_END_IF_expression_6
+:_END_IF_expression_4
+:_END_IF_expression_3
+:_END_IF_expression_2
+:_END_IF_expression_0
+# IF_expression_8
+  ( constant &STRING_expression_9
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_expression_8
+  ( constant &STRING_expression_10
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_advance )
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_expression_11
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  jmp %_END_IF_expression_8
+:ELSE_expression_8
+:_END_IF_expression_8
+  ret
+:FUNCTION_collect_local
+  DEFINE LOCAL_a F8FFFFFF
+  reserve_stack_slot
+  ( do_call %FUNCTION_advance )
+  local LOCAL_a push_address
+  ( ( do_call %FUNCTION_global_token_string )
+    push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_locals cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_sym_declare cleanup_args_bytes %8
+  )
+  store
+# IF_collect_local_0
+  ( ( constant &STRING_collect_local_1
+      push_arg
+      ( global &GLOBAL_function load push_arg
+        do_call %FUNCTION_get_s cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    ( global &GLOBAL_NULL load push_arg
+      ( global &GLOBAL_function load push_arg
+        do_call %FUNCTION_get_locals cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_local_0
+  ( local LOCAL_a load push_arg
+    ( constant %0 push_arg
+      constant %20 push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+  jmp %_END_IF_collect_local_0
+:ELSE_collect_local_0
+# IF_collect_local_2
+  ( ( global &GLOBAL_NULL load push_arg
+      ( global &GLOBAL_function load push_arg
+        do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    ( global &GLOBAL_NULL load push_arg
+      ( global &GLOBAL_function load push_arg
+        do_call %FUNCTION_get_locals cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_eq cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_and cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_local_2
+  ( local LOCAL_a load push_arg
+    ( constant %0 push_arg
+      ( global &GLOBAL_register_size load push_arg
+        constant %2 push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+  jmp %_END_IF_collect_local_2
+:ELSE_collect_local_2
+# IF_collect_local_3
+  ( global &GLOBAL_NULL load push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_locals cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_local_3
+  ( local LOCAL_a load push_arg
+    ( ( ( global &GLOBAL_function load push_arg
+          do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_get_depth cleanup_args_bytes %4
+      )
+      push_arg
+      ( global &GLOBAL_register_size load push_arg
+        constant %2 push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+  jmp %_END_IF_collect_local_3
+:ELSE_collect_local_3
+  ( local LOCAL_a load push_arg
+    ( ( ( global &GLOBAL_function load push_arg
+          do_call %FUNCTION_get_locals cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_get_depth cleanup_args_bytes %4
+      )
+      push_arg
+      global &GLOBAL_register_size load push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+:_END_IF_collect_local_3
+:_END_IF_collect_local_2
+:_END_IF_collect_local_0
+  ( global &GLOBAL_function load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_set_locals cleanup_args_bytes %8
+  )
+  ( constant &STRING_collect_local_4
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_collect_local_5
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( local LOCAL_a load push_arg
+        do_call %FUNCTION_get_depth cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_to_hex_le cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_collect_local_6
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_advance )
+# IF_collect_local_7
+  ( constant &STRING_collect_local_8
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_local_7
+  ( do_call %FUNCTION_advance )
+  ( do_call %FUNCTION_expression )
+  jmp %_END_IF_collect_local_7
+:ELSE_collect_local_7
+:_END_IF_collect_local_7
+  ( constant &STRING_collect_local_9
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( constant &STRING_collect_local_10
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_process_if
+  DEFINE LOCAL_number_string F8FFFFFF
+  reserve_stack_slot
+  local LOCAL_number_string push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %10 push_arg
+    global &GLOBAL_TRUE load push_arg
+    do_call %FUNCTION_int2str cleanup_args_bytes %12
+  )
+  store
+  global &GLOBAL_current_count push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  ( constant &STRING_process_if_0
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( do_call %FUNCTION_advance )
+  ( constant &STRING_process_if_1
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_process_if_2
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( constant &STRING_process_if_3
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_statement )
+  ( constant &STRING_process_if_4
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( constant &STRING_process_if_5
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+# IF_process_if_6
+  ( constant &STRING_process_if_7
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_process_if_6
+  ( do_call %FUNCTION_advance )
+  ( do_call %FUNCTION_statement )
+  jmp %_END_IF_process_if_6
+:ELSE_process_if_6
+:_END_IF_process_if_6
+  ( constant &STRING_process_if_8
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_process_asm
+  ( do_call %FUNCTION_advance )
+  ( constant &STRING_process_asm_0
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+:WHILE_process_asm_1
+  ( constant %34 push_arg
+    ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_process_asm_1
+# THEN_while_process_asm_1
+  ( ( ( do_call %FUNCTION_global_token_string )
+      push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_process_asm_2
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_advance )
+  jmp %WHILE_process_asm_1
+:END_WHILE_process_asm_1
+  ( constant &STRING_process_asm_3
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( constant &STRING_process_asm_4
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ret
+:FUNCTION_process_while
+  DEFINE LOCAL_nested_locals F8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_nested_break_head F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_nested_break_func F0FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_nested_break_num ECFFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_number_string E8FFFFFF
+  reserve_stack_slot
+  local LOCAL_nested_locals push_address
+  global &GLOBAL_break_frame load store
+  local LOCAL_nested_break_head push_address
+  global &GLOBAL_break_target_head load store
+  local LOCAL_nested_break_func push_address
+  global &GLOBAL_break_target_func load store
+  local LOCAL_nested_break_num push_address
+  global &GLOBAL_break_target_num load store
+  local LOCAL_number_string push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %10 push_arg
+    global &GLOBAL_TRUE load push_arg
+    do_call %FUNCTION_int2str cleanup_args_bytes %12
+  )
+  store
+  global &GLOBAL_current_count push_address
+  ( global &GLOBAL_current_count load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_break_target_head push_address
+  constant &STRING_process_while_0
+  store
+  global &GLOBAL_break_target_num push_address
+  local LOCAL_number_string load store
+  global &GLOBAL_break_frame push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_locals cleanup_args_bytes %4
+  )
+  store
+  global &GLOBAL_break_target_func push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_s cleanup_args_bytes %4
+  )
+  store
+  ( constant &STRING_process_while_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( do_call %FUNCTION_advance )
+  ( constant &STRING_process_while_2
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_process_while_3
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( constant &STRING_process_while_4
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( constant &STRING_process_while_5
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_statement )
+  ( constant &STRING_process_while_6
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  ( constant &STRING_process_while_7
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local LOCAL_number_string load push_arg
+    do_call %FUNCTION_uniqueID_out cleanup_args_bytes %8
+  )
+  global &GLOBAL_break_target_head push_address
+  local LOCAL_nested_break_head load store
+  global &GLOBAL_break_target_func push_address
+  local LOCAL_nested_break_func load store
+  global &GLOBAL_break_target_num push_address
+  local LOCAL_nested_break_num load store
+  global &GLOBAL_break_frame push_address
+  local LOCAL_nested_locals load store
+  cleanup_locals_bytes %20 ret
+:FUNCTION_return_result
+  DEFINE LOCAL_i F8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_size_local_var F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_c F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_c push_address
+  constant %0 store
+  ( do_call %FUNCTION_advance )
+# IF_return_result_0
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %59 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_return_result_0
+  ( do_call %FUNCTION_expression )
+  jmp %_END_IF_return_result_0
+:ELSE_return_result_0
+:_END_IF_return_result_0
+  ( constant &STRING_return_result_1
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  local LOCAL_i push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_locals cleanup_args_bytes %4
+  )
+  store
+:WHILE_return_result_2
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_return_result_2
+# THEN_while_return_result_2
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  local LOCAL_c push_address
+  ( local LOCAL_c load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_return_result_2
+:END_WHILE_return_result_2
+# IF_return_result_3
+  ( constant %0 push_arg
+    local LOCAL_c load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_return_result_3
+  ( constant &STRING_return_result_4
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( local LOCAL_c load push_arg
+        global &GLOBAL_register_size load push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      constant %10 push_arg
+      global &GLOBAL_TRUE load push_arg
+      do_call %FUNCTION_int2str cleanup_args_bytes %12
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_return_result_5
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  jmp %_END_IF_return_result_3
+:ELSE_return_result_3
+:_END_IF_return_result_3
+  ( constant &STRING_return_result_6
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %12 ret
+:FUNCTION_process_break
+  DEFINE LOCAL_i F8FFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_locals cleanup_args_bytes %4
+  )
+  store
+  ( do_call %FUNCTION_advance )
+  ( constant &STRING_process_break_0
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( global &GLOBAL_break_target_head load push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( global &GLOBAL_break_target_func load push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_process_break_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( global &GLOBAL_break_target_num load push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_process_break_2
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_process_break_3
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_recursive_statement
+  DEFINE LOCAL_frame F8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_i F4FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_c F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_c push_address
+  constant %0 store
+  ( do_call %FUNCTION_advance )
+  local LOCAL_frame push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_locals cleanup_args_bytes %4
+  )
+  store
+:WHILE_recursive_statement_0
+  ( constant %0 push_arg
+    ( constant &STRING_recursive_statement_1
+      push_arg
+      ( do_call %FUNCTION_global_token_string )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_recursive_statement_0
+# THEN_while_recursive_statement_0
+  ( do_call %FUNCTION_statement )
+  jmp %WHILE_recursive_statement_0
+:END_WHILE_recursive_statement_0
+  ( do_call %FUNCTION_advance )
+# IF_recursive_statement_2
+  ( constant %0 push_arg
+    ( constant &STRING_recursive_statement_3
+      push_arg
+      ( global &GLOBAL_output_list load push_arg
+        do_call %FUNCTION_get_s cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_recursive_statement_2
+  local LOCAL_i push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_locals cleanup_args_bytes %4
+  )
+  store
+:WHILE_recursive_statement_4
+  ( local LOCAL_frame load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_recursive_statement_4
+# THEN_while_recursive_statement_4
+  local LOCAL_c push_address
+  ( local LOCAL_c load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_recursive_statement_4
+:END_WHILE_recursive_statement_4
+# IF_recursive_statement_5
+  ( constant %0 push_arg
+    local LOCAL_c load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_recursive_statement_5
+  ( constant &STRING_recursive_statement_6
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( local LOCAL_c load push_arg
+        global &GLOBAL_register_size load push_arg
+        do_call %FUNCTION_mul cleanup_args_bytes %8
+      )
+      push_arg
+      constant %10 push_arg
+      global &GLOBAL_TRUE load push_arg
+      do_call %FUNCTION_int2str cleanup_args_bytes %12
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_recursive_statement_7
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  global &GLOBAL_no_indent push_address
+  constant %1 store
+  jmp %_END_IF_recursive_statement_5
+:ELSE_recursive_statement_5
+:_END_IF_recursive_statement_5
+  jmp %_END_IF_recursive_statement_2
+:ELSE_recursive_statement_2
+:_END_IF_recursive_statement_2
+  ( global &GLOBAL_function load push_arg
+    local LOCAL_frame load push_arg
+    do_call %FUNCTION_set_locals cleanup_args_bytes %8
+  )
+  cleanup_locals_bytes %12 ret
+:FUNCTION_statement
+# IF_statement_0
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %123 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_0
+  ( do_call %FUNCTION_recursive_statement )
+  jmp %_END_IF_statement_0
+:ELSE_statement_0
+# IF_statement_1
+  ( constant &STRING_statement_2
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_1
+  ( do_call %FUNCTION_collect_local )
+  jmp %_END_IF_statement_1
+:ELSE_statement_1
+# IF_statement_3
+  ( constant &STRING_statement_4
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_3
+  ( do_call %FUNCTION_process_if )
+  jmp %_END_IF_statement_3
+:ELSE_statement_3
+# IF_statement_5
+  ( constant &STRING_statement_6
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_5
+  ( do_call %FUNCTION_process_while )
+  jmp %_END_IF_statement_5
+:ELSE_statement_5
+# IF_statement_7
+  ( constant &STRING_statement_8
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_7
+  ( do_call %FUNCTION_process_asm )
+  jmp %_END_IF_statement_7
+:ELSE_statement_7
+# IF_statement_9
+  ( constant &STRING_statement_10
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_9
+  ( do_call %FUNCTION_return_result )
+  jmp %_END_IF_statement_9
+:ELSE_statement_9
+# IF_statement_11
+  ( constant &STRING_statement_12
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_statement_11
+  ( do_call %FUNCTION_process_break )
+  jmp %_END_IF_statement_11
+:ELSE_statement_11
+  ( do_call %FUNCTION_expression )
+  ( constant &STRING_statement_13
+    push_arg
+    do_call %FUNCTION_skip cleanup_args_bytes %4
+  )
+:_END_IF_statement_11
+:_END_IF_statement_9
+:_END_IF_statement_7
+:_END_IF_statement_5
+:_END_IF_statement_3
+:_END_IF_statement_1
+:_END_IF_statement_0
+  ret
+:FUNCTION_collect_arguments
+  DEFINE LOCAL_a F8FFFFFF
+  reserve_stack_slot
+  ( do_call %FUNCTION_advance )
+:WHILE_collect_arguments_0
+  ( constant %0 push_arg
+    ( constant &STRING_collect_arguments_1
+      push_arg
+      ( do_call %FUNCTION_global_token_string )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_collect_arguments_0
+# THEN_while_collect_arguments_0
+  ( do_call %FUNCTION_advance )
+# IF_collect_arguments_2
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %44 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_arguments_2
+  local LOCAL_a push_address
+  ( ( do_call %FUNCTION_global_token_string )
+    push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_sym_declare cleanup_args_bytes %8
+  )
+  store
+# IF_collect_arguments_3
+  ( global &GLOBAL_NULL load push_arg
+    ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_arguments_3
+  ( local LOCAL_a load push_arg
+    ( constant %0 push_arg
+      global &GLOBAL_register_size load push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+  jmp %_END_IF_collect_arguments_3
+:ELSE_collect_arguments_3
+  ( local LOCAL_a load push_arg
+    ( ( ( global &GLOBAL_function load push_arg
+          do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+        )
+        push_arg
+        do_call %FUNCTION_get_depth cleanup_args_bytes %4
+      )
+      push_arg
+      global &GLOBAL_register_size load push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_set_depth cleanup_args_bytes %8
+  )
+:_END_IF_collect_arguments_3
+  ( do_call %FUNCTION_advance )
+  ( global &GLOBAL_function load push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_set_arguments cleanup_args_bytes %8
+  )
+  jmp %_END_IF_collect_arguments_2
+:ELSE_collect_arguments_2
+:_END_IF_collect_arguments_2
+# IF_collect_arguments_4
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %44 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_collect_arguments_4
+  ( do_call %FUNCTION_advance )
+  jmp %_END_IF_collect_arguments_4
+:ELSE_collect_arguments_4
+:_END_IF_collect_arguments_4
+  jmp %WHILE_collect_arguments_0
+:END_WHILE_collect_arguments_0
+  ( do_call %FUNCTION_advance )
+  cleanup_locals_bytes %4 ret
+:FUNCTION_declare_function
+  DEFINE LOCAL_a F8FFFFFF
+  reserve_stack_slot
+  global &GLOBAL_current_count push_address
+  constant %0 store
+  global &GLOBAL_function push_address
+  ( ( ( global &GLOBAL_global_token load push_arg
+        do_call %FUNCTION_get_prev cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    global &GLOBAL_global_function_list load push_arg
+    do_call %FUNCTION_sym_declare cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_global_function_list push_address
+  global &GLOBAL_function load store
+  ( do_call %FUNCTION_collect_arguments )
+# IF_declare_function_0
+  ( ( do_call %FUNCTION_global_token_char0 )
+    push_arg
+    constant %59 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_declare_function_0
+  ( do_call %FUNCTION_advance )
+  jmp %_END_IF_declare_function_0
+:ELSE_declare_function_0
+  ( constant &STRING_declare_function_1
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( global &GLOBAL_function load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( do_call %FUNCTION_increase_indent )
+  ( constant &STRING_declare_function_2
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  local LOCAL_a push_address
+  ( global &GLOBAL_function load push_arg
+    do_call %FUNCTION_get_arguments cleanup_args_bytes %4
+  )
+  store
+:WHILE_declare_function_3
+  ( constant %0 push_arg
+    local LOCAL_a load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_declare_function_3
+# THEN_while_declare_function_3
+  ( constant &STRING_declare_function_4
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  ( ( local LOCAL_a load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_declare_function_5
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( ( ( local LOCAL_a load push_arg
+        do_call %FUNCTION_get_depth cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_to_hex_le cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  ( constant &STRING_declare_function_6
+    push_arg
+    do_call %FUNCTION_emit_out cleanup_args_bytes %4
+  )
+  local LOCAL_a push_address
+  ( local LOCAL_a load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_declare_function_3
+:END_WHILE_declare_function_3
+  ( do_call %FUNCTION_statement )
+# IF_declare_function_7
+  ( constant %0 push_arg
+    ( constant &STRING_declare_function_8
+      push_arg
+      ( global &GLOBAL_output_list load push_arg
+        do_call %FUNCTION_get_s cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_match cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_declare_function_7
+  ( constant &STRING_declare_function_9
+    push_arg
+    do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
+  )
+  jmp %_END_IF_declare_function_7
+:ELSE_declare_function_7
+:_END_IF_declare_function_7
+  ( do_call %FUNCTION_decrease_indent )
+:_END_IF_declare_function_0
+  cleanup_locals_bytes %4 ret
+:FUNCTION_program
+  DEFINE LOCAL_i F8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_new_type F4FFFFFF
+  reserve_stack_slot
+  global &GLOBAL_function push_address
+  global &GLOBAL_NULL load store
+  local LOCAL_new_type push_address
+  constant %1 store
+:WHILE_program_0
+  ( local LOCAL_new_type load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_program_0
+# THEN_while_program_0
+  local LOCAL_new_type push_address
+  constant %0 store
+# IF_program_1
+  ( global &GLOBAL_NULL load push_arg
+    global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_program_1
+  cleanup_locals_bytes %8 ret
+  jmp %_END_IF_program_1
+:ELSE_program_1
+:_END_IF_program_1
+  ( do_call %FUNCTION_advance )
+  global &GLOBAL_global_symbol_list push_address
+  ( ( do_call %FUNCTION_global_token_string )
+    push_arg
+    global &GLOBAL_global_symbol_list load push_arg
+    do_call %FUNCTION_sym_declare cleanup_args_bytes %8
+  )
+  store
+  ( do_call %FUNCTION_advance )
+# IF_program_2
+  ( constant &STRING_program_3
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_program_2
+  global &GLOBAL_globals_list push_address
+  ( constant &STRING_program_4
+    push_arg
+    global &GLOBAL_globals_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_globals_list push_address
+  ( ( ( global &GLOBAL_global_token load push_arg
+        do_call %FUNCTION_get_prev cleanup_args_bytes %4
+      )
+      push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    global &GLOBAL_globals_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_i push_address
+  constant %1 store
+  global &GLOBAL_globals_list push_address
+  ( constant &STRING_program_5
+    push_arg
+    global &GLOBAL_globals_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+:WHILE_program_6
+  ( local LOCAL_i load push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_program_6
+# THEN_while_program_6
+  global &GLOBAL_globals_list push_address
+  ( constant &STRING_program_7
+    push_arg
+    global &GLOBAL_globals_list load push_arg
+    do_call %FUNCTION_emit cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_program_6
+:END_WHILE_program_6
+  ( do_call %FUNCTION_advance )
+  local LOCAL_new_type push_address
+  constant %1 store
+  jmp %_END_IF_program_2
+:ELSE_program_2
+:_END_IF_program_2
+# IF_program_8
+  ( constant &STRING_program_9
+    push_arg
+    ( do_call %FUNCTION_global_token_string )
+    push_arg
+    do_call %FUNCTION_match cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_program_8
+  ( do_call %FUNCTION_declare_function )
+  local LOCAL_new_type push_address
+  constant %1 store
+  jmp %_END_IF_program_8
+:ELSE_program_8
+:_END_IF_program_8
+  jmp %WHILE_program_0
+:END_WHILE_program_0
+  ( ( global &GLOBAL_EXIT_FAILURE load push_arg
+      constant %3 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_exit cleanup_args_bytes %4
+  )
+  cleanup_locals_bytes %8 ret
+:FUNCTION_recursive_output
+  DEFINE ARG_out F8FFFFFF
+  DEFINE ARG_head FCFFFFFF
+  DEFINE LOCAL_i F0FFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  ( local ARG_head load push_arg
+    do_call %FUNCTION_reverse_list cleanup_args_bytes %4
+  )
+  store
+:WHILE_recursive_output_0
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_i load push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_recursive_output_0
+# THEN_while_recursive_output_0
+  ( ( local LOCAL_i load push_arg
+      do_call %FUNCTION_get_s cleanup_args_bytes %4
+    )
+    push_arg
+    local ARG_out load push_arg
+    do_call %FUNCTION_fputs cleanup_args_bytes %8
+  )
+  local LOCAL_i push_address
+  ( local LOCAL_i load push_arg
+    do_call %FUNCTION_get_next cleanup_args_bytes %4
+  )
+  store
+  jmp %WHILE_recursive_output_0
+:END_WHILE_recursive_output_0
+  cleanup_locals_bytes %4 ret
+:FUNCTION_initialize_globals
+  global &GLOBAL_NULL push_address
+  constant %0 store
+  global &GLOBAL_register_size push_address
+  constant %4 store
+  global &GLOBAL_FALSE push_address
+  constant %0 store
+  global &GLOBAL_TRUE push_address
+  constant %1 store
+  global &GLOBAL_MAX_STRING push_address
+  constant %4096 store
+  global &GLOBAL_EXIT_SUCCESS push_address
+  constant %0 store
+  global &GLOBAL_EXIT_FAILURE push_address
+  constant %1 store
+  global &GLOBAL_EOF push_address
+  ( constant %0 push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_sizeof_token_list push_address
+  ( global &GLOBAL_register_size load push_arg
+    constant %4 push_arg
+    do_call %FUNCTION_mul cleanup_args_bytes %8
+  )
+  store
+  ( do_call %FUNCTION_token_list_layout_init )
+  global &GLOBAL_quote_string push_address
+  ( constant %1 push_arg
+    constant %16 push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  ( global &GLOBAL_quote_string load push_arg
+    constant %39 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  ( ( global &GLOBAL_quote_string load push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %34 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  ( ( global &GLOBAL_quote_string load push_arg
+      constant %2 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  global &GLOBAL_indent push_address
+  constant %0 store
+  global &GLOBAL_no_indent push_address
+  constant %0 store
+  ret
+:FUNCTION_main
+  DEFINE ARG_argv F8FFFFFF
+  DEFINE ARG_argc FCFFFFFF
+  DEFINE LOCAL_in ECFFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_destination_file E8FFFFFF
+  reserve_stack_slot
+  DEFINE LOCAL_name E4FFFFFF
+  reserve_stack_slot
+  ( do_call %FUNCTION_initialize_globals )
+  global &GLOBAL_hold_string push_address
+  ( ( global &GLOBAL_MAX_STRING load push_arg
+      constant %4 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_calloc cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_name push_address
+  ( ( local ARG_argv load push_arg
+      constant %4 push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_ri32 cleanup_args_bytes %4
+  )
+  store
+  local LOCAL_in push_address
+  ( local LOCAL_name load push_arg
+    constant &STRING_main_0
+    push_arg
+    do_call %FUNCTION_fopen cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_global_token push_address
+  ( local LOCAL_in load push_arg
+    global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_read_all_tokens cleanup_args_bytes %8
+  )
+  store
+  ( local LOCAL_in load push_arg
+    do_call %FUNCTION_fclose cleanup_args_bytes %4
+  )
+  local LOCAL_destination_file push_address
+  ( ( ( local ARG_argv load push_arg
+        ( constant %4 push_arg
+          constant %2 push_arg
+          do_call %FUNCTION_mul cleanup_args_bytes %8
+        )
+        push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri32 cleanup_args_bytes %4
+    )
+    push_arg
+    constant &STRING_main_1
+    push_arg
+    do_call %FUNCTION_fopen cleanup_args_bytes %8
+  )
+  store
+  global &GLOBAL_global_token push_address
+  ( global &GLOBAL_global_token load push_arg
+    do_call %FUNCTION_reverse_list cleanup_args_bytes %4
+  )
+  store
+  ( do_call %FUNCTION_reset_hold_string )
+  global &GLOBAL_output_list push_address
+  global &GLOBAL_NULL load store
+  ( do_call %FUNCTION_program )
+  ( constant &STRING_main_2
+    push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_fputs cleanup_args_bytes %8
+  )
+  ( global &GLOBAL_output_list load push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_recursive_output cleanup_args_bytes %8
+  )
+  ( constant &STRING_main_3
+    push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_fputs cleanup_args_bytes %8
+  )
+  ( global &GLOBAL_globals_list load push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_recursive_output cleanup_args_bytes %8
+  )
+  ( constant &STRING_main_4
+    push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_fputs cleanup_args_bytes %8
+  )
+  ( global &GLOBAL_strings_list load push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_recursive_output cleanup_args_bytes %8
+  )
+  ( constant &STRING_main_5
+    push_arg
+    local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_fputs cleanup_args_bytes %8
+  )
+  ( local LOCAL_destination_file load push_arg
+    do_call %FUNCTION_fclose cleanup_args_bytes %4
+  )
+  global &GLOBAL_EXIT_SUCCESS load cleanup_locals_bytes %12 ret
+:FUNCTION_add
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+add_eax,ebx
+ret
+  ret
+:FUNCTION_sub
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+sub_ebx,eax
+mov_eax,ebx
+ret
+  ret
+:FUNCTION_mul
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+imul_ebx
+ret
+  ret
+:FUNCTION_shl
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+mov_ecx,eax
+mov_eax,ebx
+sal_eax,cl
+ret
+  ret
+:FUNCTION_shr
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+mov_ecx,eax
+mov_eax,ebx
+sar_eax,cl
+ret
+  ret
+:FUNCTION_lt
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+setl_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_gt
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+setg_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_lte
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+setle_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_gte
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+setge_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_and
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+and_eax,ebx
+ret
+  ret
+:FUNCTION_or
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+or_eax,ebx
+ret
+  ret
+:FUNCTION_ri8
+  DEFINE ARG_o FCFFFFFF
+mov_eax, %0
+push_eax
+lea_eax,[ebp+DWORD] %-12
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+pop_ebx
+add_eax,ebx
+movsx_eax,BYTE_PTR_[eax]
+push_eax
+mov_eax, %0xFF
+pop_ebx
+and_eax,ebx
+pop_ebx
+ret
+  ret
+:FUNCTION_eq
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+sete_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_neq
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+cmp
+setne_al
+movzx_eax,al
+ret
+  ret
+:FUNCTION_xor
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+xor_eax,ebx
+ret
+  ret
+:FUNCTION_wi8
+  DEFINE ARG_v F8FFFFFF
+  DEFINE ARG_o FCFFFFFF
+mov_eax, %0
+push_eax
+lea_eax,[ebp+DWORD] %-16
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+pop_ebx
+add_eax,ebx
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+mov_[ebx],al
+pop_ebx
+ret
+  ret
+:FUNCTION_div
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+xchg_ebx,eax
+cdq
+idiv_ebx
+ret
+  ret
+:FUNCTION_mod
+  DEFINE ARG_b F8FFFFFF
+  DEFINE ARG_a FCFFFFFF
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+pop_ebx
+xchg_ebx,eax
+cdq
+idiv_ebx
+mov_eax,edx
+ret
+  ret
+:FUNCTION_fgetc
+  DEFINE ARG_f FCFFFFFF
+mov_eax, %3
+lea_ebx,[esp+DWORD] %4
+mov_ebx,[ebx]
+push_ebx
+mov_ecx,esp
+mov_edx, %1
+int !0x80
+test_eax,eax
+pop_eax
+jne %FUNCTION_fgetc_Done
+mov_eax, %-1
+:FUNCTION_fgetc_Done
+  ret
+:FUNCTION_fputc
+  DEFINE ARG_f F8FFFFFF
+  DEFINE ARG_s FCFFFFFF
+mov_eax, %4
+lea_ebx,[esp+DWORD] %4
+mov_ebx,[ebx]
+lea_ecx,[esp+DWORD] %8
+mov_edx, %1
+int !0x80
+  ret
+:FUNCTION_fputs
+  DEFINE ARG_f F8FFFFFF
+  DEFINE ARG_si FCFFFFFF
+:WHILE_fputs_0
+mov_eax, %0
+push_eax        #_common_recursion
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax        #_common_recursion
+mov_eax, %0
+pop_ebx # _common_recursion
+add_eax,ebx
+movsx_eax,BYTE_PTR_[eax]
+pop_ebx # _common_recursion
+cmp
+setne_al
+movzx_eax,al
+test_eax,eax
+je %END_WHILE_fputs_0
+# THEN_while_fputs_0
+push_edi        # Prevent overwriting in recursion
+push_ebp        # Protect the old base pointer
+mov_edi,esp     # Copy new base pointer
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax        #_common_recursion
+mov_eax, %0
+pop_ebx # _common_recursion
+add_eax,ebx
+movsx_eax,BYTE_PTR_[eax]
+push_eax        #_process_expression1
+lea_eax,[ebp+DWORD] %-8
+mov_eax,[eax]
+push_eax        #_process_expression2
+mov_ebp,edi
+call %FUNCTION_fputc
+pop_ebx # _process_expression_locals
+pop_ebx # _process_expression_locals
+pop_ebp # Restore old base pointer
+pop_edi # Prevent overwrite
+lea_eax,[ebp+DWORD] %-4
+push_eax        #_common_recursion
+lea_eax,[ebp+DWORD] %-4
+mov_eax,[eax]
+push_eax        #_common_recursion
+mov_eax, %1
+pop_ebx # _common_recursion
+add_eax,ebx
+pop_ebx # _common_recursion
+mov_[ebx],eax
+jmp %WHILE_fputs_0
+:END_WHILE_fputs_0
+ret
+  ret
+:FUNCTION_open
+  DEFINE ARG_mode F4FFFFFF
+  DEFINE ARG_flag F8FFFFFF
+  DEFINE ARG_name FCFFFFFF
+lea_ebx,[esp+DWORD] %12
+mov_ebx,[ebx]
+lea_ecx,[esp+DWORD] %8
+mov_ecx,[ecx]
+lea_edx,[esp+DWORD] %4
+mov_edx,[edx]
+mov_eax, %5
+int !0x80
+  ret
+:FUNCTION_fopen
+  DEFINE ARG_mode F8FFFFFF
+  DEFINE ARG_filename FCFFFFFF
+  DEFINE LOCAL_f F0FFFFFF
+  reserve_stack_slot
+# IF_fopen_0
+  ( constant %119 push_arg
+    ( local ARG_mode load push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_fopen_0
+  local LOCAL_f push_address
+  ( local ARG_filename load push_arg
+    constant %577 push_arg
+    constant %384 push_arg
+    do_call %FUNCTION_open cleanup_args_bytes %12
+  )
+  store
+  jmp %_END_IF_fopen_0
+:ELSE_fopen_0
+  local LOCAL_f push_address
+  ( local ARG_filename load push_arg
+    constant %0 push_arg
+    constant %0 push_arg
+    do_call %FUNCTION_open cleanup_args_bytes %12
+  )
+  store
+:_END_IF_fopen_0
+# IF_fopen_1
+  ( constant %0 push_arg
+    local LOCAL_f load push_arg
+    do_call %FUNCTION_gt cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_fopen_1
+  constant %0 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_fopen_1
+:ELSE_fopen_1
+:_END_IF_fopen_1
+  local LOCAL_f load cleanup_locals_bytes %4 ret
+:FUNCTION_close
+  DEFINE ARG_fd FCFFFFFF
+lea_ebx,[esp+DWORD] %4
+mov_ebx,[ebx]
+mov_eax, %6
+int !0x80
+  ret
+:FUNCTION_fclose
+  DEFINE ARG_stream FCFFFFFF
+  DEFINE LOCAL_error F4FFFFFF
+  ( local ARG_stream load push_arg
+    do_call %FUNCTION_close cleanup_args_bytes %4
+  )
+  reserve_stack_slot
+  local LOCAL_error load cleanup_locals_bytes %4 ret
+:FUNCTION_brk
+  DEFINE ARG_addr FCFFFFFF
+mov_eax,[esp+DWORD] %4
+push_eax
+mov_eax, %45
+pop_ebx
+int !0x80
+  ret
+:FUNCTION_malloc
+  DEFINE ARG_size FCFFFFFF
+  DEFINE LOCAL_old_malloc F4FFFFFF
+  reserve_stack_slot
+# IF_malloc_0
+  ( global &GLOBAL_NULL load push_arg
+    global &GLOBAL__brk_ptr load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_malloc_0
+  global &GLOBAL__brk_ptr push_address
+  ( constant %0 push_arg
+    do_call %FUNCTION_brk cleanup_args_bytes %4
+  )
+  store
+  global &GLOBAL__malloc_ptr push_address
+  global &GLOBAL__brk_ptr load store
+  jmp %_END_IF_malloc_0
+:ELSE_malloc_0
+:_END_IF_malloc_0
+# IF_malloc_1
+  ( global &GLOBAL__brk_ptr load push_arg
+    ( global &GLOBAL__malloc_ptr load push_arg
+      local ARG_size load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_malloc_1
+  global &GLOBAL__brk_ptr push_address
+  ( ( global &GLOBAL__malloc_ptr load push_arg
+      local ARG_size load push_arg
+      do_call %FUNCTION_add cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_brk cleanup_args_bytes %4
+  )
+  store
+# IF_malloc_2
+  ( ( constant %0 push_arg
+      constant %1 push_arg
+      do_call %FUNCTION_sub cleanup_args_bytes %8
+    )
+    push_arg
+    global &GLOBAL__brk_ptr load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_malloc_2
+  constant %0 cleanup_locals_bytes %4 ret
+  jmp %_END_IF_malloc_2
+:ELSE_malloc_2
+:_END_IF_malloc_2
+  jmp %_END_IF_malloc_1
+:ELSE_malloc_1
+:_END_IF_malloc_1
+  local LOCAL_old_malloc push_address
+  global &GLOBAL__malloc_ptr load store
+  global &GLOBAL__malloc_ptr push_address
+  ( global &GLOBAL__malloc_ptr load push_arg
+    local ARG_size load push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  local LOCAL_old_malloc load cleanup_locals_bytes %4 ret
+:FUNCTION_memset
+  DEFINE ARG_num F4FFFFFF
+  DEFINE ARG_value F8FFFFFF
+  DEFINE ARG_ptr FCFFFFFF
+  DEFINE LOCAL_s ECFFFFFF
+  reserve_stack_slot
+  local LOCAL_s push_address
+  local ARG_ptr load store
+:WHILE_memset_0
+  ( constant %0 push_arg
+    local ARG_num load push_arg
+    do_call %FUNCTION_lt cleanup_args_bytes %8
+  )
+  cond_branch %END_WHILE_memset_0
+# THEN_while_memset_0
+  ( local LOCAL_s load push_arg
+    local ARG_value load push_arg
+    do_call %FUNCTION_wi8 cleanup_args_bytes %8
+  )
+  local LOCAL_s push_address
+  ( local LOCAL_s load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_add cleanup_args_bytes %8
+  )
+  store
+  local ARG_num push_address
+  ( local ARG_num load push_arg
+    constant %1 push_arg
+    do_call %FUNCTION_sub cleanup_args_bytes %8
+  )
+  store
+  jmp %WHILE_memset_0
+:END_WHILE_memset_0
+  cleanup_locals_bytes %4 ret
+:FUNCTION_calloc
+  DEFINE ARG_size F8FFFFFF
+  DEFINE ARG_count FCFFFFFF
+  DEFINE LOCAL_ret F0FFFFFF
+  ( ( local ARG_count load push_arg
+      local ARG_size load push_arg
+      do_call %FUNCTION_mul cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_malloc cleanup_args_bytes %4
+  )
+  reserve_stack_slot
+# IF_calloc_0
+  ( global &GLOBAL_NULL load push_arg
+    local LOCAL_ret load push_arg
+    do_call %FUNCTION_eq cleanup_args_bytes %8
+  )
+  cond_branch %ELSE_calloc_0
+  global &GLOBAL_NULL load cleanup_locals_bytes %4 ret
+  jmp %_END_IF_calloc_0
+:ELSE_calloc_0
+:_END_IF_calloc_0
+  ( local LOCAL_ret load push_arg
+    constant %0 push_arg
+    ( local ARG_count load push_arg
+      local ARG_size load push_arg
+      do_call %FUNCTION_mul cleanup_args_bytes %8
+    )
+    push_arg
+    do_call %FUNCTION_memset cleanup_args_bytes %12
+  )
+  local LOCAL_ret load cleanup_locals_bytes %4 ret
+:FUNCTION_free
+  DEFINE ARG_l FCFFFFFF
+  ret
+:FUNCTION_exit
+  DEFINE ARG_value FCFFFFFF
+pop_ebx
+pop_ebx
+mov_eax, %1
+int !0x80
+  ret
+
+# Program global variables
+:GLOBAL_FALSE
+NULL
+:GLOBAL_TRUE
+NULL
+:GLOBAL_NULL
+NULL
+:GLOBAL_EXIT_SUCCESS
+NULL
+:GLOBAL_EXIT_FAILURE
+NULL
+:GLOBAL_EOF
+NULL
+:GLOBAL_quote_string
+NULL
+:GLOBAL_token_list_next_offset
+NULL
+:GLOBAL_token_list_locals_offset
+NULL
+:GLOBAL_token_list_prev_offset
+NULL
+:GLOBAL_token_list_s_offset
+NULL
+:GLOBAL_token_list_arguments_offset
+NULL
+:GLOBAL_token_list_depth_offset
+NULL
+:GLOBAL_token_list_linenumber_offset
+NULL
+:GLOBAL_sizeof_token_list
+NULL
+:GLOBAL_global_token
+NULL
+:GLOBAL_output_list
+NULL
+:GLOBAL_strings_list
+NULL
+:GLOBAL_globals_list
+NULL
+:GLOBAL_hold_string
+NULL
+:GLOBAL_string_index
+NULL
+:GLOBAL_register_size
+NULL
+:GLOBAL_MAX_STRING
+NULL
+:GLOBAL_input
+NULL
+:GLOBAL_token
+NULL
+:GLOBAL_line
+NULL
+:GLOBAL_file
+NULL
+:GLOBAL_global_symbol_list
+NULL
+:GLOBAL_global_function_list
+NULL
+:GLOBAL_function
+NULL
+:GLOBAL_break_target_head
+NULL
+:GLOBAL_break_target_func
+NULL
+:GLOBAL_break_target_num
+NULL
+:GLOBAL_break_frame
+NULL
+:GLOBAL_current_count
+NULL
+:GLOBAL_indent
+NULL
+:GLOBAL_no_indent
+NULL
+:GLOBAL__malloc_ptr
+NULL
+:GLOBAL__brk_ptr
+NULL
+
+# Program strings
+:STRING_indented_emit_out_2
+" "
+:STRING_int2str_1
+"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+:STRING_int2str_4
+"-2147483648"
+:STRING_get_token_3
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+:STRING_get_token_4
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+:STRING_get_token_6
+"="
+:STRING_get_token_7
+"="
+:STRING_uniqueID_0
+"
+"
+:STRING_uniqueID_1
+"_"
+:STRING_function_call_0
+"("
+:STRING_function_call_1
+"("
+:STRING_function_call_3
+" "
+:STRING_function_call_4
+"push_arg
+"
+:STRING_function_call_6
+"push_arg
+"
+:STRING_function_call_7
+" "
+:STRING_function_call_8
+")"
+:STRING_function_call_9
+"do_call %FUNCTION_"
+:STRING_function_call_10
+" "
+:STRING_function_call_12
+"cleanup_args_bytes %"
+:STRING_function_call_13
+"
+"
+:STRING_function_call_14
+")
+"
+:STRING_load_value_0
+"load "
+:STRING_variable_load_0
+"local "
+:STRING_variable_load_2
+"ARG_"
+:STRING_variable_load_3
+"LOCAL_"
+:STRING_variable_load_4
+" "
+:STRING_variable_load_6
+"="
+:STRING_function_load_1
+"("
+:STRING_global_load_0
+"global &GLOBAL_"
+:STRING_global_load_1
+" "
+:STRING_global_load_3
+"="
+:STRING_primary_expr_string_0
+"constant &STRING_"
+:STRING_primary_expr_string_1
+":STRING_"
+:STRING_primary_expr_char_0
+"constant %"
+:STRING_primary_expr_char_1
+" "
+:STRING_primary_expr_number_0
+"constant %"
+:STRING_primary_expr_number_1
+" "
+:STRING_expression_1
+")"
+:STRING_expression_5
+"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+:STRING_expression_7
+"0123456789"
+:STRING_expression_9
+"="
+:STRING_expression_10
+"push_address
+"
+:STRING_expression_11
+"store
+"
+:STRING_collect_local_1
+"main"
+:STRING_collect_local_4
+"DEFINE LOCAL_"
+:STRING_collect_local_5
+" "
+:STRING_collect_local_6
+"
+"
+:STRING_collect_local_8
+"="
+:STRING_collect_local_9
+";"
+:STRING_collect_local_10
+"reserve_stack_slot
+"
+:STRING_process_if_0
+"# IF_"
+:STRING_process_if_1
+"("
+:STRING_process_if_2
+"cond_branch %ELSE_"
+:STRING_process_if_3
+")"
+:STRING_process_if_4
+"jmp %_END_IF_"
+:STRING_process_if_5
+":ELSE_"
+:STRING_process_if_7
+"else"
+:STRING_process_if_8
+":_END_IF_"
+:STRING_process_asm_0
+"("
+:STRING_process_asm_2
+"
+"
+:STRING_process_asm_3
+")"
+:STRING_process_asm_4
+";"
+:STRING_process_while_0
+"END_WHILE_"
+:STRING_process_while_1
+":WHILE_"
+:STRING_process_while_2
+"("
+:STRING_process_while_3
+"cond_branch %END_WHILE_"
+:STRING_process_while_4
+"# THEN_while_"
+:STRING_process_while_5
+")"
+:STRING_process_while_6
+"jmp %WHILE_"
+:STRING_process_while_7
+":END_WHILE_"
+:STRING_return_result_1
+";"
+:STRING_return_result_4
+"cleanup_locals_bytes %"
+:STRING_return_result_5
+" "
+:STRING_return_result_6
+"ret
+"
+:STRING_process_break_0
+"jmp %"
+:STRING_process_break_1
+"_"
+:STRING_process_break_2
+"
+"
+:STRING_process_break_3
+";"
+:STRING_recursive_statement_1
+"}"
+:STRING_recursive_statement_3
+"ret
+"
+:STRING_recursive_statement_6
+"cleanup_locals_bytes %"
+:STRING_recursive_statement_7
+" "
+:STRING_statement_2
+"int"
+:STRING_statement_4
+"if"
+:STRING_statement_6
+"while"
+:STRING_statement_8
+"asm"
+:STRING_statement_10
+"return"
+:STRING_statement_12
+"break"
+:STRING_statement_13
+";"
+:STRING_collect_arguments_1
+")"
+:STRING_declare_function_1
+":FUNCTION_"
+:STRING_declare_function_2
+"
+"
+:STRING_declare_function_4
+"DEFINE ARG_"
+:STRING_declare_function_5
+" "
+:STRING_declare_function_6
+"
+"
+:STRING_declare_function_8
+"ret
+"
+:STRING_declare_function_9
+"ret
+"
+:STRING_program_3
+";"
+:STRING_program_4
+":GLOBAL_"
+:STRING_program_5
+"
+"
+:STRING_program_7
+"NULL
+"
+:STRING_program_9
+"("
+:STRING_main_0
+"r"
+:STRING_main_1
+"w"
+:STRING_main_2
+"
+# Core program
+"
+:STRING_main_3
+"
+# Program global variables
+"
+:STRING_main_4
+"
+# Program strings
+"
+:STRING_main_5
+"
+:ELF_end
+"
+
+:ELF_end
