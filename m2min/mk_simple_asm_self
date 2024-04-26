@@ -5,13 +5,14 @@ cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
 
 echo "building M2_simple_asm.M1"
 
-../x86/bin/M0 ./M2_simple_asm.M1 artifacts/M2_simple_asm.hex2
-cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm.hex2 > artifacts/M2_simple_asm-0.hex2
-../x86/bin/hex2-0 artifacts/M2_simple_asm-0.hex2 artifacts/M2_simple_asm.exe
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 ./M2_simple_asm.M1 > artifacts/M2_simple_asm-0.M1
+../x86/bin/M0 ./artifacts/M2_simple_asm-0.M1 ./artifacts/M2_simple_asm-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm-0.hex2 > artifacts/M2_simple_asm-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_simple_asm-0-0.hex2 artifacts/M2_simple_asm.exe
 
 ./artifacts/M2_simple_asm.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
 
-cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
 ../x86/bin/M0 artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
 cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
 ../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2.exe
@@ -21,7 +22,7 @@ cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple
 echo "build otccelf_cc_x86_min.exe"
 ./artifacts/M2_simple_asm_m2.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
 
-cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
 ../x86/bin/M0 artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
 cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
 ../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
