@@ -318,7 +318,7 @@ int mod(int a, int b){
 	);
 }
 
-int fgetc(int f)
+int fgetc_unbuffered(int f)
 {
 	asm("mov_eax, %3"
 	    "lea_ebx,[esp+DWORD] %4"
@@ -332,6 +332,14 @@ int fgetc(int f)
 	    "jne %FUNCTION_fgetc_Done"
 	    "mov_eax, %-1"
 	    ":FUNCTION_fgetc_Done");
+}
+
+int fgetc(int f) {
+	if(gt(f, 2)) {
+		return fgetc_unbuffered(f);
+	} else {
+		return fgetc_unbuffered(f);
+	}
 }
 
 int fputc(int s, int f)
