@@ -17,6 +17,10 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+int stdin;
+int stdout;
+int stderr;
+
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -340,11 +344,15 @@ int fputc(int s, int f)
 	    "int !0x80");
 }
 
-int fputs(int si, int f) {
+int fputs_unbuffered(int si, int f) {
 	while(neq(0, ri8(si))) {
 		fputc(ri8(si), f);
 		si = add(si, 1);
 	}
+}
+
+int fputs(int si, int f) {
+	return fputs_unbuffered(si, f);
 }
 
 int open(int name, int flag, int mode)
@@ -456,4 +464,10 @@ int exit(int value)
 	    "pop_ebx"
 	    "mov_eax, %1"
 	    "int !0x80");
+}
+
+int init_support(){
+	stdin = 0;
+	stdout = 1;
+	stderr = 2;
 }

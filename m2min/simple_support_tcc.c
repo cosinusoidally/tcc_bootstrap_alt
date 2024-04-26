@@ -1,3 +1,11 @@
+extern int stdin;
+extern int stdout;
+extern int stderr;
+
+int init_support() {
+	/* dummy */
+}
+
 /* primitives */
 
 int add(int a, int b) {
