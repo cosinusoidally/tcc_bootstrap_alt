@@ -3970,10 +3970,12 @@ int !0x80
 :FUNCTION_fclose
   DEFINE ARG_stream FCFFFFFF
   DEFINE LOCAL_error F4FFFFFF
+  reserve_stack_slot
+  local LOCAL_error push_address
   ( local ARG_stream load push_arg
     do_call %FUNCTION_close cleanup_args_bytes %4
   )
-  reserve_stack_slot
+  store
   local LOCAL_error load cleanup_locals_bytes %4 ret
 :FUNCTION_brk
   DEFINE ARG_addr FCFFFFFF

@@ -344,17 +344,6 @@ int fputc(int s, int f)
 	    "int !0x80");
 }
 
-int write(int fd, int buf, int count) {
-	asm("lea_ebx,[esp+DWORD] %12"
-	    "mov_ebx,[ebx]"
-	    "lea_ecx,[esp+DWORD] %8"
-	    "mov_ecx,[ecx]"
-	    "lea_edx,[esp+DWORD] %4"
-	    "mov_edx,[edx]"
-	    "mov_eax, %4"
-	    "int !0x80");
-}
-
 int fputs(int si, int f) {
 	while(neq(0, ri8(si))) {
 		fputc(ri8(si), f);
