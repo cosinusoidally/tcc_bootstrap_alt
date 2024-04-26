@@ -1,3 +1,5 @@
+/* see also copyright header in otccelf_cc_x86_min.c */
+
 /* Copyright (C) 2016 Jeremiah Orians
  * This file is part of M2-Planet.
  *

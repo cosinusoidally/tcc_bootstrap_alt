@@ -1,4 +1,4 @@
-/* heavily modified version of some M2lib file modified by Liam Wilson */
+/* heavily modified version of some M2lib files modified by Liam Wilson */
 
 /* Copyright (C) 2016 Jeremiah Orians
  * This file is part of M2-Planet.

@@ -1,4 +1,5 @@
 /* this is otccelf and support files rolled in to one file */
+/* modifications (C) 2024 Liam Wilson under same license as tcc */
 
 /*
   Obfuscated Tiny C Compiler with ELF output

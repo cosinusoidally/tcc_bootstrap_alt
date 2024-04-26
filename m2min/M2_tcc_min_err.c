@@ -1,5 +1,5 @@
 /* This is a heavily cut down version of M2-Planet
- * mofications (C) 2024 Liam Wilson (under same license)
+ * modifications (C) 2024 Liam Wilson (under same license)
  * original authors
  * Copyright (C) 2016 Jeremiah Orians
  * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
