@@ -350,12 +350,22 @@ int fputc_unbuffered(int s, int f)
 }
 
 int write(int fd, int buf, int count) {
+/*
 	int i;
 	i = 0;
 	while(lt(i, count)) {
 		fputc_unbuffered(ri8(add(buf, i)), fd);
 		i = add(i, 1);
 	}
+*/
+	asm("lea_ebx,[esp+DWORD] %12"
+	    "mov_ebx,[ebx]"
+	    "lea_ecx,[esp+DWORD] %8"
+	    "mov_ecx,[ecx]"
+	    "lea_edx,[esp+DWORD] %4"
+	    "mov_edx,[edx]"
+	    "mov_eax, %4"
+	    "int !0x80");
 }
 
 int fputc(int s, int f) {
