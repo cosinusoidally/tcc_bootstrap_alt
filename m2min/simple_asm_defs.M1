@@ -47,6 +47,10 @@ DEFINE store 5B8903
 # push_eax
 DEFINE reserve_stack_slot 50
 
+# jump is:
+# jmp (unconditional 32 bit relative jump)
+DEFINE jump E9
+
 # jump_false is:
 # test_eax,eax
 # je (32 bit relative)
