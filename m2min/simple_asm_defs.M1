@@ -1,3 +1,5 @@
+# START simple_asm_defs.M1
+
 # ( is:
 # push_edi
 # push_ebp
@@ -14,14 +16,6 @@ DEFINE do_call 89FDE8
 # pop_edi
 DEFINE ) 5D5F
 
-# load is:
-# mov_eax,[eax]
-DEFINE load 8B00
-
-# cleanup_args_bytes is:
-# add_esp, (immediate 32 bit value)
-DEFINE cleanup_args_bytes 81C4
-
 # local is:
 # lea_eax,[ebp+DWORD] (immediate 32 bit value)
 DEFINE local 8D85
@@ -34,18 +28,14 @@ DEFINE global B8
 # mov_eax, (32 bit immediate)
 DEFINE constant B8
 
-# cleanup_locals_bytes is:
-# add_esp, (immediate 32 bit value)
-DEFINE cleanup_locals_bytes 81C4
+# load is:
+# mov_eax,[eax]
+DEFINE load 8B00
 
 # store is:
 # pop_ebx
 # mov_[ebx],eax
 DEFINE store 5B8903
-
-# reserve_stack_slot is:
-# push_eax
-DEFINE reserve_stack_slot 50
 
 # jump is:
 # jmp (unconditional 32 bit relative jump)
@@ -56,6 +46,10 @@ DEFINE jump E9
 # je (32 bit relative)
 DEFINE jump_false 85C00F84
 
+# reserve_stack_slot is:
+# push_eax
+DEFINE reserve_stack_slot 50
+
 # push_arg is:
 # push_eax
 DEFINE push_arg 50
@@ -63,3 +57,14 @@ DEFINE push_arg 50
 # push_address is:
 # push_eax
 DEFINE push_address 50
+
+# cleanup_args_bytes is:
+# add_esp, (immediate 32 bit value)
+DEFINE cleanup_args_bytes 81C4
+
+# cleanup_locals_bytes is:
+# add_esp, (immediate 32 bit value)
+DEFINE cleanup_locals_bytes 81C4
+
+# END simple_asm_defs.M1
+
