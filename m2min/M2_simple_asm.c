@@ -896,7 +896,7 @@ int process_if() {
 	skip("(");
 	expression();
 
-	indented_emit_out("cond_branch %ELSE_");
+	indented_emit_out("jump_false %ELSE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -959,7 +959,7 @@ int process_while() {
 	skip("(");
 	expression();
 
-	indented_emit_out("cond_branch %END_WHILE_");
+	indented_emit_out("jump_false %END_WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 

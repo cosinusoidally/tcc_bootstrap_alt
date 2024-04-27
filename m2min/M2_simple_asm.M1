@@ -323,7 +323,7 @@
     constant %0 push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %ELSE_decrease_indent_0
+  jump_false %ELSE_decrease_indent_0
   global &GLOBAL_indent push_address
   constant %0 store
   jmp %_END_IF_decrease_indent_0
@@ -337,7 +337,7 @@
   local LOCAL_c push_address
   constant %0 store
 # IF_indented_emit_out_0
-  global &GLOBAL_no_indent load cond_branch %ELSE_indented_emit_out_0
+  global &GLOBAL_no_indent load jump_false %ELSE_indented_emit_out_0
   global &GLOBAL_no_indent push_address
   constant %0 store
   jmp %_END_IF_indented_emit_out_0
@@ -347,7 +347,7 @@
     global &GLOBAL_indent load push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_indented_emit_out_1
+  jump_false %END_WHILE_indented_emit_out_1
 # THEN_while_indented_emit_out_1
   ( constant &STRING_indented_emit_out_2
     push_arg
@@ -413,7 +413,7 @@
     constant %9 push_arg
     do_call %FUNCTION_gt cleanup_args_bytes %8
   )
-  cond_branch %ELSE_to_hex_digit_0
+  jump_false %ELSE_to_hex_digit_0
   local ARG_a push_address
   ( ( local ARG_a load push_arg
       constant %10 push_arg
@@ -453,7 +453,7 @@
     constant %4 push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_to_hex_le_0
+  jump_false %END_WHILE_to_hex_le_0
 # THEN_while_to_hex_le_0
   ( ( local LOCAL_o load push_arg
       ( ( local LOCAL_i load push_arg
@@ -526,7 +526,7 @@
     push_arg
     do_call %FUNCTION_and cleanup_args_bytes %8
   )
-  cond_branch %ELSE_match_0
+  jump_false %ELSE_match_0
   global &GLOBAL_TRUE load cleanup_locals_bytes %4 ret
   jmp %_END_IF_match_0
 :ELSE_match_0
@@ -536,7 +536,7 @@
     local ARG_a load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_match_1
+  jump_false %ELSE_match_1
   global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
   jmp %_END_IF_match_1
 :ELSE_match_1
@@ -546,7 +546,7 @@
     local ARG_b load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_match_2
+  jump_false %ELSE_match_2
   global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
   jmp %_END_IF_match_2
 :ELSE_match_2
@@ -558,7 +558,7 @@
   )
   store
 :WHILE_match_3
-  constant %1 cond_branch %END_WHILE_match_3
+  constant %1 jump_false %END_WHILE_match_3
 # THEN_while_match_3
   local LOCAL_i push_address
   ( local LOCAL_i load push_arg
@@ -585,7 +585,7 @@
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_match_4
+  jump_false %ELSE_match_4
   global &GLOBAL_FALSE load cleanup_locals_bytes %4 ret
   jmp %_END_IF_match_4
 :ELSE_match_4
@@ -621,7 +621,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_match_5
+  jump_false %ELSE_match_5
   jmp %END_WHILE_match_3
   jmp %_END_IF_match_5
 :ELSE_match_5
@@ -637,7 +637,7 @@
     local ARG_s load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_in_set_0
+  jump_false %ELSE_in_set_0
   global &GLOBAL_FALSE load ret
   jmp %_END_IF_in_set_0
 :ELSE_in_set_0
@@ -650,7 +650,7 @@
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_in_set_1
+  jump_false %END_WHILE_in_set_1
 # THEN_while_in_set_1
 # IF_in_set_2
   ( local ARG_c load push_arg
@@ -660,7 +660,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_in_set_2
+  jump_false %ELSE_in_set_2
   global &GLOBAL_TRUE load ret
   jmp %_END_IF_in_set_2
 :ELSE_in_set_2
@@ -697,7 +697,7 @@
     local LOCAL_p load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_int2str_0
+  jump_false %ELSE_int2str_0
   local LOCAL_p load cleanup_locals_bytes %16 ret
   jmp %_END_IF_int2str_0
 :ELSE_int2str_0
@@ -734,7 +734,7 @@
     push_arg
     do_call %FUNCTION_and cleanup_args_bytes %8
   )
-  cond_branch %ELSE_int2str_2
+  jump_false %ELSE_int2str_2
   local LOCAL_i push_address
   ( ( constant %0 push_arg
       local ARG_x load push_arg
@@ -750,7 +750,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_int2str_3
+  jump_false %ELSE_int2str_3
   constant &STRING_int2str_4
   cleanup_locals_bytes %16 ret
   jmp %_END_IF_int2str_3
@@ -776,7 +776,7 @@
   store
 :_END_IF_int2str_2
 :WHILE_int2str_5
-  constant %1 cond_branch %END_WHILE_int2str_5
+  constant %1 jump_false %END_WHILE_int2str_5
 # THEN_while_int2str_5
   ( local LOCAL_p load push_arg
     ( ( local LOCAL_table load push_arg
@@ -810,7 +810,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_gte cleanup_args_bytes %8
   )
-  cond_branch %ELSE_int2str_6
+  jump_false %ELSE_int2str_6
   jmp %END_WHILE_int2str_5
   jmp %_END_IF_int2str_6
 :ELSE_int2str_6
@@ -818,7 +818,7 @@
   jmp %WHILE_int2str_5
 :END_WHILE_int2str_5
 # IF_int2str_7
-  local LOCAL_sign_p load cond_branch %ELSE_int2str_7
+  local LOCAL_sign_p load jump_false %ELSE_int2str_7
   ( local LOCAL_p load push_arg
     constant %45 push_arg
     do_call %FUNCTION_wi8 cleanup_args_bytes %8
@@ -850,7 +850,7 @@
     local LOCAL_c load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_grab_byte_0
+  jump_false %ELSE_grab_byte_0
   global &GLOBAL_line push_address
   ( global &GLOBAL_line load push_arg
     constant %1 push_arg
@@ -876,7 +876,7 @@
     push_arg
     do_call %FUNCTION_or cleanup_args_bytes %8
   )
-  cond_branch %ELSE_clearWhiteSpace_0
+  jump_false %ELSE_clearWhiteSpace_0
   ( ( do_call %FUNCTION_grab_byte )
     push_arg
     do_call %FUNCTION_clearWhiteSpace cleanup_args_bytes %4
@@ -915,7 +915,7 @@
   local LOCAL_escape push_address
   global &GLOBAL_FALSE load store
 :WHILE_preserve_string_0
-  constant %1 cond_branch %END_WHILE_preserve_string_0
+  constant %1 jump_false %END_WHILE_preserve_string_0
 # THEN_while_preserve_string_0
 # IF_preserve_string_1
   ( ( constant %0 push_arg
@@ -930,7 +930,7 @@
     push_arg
     do_call %FUNCTION_and cleanup_args_bytes %8
   )
-  cond_branch %ELSE_preserve_string_1
+  jump_false %ELSE_preserve_string_1
   local LOCAL_escape push_address
   global &GLOBAL_TRUE load store
   jmp %_END_IF_preserve_string_1
@@ -956,7 +956,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_preserve_string_2
+  jump_false %ELSE_preserve_string_2
   jmp %END_WHILE_preserve_string_0
   jmp %_END_IF_preserve_string_2
 :ELSE_preserve_string_2
@@ -985,7 +985,7 @@
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_copy_string_0
+  jump_false %END_WHILE_copy_string_0
 # THEN_while_copy_string_0
   ( ( local ARG_target load push_arg
       local LOCAL_i load push_arg
@@ -1013,7 +1013,7 @@
     local ARG_max load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_copy_string_1
+  jump_false %ELSE_copy_string_1
   jmp %END_WHILE_copy_string_0
   jmp %_END_IF_copy_string_1
 :ELSE_copy_string_1
@@ -1029,7 +1029,7 @@
     local ARG_S load push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_preserve_keyword_0
+  jump_false %END_WHILE_preserve_keyword_0
 # THEN_while_preserve_keyword_0
   local ARG_c push_address
   ( local ARG_c load push_arg
@@ -1051,7 +1051,7 @@
     global &GLOBAL_MAX_STRING load push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_reset_hold_string_0
+  jump_false %END_WHILE_reset_hold_string_0
 # THEN_while_reset_hold_string_0
   local LOCAL_o push_address
   ( global &GLOBAL_hold_string load push_arg
@@ -1067,7 +1067,7 @@
     constant %0 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_reset_hold_string_1
+  jump_false %ELSE_reset_hold_string_1
   jmp %END_WHILE_reset_hold_string_0
   jmp %_END_IF_reset_hold_string_1
 :ELSE_reset_hold_string_1
@@ -1148,7 +1148,7 @@
     constant %1 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_get_token_0
+  jump_false %END_WHILE_get_token_0
 # THEN_while_get_token_0
   local LOCAL_reset push_address
   constant %0 store
@@ -1165,7 +1165,7 @@
     global &GLOBAL_EOF load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_1
+  jump_false %ELSE_get_token_1
   ( local LOCAL_current load push_arg
     do_call %FUNCTION_free cleanup_args_bytes %4
   )
@@ -1178,7 +1178,7 @@
     push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_2
+  jump_false %ELSE_get_token_2
   local ARG_c push_address
   ( local ARG_c load push_arg
     constant &STRING_get_token_4
@@ -1194,7 +1194,7 @@
     push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_5
+  jump_false %ELSE_get_token_5
   local ARG_c push_address
   ( local ARG_c load push_arg
     constant &STRING_get_token_7
@@ -1209,7 +1209,7 @@
     global &GLOBAL_quote_string load push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_8
+  jump_false %ELSE_get_token_8
   local ARG_c push_address
   ( local ARG_c load push_arg
     do_call %FUNCTION_preserve_string cleanup_args_bytes %4
@@ -1222,7 +1222,7 @@
     constant %47 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_9
+  jump_false %ELSE_get_token_9
   local ARG_c push_address
   ( local ARG_c load push_arg
     do_call %FUNCTION_consume_byte cleanup_args_bytes %4
@@ -1233,7 +1233,7 @@
     constant %42 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_10
+  jump_false %ELSE_get_token_10
   local ARG_c push_address
   ( do_call %FUNCTION_grab_byte )
   store
@@ -1242,14 +1242,14 @@
     constant %47 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_get_token_11
+  jump_false %END_WHILE_get_token_11
 # THEN_while_get_token_11
 :WHILE_get_token_12
   ( local ARG_c load push_arg
     constant %42 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_get_token_12
+  jump_false %END_WHILE_get_token_12
 # THEN_while_get_token_12
   local ARG_c push_address
   ( do_call %FUNCTION_grab_byte )
@@ -1276,7 +1276,7 @@
     constant %10 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_get_token_13
+  jump_false %ELSE_get_token_13
   local ARG_c push_address
   ( local ARG_c load push_arg
     do_call %FUNCTION_consume_byte cleanup_args_bytes %4
@@ -1321,7 +1321,7 @@
     local ARG_head load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_reverse_list_0
+  jump_false %END_WHILE_reverse_list_0
 # THEN_while_reverse_list_0
   local LOCAL_next push_address
   ( local ARG_head load push_arg
@@ -1356,7 +1356,7 @@
     local LOCAL_ch load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_read_all_tokens_0
+  jump_false %END_WHILE_read_all_tokens_0
 # THEN_while_read_all_tokens_0
   local LOCAL_ch push_address
   ( local LOCAL_ch load push_arg
@@ -1387,7 +1387,7 @@
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_0
+  jump_false %ELSE_escape_lookup_0
   ( local ARG_c load push_arg
     do_call %FUNCTION_ri8 cleanup_args_bytes %4
   )
@@ -1400,7 +1400,7 @@
     constant %48 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_1
+  jump_false %ELSE_escape_lookup_1
   constant %0 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_1
 :ELSE_escape_lookup_1
@@ -1409,7 +1409,7 @@
     constant %97 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_2
+  jump_false %ELSE_escape_lookup_2
   constant %7 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_2
 :ELSE_escape_lookup_2
@@ -1418,7 +1418,7 @@
     constant %98 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_3
+  jump_false %ELSE_escape_lookup_3
   constant %8 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_3
 :ELSE_escape_lookup_3
@@ -1427,7 +1427,7 @@
     constant %116 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_4
+  jump_false %ELSE_escape_lookup_4
   constant %9 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_4
 :ELSE_escape_lookup_4
@@ -1436,7 +1436,7 @@
     constant %110 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_5
+  jump_false %ELSE_escape_lookup_5
   constant %10 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_5
 :ELSE_escape_lookup_5
@@ -1445,7 +1445,7 @@
     constant %118 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_6
+  jump_false %ELSE_escape_lookup_6
   constant %11 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_6
 :ELSE_escape_lookup_6
@@ -1454,7 +1454,7 @@
     constant %102 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_7
+  jump_false %ELSE_escape_lookup_7
   constant %12 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_7
 :ELSE_escape_lookup_7
@@ -1463,7 +1463,7 @@
     constant %114 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_8
+  jump_false %ELSE_escape_lookup_8
   constant %13 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_8
 :ELSE_escape_lookup_8
@@ -1472,7 +1472,7 @@
     constant %101 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_9
+  jump_false %ELSE_escape_lookup_9
   constant %27 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_9
 :ELSE_escape_lookup_9
@@ -1481,7 +1481,7 @@
     constant %34 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_10
+  jump_false %ELSE_escape_lookup_10
   constant %34 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_10
 :ELSE_escape_lookup_10
@@ -1490,7 +1490,7 @@
     constant %39 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_11
+  jump_false %ELSE_escape_lookup_11
   constant %39 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_11
 :ELSE_escape_lookup_11
@@ -1499,7 +1499,7 @@
     constant %92 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_escape_lookup_12
+  jump_false %ELSE_escape_lookup_12
   constant %92 cleanup_locals_bytes %4 ret
   jmp %_END_IF_escape_lookup_12
 :ELSE_escape_lookup_12
@@ -1538,7 +1538,7 @@
     constant %1 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_parse_string_0
+  jump_false %END_WHILE_parse_string_0
 # THEN_while_parse_string_0
   local LOCAL_collect_regular_string_reset push_address
   constant %0 store
@@ -1550,7 +1550,7 @@
     constant %92 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_parse_string_1
+  jump_false %ELSE_parse_string_1
   ( ( global &GLOBAL_hold_string load push_arg
       global &GLOBAL_string_index load push_arg
       do_call %FUNCTION_add cleanup_args_bytes %8
@@ -1602,7 +1602,7 @@
     constant %0 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_parse_string_2
+  jump_false %ELSE_parse_string_2
   local LOCAL_collect_regular_string_reset push_address
   constant %1 store
   jmp %_END_IF_parse_string_2
@@ -1748,7 +1748,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_sym_lookup_0
+  jump_false %END_WHILE_sym_lookup_0
 # THEN_while_sym_lookup_0
 # IF_sym_lookup_1
   ( ( local LOCAL_i load push_arg
@@ -1758,7 +1758,7 @@
     local ARG_s load push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_sym_lookup_1
+  jump_false %ELSE_sym_lookup_1
   local LOCAL_i load cleanup_locals_bytes %4 ret
   jmp %_END_IF_sym_lookup_1
 :ELSE_sym_lookup_1
@@ -1792,7 +1792,7 @@
     constant %41 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_function_call_2
+  jump_false %ELSE_function_call_2
   ( constant &STRING_function_call_3
     push_arg
     do_call %FUNCTION_emit_out cleanup_args_bytes %4
@@ -1812,7 +1812,7 @@
     constant %44 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_function_call_5
+  jump_false %END_WHILE_function_call_5
 # THEN_while_function_call_5
   ( do_call %FUNCTION_advance )
   ( do_call %FUNCTION_expression )
@@ -1857,7 +1857,7 @@
     local LOCAL_passed load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_function_call_11
+  jump_false %ELSE_function_call_11
   ( constant &STRING_function_call_12
     push_arg
     do_call %FUNCTION_emit_out cleanup_args_bytes %4
@@ -1906,7 +1906,7 @@
     global &GLOBAL_TRUE load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_variable_load_1
+  jump_false %ELSE_variable_load_1
   ( constant &STRING_variable_load_2
     push_arg
     do_call %FUNCTION_emit_out cleanup_args_bytes %4
@@ -1939,7 +1939,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_variable_load_5
+  jump_false %ELSE_variable_load_5
   ( ( do_call %FUNCTION_load_value )
     push_arg
     do_call %FUNCTION_emit_out cleanup_args_bytes %4
@@ -1957,7 +1957,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_function_load_0
+  jump_false %ELSE_function_load_0
   ( ( local ARG_a load push_arg
       do_call %FUNCTION_get_s cleanup_args_bytes %4
     )
@@ -1992,7 +1992,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_global_load_2
+  jump_false %ELSE_global_load_2
   ret
   jmp %_END_IF_global_load_2
 :ELSE_global_load_2
@@ -2060,7 +2060,7 @@
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_primary_expr_string_2
+  jump_false %ELSE_primary_expr_string_2
   global &GLOBAL_strings_list push_address
   ( ( ( do_call %FUNCTION_global_token_string )
       push_arg
@@ -2145,7 +2145,7 @@
     local LOCAL_a load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_primary_expr_variable_0
+  jump_false %ELSE_primary_expr_variable_0
   ( local LOCAL_a load push_arg
     global &GLOBAL_FALSE load push_arg
     do_call %FUNCTION_variable_load cleanup_args_bytes %8
@@ -2168,7 +2168,7 @@
     local LOCAL_a load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_primary_expr_variable_1
+  jump_false %ELSE_primary_expr_variable_1
   ( local LOCAL_a load push_arg
     global &GLOBAL_TRUE load push_arg
     do_call %FUNCTION_variable_load cleanup_args_bytes %8
@@ -2188,7 +2188,7 @@
     local LOCAL_a load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_primary_expr_variable_2
+  jump_false %ELSE_primary_expr_variable_2
   ( local LOCAL_a load push_arg
     do_call %FUNCTION_function_load cleanup_args_bytes %4
   )
@@ -2207,7 +2207,7 @@
     local LOCAL_a load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_primary_expr_variable_3
+  jump_false %ELSE_primary_expr_variable_3
   ( local LOCAL_a load push_arg
     do_call %FUNCTION_global_load cleanup_args_bytes %4
   )
@@ -2230,7 +2230,7 @@
     constant %40 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_0
+  jump_false %ELSE_expression_0
   ( do_call %FUNCTION_advance )
   ( do_call %FUNCTION_expression )
   ( constant &STRING_expression_1
@@ -2245,7 +2245,7 @@
     constant %39 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_2
+  jump_false %ELSE_expression_2
   ( do_call %FUNCTION_primary_expr_char )
   jmp %_END_IF_expression_2
 :ELSE_expression_2
@@ -2255,7 +2255,7 @@
     constant %34 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_3
+  jump_false %ELSE_expression_3
   ( do_call %FUNCTION_primary_expr_string )
   jmp %_END_IF_expression_3
 :ELSE_expression_3
@@ -2266,7 +2266,7 @@
     push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_4
+  jump_false %ELSE_expression_4
   ( do_call %FUNCTION_primary_expr_variable )
   jmp %_END_IF_expression_4
 :ELSE_expression_4
@@ -2277,7 +2277,7 @@
     push_arg
     do_call %FUNCTION_in_set cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_6
+  jump_false %ELSE_expression_6
   ( do_call %FUNCTION_primary_expr_number )
   jmp %_END_IF_expression_6
 :ELSE_expression_6
@@ -2296,7 +2296,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_expression_8
+  jump_false %ELSE_expression_8
   ( constant &STRING_expression_10
     push_arg
     do_call %FUNCTION_emit_out cleanup_args_bytes %4
@@ -2345,7 +2345,7 @@
     push_arg
     do_call %FUNCTION_and cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_local_0
+  jump_false %ELSE_collect_local_0
   ( local LOCAL_a load push_arg
     ( constant %0 push_arg
       constant %20 push_arg
@@ -2375,7 +2375,7 @@
     push_arg
     do_call %FUNCTION_and cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_local_2
+  jump_false %ELSE_collect_local_2
   ( local LOCAL_a load push_arg
     ( constant %0 push_arg
       ( global &GLOBAL_register_size load push_arg
@@ -2398,7 +2398,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_local_3
+  jump_false %ELSE_collect_local_3
   ( local LOCAL_a load push_arg
     ( ( ( global &GLOBAL_function load push_arg
           do_call %FUNCTION_get_arguments cleanup_args_bytes %4
@@ -2473,7 +2473,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_local_7
+  jump_false %ELSE_collect_local_7
   ( do_call %FUNCTION_advance )
   ( do_call %FUNCTION_expression )
   jmp %_END_IF_collect_local_7
@@ -2566,7 +2566,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_process_if_6
+  jump_false %ELSE_process_if_6
   ( do_call %FUNCTION_advance )
   ( do_call %FUNCTION_statement )
   jmp %_END_IF_process_if_6
@@ -2596,7 +2596,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_process_asm_1
+  jump_false %END_WHILE_process_asm_1
 # THEN_while_process_asm_1
   ( ( ( do_call %FUNCTION_global_token_string )
       push_arg
@@ -2760,7 +2760,7 @@
     constant %59 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_return_result_0
+  jump_false %ELSE_return_result_0
   ( do_call %FUNCTION_expression )
   jmp %_END_IF_return_result_0
 :ELSE_return_result_0
@@ -2779,7 +2779,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_return_result_2
+  jump_false %END_WHILE_return_result_2
 # THEN_while_return_result_2
   local LOCAL_i push_address
   ( local LOCAL_i load push_arg
@@ -2799,7 +2799,7 @@
     local LOCAL_c load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_return_result_3
+  jump_false %ELSE_return_result_3
   ( constant &STRING_return_result_4
     push_arg
     do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
@@ -2891,7 +2891,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_recursive_statement_0
+  jump_false %END_WHILE_recursive_statement_0
 # THEN_while_recursive_statement_0
   ( do_call %FUNCTION_statement )
   jmp %WHILE_recursive_statement_0
@@ -2910,7 +2910,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_recursive_statement_2
+  jump_false %ELSE_recursive_statement_2
   local LOCAL_i push_address
   ( global &GLOBAL_function load push_arg
     do_call %FUNCTION_get_locals cleanup_args_bytes %4
@@ -2921,7 +2921,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_recursive_statement_4
+  jump_false %END_WHILE_recursive_statement_4
 # THEN_while_recursive_statement_4
   local LOCAL_c push_address
   ( local LOCAL_c load push_arg
@@ -2941,7 +2941,7 @@
     local LOCAL_c load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_recursive_statement_5
+  jump_false %ELSE_recursive_statement_5
   ( constant &STRING_recursive_statement_6
     push_arg
     do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
@@ -2982,7 +2982,7 @@
     constant %123 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_0
+  jump_false %ELSE_statement_0
   ( do_call %FUNCTION_recursive_statement )
   jmp %_END_IF_statement_0
 :ELSE_statement_0
@@ -2993,7 +2993,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_1
+  jump_false %ELSE_statement_1
   ( do_call %FUNCTION_collect_local )
   jmp %_END_IF_statement_1
 :ELSE_statement_1
@@ -3004,7 +3004,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_3
+  jump_false %ELSE_statement_3
   ( do_call %FUNCTION_process_if )
   jmp %_END_IF_statement_3
 :ELSE_statement_3
@@ -3015,7 +3015,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_5
+  jump_false %ELSE_statement_5
   ( do_call %FUNCTION_process_while )
   jmp %_END_IF_statement_5
 :ELSE_statement_5
@@ -3026,7 +3026,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_7
+  jump_false %ELSE_statement_7
   ( do_call %FUNCTION_process_asm )
   jmp %_END_IF_statement_7
 :ELSE_statement_7
@@ -3037,7 +3037,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_9
+  jump_false %ELSE_statement_9
   ( do_call %FUNCTION_return_result )
   jmp %_END_IF_statement_9
 :ELSE_statement_9
@@ -3048,7 +3048,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_statement_11
+  jump_false %ELSE_statement_11
   ( do_call %FUNCTION_process_break )
   jmp %_END_IF_statement_11
 :ELSE_statement_11
@@ -3080,7 +3080,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_collect_arguments_0
+  jump_false %END_WHILE_collect_arguments_0
 # THEN_while_collect_arguments_0
   ( do_call %FUNCTION_advance )
 # IF_collect_arguments_2
@@ -3089,7 +3089,7 @@
     constant %44 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_arguments_2
+  jump_false %ELSE_collect_arguments_2
   local LOCAL_a push_address
   ( ( do_call %FUNCTION_global_token_string )
     push_arg
@@ -3108,7 +3108,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_arguments_3
+  jump_false %ELSE_collect_arguments_3
   ( local LOCAL_a load push_arg
     ( constant %0 push_arg
       global &GLOBAL_register_size load push_arg
@@ -3148,7 +3148,7 @@
     constant %44 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_collect_arguments_4
+  jump_false %ELSE_collect_arguments_4
   ( do_call %FUNCTION_advance )
   jmp %_END_IF_collect_arguments_4
 :ELSE_collect_arguments_4
@@ -3183,7 +3183,7 @@
     constant %59 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_declare_function_0
+  jump_false %ELSE_declare_function_0
   ( do_call %FUNCTION_advance )
   jmp %_END_IF_declare_function_0
 :ELSE_declare_function_0
@@ -3212,7 +3212,7 @@
     local LOCAL_a load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_declare_function_3
+  jump_false %END_WHILE_declare_function_3
 # THEN_while_declare_function_3
   ( constant &STRING_declare_function_4
     push_arg
@@ -3262,7 +3262,7 @@
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_declare_function_7
+  jump_false %ELSE_declare_function_7
   ( constant &STRING_declare_function_9
     push_arg
     do_call %FUNCTION_indented_emit_out cleanup_args_bytes %4
@@ -3287,7 +3287,7 @@
     constant %1 push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_program_0
+  jump_false %END_WHILE_program_0
 # THEN_while_program_0
   local LOCAL_new_type push_address
   constant %0 store
@@ -3296,7 +3296,7 @@
     global &GLOBAL_global_token load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_program_1
+  jump_false %ELSE_program_1
   cleanup_locals_bytes %8 ret
   jmp %_END_IF_program_1
 :ELSE_program_1
@@ -3317,7 +3317,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_program_2
+  jump_false %ELSE_program_2
   global &GLOBAL_globals_list push_address
   ( constant &STRING_program_4
     push_arg
@@ -3351,7 +3351,7 @@
     constant %0 push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_program_6
+  jump_false %END_WHILE_program_6
 # THEN_while_program_6
   global &GLOBAL_globals_list push_address
   ( constant &STRING_program_7
@@ -3381,7 +3381,7 @@
     push_arg
     do_call %FUNCTION_match cleanup_args_bytes %8
   )
-  cond_branch %ELSE_program_8
+  jump_false %ELSE_program_8
   ( do_call %FUNCTION_declare_function )
   local LOCAL_new_type push_address
   constant %1 store
@@ -3413,7 +3413,7 @@
     local LOCAL_i load push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_recursive_output_0
+  jump_false %END_WHILE_recursive_output_0
 # THEN_while_recursive_output_0
   ( ( local LOCAL_i load push_arg
       do_call %FUNCTION_get_s cleanup_args_bytes %4
@@ -3887,7 +3887,7 @@ int !0x80
     push_arg
     do_call %FUNCTION_neq cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_fputs_0
+  jump_false %END_WHILE_fputs_0
 # THEN_while_fputs_0
   ( ( local ARG_si load push_arg
       do_call %FUNCTION_ri8 cleanup_args_bytes %4
@@ -3931,7 +3931,7 @@ int !0x80
     push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_fopen_0
+  jump_false %ELSE_fopen_0
   local LOCAL_f push_address
   ( local ARG_filename load push_arg
     constant %577 push_arg
@@ -3954,7 +3954,7 @@ int !0x80
     local LOCAL_f load push_arg
     do_call %FUNCTION_gt cleanup_args_bytes %8
   )
-  cond_branch %ELSE_fopen_1
+  jump_false %ELSE_fopen_1
   constant %0 cleanup_locals_bytes %4 ret
   jmp %_END_IF_fopen_1
 :ELSE_fopen_1
@@ -3994,7 +3994,7 @@ int !0x80
     global &GLOBAL__brk_ptr load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_malloc_0
+  jump_false %ELSE_malloc_0
   global &GLOBAL__brk_ptr push_address
   ( constant %0 push_arg
     do_call %FUNCTION_brk cleanup_args_bytes %4
@@ -4014,7 +4014,7 @@ int !0x80
     push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %ELSE_malloc_1
+  jump_false %ELSE_malloc_1
   global &GLOBAL__brk_ptr push_address
   ( ( global &GLOBAL__malloc_ptr load push_arg
       local ARG_size load push_arg
@@ -4033,7 +4033,7 @@ int !0x80
     global &GLOBAL__brk_ptr load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_malloc_2
+  jump_false %ELSE_malloc_2
   constant %0 cleanup_locals_bytes %4 ret
   jmp %_END_IF_malloc_2
 :ELSE_malloc_2
@@ -4063,7 +4063,7 @@ int !0x80
     local ARG_num load push_arg
     do_call %FUNCTION_lt cleanup_args_bytes %8
   )
-  cond_branch %END_WHILE_memset_0
+  jump_false %END_WHILE_memset_0
 # THEN_while_memset_0
   ( local LOCAL_s load push_arg
     local ARG_value load push_arg
@@ -4101,7 +4101,7 @@ int !0x80
     local LOCAL_ret load push_arg
     do_call %FUNCTION_eq cleanup_args_bytes %8
   )
-  cond_branch %ELSE_calloc_0
+  jump_false %ELSE_calloc_0
   global &GLOBAL_NULL load cleanup_locals_bytes %4 ret
   jmp %_END_IF_calloc_0
 :ELSE_calloc_0
@@ -4336,7 +4336,7 @@ NULL
 :STRING_process_if_1
 "("
 :STRING_process_if_2
-"cond_branch %ELSE_"
+"jump_false %ELSE_"
 :STRING_process_if_3
 ")"
 :STRING_process_if_4
@@ -4363,7 +4363,7 @@ NULL
 :STRING_process_while_2
 "("
 :STRING_process_while_3
-"cond_branch %END_WHILE_"
+"jump_false %END_WHILE_"
 :STRING_process_while_4
 "# THEN_while_"
 :STRING_process_while_5
