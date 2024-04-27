@@ -896,14 +896,14 @@ int process_if() {
 	skip("(");
 	expression();
 
-	indented_emit_out("cond_branch %ELSE_");
+	indented_emit_out("jump_false %ELSE_");
 
 	uniqueID_out(get_s(function), number_string);
 
 	skip(")");
 	statement();
 
-	indented_emit_out("jmp %_END_IF_");
+	indented_emit_out("jump %_END_IF_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -959,7 +959,7 @@ int process_while() {
 	skip("(");
 	expression();
 
-	indented_emit_out("cond_branch %END_WHILE_");
+	indented_emit_out("jump_false %END_WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -969,7 +969,7 @@ int process_while() {
 	skip(")");
 	statement();
 
-	indented_emit_out("jmp %WHILE_");
+	indented_emit_out("jump %WHILE_");
 
 	uniqueID_out(get_s(function), number_string);
 
@@ -1013,7 +1013,7 @@ int process_break() {
 	i = get_locals(function);
 
 	advance();
-	indented_emit_out("jmp %");
+	indented_emit_out("jump %");
 	emit_out(break_target_head);
 	emit_out(break_target_func);
 	emit_out("_");
