@@ -99,7 +99,7 @@ Assembly dialect
 ================
 
 See also simple_asm_defs.M1 for the definitions off all available "instructions"
-(each "instruction" is actually a short sequence of x86 instructions.
+(each "instruction" is actually a short sequence of x86 instructions).
 
 Using copy_string as an example. Note this is only part of the function since
 the M1 code is more verbose:
@@ -143,7 +143,7 @@ The close parent ")" indicates we have completelly finished calling a function.
 "do_call" will call the function that follows.
 "cleanup_args_bytes" cleans up any stack variables that were allocated for the
 function call.
-"push_address" will push an address onto the stack technically this is no
+"push_address" will push an address onto the stack. Technically this is no
 different to "push_arg" but a different name is used to distingush between
 operations.
 "constant" will store the following 32 bit value in the accumulator
@@ -172,3 +172,25 @@ means insert F4FFFFFF whenever you encounter ARG_max. This is how we do
 named local variables. We rely on the fact we can redefine these macro DEFINEs
 in each function to give the frame relative address of each local
 value/argument.
+
+Calling convention is the same as M2-Planet, but disguised by the very different
+notation.
+
+In the above example:
+
+  DEFINE ARG_max F4FFFFFF
+  DEFINE ARG_source F8FFFFFF
+  DEFINE ARG_target FCFFFFFF
+  DEFINE LOCAL_i ECFFFFFF
+  reserve_stack_slot
+
+is defining the frame layout. This allows us to use named local variable rather
+than numerical stack offsets. The values in these defines are hex encoded 32 bit
+little endian offsets from the frame pointer (eg ARG_target is -4 bytes from the
+frame pointer (the ebp register is the frame pointer on x86)).
+
+Stack grows downwards on x86.
+
+In the above example we can see that there is a 4 byte gap between LOCAL_i and
+the lowest arg (ARG_max). This is because the return instruction pointer is
+saved after the arguments.
