@@ -57,3 +57,118 @@ link to a polyfill libc like ../mk_from_bootstrap_seed can.
 
 Note I originally planned to use otccelf to build tcc.js, but I found that
 otccelf will miscompile it (see ../otccelf/mk_js_to_c_alt).
+
+C dialect
+=========
+
+Using an example:
+
+int copy_string(int target, int source, int max) {
+        int i;
+        i = 0;
+        while(neq(0, ri8(add(source, i)))) {
+                wi8(add(target, i), ri8(add(source, i)));
+                i = add(i, 1);
+                if(eq(i, max)) {
+                        break;
+                }
+        }
+}
+
+From the above snippet you will notice that there are:
+
+No operators (other than assignment, hence "add" function above)
+Only available type is the int.
+wi8 and ri8 are 8 bit integer write and read instructions respectively (no array
+indexing, pointer manipulation etc)
+No comparison operators either (neq is equivalent to !=)
+
+There are many other restrictions eg:
+
+No for loops (use while instead)
+
+There are also some bugs eg:
+
+Strings cannot include the double quote character even if it is quotes eg:
+"\"" is not a vaild string (it will compile, but it will silently fail when
+passed into M0/hex2. To work around this you must insert the ascii code manually
+into your string (eg with wi8('"') ).
+
+
+Assembly dialect
+================
+
+See also simple_asm_defs.M1 for the definitions off all available "instructions"
+(each "instruction" is actually a short sequence of x86 instructions.
+
+Using copy_string as an example. Note this is only part of the function since
+the M1 code is more verbose:
+
+:FUNCTION_copy_string
+  DEFINE ARG_max F4FFFFFF
+  DEFINE ARG_source F8FFFFFF
+  DEFINE ARG_target FCFFFFFF
+  DEFINE LOCAL_i ECFFFFFF
+  reserve_stack_slot
+  local LOCAL_i push_address
+  constant %0 store
+:WHILE_copy_string_0
+  ( constant %0 push_arg
+    ( ( local ARG_source load push_arg
+        local LOCAL_i load push_arg
+        do_call %FUNCTION_add cleanup_args_bytes %8
+      )
+      push_arg
+      do_call %FUNCTION_ri8 cleanup_args_bytes %4
+    )
+    push_arg
+    do_call %FUNCTION_neq cleanup_args_bytes %8
+  )
+  jump_false %END_WHILE_copy_string_0
+....
+  cleanup_locals_bytes %4 ret
+
+
+This is still standard M1 code, but with different DEFINE values. There are
+about 16 "instructions" defined in simple_asm_defs.M1 . Hopefully the above is
+fairly self descriptive, but just for clarity:
+
+The open paren "(" is used to indicate that we are preparing to call a
+function.
+The close parent ")" indicates we have completelly finished calling a function.
+"local" means load the address of the following local variable (there is also
+"global" for global variable).
+"load" will load a variable into the accumulator
+"push_arg" will push the accumulator onto the stack
+"do_call" will call the function that follows.
+"cleanup_args_bytes" cleans up any stack variables that were allocated for the
+function call.
+"push_address" will push an address onto the stack technically this is no
+different to "push_arg" but a different name is used to distingush between
+operations.
+"constant" will store the following 32 bit value in the accumulator
+"store" will pop an address off the stack and store the accumulator into that
+address.
+"jump_false" relative jump if the accumulator contains false. This is the only
+conditional jump supported. All other comparisons are done via calls to
+"primitives" eg lt for less than etc.
+"cleanup_locals_bytes" is a stack cleanup opcode that pops all the allocated
+local variables off the stack
+"ret" is just the x86 return opcode. Not actually defined in simple_asm_defs.M1
+but actually defined in x86_defs.M1. Should really be migrated.
+"reserve_stack_slot" reserves space for 1 local variable
+
+Note all symbols prefixed with & mean insert the 32 bit absolute address off the
+following symbol. The symbols prefixed with % mean insert the relative 32 bit
+offset of this symbol. % followed by a number is a 32 bit signed integer in base
+10.
+
+The DEFINE token means insert the following symbol when you encounter the first.
+eg:
+
+  DEFINE ARG_max F4FFFFFF
+
+means insert F4FFFFFF whenever you encounter ARG_max. This is how we do
+named local variables. We rely on the fact we can redefine these macro DEFINEs
+in each function to give the frame relative address of each local
+value/argument.
