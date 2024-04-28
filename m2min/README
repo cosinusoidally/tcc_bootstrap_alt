@@ -12,7 +12,7 @@ In the parent directory run:
 ./mk_otccelf
 
 This runs the full tcc bootstrap path, but it also generates some files/tools
-that we depend on.
+that we depend on (temp hack the final version will have its own build script).
 
 Next run:
 
@@ -29,4 +29,4 @@ This can be verified using the following alternative paths:
 ./mk_simple_asm_cc_x86 (builds using cc_x86)
 
 mk_simple_asm_self only depends on the availability of hex2 and M0 (which are
-built by mk_otccelf and deposited in ../x86/bin/)
+built by mk_otccelf and deposited in ../x86/bin/).
