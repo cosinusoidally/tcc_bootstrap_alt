@@ -30,3 +30,23 @@ This can be verified using the following alternative paths:
 
 mk_simple_asm_self only depends on the availability of hex2 and M0 (which are
 built by mk_otccelf and deposited in ../x86/bin/).
+
+Bootstrap path
+==============
+
+Currently incomplete, but the general plan will be:
+
+hex0 -> hex1 -> hex2 -> M0 -> M2_simple_asm.M1 -> otccelf
+M2_simple_asm then is used to build M2_tcc.c (TODO port this to the
+M2_simple_asm dialect).
+M2_tcc build tcc.js and then the standard tcc_bootstrap_alt bootstrap process
+continues from here up tp tcc-0.9.27
+
+otccelf will then be used to build loaders to run the rest of the steps since
+this allows us dynamically link to glibc (which speeds up the bootstrap process
+and allows us to generate binaries that can call into system libraries on a
+stock Linux distro). At a later date I'll probably add the ability to statically
+link to a polyfill libc like ../mk_from_bootstrap_seed can.
+
+Note I originally planned to use otccelf to build tcc.js, but I found that
+otccelf will miscompile it (see ../otccelf/mk_js_to_c_alt).
