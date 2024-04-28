@@ -36,7 +36,7 @@ Bootstrap path
 
 Currently incomplete, but the general plan will be:
 
-hex0 -> hex1 -> hex2 -> M0 -> M2_simple_asm.M1 -> otccelf
+hex0 -> hex1 -> hex2 -> M0 -> M2_simple_asm.M1 -> otccelf (DONE)
 M2_simple_asm then is used to build M2_tcc.c (TODO port this to the
 M2_simple_asm dialect).
 M2_tcc build tcc.js and then the standard tcc_bootstrap_alt bootstrap process
