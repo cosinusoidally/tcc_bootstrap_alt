@@ -18,4 +18,15 @@ Next run:
 
 ./mk_simple_asm_self
 
-in the m2min directory.
+in the m2min directory. This will use M2_simple_asm.M1 to rebuild itself by
+rebuilding M2_simple_asm.c (plus simple_support_m2.c). The resulting binary
+(artifacts/M2_simple_asm_m2.exe) is then used to build a copy of otccelf. The
+bootstrap process builds bit identical copies of M2_simple_asm.M1 and otccelf.
+This can be verified using the following alternative paths:
+
+./mk_simple_asm (builds M2_simple_asm.M1 from M2_simple_asm.c using both tcc
+                 and gcc)
+./mk_simple_asm_cc_x86 (builds using cc_x86)
+
+mk_simple_asm_self only depends on the availability of hex2 and M0 (which are
+built by mk_otccelf and deposited in ../x86/bin/)
