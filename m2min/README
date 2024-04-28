@@ -1,0 +1,21 @@
+Alternative bootstrap path using a heavily cut down version of M2-Planet rather
+than cc_x86. The cut down version of M2-Planet is called M2_simple_asm.c . This
+cut down version supports a very small subset of C (no operators other than =,
+simple expressions only, no structs, enums, etc etc, more complete description
+of this subset further down).
+
+Building:
+========
+
+In the parent directory run:
+
+./mk_otccelf
+
+This runs the full tcc bootstrap path, but it also generates some files/tools
+that we depend on.
+
+Next run:
+
+./mk_simple_asm_self
+
+in the m2min directory.
