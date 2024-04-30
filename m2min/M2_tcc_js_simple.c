@@ -192,8 +192,8 @@ int in_set(int c, int s) {
 }
 
 char* int2str(int x, int base, int signed_p) {
-	unsigned i;
-	char* p;
+	int i;
+	int p;
 	int sign_p;
 	int table;
 	require(lt(1, base), "int2str doesn't support a base less than 2\n");
@@ -209,9 +209,9 @@ char* int2str(int x, int base, int signed_p) {
 	sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && (eq(10, base)) && neq(0, (x & 0x80000000))) {
+	if(and(and(signed_p, (eq(10, base))), neq(0, and(x, 0x80000000)))) {
 		/* Truncate to 31bits */
-		i = -x & 0x7FFFFFFF;
+		i = and(sub(0, x), 0x7FFFFFFF);
 		if(eq(0, i)) {
 			return "-2147483648";
 		}
