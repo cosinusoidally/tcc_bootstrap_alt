@@ -268,7 +268,7 @@ int preserve_string(int c) {
 	frequent = c;
 	escape = FALSE;
 	while(1) {
-		if(!escape && '\\' == c ) {
+		if(and(eq(0, escape), eq('\\', c))) {
 			escape = TRUE;
 		} else {
 			escape = FALSE;
@@ -286,8 +286,7 @@ int preserve_string(int c) {
 void copy_string(char* target, char* source, int max)
 {
 	int i = 0;
-	while(0 != source[i])
-	{
+	while(0 != ri8(add(source,i))) {
 		target[i] = source[i];
 		i = i + 1;
 		if(i == max) break;
