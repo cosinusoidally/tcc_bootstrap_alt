@@ -467,17 +467,16 @@ struct token_list* reverse_list(struct token_list* head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(int a, struct token_list* current, char* filename)
-{
+struct token_list* read_all_tokens(int a, struct token_list* current, char* filename) {
+	int ch;
 	input  = a;
 	line = 1;
 	file = filename;
 	token = current;
-	int ch = grab_byte();
-	while(EOF != ch)
-	{
+	ch = grab_byte();
+	while(neq(EOF, ch)) {
 		ch = get_token(ch);
-		require(NULL != token, "Empty files don't need to be compiled\n");
+		require(neq(NULL, token), "Empty files don't need to be compiled\n");
 	}
 
 	return token;
