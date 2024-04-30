@@ -341,20 +341,16 @@ struct token_list* eat_until_newline(struct token_list* head) {
 	return NULL;
 }
 
-struct token_list* remove_line_comment_tokens(struct token_list* head)
-{
-	struct token_list* first = NULL;
+struct token_list* remove_line_comment_tokens(struct token_list* head) {
+	struct token_list* first;
 
-	while (NULL != head)
-	{
-		if(match("//", head->s))
-		{
+	first = NULL;
+
+	while (neq(NULL, head)) {
+		if(match("//", head->s)) {
 			head = eat_token(head);
-		}
-		else
-		{
-			if(NULL == first)
-			{
+		} else {
+			if(eq(NULL, first)) {
 				first = head;
 			}
 			head = head->next;
@@ -364,20 +360,16 @@ struct token_list* remove_line_comment_tokens(struct token_list* head)
 	return first;
 }
 
-struct token_list* remove_preprocessor_directives(struct token_list* head)
-{
-	struct token_list* first = NULL;
+struct token_list* remove_preprocessor_directives(struct token_list* head) {
+	struct token_list* first;
 
-	while (NULL != head)
-	{
-		if('#' == head->s[0])
-		{
+	first = NULL;
+
+	while (neq(NULL, head)) {
+		if(eq('#', head->s[0])) {
 			head = eat_until_newline(head);
-		}
-		else
-		{
-			if(NULL == first)
-			{
+		} else {
+			if(eq(NULL, first)) {
 				first = head;
 			}
 			head = head->next;
@@ -387,8 +379,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head)
 	return first;
 }
 
-void new_token(char* s, int size)
-{
+void new_token(char* s, int size) {
 	struct token_list* current = calloc(1, sizeof(struct token_list));
 	require(NULL != current, "Exhausted memory while getting token\n");
 
