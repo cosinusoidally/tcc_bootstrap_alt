@@ -483,25 +483,39 @@ struct token_list* read_all_tokens(int a, struct token_list* current, int filena
 
 struct token_list* emit(char *s, struct token_list* head);
 
-int escape_lookup(char* c);
-
 /* Lookup escape values */
-int escape_lookup(char* c)
-{
-	if('\\' != c[0]) return c[0];
+int escape_lookup(int c) {
+	int c1;
+	c1 = ri8(add(c,1));
+	if(neq('\\', ri8(c))) {
+		return ri8(c);
+	}
 
-	if(c[1] == '0') return 0;
-	else if(c[1] == 'a') return 7;
-	else if(c[1] == 'b') return 8;
-	else if(c[1] == 't') return 9;
-	else if(c[1] == 'n') return 10;
-	else if(c[1] == 'v') return 11;
-	else if(c[1] == 'f') return 12;
-	else if(c[1] == 'r') return 13;
-	else if(c[1] == 'e') return 27;
-	else if(c[1] == '"') return 34;
-	else if(c[1] == '\'') return 39;
-	else if(c[1] == '\\') return 92;
+	if(eq(c1, '0')) {
+		return 0;
+	} else if(eq(c1, 'a')) {
+		return 7;
+	} else if(eq(c1, 'b')) {
+		return 8;
+	} else if(eq(c1, 't')) {
+		return 9;
+	} else if(eq(c1, 'n')) {
+		return 10;
+	} else if(eq(c1, 'v')) {
+		return 11;
+	} else if(eq(c1, 'f')) {
+		return 12;
+	} else if(eq(c1, 'r')) {
+		return 13;
+	} else if(eq(c1, 'e')) {
+		return 27;
+	} else if(eq(c1, '"')) {
+		return 34;
+	} else if(eq(c1, '\'')) {
+		return 39;
+	} else if(eq(c1, '\\')) {
+		return 92;
+	}
 
 	fputs("Unknown escape received: ", stderr);
 	fputs(c, stderr);
@@ -729,7 +743,6 @@ int Address_of;
 
 /* Imported functions */
 char* parse_string(char* string);
-int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
