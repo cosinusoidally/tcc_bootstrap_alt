@@ -221,11 +221,14 @@ int int2str(int x, int base, int signed_p) {
 		i = and(x, or(0x7FFFFFFF, shl(1, 31)));
 	}
 
-	do {
+	while(1) {
 		wi8(p, ri8(add(table,  mod(i, base))));
 		p = sub(p, 1);
 		i = div(i, base);
-	} while(0 < i);
+		if(gte(0, i)) {
+			break;
+		}
+	}
 
 	if(neq(0, sign_p)) {
 		wi8(p, '-');
