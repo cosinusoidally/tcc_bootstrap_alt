@@ -146,9 +146,8 @@ struct conditional_inclusion* conditional_inclusion_top;
 struct token_list* macro_token;
 
 
-int require(int bool, char* error) {
-	if(!bool)
-	{
+int require(int bool, int error) {
+	if(eq(0, bool)) {
 		fputs(error, stderr);
 		exit(EXIT_FAILURE);
 	}
