@@ -379,7 +379,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head) {
 	return first;
 }
 
-void new_token(char* s, int size) {
+int new_token(int s, int size) {
 	struct token_list* current;
 
 	current = calloc(1, sizeof(struct token_list));
@@ -397,48 +397,35 @@ void new_token(char* s, int size) {
 	token = current;
 }
 
-int get_token(int c)
-{
-	struct token_list* current = calloc(1, sizeof(struct token_list));
-	require(NULL != current, "Exhausted memory while getting token\n");
+int get_token(int c) {
+	struct token_list* current;
+
+	current = calloc(1, sizeof(struct token_list));
+	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
 reset:
 	reset_hold_string();
 	string_index = 0;
 
 	c = clearWhiteSpace(c);
-	if(c == EOF)
-	{
+	if(eq(c, EOF)) {
 		free(current);
 		return c;
-	}
-	else if('#' == c)
-	{
+	} else if('#' == c) {
 		c = consume_byte(c);
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	}
-	else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))
-	{
+	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	}
-	else if(in_set(c, "<=>|&!^%"))
-	{
+	} else if(in_set(c, "<=>|&!^%")) {
 		c = preserve_keyword(c, "<=>|&!^%");
-	}
-	else if(in_set(c, "'\""))
-	{
+	} else if(in_set(c, "'\"")) {
 		c = preserve_string(c);
-	}
-	else if(c == '/')
-	{
+	} else if(c == '/') {
 		c = consume_byte(c);
-		if(c == '*')
-		{
+		if(c == '*') {
 			c = grab_byte();
-			while(c != '/')
-			{
-				while(c != '*')
-				{
+			while(c != '/') {
+				while(c != '*') {
 					c = grab_byte();
 					require(EOF != c, "Hit EOF inside of block comment\n");
 				}
@@ -447,30 +434,18 @@ reset:
 			}
 			c = grab_byte();
 			goto reset;
-		}
-		else if(c == '/')
-		{
+		} else if(c == '/') {
 			c = consume_byte(c);
 		}
-	}
-	else if (c == '\n')
-	{
+	} else if (c == '\n') {
 		c = consume_byte(c);
-	}
-	else if(c == '*')
-	{
+	} else if(c == '*') {
 		c = consume_byte(c);
-	}
-	else if(c == '+')
-	{
+	} else if(c == '+') {
 		c = consume_byte(c);
-	}
-	else if(c == '-')
-	{
+	} else if(c == '-') {
 		c = consume_byte(c);
-	}
-	else
-	{
+	} else {
 		c = consume_byte(c);
 	}
 
