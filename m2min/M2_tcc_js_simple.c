@@ -261,17 +261,24 @@ int consume_byte(int c) {
 	return grab_byte();
 }
 
-int preserve_string(int c)
-{
-	int frequent = c;
-	int escape = FALSE;
-	do
-	{
-		if(!escape && '\\' == c ) escape = TRUE;
-		else escape = FALSE;
+int preserve_string(int c) {
+	int frequent;
+	int escape;
+
+	frequent = c;
+	escape = FALSE;
+	while(1) {
+		if(!escape && '\\' == c ) {
+			escape = TRUE;
+		} else {
+			escape = FALSE;
+		}
 		c = consume_byte(c);
-		require(EOF != c, "Unterminated string\n");
-	} while(escape || (c != frequent));
+		require(neq(EOF, c), "Unterminated string\n");
+		if(eq(0, or(escape, neq(c, frequent)))) {
+			break;
+		}
+	}
 	return grab_byte();
 }
 
