@@ -195,13 +195,13 @@ char* int2str(int x, int base, int signed_p) {
 	unsigned i;
 	char* p;
 	int sign_p;
-	char* table;
-	require(1 < base, "int2str doesn't support a base less than 2\n");
-	require(37 > base, "int2str doesn't support a base more than 36\n");
+	int table;
+	require(lt(1, base), "int2str doesn't support a base less than 2\n");
+	require(gt(37, base), "int2str doesn't support a base more than 36\n");
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
-	if(NULL == p) {
+	if(eq(NULL, p)) {
 		return p;
 	}
 
@@ -218,7 +218,7 @@ char* int2str(int x, int base, int signed_p) {
 	else i = x & (0x7FFFFFFF | (1 << 31));
 
 	do {
-		p[0] = table[i % base];
+		p[0] = ri8(add(table,  mod(i, base)));
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
