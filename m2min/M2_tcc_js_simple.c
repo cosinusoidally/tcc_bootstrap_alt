@@ -238,8 +238,8 @@ int int2str(int x, int base, int signed_p) {
 int grab_byte() {
 	int c;
 	c = fgetc(input);
-	if(10 == c) {
-		line = line + 1;
+	if(eq(10, c)) {
+		line = add(line, 1);
 	}
 	return c;
 }
