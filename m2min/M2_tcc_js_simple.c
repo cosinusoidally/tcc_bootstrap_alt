@@ -380,12 +380,14 @@ struct token_list* remove_preprocessor_directives(struct token_list* head) {
 }
 
 void new_token(char* s, int size) {
-	struct token_list* current = calloc(1, sizeof(struct token_list));
-	require(NULL != current, "Exhausted memory while getting token\n");
+	struct token_list* current;
+
+	current = calloc(1, sizeof(struct token_list));
+	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
 	/* More efficiently allocate memory for string */
 	current->s = calloc(size, sizeof(char));
-	require(NULL != current->s, "Exhausted memory while trying to copy a token\n");
+	require(neq(NULL, current->s), "Exhausted memory while trying to copy a token\n");
 	copy_string(current->s, s, MAX_STRING);
 
 	current->prev = token;
