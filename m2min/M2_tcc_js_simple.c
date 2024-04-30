@@ -37,8 +37,6 @@ int EOF;
 /* init support code */
 int init_support();
 
-void reset_hold_string();
-
 struct type
 {
 	struct type* next;
@@ -302,13 +300,17 @@ int preserve_keyword(int c, int S) {
 	return c;
 }
 
-void reset_hold_string()
-{
-	int i = MAX_STRING;
-	while(0 <= i)
-	{
-		hold_string[i] = 0;
-		i = i - 1;
+int reset_hold_string() {
+	int i;
+	int o;
+	i = 0;
+	while(lt(i, MAX_STRING)) {
+		o = add(hold_string, i);
+		if(eq(ri8(o), 0)) {
+			break;
+		}
+		wi8(o, 0);
+		i = add(i, 1);
 	}
 	string_index = 0;
 }
