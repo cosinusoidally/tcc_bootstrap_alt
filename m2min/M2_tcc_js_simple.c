@@ -31,8 +31,6 @@
 #define FALSE 0
 #define TRUE 1
 
-#define X86 3
-
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
 int match(char* a, char* b);
@@ -104,7 +102,6 @@ char* hold_string;
 int string_index;
 
 /* Our Target Architecture */
-int Architecture;
 int register_size;
 
 int MAX_STRING;
@@ -2154,7 +2151,6 @@ int main(int argc, char** argv)
 	BOOTSTRAP_MODE = TRUE;
 	FILE* in;
 	FILE* destination_file;
-	Architecture = X86;
 	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
 	char* name;
 	char* hold;
