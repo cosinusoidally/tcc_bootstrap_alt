@@ -288,7 +288,7 @@ void copy_string(char* target, char* source, int max)
 	int i;
 	i = 0;
 	while(neq(0, ri8(add(source,i)))) {
-		target[i] = source[i];
+		wi8(add(target, i), ri8(add(source, i)));
 		i = add(i, 1);
 		if(eq(i, max)) {
 			break;
