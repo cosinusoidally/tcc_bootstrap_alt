@@ -23,13 +23,19 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "gcc_req.h"
 
-#define FALSE 0
-#define TRUE 1
+int FALSE;
+int TRUE;
+int NULL;
+
+int EXIT_SUCCESS;
+int EXIT_FAILURE;
+
+int EOF;
+
+/* init support code */
+int init_support();
 
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
@@ -73,7 +79,7 @@ struct token_list
 
 /* The core functions */
 void initialize_types();
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename);
+struct token_list* read_all_tokens(int a, struct token_list* current, char* filename);
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* remove_line_comment_tokens(struct token_list* head);
@@ -82,7 +88,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head);
 void eat_newline_tokens();
 void preprocess();
 void program();
-void recursive_output(struct token_list* i, FILE* out);
+void recursive_output(struct token_list* i, int out);
 
 /* What types we have */
 struct type* global_types;
@@ -112,7 +118,7 @@ int BOOTSTRAP_MODE;
 
 
 /* Globals */
-FILE* input;
+int input;
 struct token_list* token;
 int line;
 char* file;
@@ -142,8 +148,7 @@ struct conditional_inclusion* conditional_inclusion_top;
 struct token_list* macro_token;
 
 
-void require(int bool, char* error)
-{
+void require(int bool, char* error) {
 	if(!bool)
 	{
 		fputs(error, stderr);
@@ -152,8 +157,7 @@ void require(int bool, char* error)
 }
 
 
-int match(char* a, char* b)
-{
+int match(char* a, char* b) {
 	if((NULL == a) && (NULL == b)) return TRUE;
 	if(NULL == a) return FALSE;
 	if(NULL == b) return FALSE;
@@ -223,16 +227,19 @@ char* int2str(int x, int base, int signed_p)
 	return p + 1;
 }
 
-int grab_byte()
-{
-	int c = fgetc(input);
-	if(10 == c) line = line + 1;
+int grab_byte() {
+	int c;
+	c = fgetc(input);
+	if(10 == c) {
+		line = line + 1;
+	}
 	return c;
 }
 
-int clearWhiteSpace(int c)
-{
-	if((32 == c) || (9 == c)) return clearWhiteSpace(grab_byte());
+int clearWhiteSpace(int c) {
+	if((32 == c) || (9 == c)) {
+		return clearWhiteSpace(grab_byte());
+	}
 	return c;
 }
 
@@ -482,7 +489,7 @@ struct token_list* reverse_list(struct token_list* head)
 	return root;
 }
 
-struct token_list* read_all_tokens(FILE* a, struct token_list* current, char* filename)
+struct token_list* read_all_tokens(int a, struct token_list* current, char* filename)
 {
 	input  = a;
 	line = 1;
@@ -2092,7 +2099,7 @@ new_type:
 	exit(EXIT_FAILURE);
 }
 
-void recursive_output(struct token_list* head, FILE* out)
+void recursive_output(struct token_list* head, int out)
 {
 	struct token_list* i = reverse_list(head);
 	while(NULL != i)
@@ -2133,14 +2140,29 @@ void eat_newline_tokens()
 	}
 }
 
+int initialize_globals() {
+        NULL = 0;
+        register_size = 4;
+        FALSE = 0;
+        TRUE = 1;
+        MAX_STRING = 4096;
+
+        EXIT_SUCCESS = 0;
+        EXIT_FAILURE = 1;
+
+        EOF = sub(0, 1);
+}
+
 int main(int argc, char** argv)
 {
 	char* name;
 	char* hold;
 	char* val;
 	int i;
-	FILE* in;
-	FILE* destination_file;
+	int in;
+	int destination_file;
+
+        initialize_globals();
 
 	MAX_STRING = 4096;
 	BOOTSTRAP_MODE = TRUE;
