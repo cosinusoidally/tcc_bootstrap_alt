@@ -2028,10 +2028,11 @@ void global_constant()
  */
 void program()
 {
-	unsigned i;
+	int i;
+	struct type* type_size;
+
 	function = NULL;
 	Address_of = FALSE;
-	struct type* type_size;
 
 new_type:
 	/* Deal with garbage input */
