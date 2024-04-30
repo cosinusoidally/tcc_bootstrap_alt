@@ -2136,7 +2136,6 @@ int main(int argc, char** argv)
 {
 	char* name;
 	char* hold;
-	int env;
 	char* val;
 	int i;
 	FILE* in;
@@ -2145,7 +2144,6 @@ int main(int argc, char** argv)
 	MAX_STRING = 4096;
 	BOOTSTRAP_MODE = TRUE;
 
-	env = 0;
 	i = 1;
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
