@@ -316,16 +316,13 @@ int reset_hold_string() {
 }
 
 /* note if this is the first token in the list, head needs fixing up */
-struct token_list* eat_token(struct token_list* token)
-{
-	if(NULL != token->prev)
-	{
+struct token_list* eat_token(struct token_list* token) {
+	if(neq(NULL, token->prev)) {
 		token->prev->next = token->next;
 	}
 
 	/* update backlinks */
-	if(NULL != token->next)
-	{
+	if(neq(NULL, token->next)) {
 		token->next->prev = token->prev;
 	}
 
