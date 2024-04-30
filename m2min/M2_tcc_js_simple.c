@@ -252,9 +252,9 @@ int clearWhiteSpace(int c) {
 }
 
 int consume_byte(int c) {
-	hold_string[string_index] = c;
+	wi8(add(hold_string, string_index), c);
 	string_index = add(string_index, 1);
-	require(MAX_STRING > string_index, "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
+	require(gt(MAX_STRING, string_index), "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
 	return grab_byte();
 }
 
