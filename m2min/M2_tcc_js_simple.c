@@ -453,12 +453,12 @@ reset:
 	return c;
 }
 
-struct token_list* reverse_list(struct token_list* head)
-{
-	struct token_list* root = NULL;
+struct token_list* reverse_list(struct token_list* head) {
+	struct token_list* root;
 	struct token_list* next;
-	while(NULL != head)
-	{
+
+	root = NULL;
+	while(neq(NULL, head)) {
 		next = head->next;
 		head->next = root;
 		root = head;
