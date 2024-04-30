@@ -2147,17 +2147,19 @@ void eat_newline_tokens()
 
 int main(int argc, char** argv)
 {
-	MAX_STRING = 4096;
-	BOOTSTRAP_MODE = TRUE;
-	FILE* in;
-	FILE* destination_file;
-	init_macro_env("__M2__", "42", "__INTERNAL_M2__", 0); /* Setup __M2__ */
 	char* name;
 	char* hold;
-	int env=0;
+	int env;
 	char* val;
+	int i;
+	FILE* in;
+	FILE* destination_file;
 
-	int i = 1;
+	MAX_STRING = 4096;
+	BOOTSTRAP_MODE = TRUE;
+
+	env = 0;
+	i = 1;
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
 
 	name = argv[i];
@@ -2169,9 +2171,6 @@ int main(int argc, char** argv)
 
 	destination_file = fopen(argv[i], "w");
 	i = i + 1;
-
-	init_macro_env("__i386__", "1", "--architecture", env);
-	env = env + 1;
 
 	global_token = reverse_list(global_token);
 
