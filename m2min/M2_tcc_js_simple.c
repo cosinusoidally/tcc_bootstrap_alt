@@ -80,7 +80,6 @@ struct token_list* remove_line_comment_tokens(struct token_list* head);
 struct token_list* remove_preprocessor_directives(struct token_list* head);
 
 void eat_newline_tokens();
-void init_macro_env(char* sym, char* value, char* source, int num);
 void preprocess();
 void program();
 void recursive_output(struct token_list* i, FILE* out);
@@ -2100,18 +2099,6 @@ void recursive_output(struct token_list* head, FILE* out)
 		fputs(i->s, out);
 		i = i->next;
 	}
-}
-
-void init_macro_env(char* sym, char* value, char* source, int num)
-{
-	struct macro_list* hold = macro_env;
-	macro_env = calloc(1, sizeof(struct macro_list));
-	macro_env->symbol = sym;
-	macro_env->next = hold;
-	macro_env->expansion = calloc(1, sizeof(struct token_list));
-	macro_env->expansion->s = value;
-	macro_env->expansion->filename = source;
-	macro_env->expansion->linenumber = num;
 }
 
 void eat_current_token()
