@@ -427,29 +427,29 @@ reset:
 			while(neq(c, '/')) {
 				while(neq(c, '*')) {
 					c = grab_byte();
-					require(EOF != c, "Hit EOF inside of block comment\n");
+					require(neq(EOF, c), "Hit EOF inside of block comment\n");
 				}
 				c = grab_byte();
-				require(EOF != c, "Hit EOF inside of block comment\n");
+				require(neq(EOF, c), "Hit EOF inside of block comment\n");
 			}
 			c = grab_byte();
 			goto reset;
-		} else if(c == '/') {
+		} else if(eq(c, '/')) {
 			c = consume_byte(c);
 		}
-	} else if (c == '\n') {
+	} else if (eq(c, '\n')) {
 		c = consume_byte(c);
-	} else if(c == '*') {
+	} else if(eq(c, '*')) {
 		c = consume_byte(c);
-	} else if(c == '+') {
+	} else if(eq(c, '+')) {
 		c = consume_byte(c);
-	} else if(c == '-') {
+	} else if(eq(c, '-')) {
 		c = consume_byte(c);
 	} else {
 		c = consume_byte(c);
 	}
 
-	new_token(hold_string, string_index + 2);
+	new_token(hold_string, add(string_index, 2));
 	return c;
 }
 
