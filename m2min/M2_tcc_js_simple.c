@@ -411,7 +411,7 @@ reset:
 	if(eq(c, EOF)) {
 		free(current);
 		return c;
-	} else if('#' == c) {
+	} else if(eq('#', c)) {
 		c = consume_byte(c);
 		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
 	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
@@ -420,12 +420,12 @@ reset:
 		c = preserve_keyword(c, "<=>|&!^%");
 	} else if(in_set(c, "'\"")) {
 		c = preserve_string(c);
-	} else if(c == '/') {
+	} else if(eq(c, '/')) {
 		c = consume_byte(c);
-		if(c == '*') {
+		if(eq(c, '*')) {
 			c = grab_byte();
-			while(c != '/') {
-				while(c != '*') {
+			while(neq(c, '/')) {
+				while(neq(c, '*')) {
 					c = grab_byte();
 					require(EOF != c, "Hit EOF inside of block comment\n");
 				}
