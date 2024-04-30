@@ -205,20 +205,22 @@ char* int2str(int x, int base, int signed_p) {
 		return p;
 	}
 
-	p = p + 32;
+	p = add(p, 32);
 	sign_p = FALSE;
 	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-	if(signed_p && (10 == base) && (0 != (x & 0x80000000))) {
+	if(signed_p && (eq(10, base)) && neq(0, (x & 0x80000000))) {
 		/* Truncate to 31bits */
 		i = -x & 0x7FFFFFFF;
-		if(0 == i) return "-2147483648";
+		if(eq(0, i)) {
+			return "-2147483648";
+		}
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
 	else i = x & (0x7FFFFFFF | (1 << 31));
 
 	do {
-		p[0] = ri8(add(table,  mod(i, base)));
+		wi8(p, ri8(add(table,  mod(i, base))));
 		p = p - 1;
 		i = i / base;
 	} while(0 < i);
@@ -228,7 +230,7 @@ char* int2str(int x, int base, int signed_p) {
 		p = sub(p, 1);
 	}
 
-	return p + 1;
+	return add(p, 1);
 }
 
 int grab_byte() {
