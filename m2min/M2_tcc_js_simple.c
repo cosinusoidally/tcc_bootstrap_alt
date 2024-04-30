@@ -38,8 +38,6 @@ int EOF;
 int init_support();
 
 void copy_string(char* target, char* source, int max);
-int in_set(int c, char* s);
-int match(char* a, char* b);
 void reset_hold_string();
 
 struct type
@@ -153,36 +151,44 @@ int require(int bool, int error) {
 	}
 }
 
+int match(int a, int b) {
+        int i;
+        if(and(eq(NULL, a), eq(NULL, b))) {
+                return TRUE;
+        }
+        if(eq(NULL, a)) {
+                return FALSE;
+        }
+        if(eq(NULL, b)) {
+                return FALSE;
+        }
 
-int match(char* a, char* b) {
-	if((NULL == a) && (NULL == b)) return TRUE;
-	if(NULL == a) return FALSE;
-	if(NULL == b) return FALSE;
-
-	int i = -1;
-	do
-	{
-		i = i + 1;
-		if(a[i] != b[i])
-		{
-			return FALSE;
-		}
-	} while((0 != a[i]) && (0 !=b[i]));
-	return TRUE;
+        i = sub(0, 1);
+        while(1) {
+                i = add(i, 1);
+                if(neq(ri8(add(a, i)), ri8(add(b, i)))) {
+                        return FALSE;
+                }
+                if(eq(0,and(neq(0, ri8(add(a,i))), neq(0, ri8(add(b, i)))))){
+                        break;
+                }
+        }
+        return TRUE;
 }
 
+int in_set(int c, int s) {
+        /* NULL set is always false */
+        if(eq(NULL, s)) {
+                return FALSE;
+        }
 
-int in_set(int c, char* s)
-{
-	/* NULL set is always false */
-	if(NULL == s) return FALSE;
-
-	while(0 != s[0])
-	{
-		if(c == s[0]) return TRUE;
-		s = s + 1;
-	}
-	return FALSE;
+        while(neq(0, ri8(s))) {
+                if(eq(c, ri8(s))) {
+                        return TRUE;
+                }
+                s = add(s, 1);
+        }
+        return FALSE;
 }
 
 char* int2str(int x, int base, int signed_p)
