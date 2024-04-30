@@ -73,7 +73,6 @@ struct token_list
 
 /* The core functions */
 void initialize_types();
-struct token_list* read_all_tokens(int a, struct token_list* current, char* filename);
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* remove_line_comment_tokens(struct token_list* head);
@@ -467,7 +466,7 @@ struct token_list* reverse_list(struct token_list* head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(int a, struct token_list* current, char* filename) {
+struct token_list* read_all_tokens(int a, struct token_list* current, int filename) {
 	int ch;
 	input  = a;
 	line = 1;
