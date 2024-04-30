@@ -329,16 +329,11 @@ struct token_list* eat_token(struct token_list* token) {
 	return token->next;
 }
 
-struct token_list* eat_until_newline(struct token_list* head)
-{
-	while (NULL != head)
-	{
-		if('\n' == head->s[0])
-		{
+struct token_list* eat_until_newline(struct token_list* head) {
+	while (neq(NULL, head)) {
+		if(eq('\n', head->s[0])) {
 			return head;
-		}
-		else
-		{
+		} else {
 			head = eat_token(head);
 		}
 	}
