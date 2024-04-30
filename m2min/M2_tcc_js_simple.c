@@ -37,7 +37,6 @@ int EOF;
 /* init support code */
 int init_support();
 
-void copy_string(char* target, char* source, int max);
 void reset_hold_string();
 
 struct type
@@ -283,7 +282,7 @@ int preserve_string(int c) {
 }
 
 
-void copy_string(char* target, char* source, int max)
+int copy_string(int target, int source, int max)
 {
 	int i;
 	i = 0;
