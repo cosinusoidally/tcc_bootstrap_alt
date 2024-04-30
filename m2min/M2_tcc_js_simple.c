@@ -285,11 +285,14 @@ int preserve_string(int c) {
 
 void copy_string(char* target, char* source, int max)
 {
-	int i = 0;
-	while(0 != ri8(add(source,i))) {
+	int i;
+	i = 0;
+	while(neq(0, ri8(add(source,i)))) {
 		target[i] = source[i];
-		i = i + 1;
-		if(i == max) break;
+		i = add(i, 1);
+		if(eq(i, max)) {
+			break;
+		}
 	}
 }
 
