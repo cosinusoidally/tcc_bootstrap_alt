@@ -191,7 +191,7 @@ int in_set(int c, int s) {
         return FALSE;
 }
 
-char* int2str(int x, int base, int signed_p) {
+int int2str(int x, int base, int signed_p) {
 	int i;
 	int p;
 	int sign_p;
@@ -760,7 +760,6 @@ int current_count;
 int Address_of;
 
 /* Imported functions */
-char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
 struct token_list* reverse_list(struct token_list* head);
