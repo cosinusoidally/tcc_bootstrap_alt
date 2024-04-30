@@ -245,16 +245,15 @@ int grab_byte() {
 }
 
 int clearWhiteSpace(int c) {
-	if((32 == c) || (9 == c)) {
+	if(or(eq(32, c), eq(9, c))) {
 		return clearWhiteSpace(grab_byte());
 	}
 	return c;
 }
 
-int consume_byte(int c)
-{
+int consume_byte(int c) {
 	hold_string[string_index] = c;
-	string_index = string_index + 1;
+	string_index = add(string_index, 1);
 	require(MAX_STRING > string_index, "Token exceeded MAX_STRING char limit\nuse --max-string number to increase\n");
 	return grab_byte();
 }
