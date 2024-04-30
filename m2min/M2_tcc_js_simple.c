@@ -295,10 +295,8 @@ int copy_string(int target, int source, int max)
 	}
 }
 
-int preserve_keyword(int c, char* S)
-{
-	while(in_set(c, S))
-	{
+int preserve_keyword(int c, int S) {
+	while(in_set(c, S)) {
 		c = consume_byte(c);
 	}
 	return c;
