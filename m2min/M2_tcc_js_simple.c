@@ -40,7 +40,6 @@ int init_support();
 void copy_string(char* target, char* source, int max);
 int in_set(int c, char* s);
 int match(char* a, char* b);
-void require(int bool, char* error);
 void reset_hold_string();
 
 struct type
@@ -123,7 +122,6 @@ struct token_list* token;
 int line;
 char* file;
 
-void require(int bool, char* error);
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
@@ -148,7 +146,7 @@ struct conditional_inclusion* conditional_inclusion_top;
 struct token_list* macro_token;
 
 
-void require(int bool, char* error) {
+int require(int bool, char* error) {
 	if(!bool)
 	{
 		fputs(error, stderr);
@@ -506,7 +504,6 @@ struct token_list* read_all_tokens(int a, struct token_list* current, char* file
 }
 
 struct token_list* emit(char *s, struct token_list* head);
-void require(int bool, char* error);
 
 int escape_lookup(char* c);
 
@@ -574,7 +571,6 @@ char* parse_string(char* string)
 
 /* Imported functions */
 void line_error();
-void require(int bool, char* error);
 
 /* enable easy primitive extension */
 struct type* add_primitive(struct type* a)
@@ -710,7 +706,6 @@ struct type* lookup_type(char* s, struct type* start)
 }
 
 struct type* type_name();
-void require_match(char* message, char* required);
 
 int member_size;
 
@@ -758,7 +753,6 @@ int Address_of;
 char* int2str(int x, int base, int signed_p);
 char* parse_string(char* string);
 int escape_lookup(char* c);
-void require(int bool, char* error);
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
