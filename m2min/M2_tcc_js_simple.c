@@ -217,12 +217,14 @@ char* int2str(int x, int base, int signed_p) {
 		}
 		sign_p = TRUE;
 	} /* Truncate to 32bits */
-	else i = x & (0x7FFFFFFF | (1 << 31));
+	else {
+		i = and(x, or(0x7FFFFFFF, shl(1, 31)));
+	}
 
 	do {
 		wi8(p, ri8(add(table,  mod(i, base))));
-		p = p - 1;
-		i = i / base;
+		p = sub(p, 1);
+		i = div(i, base);
 	} while(0 < i);
 
 	if(neq(0, sign_p)) {
