@@ -1757,7 +1757,6 @@ Missing ;
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->PREV->S
 	LOADI32_ECX &expression_string_0            ; Use "mov_[ebx],eax\n"
 
-:expression_common
 	LOADI32_EAX &expression                     ; Passing expression
 	CALL32 %common_recursion                    ; Recurse
 	COPY_ECX_to_EAX                             ; Using Store
