@@ -1073,10 +1073,8 @@ NULL
 	;; Second chance
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &struct                         ; "struct"
-	CALL32 %match                               ; IF global_token->S == "struct"
-	CMPI8_EAX !0                                ; then we are a local
-	JNE32 %statement_if                         ; otherwise try IF
+
+	JMP32 %statement_if                         ; otherwise try IF
 
 :statement_local_success
 	CALL32 %collect_local                       ; Grab those locals
