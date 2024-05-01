@@ -1124,20 +1124,10 @@ NULL
 	LOADI32_EAX &while_string                   ; Using "while"
 	CALL32 %match                               ; IF global_token->S == "while"
 	CMPI8_EAX !0                                ; then we have a while statement
-	JNE32 %statement_for                        ; otherwise try FOR
+	JNE32 %statement_asm                        ; otherwise try FOR
 
 	;; Deal with WHILE statement
 	CALL32 %process_while                       ; DO IT
-	JMP32 %statement_done                       ; be done
-
-:statement_for
-	LOADI32_EAX &for_string                     ; Using "for"
-	CALL32 %match                               ; IF global_token->S == "for"
-	CMPI8_EAX !0                                ; then we have a for statement
-	JNE32 %statement_asm                        ; otherwise try ASM
-
-	;; Deal with FOR statement
-	CALL32 %process_for                         ; DO IT
 	JMP32 %statement_done                       ; be done
 
 :statement_asm
