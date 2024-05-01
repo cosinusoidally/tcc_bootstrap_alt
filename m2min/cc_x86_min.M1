@@ -4516,7 +4516,6 @@ Missing ;
 :while_string  "while"
 :for_string  "for"
 :asm_string  "asm"
-:goto_string  "goto"
 :return_string  "return"
 :break_string  "break"
 :continue_string  "continue"
