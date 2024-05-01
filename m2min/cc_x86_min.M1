@@ -2462,19 +2462,6 @@ mov_eax,[eax]
 
 	LOADI32_EAX %13                             ; Guess "\r"
 	CMPI8_EBX !114                              ; IF r
-	JE32 %escape_lookup_done                    ; Be done
-
-	;; Looks like we have no clue what we are doing
-	;; Aborting hard
-	LOADI32_EAX %2                              ; Using Standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	LOADI32_EAX &escape_lookup_string_0         ; Using "Unknown escape received: "
-	CALL32 %File_Print                          ; Print it
-	COPY_ECX_to_EAX                             ; Using C
-	CALL32 %File_Print                          ; Print it
-	LOADI32_EAX &escape_lookup_string_1         ; Using " Unable to process\n"
-	CALL32 %File_Print                          ; Print it
-	JMP32 %Exit_Failure                         ; Abort Hard
 
 :escape_lookup_done
 	POP_ECX                                     ; Restore ECX
