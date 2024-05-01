@@ -1224,9 +1224,7 @@ NULL
 	LOADI32_EAX &collect_local_string_1         ; Using "\n"
 	CALL32 %emit_out                            ; emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
 
 	LOAD32_EBX_from_EAX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &equal                          ; Using "="
@@ -1235,9 +1233,7 @@ NULL
 	JNE32 %collect_local_done                   ; Otherwise finish it
 
 	;; Deal with assignment
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
 
 	CALL32 %expression                          ; Recurse
 
