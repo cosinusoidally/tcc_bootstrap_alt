@@ -3282,7 +3282,7 @@ mov_eax,[eax]
 :type_function_name  "FUNCTION"
 
 :type_unsigned
-	&type_long                                  ; NEXT
+	%0                                          ; NEXT
 	%4                                          ; SIZE
 	%0                                          ; OFFSET
 	&type_unsigned                              ; INDIRECT
@@ -3290,16 +3290,6 @@ mov_eax,[eax]
 	&type_unsigned                              ; TYPE
 	&type_unsigned_name                         ; NAME
 :type_unsigned_name  "unsigned"
-
-:type_long
-	%0                                          ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_long                                  ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_long                                  ; TYPE
-	&type_long_name                             ; NAME
-:type_long_name  "long"
 
 ;; debug_list function
 ;; Receives struct token_list* in EAX
