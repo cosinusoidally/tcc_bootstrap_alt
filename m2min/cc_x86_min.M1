@@ -1104,20 +1104,10 @@ NULL
 	LOADI32_EAX &if_string                      ; Using "if"
 	CALL32 %match                               ; IF global_token->S == "if"
 	CMPI8_EAX !0                                ; then we have an if statement
-	JNE32 %statement_do                         ; otherwise try DO
+	JNE32 %statement_while                         ; otherwise try DO
 
 	;; Deal with IF statement
 	CALL32 %process_if                          ; DO IT
-	JMP32 %statement_done                       ; be done
-
-:statement_do
-	LOADI32_EAX &do_string                      ; Using "do"
-	CALL32 %match                               ; IF global_token->S == "do"
-	CMPI8_EAX !0                                ; then we have a do statement
-	JNE32 %statement_while                      ; otherwise try WHILE
-
-	;; Deal with DO statement
-	CALL32 %process_do                          ; DO IT
 	JMP32 %statement_done                       ; be done
 
 :statement_while
