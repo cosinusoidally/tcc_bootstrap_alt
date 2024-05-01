@@ -111,7 +111,6 @@ struct token_list* token;
 int line;
 char* file;
 
-void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
 /* point where we are currently modifying the global_token list */
@@ -758,10 +757,8 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-void line_error_token(struct token_list *token)
-{
-	if(NULL == token)
-	{
+int line_error_token(struct token_list *token) {
+	if(eq(NULL, token)) {
 		fputs("EOF reached inside of line_error\n", stderr);
 		fputs("problem at end of file\n", stderr);
 		return;
@@ -772,8 +769,7 @@ void line_error_token(struct token_list *token)
 	fputs(":", stderr);
 }
 
-void line_error()
-{
+int line_error() {
 	line_error_token(global_token);
 }
 
