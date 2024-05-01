@@ -2854,20 +2854,9 @@ mov_eax,[eax]
 :newline  "\n"
 :underline  "_"
 
-
 :prim_types
-:type_void
-	&type_int                                   ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_void                                  ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_void                                  ; TYPE
-	&type_void_name                             ; NAME
-:type_void_name  "void"
-
 :type_int
-	&type_char                                  ; NEXT
+	&type_function                              ; NEXT
 	%4                                          ; SIZE
 	%0                                          ; OFFSET
 	&type_int                                   ; INDIRECT
@@ -2875,16 +2864,6 @@ mov_eax,[eax]
 	&type_int                                   ; TYPE
 	&type_int_name                              ; NAME
 :type_int_name  "int"
-
-:type_char
-	&type_function                              ; NEXT
-	%1                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_char                                  ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_char                                  ; TYPE
-	&type_char_name                             ; NAME
-:type_char_name  "char"
 
 :type_function
 	%0                                          ; NEXT
