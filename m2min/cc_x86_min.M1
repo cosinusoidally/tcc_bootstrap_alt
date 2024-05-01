@@ -517,23 +517,15 @@ DEFINE SWAP_EAX_EBX 93
 :preserve_keyword_loop
 	CALL32 %In_Set                              ; Check if alphanumerics
 	CMPI8_EAX !1                                ; IF TRUE
-	JNE32 %preserve_keyword_label               ; Otherwise check for label
+	JNE32 %preserve_keyword_done                ; Otherwise done
 
 	COPY_ECX_to_EAX                             ; Pass C
 	CALL32 %consume_byte                        ; consume that byte
 	COPY_EAX_to_ECX                             ; Update C
 	JMP32 %preserve_keyword_loop                ; keep looping
 
-:preserve_keyword_label
-	COPY_ECX_to_EAX                             ; Fix return
-	CMPI8_EAX !58                               ; Check for ':'
-	JNE32 %preserve_keyword_done                ; be done
-
-	;; Fix our goto label
-	CALL32 %fixup_label                         ; Fix the label
-	LOADI32_EAX %32                             ; Return Whitespace
-
 :preserve_keyword_done
+	COPY_ECX_to_EAX                             ; Fix return
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
