@@ -1637,7 +1637,7 @@ je %END_WHILE_"
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->PREV->S
 	LOADI32_ECX &expression_string_0            ; Use "mov_[ebx],eax\n"
 
-	LOADI32_EAX &common_recursion_string_0      ; Using "push_eax\t#_common_recursion\n"
+	LOADI32_EAX &expression_string_1            ; Using "push_eax\t#_common_recursion\n"
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
@@ -1645,7 +1645,7 @@ je %END_WHILE_"
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
 	CALL32 %expression                          ; expression();
-	LOADI32_EAX &common_recursion_string_1      ; Using "pop_ebx\t# _common_recursion\n"
+	LOADI32_EAX &expression_string_2            ; Using "pop_ebx\t# _common_recursion\n"
 	CALL32 %emit_out                            ; Emit it
 	COPY_ECX_to_EAX                             ; Using Store
 	CALL32 %emit_out                            ; Emit it
@@ -1657,9 +1657,9 @@ je %END_WHILE_"
 
 :expression_string_0  "mov_[ebx],eax
 "
-:common_recursion_string_0  "push_eax	#_common_recursion
+:expression_string_1  "push_eax	#_common_recursion
 "
-:common_recursion_string_1  "pop_ebx	# _common_recursion
+:expression_string_2  "pop_ebx	# _common_recursion
 "
 
 
