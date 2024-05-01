@@ -3245,21 +3245,6 @@ mov_eax,[eax]
 :asm_string  "asm"
 :return_string  "return"
 :break_string  "break"
-:plus_string  "+"
-:minus_string  "-"
-:multiply_string  "*"
-:divide_string  "/"
-:modulus_string  "%"
-:left_shift_string  "<<"
-:right_shift_string  ">>"
-:less_than_string  "<"
-:less_than_equal_string  "<="
-:greater_than_equal_string  ">="
-:greater_than_string  ">"
-:equal_to_string  "=="
-:not_equal_string  "!="
-:bitwise_and  "&"
-:logical_and  "&&"
 
 
 ;; Frequently Used strings
