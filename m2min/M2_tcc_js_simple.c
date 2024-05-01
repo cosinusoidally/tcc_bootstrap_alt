@@ -719,8 +719,9 @@ struct type* add_primitive(struct type* a);
 
 struct token_list* emit(char *s, struct token_list* head)
 {
-	struct token_list* t = calloc(1, sizeof(struct token_list));
-	require(NULL != t, "Exhausted memory while generating token to emit\n");
+	struct token_list* t;
+	t = calloc(1, sizeof(struct token_list));
+	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
 	t->next = head;
 	t->s = s;
 	return t;
