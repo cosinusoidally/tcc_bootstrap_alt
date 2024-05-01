@@ -711,9 +711,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_declare                         ; Declare symbol
 	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
-	LOAD32_Absolute32_ebx &global_token         ; Using global token
-	LOAD32_EBX_from_EBX                         ; global_token->next
-	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->next
+	CALL32 %next
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
@@ -2240,9 +2238,8 @@ mov_eax,[eax]
 	LOADI32_EAX &primary_expr_char_string_1     ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
+
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
