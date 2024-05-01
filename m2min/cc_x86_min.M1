@@ -1057,29 +1057,11 @@ NULL
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &open_curly_brace               ; "{"
 	CALL32 %match                               ; IF global_token->S == "{"
-	JNE32 %statement_label                      ; otherwise try label
+	JNE32 %statement_local                      ; otherwise try local
 
 	;; deal with { statement }
 	CALL32 %recursive_statement                 ; Statements inside of statements for days
 	JMP32 %statement_done                       ; Be done
-
-:statement_label
-	LOAD8_al_from_EBX                           ; global_token->S[0]
-	MOVZX_al                                    ; make it useful
-	CMPI8_EAX !58                               ; IF global_token->S == ':'
-	JNE32 %statement_local                      ; otherwise try locals
-
-	;; deal with labels
-	COPY_EBX_to_EAX                             ; put global_token->S in the right spot
-	CALL32 %emit_out                            ; emit it
-
-	LOADI32_EAX &statement_string_0             ; Using "\t#C goto label\n"
-	CALL32 %emit_out                            ; emit it
-
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
-	JMP32 %statement_done                       ; be done
 
 :statement_local
 	COPY_EBX_to_EAX                             ; put global_token->S in the right place
@@ -1161,8 +1143,6 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:statement_string_0  "	#C goto label
-"
 :statement_string_1  "jmp %"
 :statement_string_2  "
 "
