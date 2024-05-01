@@ -1,3 +1,6 @@
+;; heavily cut down version of cc_x86
+;; modifications Copyright (C) 2024 Liam Wilson (under same license)
+;; original license
 ;; Copyright (C) 2017 Jeremiah Orians
 ;; This file is part of stage0.
 ;;
