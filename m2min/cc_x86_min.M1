@@ -773,32 +773,6 @@ DEFINE SWAP_EAX_EBX 93
 	CMPI8_EAX !0                                ; Check if NULL
 	JE32 %program_done                          ; Be done if null
 
-	LOAD32_EBX_from_EAX_Immediate8 !8           ; GLOBAL_TOKEN->S
-	LOADI32_EAX &constant                       ; "CONSTANT"
-	CALL32 %match                               ; IF GLOBAL_TOKEN->S == "CONSTANT"
-	CMPI8_EAX !0                                ; If true
-	JNE32 %program_else                         ; Looks like not a constant
-
-	;; Deal with minimal constant case
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
-
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOADI32_EBX %0                              ; NULL
-	LOAD32_Absolute32_ecx &global_constant_list ; global_constant_list
-	CALL32 %sym_declare                         ; Declare that constant
-	STORE32_Absolute32_eax &global_constant_list ; global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
-
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX                         ; global_token->next
-	STORE32_EBX_into_EAX_Immediate8 !16         ; global_constant_list->arguments = global_token->next
-
-	LOAD32_EBX_from_EBX                         ; global_token->next->next
-	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->next->next
-	JMP32 %new_type                             ; go around again
-
-:program_else
 	CALL32 %type_name                           ; Figure out the type_size
 	CMPI8_EAX !0                                ; IF NULL == type_size
 	JE32 %new_type                              ; it was a new type
