@@ -1852,37 +1852,6 @@ Missing ;
 :expression_string_1  "mov_[ebx],al
 "
 
-
-;; bitwise_expr function
-;; Receives nothing
-;; Returns nothing
-;; Walks global_token list and updates output list
-;; Just calls other functions
-:bitwise_expr
-	CALL32 %relational_expr                     ; Walk up the tree
-	RETURN
-
-
-;; relational_expr function
-;; Receives nothing
-;; Returns Nothing
-;; Walks global_token list and updates output list
-;; just calls other function
-:relational_expr
-	CALL32 %additive_expr                       ; Walk up the tree
-	RETURN
-
-
-;; additive_expr function
-;; Receives nothing
-;; Returns Nothing
-;; Walks global_token list and updates output list
-;; just calls other function
-:additive_expr
-	CALL32 %postfix_expr                        ; Walk up the tree
-	RETURN
-
-
 ;; postfix_expr function
 ;; Receives nothing
 ;; Returns Nothing
