@@ -4409,7 +4409,6 @@ Missing ;
 :argv_string  "argv"
 :if_string  "if"
 :else_string  "else"
-:do_string  "do"
 :while_string  "while"
 :asm_string  "asm"
 :return_string  "return"
