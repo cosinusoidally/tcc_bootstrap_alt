@@ -3269,7 +3269,6 @@ mov_eax,[eax]
 	INT_80                                      ; Call it a bad day
 
 ;; Keywords
-:constant  "CONSTANT"
 :main_string  "main"
 :argc_string  "argc"
 :argv_string  "argv"
