@@ -676,22 +676,20 @@ struct type* type_name();
 
 int member_size;
 
-struct type* type_name()
-{
+struct type* type_name() {
 	struct type* ret;
 
-	require(NULL != global_token, "Received EOF instead of type name\n");
+	require(neq(NULL, global_token), "Received EOF instead of type name\n");
 
 	ret = lookup_type(global_token->s, global_types);
 
 	global_token = global_token->next;
-	require(NULL != global_token, "unfinished type definition\n");
+	require(neq(NULL, global_token), "unfinished type definition\n");
 
-	while(global_token->s[0] == '*')
-	{
+	while(eq(global_token->s[0], '*')) {
 		ret = ret->indirect;
 		global_token = global_token->next;
-		require(NULL != global_token, "unfinished type definition in indirection\n");
+		require(neq(NULL, global_token), "unfinished type definition in indirection\n");
 	}
 
 	return ret;
