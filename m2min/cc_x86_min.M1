@@ -2626,26 +2626,6 @@ mov_eax,[eax]
 	CALL32 %lookup_type                         ; Find the type if possible
 	COPY_EAX_to_ECX                             ; Set ret
 
-	CMPI8_EAX !0                                ; IF NULL == ret
-	JNE32 %type_name_common                     ; We need to abort hard
-
-	;; Aborting hard
-	LOADI32_EAX %2                              ; Using Standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	LOADI32_EAX &type_name_string_0             ; Print header
-	CALL32 %File_Print                          ; Print it
-
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	CALL32 %File_Print                          ; Print it
-
-	LOADI32_EAX &type_name_string_1             ; Print footer
-	CALL32 %File_Print                          ; Print it
-
-;	CALL32 %line_error                          ; Give details
-	JMP32 %Exit_Failure                         ; Abort
-
-:type_name_common
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX                         ; global_token->next
 	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->next
