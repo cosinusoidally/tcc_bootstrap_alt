@@ -1825,9 +1825,7 @@ Didn't get )
 	CMPI8_EAX !44                               ; IF global_token->S[0] == ","
 	JNE32 %function_call_gen_done               ; Otherwise we are done
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
 
 	CALL32 %expression                          ; Collect the argument
 
@@ -2121,9 +2119,7 @@ mov_eax,[eax]
 	LOADI32_EAX &primary_expr_number_string_1   ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
 	RETURN
 
 :primary_expr_number_string_0  "mov_eax, %"
