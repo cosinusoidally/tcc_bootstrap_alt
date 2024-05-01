@@ -1803,7 +1803,7 @@ Missing ;
 :expression
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	CALL32 %bitwise_expr                        ; Collect bitwise expressions
+	CALL32 %primary_expr
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
