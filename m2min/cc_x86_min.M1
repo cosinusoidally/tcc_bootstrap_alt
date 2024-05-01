@@ -1752,25 +1752,9 @@ Missing ;
 	JNE32 %expression_done                      ; Looks like nope
 
 	;; Deal with possible assignment
-	LOADI32_ECX &expression_string_1            ; Assume "mov_[ebx],al\n" by default
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !4           ; global_token->PREV
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->PREV->S
-	LOADI32_EAX &close_bracket                  ; Using "]"
-	CALL32 %match                               ; IF global_token->S == "]"
-	CMPI8_EAX !0                                ; Then we might have a char
-	JNE32 %expression_int                       ; Otherwise INT
-
-	LOAD32_Absolute32_ebx &current_target       ; Using current_target
-	LOAD32_EBX_from_EBX_Immediate8 !24          ; current_target->NAME
-	LOADI32_EAX &type_char_indirect_name        ; Using "char*"
-	CALL32 %match                               ; Intentional inefficiency because I feel like it
-	CMPI8_EAX !0                                ; IF current_target->NAME == "char*"
-	JNE32 %expression_int                       ; Do char anyway
-
-	JMP32 %expression_common                    ; Looks like we have to use "mov_[ebx],al\n"
-
-:expression_int
 	LOADI32_ECX &expression_string_0            ; Use "mov_[ebx],eax\n"
 
 :expression_common
@@ -1787,8 +1771,6 @@ Missing ;
 	RETURN
 
 :expression_string_0  "mov_[ebx],eax
-"
-:expression_string_1  "mov_[ebx],al
 "
 
 ;; ceil_log2 function
