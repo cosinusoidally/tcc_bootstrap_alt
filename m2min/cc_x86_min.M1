@@ -1824,23 +1824,9 @@ Didn't get )
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_lookup                          ; sym_lookup(s, global_symbol_list)
-	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_symbol_list)
-	JE32 %primary_expr_variable_error           ; Give up
 
 	;; Deal with globals
 	CALL32 %global_load                         ; Collect that global
-	JMP32 %primary_expr_variable_done           ; Be done
-
-:primary_expr_variable_error
-	LOADI32_EAX %2                              ; Using standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-;	CALL32 %line_error                          ; Write useful debug info
-	COPY_ECX_to_EAX                             ; put S in the right place
-	CALL32 %File_Print                          ; print it
-
-	LOADI32_EAX &primary_expr_variable_string_0 ; Ending string
-	CALL32 %File_Print                          ; print it
-	JMP32 %Exit_Failure                         ; Abort Hard
 
 :primary_expr_variable_done
 	POP_ECX                                     ; Restore ECX
