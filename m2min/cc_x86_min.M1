@@ -1049,9 +1049,6 @@ NULL
 :statement_string_1  "jmp %"
 :statement_string_2  "
 "
-:statement_string_4  "ERROR in statement
-Missing ;
-"
 
 
 ;; recursive_statement function
@@ -1162,9 +1159,6 @@ Missing ;
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:return_result_string_0  "ERROR in return_result
-MISSING ;
-"
 :return_result_string_1  "pop_ebx	# _return_result_locals
 "
 :return_result_string_2  "ret
@@ -1298,9 +1292,6 @@ MISSING ;
 :collect_local_string_0  "# Defining local "
 :collect_local_string_1  "
 "
-:collect_local_string_2  "ERROR in collect_local
-Missing ;
-"
 :collect_local_string_3  "push_eax	#"
 
 
@@ -1343,16 +1334,7 @@ Missing ;
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:process_asm_string_0  "ERROR in process_asm
-MISSING (
-"
 :process_asm_string_1  "
-"
-:process_asm_string_2  "ERROR in process_asm
-MISSING )
-"
-:process_asm_string_3  "ERROR in process_asm
-MISSING ;
 "
 
 
