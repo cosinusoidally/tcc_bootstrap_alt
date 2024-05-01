@@ -338,7 +338,6 @@ DEFINE SWAP_EAX_EBX 93
 	STORE32_Absolute32_eax &C                   ; Set C
 
 	CMPI8_EAX !42                               ; IF '*' we have '/*'
-	JNE32 %get_token_comment_line               ; Check for '//'
 
 	;; Deal with /* block comments */
 	CALL32 %fgetc                               ; get next C
@@ -365,15 +364,6 @@ DEFINE SWAP_EAX_EBX 93
 
 :get_token_comment_block_done
 	CALL32 %fgetc                               ; get next C
-	STORE32_Absolute32_eax &C                   ; Set C
-	JMP32 %reset                                ; throw away, try again
-
-:get_token_comment_line
-	CMPI8_EAX !47                               ; IF '/' we have //
-	JNE32 %get_token_done                       ; keep if just '/'
-
-	;; Deal with // line comment
-	CALL32 %fgetc                               ; drop to match
 	STORE32_Absolute32_eax &C                   ; Set C
 	JMP32 %reset                                ; throw away, try again
 
