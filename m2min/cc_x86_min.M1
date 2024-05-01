@@ -1980,59 +1980,6 @@ add_eax,ebx
 	CALL32 %match                               ; See if match
 	CMPI8_EAX !0                                ; IF match
 
-:primary_expr_neg
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
-	CMPI8_EAX !45                               ; IF global_token->S[0] == "-"
-	JNE32 %primary_expr_not                     ; Otherwise try logical NOT
-
-	;; Deal with negative numbers
-	LOADI32_EAX &primary_expr_string_0          ; Using "mov_eax, %0\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &postfix_expr                   ; Passing postfix_expr
-	CALL32 %common_recursion                    ; Get what it is notting
-
-	LOADI32_EAX &primary_expr_string_1          ; Using "sub_ebx,eax\nmov_eax,ebx\n"
-	CALL32 %emit_out                            ; Emit it
-	JMP32 %primary_expr_done                    ; Be done
-
-:primary_expr_not
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
-	CMPI8_EAX !33                               ; IF global_token->S[0] == "!"
-	JNE32 %primary_expr_bin                     ; Otherwise try '~'
-
-	;; Deal with logical not
-	LOADI32_EAX &primary_expr_string_2          ; Using "mov_eax, %1\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &postfix_expr                   ; Passing postfix_expr
-	CALL32 %common_recursion                    ; Get what it is notting
-
-	LOADI32_EAX &primary_expr_string_3          ; Using "xor_eax,ebx\n"
-	CALL32 %emit_out                            ; Emit it
-	JMP32 %primary_expr_done                    ; Be done
-
-:primary_expr_bin
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
-	CMPI8_EAX !126                              ; IF global_token->S[0] == "~"
-	JNE32 %primary_expr_paren                   ; Otherwise try paren
-
-	;; Deal with binary NOT
-	LOADI32_EAX &postfix_expr                   ; Passing postfix_expr
-	CALL32 %common_recursion                    ; Get what it is notting
-	LOADI32_EAX &primary_expr_string_4          ; Using "not_eax\n"
-	CALL32 %emit_out                            ; Emit it
-	JMP32 %primary_expr_done                    ; Be done
-
 :primary_expr_paren
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
