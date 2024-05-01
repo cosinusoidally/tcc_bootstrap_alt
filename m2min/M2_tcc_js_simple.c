@@ -737,7 +737,7 @@ int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(char *s, struct type* t, struct token_list* list) {
+struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 	struct token_list* a;
 	a = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
@@ -747,12 +747,13 @@ struct token_list* sym_declare(char *s, struct type* t, struct token_list* list)
 	return a;
 }
 
-struct token_list* sym_lookup(char *s, struct token_list* symbol_list)
-{
+struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 	struct token_list* i;
-	for(i = symbol_list; NULL != i; i = i->next)
+	for(i = symbol_list; neq(NULL, i); i = i->next)
 	{
-		if(match(i->s, s)) return i;
+		if(match(i->s, s)) {
+			return i;
+		}
 	}
 	return NULL;
 }
