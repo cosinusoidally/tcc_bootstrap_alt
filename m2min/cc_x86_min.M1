@@ -3203,8 +3203,6 @@ mov_eax,[eax]
 :close_curly_brace  "}"
 :open_paren  "("
 :close_paren  ")"
-:open_bracket  "["
-:close_bracket  "]"
 :comma  ","
 :semicolon  ";"
 :equal  "="
