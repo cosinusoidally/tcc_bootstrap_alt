@@ -1989,27 +1989,11 @@ mov_eax,[eax]
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &open_paren                     ; Using "("
-	CALL32 %match                               ; IF global_token->S == "("
-	CMPI8_EAX !0                                ; The we need to do a function call
-	JNE32 %function_load_regular                ; Otherwise just load it's address
 
 	;; Deal with function call
 	COPY_ECX_to_EAX                             ; Using A->S
 	LOADI32_EBX %1                              ; Using FALSE
 	CALL32 %function_call                       ; Deal with it
-	JMP32 %function_load_done                   ; Be done
-
-:function_load_regular
-	LOADI32_EAX &function_load_string_0         ; Using "mov_eax, &FUNCTION_"
-	CALL32 %emit_out                            ; Emit it
-
-	COPY_ECX_to_EAX                             ; Using A->S
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_load_string_1         ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
-
-:function_load_done
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
