@@ -3048,66 +3048,6 @@ mov_eax,[eax]
 	RETURN
 
 
-;; lookup_member function
-;; Receives struct type* parent in EAX and char* name in EBX
-;; Returns struct type* I in EAX
-;; Uses char* NAME in EBX, ECX for struct type* I and EDX to hold parent for errors
-;; Aborts hard if not found
-:lookup_member
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	PUSH_EDX                                    ; Protect EDX
-	COPY_EAX_to_EDX                             ; Protect Parent
-	LOAD32_ECX_from_EAX_Immediate8 !16          ; struct type* I = parent->MEMBERS
-:lookup_member_iter
-	CMPI8_ECX !0                                ; IF I == NULL
-	JE32 %lookup_member_fail                    ; Abort HARD
-
-	LOAD32_EAX_from_ECX_Immediate8 !24          ; Using I->NAME
-	CALL32 %match                               ; IF I->NAME == NAME
-	CMPI8_EAX !0                                ; Then we have found the member
-	COPY_ECX_to_EAX                             ; Prepare for return
-	LOAD32_ECX_from_ECX_Immediate8 !16          ; Prepare for loop I = I->MEMBERS
-	JNE32 %lookup_member_iter                   ; Looks like we are looping
-
-	;; I is already in EAX
-	POP_EDX                                     ; Restore EDX
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-:lookup_member_fail
-	LOADI32_EAX %2                              ; Using Standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	LOADI32_EAX &lookup_member_string_0         ; Using "ERROR in lookup_member "
-	CALL32 %File_Print                          ; print it
-
-	LOAD32_EAX_from_EDX_Immediate8 !24          ; PARENT->NAME
-	CALL32 %File_Print                          ; print it
-
-	LOADI32_EAX &arrow_string                   ; Using "->"
-	CALL32 %File_Print                          ; print it
-
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	CALL32 %File_Print                          ; print it
-
-	LOADI32_EAX &lookup_member_string_1         ; Using " does not exist\n"
-	CALL32 %File_Print                          ; print it
-
-;	CALL32 %line_error                          ; Write useful debug info
-
-	LOADI32_EAX &lookup_member_string_2         ; Using "\n"
-	CALL32 %File_Print                          ; print it
-	JMP32 %Exit_Failure                         ; Abort Hard
-
-:lookup_member_string_0  "ERROR in lookup_member "
-:lookup_member_string_1  " does not exist
-"
-:lookup_member_string_2  "
-"
-
-
 ;; sym_declare function
 ;; Receives char *s in EAX, struct type* t in EBX, and struct token_list* list in ECX
 ;; Returns struct token_list* in EAX
