@@ -210,15 +210,12 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EAX %0                              ; HEAD = NULL
 	CALL32 %read_all_tokens                     ; Read all tokens
 	CALL32 %Reverse_List                        ; Reverse order
-;	CALL32 %debug_list                          ; Try to figure out what is wrong
 	STORE32_Absolute32_eax &global_token        ; Set global_token
 	CALL32 %program                             ; Convert into program
 	LOADI32_EAX &header_string1                 ; Our header string
 	CALL32 %File_Print                          ; Print it
 	LOAD32_Absolute32_eax &output_list          ; Our output_list
 	CALL32 %recursive_output                    ; Print core program
-;	LOADI32_EAX &header_string2                 ; Our Enable debug
-;	CALL32 %File_Print                          ; Print it
 	LOADI32_EAX &header_string3                 ; Our second label
 	CALL32 %File_Print                          ; Print it
 	LOAD32_Absolute32_eax &globals_list         ; Our globals
@@ -238,9 +235,6 @@ DEFINE SWAP_EAX_EBX 93
 
 :header_string1  "
 # Core program
-"
-:header_string2  "
-:ELF_data
 "
 :header_string3  "
 # Program global variables
