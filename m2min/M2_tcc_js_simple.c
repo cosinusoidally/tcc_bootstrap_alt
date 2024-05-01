@@ -119,23 +119,6 @@ char* file;
 void line_error_token(struct token_list* list);
 struct token_list* eat_token(struct token_list* head);
 
-struct conditional_inclusion
-{
-	struct conditional_inclusion* prev;
-	int include; /* 1 == include, 0 == skip */
-	int previous_condition_matched; /* 1 == all subsequent conditions treated as FALSE */
-};
-
-struct macro_list
-{
-	struct macro_list* next;
-	char* symbol;
-	struct token_list* expansion;
-};
-
-struct macro_list* macro_env;
-struct conditional_inclusion* conditional_inclusion_top;
-
 /* point where we are currently modifying the global_token list */
 struct token_list* macro_token;
 
