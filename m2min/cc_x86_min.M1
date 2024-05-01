@@ -2163,53 +2163,6 @@ sar_eax,cl
 	RETURN
 
 
-;; unary_expr_sizeof function
-;; Receives nothing
-;; Returns nothing
-;; Uses ECX for A->SIZE
-:unary_expr_sizeof
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->NEXT
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
-
-	LOADI32_EAX &unary_expr_sizeof_string_0     ; Using "ERROR in unary_expr\nMissing (\n"
-	LOADI32_EBX &open_paren                     ; Using "("
-	CALL32 %require_match                       ; Make sure we have it
-
-	CALL32 %type_name                           ; Get the type
-	LOAD32_ECX_from_EAX_Immediate8 !4           ; Set A->TYPE
-
-	LOADI32_EAX &unary_expr_sizeof_string_1     ; Using "ERROR in unary_expr\nMissing )\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
-	CALL32 %require_match                       ; Make sure we have it
-
-	LOADI32_EAX &unary_expr_sizeof_string_2     ; Using "mov_eax, %"
-	CALL32 %emit_out                            ; Emit it
-
-	COPY_ECX_to_EAX                             ; Put A->SIZE in the right place
-	CALL32 %numerate_number                     ; Turn into string
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &unary_expr_sizeof_string_3     ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
-
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-:unary_expr_sizeof_string_0  "ERROR in unary_expr
-Missing (
-"
-:unary_expr_sizeof_string_1  "ERROR in unary_expr
-Missing )
-"
-:unary_expr_sizeof_string_2  "mov_eax, %"
-:unary_expr_sizeof_string_3  "
-"
-
-
 ;; postfix_expr_array function
 ;; Receives Nothing
 ;; Returns Nothing
@@ -2411,11 +2364,6 @@ add_eax,ebx
 	LOADI32_EAX &sizeof_string                  ; Using "sizeof"
 	CALL32 %match                               ; See if match
 	CMPI8_EAX !0                                ; IF match
-	JNE32 %primary_expr_neg                     ; Otherwise try negatives
-
-	;; Deal with sizeof
-	CALL32 %unary_expr_sizeof                   ; Lets do this
-	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_neg
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
