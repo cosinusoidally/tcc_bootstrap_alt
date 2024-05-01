@@ -2058,17 +2058,6 @@ add_eax,ebx
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_string_0  "mov_eax, %0
-"
-:primary_expr_string_1  "sub_ebx,eax
-mov_eax,ebx
-"
-:primary_expr_string_2  "mov_eax, %1
-"
-:primary_expr_string_3  "xor_eax,ebx
-"
-:primary_expr_string_4  "not_eax
-"
 :primary_expr_string_5  "Error in Primary expression
 Didn't get )
 "
