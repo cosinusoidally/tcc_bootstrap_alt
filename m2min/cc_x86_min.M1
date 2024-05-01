@@ -3191,8 +3191,6 @@ mov_eax,[eax]
 :type_function_name  "FUNCTION"
 
 
-:Address_of
-	NULL
 :C
 	NULL
 :Input_file
