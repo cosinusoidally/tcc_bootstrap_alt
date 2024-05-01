@@ -660,13 +660,11 @@ void initialize_types()
 	global_types = prim_types;
 }
 
-struct type* lookup_type(char* s, struct type* start)
-{
+struct type* lookup_type(int s, struct type* start) {
 	struct type* i;
-	for(i = start; NULL != i; i = i->next)
+	for(i = start; neq(NULL, i); i = i->next)
 	{
-		if(match(i->name, s))
-		{
+		if(match(i->name, s)) {
 			return i;
 		}
 	}
@@ -1782,7 +1780,6 @@ void recursive_statement()
  *     expr ;
  */
 
-struct type* lookup_type(char* s, struct type* start);
 void statement()
 {
 	require(NULL != global_token, "expected a C statement but received EOF\n");
