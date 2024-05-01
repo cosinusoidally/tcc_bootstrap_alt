@@ -1852,16 +1852,6 @@ Missing ;
 :expression_string_1  "mov_[ebx],al
 "
 
-;; postfix_expr function
-;; Receives nothing
-;; Returns Nothing
-;; Walks global_token list and updates output list
-;; just calls other function
-:postfix_expr
-	CALL32 %primary_expr                        ; Walk up the tree
-	RETURN
-
-
 ;; ceil_log2 function
 ;; Receives int a in EAX
 ;; Performs log2 on A and
