@@ -560,7 +560,7 @@ struct type* add_primitive(struct type* a) {
 }
 
 /* enable easy primitive creation */
-struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
+struct type* new_primitive(int name0, int name1, int name2, int size, int sign) {
 	/* Create type** */
 	struct type* a;
 	struct type* b;
