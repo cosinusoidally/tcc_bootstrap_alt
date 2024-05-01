@@ -1747,24 +1747,6 @@ Didn't get )
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
-	COPY_ECX_to_EAX                             ; Using S
-	LOAD32_Absolute32_ebx &global_constant_list ; Using global_constant_list
-	CALL32 %sym_lookup                          ; sym_lookup(s, global_constant_list)
-	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_constant_list)
-	JE32 %primary_expr_variable_local           ; Try locals next
-
-	;; Deal with constant load
-	LOAD32_EBX_from_EAX_Immediate8 !16          ; a->ARGS
-	LOADI32_EAX &primary_expr_variable_string_2 ; Using "mov_eax, %"
-	CALL32 %emit_out                            ; Emit it
-
-	LOAD32_EAX_from_EBX_Immediate8 !8           ; a->ARGS->S
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &primary_expr_variable_string_1 ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
-	JMP32 %primary_expr_variable_done           ; Be done
-
 :primary_expr_variable_local
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &function             ; Using function
@@ -2949,8 +2931,6 @@ mov_eax,[eax]
 :current_count
 	NULL
 :function
-	NULL
-:global_constant_list
 	NULL
 :global_function_list
 	NULL
