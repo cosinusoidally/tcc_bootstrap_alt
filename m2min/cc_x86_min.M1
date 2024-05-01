@@ -3235,31 +3235,11 @@ mov_eax,[eax]
 	&type_function                              ; NEXT
 	%1                                          ; SIZE
 	%0                                          ; OFFSET
-	&type_char_indirect                         ; INDIRECT
+	&type_char                                  ; INDIRECT
 	%0                                          ; MEMBERS
 	&type_char                                  ; TYPE
 	&type_char_name                             ; NAME
 :type_char_name  "char"
-
-:type_char_indirect
-	&type_function                              ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_char_double_indirect                  ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_char_indirect                         ; TYPE
-	&type_char_indirect_name                    ; NAME
-:type_char_indirect_name  "char*"
-
-:type_char_double_indirect
-	&type_function                              ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_char_double_indirect                  ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_char_indirect                         ; TYPE
-	&type_char_double_indirect_name             ; NAME
-:type_char_double_indirect_name  "char**"
 
 :type_function
 	%0                                          ; NEXT
