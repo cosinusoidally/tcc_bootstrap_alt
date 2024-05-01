@@ -1383,8 +1383,6 @@ MISSING ;
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
-	LOADI32_EAX &process_if_string_1            ; Using "ERROR in process_if\nMISSING (\n"
-	LOADI32_EBX &open_paren                     ; Using "("
 	CALL32 %require_match                       ; Make sure we have it
 
 	CALL32 %expression                          ; Recurse to get the IF(...) part
@@ -1397,8 +1395,6 @@ MISSING ;
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	LOADI32_EAX &process_if_string_3            ; Using "ERROR in process_if\nMISSING )\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
 	CALL32 %require_match                       ; Make sure we have it
 
 	CALL32 %statement                           ; Recursive to get the IF(){...} part
@@ -1543,8 +1539,6 @@ MISSING )
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
-	LOADI32_EAX &process_while_string_2         ; Using "ERROR in process_while\nMISSING (\n"
-	LOADI32_EBX &open_paren                     ; Using "("
 	CALL32 %require_match                       ; Make sure we have it
 
 	CALL32 %expression                          ; Deal with the WHILE (...) part
@@ -1564,8 +1558,6 @@ MISSING )
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	LOADI32_EAX &process_while_string_5         ; Using "ERROR in process_while\nMISSING )\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
 	CALL32 %require_match                       ; Make sure we have it
 
 	CALL32 %statement                           ; Deal with the {....} part
@@ -1656,8 +1648,6 @@ MISSING )
 	LOADI32_EAX &process_break_string_3         ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &process_break_string_4         ; Using "ERROR in break statement\nMissing ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
 	CALL32 %require_match                       ; Make sure we have it
 
 	POP_ECX                                     ; Restore ECX
@@ -1743,8 +1733,6 @@ Missing ;
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 	CALL32 %expression                          ; Lets recurse
-	LOADI32_EAX &primary_expr_string_5          ; Using "Error in Primary expression\nDidn't get )\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
 	CALL32 %require_match                       ; Make sure we have it
 	JMP32 %primary_expr_done                    ; Be done
 
@@ -1928,8 +1916,6 @@ Didn't get )
 	COPY_EBX_to_EDX                             ; Put BOOL in place
 	LOADI32_ESI %0                              ; PASSED = 0
 
-	LOADI32_EAX &function_call_string_0         ; Using "ERROR in process_expression_list\nNo ( was found\n"
-	LOADI32_EBX &open_paren                     ; Using "("
 	CALL32 %require_match                       ; Make sure we have it
 
 	LOADI32_EAX &function_call_string_1         ; Using "push_edi\t# Prevent overwriting in recursion\n"
