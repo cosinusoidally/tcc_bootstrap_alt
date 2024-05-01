@@ -1773,38 +1773,6 @@ Missing ;
 :expression_string_0  "mov_[ebx],eax
 "
 
-;; ceil_log2 function
-;; Receives int a in EAX
-;; Performs log2 on A and
-;; Returns result in EAX
-;; Uses EBX for INT A and ECX for INT RESULT
-:ceil_log2
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	LOADI32_ECX %0                              ; RESULT = 0
-
-	COPY_EAX_to_EBX                             ; put A in right place
-	SUBI8_EAX !1                                ; (A - 1)
-	AND_EAX_EBX                                 ; A & (A - 1)
-	CMPI8_EAX !0                                ; IF 0 == (A & (A - 1))
-	JNE32 %ceil_log2_iter                       ; Starting from -1
-
-	LOADI32_ECX %-1                             ; RESULT = -1
-
-:ceil_log2_iter
-	CMPI8_EBX !0                                ; IF A > 0
-	JLE32 %ceil_log2_done                       ; Otherwise be done
-
-	ADDI8_ECX !1                                ; RESULT = RESULT + 1
-	SHRI8_EBX !1                                ; A = A >> 1
-	JMP32 %ceil_log2_iter                       ; Keep looping
-
-:ceil_log2_done
-	COPY_ECX_to_EAX                             ; Return RESULT
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
 
 ;; primary_expr function
 ;; Receives nothing
