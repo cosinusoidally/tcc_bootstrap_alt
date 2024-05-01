@@ -2468,33 +2468,13 @@ mov_eax,[eax]
 
 
 ;; require_match function
-;; Receives char* message in EAX and char* required in EBX
+;; HACK LJW just skip to next token
 ;; Returns nothing
 ;; Uses ECX to hold message and updates global_token
 :require_match
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	COPY_EAX_to_ECX                             ; put the message somewhere safe
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	CALL32 %match                               ; IF required == global_token->S
-	CMPI8_EAX !0                                ; we are fine
-	JE32 %require_match_good                    ; otherwise pain
-
-	;; Deal will bad times
-;	CALL32 %line_error                          ; Tell user what went wrong
-	LOADI32_EAX %2                              ; Using standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	COPY_ECX_to_EAX                             ; using our message
-	CALL32 %File_Print                          ; Print it
-	JMP32 %Exit_Failure                         ; Abort HARD
-
-:require_match_good
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX                         ; global_token->next
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
