@@ -1998,10 +1998,6 @@ mov_eax,[eax]
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_load_string_0  "mov_eax, &FUNCTION_"
-:function_load_string_1  "
-"
-
 
 ;; global_load function
 ;; Receives struct token_list* A in EAX
