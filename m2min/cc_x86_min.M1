@@ -610,31 +610,6 @@ DEFINE SWAP_EAX_EBX 93
 	RETURN
 
 
-;; fixup_label function
-;; Receives S in ECX
-;; prepends ':' to string and returns registers unchanged
-;; Uses EAX for HOLD, EBX for PREV and ECX for S[0]
-:fixup_label
-	PUSH_EAX                                    ; Protect EAX
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	LOADI32_EAX %58                             ; HOLD = ':'
-	LOAD32_ECX_from_EDX_Immediate8 !8           ; HOLD_STRING[0]
-:fixup_label_loop
-	COPY_EAX_to_EBX                             ; PREV = HOLD
-	LOAD8_al_from_ECX                           ; HOLD = HOLD_STRING[I]
-	MOVZX_al                                    ; make useful
-	STORE8_bl_into_Address_ECX                  ; HOLD_STRING[I] = PREV
-	ADDI8_ECX !1                                ; I = I + 1
-	CMPI8_EAX !0                                ; IF NULL == HOLD
-	JNE32 %fixup_label_loop                     ; Keep looping
-
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	POP_EAX                                     ; Restore EAX
-	RETURN
-
-
 ;; fgetc function
 ;; Loads FILE* from [INPUT_FILE]
 ;; Returns -4 (EOF) or char in EAX
