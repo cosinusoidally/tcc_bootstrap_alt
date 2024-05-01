@@ -914,15 +914,12 @@ NULL
 	JNE32 %collect_arguments_loop               ; otherwise loop
 
 	;; keep foo(bar(), 1) expressions working
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	CALL32 %next
 	JMP32 %collect_arguments_loop               ; keep going
 
 :collect_arguments_done
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	CALL32 %next
+
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
