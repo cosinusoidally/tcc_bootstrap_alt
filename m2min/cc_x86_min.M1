@@ -852,9 +852,7 @@ NULL
 :collect_arguments
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	CALL32 %next
 :collect_arguments_loop
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
@@ -902,9 +900,7 @@ NULL
 	STORE32_EAX_into_ECX_Immediate8 !16         ; a->depth = function->args->depth - 4
 
 :collect_arguments_next
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	CALL32 %next
 
 	LOAD32_Absolute32_eax &function             ; Using function
 	STORE32_ECX_into_EAX_Immediate8 !16         ; function->args = a
