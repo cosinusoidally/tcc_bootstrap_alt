@@ -72,7 +72,7 @@ struct token_list
 };
 
 /* The core functions */
-void initialize_types();
+int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
 
 struct token_list* remove_line_comment_tokens(struct token_list* head);
@@ -590,12 +590,13 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 }
 
 /* Initialize default types */
-void initialize_types()
-{
+int initialize_types() {
+	struct type* hold;
+
 	register_size = 4;
 
 	/* Define void */
-	struct type* hold = new_primitive("void", "void*", "void**", register_size, FALSE);
+	hold = new_primitive("void", "void*", "void**", register_size, FALSE);
 	prim_types = add_primitive(hold);
 
 	/* Define unsigned LONG */
