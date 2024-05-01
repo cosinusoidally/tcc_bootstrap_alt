@@ -105,11 +105,6 @@ int register_size;
 int MAX_STRING;
 struct type* integer;
 
-/* enable bootstrap-mode */
-int BOOTSTRAP_MODE;
-
-
-
 /* Globals */
 int input;
 struct token_list* token;
@@ -651,19 +646,16 @@ void initialize_types()
 	hold = new_primitive("FUNCTION", "FUNCTION*", "FUNCTION**", register_size, FALSE);
 	prim_types = add_primitive(hold);
 
-	if(BOOTSTRAP_MODE)
-	{
-		/* Define FILE */
-		hold = new_primitive("FILE", "FILE*", "FILE**", register_size, TRUE);
-		prim_types = add_primitive(hold);
+	/* Define FILE */
+	hold = new_primitive("FILE", "FILE*", "FILE**", register_size, TRUE);
+	prim_types = add_primitive(hold);
 
-		/* Primitives mes.c wanted */
-		hold = new_primitive("size_t", "size_t*", "size_t**", register_size, FALSE);
-		prim_types = add_primitive(hold);
+	/* Primitives mes.c wanted */
+	hold = new_primitive("size_t", "size_t*", "size_t**", register_size, FALSE);
+	prim_types = add_primitive(hold);
 
-		hold = new_primitive("ssize_t", "ssize_t*", "ssize_t**", register_size, FALSE);
-		prim_types = add_primitive(hold);
-	}
+	hold = new_primitive("ssize_t", "ssize_t*", "ssize_t**", register_size, FALSE);
+	prim_types = add_primitive(hold);
 
 	global_types = prim_types;
 }
@@ -2129,9 +2121,6 @@ int main(int argc, char** argv)
 	int destination_file;
 
         initialize_globals();
-
-	MAX_STRING = 4096;
-	BOOTSTRAP_MODE = TRUE;
 
 	i = 1;
 	hold_string = calloc(MAX_STRING + 4, sizeof(char));
