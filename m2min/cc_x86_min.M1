@@ -3260,10 +3260,6 @@ mov_eax,[eax]
 :not_equal_string  "!="
 :bitwise_and  "&"
 :logical_and  "&&"
-:bitwise_or  "|"
-:logical_or  "||"
-:bitwise_xor  "^"
-:arrow_string  "->"
 
 
 ;; Frequently Used strings
