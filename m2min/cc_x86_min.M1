@@ -1424,14 +1424,8 @@ NULL
 	RETURN
 
 :process_if_string_0  "# IF_"
-:process_if_string_1  "ERROR in process_if
-MISSING (
-"
 :process_if_string_2  "test_eax,eax
 je %ELSE_"
-:process_if_string_3  "ERROR in process_if
-MISSING )
-"
 :process_if_string_4  "jmp %_END_IF_"
 :process_if_string_5  ":ELSE_"
 :process_if_string_6  ":_END_IF_"
@@ -1567,15 +1561,9 @@ MISSING )
 
 :process_while_string_0  "END_WHILE_"
 :process_while_string_1  ":WHILE_"
-:process_while_string_2  "ERROR in process_while
-MISSING (
-"
 :process_while_string_3  "test_eax,eax
 je %END_WHILE_"
 :process_while_string_4  "# THEN_while_"
-:process_while_string_5  "ERROR in process_while
-MISSING )
-"
 :process_while_string_6  "jmp %WHILE_"
 :process_while_string_7  ":END_WHILE_"
 
@@ -1653,9 +1641,6 @@ MISSING )
 "
 :process_break_string_2  "jmp %"
 :process_break_string_3  "
-"
-:process_break_string_4  "ERROR in break statement
-Missing ;
 "
 
 
@@ -2007,9 +1992,6 @@ Didn't get )
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_call_string_0  "ERROR in process_expression_list
-No ( was found
-"
 :function_call_string_1  "push_edi	# Prevent overwriting in recursion
 "
 :function_call_string_2  "push_ebp	# Protect the old base pointer
@@ -2019,9 +2001,6 @@ No ( was found
 :function_call_string_4  "push_eax	#_process_expression1
 "
 :function_call_string_5  "push_eax	#_process_expression2
-"
-:function_call_string_6  "ERROR in process_expression_list
-No ) was found
 "
 :function_call_string_7  "lea_eax,[ebp+DWORD] %"
 :function_call_string_8  "
