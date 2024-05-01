@@ -909,14 +909,6 @@ NULL
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &close_paren                    ; ")"
-	CALL32 %match                               ; IF global_token->S == ")"
-	CMPI8_EAX !0                                ; is a foo(int, char,void) case
-	JE32 %collect_arguments_common              ; deal with commas
-
-	;; Trying second else
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
 	CMPI8_EAX !0                                ; then deal with the common
