@@ -2473,15 +2473,8 @@ mov_eax,[eax]
 ;; Returns type_size in EAX
 ;; Uses ECX for STRUCT TYPE* RET
 :type_name
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX                         ; global_token->next
-	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->next
+	CALL32 %next
 	LOADI32_EAX %4
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
