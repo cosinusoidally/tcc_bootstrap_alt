@@ -560,27 +560,30 @@ struct type* add_primitive(struct type* a) {
 }
 
 /* enable easy primitive creation */
-struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign)
-{
+struct type* new_primitive(char* name0, char* name1, char* name2, int size, int sign) {
 	/* Create type** */
-	struct type* a = calloc(1, sizeof(struct type));
-	require(NULL != a, "Exhausted memory while declaring new primitive**\n");
+	struct type* a;
+	struct type* b;
+	struct type* r;
+
+	a = calloc(1, sizeof(struct type));
+	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
 	a->size = register_size;
 	a->indirect = a;
 	a->is_signed = sign;
 
 	/* Create type* */
-	struct type* b = calloc(1, sizeof(struct type));
-	require(NULL != b, "Exhausted memory while declaring new primitive*\n");
+	b = calloc(1, sizeof(struct type));
+	require(neq(NULL, b), "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
 	b->size = register_size;
 	b->is_signed = sign;
 	b->indirect = a;
 	a->type = b;
 
-	struct type* r = calloc(1, sizeof(struct type));
-	require(NULL != r, "Exhausted memory while declaring new primitive\n");
+	r = calloc(1, sizeof(struct type));
+	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
 	r->size = size;
 	r->is_signed = sign;
