@@ -1575,9 +1575,6 @@ je %END_WHILE_"
 :process_break
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	LOAD32_Absolute32_eax &break_target_head    ; Catch big error
-	CMPI8_EAX !0                                ; IF(NULL == break_target_head)
-	JE32 %process_break_bad                     ; I'm sorry Mr White but you have stage-3 lung cancer
 
 	LOAD32_Absolute32_eax &function             ; Using function
 	LOAD32_ECX_from_EAX_Immediate8 !4           ; I = function->LOCALS
@@ -1624,19 +1621,6 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:process_break_bad
-	;; Breaking badly
-	LOADI32_EAX %2                              ; Using standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-;	CALL32 %line_error                          ; Write useful debug info
-	COPY_ECX_to_EAX                             ; put S in the right place
-	CALL32 %File_Print                          ; print it
-
-	LOADI32_EAX &process_break_string_0         ; Ending string
-	CALL32 %File_Print                          ; print it
-	JMP32 %Exit_Failure                         ; Abort Hard
-
-:process_break_string_0  "Not inside of a loop or case statement"
 :process_break_string_1  "pop_ebx	# break_cleanup_locals
 "
 :process_break_string_2  "jmp %"
