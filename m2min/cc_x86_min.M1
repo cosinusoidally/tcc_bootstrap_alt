@@ -736,9 +736,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit                                ; Emit it
 	STORE32_Absolute32_eax &globals_list        ; update globals_list
 
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	CALL32 %next
 	JMP32 %new_type                             ; go around again
 
 :program_function
@@ -797,9 +795,7 @@ NULL
 	JNE32 %declare_function_full                ; It was a prototype
 
 	;; Deal with prototypes
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX                         ; global token->next
-	STORE32_Absolute32_eax &global_token        ; global token = global token->next
+	CALL32 %next
 	JMP32 %declare_function_done                ; Move on
 
 :declare_function_full
