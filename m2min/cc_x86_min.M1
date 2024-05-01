@@ -3658,30 +3658,7 @@ mov_eax,[eax]
 	PUSH_ECX                                    ; Protect ECX
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &struct                         ; Using "struct"
-	CALL32 %match                               ; IF global_token->S == "struct"
-	COPY_EAX_to_ECX                             ; Protect structure
-	CMPI8_EAX !0                                ; need to skip over "struct"
-	JNE32 %type_name_native                     ; otherwise keep going
 
-	;; Deal with possible STRUCTs
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX                         ; global_token->next
-	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->next
-	LOAD32_EAX_from_EBX_Immediate8 !8           ; global_token->S
-	LOAD32_Absolute32_ebx &global_types         ; get all known types
-	CALL32 %lookup_type                         ; Find type if possible
-	COPY_EAX_to_ECX                             ; Set ret
-
-	CMPI8_EAX !0                                ; IF NULL == ret
-	JNE32 %type_name_common                     ; We have to create struct
-
-	;; Create a struct
-	CALL32 %create_struct                       ; Create a new struct
-	LOADI32_ECX %0                              ; We wish to return NULL
-	JMP32 %type_name_done                       ; be done
-
-:type_name_native
 	;; Deal only with native types
 	COPY_EBX_to_EAX                             ; Put global_token->S in the right place
 	LOAD32_Absolute32_ebx &global_types         ; get all known types
