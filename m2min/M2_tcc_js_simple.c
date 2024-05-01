@@ -514,7 +514,7 @@ char* collect_regular_string(char* string)
 
 collect_regular_string_reset:
 	require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
-	if(string[0] == '\\') {
+	if(eq(ri8(string), '\\')) {
 		hold_string[string_index] = escape_lookup(string);
 		if (string[1] == 'x') string = string + 2;
 		string = string + 2;
