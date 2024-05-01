@@ -1733,16 +1733,10 @@ je %END_WHILE_"
 	LOADI32_EBX &primary_expr_string_7          ; Using "0123456789"
 	CALL32 %In_Set                              ; See if we have a match
 	CMPI8_EAX !1                                ; IF match
-	JNE32 %primary_expr_fail                    ; otherwise we failed hard
 
 	;; Deal with numbers
 	CALL32 %primary_expr_number                 ; Collect the number
-	JMP32 %primary_expr_done                    ; Be done
 
-:primary_expr_fail
-	;; looks like we hit bad input
-	;; abort before it gets bad
-	CALL32 %primary_expr_failure                ; No match means failure
 :primary_expr_done
 	POP_EBX                                     ; Restore EBX
 	RETURN
@@ -2275,30 +2269,6 @@ mov_eax,[eax]
 
 :primary_expr_char_string_0  "mov_eax, %"
 :primary_expr_char_string_1  "
-"
-
-
-;; primary_expr_failure function
-;; Receives nothing
-;; Does not return but aborts hard
-;; Complains about the bad input
-:primary_expr_failure
-;	CALL32 %line_error                          ; Get line of issue
-	LOADI32_EAX %2                              ; Using Standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	LOADI32_EAX &primary_expr_failure_string_0  ; Using "Received "
-	CALL32 %File_Print                          ; Print it
-
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	CALL32 %File_Print                          ; Print it
-
-	LOADI32_EAX &primary_expr_failure_string_1  ; Using " in primary_expr\n"
-	CALL32 %File_Print                          ; Print it
-	JMP32 %Exit_Failure                         ; Abort Hard
-
-:primary_expr_failure_string_0  "Received "
-:primary_expr_failure_string_1  " in primary_expr
 "
 
 
