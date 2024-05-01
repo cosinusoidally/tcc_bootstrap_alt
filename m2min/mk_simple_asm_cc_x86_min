@@ -42,6 +42,6 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 ./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
 
 sha256sum artifacts/*M1
-wc M2_tcc_min_simple.c
+wc cc_x86_min.M1
 ls -l artifacts/*.exe
 sha256sum -c sums_simple_asm
