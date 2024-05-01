@@ -2903,93 +2903,13 @@ mov_eax,[eax]
 :parse_string
 	PUSH_EBX                                    ; Protect EBX
 	COPY_EAX_to_EBX                             ; Protect char* string
-	CALL32 %weird                               ; Determine if we have a weird string
-	CMPI8_EAX !0                                ; If weird
-	JE32 %parse_string_weird                    ; Deal with it
 
 	;; Dealing with regular string
 	COPY_EBX_to_EAX                             ; Passing Char* string
 	CALL32 %collect_regular_string              ; Collect it
-	JMP32 %parse_string_done                    ; Be done
 
-:parse_string_weird
-	COPY_EBX_to_EAX                             ; Passing Char* string
-	CALL32 %collect_weird_string                ; Collect it
-
-:parse_string_done
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-
-;; weird function
-;; Receives char* string in EAX
-;; Returns true(0) or false(1) in EAX
-;; Uses ECX to hold char* string
-:weird
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	COPY_EAX_to_ECX                             ; Place string in safe place
-	ADDI8_ECX !1                                ; increment past the '\"'
-:weird_reset
-	LOAD8_al_from_ECX                           ; Load a char
-	MOVZX_al                                    ; Make it useful
-	CMPI8_EAX !0                                ; IF NULL == C
-	JE32 %weird_false                           ; Nothing weird found
-
-	CMPI8_EAX !92                               ; IF '\\'
-	JNE32 %weird_escaped                        ; Deal with escaping
-
-	;; Deal with escape
-	COPY_ECX_to_EAX                             ; We are passing the string
-	CALL32 %escape_lookup                       ; to look it up
-
-	ADDI8_ECX !1                                ; string = string + 1
-	LOAD8_bl_from_ECX                           ; get string[1]
-	MOVZX_bl                                    ; make it useful
-	CMPI8_EBX !120                              ; IF 'x' == string[1]
-	JNE32 %weird_escaped                        ; otherwise skip the gap
-
-	ADDI8_ECX !2                                ; string = string + 2
-
-:weird_escaped
-	PUSH_EAX                                    ; Protect C in case we need it
-	LOADI32_EBX &weird_string_0                 ; Use "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-	CALL32 %In_Set                              ; To find if weird
-	CMPI8_EAX !1                                ; IF TRUE
-	POP_EAX                                     ; Restore C
-	JNE32 %weird_true                           ; Then not weird
-
-	ADDI8_ECX !1                                ; string = string + 1
-
-	;; Last chance for weird
-	LOADI32_EBX &weird_string_1                 ; Use "\t\n\r "
-	CALL32 %In_Set                              ; Check for special case
-	CMPI8_EAX !1                                ; IF TRUE
-	JNE32 %weird_reset                          ; Otherwise not in the special case
-
-	;; Deal with possible special case
-	LOAD8_al_from_ECX                           ; Load string[1]
-	MOVZX_al                                    ; Make it useful
-	CMPI8_EAX !58                               ; IF string[1] == ":"
-	JE32 %weird_true                            ; Then we hit the special case
-	JMP32 %weird_reset                          ; Keep trying
-
-:weird_done
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-:weird_true
-	LOADI32_EAX %0                              ; Return true
-	JMP32 %weird_done                           ; Be done
-
-:weird_false
-	LOADI32_EAX %1                              ; Return false
-	JMP32 %weird_done                           ; Be done
-
-:weird_string_0  "	
- !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-:weird_string_1  '09 0A 0D 20' ; "\t\n\r "
 
 
 ;; collect_regular_string function
