@@ -2,7 +2,7 @@
 
 ../x86/bin/M0 ./cc_x86_min.M1 ./artifacts/cc_x86_min-0.hex2
 ../x86/bin/catm ./artifacts/cc_x86_min-1.hex2 ../x86/ELF-i386.hex2 ./artifacts/cc_x86_min-0.hex2
-../x86/bin/hex2-0 ./artifacts/cc_x86_min-1.hex2 ./artfacts/cc_x86_min.exe
+../x86/bin/hex2-0 ./artifacts/cc_x86_min-1.hex2 ./artifacts/cc_x86_min.exe
 
 cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
 cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
