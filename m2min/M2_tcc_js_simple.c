@@ -544,16 +544,14 @@ int parse_string(int string) {
 	return collect_regular_string(string);
 }
 
-/* Imported functions */
-void line_error();
-
 /* enable easy primitive extension */
-struct type* add_primitive(struct type* a)
-{
-	if(NULL == prim_types) return a;
-	struct type* i = prim_types;
-	while(NULL != i->next)
-	{
+struct type* add_primitive(struct type* a) {
+	struct type* i;
+	if(eq(NULL, prim_types)) {
+		return a;
+	}
+	i = prim_types;
+	while(neq(NULL, i->next)) {
 		i = i->next;
 	}
 	i->next = a;
