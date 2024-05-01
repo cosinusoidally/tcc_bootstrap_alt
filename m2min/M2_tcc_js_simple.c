@@ -507,8 +507,7 @@ int escape_lookup(int c) {
 }
 
 /* Deal with human strings */
-char* collect_regular_string(char* string)
-{
+int collect_regular_string(int string) {
 	int message;
 	string_index = 0;
 
@@ -530,18 +529,17 @@ collect_regular_string_reset:
 		goto collect_regular_string_reset;
 	}
 
-	hold_string[string_index] = '"';
-	hold_string[string_index + 1] = '\n';
-	message = calloc(string_index + 3, 1);
-	require(NULL != message, "Exhausted memory while storing regular string\n");
-	copy_string(message, hold_string, string_index + 2);
+	wi8(add(hold_string, string_index), '"');
+	wi8(add(hold_string, add(string_index, 1)), '\n');
+	message = calloc(add(string_index, 3), 1);
+	require(neq(NULL, message), "Exhausted memory while storing regular string\n");
+	copy_string(message, hold_string, add(string_index, 2));
 	reset_hold_string();
 	return message;
 }
 
 /* Parse string to deal with hex characters*/
-char* parse_string(char* string)
-{
+int parse_string(int string) {
 	/* the string */
 	return collect_regular_string(string);
 }
@@ -726,8 +724,6 @@ struct token_list* break_frame;
 int current_count;
 int Address_of;
 
-/* Imported functions */
-char* parse_string(char* string);
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
