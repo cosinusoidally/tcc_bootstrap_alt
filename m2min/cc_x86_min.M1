@@ -196,11 +196,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EDX %384                            ; Prepare file as RW for owner only (600 in octal)
 	LOADI32_EAX %5                              ; the syscall number for open()
 	INT_80                                      ; Now open that damn file
-	CMPI8_EAX !0                                ; Check for missing output
-	JG32 %_start_out                            ; Have real input
-	LOADI32_EAX %1                              ; Use stdout
 
-:_start_out
 	STORE32_Absolute32_eax &Output_file         ; Preserve the file pointer we were given
 
 	LOADI32_EAX %45                             ; the Syscall # for SYS_BRK
