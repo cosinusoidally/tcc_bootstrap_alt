@@ -1889,12 +1889,6 @@ Missing ;
 :primary_expr
 	PUSH_EBX                                    ; Protect EBX
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EBX_from_EAX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &sizeof_string                  ; Using "sizeof"
-	CALL32 %match                               ; See if match
-	CMPI8_EAX !0                                ; IF match
-
 :primary_expr_paren
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
@@ -3371,7 +3365,6 @@ mov_eax,[eax]
 :asm_string  "asm"
 :return_string  "return"
 :break_string  "break"
-:sizeof_string  "sizeof"
 :plus_string  "+"
 :minus_string  "-"
 :multiply_string  "*"
