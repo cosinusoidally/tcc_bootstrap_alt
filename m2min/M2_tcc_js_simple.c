@@ -459,8 +459,6 @@ struct token_list* read_all_tokens(int a, struct token_list* current, int filena
 	return token;
 }
 
-struct token_list* emit(char *s, struct token_list* head);
-
 /* Lookup escape values */
 int escape_lookup(int c) {
 	int c1;
@@ -717,8 +715,7 @@ struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
-struct token_list* emit(char *s, struct token_list* head)
-{
+struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
