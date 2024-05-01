@@ -708,7 +708,6 @@ DEFINE SWAP_EAX_EBX 93
 	JE32 %new_type                              ; it was a new type
 
 	;; Add to global symbol table
-	COPY_EAX_to_EBX                             ; put type_size in the right spot
 	LOAD32_Absolute32_eax &global_token         ; Using global token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
 	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
@@ -866,7 +865,6 @@ NULL
 
 	;; deal with the case of there are arguments
 	CALL32 %type_name                           ; Get the type
-	COPY_EAX_to_ECX                             ; put type_size safely out of the way
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
@@ -878,7 +876,6 @@ NULL
 	;; deal with foo(int a, char b)
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	COPY_ECX_to_EBX                             ; put type_size in the right place
 	LOAD32_Absolute32_ecx &function             ; Using function
 	LOAD32_ECX_from_ECX_Immediate8 !16          ; function->args
 	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size, function->arguments);
