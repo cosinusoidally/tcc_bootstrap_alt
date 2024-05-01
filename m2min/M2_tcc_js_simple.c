@@ -509,18 +509,16 @@ int escape_lookup(int c) {
 /* Deal with human strings */
 char* collect_regular_string(char* string)
 {
+	int message;
 	string_index = 0;
 
 collect_regular_string_reset:
-	require((MAX_STRING - 3) > string_index, "Attempt at parsing regular string exceeds max length\n");
-	if(string[0] == '\\')
-	{
+	require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
+	if(string[0] == '\\') {
 		hold_string[string_index] = escape_lookup(string);
 		if (string[1] == 'x') string = string + 2;
 		string = string + 2;
-	}
-	else
-	{
+	} else {
 		hold_string[string_index] = string[0];
 		string = string + 1;
 	}
@@ -530,7 +528,7 @@ collect_regular_string_reset:
 
 	hold_string[string_index] = '"';
 	hold_string[string_index + 1] = '\n';
-	char* message = calloc(string_index + 3, sizeof(char));
+	message = calloc(string_index + 3, 1);
 	require(NULL != message, "Exhausted memory while storing regular string\n");
 	copy_string(message, hold_string, string_index + 2);
 	reset_hold_string();
