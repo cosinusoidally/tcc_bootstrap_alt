@@ -1747,8 +1747,6 @@ Missing ;
 	CALL32 %common_recursion                    ; Recurse
 	COPY_ECX_to_EAX                             ; Using Store
 	CALL32 %emit_out                            ; Emit it
-	LOADI32_EAX %0                              ; Using NULL
-	STORE32_Absolute32_eax &current_target      ; current_target = NULL
 
 :expression_done
 	POP_ECX                                     ; Restore ECX
@@ -2114,7 +2112,7 @@ mov_eax,[eax]
 ;; variable_load function
 ;; Receives struct token_list* A in EAX
 ;; Returns nothing
-;; Updates output and current_target
+;; Updates output
 ;; Uses ECX for A
 :variable_load
 	PUSH_EBX                                    ; Protect EBX
@@ -2143,9 +2141,6 @@ mov_eax,[eax]
 	JMP32 %variable_load_done                   ; Be done
 
 :variable_load_regular
-	LOAD32_EAX_from_ECX_Immediate8 !12          ; A->TYPE
-	STORE32_Absolute32_eax &current_target      ; current_target = A->TYPE
-
 	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
 	CALL32 %emit_out                            ; Emit it
 
@@ -2230,9 +2225,6 @@ mov_eax,[eax]
 	PUSH_EBX                                    ; Protect EBX
 	COPY_EAX_to_EBX                             ; Set as A
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; Set as A->S
-
-	LOAD32_EAX_from_EAX_Immediate8 !12          ; A->TYPE
-	STORE32_Absolute32_eax &current_target      ; current_target = A->TYPE
 
 	LOADI32_EAX &global_load_string_0           ; Using "mov_eax, &GLOBAL_"
 	CALL32 %emit_out                            ; Emit it
@@ -2470,7 +2462,6 @@ mov_eax,[eax]
 ;; Receives FUNCTION F in EAX
 ;; Returns Nothing
 ;; Walks global_token list and update output_list
-;; Updates current_target
 ;; Uses EBX to hold FUNCTION F and struct type* last_type
 :common_recursion
 	PUSH_EBX                                    ; Protect EBX
@@ -2483,7 +2474,6 @@ mov_eax,[eax]
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
 	COPY_EBX_to_EAX                             ; Prepare for function call
-	LOAD32_Absolute32_ebx &current_target       ; Get last type
 	CALL_EAX                                    ; F();
 
 	LOADI32_EAX &common_recursion_string_1      ; Using "pop_ebx\t# _common_recursion\n"
@@ -3202,8 +3192,6 @@ mov_eax,[eax]
 :break_target_num
 	NULL
 :current_count
-	NULL
-:current_target
 	NULL
 :function
 	NULL
