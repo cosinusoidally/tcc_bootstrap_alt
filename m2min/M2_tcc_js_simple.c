@@ -515,16 +515,20 @@ char* collect_regular_string(char* string)
 collect_regular_string_reset:
 	require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
 	if(eq(ri8(string), '\\')) {
-		hold_string[string_index] = escape_lookup(string);
-		if (string[1] == 'x') string = string + 2;
-		string = string + 2;
+		wi8(add(hold_string, string_index), escape_lookup(string));
+		if (eq(ri8(add(string, 1)), 'x')) {
+			string = add(string, 2);
+		}
+		string = add(string, 2);
 	} else {
-		hold_string[string_index] = string[0];
-		string = string + 1;
+		wi8(add(hold_string, string_index), ri8(string));
+		string = add(string, 1);
 	}
 
-	string_index = string_index + 1;
-	if(string[0] != 0) goto collect_regular_string_reset;
+	string_index = add(string_index, 1);
+	if(neq(ri8(string), 0)) {
+		goto collect_regular_string_reset;
+	}
 
 	hold_string[string_index] = '"';
 	hold_string[string_index + 1] = '\n';
