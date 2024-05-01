@@ -2480,57 +2480,6 @@ mov_eax,[eax]
 	RETURN
 
 
-;; promote_type function
-;; Receives struct type* a in EAX and struct type* b in EBX
-;; Returns the most recent type in EAX
-;; Uses EAX for struct type* I, ECX for struct type* A and EDX for struct type* B
-:promote_type
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	PUSH_EDX                                    ; Protect EDX
-	CMPI8_EBX !0                                ; IF NULL == B
-	JE32 %promote_type_done                     ; Just return A
-
-	COPY_EAX_to_ECX                             ; Put A in place
-	COPY_EBX_to_EDX                             ; Put B in place
-	COPY_EBX_to_EAX                             ; IF NULL == A
-	CMPI8_ECX !0                                ; Then we just return B
-	JE32 %promote_type_done                     ; Be done
-
-	;; Looks like we need to walk the list
-	LOAD32_ECX_from_ECX_Immediate8 !24          ; A->NAME
-	LOAD32_EDX_from_EDX_Immediate8 !24          ; B->NAME
-	LOAD32_Absolute32_eax &global_types         ; I = global_types
-:promote_type_iter
-	CMPI8_EAX !0                                ; IF NULL == I
-	JE32 %promote_type_done                     ; Just be done
-
-	LOAD32_EBX_from_EAX_Immediate8 !24          ; I->NAME
-	CMP_ECX_EBX                                 ; IF(A->NAME == I->NAME)
-	JE32 %promote_type_done                     ; Be done
-
-	CMP_EBX_EDX                                 ; IF(B->NAME == I->NAME)
-	JE32 %promote_type_done                     ; Be done
-
-	LOAD32_EBX_from_EAX_Immediate8 !12          ; I->INDIRECT
-	LOAD32_EBX_from_EBX_Immediate8 !24          ; I->INDIRECT->NAME
-
-	CMP_ECX_EBX                                 ; IF(A->NAME == I->INDIRECT->NAME)
-	JE32 %promote_type_done                     ; Be done
-
-	CMP_EBX_EDX                                 ; IF(B->NAME == I->INDIRECT->NAME)
-	JE32 %promote_type_done                     ; Be done
-
-	LOAD32_EAX_from_EAX                         ; I = I->NEXT
-	JMP32 %promote_type_iter                    ; Keep going
-
-:promote_type_done
-	POP_EDX                                     ; Restore EDX
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-
 ;; common_recursion function
 ;; Receives FUNCTION F in EAX
 ;; Returns Nothing
@@ -2550,9 +2499,6 @@ mov_eax,[eax]
 	COPY_EBX_to_EAX                             ; Prepare for function call
 	LOAD32_Absolute32_ebx &current_target       ; Get last type
 	CALL_EAX                                    ; F();
-	LOAD32_Absolute32_eax &current_target       ; Get current_target
-	CALL32 %promote_type                        ; get the right type
-	STORE32_Absolute32_eax &current_target      ; Set new current_target
 
 	LOADI32_EAX &common_recursion_string_1      ; Using "pop_ebx\t# _common_recursion\n"
 	CALL32 %emit_out                            ; Emit it
