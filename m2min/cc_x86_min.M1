@@ -1943,26 +1943,6 @@ mov_eax,[eax]
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &open_paren                     ; Using "("
-	CALL32 %match                               ; IF global_token->S == "("
-	CMPI8_EAX !0                                ; Then it might be a function
-	JNE32 %variable_load_regular                ; Otherwise it is regular
-
-	LOAD32_EBX_from_ECX_Immediate8 !12          ; A->TYPE
-	LOAD32_EBX_from_EBX_Immediate8 !24          ; A->TYPE->NAME
-	LOADI32_EAX &type_function_name             ; Using "FUNCTION"
-	CALL32 %match                               ; IF A->TYPE->NAME == "FUNCTION"
-	CMPI8_EAX !0                                ; Then it must be a function
-	JNE32 %variable_load_regular                ; otherwise just another regular
-
-	;; deal with function
-	LOAD32_EAX_from_ECX_Immediate8 !16          ; A->DEPTH
-	CALL32 %numerate_number                     ; Convert to string
-	LOADI32_EBX %0                              ; pass 0 for true
-	CALL32 %function_call                       ; Create the function call
-	JMP32 %variable_load_done                   ; Be done
-
-:variable_load_regular
 	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
 	CALL32 %emit_out                            ; Emit it
 
