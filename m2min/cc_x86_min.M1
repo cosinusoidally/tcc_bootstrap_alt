@@ -1086,7 +1086,7 @@ NULL
 	LOADI32_EAX &if_string                      ; Using "if"
 	CALL32 %match                               ; IF global_token->S == "if"
 	CMPI8_EAX !0                                ; then we have an if statement
-	JNE32 %statement_while                         ; otherwise try DO
+	JNE32 %statement_while                      ; otherwise try WHILE
 
 	;; Deal with IF statement
 	CALL32 %process_if                          ; DO IT
@@ -1096,7 +1096,7 @@ NULL
 	LOADI32_EAX &while_string                   ; Using "while"
 	CALL32 %match                               ; IF global_token->S == "while"
 	CMPI8_EAX !0                                ; then we have a while statement
-	JNE32 %statement_asm                        ; otherwise try FOR
+	JNE32 %statement_asm                        ; otherwise try ASM
 
 	;; Deal with WHILE statement
 	CALL32 %process_while                       ; DO IT
@@ -1106,7 +1106,7 @@ NULL
 	LOADI32_EAX &asm_string                     ; Using "asm"
 	CALL32 %match                               ; IF global_token->S == "asm"
 	CMPI8_EAX !0                                ; then we have an asm statement
-	JNE32 %statement_return                       ; otherwise try GOTO
+	JNE32 %statement_return                       ; otherwise try RETURN
 
 	;; Deal with ASM statement
 	CALL32 %process_asm                         ; Hit it
@@ -1126,7 +1126,7 @@ NULL
 	LOADI32_EAX &break_string                   ; Using "break"
 	CALL32 %match                               ; IF global_token->S == "break"
 	CMPI8_EAX !0                                ; then we have a break statement
-	JNE32 %statement_else                   ; Otherwise try CONTINUE
+	JNE32 %statement_else                       ; Otherwise try ELSE
 
 	;; Deal with BREAK statement
 	CALL32 %process_break                       ; Lets do some damage
