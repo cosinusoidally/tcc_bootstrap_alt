@@ -1039,8 +1039,6 @@ NULL
 
 :statement_else
 	CALL32 %expression                          ; Collect expression
-	LOADI32_EAX &statement_string_4             ; Using "ERROR in statement\nMissing ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
 	CALL32 %require_match                       ; make sure we have it
 
 :statement_done
@@ -1144,8 +1142,6 @@ Missing ;
 	CALL32 %expression                          ; get the expression we are returning
 
 :return_result_cleanup
-	LOADI32_EAX &return_result_string_0         ; Using "ERROR in return_result\nMISSING ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
 	CALL32 %require_match                       ; Make sure we have it
 
 	LOAD32_Absolute32_ebx &function             ; Using function
@@ -1284,8 +1280,6 @@ MISSING ;
 	CALL32 %expression                          ; Recurse
 
 :collect_local_done
-	LOADI32_EAX &collect_local_string_2         ; Using "ERROR in collect_local\nMissing ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
 	CALL32 %require_match                       ; Make sure we have it
 
 	LOADI32_EAX &collect_local_string_3         ; Using "push_eax\t#"
@@ -1321,8 +1315,6 @@ Missing ;
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
-	LOADI32_EAX &process_asm_string_0           ; Using "ERROR in process_asm\nMISSING (\n"
-	LOADI32_EBX &open_paren                     ; Using "("
 	CALL32 %require_match                       ; Make sure we have it
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
@@ -1345,12 +1337,7 @@ Missing ;
 	JMP32 %process_asm_iter                     ; keep going
 
 :process_asm_done
-	LOADI32_EAX &process_asm_string_2           ; Using "ERROR in process_asm\nMISSING )\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
 	CALL32 %require_match                       ; Make sure we have it
-
-	LOADI32_EAX &process_asm_string_3           ; Using "ERROR in process_asm\nMISSING ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
 	CALL32 %require_match                       ; Make sure we have it
 
 	POP_EBX                                     ; Restore EBX
@@ -1989,8 +1976,6 @@ Didn't get )
 
 :function_call_gen_done
 	;; All is collected
-	LOADI32_EAX &function_call_string_6         ; Using "ERROR in process_expression_list\nNo ) was found\n"
-	LOADI32_EBX &close_paren                    ; Using ")"
 	CALL32 %require_match                       ; Make sure we have it
 
 	CMPI8_EDX !0                                ; IF(BOOL == TRUE)
