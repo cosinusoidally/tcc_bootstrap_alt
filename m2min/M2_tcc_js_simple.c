@@ -728,21 +728,19 @@ int emit_out(int s) {
 	output_list = emit(s, output_list);
 }
 
-struct token_list* uniqueID(char* s, struct token_list* l, char* num)
-{
+struct token_list* uniqueID(int s, struct token_list* l, int num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
 
-void uniqueID_out(char* s, char* num)
-{
+int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(char *s, struct type* t, struct token_list* list)
-{
-	struct token_list* a = calloc(1, sizeof(struct token_list));
-	require(NULL != a, "Exhausted memory while attempting to declare a symbol\n");
+struct token_list* sym_declare(char *s, struct type* t, struct token_list* list) {
+	struct token_list* a;
+	a = calloc(1, sizeof(struct token_list));
+	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
 	a->next = list;
 	a->s = s;
 	a->type = t;
