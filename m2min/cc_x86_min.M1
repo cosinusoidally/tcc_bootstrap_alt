@@ -2512,24 +2512,9 @@ mov_eax,[eax]
 	;; Deal with A-F
 	ANDI32_EAX %0xDF                            ; Unset High bit turning a-f into A-F
 	SUBI8_EAX !7                                ; Shift down into position
-	CMPI8_EAX !10                               ; Everything below A is bad
-	JL32 %char2hex_fail                         ; And should fail
-	CMPI8_EAX !16                               ; Make sure we are below F
-	JL32 %char2hex_done                         ; If so be done
-
-:char2hex_fail
-	;; Time to fail hard
-	LOADI32_EAX %2                              ; Using Standard error
-	STORE32_Absolute32_eax &Output_file         ; write to standard error
-	LOADI32_EAX &char2hex_string_0              ; Using "Tried to print non-hex number\n"
-	CALL32 %File_Print                          ; Print it
-	JMP32 %Exit_Failure                         ; Abort Hard
 
 :char2hex_done
 	RETURN
-
-:char2hex_string_0  "Tried to print non-hex number
-"
 
 
 ;; parse_string function
