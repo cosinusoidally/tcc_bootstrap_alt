@@ -1144,30 +1144,11 @@ NULL
 	LOADI32_EAX &break_string                   ; Using "break"
 	CALL32 %match                               ; IF global_token->S == "break"
 	CMPI8_EAX !0                                ; then we have a break statement
-	JNE32 %statement_continue                   ; Otherwise try CONTINUE
+	JNE32 %statement_else                   ; Otherwise try CONTINUE
 
 	;; Deal with BREAK statement
 	CALL32 %process_break                       ; Lets do some damage
 	JMP32 %statement_done                       ; be done
-
-:statement_continue
-	LOADI32_EAX &continue_string                ; Using "continue"
-	CALL32 %match                               ; IF global_token->S == "continue"
-	CMPI8_EAX !0                                ; then we have a continue statement
-	JNE32 %statement_else                       ; Otherwise we are punting to an expression
-
-	;; Deal with CONTINUE statement
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX                         ; global_token->next
-	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
-
-	LOADI32_EAX &statement_string_3             ; Using "\n#continue statement\n"
-	CALL32 %emit_out                            ; emit it
-
-	LOADI32_EAX &statement_string_4             ; Using "ERROR in statement\nMissing ;\n"
-	LOADI32_EBX &semicolon                      ; Using ";"
-	CALL32 %require_match                       ; Don't forget the ";"
-	JMP32 %statement_done                       ; Be done
 
 :statement_else
 	CALL32 %expression                          ; Collect expression
@@ -1184,9 +1165,6 @@ NULL
 "
 :statement_string_1  "jmp %"
 :statement_string_2  "
-"
-:statement_string_3  "
-#continue statement
 "
 :statement_string_4  "ERROR in statement
 Missing ;
@@ -4413,7 +4391,6 @@ Missing ;
 :asm_string  "asm"
 :return_string  "return"
 :break_string  "break"
-:continue_string  "continue"
 :sizeof_string  "sizeof"
 :plus_string  "+"
 :minus_string  "-"
