@@ -2240,44 +2240,6 @@ mov_eax,[eax]
 "
 
 
-;; general_recursion function
-;; Receives FUNCTION F in EAX, char* S in EBX, char* name in ECX and FUNCTION iterate in EDX
-;; Returns nothing
-;; Uses ECX for char* S, EDX for FUNCTION iterate and EBP for FUNCTION F
-;; But generally recurses a shitload
-:general_recursion
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	PUSH_EDX                                    ; Protect EDX
-	PUSH_EBP                                    ; Protect EBP
-	COPY_EAX_to_EBP                             ; Protect F
-	COPY_ECX_to_EAX                             ; Put name in the right place
-	COPY_EBX_to_ECX                             ; Protect S
-
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	CALL32 %match                               ; IF match(name, global_token->s)
-	CMPI8_EAX !0                                ; If true we do
-	JNE32 %general_recursion_done               ; Otherwise skip it
-
-	;; Deal with the recursion
-	COPY_EBP_to_EAX                             ; Put F in the right place
-	CALL32 %common_recursion                    ; Recurse
-
-	COPY_ECX_to_EAX                             ; Put S in the right place
-	CALL32 %emit_out                            ; Emit it
-
-	COPY_EDX_to_EAX                             ; Put iterate in the right place
-	CALL_EAX                                    ; Down the rabbit hole
-
-:general_recursion_done
-	POP_EBP                                     ; Restore EBP
-	POP_EDX                                     ; Restore EDX
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-
 ;; common_recursion function
 ;; Receives FUNCTION F in EAX
 ;; Returns Nothing
