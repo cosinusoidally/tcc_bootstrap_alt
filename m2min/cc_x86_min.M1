@@ -295,15 +295,6 @@ DEFINE SWAP_EAX_EBX 93
 	CMPI8_EAX !-4                               ; Check for EOF
 	JE32 %get_token_abort                       ; if EOF abort
 
-	CMPI8_EAX !35                               ; Check for '#'
-	JNE32 %get_token_alpha                      ; Nope
-
-	;; Deal with # line comments
-	CALL32 %purge_macro                         ; Let it handle it
-	STORE32_Absolute32_eax &C                   ; Set C
-	JMP32 %reset                                ; Try again
-
-:get_token_alpha
 	LOAD32_Absolute32_eax &C                    ; Send C
 	LOADI32_EBX &alphas                         ; Get alphanumerics
 	CALL32 %In_Set                              ; See if in set
@@ -485,17 +476,6 @@ DEFINE SWAP_EAX_EBX 93
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "<=>|&!-"
 :strings  '22 27 00'
-
-
-;; purge_macro function
-;; Receives CH in EAX
-;; Reads chars until Line feed is read
-;; returns line feed
-:purge_macro
-	CALL32 %fgetc                               ; read next char
-	CMPI8_EAX !10                               ; Check for '\n'
-	JNE32 %purge_macro                          ; Keep going
-	RETURN
 
 
 ;; preserve_keyword function
