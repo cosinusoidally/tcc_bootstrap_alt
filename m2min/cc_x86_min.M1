@@ -1546,7 +1546,7 @@ je %ELSE_"
 
 :expression_string_0  "mov_[ebx],eax
 "
-:expression_string_1  "push_eax
+:expression_string_1  "push_address
 "
 :expression_string_2  "pop_ebx
 "
