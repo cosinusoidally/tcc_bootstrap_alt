@@ -1199,7 +1199,8 @@ NULL
 
 	CALL32 %next
 
-	LOAD32_EBX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &equal                          ; Using "="
 	CALL32 %match                               ; IF match("=", global_token->s)
 	CMPI8_EAX !0                                ; Deal with assignment
