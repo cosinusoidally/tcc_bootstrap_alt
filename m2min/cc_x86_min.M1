@@ -687,7 +687,6 @@ DEFINE SWAP_EAX_EBX 93
 
 ;; program function
 ;; receives nothing, returns nothing
-;; Uses EAX for type_size
 :program
 	;; The binary initialized the globals to null, so we can skip those steps
 	PUSH_EBX                                    ; Protect EBX
@@ -831,7 +830,6 @@ NULL
 ;; Receives nothing
 ;; Returns Nothing
 ;; Adds arguments to the function definition
-;; holds struct type* type_size in ECX, then replace with struct token_list* a in ECX when type_size is used
 :collect_arguments
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
