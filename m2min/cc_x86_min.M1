@@ -1533,9 +1533,7 @@ je %ELSE_"
 	CALL32 %next
 
 	CALL32 %expression                          ; expression();
-	LOADI32_EAX &expression_string_2            ; Using "pop_ebx\t# _common_recursion\n"
-	CALL32 %emit_out                            ; Emit it
-	LOADI32_EAX &expression_string_0            ; Use "mov_[ebx],eax\n"
+	LOADI32_EAX &expression_string_2            ; Using "store\n"
 	CALL32 %emit_out                            ; Emit it
 
 :expression_done
@@ -1543,11 +1541,9 @@ je %ELSE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:expression_string_0  "mov_[ebx],eax
-"
 :expression_string_1  "push_address
 "
-:expression_string_2  "pop_ebx
+:expression_string_2  "store
 "
 
 
