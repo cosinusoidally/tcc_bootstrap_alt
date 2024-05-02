@@ -2269,16 +2269,8 @@ Didn't get )
 ;; parse_string function
 ;; Receives char* string in EAX
 ;; Returns cleaned up string
-;; Protects char* string in EBX
 :parse_string
-	PUSH_EBX                                    ; Protect EBX
-	COPY_EAX_to_EBX                             ; Protect char* string
-
-	;; Dealing with regular string
-	COPY_EBX_to_EAX                             ; Passing Char* string
 	CALL32 %collect_regular_string              ; Collect it
-
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
