@@ -1806,8 +1806,8 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:variable_load_string_0  "lea_eax,[ebp+DWORD] %"
-:variable_load_string_2  "mov_eax,[eax]
+:variable_load_string_0  "local %"
+:variable_load_string_2  "load
 "
 
 
