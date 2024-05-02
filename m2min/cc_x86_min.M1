@@ -780,13 +780,6 @@ NULL
 
 :declare_function_full
 	;; Deal with full function definitions
-	LOADI32_EAX &declare_function_string_0      ; "# Defining function "
-	CALL32 %emit_out                            ; emit it
-
-	LOAD32_Absolute32_eax &function             ; function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->s
-	CALL32 %emit_out                            ; emit it
-
 	LOADI32_EAX &declare_function_string_1      ; "\n:FUNCTION_"
 	CALL32 %emit_out                            ; emit it
 
@@ -814,7 +807,6 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:declare_function_string_0  "# Defining function "
 :declare_function_string_1  "
 :FUNCTION_"
 :declare_function_string_2  "ret
