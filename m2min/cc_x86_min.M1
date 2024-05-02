@@ -1700,13 +1700,7 @@ je %END_WHILE_"
 
 	CALL32 %next
 
-	LOADI32_EAX &function_call_string_1         ; Using "push_edi\t# Prevent overwriting in recursion\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_2         ; Using "push_ebp\t# Protect the old base pointer\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_3         ; Using "mov_edi,esp\t# Copy new base pointer\n"
+	LOADI32_EAX &function_call_string_1         ; Using "call frame preamble"
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %get_s0
@@ -1776,11 +1770,7 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_call_string_1  "push_edi	# Prevent overwriting in recursion
-"
-:function_call_string_2  "push_ebp	# Protect the old base pointer
-"
-:function_call_string_3  "mov_edi,esp	# Copy new base pointer
+:function_call_string_1  "push_edi push_ebp mov_edi,esp	# setup call frame
 "
 :function_call_string_4  "push_eax	#_process_expression1
 "
