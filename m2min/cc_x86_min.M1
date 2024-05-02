@@ -2227,9 +2227,6 @@ Didn't get )
 	LOAD8_bl_from_EBX                           ; load c[1]
 	MOVZX_bl                                    ; make it useful
 
-	CMPI8_EBX !120                              ; Check if \x??
-	JE32 %escape_lookup_hex                     ; Deal with hex
-
 	;; Deal with \? escapes
 	LOADI32_EAX %10                             ; Guess "\n"
 	CMPI8_EBX !110                              ; If n
@@ -2247,32 +2244,10 @@ Didn't get )
 	CMPI8_EBX !34                               ; IF '\"'
 	JE32 %escape_lookup_done                    ; Be done
 
-	LOADI32_EAX %13                             ; Guess "\r"
-	CMPI8_EBX !114                              ; IF r
-
 :escape_lookup_done
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:escape_lookup_hex
-	;; Give up on C and just assume they know what they are doing
-	ADDI8_ECX !2                                ; increment
-	LOAD8_al_from_ECX                           ; c[2]
-	MOVZX_al                                    ; make it useful
-	ADDI8_ECX !1                                ; increment
-	CALL32 %char2hex                            ; Get the hex value
-	SALI8_EAX !4                                ; c << 4
-	LOAD8_bl_from_ECX                           ; c[3]
-	MOVZX_bl                                    ; make it useful
-	SWAP_EAX_EBX                                ; protect c << 4
-	CALL32 %char2hex                            ; Get the hex value
-	ADD_ebx_into_eax                            ; hex(c[2]) << 4 + hex(c[3])
-	JMP32 %escape_lookup_done                   ; Be done
-
-:escape_lookup_string_0  "Unknown escape received: "
-:escape_lookup_string_1  " Unable to process
-"
 
 
 ;; char2hex function
