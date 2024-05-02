@@ -1815,8 +1815,6 @@ je %END_WHILE_"
 :function_call_string_9  "mov_ebp,edi
 "
 :function_call_string_11 "call %FUNCTION_"
-:function_call_string_12 "
-"
 :function_call_string_13 "pop_ebx	# _process_expression_locals
 "
 :function_call_string_14 "pop_ebp	# Restore old base pointer
@@ -1865,8 +1863,6 @@ je %END_WHILE_"
 	RETURN
 
 :variable_load_string_0  "lea_eax,[ebp+DWORD] %"
-:variable_load_string_1  "
-"
 :variable_load_string_2  "mov_eax,[eax]
 "
 
@@ -1915,8 +1911,6 @@ je %END_WHILE_"
 	RETURN
 
 :global_load_string_0  "mov_eax, &GLOBAL_"
-:global_load_string_1  "
-"
 :global_load_string_2  "mov_eax,[eax]
 "
 
@@ -1967,8 +1961,6 @@ je %END_WHILE_"
 	RETURN
 
 :primary_expr_number_string_0  "mov_eax, %"
-:primary_expr_number_string_1  "
-"
 
 
 ;; primary_expr_string function
@@ -2048,13 +2040,11 @@ je %END_WHILE_"
 	RETURN
 
 :primary_expr_char_string_0  "mov_eax, %"
-:primary_expr_char_string_1  "
-"
+
 
 ;; next function skip to next token
 ;; HACK LJW this was previously require_match witch checked the token
 ;; Returns nothing
-:require_match
 :next
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX                         ; global_token->next
@@ -2093,9 +2083,6 @@ je %END_WHILE_"
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:uniqueID_string_0  "
-"
 
 
 ;; uniqueID_out function
