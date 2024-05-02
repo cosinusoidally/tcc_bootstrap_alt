@@ -2623,7 +2623,7 @@ Didn't get )
 
 :prim_types
 :type_int
-	&type_function                              ; NEXT
+	%0                                          ; NEXT
 	%4                                          ; SIZE
 	%0                                          ; OFFSET
 	&type_int                                   ; INDIRECT
@@ -2631,16 +2631,6 @@ Didn't get )
 	&type_int                                   ; TYPE
 	&type_int_name                              ; NAME
 :type_int_name  "int"
-
-:type_function
-	%0                                          ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_function                              ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_function                              ; TYPE
-	&type_function_name                         ; NAME
-:type_function_name  "FUNCTION"
 
 
 :C
