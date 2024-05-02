@@ -236,7 +236,7 @@ DEFINE SWAP_EAX_EBX 93
 :ELF_end
 "
 
-;; wrapper around INT_80 so can be easily overriden
+;; wrapper around INT_80 so can be easily overridden
 :syscall
 	INT_80
 	RETURN
