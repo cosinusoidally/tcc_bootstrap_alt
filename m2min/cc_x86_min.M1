@@ -870,8 +870,7 @@ NULL
 	JE32 %collect_arguments_common              ; case of commas between arguments
 
 	;; deal with foo(int a, char b)
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD32_Absolute32_ecx &function             ; Using function
 	LOAD32_ECX_from_ECX_Immediate8 !16          ; function->args
 	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size, function->arguments);
@@ -1139,8 +1138,7 @@ NULL
 
 	CALL32 %next
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD32_Absolute32_ecx &function             ; Using function
 	LOAD32_ECX_from_ECX_Immediate8 !4           ; function->locals
 	CALL32 %sym_declare                         ; Declare it
@@ -1212,8 +1210,7 @@ NULL
 	LOADI32_EAX &collect_local_string_0         ; Using "# Defining local "
 	CALL32 %emit_out                            ; emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	CALL32 %emit_out                            ; emit it
 
 	LOADI32_EAX &collect_local_string_1         ; Using "\n"
@@ -1630,8 +1627,7 @@ je %END_WHILE_"
 	PUSH_EBX                                    ; Protect EBX
 
 :primary_expr_paren
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD8_al_from_EAX                           ; global_token->S[0]
 	MOVZX_al                                    ; Make it useful
 	CMPI8_EAX !40                               ; IF global_token->S[0] == "("
@@ -1644,8 +1640,7 @@ je %END_WHILE_"
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_ch
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD8_al_from_EAX                           ; global_token->S[0]
 	MOVZX_al                                    ; Make it useful
 	CMPI8_EAX !39                               ; Using "'"
