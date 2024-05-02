@@ -796,7 +796,7 @@ NULL
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->s
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &declare_function_string_3      ; "\n"
+	LOADI32_EAX &newline                        ; "\n"
 	CALL32 %emit_out                            ; emit it
 
 	CALL32 %statement                           ; Recursively get the function pieces
@@ -2534,7 +2534,8 @@ je %END_WHILE_"
 :comma  ","
 :semicolon  ";"
 :equal  "="
-:newline  "\n"
+:newline  "
+"
 :underline  "_"
 
 
