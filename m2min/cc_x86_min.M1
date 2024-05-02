@@ -1075,9 +1075,7 @@ NULL
 
 	CALL32 %next
 
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; make it useful
+	CALL32 %get_s0
 	CMPI8_EAX !59                               ; If global_token->S[0] == ';'
 	JE32 %return_result_cleanup                 ; Go straight to cleanup
 
