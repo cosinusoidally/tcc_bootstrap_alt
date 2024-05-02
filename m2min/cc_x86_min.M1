@@ -835,8 +835,8 @@ NULL
 	PUSH_ECX                                    ; Protect ECX
 	CALL32 %next
 :collect_arguments_loop
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &close_paren                    ; ")"
 	CALL32 %match                               ; IF global_token->S == ")"
 	CMPI8_EAX !0                                ; we reached the end
@@ -845,8 +845,8 @@ NULL
 	;; deal with the case of there are arguments
 	CALL32 %next
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
 	CMPI8_EAX !0                                ; then deal with the common
