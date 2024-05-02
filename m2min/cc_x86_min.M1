@@ -928,8 +928,8 @@ NULL
 	JE32 %statement_local_success              ; Sweet a new local
 
 	;; Second chance
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 
 	JMP32 %statement_if                         ; otherwise try IF
 
