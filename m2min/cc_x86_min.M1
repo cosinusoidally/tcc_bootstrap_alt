@@ -1893,13 +1893,9 @@ je %END_WHILE_"
 :primary_expr_number
 	LOADI32_EAX &primary_expr_number_string_0   ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
-
 	CALL32 %get_s
 	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
-
+	CALL32 %emit_newline
 	CALL32 %next
 	RETURN
 
