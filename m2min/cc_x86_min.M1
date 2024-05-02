@@ -945,7 +945,7 @@ NULL
 	COPY_EBX_to_EAX                             ; put global_token->S in the right place
 	CALL32 %lookup_type                         ; See if found
 	CMPI8_EAX !0                                ; IF NULL == lookup_type(global_token->S, prim_types)
-	JNE32 %statement_local_success              ; Sweet a new local
+	JE32 %statement_local_success              ; Sweet a new local
 
 	;; Second chance
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
@@ -2354,21 +2354,12 @@ Didn't get )
 ;; Uses EBX for S and ECX for I
 :lookup_type
 	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
 	COPY_EAX_to_EBX                             ; Put S in place
 
-	LOADI32_ECX %1
-
 	LOADI32_EAX &int_string
-	CALL32 %match                               ; Check if matching
-	CMPI8_EAX !0                                ; IF I->NAME == S
-	JE32 %lookup_type_done                      ; return it
+	CALL32 %match
+	CMPI8_EAX !0
 
-	LOADI32_ECX %0
-
-:lookup_type_done
-	COPY_ECX_to_EAX                             ; return either I or NULL
-	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
