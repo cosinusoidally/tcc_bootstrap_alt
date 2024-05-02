@@ -1141,9 +1141,9 @@ NULL
 :collect_local
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	CALL32 %type_name                           ; Get the local's type
 
-	COPY_EAX_to_EBX                             ; Put struct type* type_size in the right place
+	CALL32 %next
+
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
 	LOAD32_Absolute32_ecx &function             ; Using function
