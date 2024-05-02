@@ -1962,18 +1962,13 @@ je %END_WHILE_"
 	PUSH_ECX                                    ; Protect ECX
 	LOADI32_EAX &primary_expr_char_string_0     ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
-
 	CALL32 %get_s
 	ADDI8_EAX !1                                ; global_token->S + 1
 	CALL32 %escape_lookup                       ; Get the char
 	CALL32 %numerate_number                     ; Convert to string
 	CALL32 %emit_out                            ; emit it
-
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
-
+	CALL32 %emit_newline
 	CALL32 %next
-
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
