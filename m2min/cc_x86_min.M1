@@ -166,20 +166,11 @@ DEFINE SWAP_EAX_EBX 93
 	;; Register usage:
 	;; EAX => Temps
 
-	;; Struct TYPE format: (size 28)
-	;; NEXT => 0
-	;; SIZE => 4
-	;; OFFSET => 8
-	;; INDIRECT => 12
-	;; MEMBERS => 16
-	;; TYPE => 20
-	;; NAME => 24
-
 	;; Struct TOKEN_LIST format: (size 20)
 	;; NEXT => 0
 	;; LOCALS/PREV => 4
 	;; S => 8
-	;; TYPE => 12
+	;; TYPE => 12 (UNUSED)
 	;; ARGS/DEPTH => 16
 
 ; Where the ELF Header is going to hit
