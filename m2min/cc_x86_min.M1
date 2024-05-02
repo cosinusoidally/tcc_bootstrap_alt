@@ -973,7 +973,7 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:statement_string_1  "jmp %"
+:statement_string_1  "jump %"
 
 
 ;; recursive_statement function
@@ -1312,7 +1312,7 @@ NULL
 :process_if_string_0  "# IF_"
 :process_if_string_2  "test_eax,eax
 je %ELSE_"
-:process_if_string_4  "jmp %_END_IF_"
+:process_if_string_4  "jump %_END_IF_"
 :process_if_string_5  ":ELSE_"
 :process_if_string_6  ":_END_IF_"
 
@@ -1448,7 +1448,7 @@ je %ELSE_"
 :process_while_string_3  "test_eax,eax
 je %END_WHILE_"
 :process_while_string_4  "# THEN_while_"
-:process_while_string_6  "jmp %WHILE_"
+:process_while_string_6  "jump %WHILE_"
 :process_while_string_7  ":END_WHILE_"
 
 ;; process_break function
