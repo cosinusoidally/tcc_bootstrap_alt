@@ -1941,7 +1941,7 @@ je %ELSE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_string_string_0  "mov_eax, &STRING_"
+:primary_expr_string_string_0  "constant &STRING_"
 :primary_expr_string_string_1  ":STRING_"
 
 
