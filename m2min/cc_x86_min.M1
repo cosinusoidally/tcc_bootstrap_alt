@@ -1547,9 +1547,9 @@ je %END_WHILE_"
 
 :expression_string_0  "mov_[ebx],eax
 "
-:expression_string_1  "push_eax	#_common_recursion
+:expression_string_1  "push_eax
 "
-:expression_string_2  "pop_ebx	# _common_recursion
+:expression_string_2  "pop_ebx
 "
 
 
