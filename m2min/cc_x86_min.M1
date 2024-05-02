@@ -1299,8 +1299,7 @@ NULL
 	RETURN
 
 :process_if_string_0  "# IF_"
-:process_if_string_2  "test_eax,eax
-je %ELSE_"
+:process_if_string_2  "jump_false %ELSE_"
 :process_if_string_4  "jump %_END_IF_"
 :process_if_string_5  ":ELSE_"
 :process_if_string_6  ":_END_IF_"
