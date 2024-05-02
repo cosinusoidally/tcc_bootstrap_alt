@@ -1783,8 +1783,7 @@ je %END_WHILE_"
 	LOADI32_EAX &function_call_string_3         ; Using "mov_edi,esp\t# Copy new base pointer\n"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD8_al_from_EAX                           ; global_token->S[0]
 	MOVZX_al                                    ; Make it useful
 	CMPI8_EAX !41                               ; IF global_token->S[0] == ")"
