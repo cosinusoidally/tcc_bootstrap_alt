@@ -1699,9 +1699,6 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_string_5  "Error in Primary expression
-Didn't get )
-"
 :primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 :primary_expr_string_7  "0123456789"
 
