@@ -1733,10 +1733,7 @@ je %END_WHILE_"
 	CALL32 %next
 
 	;; Deal with fixed function name
-	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_11        ; Using "call %FUNCTION_"
+	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi call %FUNCTION_"
 	CALL32 %emit_out                            ; Emit it
 
 	COPY_ECX_to_EAX                             ; Using S
@@ -1773,9 +1770,7 @@ je %END_WHILE_"
 "
 :function_call_string_5  "push_eax	#_process_expression2
 "
-:function_call_string_9  "mov_ebp,edi
-"
-:function_call_string_11 "call %FUNCTION_"
+:function_call_string_9  "mov_ebp,edi call %FUNCTION_"
 :function_call_string_13 "pop_ebx	# _process_expression_locals
 "
 :function_call_string_14 "pop_ebp pop_edi	# restore ebp and edi
