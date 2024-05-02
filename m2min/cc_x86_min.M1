@@ -920,8 +920,7 @@ NULL
 	JMP32 %statement_done                       ; be done
 
 :statement_if
-	LOADI32_EAX &if_string                      ; Using "if"
-	CALL32 %match                               ; IF global_token->S == "if"
+	LOADI32_EAX &if_string CALL32 %match
 	JNE32 %statement_while                      ; otherwise try WHILE
 
 	;; Deal with IF statement
@@ -929,8 +928,7 @@ NULL
 	JMP32 %statement_done                       ; be done
 
 :statement_while
-	LOADI32_EAX &while_string                   ; Using "while"
-	CALL32 %match                               ; IF global_token->S == "while"
+	LOADI32_EAX &while_string CALL32 %match
 	JNE32 %statement_asm                        ; otherwise try ASM
 
 	;; Deal with WHILE statement
@@ -938,8 +936,7 @@ NULL
 	JMP32 %statement_done                       ; be done
 
 :statement_asm
-	LOADI32_EAX &asm_string                     ; Using "asm"
-	CALL32 %match                               ; IF global_token->S == "asm"
+	LOADI32_EAX &asm_string CALL32 %match
 	JNE32 %statement_return                       ; otherwise try RETURN
 
 	;; Deal with ASM statement
@@ -947,8 +944,7 @@ NULL
 	JMP32 %statement_done                       ; be done
 
 :statement_return
-	LOADI32_EAX &return_string                  ; Using "return"
-	CALL32 %match                               ; IF global_token->S == "return"
+	LOADI32_EAX &return_string CALL32 %match
 	JNE32 %statement_break                      ; Otherwise try BREAK
 
 	;; Deal with RETURN Statement
@@ -956,8 +952,7 @@ NULL
 	JMP32 %statement_done                       ; be done
 
 :statement_break
-	LOADI32_EAX &break_string                   ; Using "break"
-	CALL32 %match                               ; IF global_token->S == "break"
+	LOADI32_EAX &break_string CALL32 %match
 	JNE32 %statement_else                       ; Otherwise try ELSE
 
 	;; Deal with BREAK statement
