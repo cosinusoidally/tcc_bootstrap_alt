@@ -1445,8 +1445,7 @@ je %ELSE_"
 
 :process_while_string_0  "END_WHILE_"
 :process_while_string_1  ":WHILE_"
-:process_while_string_3  "test_eax,eax
-je %END_WHILE_"
+:process_while_string_3  "jump_false %END_WHILE_"
 :process_while_string_4  "# THEN_while_"
 :process_while_string_6  "jump %WHILE_"
 :process_while_string_7  ":END_WHILE_"
