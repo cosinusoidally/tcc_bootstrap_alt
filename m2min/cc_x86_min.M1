@@ -1012,7 +1012,7 @@ NULL
 
 :statement_else
 	CALL32 %expression                          ; Collect expression
-	CALL32 %require_match                       ; make sure we have it
+	CALL32 %next
 
 :statement_done
 	POP_ECX                                     ; Restore ECX
@@ -1107,7 +1107,7 @@ NULL
 	CALL32 %expression                          ; get the expression we are returning
 
 :return_result_cleanup
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 !4           ; function->locals
@@ -1238,7 +1238,7 @@ NULL
 	CALL32 %expression                          ; Recurse
 
 :collect_local_done
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	LOADI32_EAX &collect_local_string_3         ; Using "push_eax\t#"
 	CALL32 %emit_out                            ; emit it
@@ -1268,8 +1268,7 @@ NULL
 	PUSH_EBX                                    ; Protect EBX
 
 	CALL32 %next
-
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 :process_asm_iter
@@ -1291,8 +1290,8 @@ NULL
 	JMP32 %process_asm_iter                     ; keep going
 
 :process_asm_done
-	CALL32 %require_match                       ; Make sure we have it
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
+	CALL32 %next
 
 	POP_EBX                                     ; Restore EBX
 	RETURN
@@ -1325,8 +1324,7 @@ NULL
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
 	CALL32 %next
-
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	CALL32 %expression                          ; Recurse to get the IF(...) part
 
@@ -1338,7 +1336,7 @@ NULL
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	CALL32 %statement                           ; Recursive to get the IF(){...} part
 
@@ -1472,7 +1470,7 @@ je %ELSE_"
 
 	CALL32 %next
 
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	CALL32 %expression                          ; Deal with the WHILE (...) part
 
@@ -1491,7 +1489,7 @@ je %ELSE_"
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	CALL32 %statement                           ; Deal with the {....} part
 
@@ -1570,7 +1568,7 @@ je %END_WHILE_"
 	LOADI32_EAX &process_break_string_3         ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
@@ -1647,7 +1645,7 @@ je %END_WHILE_"
 	;; deal with nesting
 	CALL32 %next
 	CALL32 %expression                          ; Lets recurse
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_ch
@@ -1792,7 +1790,7 @@ Didn't get )
 	COPY_EBX_to_EDX                             ; Put BOOL in place
 	LOADI32_ESI %0                              ; PASSED = 0
 
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	LOADI32_EAX &function_call_string_1         ; Using "push_edi\t# Prevent overwriting in recursion\n"
 	CALL32 %emit_out                            ; Emit it
@@ -1836,7 +1834,7 @@ Didn't get )
 
 :function_call_gen_done
 	;; All is collected
-	CALL32 %require_match                       ; Make sure we have it
+	CALL32 %next
 
 	;; Deal with fixed function name
 	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi\n"
@@ -2128,10 +2126,9 @@ Didn't get )
 :primary_expr_char_string_1  "
 "
 
-;; require_match function
-;; HACK LJW just skip to next token also named next
+;; next function skip to next token
+;; HACK LJW this was previously require_match witch checked the token
 ;; Returns nothing
-;; Uses ECX to hold message and updates global_token
 :require_match
 :next
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
