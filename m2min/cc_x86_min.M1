@@ -942,8 +942,8 @@ NULL
 	JMP32 %statement_done                       ; Be done
 
 :statement_local
-	COPY_EBX_to_EAX                             ; put global_token->S in the right place
-	CALL32 %lookup_type                         ; See if found
+	LOADI32_EAX &int_string
+	CALL32 %match
 	CMPI8_EAX !0                                ; IF NULL == lookup_type(global_token->S, prim_types)
 	JE32 %statement_local_success              ; Sweet a new local
 
