@@ -2356,19 +2356,16 @@ Didn't get )
 :lookup_type
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	COPY_EBX_to_ECX                             ; I = Start
 	COPY_EAX_to_EBX                             ; Put S in place
-:lookup_type_iter
-	CMPI8_ECX !0                                ; Check if I == NULL
-	JE32 %lookup_type_done                      ; return NULL
 
-	LOAD32_EAX_from_ECX_Immediate8 !24          ; I->NAME
+	LOADI32_ECX %1
+
+	LOADI32_EAX &int_string
 	CALL32 %match                               ; Check if matching
 	CMPI8_EAX !0                                ; IF I->NAME == S
 	JE32 %lookup_type_done                      ; return it
 
-	LOAD32_ECX_from_ECX                         ; Otherwise I = I->NEXT
-	JMP32 %lookup_type_iter                     ; And keep looping
+	LOADI32_ECX %0
 
 :lookup_type_done
 	COPY_ECX_to_EAX                             ; return either I or NULL
@@ -2607,6 +2604,7 @@ Didn't get )
 :asm_string  "asm"
 :return_string  "return"
 :break_string  "break"
+:int_string  "int"
 
 
 ;; Frequently Used strings
