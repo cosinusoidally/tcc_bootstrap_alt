@@ -1188,7 +1188,6 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:collect_local_string_0  "# Defining local "
 :collect_local_string_3  "reserve_stack_slot	#"
 
 
