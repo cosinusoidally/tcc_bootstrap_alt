@@ -787,8 +787,7 @@ NULL
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->s
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &newline                        ; "\n"
-	CALL32 %emit_out                            ; emit it
+	CALL32 %emit_newline
 
 	CALL32 %statement                           ; Recursively get the function pieces
 
@@ -1167,8 +1166,7 @@ NULL
 	CALL32 %get_s
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit_out                            ; emit it
+	CALL32 %emit_newline
 
 	CALL32 %next
 
@@ -1192,8 +1190,7 @@ NULL
 	COPY_ECX_to_EAX                             ; put A->S where it belongs
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit_out                            ; emit it
+	CALL32 %emit_newline
 
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
@@ -1221,8 +1218,7 @@ NULL
 	ADDI8_EAX !1                                ; global_token->S + 1
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit_out                            ; Emit it
+	CALL32 %emit_newline
 
 	CALL32 %next
 	JMP32 %process_asm_iter                     ; keep going
@@ -2080,6 +2076,11 @@ je %END_WHILE_"
 	STORE32_EBX_into_EAX                        ; t->next = head;
 	STORE32_ECX_into_EAX_Immediate8 !8          ; t->s = s;
 	POP_ECX                                     ; Restore ECX
+	RETURN
+
+:emit_newline
+	LOADI32_EAX &newline                        ; "\n"
+	CALL32 %emit_out                            ; emit it
 	RETURN
 
 
