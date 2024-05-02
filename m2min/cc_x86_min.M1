@@ -822,8 +822,6 @@ NULL
 :FUNCTION_"
 :declare_function_string_2  "ret
 "
-:declare_function_string_3  "
-"
 
 
 ;; collect_arguments function
@@ -997,8 +995,6 @@ NULL
 	RETURN
 
 :statement_string_1  "jmp %"
-:statement_string_2  "
-"
 
 
 ;; recursive_statement function
@@ -1228,8 +1224,6 @@ NULL
 	RETURN
 
 :collect_local_string_0  "# Defining local "
-:collect_local_string_1  "
-"
 :collect_local_string_3  "push_eax	#"
 
 
@@ -1262,9 +1256,6 @@ NULL
 	CALL32 %next
 
 	RETURN
-
-:process_asm_string_1  "
-"
 
 
 ;; process_if function
@@ -1544,8 +1535,6 @@ je %END_WHILE_"
 :process_break_string_1  "pop_ebx	# break_cleanup_locals
 "
 :process_break_string_2  "jmp %"
-:process_break_string_3  "
-"
 
 
 ;; expression function
@@ -1719,8 +1708,6 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_variable_string_1  "
-"
 :primary_expr_variable_string_2  "mov_eax, %"
 
 
