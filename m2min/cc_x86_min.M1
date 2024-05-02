@@ -710,7 +710,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &semicolon                      ; ";"
 	CALL32 %match                               ; if(match(";", global_token->s))
-	CMPI8_EAX !0                                ; If true
 	JNE32 %program_function                     ; looks like not a match
 
 	;; Deal with the global variable
@@ -773,7 +772,6 @@ NULL
 	CALL32 %get_s
 	LOADI32_EBX &semicolon                      ; ";"
 	CALL32 %match                               ; IF global token->s == ";"
-	CMPI8_EAX !0                                ; If true
 	JNE32 %declare_function_full                ; It was a prototype
 
 	;; Deal with prototypes
@@ -805,7 +803,6 @@ NULL
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; output->s
 	LOADI32_EBX &declare_function_string_2      ; "ret\n"
 	CALL32 %match                               ; IF output->s == "ret\n"
-	CMPI8_EAX !0                                ; If true we can skip adding it
 	JE32 %declare_function_done                 ; otherwise we need to add it
 
 	;; Add the return to the end of a function lacking a return;
@@ -837,7 +834,6 @@ NULL
 	COPY_EAX_to_EBX
 	LOADI32_EAX &close_paren                    ; ")"
 	CALL32 %match                               ; IF global_token->S == ")"
-	CMPI8_EAX !0                                ; we reached the end
 	JE32 %collect_arguments_done                ; be done
 
 	;; deal with the case of there are arguments
@@ -847,7 +843,6 @@ NULL
 	COPY_EAX_to_EBX
 	LOADI32_EAX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
-	CMPI8_EAX !0                                ; then deal with the common
 	JE32 %collect_arguments_common              ; case of commas between arguments
 
 	;; deal with foo(int a, char b)
@@ -886,7 +881,6 @@ NULL
 	COPY_EAX_to_EBX
 	LOADI32_EAX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
-	CMPI8_EAX !0                                ; then deal with the comma
 	JNE32 %collect_arguments_loop               ; otherwise loop
 
 	;; keep foo(bar(), 1) expressions working
@@ -922,7 +916,6 @@ NULL
 :statement_local
 	LOADI32_EAX &int_string                     ; Using "int"
 	CALL32 %match
-	CMPI8_EAX !0
 	JE32 %statement_local_success              ; Sweet a new local
 
 	;; Second chance
@@ -938,7 +931,6 @@ NULL
 :statement_if
 	LOADI32_EAX &if_string                      ; Using "if"
 	CALL32 %match                               ; IF global_token->S == "if"
-	CMPI8_EAX !0                                ; then we have an if statement
 	JNE32 %statement_while                      ; otherwise try WHILE
 
 	;; Deal with IF statement
@@ -948,7 +940,6 @@ NULL
 :statement_while
 	LOADI32_EAX &while_string                   ; Using "while"
 	CALL32 %match                               ; IF global_token->S == "while"
-	CMPI8_EAX !0                                ; then we have a while statement
 	JNE32 %statement_asm                        ; otherwise try ASM
 
 	;; Deal with WHILE statement
@@ -958,7 +949,6 @@ NULL
 :statement_asm
 	LOADI32_EAX &asm_string                     ; Using "asm"
 	CALL32 %match                               ; IF global_token->S == "asm"
-	CMPI8_EAX !0                                ; then we have an asm statement
 	JNE32 %statement_return                       ; otherwise try RETURN
 
 	;; Deal with ASM statement
@@ -968,7 +958,6 @@ NULL
 :statement_return
 	LOADI32_EAX &return_string                  ; Using "return"
 	CALL32 %match                               ; IF global_token->S == "return"
-	CMPI8_EAX !0                                ; then we have a return statement
 	JNE32 %statement_break                      ; Otherwise try BREAK
 
 	;; Deal with RETURN Statement
@@ -978,7 +967,6 @@ NULL
 :statement_break
 	LOADI32_EAX &break_string                   ; Using "break"
 	CALL32 %match                               ; IF global_token->S == "break"
-	CMPI8_EAX !0                                ; then we have a break statement
 	JNE32 %statement_else                       ; Otherwise try ELSE
 
 	;; Deal with BREAK statement
@@ -1016,7 +1004,6 @@ NULL
 	COPY_EAX_to_EBX
 	LOADI32_EAX &close_curly_brace              ; Using "}"
 	CALL32 %match                               ; IF global_token->S == "}"
-	CMPI8_EAX !0                                ; Then we are done recursing
 	JE32 %recursive_statement_cleanup           ; and then we clean up
 
 	;; Deal with the recursive calls
@@ -1030,7 +1017,6 @@ NULL
 	LOAD32_Absolute32_ebx &output_list          ; Using output
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; output->S
 	CALL32 %match                               ; IF output->S == "ret\n"
-	CMPI8_EAX !0                                ; Then we can skip the clean up
 	JE32 %recursive_statement_done              ; and be done
 
 	;; Deal with cleanup
@@ -1126,7 +1112,6 @@ NULL
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; function->S
 	CALL32 %match                               ; IF match("main", function->s)
-	CMPI8_EAX !0                                ; possible
 	JNE32 %collect_local_fresh                  ; try to see if fresh function
 
 	;; Ok we are in main, now to see if main is fresh
