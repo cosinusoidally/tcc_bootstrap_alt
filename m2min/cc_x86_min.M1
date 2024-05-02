@@ -703,9 +703,7 @@ DEFINE SWAP_EAX_EBX 93
 	CMPI8_EAX !0                                ; Check if NULL
 	JE32 %program_done                          ; Be done if null
 
-	CALL32 %type_name                           ; Figure out the type_size
-	CMPI8_EAX !0                                ; IF NULL == type_size
-	JE32 %new_type                              ; it was a new type
+	CALL32 %next
 
 	;; Add to global symbol table
 	LOAD32_Absolute32_eax &global_token         ; Using global token
@@ -864,7 +862,7 @@ NULL
 	JE32 %collect_arguments_done                ; be done
 
 	;; deal with the case of there are arguments
-	CALL32 %type_name                           ; Get the type
+	CALL32 %next
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
@@ -2348,16 +2346,6 @@ Didn't get )
 :hex1
 	STORE8_al_into_Address_ECX                  ; store result
 	ADDI8_ECX !1                                ; next position
-	RETURN
-
-
-;; type_name function
-;; Receives nothing
-;; Returns type_size in EAX
-;; Uses ECX for STRUCT TYPE* RET
-:type_name
-	CALL32 %next
-	LOADI32_EAX %4
 	RETURN
 
 
