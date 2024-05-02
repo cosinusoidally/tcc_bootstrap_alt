@@ -1194,7 +1194,7 @@ NULL
 	CALL32 %get_s
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &collect_local_string_1         ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; emit it
 
 	CALL32 %next
@@ -1220,7 +1220,7 @@ NULL
 	COPY_ECX_to_EAX                             ; put A->S where it belongs
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &collect_local_string_1         ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; emit it
 
 	POP_ECX                                     ; Restore ECX
@@ -1251,7 +1251,7 @@ NULL
 	ADDI8_EAX !1                                ; global_token->S + 1
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &process_asm_string_1           ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %next
@@ -1532,7 +1532,7 @@ je %END_WHILE_"
 	LOAD32_Absolute32_eax &break_target_num     ; Get dem digits
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &process_break_string_3         ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %next
@@ -1787,7 +1787,7 @@ je %END_WHILE_"
 	COPY_ECX_to_EAX                             ; Using S
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &function_call_string_12        ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	LOADI32_EAX &function_call_string_13        ; Using "pop_ebx\t# _process_expression_locals\n"
@@ -1857,7 +1857,7 @@ je %END_WHILE_"
 	CALL32 %numerate_number                     ; Convert to string
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &variable_load_string_1         ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	;; Check for special case of assignment
@@ -1909,7 +1909,7 @@ je %END_WHILE_"
 	COPY_EBX_to_EAX                             ; Using A->S
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &global_load_string_1           ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
@@ -1973,7 +1973,7 @@ je %END_WHILE_"
 	CALL32 %get_s
 	CALL32 %emit_out                            ; Emit it
 
-	LOADI32_EAX &primary_expr_number_string_1   ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %next
@@ -2051,7 +2051,7 @@ je %END_WHILE_"
 	CALL32 %numerate_number                     ; Convert to string
 	CALL32 %emit_out                            ; emit it
 
-	LOADI32_EAX &primary_expr_char_string_1     ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %next
@@ -2101,7 +2101,7 @@ je %END_WHILE_"
 	COPY_ECX_to_EAX                             ; Put num in correct place
 	CALL32 %emit                                ; emit(num, l)
 	COPY_EAX_to_EBX                             ; Put L in correct place
-	LOADI32_EAX &uniqueID_string_0              ; Using "\n"
+	LOADI32_EAX &newline                        ; Using "\n"
 	CALL32 %emit                                ; emit("\n", l)
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
