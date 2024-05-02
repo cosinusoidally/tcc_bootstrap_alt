@@ -739,20 +739,10 @@ DEFINE SWAP_EAX_EBX 93
 	JMP32 %new_type                             ; go around again
 
 :program_function
-	LOAD32_Absolute32_ebx &global_token         ; Using global token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &open_paren                     ; "("
-	CALL32 %match                               ; if(match(";", global_token->s))
-	CMPI8_EAX !0                                ; If true
-	JNE32 %program_error                        ; Otherwise deal with error case
 
 	;; Deal with function definition
 	CALL32 %declare_function                    ; Lets get the parsing rolling
 	JMP32 %new_type                             ; Keep looping through functions
-
-:program_error
-	;; Deal with the case of something we don't support
-	;; NOT IMPLEMENTED
 
 :program_done
 	POP_ECX                                     ; Restore ECX
