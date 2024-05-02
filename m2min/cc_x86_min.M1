@@ -1160,14 +1160,6 @@ NULL
 	STORE32_ECX_into_EAX_Immediate8 !4          ; function->locals = a
 	LOAD32_ECX_from_ECX_Immediate8 !8           ; a->S
 
-	LOADI32_EAX &collect_local_string_0         ; Using "# Defining local "
-	CALL32 %emit_out                            ; emit it
-
-	CALL32 %get_s
-	CALL32 %emit_out                            ; emit it
-
-	CALL32 %emit_newline
-
 	CALL32 %next
 
 	CALL32 %get_s
@@ -1197,7 +1189,7 @@ NULL
 	RETURN
 
 :collect_local_string_0  "# Defining local "
-:collect_local_string_3  "push_eax	#"
+:collect_local_string_3  "reserve_stack_slot	#"
 
 
 ;; process_asm function
