@@ -2526,7 +2526,6 @@ je %END_WHILE_"
 
 
 ;; Frequently Used strings
-;; Generally used by require_match
 :open_curly_brace  "{"
 :close_curly_brace  "}"
 :open_paren  "("
