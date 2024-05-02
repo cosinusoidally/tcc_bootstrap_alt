@@ -1184,7 +1184,6 @@ NULL
 	COPY_EAX_to_EBX
 	LOADI32_EAX &equal                          ; Using "="
 	CALL32 %match                               ; IF match("=", global_token->s)
-	CMPI8_EAX !0                                ; Deal with assignment
 	JNE32 %collect_local_done                   ; Otherwise finish it
 
 	;; Deal with assignment
@@ -1302,7 +1301,6 @@ NULL
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &else_string                    ; Using "else"
 	CALL32 %match                               ; IF global_token->S == "else"
-	CMPI8_EAX !0                                ; Then we need to collect the else too
 	JNE32 %process_if_done                      ; Otherwise finish up
 
 	;; deal with else statement
@@ -1536,7 +1534,6 @@ je %END_WHILE_"
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &equal                          ; "="
 	CALL32 %match                               ; IF global_token->S == "="
-	CMPI8_EAX !0                                ; We have to deal with assignment
 	JNE32 %expression_done                      ; Looks like nope
 
 	;; Deal with possible assignment
@@ -1835,7 +1832,6 @@ je %END_WHILE_"
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &equal                          ; Using "="
 	CALL32 %match                               ; IF global_token->S == "="
-	CMPI8_EAX !0                                ; Then we skip loading
 	JE32 %variable_load_done                    ; And be done
 
 	;; Deal with common case
@@ -1884,7 +1880,6 @@ je %END_WHILE_"
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
 	LOADI32_EAX &equal                          ; "="
 	CALL32 %match                               ; IF global_token->S == "="
-	CMPI8_EAX !0                                ; We need to skip for assignment
 	JE32 %global_load_done                      ; and be done
 
 	;; Otherwise we are loading the contents
@@ -1915,7 +1910,6 @@ je %END_WHILE_"
 
 	LOAD32_EAX_from_ECX_Immediate8 !8           ; Using I->S
 	CALL32 %match                               ; IF I->S == S
-	CMPI8_EAX !0                                ; then be done
 	JE32 %sym_lookup_done                       ; Failed
 
 	LOAD32_ECX_from_ECX                         ; I = I->NEXT
