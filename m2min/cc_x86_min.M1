@@ -1033,7 +1033,7 @@ NULL
 
 :recursive_statement_string_0  "ret
 "
-:recursive_statement_string_1  "pop_ebx	# _recursive_statement_locals
+:recursive_statement_string_1  "pop_ebx
 "
 
 
@@ -1718,7 +1718,7 @@ je %END_WHILE_"
 
 	CALL32 %expression                          ; Collect the argument
 
-	LOADI32_EAX &function_call_string_5         ; Using "push_eax\t#_process_expression2\n"
+	LOADI32_EAX &function_call_string_4         ; Using "push_eax\t#_process_expression2\n"
 	CALL32 %emit_out                            ; Emit it
 	ADDI8_ESI !1                                ; PASSED = PASSED + 1
 	JMP32 %function_call_gen_iter               ; Keep trying
@@ -1758,16 +1758,14 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_call_string_1  "push_edi push_ebp mov_edi,esp	# setup call frame
+:function_call_string_1  "push_edi push_ebp mov_edi,esp
 "
-:function_call_string_4  "push_eax	#_process_expression1
-"
-:function_call_string_5  "push_eax	#_process_expression2
+:function_call_string_4  "push_eax
 "
 :function_call_string_9  "mov_ebp,edi call %FUNCTION_"
-:function_call_string_13 "pop_ebx	# _process_expression_locals
+:function_call_string_13 "pop_ebx
 "
-:function_call_string_14 "pop_ebp pop_edi	# restore ebp and edi
+:function_call_string_14 "pop_ebp pop_edi
 "
 
 
