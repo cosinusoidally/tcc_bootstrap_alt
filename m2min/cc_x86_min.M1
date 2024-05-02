@@ -2426,8 +2426,6 @@ je %END_WHILE_"
 
 ;; Keywords
 :main_string  "main"
-:argc_string  "argc"
-:argv_string  "argv"
 :if_string  "if"
 :else_string  "else"
 :while_string  "while"
