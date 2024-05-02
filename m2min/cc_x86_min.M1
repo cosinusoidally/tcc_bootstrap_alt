@@ -1965,7 +1965,7 @@ je %ELSE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_char_string_0  "mov_eax, %"
+:primary_expr_char_string_0  "constant %"
 
 
 ;; next function skip to next token
