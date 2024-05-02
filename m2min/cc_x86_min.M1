@@ -986,8 +986,7 @@ NULL
 :recursive_statement_loop
 	CALL32 %get_s
 	COPY_EAX_to_EBX
-	LOADI32_EAX &close_curly_brace              ; Using "}"
-	CALL32 %match                               ; IF global_token->S == "}"
+	LOADI32_EAX &close_curly_brace CALL32 %match
 	JE32 %recursive_statement_cleanup           ; and then we clean up
 
 	;; Deal with the recursive calls
