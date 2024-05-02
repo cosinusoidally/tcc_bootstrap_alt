@@ -973,8 +973,6 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:statement_string_1  "jump %"
-
 
 ;; recursive_statement function
 ;; Receives nothing
@@ -1469,7 +1467,7 @@ je %ELSE_"
 :process_break_cleaned
 	CALL32 %next
 
-	LOADI32_EAX &process_break_string_2         ; Using "jmp %"
+	LOADI32_EAX &jump_string                    ; Using "jump %"
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &break_target_head    ; Get what we are in
@@ -1494,7 +1492,7 @@ je %ELSE_"
 
 :process_break_string_1  "pop_ebx	# break_cleanup_locals
 "
-:process_break_string_2  "jump %"
+:jump_string  "jump %"
 
 
 ;; expression function
