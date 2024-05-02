@@ -1075,7 +1075,7 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:return_result_string_1  "pop_ebx	# _return_result_locals
+:return_result_string_1  "pop_ebx
 "
 :return_result_string_2  "ret
 "
