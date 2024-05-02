@@ -1838,29 +1838,6 @@ Didn't get )
 	;; All is collected
 	CALL32 %require_match                       ; Make sure we have it
 
-	CMPI8_EDX !0                                ; IF(BOOL == TRUE)
-	JNE32 %function_call_static                 ; Otherwise it is a static call
-
-	;; Deal with a passed function pointer
-	LOADI32_EAX &function_call_string_7         ; Using "lea_eax,[ebp+DWORD] %"
-	CALL32 %emit_out                            ; Emit it
-
-	COPY_ECX_to_EAX                             ; Using S
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_8         ; Using "\nmov_eax,[eax]\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_10        ; Using "call_eax\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_13        ; Using "pop_ebx\t# _process_expression_locals\n"
-	JMP32 %function_call_cleanup                ; Clean up
-
-:function_call_static
 	;; Deal with fixed function name
 	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi\n"
 	CALL32 %emit_out                            ; Emit it
@@ -1909,13 +1886,7 @@ Didn't get )
 "
 :function_call_string_5  "push_eax	#_process_expression2
 "
-:function_call_string_7  "lea_eax,[ebp+DWORD] %"
-:function_call_string_8  "
-mov_eax,[eax]
-"
 :function_call_string_9  "mov_ebp,edi
-"
-:function_call_string_10 "call_eax
 "
 :function_call_string_11 "call %FUNCTION_"
 :function_call_string_12 "
@@ -1977,22 +1948,10 @@ mov_eax,[eax]
 ;; function_load function
 ;; Receives struct token_list* a in EAX
 ;; Returns nothing
-;; Uses ECX to hold A->S
+;; LJW HACK removed support for function pointers
 :function_load
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; A->S
-	COPY_EAX_to_ECX                             ; Protect A->S
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
-	LOADI32_EAX &open_paren                     ; Using "("
-
-	;; Deal with function call
-	COPY_ECX_to_EAX                             ; Using A->S
-	LOADI32_EBX %1                              ; Using FALSE
 	CALL32 %function_call                       ; Deal with it
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
