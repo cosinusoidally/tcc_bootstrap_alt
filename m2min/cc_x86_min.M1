@@ -1764,7 +1764,7 @@ je %ELSE_"
 :function_call_string_9  "do_call %FUNCTION_"
 :function_call_string_13 "pop_ebx
 "
-:function_call_string_14 "pop_ebp pop_edi
+:function_call_string_14 ")
 "
 
 
