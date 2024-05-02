@@ -1758,10 +1758,7 @@ je %END_WHILE_"
 	JMP32 %function_call_cleanup                ; Keep going
 
 :function_call_done
-	LOADI32_EAX &function_call_string_14        ; Using "pop_ebp\t# Restore old base pointer\n"
-	CALL32 %emit_out                            ; Emit it
-
-	LOADI32_EAX &function_call_string_15        ; Using "pop_edi\t# Prevent overwrite\n"
+	LOADI32_EAX &function_call_string_14        ; Using "restore ebp edi\n"
 	CALL32 %emit_out                            ; Emit it
 
 	POP_ESI                                     ; Restore ESI
@@ -1781,9 +1778,7 @@ je %END_WHILE_"
 :function_call_string_11 "call %FUNCTION_"
 :function_call_string_13 "pop_ebx	# _process_expression_locals
 "
-:function_call_string_14 "pop_ebp	# Restore old base pointer
-"
-:function_call_string_15 "pop_edi	# Prevent overwrite
+:function_call_string_14 "pop_ebp pop_edi	# restore ebp and edi
 "
 
 
