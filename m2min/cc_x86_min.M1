@@ -1237,14 +1237,11 @@ NULL
 ;; Receives nothing
 ;; Returns nothing
 ;; Simply inlines the asm statements
-;; Uses EBX for global_token temp storage
 :process_asm
-	PUSH_EBX                                    ; Protect EBX
 
 	CALL32 %next
 	CALL32 %next
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 :process_asm_iter
 	CALL32 %get_s0
 	CMPI8_EAX !34                               ; IF global_token->S[0] == '\"'
@@ -1258,14 +1255,12 @@ NULL
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %next
-	COPY_EAX_to_EBX
 	JMP32 %process_asm_iter                     ; keep going
 
 :process_asm_done
 	CALL32 %next
 	CALL32 %next
 
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 :process_asm_string_1  "
