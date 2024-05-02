@@ -1840,8 +1840,8 @@ je %END_WHILE_"
 
 	CALL32 %emit_newline
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &equal                          ; "="
 	CALL32 %match                               ; IF global_token->S == "="
 	JE32 %global_load_done                      ; and be done
