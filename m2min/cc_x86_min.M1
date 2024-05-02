@@ -17,6 +17,12 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with stage0.  If not, see <http://www.gnu.org/licenses/>.
 
+# ( is:
+# push_edi
+# push_ebp
+# mov_edi,esp
+DEFINE ( 575589E7
+
 DEFINE ADDI8_EAX 83C0
 DEFINE ADDI8_EBX 83C3
 DEFINE ADDI8_ECX 83C1
@@ -1758,7 +1764,7 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_call_string_1  "push_edi push_ebp mov_edi,esp
+:function_call_string_1  "(
 "
 :function_call_string_4  "push_eax
 "
