@@ -1250,15 +1250,15 @@ NULL
 	CMPI8_EAX !34                               ; IF global_token->S[0] == '\"'
 	JNE32 %process_asm_done                     ; Otherwise be done
 
-	LOAD32_EAX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	ADDI8_EAX !1                                ; global_token->S + 1
 	CALL32 %emit_out                            ; Emit it
 
 	LOADI32_EAX &process_asm_string_1           ; Using "\n"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_EBX_from_EBX                         ; global_token->NEXT
-	STORE32_Absolute32_ebx &global_token        ; global_token = global_token->NEXT
+	CALL32 %next
+	COPY_EAX_to_EBX
 	JMP32 %process_asm_iter                     ; keep going
 
 :process_asm_done
