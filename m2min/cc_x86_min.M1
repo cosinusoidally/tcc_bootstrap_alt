@@ -1503,7 +1503,7 @@ je %ELSE_"
 
 :process_break_string_1  "pop_ebx	# break_cleanup_locals
 "
-:process_break_string_2  "jmp %"
+:process_break_string_2  "jump %"
 
 
 ;; expression function
