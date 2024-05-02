@@ -942,9 +942,9 @@ NULL
 	JMP32 %statement_done                       ; Be done
 
 :statement_local
-	LOADI32_EAX &int_string
+	LOADI32_EAX &int_string                     ; Using "int"
 	CALL32 %match
-	CMPI8_EAX !0                                ; IF NULL == lookup_type(global_token->S, prim_types)
+	CMPI8_EAX !0
 	JE32 %statement_local_success              ; Sweet a new local
 
 	;; Second chance
@@ -2345,22 +2345,6 @@ Didn't get )
 :hex1
 	STORE8_al_into_Address_ECX                  ; store result
 	ADDI8_ECX !1                                ; next position
-	RETURN
-
-
-;; lookup_type function
-;; Receives char* s in EAX and struct type* start in EBX
-;; Returns struct type* in EAX
-;; Uses EBX for S and ECX for I
-:lookup_type
-	PUSH_EBX                                    ; Protect EBX
-	COPY_EAX_to_EBX                             ; Put S in place
-
-	LOADI32_EAX &int_string
-	CALL32 %match
-	CMPI8_EAX !0
-
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
