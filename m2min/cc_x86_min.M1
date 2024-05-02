@@ -1627,9 +1627,7 @@ je %END_WHILE_"
 	PUSH_EBX                                    ; Protect EBX
 
 :primary_expr_paren
-	CALL32 %get_s
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	CMPI8_EAX !40                               ; IF global_token->S[0] == "("
 	JNE32 %primary_expr_ch                      ; Otherwise try char
 
@@ -1640,9 +1638,7 @@ je %END_WHILE_"
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_ch
-	CALL32 %get_s
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	CMPI8_EAX !39                               ; Using "'"
 	JNE32 %primary_expr_str                     ; Otherwise try string
 
@@ -1651,9 +1647,7 @@ je %END_WHILE_"
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_str
-	CALL32 %get_s
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	CMPI8_EAX !34                               ; Using '\"'
 	JNE32 %primary_expr_var                     ; Otherwise try a variable
 
@@ -1662,9 +1656,7 @@ je %END_WHILE_"
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_var
-	CALL32 %get_s
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	LOADI32_EBX &primary_expr_string_6          ; Using "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 	CALL32 %In_Set                              ; See if we have a match
 	CMPI8_EAX !1                                ; IF match
@@ -1675,9 +1667,7 @@ je %END_WHILE_"
 	JMP32 %primary_expr_done                    ; Be done
 
 :primary_expr_num
-	CALL32 %get_s
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	LOADI32_EBX &primary_expr_string_7          ; Using "0123456789"
 	CALL32 %In_Set                              ; See if we have a match
 	CMPI8_EAX !1                                ; IF match
@@ -2120,6 +2110,12 @@ je %END_WHILE_"
 :get_s
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	RETURN
+
+:get_s0
+	CALL32 %get_s
+	LOAD8_al_from_EAX                           ; global_token->S[0]
+	MOVZX_al                                    ; Make it useful
 	RETURN
 
 ;; uniqueID Function
