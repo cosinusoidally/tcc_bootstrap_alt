@@ -2317,6 +2317,7 @@ je %END_WHILE_"
 :match_False
 	LOADI32_EAX %1                              ; Return false
 :match_Done
+	CMPI8_EAX !0                                ; make sure flags are set so we can conditionally branch straight after match
 	POP_EDX                                     ; Restore EDX
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
