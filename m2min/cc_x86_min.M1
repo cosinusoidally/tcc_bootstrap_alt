@@ -182,20 +182,20 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Get the actual input name
 	LOADI32_ECX %0                              ; prepare read_only
 	LOADI32_EAX %5                              ; the syscall number for open()
-	INT_80                                      ; Now open that damn file
+	CALL32 %syscall
 	STORE32_Absolute32_eax &Input_file          ; Preserve the file pointer we were given
 
 	POP_EBX                                     ; Get the actual output name
 	LOADI32_ECX %577                            ; Prepare file as O_WRONLY|O_CREAT|O_TRUNC
 	LOADI32_EDX %384                            ; Prepare file as RW for owner only (600 in octal)
 	LOADI32_EAX %5                              ; the syscall number for open()
-	INT_80                                      ; Now open that damn file
+	CALL32 %syscall
 
 	STORE32_Absolute32_eax &Output_file         ; Preserve the file pointer we were given
 
 	LOADI32_EAX %45                             ; the Syscall # for SYS_BRK
 	LOADI32_EBX %0                              ; Get current brk
-	INT_80                                      ; Let the kernel do the work
+	CALL32 %syscall
 	STORE32_Absolute32_eax &MALLOC              ; Set our malloc pointer
 	LOADI32_EAX %0                              ; HEAD = NULL
 	CALL32 %read_all_tokens                     ; Read all tokens
@@ -221,7 +221,7 @@ DEFINE SWAP_EAX_EBX 93
 	; program completed Successfully
 	LOADI32_EBX %0                              ; All is well
 	LOADI32_EAX %1                              ; put the exit syscall number in eax
-	INT_80                                      ; Call it a good day
+	CALL32 %syscall
 
 :header_string1  "
 # Core program
@@ -236,6 +236,10 @@ DEFINE SWAP_EAX_EBX 93
 :ELF_end
 "
 
+;; wrapper around INT_80 so can be easily overriden
+:syscall
+	INT_80
+	RETURN
 
 ;; read_all_tokens function
 ;; Receives Token_List* in EAX
@@ -390,7 +394,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_ebx &MALLOC               ; Using the current pointer
 	ADD_eax_into_ebx                            ; Request the number of desired bytes
 	LOADI32_EAX %45                             ; the Syscall # for SYS_BRK
-	INT_80                                      ; call the Kernel
+	CALL32 %syscall
 	LOAD32_Absolute32_eax &MALLOC               ; Return pointer
 	STORE32_Absolute32_ebx &MALLOC              ; Update pointer
 	POP_EDX                                     ; Restore EDX
@@ -577,7 +581,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_ebx &Input_file           ; Where are we reading from
 	LOADI32_EAX %3                              ; the syscall number for read
 	LOADI32_EDX %1                              ; set the size of chars we want
-	INT_80                                      ; call the Kernel
+	CALL32 %syscall
 	POP_EAX                                     ; Get either char or EOF
 	CMPI8_EAX !-4                               ; Check for EOF
 	JE32 %fgetc_done                            ; Return as is
@@ -673,7 +677,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_ebx &Output_file          ; Write to target file
 	LOADI32_EAX %4                              ; the syscall number for write
 	LOADI32_EDX %1                              ; set the size of chars we want
-	INT_80                                      ; call the Kernel
+	CALL32 %syscall
 	POP_EAX                                     ; Restore stack
 	POP_EDX                                     ; Restore EDX
 	POP_ECX                                     ; Restore ECX
