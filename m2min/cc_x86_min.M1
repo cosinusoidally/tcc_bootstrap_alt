@@ -709,7 +709,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %get_s
 	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_declare                         ; Declare symbol
-	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
+	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size(unused), global_symbol_list);
 	CALL32 %next
 
 	LOAD32_Absolute32_ebx &global_token         ; Using global token
@@ -863,7 +863,7 @@ NULL
 	CALL32 %get_s
 	LOAD32_Absolute32_ecx &function             ; Using function
 	LOAD32_ECX_from_ECX_Immediate8 !16          ; function->args
-	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size, function->arguments);
+	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size(unused), function->arguments);
 	COPY_EAX_to_ECX                             ; put a in a safe place
 
 	LOAD32_Absolute32_eax &function             ; Using function
@@ -2526,15 +2526,6 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-
-;; Exit_Failure function
-;; Receives nothing
-;; And aborts hard
-;; Does NOT return
-:Exit_Failure
-	LOADI32_EBX %1                              ; All is wrong
-	LOADI32_EAX %1                              ; put the exit syscall number in eax
-	INT_80                                      ; Call it a bad day
 
 ;; Keywords
 :main_string  "main"
