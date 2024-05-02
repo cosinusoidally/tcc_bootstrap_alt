@@ -1016,8 +1016,8 @@ NULL
 	LOAD32_ECX_from_ECX_Immediate8 !4           ; frame = function->locals
 
 :recursive_statement_loop
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &close_curly_brace              ; Using "}"
 	CALL32 %match                               ; IF global_token->S == "}"
 	CMPI8_EAX !0                                ; Then we are done recursing
