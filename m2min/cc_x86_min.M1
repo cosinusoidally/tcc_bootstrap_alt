@@ -1897,7 +1897,7 @@ je %END_WHILE_"
 	CALL32 %next
 	RETURN
 
-:primary_expr_number_string_0  "mov_eax, %"
+:primary_expr_number_string_0  "constant %"
 
 
 ;; primary_expr_string function
