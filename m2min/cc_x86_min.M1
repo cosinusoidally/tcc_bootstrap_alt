@@ -1785,10 +1785,7 @@ je %END_WHILE_"
 	LOADI32_ESI %1                              ; PASSED = 1
 
 :function_call_gen_iter
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
-	LOAD8_al_from_EAX                           ; global_token->S[0]
-	MOVZX_al                                    ; Make it useful
+	CALL32 %get_s0
 	CMPI8_EAX !44                               ; IF global_token->S[0] == ","
 	JNE32 %function_call_gen_done               ; Otherwise we are done
 
@@ -1998,8 +1995,7 @@ je %END_WHILE_"
 	LOADI32_EAX &primary_expr_number_string_0   ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	CALL32 %emit_out                            ; Emit it
 
 	LOADI32_EAX &primary_expr_number_string_1   ; Using "\n"
@@ -2049,8 +2045,7 @@ je %END_WHILE_"
 	COPY_EAX_to_EBX                             ; put new strings_list in place
 
 	;; Parse the string
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	CALL32 %parse_string                        ; convert to useful form
 	CALL32 %emit                                ; Emit it
 	STORE32_Absolute32_eax &strings_list        ; Update Strings _list
@@ -2075,8 +2070,7 @@ je %END_WHILE_"
 	LOADI32_EAX &primary_expr_char_string_0     ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	ADDI8_EAX !1                                ; global_token->S + 1
 	CALL32 %escape_lookup                       ; Get the char
 	CALL32 %numerate_number                     ; Convert to string
