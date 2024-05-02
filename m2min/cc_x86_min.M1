@@ -943,7 +943,6 @@ NULL
 
 :statement_local
 	COPY_EBX_to_EAX                             ; put global_token->S in the right place
-	LOADI32_EBX &prim_types                     ; pointer to primative types
 	CALL32 %lookup_type                         ; See if found
 	CMPI8_EAX !0                                ; IF NULL == lookup_type(global_token->S, prim_types)
 	JNE32 %statement_local_success              ; Sweet a new local
@@ -2618,17 +2617,6 @@ Didn't get )
 :equal  "="
 :newline  "\n"
 :underline  "_"
-
-:prim_types
-:type_int
-	%0                                          ; NEXT
-	%4                                          ; SIZE
-	%0                                          ; OFFSET
-	&type_int                                   ; INDIRECT
-	%0                                          ; MEMBERS
-	&type_int                                   ; TYPE
-	&type_int_name                              ; NAME
-:type_int_name  "int"
 
 
 :C
