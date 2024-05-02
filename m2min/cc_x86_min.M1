@@ -706,8 +706,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %next
 
 	;; Add to global symbol table
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
 	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_declare                         ; Declare symbol
 	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
@@ -787,8 +786,7 @@ NULL
 
 	CALL32 %collect_arguments                   ; collect all of the function arguments
 
-	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global token->s
+	CALL32 %get_s
 	LOADI32_EBX &semicolon                      ; ";"
 	CALL32 %match                               ; IF global token->s == ";"
 	CMPI8_EAX !0                                ; If true
@@ -2128,6 +2126,10 @@ je %END_WHILE_"
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
 	RETURN
 
+:get_s
+	LOAD32_Absolute32_eax &global_token         ; Using global_token
+	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	RETURN
 
 ;; uniqueID Function
 ;; Receives char *S in EAX, struct token_list* l in EBX and char* num in ECX
