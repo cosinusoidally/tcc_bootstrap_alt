@@ -1759,7 +1759,7 @@ je %ELSE_"
 
 :function_call_string_1  "(
 "
-:function_call_string_4  "push_eax
+:function_call_string_4  "push_arg
 "
 :function_call_string_9  "do_call %FUNCTION_"
 :function_call_string_13 "pop_ebx
