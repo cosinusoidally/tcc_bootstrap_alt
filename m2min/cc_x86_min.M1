@@ -1764,8 +1764,6 @@ je %END_WHILE_"
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_variable_string_0  " is not a defined symbol
-"
 :primary_expr_variable_string_1  "
 "
 :primary_expr_variable_string_2  "mov_eax, %"
