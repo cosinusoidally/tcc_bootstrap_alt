@@ -2099,11 +2099,13 @@ je %END_WHILE_"
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
 	RETURN
 
+;; get string value of global_token
 :get_s
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
 	RETURN
 
+;; get first character for the string value of global_token
 :get_s0
 	CALL32 %get_s
 	LOAD8_al_from_EAX                           ; global_token->S[0]
