@@ -1930,8 +1930,6 @@ NULL
 ;; Returns nothing
 ;; Updates output_list using global_token
 :primary_expr_char
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
 	LOADI32_EAX &constant_string                ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
 	CALL32 %get_s
@@ -1941,8 +1939,6 @@ NULL
 	CALL32 %emit_out                            ; emit it
 	CALL32 %emit_newline
 	CALL32 %next
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 
