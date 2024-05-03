@@ -1421,11 +1421,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:pop_ebx_string  "pop_ebx
-"
-:jump_string  "jump %"
-
-
 ;; expression function
 ;; Receives Nothing
 ;; Returns Nothing
@@ -2395,6 +2390,10 @@ NULL
 :process_while_string_4  "# THEN_while_"
 :process_while_string_6  "jump %WHILE_"
 :process_while_string_7  ":END_WHILE_"
+
+:pop_ebx_string  "pop_ebx
+"
+:jump_string  "jump %"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
