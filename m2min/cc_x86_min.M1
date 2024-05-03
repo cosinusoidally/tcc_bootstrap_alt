@@ -1760,8 +1760,8 @@ NULL
 	CALL32 %emit_newline
 
 	;; Check for special case of assignment
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &equal                          ; Using "="
 	CALL32 %match                               ; IF global_token->S == "="
 	JE32 %variable_load_done                    ; And be done
