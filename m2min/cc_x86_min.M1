@@ -1654,15 +1654,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:function_call_string_1  "(
-"
-:function_call_string_4  "push_arg
-"
-:function_call_string_9  "do_call %FUNCTION_"
-:function_call_string_14 ")
-"
-
-
 ;; variable_load function
 ;; Receives struct token_list* A in EAX
 ;; Returns nothing
@@ -2385,6 +2376,14 @@ NULL
 :expression_string_1  "push_address
 "
 :expression_string_2  "store
+"
+
+:function_call_string_1  "(
+"
+:function_call_string_4  "push_arg
+"
+:function_call_string_9  "do_call %FUNCTION_"
+:function_call_string_14 ")
 "
 
 :primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
