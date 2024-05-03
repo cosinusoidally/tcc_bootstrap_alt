@@ -1819,10 +1819,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_string_string_0  "constant &STRING_"
-:primary_expr_string_string_1  ":STRING_"
-
-
 ;; primary_expr_char function
 ;; Receives nothing
 ;; Returns nothing
@@ -2385,6 +2381,9 @@ NULL
 :variable_load_string_0  "local %"
 :variable_load_string_2  "load
 "
+
+:primary_expr_string_string_0  "constant &STRING_"
+:primary_expr_string_string_1  ":STRING_"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
