@@ -2390,8 +2390,6 @@ NULL
 :primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 :primary_expr_string_7  "0123456789"
 
-:primary_expr_variable_string_2  "mov_eax, %"
-
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
 :strings  '22 27 00'
