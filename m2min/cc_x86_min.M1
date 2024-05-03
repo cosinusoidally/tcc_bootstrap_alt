@@ -1056,15 +1056,13 @@ NULL
 	JMP32 %return_result_locals                 ; Keep going
 
 :return_result_done
-	LOADI32_EAX &return_result_string_2         ; Using "ret\n"
+	LOADI32_EAX &ret_string                     ; Using "ret\n"
 	CALL32 %emit_out                            ; Emit it
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
 :return_result_string_1  "pop_ebx
-"
-:return_result_string_2  "ret
 "
 
 
