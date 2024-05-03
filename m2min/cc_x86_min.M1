@@ -706,8 +706,8 @@ DEFINE SWAP_EAX_EBX 93
 	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size(unused), global_symbol_list);
 	CALL32 %next
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &semicolon                      ; ";"
 	CALL32 %match                               ; if(match(";", global_token->s))
 	JNE32 %program_function                     ; looks like not a match
