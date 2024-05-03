@@ -1513,10 +1513,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
-:primary_expr_string_7  "0123456789"
-
-
 ;; primary_expr_variable function
 ;; Receives nothing
 ;; Returns nothing
@@ -2393,6 +2389,9 @@ NULL
 "
 :expression_string_2  "store
 "
+
+:primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+:primary_expr_string_7  "0123456789"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
