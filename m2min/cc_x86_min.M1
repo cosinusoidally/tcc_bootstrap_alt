@@ -1576,9 +1576,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:primary_expr_variable_string_2  "mov_eax, %"
-
-
 ;; function_call function
 ;; Receives char* S in EAX and int BOOL in EBX
 ;; Builds stack frames before and tears them down after function calls
@@ -2392,6 +2389,8 @@ NULL
 
 :primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 :primary_expr_string_7  "0123456789"
+
+:primary_expr_variable_string_2  "mov_eax, %"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
