@@ -1456,12 +1456,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:expression_string_1  "push_address
-"
-:expression_string_2  "store
-"
-
-
 ;; primary_expr function
 ;; Receives nothing
 ;; Returns nothing
@@ -2394,6 +2388,11 @@ NULL
 :pop_ebx_string  "pop_ebx
 "
 :jump_string  "jump %"
+
+:expression_string_1  "push_address
+"
+:expression_string_2  "store
+"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
