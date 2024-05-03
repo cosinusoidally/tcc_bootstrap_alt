@@ -1261,8 +1261,8 @@ NULL
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &else_string                    ; Using "else"
 	CALL32 %match                               ; IF global_token->S == "else"
 	JNE32 %process_if_done                      ; Otherwise finish up
