@@ -718,13 +718,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-;; Strings needed by the program function
-:program_string_0  ":GLOBAL_"
-:program_string_1  "
-NULL
-"
-
-
 ;; declare_function function
 ;; Receives nothing and returns nothing
 ;; Sets current function and adds it to the global function list
@@ -2400,6 +2393,13 @@ NULL
 :header_string5  "
 :ELF_end
 "
+
+;; Strings needed by the program function
+:program_string_0  ":GLOBAL_"
+:program_string_1  "
+NULL
+"
+
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
 :strings  '22 27 00'
