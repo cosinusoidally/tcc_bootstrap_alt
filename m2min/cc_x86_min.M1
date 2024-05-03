@@ -707,8 +707,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %next
 
 	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &semicolon                      ; ";"
+	LOADI32_EBX &semicolon                      ; ";"
 	CALL32 %match                               ; if(match(";", global_token->s))
 	JNE32 %program_function                     ; looks like not a match
 
@@ -822,8 +821,7 @@ NULL
 	CALL32 %next
 :collect_arguments_loop
 	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &close_paren                    ; ")"
+	LOADI32_EBX &close_paren                    ; ")"
 	CALL32 %match                               ; IF global_token->S == ")"
 	JE32 %collect_arguments_done                ; be done
 
@@ -831,8 +829,7 @@ NULL
 	CALL32 %next
 
 	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &comma                          ; ","
+	LOADI32_EBX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
 	JE32 %collect_arguments_common              ; case of commas between arguments
 
@@ -869,8 +866,7 @@ NULL
 
 :collect_arguments_common
 	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &comma                          ; ","
+	LOADI32_EBX &comma                          ; ","
 	CALL32 %match                               ; IF global_token->S == ","
 	JNE32 %collect_arguments_loop               ; otherwise loop
 
