@@ -223,19 +223,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EAX %1                              ; put the exit syscall number in eax
 	CALL32 %syscall
 
-:header_string1  "
-# Core program
-"
-:header_string3  "
-# Program global variables
-"
-:header_string4  "
-# Program strings
-"
-:header_string5  "
-:ELF_end
-"
-
 ;; wrapper around INT_80 so can be easily overridden
 :syscall
 	INT_80
@@ -453,11 +440,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
-:symbols  "="
-:strings  '22 27 00'
-
 
 ;; preserve_keyword function
 ;; Receives INT C in EAX
@@ -2404,6 +2386,23 @@ NULL
 :newline  "
 "
 :underline  "_"
+
+;; function strings
+:header_string1  "
+# Core program
+"
+:header_string3  "
+# Program global variables
+"
+:header_string4  "
+# Program strings
+"
+:header_string5  "
+:ELF_end
+"
+:alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
+:symbols  "="
+:strings  '22 27 00'
 
 
 :C
