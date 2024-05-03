@@ -1135,9 +1135,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:collect_local_string_3  "reserve_stack_slot	#"
-
-
 ;; process_asm function
 ;; Receives nothing
 ;; Returns nothing
@@ -1246,13 +1243,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:process_if_string_0  "# IF_"
-:process_if_string_2  "jump_false %ELSE_"
-:process_if_string_4  "jump %_END_IF_"
-:process_if_string_5  ":ELSE_"
-:process_if_string_6  ":_END_IF_"
-
 
 ;; save_break_frame microfunction
 ;; Overwrites EAX and EBX
@@ -2397,6 +2387,14 @@ NULL
 
 :return_result_string_1  "pop_ebx
 "
+
+:collect_local_string_3  "reserve_stack_slot	#"
+
+:process_if_string_0  "# IF_"
+:process_if_string_2  "jump_false %ELSE_"
+:process_if_string_4  "jump %_END_IF_"
+:process_if_string_5  ":ELSE_"
+:process_if_string_6  ":_END_IF_"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
