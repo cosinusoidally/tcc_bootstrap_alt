@@ -1444,7 +1444,7 @@ NULL
 	LOAD32_Absolute32_eax &function             ; Using function
 	LOAD32_ECX_from_EAX_Immediate8 !4           ; I = function->LOCALS
 	LOAD32_Absolute32_ebx &break_frame          ; Put break_frame in the right spot
-	LOADI32_EAX &process_break_string_1         ; Using "pop_ebx\t# break_cleanup_locals\n"
+	LOADI32_EAX &pop_ebx_string                ; Using "pop_ebx"
 
 :process_break_iter
 	CMPI8_ECX !0                                ; IF (NULL == I)
@@ -1483,7 +1483,7 @@ NULL
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:process_break_string_1  "pop_ebx	# break_cleanup_locals
+:pop_ebx_string  "pop_ebx
 "
 :jump_string  "jump %"
 
@@ -1712,7 +1712,7 @@ NULL
 
 	CALL32 %emit_newline
 
-	LOADI32_EAX &function_call_string_13        ; Using "pop_ebx\t# _process_expression_locals\n"
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\n"
 
 :function_call_cleanup
 	CMPI8_ESI !0                                ; IF PASSED > 0
@@ -1739,8 +1739,6 @@ NULL
 :function_call_string_4  "push_arg
 "
 :function_call_string_9  "do_call %FUNCTION_"
-:function_call_string_13 "pop_ebx
-"
 :function_call_string_14 ")
 "
 
