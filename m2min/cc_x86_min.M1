@@ -1593,8 +1593,10 @@ NULL
 :primary_expr_variable
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %get_s
+	COPY_EAX_to_ECX
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_ECX_from_EAX_Immediate8 !8           ; S = global_token->S
 	LOAD32_EAX_from_EAX                         ; global_token->NEXT
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
