@@ -292,7 +292,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_eax &C                    ; Send C
 	LOADI32_EBX &alphas                         ; Get alphanumerics
 	CALL32 %In_Set                              ; See if in set
-	CMPI8_EAX !1                                ; IF TRUE
 	JNE32 %get_token_symbol                     ; Otherwise
 
 	;; Store keywords
@@ -305,7 +304,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_eax &C                    ; Send C
 	LOADI32_EBX &symbols                        ; Get symbols
 	CALL32 %In_Set                              ; See if in set
-	CMPI8_EAX !1                                ; IF TRUE
 	JNE32 %get_token_strings                    ; Otherwise
 
 	;; Store symbols
@@ -318,7 +316,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_eax &C                    ; Send C
 	LOADI32_EBX &strings                        ; Get strings
 	CALL32 %In_Set                              ; See if in set
-	CMPI8_EAX !1                                ; IF TRUE
 	JNE32 %get_token_comment                    ; Otherwise
 
 	;; Store String
@@ -452,6 +449,7 @@ DEFINE SWAP_EAX_EBX 93
 :In_Set_False
 	LOADI32_EAX %0                              ; Set FALSE
 :In_Set_done
+	CMPI8_EAX !1                                ; make sure flags are set so we can conditionally branch straight after call
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
@@ -473,7 +471,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EBX &alphas                         ; Concerning ourselves with "abc.."
 :preserve_keyword_loop
 	CALL32 %In_Set                              ; Check if alphanumerics
-	CMPI8_EAX !1                                ; IF TRUE
 	JNE32 %preserve_keyword_done                ; Otherwise done
 
 	COPY_ECX_to_EAX                             ; Pass C
@@ -500,7 +497,6 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EBX &symbols                        ; Concerning ourselves with "="
 :preserve_symbol_loop
 	CALL32 %In_Set                              ; Check if symbol
-	CMPI8_EAX !1                                ; IF TRUE
 	JNE32 %preserve_symbol_done                 ; Otherwise be done
 
 	COPY_ECX_to_EAX                             ; Pass C
@@ -1562,7 +1558,6 @@ NULL
 	CALL32 %get_s0
 	LOADI32_EBX &primary_expr_string_6          ; Using "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 	CALL32 %In_Set                              ; See if we have a match
-	CMPI8_EAX !1                                ; IF match
 	JNE32 %primary_expr_num                     ; otherwise try number
 
 	;; Deal with variables
@@ -1573,7 +1568,6 @@ NULL
 	CALL32 %get_s0
 	LOADI32_EBX &primary_expr_string_7          ; Using "0123456789"
 	CALL32 %In_Set                              ; See if we have a match
-	CMPI8_EAX !1                                ; IF match
 
 	;; Deal with numbers
 	CALL32 %primary_expr_number                 ; Collect the number
