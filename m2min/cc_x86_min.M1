@@ -793,12 +793,12 @@ NULL
 
 	LOAD32_Absolute32_eax &output_list          ; output
 	LOAD32_EAX_from_EAX_Immediate8 !8           ; output->s
-	LOADI32_EBX &declare_function_string_2      ; "ret\n"
+	LOADI32_EBX &ret_string                     ; "ret\n"
 	CALL32 %match                               ; IF output->s == "ret\n"
 	JE32 %declare_function_done                 ; otherwise we need to add it
 
 	;; Add the return to the end of a function lacking a return;
-	LOADI32_EAX &declare_function_string_2      ; "ret\n"
+	LOADI32_EAX &ret_string                     ; "ret\n"
 	CALL32 %emit_out                            ; emit it
 
 :declare_function_done
@@ -808,7 +808,7 @@ NULL
 
 :declare_function_string_1  "
 :FUNCTION_"
-:declare_function_string_2  "ret
+:ret_string  "ret
 "
 
 
@@ -996,7 +996,7 @@ NULL
 :recursive_statement_cleanup
 	CALL32 %next
 
-	LOADI32_EAX &recursive_statement_string_0   ; Using "ret\n"
+	LOADI32_EAX &ret_string                     ; Using "ret\n"
 	LOAD32_Absolute32_ebx &output_list          ; Using output
 	LOAD32_EBX_from_EBX_Immediate8 !8           ; output->S
 	CALL32 %match                               ; IF output->S == "ret\n"
@@ -1005,7 +1005,7 @@ NULL
 	;; Deal with cleanup
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 !4           ; i = function->locals
-	LOADI32_EAX &recursive_statement_string_1   ; Using "pop_ebx\t# _recursive_statement_locals\n"
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _recursive_statement_locals\n"
 
 :recursive_statement_locals
 	CMP_ECX_EBX                                 ; IF frame != i
@@ -1022,11 +1022,6 @@ NULL
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:recursive_statement_string_0  "ret
-"
-:recursive_statement_string_1  "pop_ebx
-"
 
 
 ;; return_result function
