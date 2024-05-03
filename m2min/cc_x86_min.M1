@@ -447,12 +447,11 @@ DEFINE SWAP_EAX_EBX 93
 
 :In_Set_True
 	LOADI32_EAX %1                              ; Set True
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
+	JMP32 %In_Set_done
 
 :In_Set_False
 	LOADI32_EAX %0                              ; Set FALSE
+:In_Set_done
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
