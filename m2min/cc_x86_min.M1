@@ -775,12 +775,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:declare_function_string_1  "
-:FUNCTION_"
-:ret_string  "ret
-"
-
-
 ;; collect_arguments function
 ;; Receives nothing
 ;; Returns Nothing
@@ -2398,6 +2392,11 @@ DEFINE SWAP_EAX_EBX 93
 :program_string_0  ":GLOBAL_"
 :program_string_1  "
 NULL
+"
+
+:declare_function_string_1  "
+:FUNCTION_"
+:ret_string  "ret
 "
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
