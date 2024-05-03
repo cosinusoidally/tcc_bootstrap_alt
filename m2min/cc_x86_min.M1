@@ -1370,13 +1370,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:process_while_string_0  "END_WHILE_"
-:process_while_string_1  ":WHILE_"
-:process_while_string_3  "jump_false %END_WHILE_"
-:process_while_string_4  "# THEN_while_"
-:process_while_string_6  "jump %WHILE_"
-:process_while_string_7  ":END_WHILE_"
-
 ;; process_break function
 ;; Receives nothing
 ;; Returns nothing
@@ -2395,6 +2388,13 @@ NULL
 :process_if_string_4  "jump %_END_IF_"
 :process_if_string_5  ":ELSE_"
 :process_if_string_6  ":_END_IF_"
+
+:process_while_string_0  "END_WHILE_"
+:process_while_string_1  ":WHILE_"
+:process_while_string_3  "jump_false %END_WHILE_"
+:process_while_string_4  "# THEN_while_"
+:process_while_string_6  "jump %WHILE_"
+:process_while_string_7  ":END_WHILE_"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
