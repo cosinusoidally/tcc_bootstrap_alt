@@ -1863,7 +1863,7 @@ NULL
 ;; Returns nothing
 ;; Simply uses current global token to update output and then steps to next global_token
 :primary_expr_number
-	LOADI32_EAX &primary_expr_number_string_0   ; Using "mov_eax, %"
+	LOADI32_EAX &constant_string                ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
 	CALL32 %get_s
 	CALL32 %emit_out                            ; Emit it
@@ -1871,7 +1871,7 @@ NULL
 	CALL32 %next
 	RETURN
 
-:primary_expr_number_string_0  "constant %"
+:constant_string  "constant %"
 
 
 ;; primary_expr_string function
@@ -1932,7 +1932,7 @@ NULL
 :primary_expr_char
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
-	LOADI32_EAX &primary_expr_char_string_0     ; Using "mov_eax, %"
+	LOADI32_EAX &constant_string                ; Using "mov_eax, %"
 	CALL32 %emit_out                            ; Emit it
 	CALL32 %get_s
 	ADDI8_EAX !1                                ; global_token->S + 1
@@ -1944,8 +1944,6 @@ NULL
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-:primary_expr_char_string_0  "constant %"
 
 
 ;; next function skip to next token
