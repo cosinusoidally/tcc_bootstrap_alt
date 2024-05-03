@@ -1028,10 +1028,6 @@ DEFINE SWAP_EAX_EBX 93
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-:return_result_string_1  "pop_ebx
-"
-
-
 ;; collect_local function
 ;; Receives nothing
 ;; Returns nothing
@@ -2397,6 +2393,9 @@ NULL
 :declare_function_string_1  "
 :FUNCTION_"
 :ret_string  "ret
+"
+
+:return_result_string_1  "pop_ebx
 "
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
