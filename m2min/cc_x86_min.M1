@@ -1777,9 +1777,6 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %next
 	RETURN
 
-:constant_string  "constant %"
-
-
 ;; primary_expr_string function
 ;; receives nothing
 ;; Returns nothing
@@ -2387,6 +2384,8 @@ NULL
 
 :primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 :primary_expr_string_7  "0123456789"
+
+:constant_string  "constant %"
 
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
