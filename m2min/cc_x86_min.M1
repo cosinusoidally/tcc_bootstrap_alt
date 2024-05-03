@@ -1491,8 +1491,8 @@ NULL
 	PUSH_ECX                                    ; Protect ECX
 	CALL32 %primary_expr
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &equal                          ; "="
 	CALL32 %match                               ; IF global_token->S == "="
 	JNE32 %expression_done                      ; Looks like nope
@@ -1746,8 +1746,8 @@ NULL
 	PUSH_ECX                                    ; Protect ECX
 	COPY_EAX_to_ECX                             ; Protect A
 
-	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->S
+	CALL32 %get_s
+	COPY_EAX_to_EBX
 	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
 	CALL32 %emit_out                            ; Emit it
 
