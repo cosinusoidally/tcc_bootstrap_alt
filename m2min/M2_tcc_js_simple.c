@@ -1325,9 +1325,8 @@ int expression() {
 }
 
 /* Similar to integer division a / b but rounds up */
-unsigned ceil_div(unsigned a, unsigned b)
-{
-    return (a + b - 1) / b;
+int ceil_div(int a, int b) {
+    return div((sub(add(a, b), 1)), b);
 }
 
 /* Process local variable */
