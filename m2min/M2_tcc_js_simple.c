@@ -1307,18 +1307,14 @@ int primary_expr() {
 	}
 }
 
-int expression()
-{
+int expression() {
+	int store;
 	bitwise_expr();
-	if(match("=", global_token->s))
-	{
-		char* store = "";
-		if(match("]", global_token->prev->s))
-		{
+	if(match("=", global_token->s)) {
+		store = "";
+		if(match("]", global_token->prev->s)) {
 			store = store_value(current_target->type->size);
-		}
-		else
-		{
+		} else {
 			store = store_value(current_target->size);
 		}
 
