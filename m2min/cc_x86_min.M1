@@ -1992,15 +1992,13 @@ DEFINE MAX_STRING FF000000
 ;; parse_string function
 ;; Receives char* string in EAX
 ;; Returns cleaned up string
-:parse_string
-	CALL32 %collect_regular_string              ; Collect it
-	RETURN
-
+;; aliased to collect_regular_string
 
 ;; collect_regular_string function
 ;; Receives char* string in EAX
 ;; Malloc and creates new string to return in EAX
 ;; Uses ECX for return string and EDX for passed string
+:parse_string
 :collect_regular_string
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
