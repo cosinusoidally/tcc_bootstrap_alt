@@ -1003,42 +1003,38 @@ int primary_expr_number() {
 	global_token = global_token->next;
 }
 
-void primary_expr_variable()
-{
-	int num_dereference = 0;
-	char* s = global_token->s;
+int primary_expr_variable() {
+	int num_dereference;
+	int s;
+	num_dereference = 0;
+	s = global_token->s;
 	global_token = global_token->next;
 	struct token_list* a = sym_lookup(s, global_constant_list);
-	if(NULL != a)
-	{
+	if(neq(NULL, a)) {
 		constant_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, function->locals);
-	if(NULL != a)
-	{
+	if(neq(NULL, a)) {
 		variable_load(a, num_dereference);
 		return;
 	}
 
 	a = sym_lookup(s, function->arguments);
-	if(NULL != a)
-	{
+	if(neq(NULL, a)) {
 		variable_load(a, num_dereference);
 		return;
 	}
 
 	a = sym_lookup(s, global_function_list);
-	if(NULL != a)
-	{
+	if(neq(NULL, a)) {
 		function_load(a);
 		return;
 	}
 
 	a = sym_lookup(s, global_symbol_list);
-	if(NULL != a)
-	{
+	if(neq(NULL, a)) {
 		global_load(a);
 		return;
 	}
