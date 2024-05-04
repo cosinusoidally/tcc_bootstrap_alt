@@ -922,11 +922,9 @@ int variable_load(struct token_list* a, int num_dereference)
 	}
 }
 
-void function_load(struct token_list* a)
-{
-	require(NULL != global_token, "incomplete function load\n");
-	if(match("(", global_token->s))
-	{
+int function_load(struct token_list* a) {
+	require(neq(NULL, global_token), "incomplete function load\n");
+	if(match("(", global_token->s)) {
 		function_call(a->s, FALSE);
 		return;
 	}
@@ -936,16 +934,17 @@ void function_load(struct token_list* a)
 	emit_out("\n");
 }
 
-void global_load(struct token_list* a)
-{
+int global_load(struct token_list* a) {
 	current_target = a->type;
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(a->s);
 	emit_out("\n");
 
-	require(NULL != global_token, "unterminated global load\n");
-	if(TRUE == Address_of) return;
-	if(match("=", global_token->s)) return;
+	require(neq(NULL, global_token), "unterminated global load\n");
+
+	if(match("=", global_token->s)) {
+		return;
+	}
 
 	emit_out(load_value(register_size, current_target->is_signed));
 }
