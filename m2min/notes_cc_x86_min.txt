@@ -1,0 +1,22 @@
+cc_x86_min.M1 is a cut down version of cc_x86.M1 that is able to be used as an
+alternative path to bootstrap M2_simple_asm.c . Couple of stats:
+
+m2min$ ls -l artifacts/cc_x86_min.exe
+-rwx------ 1 foo foo 5345 May  4 15:51 artifacts/cc_x86_min.exe
+
+m2min$ ls -l ../x86/bin/cc_x86
+-rwx------ 1 foo foo 14239 May  4 15:50 ../x86/bin/cc_x86
+
+As you can see the cc_x86_min.exe binary is considerably smaller than the
+cc_x86 binary.
+
+m2min$ wc cc_x86_min.M1
+ 2430  8858 91918 cc_x86_min.M1
+
+m2min$ wc ../x86/cc_x86.M1
+  4983  19179 209318 ../x86/cc_x86.M1
+
+You can also see that cc_x86_min.M1 is less than half the size of cc_x86.M1 .
+This was achieved by cutting it down to only support the M2_simple_asm.c dialect
+of C. The code genator has also been tweaked to generate output fairly similar
+to M2_simple_asm.
