@@ -844,18 +844,12 @@ int constant_load(struct token_list* a) {
 	emit_out("\n");
 }
 
-char* load_value_signed(unsigned size)
-{
-	if(size == 1)
-	{
+int load_value_signed(int size) {
+	if(eq(size, 1)) {
 		return "movsx_eax,BYTE_PTR_[eax]\n";
-	}
-	else if(size == 2)
-	{
+	} else if(eq(size, 2)) {
 		return "movsx_eax,WORD_PTR_[eax]\n";
-	}
-	else if(size == 4)
-	{
+	} else if(eq(size, 4)) {
 		return "mov_eax,[eax]\n";
 	}
 	line_error();
