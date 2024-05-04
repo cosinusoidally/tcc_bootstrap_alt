@@ -1271,41 +1271,41 @@ int primary_expr()
 {
 	require(neq(NULL, global_token), "Received EOF where primary expression expected\n");
 
-	if(match("sizeof", global_token->s)) unary_expr_sizeof();
-	else if('-' == global_token->s[0])
-	{
+	if(match("sizeof", global_token->s)) {
+		unary_expr_sizeof();
+	} else if(eq('-', global_token->s[0])) {
 		emit_out("mov_eax, %0\n");
 
 		common_recursion(primary_expr);
 
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
-	}
-	else if('!' == global_token->s[0])
-	{
+	} else if(eq('!', global_token->s[0])) {
 		emit_out("mov_eax, %1\n");
 
 		common_recursion(postfix_expr);
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
-	}
-	else if('~' == global_token->s[0])
-	{
+	} else if(eq('~', global_token->s[0])) {
 		common_recursion(postfix_expr);
 
 		emit_out("not_eax\n");
-	}
-	else if(global_token->s[0] == '(')
-	{
+	} else if(eq(global_token->s[0], '(')) {
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
+	} else if(global_token->s[0] == '\'') {
+		primary_expr_char();
+	} else if(global_token->s[0] == '"') {
+		primary_expr_string();
+	} else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+		primary_expr_variable();
+	} else if(global_token->s[0] == '*') {
+		primary_expr_variable();
+	} else if(in_set(global_token->s[0], "0123456789")) {
+		primary_expr_number();
+	} else {
+		primary_expr_failure();
 	}
-	else if(global_token->s[0] == '\'') primary_expr_char();
-	else if(global_token->s[0] == '"') primary_expr_string();
-	else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) primary_expr_variable();
-	else if(global_token->s[0] == '*') primary_expr_variable();
-	else if(in_set(global_token->s[0], "0123456789")) primary_expr_number();
-	else primary_expr_failure();
 }
 
 int expression()
