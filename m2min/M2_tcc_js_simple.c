@@ -897,11 +897,10 @@ int store_value(int size) {
 }
 
 int postfix_expr_stub();
-void variable_load(struct token_list* a, int num_dereference)
+int variable_load(struct token_list* a, int num_dereference)
 {
-	require(NULL != global_token, "incomplete variable load received\n");
-	if((match("FUNCTION", a->type->name) || match("FUNCTION*", a->type->name)) && match("(", global_token->s))
-	{
+	require(neq(NULL, global_token), "incomplete variable load received\n");
+	if(and(or(match("FUNCTION", a->type->name), match("FUNCTION*", a->type->name)), match("(", global_token->s))) {
 		function_call(int2str(a->depth, 10, TRUE), TRUE);
 		return;
 	}
@@ -912,16 +911,14 @@ void variable_load(struct token_list* a, int num_dereference)
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(!match("=", global_token->s))
-	{
+	if(eq(0, match("=", global_token->s))) {
 		emit_out(load_value(current_target->size, current_target->is_signed));
 	}
 
-	while (num_dereference > 0)
-	{
+	while (gt(num_dereference, 0)) {
 		current_target = current_target->type;
 		emit_out(load_value(current_target->size, current_target->is_signed));
-		num_dereference = num_dereference - 1;
+		num_dereference = sub(num_dereference, 1);
 	}
 }
 
