@@ -1210,8 +1210,7 @@ int additive_expr_stub() {
 }
 
 
-void additive_expr()
-{
+int additive_expr() {
 	postfix_expr();
 	additive_expr_stub();
 }
@@ -1226,8 +1225,7 @@ void additive_expr()
  *         relational-expr > additive_expr
  */
 
-void relational_expr_stub()
-{
+int relational_expr_stub() {
 		arithmetic_recursion(additive_expr, "cmp\nsetl_al\nmovzx_eax,al\n", "cmp\nsetb_al\nmovzx_eax,al\n", "<", relational_expr_stub);
 		arithmetic_recursion(additive_expr, "cmp\nsetle_al\nmovzx_eax,al\n", "cmp\nsetbe_al\nmovzx_eax,al\n", "<=", relational_expr_stub);
 		arithmetic_recursion(additive_expr, "cmp\nsetge_al\nmovzx_eax,al\n", "cmp\nsetae_al\nmovzx_eax,al\n", ">=", relational_expr_stub);
@@ -1236,8 +1234,7 @@ void relational_expr_stub()
 		general_recursion(additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
 }
 
-void relational_expr()
-{
+int relational_expr() {
 	additive_expr();
 	relational_expr_stub();
 }
@@ -1251,8 +1248,7 @@ void relational_expr()
  *         bitwise-expr || bitwise-expr
  *         bitwise-expr ^ bitwise-expr
  */
-void bitwise_expr_stub()
-{
+int bitwise_expr_stub() {
 		general_recursion(relational_expr, "and_eax,ebx\n", "&", bitwise_expr_stub);
 		general_recursion(relational_expr, "and_eax,ebx\n", "&&", bitwise_expr_stub);
 		general_recursion(relational_expr, "or_eax,ebx\n", "|", bitwise_expr_stub);
@@ -1261,8 +1257,7 @@ void bitwise_expr_stub()
 }
 
 
-void bitwise_expr()
-{
+int bitwise_expr() {
 	relational_expr();
 	bitwise_expr_stub();
 }
@@ -1275,7 +1270,7 @@ void bitwise_expr()
 
 int primary_expr()
 {
-	require(NULL != global_token, "Received EOF where primary expression expected\n");
+	require(neq(NULL, global_token), "Received EOF where primary expression expected\n");
 	Address_of = FALSE;
 
 	if(match("sizeof", global_token->s)) unary_expr_sizeof();
