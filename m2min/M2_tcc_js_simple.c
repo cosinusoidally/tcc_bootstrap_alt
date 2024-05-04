@@ -1047,8 +1047,7 @@ int primary_expr_variable() {
 }
 
 int primary_expr();
-struct type* promote_type(struct type* a, struct type* b)
-{
+struct type* promote_type(struct type* a, struct type* b) {
 	struct type* i;
 
 	require(neq(NULL, b), "impossible case 1 in promote_type\n");
@@ -1063,8 +1062,6 @@ struct type* promote_type(struct type* a, struct type* b)
 		if(eq(b->name, i->name)) { break; }
 		if(eq(a->name, i->indirect->name)) { break; }
 		if(eq(b->name, i->indirect->name)) { break; }
-		if(eq(a->name, i->indirect->indirect->name)) { break; }
-		if(eq(b->name, i->indirect->indirect->name)) { break; }
 	}
 	require(neq(NULL, i), "impossible case 3 in promote_type\n");
 	return i;
