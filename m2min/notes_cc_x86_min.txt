@@ -16,7 +16,36 @@ m2min$ wc cc_x86_min.M1
 m2min$ wc ../x86/cc_x86.M1
   4983  19179 209318 ../x86/cc_x86.M1
 
+(note these numbers will likely drift out of sync, run mk_simple_asm_cc_x86_min
+to get the latest ones).
+
 You can also see that cc_x86_min.M1 is less than half the size of cc_x86.M1 .
 This was achieved by cutting it down to only support the M2_simple_asm.c dialect
 of C. The code genator has also been tweaked to generate output fairly similar
 to M2_simple_asm.
+
+cc_x86 is based off:
+https://github.com/oriansj/stage0/tree/master/stage2/High_level_prototypes/cc_x86
+but M2_simple_asm.c is also a useful reference too. You'll notice the
+similarities with function names and in the general structure.
+
+Internal calling convention:
+============================
+
+Note I am referring to the internal calling convention of the assembly
+implementation itself rather than the calling convention of the code that it
+generates. When reading cc_x86_min.M1 code you will notice the following general
+register usage:
+
+EAX this is used as a scratch register, the first arguments to functions, and
+    also as the return value from functions
+
+EBX generally used as the 2nd argument to a functions
+EDX used as 3rd argument
+ESI 4th arg
+EBP 5th arg
+
+Random notes:
+=============
+No hold string so it will just allocate MAX_STRING bytes per token (I set
+MAX_STRING to 256).
