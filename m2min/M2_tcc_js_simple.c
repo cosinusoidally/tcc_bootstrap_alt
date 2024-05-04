@@ -1115,25 +1115,21 @@ int arithmetic_recursion(FUNCTION f, int s1, int s2, int name, FUNCTION iterate)
  *         postfix-expr . member
  */
 
-void postfix_expr_array()
-{
+int postfix_expr_array() {
 	struct type* array;
 	int assign;
 
 	array = current_target;
 	common_recursion(expression);
 	current_target = array;
-	require(NULL != current_target, "Arrays only apply to variables\n");
+	require(neq(NULL, current_target), "Arrays only apply to variables\n");
 
 	assign = load_value(register_size, current_target->is_signed);
 
 	/* Add support for Ints */
-	if(match("char*", current_target->name))
-	{
+	if(match("char*", current_target->name)) {
 		assign = load_value(1, TRUE);
-	}
-	else
-	{
+	} else {
 		emit_out("push_ebx\nmov_ebx, %");
 		emit_out(int2str(current_target->type->size, 10, TRUE));
 		emit_out("\nmul_ebx\npop_ebx\n");
@@ -1142,14 +1138,13 @@ void postfix_expr_array()
 	emit_out("add_eax,ebx\n");
 
 	require_match("ERROR in postfix_expr\nMissing ]\n", "]");
-	require(NULL != global_token, "truncated array expression\n");
+	require(neq(NULL, global_token), "truncated array expression\n");
 
-	if(match("=", global_token->s) || match(".", global_token->s))
-	{
+	if(or(match("=", global_token->s), match(".", global_token->s))) {
 		assign = "";
 	}
-	if(match("[", global_token->s))
-	{
+
+	if(match("[", global_token->s)) {
 		current_target = current_target->type;
 	}
 
