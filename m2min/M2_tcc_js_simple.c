@@ -790,8 +790,7 @@ int require_match(int message, int required) {
 }
 
 int expression();
-void function_call(char* s, int bool)
-{
+int function_call(int s, int bool) {
 	int passed;
 	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
 	require(neq(NULL, global_token), "Improper function call\n");
@@ -839,8 +838,7 @@ void function_call(char* s, int bool)
 	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-void constant_load(struct token_list* a)
-{
+int constant_load(struct token_list* a) {
 	emit_out("mov_eax, %");
 	emit_out(a->arguments->s);
 	emit_out("\n");
