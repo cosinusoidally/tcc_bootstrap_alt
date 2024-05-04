@@ -366,7 +366,7 @@ DEFINE MAX_STRING FF000000
 
 :get_token_done
 	LOAD32_Absolute32_eax &Token                ; TOKEN
-	STORE32_EAX_into_EDX_Immediate8 !4          ; CURRENT->PREV = TOKEN
+	STORE32_EAX_into_EDX_Immediate8 f_PREV      ; CURRENT->PREV = TOKEN
 	STORE32_EAX_into_EDX                        ; CURRENT->NEXT = TOKEN
 	STORE32_Absolute32_edx &Token               ; TOKEN = CURRENT
 
@@ -705,7 +705,7 @@ DEFINE MAX_STRING FF000000
 	COPY_EAX_to_EBX                             ; update globals_list
 
 	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; global token->prev
+	LOAD32_EAX_from_EAX_Immediate8 f_PREV       ; global token->prev
 	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
 	CALL32 %emit                                ; Emit it
 
@@ -738,7 +738,7 @@ DEFINE MAX_STRING FF000000
 	STORE32_Absolute32_eax &current_count       ; current_count = 0
 
 	LOAD32_Absolute32_eax &global_token         ; Using global token
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; global token->prev
+	LOAD32_EAX_from_EAX_Immediate8 f_PREV       ; global token->prev
 	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
 	LOADI32_EBX %0                              ; NULL
 	LOAD32_Absolute32_ecx &global_function_list ; global_function_list
@@ -956,7 +956,7 @@ DEFINE MAX_STRING FF000000
 	CALL32 %next
 
 	LOAD32_Absolute32_ecx &function             ; Using function
-	LOAD32_ECX_from_ECX_Immediate8 !4           ; frame = function->locals
+	LOAD32_ECX_from_ECX_Immediate8 f_LOCALS     ; frame = function->locals
 
 :recursive_statement_loop
 	CALL32 %get_s
