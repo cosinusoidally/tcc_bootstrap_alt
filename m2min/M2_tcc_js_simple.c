@@ -1046,25 +1046,27 @@ int primary_expr_variable() {
 	exit(EXIT_FAILURE);
 }
 
-void primary_expr();
+int primary_expr();
 struct type* promote_type(struct type* a, struct type* b)
 {
-	require(NULL != b, "impossible case 1 in promote_type\n");
-	require(NULL != a, "impossible case 2 in promote_type\n");
-
-	if(a == b) return a;
-
 	struct type* i;
-	for(i = global_types; NULL != i; i = i->next)
-	{
-		if(a->name == i->name) break;
-		if(b->name == i->name) break;
-		if(a->name == i->indirect->name) break;
-		if(b->name == i->indirect->name) break;
-		if(a->name == i->indirect->indirect->name) break;
-		if(b->name == i->indirect->indirect->name) break;
+
+	require(neq(NULL, b), "impossible case 1 in promote_type\n");
+	require(neq(NULL, a), "impossible case 2 in promote_type\n");
+
+	if(eq(a, b)) {
+		return a;
 	}
-	require(NULL != i, "impossible case 3 in promote_type\n");
+
+	for(i = global_types; neq(NULL, i); i = i->next) {
+		if(a->name == i->name) { break; }
+		if(b->name == i->name) { break; }
+		if(a->name == i->indirect->name) { break; }
+		if(b->name == i->indirect->name) { break; }
+		if(a->name == i->indirect->indirect->name) { break; }
+		if(b->name == i->indirect->indirect->name) { break; }
+	}
+	require(neq(NULL, i), "impossible case 3 in promote_type\n");
 	return i;
 }
 
@@ -1285,7 +1287,7 @@ void bitwise_expr()
  *         bitwise-or-expr = expression
  */
 
-void primary_expr()
+int primary_expr()
 {
 	require(NULL != global_token, "Received EOF where primary expression expected\n");
 	Address_of = FALSE;
