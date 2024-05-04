@@ -896,7 +896,7 @@ int store_value(int size) {
 	exit(EXIT_FAILURE);
 }
 
-void postfix_expr_stub();
+int postfix_expr_stub();
 void variable_load(struct token_list* a, int num_dereference)
 {
 	require(NULL != global_token, "incomplete variable load received\n");
@@ -1194,7 +1194,7 @@ void unary_expr_sizeof()
 	emit_out("\n");
 }
 
-void postfix_expr_stub()
+int postfix_expr_stub()
 {
 	require(NULL != global_token, "Unexpected EOF, improperly terminated primary expression\n");
 	if(match("[", global_token->s))
