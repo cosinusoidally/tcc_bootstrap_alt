@@ -1267,8 +1267,7 @@ int bitwise_expr() {
  *         bitwise-or-expr = expression
  */
 
-int primary_expr()
-{
+int primary_expr() {
 	require(neq(NULL, global_token), "Received EOF where primary expression expected\n");
 
 	if(match("sizeof", global_token->s)) {
@@ -1293,13 +1292,13 @@ int primary_expr()
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
-	} else if(global_token->s[0] == '\'') {
+	} else if(eq(global_token->s[0], '\'')) {
 		primary_expr_char();
-	} else if(global_token->s[0] == '"') {
+	} else if(eq(global_token->s[0], '"')) {
 		primary_expr_string();
 	} else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
-	} else if(global_token->s[0] == '*') {
+	} else if(eq(global_token->s[0], '*')) {
 		primary_expr_variable();
 	} else if(in_set(global_token->s[0], "0123456789")) {
 		primary_expr_number();
