@@ -104,3 +104,24 @@ users of the struct.
 -------------------------------------------------------------------------------
 Should experiment with alternative calling conventions with cc_x86_min to see if
 it is possible to make the assembly a bit clearer.
+
+-------------------------------------------------------------------------------
+Try adding local variables to cc_x86_min eg
+
+:foo
+DEFINE LOCAL_a FC (or whatever the offset is)
+reserve_stack_space
+
+and then later on:
+
+local LOCAL_a load
+
+Similar to how M2_simple_asm.c does things, but maybe keep the offsets 8 bits
+to keep the code size down (though this is not a hard requirement).
+
+This goes hand in hand with an alternative calling convention since we would
+also modify things to make heavier use of the stack (for the above to work we
+would also need a frame setting up).
+
+-------------------------------------------------------------------------------
+To locate dead code you can sprinkle in INT_03 calls
