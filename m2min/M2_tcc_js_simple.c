@@ -1563,15 +1563,20 @@ int process_do() {
 
 
 /* Process while loops */
-void process_while()
-{
+int process_while() {
 	struct token_list* nested_locals = break_frame;
-	char* nested_break_head = break_target_head;
-	char* nested_break_func = break_target_func;
-	char* nested_break_num = break_target_num;
+	int nested_break_head = break_target_head;
+	int nested_break_func = break_target_func;
+	int nested_break_num = break_target_num;
+	int number_string = int2str(current_count, 10, TRUE);
 
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+	nested_locals = break_frame;
+	nested_break_head = break_target_head;
+	nested_break_func = break_target_func;
+	nested_break_num = break_target_num;
+
+	number_string = int2str(current_count, 10, TRUE);
+	current_count = add(current_count, 1);
 
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
@@ -1594,7 +1599,7 @@ void process_while()
 
 	require_match("ERROR in process_while\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
+	require(neq(NULL, global_token), "Reached EOF inside of function\n");
 
 	emit_out("jmp %WHILE_");
 
@@ -1610,23 +1615,23 @@ void process_while()
 }
 
 /* Ensure that functions return */
-void return_result()
-{
+int return_result() {
+	struct token_list* i;
+	int size_local_var;
+
 	global_token = global_token->next;
-	require(NULL != global_token, "Incomplete return statement received\n");
-	if(global_token->s[0] != ';') expression();
+	require(neq(NULL, global_token), "Incomplete return statement received\n");
+	if(neq(global_token->s[0], ';')) {
+		expression();
+	}
 
 	require_match("ERROR in return_result\nMISSING ;\n", ";");
 
-	struct token_list* i;
-	unsigned size_local_var;
-	for(i = function->locals; NULL != i; i = i->next)
-	{
+	for(i = function->locals; neq(NULL, i); i = i->next) {
 		size_local_var = ceil_div(i->type->size, register_size);
-		while(size_local_var != 0)
-		{
+		while(neq(size_local_var, 0)) {
 			emit_out("pop_ebx\t# _return_result_locals\n");
-			size_local_var = size_local_var - 1;
+			size_local_var = sub(size_local_var, 1);
 		}
 	}
 
