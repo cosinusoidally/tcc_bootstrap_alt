@@ -773,18 +773,15 @@ int line_error() {
 	line_error_token(global_token);
 }
 
-void require_match(char* message, char* required)
-{
-	if(NULL == global_token)
-	{
+int require_match(int message, int required) {
+	if(eq(NULL, global_token)) {
 		line_error();
 		fputs("EOF reached inside of require match\n", stderr);
 		fputs("problem at end of file\n", stderr);
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
 	}
-	if(!match(global_token->s, required))
-	{
+	if(eq(0, match(global_token->s, required))) {
 		line_error();
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
