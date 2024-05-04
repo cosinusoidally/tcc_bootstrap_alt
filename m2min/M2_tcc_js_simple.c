@@ -1158,13 +1158,16 @@ int postfix_expr_array() {
  *         !postfix-expr
  *         sizeof ( type )
  */
+
 struct type* type_name();
-void unary_expr_sizeof()
-{
+
+int unary_expr_sizeof() {
+	struct type* a;
+
 	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF when starting sizeof\n");
+	require(neq(NULL, global_token), "Received EOF when starting sizeof\n");
 	require_match("ERROR in unary_expr\nMissing (\n", "(");
-	struct type* a = type_name();
+	a = type_name();
 	require_match("ERROR in unary_expr\nMissing )\n", ")");
 
 	emit_out("mov_eax, %");
@@ -1172,18 +1175,15 @@ void unary_expr_sizeof()
 	emit_out("\n");
 }
 
-int postfix_expr_stub()
-{
-	require(NULL != global_token, "Unexpected EOF, improperly terminated primary expression\n");
-	if(match("[", global_token->s))
-	{
+int postfix_expr_stub() {
+	require(neq(NULL, global_token), "Unexpected EOF, improperly terminated primary expression\n");
+	if(match("[", global_token->s)) {
 		postfix_expr_array();
 		postfix_expr_stub();
 	}
 }
 
-void postfix_expr()
-{
+int postfix_expr() {
 	primary_expr();
 	postfix_expr_stub();
 }
@@ -1199,8 +1199,7 @@ void postfix_expr()
  *         additive-expr << postfix-expr
  *         additive-expr >> postfix-expr
  */
-void additive_expr_stub()
-{
+int additive_expr_stub() {
 		arithmetic_recursion(postfix_expr, "add_eax,ebx\n", "add_eax,ebx\n", "+", additive_expr_stub);
 		arithmetic_recursion(postfix_expr, "sub_ebx,eax\nmov_eax,ebx\n", "sub_ebx,eax\nmov_eax,ebx\n", "-", additive_expr_stub);
 		arithmetic_recursion(postfix_expr, "imul_ebx\n", "mul_ebx\n", "*", additive_expr_stub);
