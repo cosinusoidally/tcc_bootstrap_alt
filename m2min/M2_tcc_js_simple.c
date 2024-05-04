@@ -1638,18 +1638,18 @@ int return_result() {
 	emit_out("ret\n");
 }
 
-void process_break()
-{
-	if(NULL == break_target_head)
-	{
+int process_break() {
+	struct token_list* i;
+
+	if(eq(NULL, break_target_head)) {
 		line_error();
 		fputs("Not inside of a loop or case statement\n", stderr);
 		exit(EXIT_FAILURE);
 	}
-	struct token_list* i = function->locals;
-	while(i != break_frame)
-	{
-		if(NULL == i) break;
+
+	i = function->locals;
+	while(neq(i, break_frame)) {
+		if(eq(NULL, i)) { break; }
 		emit_out("pop_ebx\t# break_cleanup_locals\n");
 		i = i->next;
 	}
