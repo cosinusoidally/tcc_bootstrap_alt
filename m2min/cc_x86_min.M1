@@ -1580,16 +1580,14 @@ DEFINE MAX_STRING FF000000
 	RETURN
 
 ;; function_call function
-;; Receives char* S in EAX and int BOOL in EBX
+;; Receives char* S in EAX
 ;; Builds stack frames before and tears them down after function calls
 ;; Uses ECX for char* S, EDX for int BOOL, ESI for PASSED
 :function_call
-	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
 	PUSH_EDX                                    ; Protect EDX
 	PUSH_ESI                                    ; Protect ESI
 	COPY_EAX_to_ECX                             ; Put S in place
-	COPY_EBX_to_EDX                             ; Put BOOL in place
 	LOADI32_ESI %0                              ; PASSED = 0
 
 	CALL32 %next
@@ -1654,7 +1652,6 @@ DEFINE MAX_STRING FF000000
 	POP_ESI                                     ; Restore ESI
 	POP_EDX                                     ; Restore EDX
 	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
 	RETURN
 
 ;; variable_load function
