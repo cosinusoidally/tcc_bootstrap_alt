@@ -980,7 +980,7 @@ DEFINE MAX_STRING FF000000
 
 	;; Deal with cleanup
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 !4           ; i = function->locals
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; i = function->locals
 	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _recursive_statement_locals\n"
 
 :recursive_statement_locals
@@ -994,7 +994,7 @@ DEFINE MAX_STRING FF000000
 
 :recursive_statement_done
 	LOAD32_Absolute32_eax &function             ; Using function
-	STORE32_ECX_into_EAX_Immediate8 !4          ; function->locals = frame
+	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = frame
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
@@ -1021,7 +1021,7 @@ DEFINE MAX_STRING FF000000
 	CALL32 %next
 
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 !4           ; function->locals
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
 	LOADI32_EAX &return_result_string_1         ; Using "pop_ebx\t# _return_result_locals\n"
 :return_result_locals
 	CMPI8_EBX !0                                ; IF NULL == i
