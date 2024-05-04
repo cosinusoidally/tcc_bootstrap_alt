@@ -873,24 +873,19 @@ int load_value_unsigned(int size) {
 	exit(EXIT_FAILURE);
 }
 
-char* load_value(unsigned size, int is_signed)
-{
-	if(is_signed) return load_value_signed(size);
+int load_value(int size, int is_signed) {
+	if(is_signed) {
+		return load_value_signed(size);
+	}
 	return load_value_unsigned(size);
 }
 
-char* store_value(unsigned size)
-{
-	if(size == 1)
-	{
+int store_value(int size) {
+	if(eq(size, 1)) {
 		return "mov_[ebx],al\n";
-	}
-	else if(size == 2)
-	{
+	} else if(eq(size, 2)) {
 		return "mov_[ebx],ax\n";
-	}
-	else if(size == 4)
-	{
+	} else if(eq(size, 4)) {
 		return "mov_[ebx],eax\n";
 	}
 	/* Should not happen but print error message. */
