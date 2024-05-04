@@ -1497,16 +1497,14 @@ int process_for() {
 }
 
 /* Process Assembly statements */
-void process_asm()
-{
+int process_asm() {
 	global_token = global_token->next;
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
-	while('"' == global_token->s[0])
-	{
-		emit_out((global_token->s + 1));
+	while(eq('"', global_token->s[0])) {
+		emit_out(add(global_token->s, 1));
 		emit_out("\n");
 		global_token = global_token->next;
-		require(NULL != global_token, "Received EOF inside asm statement\n");
+		require(neq(NULL, global_token), "Received EOF inside asm statement\n");
 	}
 	require_match("ERROR in process_asm\nMISSING )\n", ")");
 	require_match("ERROR in process_asm\nMISSING ;\n", ";");
