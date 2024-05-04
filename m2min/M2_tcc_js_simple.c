@@ -1448,8 +1448,7 @@ int process_for() {
 	global_token = global_token->next;
 
 	require_match("ERROR in process_for\nMISSING (\n", "(");
-	if(!match(";",global_token->s))
-	{
+	if(eq(0, match(";",global_token->s))) {
 		expression();
 	}
 
