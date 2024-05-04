@@ -816,22 +816,22 @@ DEFINE f_DEPTH 10
 
 	;; Deal with the case of first argument in the function
 	LOADI32_EAX %-4                             ; -4
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->depth = -4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = -4
 	JMP32 %collect_arguments_next               ; get to next
 
 :collect_arguments_another
 	;; deal with the case of non-first arguments
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args->depth
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
 	SUBI8_EAX !4                                ; function->args->depth - 4
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->depth = function->args->depth - 4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = function->args->depth - 4
 
 :collect_arguments_next
 	CALL32 %next
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	STORE32_ECX_into_EAX_Immediate8 !16         ; function->args = a
+	STORE32_ECX_into_EAX_Immediate8 f_ARGS      ; function->args = a
 
 :collect_arguments_common
 	CALL32 %get_s
@@ -1065,12 +1065,12 @@ DEFINE f_DEPTH 10
 
 	;; Sweet we are in a fresh main
 	LOADI32_EAX %-20                            ; We start at -20
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->DEPTH = -20
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = -20
 	JMP32 %collect_local_common                 ; Go to the commons
 
 :collect_local_fresh
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
 	CMPI8_EAX !0                                ; IF NULL == function->args
 	JNE32 %collect_local_first                  ; Otherwise see if first
 
@@ -1081,7 +1081,7 @@ DEFINE f_DEPTH 10
 
 	;; Sweet we are in a fresh function
 	LOADI32_EAX %-8                             ; We start at -8
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->DEPTH = -8
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = -8
 	JMP32 %collect_local_common                 ; Go to the commons
 
 :collect_local_first
@@ -1092,8 +1092,8 @@ DEFINE f_DEPTH 10
 
 	;; Ok we are the first local
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args->depth
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
 	SUBI8_EAX !8                                ; function->arguments->depth - 8
 	STORE32_EAX_into_ECX_Immediate8 !16         ; a->DEPTH = function->arguments->depth - 8
 	JMP32 %collect_local_common                 ; Go to the commons
