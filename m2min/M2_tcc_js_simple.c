@@ -1381,7 +1381,7 @@ int collect_local() {
 	}
 }
 
-void statement();
+int statement();
 
 /* Evaluate if statements */
 int process_if() {
@@ -1697,7 +1697,7 @@ void recursive_statement()
  *     expr ;
  */
 
-void statement()
+int statement()
 {
 	require(NULL != global_token, "expected a C statement but received EOF\n");
 	/* Always an integer until told otherwise */
