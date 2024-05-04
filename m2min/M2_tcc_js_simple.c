@@ -1737,25 +1737,21 @@ int statement() {
 }
 
 /* Collect function arguments */
-void collect_arguments()
-{
-	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
+int collect_arguments() {
 	struct type* type_size;
 	struct token_list* a;
 
-	while(!match(")", global_token->s))
-	{
+	global_token = global_token->next;
+	require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
+
+	while(eq(0, match(")", global_token->s))) {
 		type_size = type_name();
-		require(NULL != global_token, "Received EOF when attempting to collect arguments\n");
-		require(NULL != type_size, "Must have non-null type\n");
-		if(global_token->s[0] == ')')
-		{
+		require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
+		require(neq(NULL, type_size), "Must have non-null type\n");
+		if(eq(global_token->s[0], ')')) {
 			/* foo(int,char,void) doesn't need anything done */
 			continue;
-		}
-		else if(global_token->s[0] != ',')
-		{
+		} else if(neq(global_token->s[0], ',')) {
 			/* deal with foo(int a, char b) */
 			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
