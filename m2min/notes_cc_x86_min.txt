@@ -54,6 +54,8 @@ Random notes:
 No hold string so it will just allocate MAX_STRING bytes per token (I set
 MAX_STRING to 256).
 
+-------------------------------------------------------------------------------
+
 I moved all the strings to the end of the file since this allows me to more
 easily disasseble the whole file using gdb. Note objdump seems to struggle with
 cc_x86_min.exe so instead I had to try the following gdb script:
@@ -69,3 +71,26 @@ gdb
 command is something like this:
 
 gdb -batch -x script.gdb artifacts/cc_x86_min.exe > /tmp/blah/cc.dis
+
+-------------------------------------------------------------------------------
+
+TOKEN_LIST structure now has named fields:
+
+        ;; Struct TOKEN_LIST format: (size 16)
+        ;; NEXT => 0
+DEFINE f_NEXT 00
+        ;; LOCALS/PREV => 4
+DEFINE f_LOCALS 04
+DEFINE f_PREV 04
+        ;; S => 8
+DEFINE f_S 08
+        ;; ARGS/DEPTH => 12
+DEFINE f_ARGS 0C
+DEFINE f_DEPTH 0C
+
+We then have stuff like this
+
+        LOAD32_ECX_from_ECX_Immediate8 f_ARGS       ; function->args
+
+This also allowed me to change the structure layout without having to change all
+users of the struct.
