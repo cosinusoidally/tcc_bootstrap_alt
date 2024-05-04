@@ -45,7 +45,27 @@ EDX used as 3rd argument
 ESI 4th arg
 EBP 5th arg
 
+Registers (other than EAX) are callee saved (ie in the called function itself
+you will see the registers being saved at the start of the function and then
+restored at the end).
+
 Random notes:
 =============
 No hold string so it will just allocate MAX_STRING bytes per token (I set
 MAX_STRING to 256).
+
+I moved all the strings to the end of the file since this allows me to more
+easily disasseble the whole file using gdb. Note objdump seems to struggle with
+cc_x86_min.exe so instead I had to try the following gdb script:
+
+starti
+set disassembly-flavor intel
+disassemble /r $eip,+6000
+quit
+
+It's then a case of manually crossreferencing cc_x86_min.M1 and the output from
+gdb
+
+command is something like this:
+
+gdb -batch -x script.gdb artifacts/cc_x86_min.exe > /tmp/blah/cc.dis
