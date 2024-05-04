@@ -1384,10 +1384,11 @@ int collect_local() {
 void statement();
 
 /* Evaluate if statements */
-void process_if()
-{
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+int process_if() {
+	int number_string;
+
+	number_string = int2str(current_count, 10, TRUE);
+	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
 	uniqueID_out(function->s, number_string);
@@ -1402,7 +1403,7 @@ void process_if()
 
 	require_match("ERROR in process_if\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
+	require(neq(NULL, global_token), "Reached EOF inside of function\n");
 
 	emit_out("jmp %_END_IF_");
 
@@ -1411,12 +1412,11 @@ void process_if()
 	emit_out(":ELSE_");
 	uniqueID_out(function->s, number_string);
 
-	if(match("else", global_token->s))
-	{
+	if(match("else", global_token->s)) {
 		global_token = global_token->next;
-		require(NULL != global_token, "Received EOF where an else statement expected\n");
+		require(neq(NULL, global_token), "Received EOF where an else statement expected\n");
 		statement();
-		require(NULL != global_token, "Reached EOF inside of function\n");
+		require(neq(NULL, global_token), "Reached EOF inside of function\n");
 	}
 	emit_out(":_END_IF_");
 	uniqueID_out(function->s, number_string);
