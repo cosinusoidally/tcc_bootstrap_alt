@@ -1330,9 +1330,10 @@ int ceil_div(int a, int b) {
 }
 
 /* Process local variable */
-int collect_local()
-{
+int collect_local() {
 	struct type* type_size;
+	int struct_depth_adjustment;
+	int i;
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
@@ -1340,21 +1341,19 @@ int collect_local()
 	require(neq(NULL, type_size), "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
 	if(and(match("main", function->s), (eq(NULL, function->locals)))) {
-		a->depth = -20;
+		a->depth = sub(0, 20);
 	} else if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
-		a->depth = -8;
+		a->depth = sub(0, 8);
 	} else if(eq(NULL, function->locals)) {
-		a->depth = function->arguments->depth - 8;
-	}
-	else
-	{
-		a->depth = function->locals->depth - register_size;
+		a->depth = sub(function->arguments->depth, 8);
+	} else {
+		a->depth = sub(function->locals->depth, register_size);
 	}
 
 	/* Adjust the depth of local structs. When stack grows downwards, we want them to 
 	   start at the bottom of allocated space. */
-	unsigned struct_depth_adjustment = (ceil_div(a->type->size, register_size) - 1) * register_size;
-	a->depth = a->depth - struct_depth_adjustment;
+	struct_depth_adjustment = mul(sub(ceil_div(a->type->size, register_size), 1), register_size);
+	a->depth = sub(a->depth, struct_depth_adjustment);
 
 	function->locals = a;
 
@@ -1363,10 +1362,9 @@ int collect_local()
 	emit_out("\n");
 
 	global_token = global_token->next;
-	require(NULL != global_token, "incomplete local missing name\n");
+	require(neq(NULL, global_token), "incomplete local missing name\n");
 
-	if(match("=", global_token->s))
-	{
+	if(match("=", global_token->s)) {
 		global_token = global_token->next;
 		require(NULL != global_token, "incomplete local assignment\n");
 		expression();
@@ -1374,13 +1372,12 @@ int collect_local()
 
 	require_match("ERROR in collect_local\nMissing ;\n", ";");
 
-	unsigned i = (a->type->size + register_size - 1) / register_size;
-	while(i != 0)
-	{
+	i = div(sub(add(a->type->size, register_size), 1), register_size);
+	while(neq(i, 0)) {
 		emit_out("push_eax\t#");
 		emit_out(a->s);
 		emit_out("\n");
-		i = i - 1;
+		i = sub(i, 1);
 	}
 }
 
