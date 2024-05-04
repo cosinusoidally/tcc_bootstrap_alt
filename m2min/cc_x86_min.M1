@@ -805,12 +805,12 @@ DEFINE f_DEPTH 10
 	;; deal with foo(int a, char b)
 	CALL32 %get_s
 	LOAD32_Absolute32_ecx &function             ; Using function
-	LOAD32_ECX_from_ECX_Immediate8 !16          ; function->args
+	LOAD32_ECX_from_ECX_Immediate8 f_ARGS       ; function->args
 	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size(unused), function->arguments);
 	COPY_EAX_to_ECX                             ; put a in a safe place
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
 	CMPI8_EAX !0                                ; IF function->args == NULL
 	JNE32 %collect_arguments_another            ; otherwise it isn't the first
 
@@ -1548,7 +1548,7 @@ DEFINE f_DEPTH 10
 :primary_expr_variable_arguments
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 !16          ; function->args
+	LOAD32_EBX_from_EBX_Immediate8 f_ARGS       ; function->args
 	CALL32 %sym_lookup                          ; sym_lookup(s, function->args)
 	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_constant_list)
 	JE32 %primary_expr_variable_function        ; try functions next
@@ -1674,7 +1674,7 @@ DEFINE f_DEPTH 10
 	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
 	CALL32 %emit_out                            ; Emit it
 
-	LOAD32_EAX_from_ECX_Immediate8 !16          ; A->DEPTH
+	LOAD32_EAX_from_ECX_Immediate8 f_DEPTH      ; A->DEPTH
 	CALL32 %numerate_number                     ; Convert to string
 	CALL32 %emit_out                            ; Emit it
 
