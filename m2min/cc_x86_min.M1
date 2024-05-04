@@ -178,6 +178,9 @@ DEFINE f_S 08
 DEFINE f_ARGS 0C
 DEFINE f_DEPTH 0C
 
+; 0x10 encoded as a little endian 32 bit value
+DEFINE sizeof_token_list 10000000
+
 ; Where the ELF Header is going to hit
 ; Simply jump to _start
 ; Our main function
@@ -263,7 +266,7 @@ DEFINE f_DEPTH 0C
 
 	STORE32_Absolute32_eax &C                   ; Set C
 
-	LOADI32_EAX %20                             ; Malloc CURRENT
+	LOADI32_EAX sizeof_token_list               ; Malloc CURRENT
 	CALL32 %malloc                              ; Get Pointer
 	COPY_EAX_to_EDX                             ; Set CURRENT
 
@@ -1923,7 +1926,7 @@ DEFINE f_DEPTH 0C
 :emit
 	PUSH_ECX                                    ; Protect ECX
 	COPY_EAX_to_ECX                             ; put S out of the way
-	LOADI32_EAX %20                             ; sizeof(struct token_list)
+	LOADI32_EAX sizeof_token_list               ; sizeof(struct token_list)
 	CALL32 %malloc                              ; get T
 	STORE32_EBX_into_EAX                        ; t->next = head;
 	STORE32_ECX_into_EAX_Immediate8 f_S         ; t->s = s;
@@ -2086,7 +2089,7 @@ DEFINE f_DEPTH 0C
 :sym_declare
 	PUSH_EDX                                    ; Protect EDX
 	COPY_EAX_to_EDX                             ; Get char *S safely out of the way
-	LOADI32_EAX %20                             ; Using sizeof(struct token_list)
+	LOADI32_EAX sizeof_token_list               ; Using sizeof(struct token_list)
 	CALL32 %malloc                              ; Get pointer to A
 	STORE32_ECX_into_EAX                        ; A->NEXT = LIST
 	STORE32_EDX_into_EAX_Immediate8 f_S         ; A->S = S
