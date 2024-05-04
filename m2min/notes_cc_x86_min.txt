@@ -49,6 +49,12 @@ Registers (other than EAX) are callee saved (ie in the called function itself
 you will see the registers being saved at the start of the function and then
 restored at the end).
 
+This approach has pros and cons. On the plus side it is probably generating
+shorter code as there is less stack juggling, but on the negative side I find it
+harder to mentally keep track of where are variable is. I also find it confusing
+during function calls as it's not obvious at the call site how many arguments
+are being passed.
+
 Random notes:
 =============
 No hold string so it will just allocate MAX_STRING bytes per token (I set
@@ -94,3 +100,7 @@ We then have stuff like this
 
 This also allowed me to change the structure layout without having to change all
 users of the struct.
+
+-------------------------------------------------------------------------------
+Should experiment with alternative calling conventions with cc_x86_min to see if
+it is possible to make the assembly a bit clearer.
