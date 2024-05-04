@@ -1348,13 +1348,6 @@ DEFINE MAX_STRING FF000000
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
-	LOADI32_EAX &process_while_string_4         ; Using "# THEN_while_"
-	CALL32 %emit_out                            ; Emit it
-
-	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
-	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
-
 	CALL32 %next
 
 	CALL32 %statement                           ; Deal with the {....} part
@@ -2354,7 +2347,6 @@ NULL
 :process_while_string_0  "END_WHILE_"
 :process_while_string_1  ":WHILE_"
 :process_while_string_3  "jump_false %END_WHILE_"
-:process_while_string_4  "# THEN_while_"
 :process_while_string_6  "jump %WHILE_"
 :process_while_string_7  ":END_WHILE_"
 
