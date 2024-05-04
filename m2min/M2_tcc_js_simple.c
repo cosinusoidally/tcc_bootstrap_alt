@@ -1330,23 +1330,20 @@ int ceil_div(int a, int b) {
 }
 
 /* Process local variable */
-void collect_local()
+int collect_local()
 {
-	struct type* type_size = type_name();
-	require(NULL != global_token, "Received EOF while collecting locals\n");
-	require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in local variable name\n");
-	require(NULL != type_size, "Must have non-null type\n");
+	struct type* type_size;
+
+	type_size = type_name();
+	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
+	require(eq(0, in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
+	require(neq(NULL, type_size), "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
-	if(match("main", function->s) && (NULL == function->locals))
-	{
+	if(and(match("main", function->s), (eq(NULL, function->locals)))) {
 		a->depth = -20;
-	}
-	else if((NULL == function->arguments) && (NULL == function->locals))
-	{
+	} else if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
 		a->depth = -8;
-	}
-	else if(NULL == function->locals)
-	{
+	} else if(eq(NULL, function->locals)) {
 		a->depth = function->arguments->depth - 8;
 	}
 	else
