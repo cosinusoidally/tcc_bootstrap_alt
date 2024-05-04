@@ -178,8 +178,10 @@ DEFINE f_S 08
 DEFINE f_ARGS 0C
 DEFINE f_DEPTH 0C
 
-; 0x10 encoded as a little endian 32 bit value
+; sizeof_token_list encoded as a little endian 32 bit value
 DEFINE sizeof_token_list 10000000
+
+DEFINE MAX_STRING FF000000
 
 ; Where the ELF Header is going to hit
 ; Simply jump to _start
@@ -270,7 +272,7 @@ DEFINE sizeof_token_list 10000000
 	CALL32 %malloc                              ; Get Pointer
 	COPY_EAX_to_EDX                             ; Set CURRENT
 
-	LOADI32_EAX %256                            ; Malloc the string
+	LOADI32_EAX MAX_STRING                      ; Malloc the string
 	CALL32 %malloc                              ; Get pointer to S
 	COPY_EAX_to_ECX                             ; Set S
 	STORE32_ECX_into_EDX_Immediate8 f_S         ; CURRENT->S = S
@@ -2014,7 +2016,7 @@ DEFINE sizeof_token_list 10000000
 	PUSH_ECX                                    ; Protect ECX
 	PUSH_EDX                                    ; Protect EDX
 	COPY_EAX_to_EDX                             ; Protect our passed string
-	LOADI32_EAX %256                            ; We need 256bytes of storage
+	LOADI32_EAX MAX_STRING                      ; We need MAX_STRING bytes of storage
 	CALL32 %malloc                              ; Get our new pointer
 	COPY_EAX_to_ECX                             ; put it in place
 	PUSH_EAX                                    ; protect until done
