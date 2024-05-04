@@ -2085,7 +2085,6 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %malloc                              ; Get pointer to A
 	STORE32_ECX_into_EAX                        ; A->NEXT = LIST
 	STORE32_EDX_into_EAX_Immediate8 !8          ; A->S = S
-	STORE32_EBX_into_EAX_Immediate8 !12         ; A->TYPE = T
 	POP_EDX                                     ; Restore EDX
 	RETURN
 
