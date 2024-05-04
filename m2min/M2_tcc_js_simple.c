@@ -789,59 +789,54 @@ int require_match(int message, int required) {
 	global_token = global_token->next;
 }
 
-void expression();
+int expression();
 void function_call(char* s, int bool)
 {
+	int passed;
 	require_match("ERROR in process_expression_list\nNo ( was found\n", "(");
-	require(NULL != global_token, "Improper function call\n");
-	int passed = 0;
+	require(neq(NULL, global_token), "Improper function call\n");
+	passed = 0;
 
-		emit_out("push_edi\t# Prevent overwriting in recursion\n");
-		emit_out("push_ebp\t# Protect the old base pointer\n");
-		emit_out("mov_edi,esp\t# Copy new base pointer\n");
+	emit_out("push_edi\t# Prevent overwriting in recursion\n");
+	emit_out("push_ebp\t# Protect the old base pointer\n");
+	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(global_token->s[0] != ')')
-	{
+	if(neq(global_token->s[0], ')')) {
 		expression();
-		require(NULL != global_token, "incomplete function call, received EOF instead of )\n");
+		require(neq(NULL, global_token), "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(global_token->s[0] == ',')
-		{
+		while(eq(global_token->s[0], ',')) {
 			global_token = global_token->next;
-			require(NULL != global_token, "incomplete function call, received EOF instead of argument\n");
+			require(neq(NULL, global_token), "incomplete function call, received EOF instead of argument\n");
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
-			passed = passed + 1;
+			passed = add(passed, 1);
 		}
 	}
 
 	require_match("ERROR in process_expression_list\nNo ) was found\n", ")");
 
-	if(TRUE == bool)
-	{
+	if(eq(TRUE, bool)) {
 			emit_out("lea_eax,[ebp+DWORD] %");
 			emit_out(s);
 			emit_out("\nmov_eax,[eax]\n");
 			emit_out("mov_ebp,edi\n");
 			emit_out("call_eax\n");
-	}
-	else
-	{
+	} else {
 			emit_out("mov_ebp,edi\n");
 			emit_out("call %FUNCTION_");
 			emit_out(s);
 			emit_out("\n");
 	}
 
-	for(; passed > 0; passed = passed - 1)
-	{
+	for(; passed > 0; passed = sub(passed, 1)) {
 		emit_out("pop_ebx\t# _process_expression_locals\n");
 	}
 
-		emit_out("pop_ebp\t# Restore old base pointer\n");
-		emit_out("pop_edi\t# Prevent overwrite\n");
+	emit_out("pop_ebp\t# Restore old base pointer\n");
+	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
 void constant_load(struct token_list* a)
@@ -1367,7 +1362,7 @@ void primary_expr()
 	else primary_expr_failure();
 }
 
-void expression()
+int expression()
 {
 	bitwise_expr();
 	if(match("=", global_token->s))
