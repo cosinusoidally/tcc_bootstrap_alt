@@ -989,18 +989,16 @@ int primary_expr_string() {
 	}
 }
 
-void primary_expr_char()
-{
+int primary_expr_char() {
 	emit_out("mov_eax, %");
-	emit_out(int2str(escape_lookup(global_token->s + 1), 10, TRUE));
+	emit_out(int2str(escape_lookup(add(global_token->s, 1)), 10, TRUE));
 	emit_out("\n");
 	global_token = global_token->next;
 }
 
-void primary_expr_number()
-{
-		emit_out("mov_eax, %");
-		emit_out(global_token->s);
+int primary_expr_number() {
+	emit_out("mov_eax, %");
+	emit_out(global_token->s);
 	emit_out("\n");
 	global_token = global_token->next;
 }
