@@ -169,10 +169,14 @@ DEFINE SWAP_EAX_EBX 93
 	;; Struct TOKEN_LIST format: (size 20)
 	;; NEXT => 0
 	;; LOCALS/PREV => 4
+DEFINE f_LOCALS 04
+DEFINE f_PREV 04
 	;; S => 8
 DEFINE f_S 08
 	;; TYPE => 12 (UNUSED)
 	;; ARGS/DEPTH => 16
+DEFINE f_ARGS 10
+DEFINE f_DEPTH 10
 
 ; Where the ELF Header is going to hit
 ; Simply jump to _start
