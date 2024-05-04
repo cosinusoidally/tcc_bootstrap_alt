@@ -1298,7 +1298,7 @@ DEFINE MAX_STRING FF000000
 	STORE32_Absolute32_eax &break_target_head   ; update break_target_head
 	STORE32_Absolute32_ebx &break_target_num    ; update break_target_num
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EAX_from_EBX_Immediate8 !4           ; function->LOCALS
+	LOAD32_EAX_from_EBX_Immediate8 f_LOCALS     ; function->LOCALS
 	STORE32_Absolute32_eax &break_frame         ; break_frame = function->LOCALS
 	LOAD32_EAX_from_EBX_Immediate8 f_S          ; function->S
 	STORE32_Absolute32_eax &break_target_func   ; break_target_func = function->S
@@ -1390,7 +1390,7 @@ DEFINE MAX_STRING FF000000
 	PUSH_ECX                                    ; Protect ECX
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_ECX_from_EAX_Immediate8 !4           ; I = function->LOCALS
+	LOAD32_ECX_from_EAX_Immediate8 f_LOCALS     ; I = function->LOCALS
 	LOAD32_Absolute32_ebx &break_frame          ; Put break_frame in the right spot
 	LOADI32_EAX &pop_ebx_string                ; Using "pop_ebx"
 
@@ -1449,7 +1449,7 @@ DEFINE MAX_STRING FF000000
 
 	;; Deal with possible assignment
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
-	LOAD32_EBX_from_EBX_Immediate8 !4           ; global_token->PREV
+	LOAD32_EBX_from_EBX_Immediate8 f_PREV       ; global_token->PREV
 	LOAD32_EBX_from_EBX_Immediate8 f_S          ; global_token->PREV->S
 
 	LOADI32_EAX &expression_string_1            ; Using "push_eax\t#_common_recursion\n"
@@ -1541,7 +1541,7 @@ DEFINE MAX_STRING FF000000
 :primary_expr_variable_local
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 !4           ; function->locals
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
 	CALL32 %sym_lookup                          ; sym_lookup(s, function->locals)
 	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, function->locals)
 	JE32 %primary_expr_variable_arguments       ; try arguments next
