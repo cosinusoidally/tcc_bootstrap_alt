@@ -1422,15 +1422,20 @@ int process_if() {
 	uniqueID_out(function->s, number_string);
 }
 
-void process_for()
-{
-	struct token_list* nested_locals = break_frame;
-	char* nested_break_head = break_target_head;
-	char* nested_break_func = break_target_func;
-	char* nested_break_num = break_target_num;
+int process_for() {
+	struct token_list* nested_locals;
+	int nested_break_head;
+	int nested_break_func;
+	int nested_break_num;
+	int number_string;
 
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+	nested_locals = break_frame;
+	nested_break_head = break_target_head;
+	nested_break_func = break_target_func;
+	nested_break_num = break_target_num;
+
+	number_string = int2str(current_count, 10, TRUE);
+	current_count = add(current_count, 1);
 
 	break_target_head = "FOR_END_";
 	break_target_num = number_string;
