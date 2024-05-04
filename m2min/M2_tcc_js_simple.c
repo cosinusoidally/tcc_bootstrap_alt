@@ -1706,51 +1706,31 @@ int recursive_statement() {
  *     expr ;
  */
 
-int statement()
-{
-	require(NULL != global_token, "expected a C statement but received EOF\n");
+int statement() {
+	require(neq(NULL, global_token), "expected a C statement but received EOF\n");
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
-	if(global_token->s[0] == '{')
-	{
+	if(eq(global_token->s[0], '{')) {
 		recursive_statement();
-	}
-	else if((NULL != lookup_type(global_token->s, prim_types)) ||
-	          match("struct", global_token->s))
-	{
+	} else if(or(neq(NULL, lookup_type(global_token->s, prim_types)),
+	          match("struct", global_token->s))) {
 		collect_local();
-	}
-	else if(match("if", global_token->s))
-	{
+	} else if(match("if", global_token->s)) {
 		process_if();
-	}
-	else if(match("do", global_token->s))
-	{
+	} else if(match("do", global_token->s)) {
 		process_do();
-	}
-	else if(match("while", global_token->s))
-	{
+	} else if(match("while", global_token->s)) {
 		process_while();
-	}
-	else if(match("for", global_token->s))
-	{
+	} else if(match("for", global_token->s)) {
 		process_for();
-	}
-	else if(match("asm", global_token->s))
-	{
+	} else if(match("asm", global_token->s)) {
 		process_asm();
-	}
-	else if(match("return", global_token->s))
-	{
+	} else if(match("return", global_token->s)) {
 		return_result();
-	}
-	else if(match("break", global_token->s))
-	{
+	} else if(match("break", global_token->s)) {
 		process_break();
-	}
-	else
-	{
+	} else {
 		expression();
 		require_match("ERROR in statement\nMISSING ;\n", ";");
 	}
