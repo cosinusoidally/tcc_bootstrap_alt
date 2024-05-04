@@ -708,7 +708,6 @@ char* break_target_func;
 char* break_target_num;
 struct token_list* break_frame;
 int current_count;
-int Address_of;
 
 struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
@@ -1271,7 +1270,6 @@ int bitwise_expr() {
 int primary_expr()
 {
 	require(neq(NULL, global_token), "Received EOF where primary expression expected\n");
-	Address_of = FALSE;
 
 	if(match("sizeof", global_token->s)) unary_expr_sizeof();
 	else if('-' == global_token->s[0])
@@ -1875,7 +1873,6 @@ void program()
 	struct type* type_size;
 
 	function = NULL;
-	Address_of = FALSE;
 
 new_type:
 	/* Deal with garbage input */
