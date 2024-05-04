@@ -1051,7 +1051,7 @@ DEFINE MAX_STRING FF000000
 
 	CALL32 %get_s
 	LOAD32_Absolute32_ecx &function             ; Using function
-	LOAD32_ECX_from_ECX_Immediate8 !4           ; function->locals
+	LOAD32_ECX_from_ECX_Immediate8 f_LOCALS     ; function->locals
 	CALL32 %sym_declare                         ; Declare it
 	COPY_EAX_to_ECX                             ; put it away safely
 
@@ -1064,7 +1064,7 @@ DEFINE MAX_STRING FF000000
 
 	;; Ok we are in main, now to see if main is fresh
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; function->locals
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
 	CMPI8_EAX !0                                ; IF NULL == function->locals
 	JNE32 %collect_local_fresh                  ; try to see if fresh function
 
@@ -1080,7 +1080,7 @@ DEFINE MAX_STRING FF000000
 	JNE32 %collect_local_first                  ; Otherwise see if first
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; function->locals
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
 	CMPI8_EAX !0                                ; IF NULL == function->locals
 	JNE32 %collect_local_first                  ; Otherwise try first
 
@@ -1091,7 +1091,7 @@ DEFINE MAX_STRING FF000000
 
 :collect_local_first
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; function->locals
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
 	CMPI8_EAX !0                                ; IF NULL == function->locals
 	JNE32 %collect_local_else                   ; Looks like we are just another local
 
@@ -1106,7 +1106,7 @@ DEFINE MAX_STRING FF000000
 :collect_local_else
 	;; Always the last to know
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !4           ; function->locals
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
 	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->locals->depth
 	SUBI8_EAX !4                                ; function->locals->depth - 4
 	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = function->locals->depth - 4
@@ -1114,7 +1114,7 @@ DEFINE MAX_STRING FF000000
 :collect_local_common
 	LOAD32_Absolute32_eax &function             ; Using function
 
-	STORE32_ECX_into_EAX_Immediate8 !4          ; function->locals = a
+	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = a
 	LOAD32_ECX_from_ECX_Immediate8 f_S          ; a->S
 
 	CALL32 %next
