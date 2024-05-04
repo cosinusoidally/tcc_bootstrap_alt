@@ -1006,10 +1006,11 @@ int primary_expr_number() {
 int primary_expr_variable() {
 	int num_dereference;
 	int s;
+	struct token_list* a;
 	num_dereference = 0;
 	s = global_token->s;
 	global_token = global_token->next;
-	struct token_list* a = sym_lookup(s, global_constant_list);
+	a = sym_lookup(s, global_constant_list);
 	if(neq(NULL, a)) {
 		constant_load(a);
 		return;
