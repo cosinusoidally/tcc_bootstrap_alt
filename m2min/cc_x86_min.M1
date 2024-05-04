@@ -170,6 +170,7 @@ DEFINE SWAP_EAX_EBX 93
 	;; NEXT => 0
 	;; LOCALS/PREV => 4
 	;; S => 8
+DEFINE f_S 08
 	;; TYPE => 12 (UNUSED)
 	;; ARGS/DEPTH => 16
 
@@ -265,7 +266,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EAX %256                            ; Malloc the string
 	CALL32 %malloc                              ; Get pointer to S
 	COPY_EAX_to_ECX                             ; Set S
-	STORE32_ECX_into_EDX_Immediate8 !8          ; CURRENT->S = S
+	STORE32_ECX_into_EDX_Immediate8 f_S         ; CURRENT->S = S
 :reset
 	STORE32_Absolute32_ecx &string_index        ; S[0]
 	LOAD32_Absolute32_eax &C                    ; Using C
@@ -608,7 +609,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_EAX_from_EBX                         ; Iterate to next Token
 	CALL32 %recursive_output                    ; Recurse
 
-	LOAD32_EAX_from_EBX_Immediate8 !8           ; Using S
+	LOAD32_EAX_from_EBX_Immediate8 f_S          ; Using S
 	CALL32 %File_Print                          ; Print it
 
 :recursive_output_done
@@ -696,7 +697,7 @@ DEFINE SWAP_EAX_EBX 93
 
 	LOAD32_Absolute32_eax &global_token         ; Using global token
 	LOAD32_EAX_from_EAX_Immediate8 !4           ; global token->prev
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global token->prev->s
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
 	CALL32 %emit                                ; Emit it
 
 	COPY_EAX_to_EBX                             ; update globals_list
@@ -729,7 +730,7 @@ DEFINE SWAP_EAX_EBX 93
 
 	LOAD32_Absolute32_eax &global_token         ; Using global token
 	LOAD32_EAX_from_EAX_Immediate8 !4           ; global token->prev
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global token->prev->s
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
 	LOADI32_EBX %0                              ; NULL
 	LOAD32_Absolute32_ecx &global_function_list ; global_function_list
 	CALL32 %sym_declare                         ; sym_declare(global_token->prev->s, NULL, global_function_list);
@@ -753,7 +754,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; emit it
 
 	LOAD32_Absolute32_eax &function             ; function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->s
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->s
 	CALL32 %emit_out                            ; emit it
 
 	CALL32 %emit_newline
@@ -761,7 +762,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %statement                           ; Recursively get the function pieces
 
 	LOAD32_Absolute32_eax &output_list          ; output
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; output->s
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; output->s
 	LOADI32_EBX &ret_string                     ; "ret\n"
 	CALL32 %match                               ; IF output->s == "ret\n"
 	JE32 %declare_function_done                 ; otherwise we need to add it
@@ -964,7 +965,7 @@ DEFINE SWAP_EAX_EBX 93
 
 	LOADI32_EAX &ret_string                     ; Using "ret\n"
 	LOAD32_Absolute32_ebx &output_list          ; Using output
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; output->S
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; output->S
 	CALL32 %match                               ; IF output->S == "ret\n"
 	JE32 %recursive_statement_done              ; and be done
 
@@ -1048,7 +1049,7 @@ DEFINE SWAP_EAX_EBX 93
 	;; Try for main
 	LOADI32_EAX &main_string                    ; Using "main"
 	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; function->S
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; function->S
 	CALL32 %match                               ; IF match("main", function->s)
 	JNE32 %collect_local_fresh                  ; try to see if fresh function
 
@@ -1105,7 +1106,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_eax &function             ; Using function
 
 	STORE32_ECX_into_EAX_Immediate8 !4          ; function->locals = a
-	LOAD32_ECX_from_ECX_Immediate8 !8           ; a->S
+	LOAD32_ECX_from_ECX_Immediate8 f_S          ; a->S
 
 	CALL32 %next
 
@@ -1184,7 +1185,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1197,7 +1198,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1209,7 +1210,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1217,7 +1218,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
 	CALL32 %get_s
@@ -1236,7 +1237,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1290,7 +1291,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EAX_from_EBX_Immediate8 !4           ; function->LOCALS
 	STORE32_Absolute32_eax &break_frame         ; break_frame = function->LOCALS
-	LOAD32_EAX_from_EBX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EBX_Immediate8 f_S          ; function->S
 	STORE32_Absolute32_eax &break_target_func   ; break_target_func = function->S
 	RETURN                                      ; Return to sender
 
@@ -1320,7 +1321,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1334,7 +1335,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1342,7 +1343,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
 	CALL32 %next
@@ -1353,7 +1354,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
@@ -1361,7 +1362,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
 
 	CALL32 %restore_break_frame                 ; Restore the old break frame
@@ -1440,7 +1441,7 @@ DEFINE SWAP_EAX_EBX 93
 	;; Deal with possible assignment
 	LOAD32_Absolute32_ebx &global_token         ; Using global_token
 	LOAD32_EBX_from_EBX_Immediate8 !4           ; global_token->PREV
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; global_token->PREV->S
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; global_token->PREV->S
 
 	LOADI32_EAX &expression_string_1            ; Using "push_eax\t#_common_recursion\n"
 	CALL32 %emit_out                            ; Emit it
@@ -1696,7 +1697,7 @@ DEFINE SWAP_EAX_EBX 93
 ;; Returns nothing
 ;; LJW HACK removed support for function pointers
 :function_load
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; A->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; A->S
 	CALL32 %function_call                       ; Deal with it
 	RETURN
 
@@ -1708,7 +1709,7 @@ DEFINE SWAP_EAX_EBX 93
 :global_load
 	PUSH_EBX                                    ; Protect EBX
 	COPY_EAX_to_EBX                             ; Set as A
-	LOAD32_EBX_from_EBX_Immediate8 !8           ; Set as A->S
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; Set as A->S
 
 	LOADI32_EAX &global_load_string_0           ; Using "mov_eax, &GLOBAL_"
 	CALL32 %emit_out                            ; Emit it
@@ -1745,7 +1746,7 @@ DEFINE SWAP_EAX_EBX 93
 	CMPI8_ECX !0                                ; IF NULL == I
 	JE32 %sym_lookup_done                       ; We failed to find match
 
-	LOAD32_EAX_from_ECX_Immediate8 !8           ; Using I->S
+	LOAD32_EAX_from_ECX_Immediate8 f_S          ; Using I->S
 	CALL32 %match                               ; IF I->S == S
 	JE32 %sym_lookup_done                       ; Failed
 
@@ -1792,7 +1793,7 @@ DEFINE SWAP_EAX_EBX 93
 	CALL32 %emit_out                            ; Emit it
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	COPY_ECX_to_EBX                             ; Put number_string in the right place
 	CALL32 %uniqueID_out                        ; Make it unique
 
@@ -1803,7 +1804,7 @@ DEFINE SWAP_EAX_EBX 93
 	COPY_EAX_to_EBX                             ; put new strings_list in place
 
 	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; function->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
 	CALL32 %uniqueID                            ; Make it unique
 	COPY_EAX_to_EBX                             ; put new strings_list in place
 
@@ -1848,7 +1849,7 @@ DEFINE SWAP_EAX_EBX 93
 ;; get string value of global_token
 :get_s
 	LOAD32_Absolute32_eax &global_token         ; Using global_token
-	LOAD32_EAX_from_EAX_Immediate8 !8           ; global_token->S
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global_token->S
 	RETURN
 
 ;; get first character for the string value of global_token
@@ -1921,7 +1922,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EAX %20                             ; sizeof(struct token_list)
 	CALL32 %malloc                              ; get T
 	STORE32_EBX_into_EAX                        ; t->next = head;
-	STORE32_ECX_into_EAX_Immediate8 !8          ; t->s = s;
+	STORE32_ECX_into_EAX_Immediate8 f_S         ; t->s = s;
 	POP_ECX                                     ; Restore ECX
 	RETURN
 
@@ -2084,7 +2085,7 @@ DEFINE SWAP_EAX_EBX 93
 	LOADI32_EAX %20                             ; Using sizeof(struct token_list)
 	CALL32 %malloc                              ; Get pointer to A
 	STORE32_ECX_into_EAX                        ; A->NEXT = LIST
-	STORE32_EDX_into_EAX_Immediate8 !8          ; A->S = S
+	STORE32_EDX_into_EAX_Immediate8 f_S         ; A->S = S
 	POP_EDX                                     ; Restore EDX
 	RETURN
 
