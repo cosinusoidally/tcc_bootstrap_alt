@@ -1095,16 +1095,16 @@ DEFINE f_DEPTH 10
 	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
 	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
 	SUBI8_EAX !8                                ; function->arguments->depth - 8
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->DEPTH = function->arguments->depth - 8
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = function->arguments->depth - 8
 	JMP32 %collect_local_common                 ; Go to the commons
 
 :collect_local_else
 	;; Always the last to know
 	LOAD32_Absolute32_eax &function             ; Using function
 	LOAD32_EAX_from_EAX_Immediate8 !4           ; function->locals
-	LOAD32_EAX_from_EAX_Immediate8 !16          ; function->locals->depth
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->locals->depth
 	SUBI8_EAX !4                                ; function->locals->depth - 4
-	STORE32_EAX_into_ECX_Immediate8 !16         ; a->DEPTH = function->locals->depth - 4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = function->locals->depth - 4
 
 :collect_local_common
 	LOAD32_Absolute32_eax &function             ; Using function
