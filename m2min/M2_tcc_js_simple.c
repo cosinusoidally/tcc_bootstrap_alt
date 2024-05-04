@@ -1080,9 +1080,8 @@ int common_recursion(FUNCTION f) {
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
 
-void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
-{
-	require(NULL != global_token, "Received EOF in general_recursion\n");
+int general_recursion(FUNCTION f, int s, int name, FUNCTION iterate) {
+	require(neq(NULL, global_token), "Received EOF in general_recursion\n");
 	if(match(name, global_token->s))
 	{
 		common_recursion(f);
@@ -1091,22 +1090,15 @@ void general_recursion(FUNCTION f, char* s, char* name, FUNCTION iterate)
 	}
 }
 
-void arithmetic_recursion(FUNCTION f, char* s1, char* s2, char* name, FUNCTION iterate)
-{
-	require(NULL != global_token, "Received EOF in arithmetic_recursion\n");
-	if(match(name, global_token->s))
-	{
+int arithmetic_recursion(FUNCTION f, int s1, int s2, int name, FUNCTION iterate) {
+	require(neq(NULL, global_token), "Received EOF in arithmetic_recursion\n");
+	if(match(name, global_token->s)) {
 		common_recursion(f);
-		if(NULL == current_target)
-		{
+		if(eq(NULL, current_target)) {
 			emit_out(s1);
-		}
-		else if(current_target->is_signed)
-		{
+		} else if(current_target->is_signed) {
 			emit_out(s1);
-		}
-		else
-		{
+		} else {
 			emit_out(s2);
 		}
 		iterate();
