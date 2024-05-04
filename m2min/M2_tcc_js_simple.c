@@ -1067,13 +1067,13 @@ struct type* promote_type(struct type* a, struct type* b) {
 	return i;
 }
 
-void common_recursion(FUNCTION f)
-{
+int common_recursion(FUNCTION f) {
+	struct type* last_type;
 	emit_out("push_eax\t#_common_recursion\n");
 
-	struct type* last_type = current_target;
+	last_type = current_target;
 	global_token = global_token->next;
-	require(NULL != global_token, "Received EOF in common_recursion\n");
+	require(neq(NULL, global_token), "Received EOF in common_recursion\n");
 	f();
 	current_target = promote_type(current_target, last_type);
 
