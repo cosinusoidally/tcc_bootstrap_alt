@@ -1117,12 +1117,15 @@ int arithmetic_recursion(FUNCTION f, int s1, int s2, int name, FUNCTION iterate)
 
 void postfix_expr_array()
 {
-	struct type* array = current_target;
+	struct type* array;
+	int assign;
+
+	array = current_target;
 	common_recursion(expression);
 	current_target = array;
 	require(NULL != current_target, "Arrays only apply to variables\n");
 
-	char* assign = load_value(register_size, current_target->is_signed);
+	assign = load_value(register_size, current_target->is_signed);
 
 	/* Add support for Ints */
 	if(match("char*", current_target->name))
