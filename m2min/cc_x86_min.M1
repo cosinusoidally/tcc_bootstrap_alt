@@ -1022,7 +1022,7 @@ DEFINE MAX_STRING FF000000
 
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
-	LOADI32_EAX &return_result_string_1         ; Using "pop_ebx\t# _return_result_locals\n"
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _return_result_locals\n"
 :return_result_locals
 	CMPI8_EBX !0                                ; IF NULL == i
 	JE32 %return_result_done                    ; Be done
@@ -2341,9 +2341,6 @@ NULL
 :declare_function_string_1  "
 :FUNCTION_"
 :ret_string  "ret
-"
-
-:return_result_string_1  "pop_ebx
 "
 
 :collect_local_string_3  "reserve_stack_slot	#"
