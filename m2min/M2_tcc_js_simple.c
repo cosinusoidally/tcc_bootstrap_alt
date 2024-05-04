@@ -859,18 +859,12 @@ int load_value_signed(int size) {
 	exit(EXIT_FAILURE);
 }
 
-char* load_value_unsigned(unsigned size)
-{
-	if(size == 1)
-	{
+int load_value_unsigned(int size) {
+	if(eq(size, 1)) {
 		return "movzx_eax,BYTE_PTR_[eax]\n";
-	}
-	else if(size == 2)
-	{
+	} else if(eq(size, 2)) {
 		return "movzx_eax,WORD_PTR_[eax]\n";
-	}
-	else if(size == 4)
-	{
+	} else if(eq(size, 4)) {
 		return "mov_eax,[eax]\n";
 	}
 	fputs(" Got unsupported size ", stderr);
