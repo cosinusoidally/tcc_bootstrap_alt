@@ -959,9 +959,8 @@ int global_load(struct token_list* a) {
  * ( expression )
  */
 
-void primary_expr_failure()
-{
-	require(NULL != global_token, "hit EOF when expecting primary expression\n");
+int primary_expr_failure() {
+	require(neq(NULL, global_token), "hit EOF when expecting primary expression\n");
 	line_error();
 	fputs("Received ", stderr);
 	fputs(global_token->s, stderr);
@@ -969,10 +968,10 @@ void primary_expr_failure()
 	exit(EXIT_FAILURE);
 }
 
-void primary_expr_string()
-{
-	char* number_string = int2str(current_count, 10, TRUE);
-	current_count = current_count + 1;
+int primary_expr_string() {
+	char* number_string;
+	number_string = int2str(current_count, 10, TRUE);
+	current_count = add(current_count, 1);
 	emit_out("mov_eax, &STRING_");
 	uniqueID_out(function->s, number_string);
 
@@ -981,11 +980,10 @@ void primary_expr_string()
 	strings_list = uniqueID(function->s, strings_list, number_string);
 
 	/* catch case of just "foo" from segfaulting */
-	require(NULL != global_token->next, "a string by itself is not valid C\n");
+	require(neq(NULL, global_token->next), "a string by itself is not valid C\n");
 
 	/* Parse the string */
-	if('"' != global_token->next->s[0])
-	{
+	if(neq('"', global_token->next->s[0])) {
 		strings_list = emit(parse_string(global_token->s), strings_list);
 		global_token = global_token->next;
 	}
