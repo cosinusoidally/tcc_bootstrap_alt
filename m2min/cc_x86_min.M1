@@ -1563,7 +1563,8 @@ DEFINE MAX_STRING FF000000
 	JE32 %primary_expr_variable_global          ; try globals next
 
 	;; Deal with functions
-	CALL32 %function_load                       ; Deal with the function
+	LOAD32_EAX_from_EAX_Immediate8 f_S
+	CALL32 %function_call                       ; Deal with the function
 	JMP32 %primary_expr_variable_done           ; Be done
 
 :primary_expr_variable_global
@@ -1689,15 +1690,6 @@ DEFINE MAX_STRING FF000000
 :variable_load_done
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
-	RETURN
-
-;; function_load function
-;; Receives struct token_list* a in EAX
-;; Returns nothing
-;; LJW HACK removed support for function pointers
-:function_load
-	LOAD32_EAX_from_EAX_Immediate8 f_S          ; A->S
-	CALL32 %function_call                       ; Deal with it
 	RETURN
 
 
