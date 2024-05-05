@@ -657,11 +657,16 @@ int initialize_types() {
 
 struct type* lookup_type(int s, struct type* start) {
 	struct type* i;
-	for(i = start; neq(NULL, i); i = i->next)
-	{
+
+	i = start;
+	while(1) {
+		if(eq(NULL, i)) {
+			break;
+		}
 		if(match(i->name, s)) {
 			return i;
 		}
+		i = i->next;
 	}
 	return NULL;
 }
