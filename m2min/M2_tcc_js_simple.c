@@ -76,10 +76,9 @@ struct token_list* reverse_list(struct token_list* head);
 struct token_list* remove_line_comment_tokens(struct token_list* head);
 struct token_list* remove_preprocessor_directives(struct token_list* head);
 
-void eat_newline_tokens();
-void preprocess();
+int eat_newline_tokens();
 int program();
-void recursive_output(struct token_list* i, int out);
+int recursive_output(struct token_list* i, int out);
 
 /* What types we have */
 struct type* global_types;
@@ -1939,7 +1938,7 @@ new_type:
 	exit(EXIT_FAILURE);
 }
 
-void recursive_output(struct token_list* head, int out)
+int recursive_output(struct token_list* head, int out)
 {
 	struct token_list* i = reverse_list(head);
 	while(NULL != i)
@@ -1949,7 +1948,7 @@ void recursive_output(struct token_list* head, int out)
 	}
 }
 
-void eat_current_token()
+int eat_current_token()
 {
 	int update_global_token = FALSE;
 	if (macro_token == global_token)
@@ -1961,7 +1960,7 @@ void eat_current_token()
 		global_token = macro_token;
 }
 
-void eat_newline_tokens()
+int eat_newline_tokens()
 {
 	macro_token = global_token;
 
