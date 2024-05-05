@@ -1825,7 +1825,7 @@ int collect_arguments() {
 			continue;
 		} else if(neq(global_token->s[0], ',')) {
 			/* deal with foo(int a, char b) */
-			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
+			require(eq(0, in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
 			if(eq(NULL, function->arguments)) {
 				a->depth = sub(0, 4);
