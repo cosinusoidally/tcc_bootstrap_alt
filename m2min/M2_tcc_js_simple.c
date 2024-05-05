@@ -1684,12 +1684,17 @@ int return_result() {
 
 	require_match("ERROR in return_result\nMISSING ;\n", ";");
 
-	for(i = function->locals; neq(NULL, i); i = i->next) {
+	i = function->locals;
+	while(1) {
+		if(eq(NULL, i)) {
+			break;
+		}
 		size_local_var = ceil_div(i->type->size, register_size);
 		while(neq(size_local_var, 0)) {
 			emit_out("pop_ebx\t# _return_result_locals\n");
 			size_local_var = sub(size_local_var, 1);
 		}
+		i = i->next;
 	}
 
 	emit_out("ret\n");
