@@ -1816,8 +1816,7 @@ int collect_arguments() {
 	global_token = global_token->next;
 }
 
-int declare_function()
-{
+int declare_function() {
 	current_count = 0;
 	function = sym_declare(global_token->prev->s, NULL, global_function_list);
 
@@ -1825,11 +1824,11 @@ int declare_function()
 	global_function_list = function;
 	collect_arguments();
 
-	require(NULL != global_token, "Function definitions either need to be prototypes or full\n");
+	require(neq(NULL, global_token), "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
-	if(global_token->s[0] == ';') global_token = global_token->next;
-	else
-	{
+	if(eq(global_token->s[0], ';')) {
+		global_token = global_token->next;
+	} else {
 		emit_out("# Defining function ");
 		emit_out(function->s);
 		emit_out("\n");
@@ -1839,12 +1838,13 @@ int declare_function()
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(!match("ret\n", output_list->s)) emit_out("ret\n");
+		if(eq(0, match("ret\n", output_list->s))) {
+			emit_out("ret\n");
+		}
 	}
 }
 
-void global_constant()
-{
+int global_constant() {
 	global_token = global_token->next;
 	require(NULL != global_token, "CONSTANT lacks a name\n");
 	global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
