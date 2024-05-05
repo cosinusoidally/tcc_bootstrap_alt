@@ -1076,7 +1076,7 @@ int relational_expr();
 int fn_expression = 1;
 
 int dispatch(FUNCTION fn) {
-	if(eq(fn, expression)) {
+	if(eq(fn, fn_expression)) {
 		fputs("expression\n", stdout);
 		expression();
 	} else if(eq(fn, primary_expr)) {
@@ -1165,7 +1165,7 @@ int postfix_expr_array() {
 	int assign;
 
 	array = current_target;
-	common_recursion(expression);
+	common_recursion(fn_expression);
 	current_target = array;
 	require(neq(NULL, current_target), "Arrays only apply to variables\n");
 
@@ -1364,7 +1364,7 @@ int expression() {
 			store = store_value(current_target->size);
 		}
 
-		common_recursion(expression);
+		common_recursion(fn_expression);
 		emit_out(store);
 		current_target = integer;
 	}
