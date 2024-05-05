@@ -1810,19 +1810,24 @@ int statement() {
 
 /* Collect function arguments */
 int collect_arguments() {
+	int cont;
 	struct type* type_size;
 	struct token_list* a;
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 
+	cont = 1; /* work around since no continue */
+	while(eq(cont, 1)) {
+	cont = 0;
 	while(eq(0, match(")", global_token->s))) {
 		type_size = type_name();
 		require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 		require(neq(NULL, type_size), "Must have non-null type\n");
 		if(eq(global_token->s[0], ')')) {
 			/* foo(int,char,void) doesn't need anything done */
-			continue;
+			cont = 1;
+			break;
 		} else if(neq(global_token->s[0], ',')) {
 			/* deal with foo(int a, char b) */
 			require(eq(0, in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
@@ -1845,6 +1850,7 @@ int collect_arguments() {
 		}
 
 		require(neq(NULL, global_token), "Argument list never completed\n");
+	}
 	}
 	global_token = global_token->next;
 }
