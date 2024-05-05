@@ -504,7 +504,7 @@ int collect_regular_string(int string) {
 	int message;
 	string_index = 0;
 
-collect_regular_string_reset:
+	while(1) {
 	require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
 	if(eq(ri8(string), '\\')) {
 		wi8(add(hold_string, string_index), escape_lookup(string));
@@ -518,8 +518,9 @@ collect_regular_string_reset:
 	}
 
 	string_index = add(string_index, 1);
-	if(neq(ri8(string), 0)) {
-		goto collect_regular_string_reset;
+	if(eq(ri8(string), 0)) {
+		break;
+	}
 	}
 
 	wi8(add(hold_string, string_index), '"');
