@@ -1071,42 +1071,33 @@ int additive_expr_stub();
 int additive_expr();
 int relational_expr();
 
-int fn_expression = 1;
-int fn_primary_expr = 2;
-int fn_postfix_expr = 3;
-int fn_additive_expr = 4;
-int fn_relational_expr = 5;
-int fn_relational_expr_stub = 6;
-int fn_bitwise_expr_stub = 7;
-int fn_additive_expr_stub = 8;
+int fn_expression;
+int fn_primary_expr;
+int fn_postfix_expr;
+int fn_additive_expr;
+int fn_relational_expr;
+int fn_relational_expr_stub;
+int fn_bitwise_expr_stub;
+int fn_additive_expr_stub;
 
 int dispatch(int fn) {
 	if(eq(fn, fn_expression)) {
-		fputs("expression\n", stdout);
 		expression();
 	} else if(eq(fn, fn_primary_expr)) {
-		fputs("primary_expr\n", stdout);
 		primary_expr();
 	} else if(eq(fn, fn_postfix_expr)) {
-		fputs("postfix_expr\n", stdout);
 		postfix_expr();
 	} else if(eq(fn, postfix_expr)) {
-		fputs("postfix_expr\n", stdout);
 		postfix_expr();
 	} else if(eq(fn, fn_additive_expr)) {
-		fputs("additive_expr\n", stdout);
 		additive_expr();
 	} else if(eq(fn, fn_relational_expr)) {
-		fputs("relational_expr\n", stdout);
 		relational_expr();
 	} else if(eq(fn, fn_relational_expr_stub)) {
-		fputs("relational_expr_stub\n", stdout);
 		relational_expr_stub();
 	} else if(eq(fn, fn_bitwise_expr_stub)) {
-		fputs("bitwise_expr_stub\n", stdout);
 		bitwise_expr_stub();
 	} else if(eq(fn, fn_additive_expr_stub)) {
-		fputs("additive_expr_stub\n", stdout);
 		additive_expr_stub();
 	} else {
 		fputs("unsupported dispatch\n", stdout);
@@ -2005,6 +1996,15 @@ int initialize_globals() {
         EXIT_FAILURE = 1;
 
         EOF = sub(0, 1);
+
+	fn_expression = 1;
+	fn_primary_expr = 2;
+	fn_postfix_expr = 3;
+	fn_additive_expr = 4;
+	fn_relational_expr = 5;
+	fn_relational_expr_stub = 6;
+	fn_bitwise_expr_stub = 7;
+	fn_additive_expr_stub = 8;
 }
 
 int main(int argc, char** argv)
