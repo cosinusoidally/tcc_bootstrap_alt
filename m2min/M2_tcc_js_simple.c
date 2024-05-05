@@ -1938,26 +1938,29 @@ new_type:
 	exit(EXIT_FAILURE);
 }
 
-int recursive_output(struct token_list* head, int out)
-{
-	struct token_list* i = reverse_list(head);
-	while(NULL != i)
-	{
+int recursive_output(struct token_list* head, int out) {
+	struct token_list* i;
+
+	i = reverse_list(head);
+	while(neq(NULL, i)) {
 		fputs(i->s, out);
 		i = i->next;
 	}
 }
 
-int eat_current_token()
-{
-	int update_global_token = FALSE;
-	if (macro_token == global_token)
+int eat_current_token() {
+	int update_global_token;
+
+	update_global_token = FALSE;
+	if (eq(macro_token, global_token)) {
 		update_global_token = TRUE;
+	}
 
 	macro_token = eat_token(macro_token);
 
-	if(update_global_token)
+	if(update_global_token) {
 		global_token = macro_token;
+	}
 }
 
 int eat_newline_tokens()
