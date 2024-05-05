@@ -1067,9 +1067,16 @@ struct type* promote_type(struct type* a, struct type* b) {
 }
 
 int postfix_expr();
+int relational_expr_stub();
+int bitwise_expr_stub();
+int additive_expr_stub();
+int additive_expr();
+int relational_expr();
+
+int fn_expression = 1;
 
 int dispatch(FUNCTION fn) {
-	if(eq(fn, expression)) {
+	if(eq(fn, fn_expression)) {
 		fputs("expression\n", stdout);
 		expression();
 	} else if(eq(fn, primary_expr)) {
@@ -1078,6 +1085,27 @@ int dispatch(FUNCTION fn) {
 	} else if(eq(fn, postfix_expr)) {
 		fputs("postfix_expr\n", stdout);
 		postfix_expr();
+	} else if(eq(fn, postfix_expr)) {
+		fputs("postfix_expr\n", stdout);
+		postfix_expr();
+	} else if(eq(fn, additive_expr)) {
+		fputs("additive_expr\n", stdout);
+		additive_expr();
+	} else if(eq(fn, relational_expr)) {
+		fputs("relational_expr\n", stdout);
+		relational_expr();
+	} else if(eq(fn, relational_expr_stub)) {
+		fputs("relational_expr_stub\n", stdout);
+		relational_expr_stub();
+	} else if(eq(fn, bitwise_expr_stub)) {
+		fputs("bitwise_expr_stub\n", stdout);
+		bitwise_expr_stub();
+	} else if(eq(fn, additive_expr_stub)) {
+		fputs("additive_expr_stub\n", stdout);
+		additive_expr_stub();
+	} else if(eq(fn, relational_expr_stub)) {
+		fputs("relational_expr_stub\n", stdout);
+		relational_expr_stub();
 	} else {
 		fn();
 	}
@@ -1136,7 +1164,7 @@ int postfix_expr_array() {
 	int assign;
 
 	array = current_target;
-	common_recursion(expression);
+	common_recursion(fn_expression);
 	current_target = array;
 	require(neq(NULL, current_target), "Arrays only apply to variables\n");
 
