@@ -1914,7 +1914,7 @@ int program() {
 
 	function = NULL;
 
-new_type:
+	while(1) {
 	while(1) {
 	while(1) {
 	while(1) {
@@ -1928,7 +1928,9 @@ new_type:
 	/* Handle cc_* CONSTANT statements */
 	if(match("CONSTANT", global_token->s)) {
 		global_constant();
-		goto new_type;
+	} else {
+		break;
+	}
 	}
 
 	type_size = type_name();
