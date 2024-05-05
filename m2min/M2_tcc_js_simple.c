@@ -2046,7 +2046,6 @@ int main(int argc, int argv) {
 	recursive_output(strings_list, destination_file);
 	fputs("\n:ELF_end\n", destination_file);
 
-exit_success:
 	fclose(destination_file);
 	return EXIT_SUCCESS;
 }
