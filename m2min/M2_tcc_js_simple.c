@@ -1743,8 +1743,13 @@ int recursive_statement() {
 	/* Clean up any locals added */
 
 	if(eq(0, match("ret\n", output_list->s))) {
-		for(i = function->locals; neq(frame, i); i = i->next) {
+		i = function->locals;
+		while(1) {
+			if(eq(frame, i)) {
+				break;
+			}
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
+			i = i->next;
 		}
 	}
 	function->locals = frame;
