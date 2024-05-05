@@ -1074,15 +1074,17 @@ int additive_expr();
 int relational_expr();
 
 int fn_expression = 1;
+int fn_primary_expr = 2;
+int fn_postfix_expr = 3;
 
 int dispatch(FUNCTION fn) {
 	if(eq(fn, fn_expression)) {
 		fputs("expression\n", stdout);
 		expression();
-	} else if(eq(fn, primary_expr)) {
+	} else if(eq(fn, fn_primary_expr)) {
 		fputs("primary_expr\n", stdout);
 		primary_expr();
-	} else if(eq(fn, postfix_expr)) {
+	} else if(eq(fn, fn_postfix_expr)) {
 		fputs("postfix_expr\n", stdout);
 		postfix_expr();
 	} else if(eq(fn, postfix_expr)) {
@@ -1321,17 +1323,17 @@ int primary_expr() {
 	} else if(eq('-', global_token->s[0])) {
 		emit_out("mov_eax, %0\n");
 
-		common_recursion(primary_expr);
+		common_recursion(fn_primary_expr);
 
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
 	} else if(eq('!', global_token->s[0])) {
 		emit_out("mov_eax, %1\n");
 
-		common_recursion(postfix_expr);
+		common_recursion(fn_postfix_expr);
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
 	} else if(eq('~', global_token->s[0])) {
-		common_recursion(postfix_expr);
+		common_recursion(fn_postfix_expr);
 
 		emit_out("not_eax\n");
 	} else if(eq(global_token->s[0], '(')) {
