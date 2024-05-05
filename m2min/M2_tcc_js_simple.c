@@ -1067,11 +1067,16 @@ struct type* promote_type(struct type* a, struct type* b) {
 		return a;
 	}
 
-	for(i = global_types; neq(NULL, i); i = i->next) {
+	i = global_types;
+	while(1) {
+		if(eq(NULL, i)) {
+			break;
+		}
 		if(eq(a->name, i->name)) { break; }
 		if(eq(b->name, i->name)) { break; }
 		if(eq(a->name, i->indirect->name)) { break; }
 		if(eq(b->name, i->indirect->name)) { break; }
+		i = i->next;
 	}
 	require(neq(NULL, i), "impossible case 3 in promote_type\n");
 	return i;
