@@ -1066,6 +1066,23 @@ struct type* promote_type(struct type* a, struct type* b) {
 	return i;
 }
 
+int postfix_expr();
+
+int dispatch(FUNCTION fn) {
+	if(eq(fn, expression)) {
+		fputs("expression\n", stdout);
+		expression();
+	} else if(eq(fn, primary_expr)) {
+		fputs("primary_expr\n", stdout);
+		primary_expr();
+	} else if(eq(fn, postfix_expr)) {
+		fputs("postfix_expr\n", stdout);
+		postfix_expr();
+	} else {
+		fn();
+	}
+}
+
 int common_recursion(FUNCTION f) {
 	struct type* last_type;
 	emit_out("push_eax\t#_common_recursion\n");
@@ -1073,7 +1090,7 @@ int common_recursion(FUNCTION f) {
 	last_type = current_target;
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "Received EOF in common_recursion\n");
-	f();
+	dispatch(f);
 	current_target = promote_type(current_target, last_type);
 
 	emit_out("pop_ebx\t# _common_recursion\n");
