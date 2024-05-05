@@ -836,8 +836,12 @@ int function_call(int s, int bool) {
 			emit_out("\n");
 	}
 
-	for(; passed > 0; passed = sub(passed, 1)) {
+	while(1) {
+		if(lte(passed, 0)) {
+			break;
+		}
 		emit_out("pop_ebx\t# _process_expression_locals\n");
+		passed = sub(passed, 1);
 	}
 
 	emit_out("pop_ebp\t# Restore old base pointer\n");
