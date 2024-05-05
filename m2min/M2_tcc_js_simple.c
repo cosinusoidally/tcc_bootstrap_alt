@@ -23,8 +23,6 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gcc_req.h"
-
 int FALSE;
 int TRUE;
 int NULL;
@@ -1082,7 +1080,7 @@ int fn_relational_expr_stub = 6;
 int fn_bitwise_expr_stub = 7;
 int fn_additive_expr_stub = 8;
 
-int dispatch(FUNCTION fn) {
+int dispatch(int fn) {
 	if(eq(fn, fn_expression)) {
 		fputs("expression\n", stdout);
 		expression();
@@ -1116,7 +1114,7 @@ int dispatch(FUNCTION fn) {
 	}
 }
 
-int common_recursion(FUNCTION f) {
+int common_recursion(int f) {
 	struct type* last_type;
 	emit_out("push_eax\t#_common_recursion\n");
 
@@ -1129,7 +1127,7 @@ int common_recursion(FUNCTION f) {
 	emit_out("pop_ebx\t# _common_recursion\n");
 }
 
-int general_recursion(FUNCTION f, int s, int name, FUNCTION iterate) {
+int general_recursion(int f, int s, int name, int iterate) {
 	require(neq(NULL, global_token), "Received EOF in general_recursion\n");
 	if(match(name, global_token->s))
 	{
@@ -1139,7 +1137,7 @@ int general_recursion(FUNCTION f, int s, int name, FUNCTION iterate) {
 	}
 }
 
-int arithmetic_recursion(FUNCTION f, int s1, int s2, int name, FUNCTION iterate) {
+int arithmetic_recursion(int f, int s1, int s2, int name, int iterate) {
 	require(neq(NULL, global_token), "Received EOF in arithmetic_recursion\n");
 	if(match(name, global_token->s)) {
 		common_recursion(f);
