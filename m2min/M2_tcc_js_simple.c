@@ -1079,6 +1079,8 @@ int fn_postfix_expr = 3;
 int fn_additive_expr = 4;
 int fn_relational_expr = 5;
 int fn_relational_expr_stub = 6;
+int fn_bitwise_expr_stub = 7;
+int fn_additive_expr_stub = 8;
 
 int dispatch(FUNCTION fn) {
 	if(eq(fn, fn_expression)) {
@@ -1102,7 +1104,7 @@ int dispatch(FUNCTION fn) {
 	} else if(eq(fn, fn_relational_expr_stub)) {
 		fputs("relational_expr_stub\n", stdout);
 		relational_expr_stub();
-	} else if(eq(fn, bitwise_expr_stub)) {
+	} else if(eq(fn, fn_bitwise_expr_stub)) {
 		fputs("bitwise_expr_stub\n", stdout);
 		bitwise_expr_stub();
 	} else if(eq(fn, additive_expr_stub)) {
@@ -1296,11 +1298,11 @@ int relational_expr() {
  *         bitwise-expr ^ bitwise-expr
  */
 int bitwise_expr_stub() {
-		general_recursion(fn_relational_expr, "and_eax,ebx\n", "&", bitwise_expr_stub);
-		general_recursion(fn_relational_expr, "and_eax,ebx\n", "&&", bitwise_expr_stub);
-		general_recursion(fn_relational_expr, "or_eax,ebx\n", "|", bitwise_expr_stub);
-		general_recursion(fn_relational_expr, "or_eax,ebx\n", "||", bitwise_expr_stub);
-		general_recursion(fn_relational_expr, "xor_eax,ebx\n", "^", bitwise_expr_stub);
+		general_recursion(fn_relational_expr, "and_eax,ebx\n", "&", fn_bitwise_expr_stub);
+		general_recursion(fn_relational_expr, "and_eax,ebx\n", "&&", fn_bitwise_expr_stub);
+		general_recursion(fn_relational_expr, "or_eax,ebx\n", "|", fn_bitwise_expr_stub);
+		general_recursion(fn_relational_expr, "or_eax,ebx\n", "||", fn_bitwise_expr_stub);
+		general_recursion(fn_relational_expr, "xor_eax,ebx\n", "^", fn_bitwise_expr_stub);
 }
 
 
