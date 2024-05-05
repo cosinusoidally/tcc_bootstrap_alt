@@ -1887,12 +1887,11 @@ new_type:
 	if (eq(NULL, global_token)) {
 		return;
 	}
-	require('#' != global_token->s[0], "unhandled macro directive\n");
-	require(!match("\n", global_token->s), "unexpected newline token\n");
+	require(neq('#', global_token->s[0]), "unhandled macro directive\n");
+	require(eq(0, match("\n", global_token->s)), "unexpected newline token\n");
 
 	/* Handle cc_* CONSTANT statements */
-	if(match("CONSTANT", global_token->s))
-	{
+	if(match("CONSTANT", global_token->s)) {
 		global_constant();
 		goto new_type;
 	}
