@@ -1967,7 +1967,6 @@ new_type:
 	/* Deal with global functions */
 	if(match("(", global_token->s)) {
 		declare_function();
-		goto new_type;
 	} else {
 		break;
 	}
