@@ -1875,8 +1875,7 @@ int global_constant() {
  * parameter-declaration:
  *     type-name identifier-opt
  */
-int program()
-{
+int program() {
 	int i;
 	struct type* type_size;
 
@@ -1898,17 +1897,18 @@ new_type:
 
 	type_size = type_name();
 	/* Deal with case of struct definitions */
-	if(NULL == type_size) goto new_type;
+	if(eq(NULL, type_size)) {
+		goto new_type;
+	}
 
-	require(NULL != global_token->next, "Unterminated global\n");
+	require(neq(NULL, global_token->next), "Unterminated global\n");
 
 	/* Add to global symbol table */
 	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
 	global_token = global_token->next;
 
 	/* Deal with global variables */
-	if(match(";", global_token->s))
-	{
+	if(match(";", global_token->s)) {
 		/* Ensure enough bytes are allocated to store global variable.
 		   In some cases it allocates too much but that is harmless. */
 		globals_list = emit(":GLOBAL_", globals_list);
@@ -1917,18 +1917,16 @@ new_type:
 		/* round up division */
 		i = ceil_div(type_size->size, register_size);
 		globals_list = emit("\n", globals_list);
-		while(i != 0)
-		{
+		while(neq(i, 0)) {
 			globals_list = emit("NULL\n", globals_list);
-			i = i - 1;
+			i = sub(i, 1);
 		}
 		global_token = global_token->next;
 		goto new_type;
 	}
 
 	/* Deal with global functions */
-	if(match("(", global_token->s))
-	{
+	if(match("(", global_token->s)) {
 		declare_function();
 		goto new_type;
 	}
