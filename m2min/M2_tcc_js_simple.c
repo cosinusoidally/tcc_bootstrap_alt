@@ -371,12 +371,15 @@ int new_token(int s, int size) {
 }
 
 int get_token(int c) {
+	int reset;
 	struct token_list* current;
 
 	current = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
-reset:
+	reset = 1;
+	while(eq(reset, 1)) {
+	reset = 0;
 	reset_hold_string();
 	string_index = 0;
 
@@ -406,7 +409,7 @@ reset:
 				require(neq(EOF, c), "Hit EOF inside of block comment\n");
 			}
 			c = grab_byte();
-			goto reset;
+			reset = 1;
 		} else if(eq(c, '/')) {
 			c = consume_byte(c);
 		}
@@ -420,6 +423,7 @@ reset:
 		c = consume_byte(c);
 	} else {
 		c = consume_byte(c);
+	}
 	}
 
 	new_token(hold_string, add(string_index, 2));
