@@ -1354,15 +1354,15 @@ int primary_expr() {
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
-	} else if(eq(global_token->s[0], '\'')) {
+	} else if(eq(ri8(global_token->s), '\'')) {
 		primary_expr_char();
-	} else if(eq(global_token->s[0], '"')) {
+	} else if(eq(ri8(global_token->s), '"')) {
 		primary_expr_string();
-	} else if(in_set(global_token->s[0], "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+	} else if(in_set(ri8(global_token->s), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
-	} else if(eq(global_token->s[0], '*')) {
+	} else if(eq(ri8(global_token->s), '*')) {
 		primary_expr_variable();
-	} else if(in_set(global_token->s[0], "0123456789")) {
+	} else if(in_set(ri8(global_token->s), "0123456789")) {
 		primary_expr_number();
 	} else {
 		primary_expr_failure();
@@ -1399,7 +1399,7 @@ int collect_local() {
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
-	require(eq(0, in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
+	require(eq(0, in_set(ri8(global_token->s), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
 	require(neq(NULL, type_size), "Must have non-null type\n");
 	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
 	if(and(match("main", function->s), (eq(NULL, function->locals)))) {
@@ -1562,7 +1562,7 @@ int process_for() {
 int process_asm() {
 	global_token = global_token->next;
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
-	while(eq('"', global_token->s[0])) {
+	while(eq('"', ri8(global_token->s))) {
 		emit_out(add(global_token->s, 1));
 		emit_out("\n");
 		global_token = global_token->next;
@@ -1683,7 +1683,7 @@ int return_result() {
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "Incomplete return statement received\n");
-	if(neq(global_token->s[0], ';')) {
+	if(neq(ri8(global_token->s), ';')) {
 		expression();
 	}
 
@@ -1783,7 +1783,7 @@ int statement() {
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
-	if(eq(global_token->s[0], '{')) {
+	if(eq(ri8(global_token->s), '{')) {
 		recursive_statement();
 	} else if(or(neq(NULL, lookup_type(global_token->s, prim_types)),
 	          match("struct", global_token->s))) {
@@ -1824,7 +1824,7 @@ int collect_arguments() {
 			type_size = type_name();
 			require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 			require(neq(NULL, type_size), "Must have non-null type\n");
-			if(eq(global_token->s[0], ')')) {
+			if(eq(ri8(global_token->s), ')')) {
 				/* foo(int,char,void) doesn't need anything done */
 				cont = 1;
 				break;
