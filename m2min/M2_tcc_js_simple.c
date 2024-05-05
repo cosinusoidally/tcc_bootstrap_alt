@@ -1076,6 +1076,7 @@ int relational_expr();
 int fn_expression = 1;
 int fn_primary_expr = 2;
 int fn_postfix_expr = 3;
+int fn_additive_expr = 4;
 
 int dispatch(FUNCTION fn) {
 	if(eq(fn, fn_expression)) {
@@ -1090,7 +1091,7 @@ int dispatch(FUNCTION fn) {
 	} else if(eq(fn, postfix_expr)) {
 		fputs("postfix_expr\n", stdout);
 		postfix_expr();
-	} else if(eq(fn, additive_expr)) {
+	} else if(eq(fn, fn_additive_expr)) {
 		fputs("additive_expr\n", stdout);
 		additive_expr();
 	} else if(eq(fn, relational_expr)) {
@@ -1273,12 +1274,12 @@ int additive_expr() {
  */
 
 int relational_expr_stub() {
-		arithmetic_recursion(additive_expr, "cmp\nsetl_al\nmovzx_eax,al\n", "cmp\nsetb_al\nmovzx_eax,al\n", "<", relational_expr_stub);
-		arithmetic_recursion(additive_expr, "cmp\nsetle_al\nmovzx_eax,al\n", "cmp\nsetbe_al\nmovzx_eax,al\n", "<=", relational_expr_stub);
-		arithmetic_recursion(additive_expr, "cmp\nsetge_al\nmovzx_eax,al\n", "cmp\nsetae_al\nmovzx_eax,al\n", ">=", relational_expr_stub);
-		arithmetic_recursion(additive_expr, "cmp\nsetg_al\nmovzx_eax,al\n", "cmp\nseta_al\nmovzx_eax,al\n", ">", relational_expr_stub);
-		general_recursion(additive_expr, "cmp\nsete_al\nmovzx_eax,al\n", "==", relational_expr_stub);
-		general_recursion(additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetl_al\nmovzx_eax,al\n", "cmp\nsetb_al\nmovzx_eax,al\n", "<", relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetle_al\nmovzx_eax,al\n", "cmp\nsetbe_al\nmovzx_eax,al\n", "<=", relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetge_al\nmovzx_eax,al\n", "cmp\nsetae_al\nmovzx_eax,al\n", ">=", relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetg_al\nmovzx_eax,al\n", "cmp\nseta_al\nmovzx_eax,al\n", ">", relational_expr_stub);
+		general_recursion(fn_additive_expr, "cmp\nsete_al\nmovzx_eax,al\n", "==", relational_expr_stub);
+		general_recursion(fn_additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
 }
 
 int relational_expr() {
