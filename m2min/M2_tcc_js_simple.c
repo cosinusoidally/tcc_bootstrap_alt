@@ -2003,9 +2003,9 @@ int initialize_globals() {
 
 int main(int argc, char** argv)
 {
-	char* name;
-	char* hold;
-	char* val;
+	int name;
+	int hold;
+	int val;
 	int i;
 	int in;
 	int destination_file;
@@ -2013,17 +2013,17 @@ int main(int argc, char** argv)
         initialize_globals();
 
 	i = 1;
-	hold_string = calloc(MAX_STRING + 4, sizeof(char));
+	hold_string = calloc(add(MAX_STRING, 4), 1);
 
 	name = argv[i];
 
 	in = fopen(name, "r");
 	global_token = read_all_tokens(in, global_token, name);
 	fclose(in);
-	i = i + 1;
+	i = add(i, 1);
 
 	destination_file = fopen(argv[i], "w");
-	i = i + 1;
+	i = add(i, 1);
 
 	global_token = reverse_list(global_token);
 
