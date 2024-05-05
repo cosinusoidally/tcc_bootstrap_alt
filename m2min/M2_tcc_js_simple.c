@@ -1915,6 +1915,9 @@ int program() {
 	function = NULL;
 
 new_type:
+	while(1) {
+	while(1) {
+	while(1) {
 	/* Deal with garbage input */
 	if (eq(NULL, global_token)) {
 		return;
@@ -1930,8 +1933,9 @@ new_type:
 
 	type_size = type_name();
 	/* Deal with case of struct definitions */
-	if(eq(NULL, type_size)) {
-		goto new_type;
+	if(neq(NULL, type_size)) {
+		break;
+	}
 	}
 
 	require(neq(NULL, global_token->next), "Unterminated global\n");
@@ -1955,13 +1959,18 @@ new_type:
 			i = sub(i, 1);
 		}
 		global_token = global_token->next;
-		goto new_type;
+	} else {
+		break;
+	}
 	}
 
 	/* Deal with global functions */
 	if(match("(", global_token->s)) {
 		declare_function();
 		goto new_type;
+	} else {
+		break;
+	}
 	}
 
 	/* Everything else is just an error */
