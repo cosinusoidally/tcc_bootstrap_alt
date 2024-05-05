@@ -78,7 +78,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head);
 
 void eat_newline_tokens();
 void preprocess();
-void program();
+int program();
 void recursive_output(struct token_list* i, int out);
 
 /* What types we have */
@@ -1846,10 +1846,10 @@ int declare_function() {
 
 int global_constant() {
 	global_token = global_token->next;
-	require(NULL != global_token, "CONSTANT lacks a name\n");
+	require(neq(NULL, global_token), "CONSTANT lacks a name\n");
 	global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
 
-	require(NULL != global_token->next, "CONSTANT lacks a value\n");
+	require(neq(NULL, global_token->next), "CONSTANT lacks a value\n");
 	global_constant_list->arguments = global_token->next;
 	global_token = global_token->next->next;
 }
@@ -1875,7 +1875,7 @@ int global_constant() {
  * parameter-declaration:
  *     type-name identifier-opt
  */
-void program()
+int program()
 {
 	int i;
 	struct type* type_size;
@@ -1884,7 +1884,9 @@ void program()
 
 new_type:
 	/* Deal with garbage input */
-	if (NULL == global_token) return;
+	if (NULL == global_token) {
+		return;
+	}
 	require('#' != global_token->s[0], "unhandled macro directive\n");
 	require(!match("\n", global_token->s), "unexpected newline token\n");
 
