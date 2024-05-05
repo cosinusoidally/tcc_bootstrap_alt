@@ -1915,63 +1915,63 @@ int program() {
 	function = NULL;
 
 	while(1) {
-	while(1) {
-	while(1) {
-	while(1) {
-	/* Deal with garbage input */
-	if (eq(NULL, global_token)) {
-		return;
-	}
-	require(neq('#', global_token->s[0]), "unhandled macro directive\n");
-	require(eq(0, match("\n", global_token->s)), "unexpected newline token\n");
+		while(1) {
+			while(1) {
+				while(1) {
+					/* Deal with garbage input */
+					if (eq(NULL, global_token)) {
+						return;
+					}
+					require(neq('#', global_token->s[0]), "unhandled macro directive\n");
+					require(eq(0, match("\n", global_token->s)), "unexpected newline token\n");
 
-	/* Handle cc_* CONSTANT statements */
-	if(match("CONSTANT", global_token->s)) {
-		global_constant();
-	} else {
-		break;
-	}
-	}
+					/* Handle cc_* CONSTANT statements */
+					if(match("CONSTANT", global_token->s)) {
+						global_constant();
+					} else {
+						break;
+					}
+				}
 
-	type_size = type_name();
-	/* Deal with case of struct definitions */
-	if(neq(NULL, type_size)) {
-		break;
-	}
-	}
+				type_size = type_name();
+				/* Deal with case of struct definitions */
+				if(neq(NULL, type_size)) {
+					break;
+				}
+			}
 
-	require(neq(NULL, global_token->next), "Unterminated global\n");
+			require(neq(NULL, global_token->next), "Unterminated global\n");
 
-	/* Add to global symbol table */
-	global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
-	global_token = global_token->next;
+			/* Add to global symbol table */
+			global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
+			global_token = global_token->next;
 
-	/* Deal with global variables */
-	if(match(";", global_token->s)) {
-		/* Ensure enough bytes are allocated to store global variable.
-		   In some cases it allocates too much but that is harmless. */
-		globals_list = emit(":GLOBAL_", globals_list);
-		globals_list = emit(global_token->prev->s, globals_list);
+			/* Deal with global variables */
+			if(match(";", global_token->s)) {
+				/* Ensure enough bytes are allocated to store global variable.
+				   In some cases it allocates too much but that is harmless. */
+				globals_list = emit(":GLOBAL_", globals_list);
+				globals_list = emit(global_token->prev->s, globals_list);
 
-		/* round up division */
-		i = ceil_div(type_size->size, register_size);
-		globals_list = emit("\n", globals_list);
-		while(neq(i, 0)) {
-			globals_list = emit("NULL\n", globals_list);
-			i = sub(i, 1);
+				/* round up division */
+				i = ceil_div(type_size->size, register_size);
+				globals_list = emit("\n", globals_list);
+				while(neq(i, 0)) {
+					globals_list = emit("NULL\n", globals_list);
+					i = sub(i, 1);
+				}
+				global_token = global_token->next;
+			} else {
+				break;
+			}
 		}
-		global_token = global_token->next;
-	} else {
-		break;
-	}
-	}
 
-	/* Deal with global functions */
-	if(match("(", global_token->s)) {
-		declare_function();
-	} else {
-		break;
-	}
+		/* Deal with global functions */
+		if(match("(", global_token->s)) {
+			declare_function();
+		} else {
+			break;
+		}
 	}
 
 	/* Everything else is just an error */
