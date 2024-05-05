@@ -1884,7 +1884,7 @@ int program()
 
 new_type:
 	/* Deal with garbage input */
-	if (NULL == global_token) {
+	if (eq(NULL, global_token)) {
 		return;
 	}
 	require('#' != global_token->s[0], "unhandled macro directive\n");
