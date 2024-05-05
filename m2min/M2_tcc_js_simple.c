@@ -2001,8 +2001,7 @@ int initialize_globals() {
 	fn_additive_expr_stub = 8;
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, int argv) {
 	int name;
 	int hold;
 	int val;
@@ -2015,14 +2014,14 @@ int main(int argc, char** argv)
 	i = 1;
 	hold_string = calloc(add(MAX_STRING, 4), 1);
 
-	name = argv[i];
+	name = ri32(add(argv,mul(4, i)));
 
 	in = fopen(name, "r");
 	global_token = read_all_tokens(in, global_token, name);
 	fclose(in);
 	i = add(i, 1);
 
-	destination_file = fopen(argv[i], "w");
+	destination_file = fopen(ri32(add(argv, mul(4, i))), "w");
 	i = add(i, 1);
 
 	global_token = reverse_list(global_token);

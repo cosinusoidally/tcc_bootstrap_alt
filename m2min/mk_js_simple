@@ -1,6 +1,7 @@
 ./mk_clean
 
 cat simple_support_tcc.c > artifacts/M2_tcc_js_simple_full.c
+cat simple_support_common.c >> artifacts/M2_tcc_js_simple_full.c
 cat M2_tcc_js_simple.c >> artifacts/M2_tcc_js_simple_full.c
 
 echo "gcc build"
