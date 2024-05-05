@@ -1078,6 +1078,7 @@ int fn_primary_expr = 2;
 int fn_postfix_expr = 3;
 int fn_additive_expr = 4;
 int fn_relational_expr = 5;
+int fn_relational_expr_stub = 6;
 
 int dispatch(FUNCTION fn) {
 	if(eq(fn, fn_expression)) {
@@ -1098,7 +1099,7 @@ int dispatch(FUNCTION fn) {
 	} else if(eq(fn, fn_relational_expr)) {
 		fputs("relational_expr\n", stdout);
 		relational_expr();
-	} else if(eq(fn, relational_expr_stub)) {
+	} else if(eq(fn, fn_relational_expr_stub)) {
 		fputs("relational_expr_stub\n", stdout);
 		relational_expr_stub();
 	} else if(eq(fn, bitwise_expr_stub)) {
@@ -1107,9 +1108,6 @@ int dispatch(FUNCTION fn) {
 	} else if(eq(fn, additive_expr_stub)) {
 		fputs("additive_expr_stub\n", stdout);
 		additive_expr_stub();
-	} else if(eq(fn, relational_expr_stub)) {
-		fputs("relational_expr_stub\n", stdout);
-		relational_expr_stub();
 	} else {
 		fputs("unsupported dispatch\n", stdout);
 		exit(1);
@@ -1275,12 +1273,12 @@ int additive_expr() {
  */
 
 int relational_expr_stub() {
-		arithmetic_recursion(fn_additive_expr, "cmp\nsetl_al\nmovzx_eax,al\n", "cmp\nsetb_al\nmovzx_eax,al\n", "<", relational_expr_stub);
-		arithmetic_recursion(fn_additive_expr, "cmp\nsetle_al\nmovzx_eax,al\n", "cmp\nsetbe_al\nmovzx_eax,al\n", "<=", relational_expr_stub);
-		arithmetic_recursion(fn_additive_expr, "cmp\nsetge_al\nmovzx_eax,al\n", "cmp\nsetae_al\nmovzx_eax,al\n", ">=", relational_expr_stub);
-		arithmetic_recursion(fn_additive_expr, "cmp\nsetg_al\nmovzx_eax,al\n", "cmp\nseta_al\nmovzx_eax,al\n", ">", relational_expr_stub);
-		general_recursion(fn_additive_expr, "cmp\nsete_al\nmovzx_eax,al\n", "==", relational_expr_stub);
-		general_recursion(fn_additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetl_al\nmovzx_eax,al\n", "cmp\nsetb_al\nmovzx_eax,al\n", "<", fn_relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetle_al\nmovzx_eax,al\n", "cmp\nsetbe_al\nmovzx_eax,al\n", "<=", fn_relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetge_al\nmovzx_eax,al\n", "cmp\nsetae_al\nmovzx_eax,al\n", ">=", fn_relational_expr_stub);
+		arithmetic_recursion(fn_additive_expr, "cmp\nsetg_al\nmovzx_eax,al\n", "cmp\nseta_al\nmovzx_eax,al\n", ">", fn_relational_expr_stub);
+		general_recursion(fn_additive_expr, "cmp\nsete_al\nmovzx_eax,al\n", "==", fn_relational_expr_stub);
+		general_recursion(fn_additive_expr, "cmp\nsetne_al\nmovzx_eax,al\n", "!=", fn_relational_expr_stub);
 }
 
 int relational_expr() {
