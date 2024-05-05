@@ -1794,33 +1794,29 @@ int collect_arguments() {
 			/* deal with foo(int a, char b) */
 			require(!in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\""), "forbidden character in argument variable name\n");
 			a = sym_declare(global_token->s, type_size, function->arguments);
-			if(NULL == function->arguments)
-			{
-				a->depth = -4;
-			}
-			else
-			{
-				a->depth = function->arguments->depth - register_size;
+			if(eq(NULL, function->arguments)) {
+				a->depth = sub(0, 4);
+			} else {
+				a->depth = sub(function->arguments->depth, register_size);
 			}
 
 			global_token = global_token->next;
-			require(NULL != global_token, "Incomplete argument list\n");
+			require(neq(NULL, global_token), "Incomplete argument list\n");
 			function->arguments = a;
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(global_token->s[0] == ',')
-		{
+		if(eq(global_token->s[0], ',')) {
 			global_token = global_token->next;
-			require(NULL != global_token, "naked comma in collect arguments\n");
+			require(neq(NULL, global_token), "naked comma in collect arguments\n");
 		}
 
-		require(NULL != global_token, "Argument list never completed\n");
+		require(neq(NULL, global_token), "Argument list never completed\n");
 	}
 	global_token = global_token->next;
 }
 
-void declare_function()
+int declare_function()
 {
 	current_count = 0;
 	function = sym_declare(global_token->prev->s, NULL, global_function_list);
