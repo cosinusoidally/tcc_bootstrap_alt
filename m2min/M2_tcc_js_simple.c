@@ -1828,9 +1828,9 @@ int collect_arguments() {
 				/* foo(int,char,void) doesn't need anything done */
 				cont = 1;
 				break;
-			} else if(neq(global_token->s[0], ',')) {
+			} else if(neq(ri8(global_token->s), ',')) {
 				/* deal with foo(int a, char b) */
-				require(eq(0, in_set(global_token->s[0], "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
+				require(eq(0, in_set(ri8(global_token->s), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
 				a = sym_declare(global_token->s, type_size, function->arguments);
 				if(eq(NULL, function->arguments)) {
 					a->depth = sub(0, 4);
@@ -1844,7 +1844,7 @@ int collect_arguments() {
 			}
 
 			/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-			if(eq(global_token->s[0], ',')) {
+			if(eq(ri8(global_token->s), ',')) {
 				global_token = global_token->next;
 				require(neq(NULL, global_token), "naked comma in collect arguments\n");
 			}
@@ -1865,7 +1865,7 @@ int declare_function() {
 
 	require(neq(NULL, global_token), "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
-	if(eq(global_token->s[0], ';')) {
+	if(eq(ri8(global_token->s), ';')) {
 		global_token = global_token->next;
 	} else {
 		emit_out("# Defining function ");
@@ -1928,7 +1928,7 @@ int program() {
 					if (eq(NULL, global_token)) {
 						return;
 					}
-					require(neq('#', global_token->s[0]), "unhandled macro directive\n");
+					require(neq('#', ri8(global_token->s)), "unhandled macro directive\n");
 					require(eq(0, match("\n", global_token->s)), "unexpected newline token\n");
 
 					/* Handle cc_* CONSTANT statements */
