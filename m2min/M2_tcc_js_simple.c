@@ -1963,20 +1963,17 @@ int eat_current_token() {
 	}
 }
 
-int eat_newline_tokens()
-{
+int eat_newline_tokens() {
 	macro_token = global_token;
 
-	while(TRUE)
-	{
-		if(NULL == macro_token) return;
-
-		if(match("\n", macro_token->s))
-		{
-			eat_current_token();
+	while(TRUE) {
+		if(eq(NULL, macro_token)) {
+			return;
 		}
-		else
-		{
+
+		if(match("\n", macro_token->s)) {
+			eat_current_token();
+		} else {
 			macro_token = macro_token->next;
 		}
 	}
