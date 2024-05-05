@@ -505,22 +505,22 @@ int collect_regular_string(int string) {
 	string_index = 0;
 
 	while(1) {
-	require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
-	if(eq(ri8(string), '\\')) {
-		wi8(add(hold_string, string_index), escape_lookup(string));
-		if (eq(ri8(add(string, 1)), 'x')) {
+		require(gt(sub(MAX_STRING, 3), string_index), "Attempt at parsing regular string exceeds max length\n");
+		if(eq(ri8(string), '\\')) {
+			wi8(add(hold_string, string_index), escape_lookup(string));
+			if (eq(ri8(add(string, 1)), 'x')) {
+				string = add(string, 2);
+			}
 			string = add(string, 2);
+		} else {
+			wi8(add(hold_string, string_index), ri8(string));
+			string = add(string, 1);
 		}
-		string = add(string, 2);
-	} else {
-		wi8(add(hold_string, string_index), ri8(string));
-		string = add(string, 1);
-	}
 
-	string_index = add(string_index, 1);
-	if(eq(ri8(string), 0)) {
-		break;
-	}
+		string_index = add(string_index, 1);
+		if(eq(ri8(string), 0)) {
+			break;
+		}
 	}
 
 	wi8(add(hold_string, string_index), '"');
