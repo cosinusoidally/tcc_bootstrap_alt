@@ -379,51 +379,51 @@ int get_token(int c) {
 
 	reset = 1;
 	while(eq(reset, 1)) {
-	reset = 0;
-	reset_hold_string();
-	string_index = 0;
+		reset = 0;
+		reset_hold_string();
+		string_index = 0;
 
-	c = clearWhiteSpace(c);
-	if(eq(c, EOF)) {
-		free(current);
-		return c;
-	} else if(eq('#', c)) {
-		c = consume_byte(c);
-		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
-		c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
-	} else if(in_set(c, "<=>|&!^%")) {
-		c = preserve_keyword(c, "<=>|&!^%");
-	} else if(in_set(c, "'\"")) {
-		c = preserve_string(c);
-	} else if(eq(c, '/')) {
-		c = consume_byte(c);
-		if(eq(c, '*')) {
-			c = grab_byte();
-			while(neq(c, '/')) {
-				while(neq(c, '*')) {
+		c = clearWhiteSpace(c);
+		if(eq(c, EOF)) {
+			free(current);
+			return c;
+		} else if(eq('#', c)) {
+			c = consume_byte(c);
+			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
+		} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
+			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
+		} else if(in_set(c, "<=>|&!^%")) {
+			c = preserve_keyword(c, "<=>|&!^%");
+		} else if(in_set(c, "'\"")) {
+			c = preserve_string(c);
+		} else if(eq(c, '/')) {
+			c = consume_byte(c);
+			if(eq(c, '*')) {
+				c = grab_byte();
+				while(neq(c, '/')) {
+					while(neq(c, '*')) {
+						c = grab_byte();
+						require(neq(EOF, c), "Hit EOF inside of block comment\n");
+					}
 					c = grab_byte();
 					require(neq(EOF, c), "Hit EOF inside of block comment\n");
 				}
 				c = grab_byte();
-				require(neq(EOF, c), "Hit EOF inside of block comment\n");
+				reset = 1;
+			} else if(eq(c, '/')) {
+				c = consume_byte(c);
 			}
-			c = grab_byte();
-			reset = 1;
-		} else if(eq(c, '/')) {
+		} else if (eq(c, '\n')) {
+			c = consume_byte(c);
+		} else if(eq(c, '*')) {
+			c = consume_byte(c);
+		} else if(eq(c, '+')) {
+			c = consume_byte(c);
+		} else if(eq(c, '-')) {
+			c = consume_byte(c);
+		} else {
 			c = consume_byte(c);
 		}
-	} else if (eq(c, '\n')) {
-		c = consume_byte(c);
-	} else if(eq(c, '*')) {
-		c = consume_byte(c);
-	} else if(eq(c, '+')) {
-		c = consume_byte(c);
-	} else if(eq(c, '-')) {
-		c = consume_byte(c);
-	} else {
-		c = consume_byte(c);
-	}
 	}
 
 	new_token(hold_string, add(string_index, 2));
