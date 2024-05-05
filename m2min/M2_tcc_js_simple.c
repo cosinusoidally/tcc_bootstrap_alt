@@ -304,7 +304,7 @@ struct token_list* eat_token(struct token_list* token) {
 
 struct token_list* eat_until_newline(struct token_list* head) {
 	while (neq(NULL, head)) {
-		if(eq('\n', head->s[0])) {
+		if(eq('\n', ri8(head->s))) {
 			return head;
 		} else {
 			head = eat_token(head);
@@ -339,7 +339,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head) {
 	first = NULL;
 
 	while (neq(NULL, head)) {
-		if(eq('#', head->s[0])) {
+		if(eq('#', ri8(head->s))) {
 			head = eat_until_newline(head);
 		} else {
 			if(eq(NULL, first)) {
@@ -690,7 +690,7 @@ struct type* type_name() {
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "unfinished type definition\n");
 
-	while(eq(global_token->s[0], '*')) {
+	while(eq(ri8(global_token->s), '*')) {
 		ret = ret->indirect;
 		global_token = global_token->next;
 		require(neq(NULL, global_token), "unfinished type definition in indirection\n");
@@ -811,13 +811,13 @@ int function_call(int s, int bool) {
 	emit_out("push_ebp\t# Protect the old base pointer\n");
 	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(neq(global_token->s[0], ')')) {
+	if(neq(ri8(global_token->s), ')')) {
 		expression();
 		require(neq(NULL, global_token), "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(eq(global_token->s[0], ',')) {
+		while(eq(ri8(global_token->s), ',')) {
 			global_token = global_token->next;
 			require(neq(NULL, global_token), "incomplete function call, received EOF instead of argument\n");
 			expression();
@@ -998,7 +998,7 @@ int primary_expr_string() {
 	require(neq(NULL, global_token->next), "a string by itself is not valid C\n");
 
 	/* Parse the string */
-	if(neq('"', global_token->next->s[0])) {
+	if(neq('"', ri8(global_token->next->s))) {
 		strings_list = emit(parse_string(global_token->s), strings_list);
 		global_token = global_token->next;
 	}
@@ -1334,23 +1334,23 @@ int primary_expr() {
 
 	if(match("sizeof", global_token->s)) {
 		unary_expr_sizeof();
-	} else if(eq('-', global_token->s[0])) {
+	} else if(eq('-', ri8(global_token->s))) {
 		emit_out("mov_eax, %0\n");
 
 		common_recursion(fn_primary_expr);
 
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
-	} else if(eq('!', global_token->s[0])) {
+	} else if(eq('!', ri8(global_token->s))) {
 		emit_out("mov_eax, %1\n");
 
 		common_recursion(fn_postfix_expr);
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
-	} else if(eq('~', global_token->s[0])) {
+	} else if(eq('~', ri8(global_token->s))) {
 		common_recursion(fn_postfix_expr);
 
 		emit_out("not_eax\n");
-	} else if(eq(global_token->s[0], '(')) {
+	} else if(eq(ri8(global_token->s), '(')) {
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
