@@ -69,6 +69,28 @@ struct token_list
 	};
 };
 
+int token_list_next_offset;
+int token_list_locals_offset;
+int token_list_prev_offset;
+int token_list_s_offset;
+int token_list_type_offset;
+int token_list_filename_offset;
+int token_list_arguments_offset;
+int token_list_depth_offset;
+int token_list_linenumber_offset;
+
+int token_list_layout_init(){
+	token_list_next_offset = 0;
+	token_list_locals_offset = 4;
+	token_list_prev_offset = 4;
+	token_list_s_offset = 8;
+	token_list_type_offset = 12;
+	token_list_filename_offset = 12;
+	token_list_arguments_offset = 16;
+	token_list_depth_offset = 16;
+	token_list_linenumber_offset = 16;
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
@@ -2049,6 +2071,8 @@ int initialize_globals() {
 	fn_relational_expr_stub = 6;
 	fn_bitwise_expr_stub = 7;
 	fn_additive_expr_stub = 8;
+
+	token_list_layout_init();
 }
 
 int main(int argc, int argv) {
