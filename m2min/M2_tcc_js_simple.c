@@ -1076,7 +1076,7 @@ int relational_expr();
 int fn_expression = 1;
 
 int dispatch(FUNCTION fn) {
-	if(eq(fn, fn_expression)) {
+	if(eq(fn, expression)) {
 		fputs("expression\n", stdout);
 		expression();
 	} else if(eq(fn, primary_expr)) {
@@ -1107,7 +1107,8 @@ int dispatch(FUNCTION fn) {
 		fputs("relational_expr_stub\n", stdout);
 		relational_expr_stub();
 	} else {
-		fn();
+		fputs("unsupported dispatch\n", stdout);
+		exit(1);
 	}
 }
 
@@ -1130,7 +1131,7 @@ int general_recursion(FUNCTION f, int s, int name, FUNCTION iterate) {
 	{
 		common_recursion(f);
 		emit_out(s);
-		iterate();
+		dispatch(iterate);
 	}
 }
 
@@ -1145,7 +1146,7 @@ int arithmetic_recursion(FUNCTION f, int s1, int s2, int name, FUNCTION iterate)
 		} else {
 			emit_out(s2);
 		}
-		iterate();
+		dispatch(iterate);
 	}
 }
 
@@ -1164,7 +1165,7 @@ int postfix_expr_array() {
 	int assign;
 
 	array = current_target;
-	common_recursion(fn_expression);
+	common_recursion(expression);
 	current_target = array;
 	require(neq(NULL, current_target), "Arrays only apply to variables\n");
 
