@@ -749,11 +749,16 @@ struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 
 struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 	struct token_list* i;
-	for(i = symbol_list; neq(NULL, i); i = i->next)
-	{
+
+	i = symbol_list;
+	while(1) {
+		if(eq(NULL, i)) {
+			break;
+		}
 		if(match(i->s, s)) {
 			return i;
 		}
+		i = i->next;
 	}
 	return NULL;
 }
