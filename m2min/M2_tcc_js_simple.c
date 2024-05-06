@@ -123,6 +123,14 @@ int gtl_s(int t) {
         return ri32(add(t, token_list_s_offset));
 }
 
+int stl_type(int t,int v) {
+        wi32(add(t, token_list_type_offset), v);
+}
+
+int gtl_type(int t) {
+        return ri32(add(t, token_list_type_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
