@@ -168,7 +168,7 @@ int initialize_types();
 int reverse_list(int head);
 
 int remove_line_comment_tokens(int head);
-struct token_list* remove_preprocessor_directives(struct token_list* head);
+int remove_preprocessor_directives(int head);
 
 int eat_newline_tokens();
 int program();
@@ -427,7 +427,7 @@ int remove_line_comment_tokens(int head) {
 	return first;
 }
 
-struct token_list* remove_preprocessor_directives(struct token_list* head) {
+int remove_preprocessor_directives(int head) {
 	struct token_list* first;
 
 	first = NULL;
