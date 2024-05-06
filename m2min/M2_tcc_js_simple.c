@@ -1634,7 +1634,7 @@ int process_do() {
 	emit_out(":DO_");
 	uniqueID_out(gtl_s(function), number_string);
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF where do statement is expected\n");
 	statement();
 	require(neq(NULL, global_token), "Reached EOF inside of function\n");
@@ -1686,7 +1686,7 @@ int process_while() {
 	emit_out(":WHILE_");
 	uniqueID_out(gtl_s(function), number_string);
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require_match("ERROR in process_while\nMISSING (\n", "(");
 	expression();
 
@@ -1719,7 +1719,7 @@ int return_result() {
 	struct token_list* i;
 	int size_local_var;
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Incomplete return statement received\n");
 	if(neq(ri8(gtl_s(global_token)), ';')) {
 		expression();
@@ -1737,7 +1737,7 @@ int return_result() {
 			emit_out("pop_ebx\t# _return_result_locals\n");
 			size_local_var = sub(size_local_var, 1);
 		}
-		i = i->next;
+		i = gtl_next(i);
 	}
 
 	emit_out("ret\n");
@@ -1756,9 +1756,9 @@ int process_break() {
 	while(neq(i, break_frame)) {
 		if(eq(NULL, i)) { break; }
 		emit_out("pop_ebx\t# break_cleanup_locals\n");
-		i = i->next;
+		i = gtl_next(i);
 	}
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 
 	emit_out("jmp %");
 
@@ -1773,7 +1773,7 @@ int process_break() {
 int recursive_statement() {
 	struct token_list* i;
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF in recursive statement\n");
 	struct token_list* frame = function->locals;
 
@@ -1781,7 +1781,7 @@ int recursive_statement() {
 		statement();
 		require(neq(NULL, global_token), "Received EOF in recursive statement prior to }\n");
 	}
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 
 	/* Clean up any locals added */
 
@@ -1792,7 +1792,7 @@ int recursive_statement() {
 				break;
 			}
 			emit_out( "pop_ebx\t# _recursive_statement_locals\n");
-			i = i->next;
+			i = gtl_next(i);
 		}
 	}
 	function->locals = frame;
@@ -1852,7 +1852,7 @@ int collect_arguments() {
 	struct type* type_size;
 	struct token_list* a;
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 
 	cont = 1; /* work around since no continue */
@@ -1876,21 +1876,21 @@ int collect_arguments() {
 					a->depth = sub(function->arguments->depth, register_size);
 				}
 
-				global_token = global_token->next;
+				global_token = gtl_next(global_token);
 				require(neq(NULL, global_token), "Incomplete argument list\n");
 				function->arguments = a;
 			}
 
 			/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
 			if(eq(ri8(gtl_s(global_token)), ',')) {
-				global_token = global_token->next;
+				global_token = gtl_next(global_token);
 				require(neq(NULL, global_token), "naked comma in collect arguments\n");
 			}
 
 			require(neq(NULL, global_token), "Argument list never completed\n");
 		}
 	}
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 }
 
 int declare_function() {
@@ -1904,7 +1904,7 @@ int declare_function() {
 	require(neq(NULL, global_token), "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
 	if(eq(ri8(gtl_s(global_token)), ';')) {
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 	} else {
 		emit_out("# Defining function ");
 		emit_out(gtl_s(function));
@@ -1922,13 +1922,13 @@ int declare_function() {
 }
 
 int global_constant() {
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "CONSTANT lacks a name\n");
 	global_constant_list = sym_declare(gtl_s(global_token), NULL, global_constant_list);
 
-	require(neq(NULL, global_token->next), "CONSTANT lacks a value\n");
-	global_constant_list->arguments = global_token->next;
-	global_token = global_token->next->next;
+	require(neq(NULL, gtl_next(global_token)), "CONSTANT lacks a value\n");
+	global_constant_list->arguments = gtl_next(global_token);
+	global_token = gtl_next(gtl_next(global_token));
 }
 
 /*
@@ -1984,11 +1984,11 @@ int program() {
 				}
 			}
 
-			require(neq(NULL, global_token->next), "Unterminated global\n");
+			require(neq(NULL, gtl_next(global_token)), "Unterminated global\n");
 
 			/* Add to global symbol table */
 			global_symbol_list = sym_declare(gtl_s(global_token), type_size, global_symbol_list);
-			global_token = global_token->next;
+			global_token = gtl_next(global_token);
 
 			/* Deal with global variables */
 			if(match(";", gtl_s(global_token))) {
@@ -2004,7 +2004,7 @@ int program() {
 					globals_list = emit("NULL\n", globals_list);
 					i = sub(i, 1);
 				}
-				global_token = global_token->next;
+				global_token = gtl_next(global_token);
 			} else {
 				break;
 			}
@@ -2032,7 +2032,7 @@ int recursive_output(struct token_list* head, int out) {
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
 		fputs(gtl_s(i), out);
-		i = i->next;
+		i = gtl_next(i);
 	}
 }
 
@@ -2062,7 +2062,7 @@ int eat_newline_tokens() {
 		if(match("\n", gtl_s(macro_token))) {
 			eat_current_token();
 		} else {
-			macro_token = macro_token->next;
+			macro_token = gtl_next(macro_token);
 		}
 	}
 }
