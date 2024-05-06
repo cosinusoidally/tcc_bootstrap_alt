@@ -99,6 +99,13 @@ int gtl_next(int t) {
         return ri32(add(t, token_list_next_offset));
 }
 
+int stl_prev(int t,int v) {
+        wi32(add(t, token_list_prev_offset), v);
+}
+
+int gtl_prev(int t) {
+        return ri32(add(t, token_list_prev_offset));
+}
 int stl_s(int t,int v) {
         wi32(add(t, token_list_s_offset), v);
 }
