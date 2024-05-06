@@ -131,6 +131,14 @@ int gtl_type(int t) {
         return ri32(add(t, token_list_type_offset));
 }
 
+int stl_filename(int t,int v) {
+        wi32(add(t, token_list_filename_offset), v);
+}
+
+int gtl_filename(int t) {
+        return ri32(add(t, token_list_filename_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
@@ -810,7 +818,7 @@ struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
 	stl_next(a, list);
 	stl_s(a, s);
-	a->type = t;
+	stl_type(a, t);
 	return a;
 }
 
@@ -1012,7 +1020,7 @@ int function_load(struct token_list* a) {
 }
 
 int global_load(struct token_list* a) {
-	current_target = a->type;
+	current_target = gtl_type(a);
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(gtl_s(a));
 	emit_out("\n");
