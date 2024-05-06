@@ -117,6 +117,18 @@ int token_list_layout_init(){
 	sizeof_token_list = 20;
 }
 
+/* type getters and setters */
+
+int sty_next(int t,int v) {
+        wi32(add(t, type_next_offset), v);
+}
+
+int gty_next(int t) {
+        return ri32(add(t, type_next_offset));
+}
+
+/* token_list getters and setters */
+
 int stl_next(int t,int v) {
         wi32(add(t, token_list_next_offset), v);
 }
