@@ -1033,12 +1033,12 @@ int primary_expr_string() {
 	strings_list = uniqueID(gtl_s(function), strings_list, number_string);
 
 	/* catch case of just "foo" from segfaulting */
-	require(neq(NULL, global_token->next), "a string by itself is not valid C\n");
+	require(neq(NULL, gtl_next(global_token)), "a string by itself is not valid C\n");
 
 	/* Parse the string */
-	if(neq('"', ri8(gtl_s(global_token->next)))) {
+	if(neq('"', ri8(gtl_s(gtl_next(global_token))))) {
 		strings_list = emit(parse_string(gtl_s(global_token)), strings_list);
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 	}
 }
 
@@ -1046,14 +1046,14 @@ int primary_expr_char() {
 	emit_out("mov_eax, %");
 	emit_out(int2str(escape_lookup(add(gtl_s(global_token), 1)), 10, TRUE));
 	emit_out("\n");
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 }
 
 int primary_expr_number() {
 	emit_out("mov_eax, %");
 	emit_out(gtl_s(global_token));
 	emit_out("\n");
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 }
 
 int primary_expr_variable() {
@@ -1062,7 +1062,7 @@ int primary_expr_variable() {
 	struct token_list* a;
 	num_dereference = 0;
 	s = gtl_s(global_token);
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	a = sym_lookup(s, global_constant_list);
 	if(neq(NULL, a)) {
 		constant_load(a);
@@ -1171,7 +1171,7 @@ int common_recursion(int f) {
 	emit_out("push_eax\t#_common_recursion\n");
 
 	last_type = current_target;
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF in common_recursion\n");
 	dispatch(f);
 	current_target = promote_type(current_target, last_type);
@@ -1263,7 +1263,7 @@ struct type* type_name();
 int unary_expr_sizeof() {
 	struct type* a;
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF when starting sizeof\n");
 	require_match("ERROR in unary_expr\nMissing (\n", "(");
 	a = type_name();
@@ -1389,7 +1389,7 @@ int primary_expr() {
 
 		emit_out("not_eax\n");
 	} else if(eq(ri8(gtl_s(global_token)), '(')) {
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
 	} else if(eq(ri8(gtl_s(global_token)), '\'')) {
@@ -1461,12 +1461,12 @@ int collect_local() {
 	emit_out(gtl_s(global_token));
 	emit_out("\n");
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "incomplete local missing name\n");
 
 	if(match("=", gtl_s(global_token))) {
-		global_token = global_token->next;
-		require(NULL != global_token, "incomplete local assignment\n");
+		global_token = gtl_next(global_token);
+		require(neq(NULL, global_token), "incomplete local assignment\n");
 		expression();
 	}
 
@@ -1493,7 +1493,7 @@ int process_if() {
 	emit_out("# IF_");
 	uniqueID_out(gtl_s(function), number_string);
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require_match("ERROR in process_if\nMISSING (\n", "(");
 	expression();
 
@@ -1513,7 +1513,7 @@ int process_if() {
 	uniqueID_out(gtl_s(function), number_string);
 
 	if(match("else", gtl_s(global_token))) {
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 		require(neq(NULL, global_token), "Received EOF where an else statement expected\n");
 		statement();
 		require(neq(NULL, global_token), "Reached EOF inside of function\n");
@@ -1545,7 +1545,7 @@ int process_for() {
 	emit_out("# FOR_initialization_");
 	uniqueID_out(gtl_s(function), number_string);
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 
 	require_match("ERROR in process_for\nMISSING (\n", "(");
 	if(eq(0, match(";", gtl_s(global_token)))) {
@@ -1598,12 +1598,12 @@ int process_for() {
 
 /* Process Assembly statements */
 int process_asm() {
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
 	while(eq('"', ri8(gtl_s(global_token)))) {
 		emit_out(add(gtl_s(global_token), 1));
 		emit_out("\n");
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 		require(neq(NULL, global_token), "Received EOF inside asm statement\n");
 	}
 	require_match("ERROR in process_asm\nMISSING )\n", ")");
