@@ -78,6 +78,7 @@ int token_list_filename_offset;
 int token_list_arguments_offset;
 int token_list_depth_offset;
 int token_list_linenumber_offset;
+int sizeof_token_list;
 
 int token_list_layout_init(){
 	token_list_next_offset = 0;
@@ -89,6 +90,8 @@ int token_list_layout_init(){
 	token_list_arguments_offset = 16;
 	token_list_depth_offset = 16;
 	token_list_linenumber_offset = 16;
+
+	sizeof_token_list = 20;
 }
 
 int stl_next(int t,int v) {
@@ -449,7 +452,7 @@ int remove_preprocessor_directives(int head) {
 int new_token(int s, int size) {
 	int current;
 
-	current = calloc(1, sizeof(struct token_list));
+	current = calloc(1, sizeof_token_list);
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
 	/* More efficiently allocate memory for string */
@@ -468,7 +471,7 @@ int get_token(int c) {
 	int reset;
 	int current;
 
-	current = calloc(1, sizeof(struct token_list));
+	current = calloc(1, sizeof_token_list);
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
 	reset = 1;
@@ -815,7 +818,7 @@ struct type* add_primitive(struct type* a);
 
 int emit(int s, int head) {
 	int t;
-	t = calloc(1, sizeof(struct token_list));
+	t = calloc(1, sizeof_token_list);
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
 	stl_next(t, head);
 	stl_s(t, s);
@@ -837,7 +840,7 @@ int uniqueID_out(int s, int num) {
 
 int sym_declare(int s, struct type* t, int list) {
 	int a;
-	a = calloc(1, sizeof(struct token_list));
+	a = calloc(1, sizeof_token_list);
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
 	stl_next(a, list);
 	stl_s(a, s);
@@ -1114,7 +1117,8 @@ int primary_expr_number() {
 int primary_expr_variable() {
 	int num_dereference;
 	int s;
-	struct token_list* a;
+	int a;
+
 	num_dereference = 0;
 	s = gtl_s(global_token);
 	global_token = gtl_next(global_token);
