@@ -720,7 +720,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
 	sty_size(a, register_size);
-	a->indirect = a;
+	sty_indirect(a, a);
 	sty_is_signed(a, sign);
 
 	/* Create type* */
@@ -729,7 +729,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	b->name = name1;
 	sty_size(b, register_size);
 	sty_is_signed(b, sign);
-	b->indirect = a;
+	sty_indirect(b, a);
 	a->type = b;
 
 	r = calloc(1, sizeof_type);
@@ -737,7 +737,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	r->name = name0;
 	sty_size(r, size);
 	sty_is_signed(r, sign);
-	r->indirect = b;
+	sty_indirect(r, b);
 	r->type = r;
 	b->type = r;
 
@@ -847,7 +847,7 @@ struct type* type_name() {
 	require(neq(NULL, global_token), "unfinished type definition\n");
 
 	while(eq(ri8(gtl_s(global_token)), '*')) {
-		ret = ret->indirect;
+		ret = gty_indirect(ret);
 		global_token = gtl_next(global_token);
 		require(neq(NULL, global_token), "unfinished type definition in indirection\n");
 	}
