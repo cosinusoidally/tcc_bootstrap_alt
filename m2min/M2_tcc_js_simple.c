@@ -139,6 +139,14 @@ int gtl_filename(int t) {
         return ri32(add(t, token_list_filename_offset));
 }
 
+int stl_arguments(int t,int v) {
+        wi32(add(t, token_list_arguments_offset), v);
+}
+
+int gtl_arguments(int t) {
+        return ri32(add(t, token_list_arguments_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
