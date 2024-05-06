@@ -1086,7 +1086,7 @@ int postfix_expr_stub();
 int variable_load(struct token_list* a, int num_dereference)
 {
 	require(neq(NULL, global_token), "incomplete variable load received\n");
-	if(and(or(match("FUNCTION", gty_name(gtl_type(a))), match("FUNCTION*", a->type->name)), match("(", gtl_s(global_token)))) {
+	if(and(or(match("FUNCTION", gty_name(gtl_type(a))), match("FUNCTION*", gty_name(gtl_type(a)))), match("(", gtl_s(global_token)))) {
 		function_call(int2str(gtl_depth(a), 10, TRUE), TRUE);
 		return;
 	}
@@ -1360,7 +1360,7 @@ int postfix_expr_array() {
 	assign = load_value(register_size, gty_is_signed(current_target));
 
 	/* Add support for Ints */
-	if(match("char*", current_target->name)) {
+	if(match("char*", gty_name(current_target))) {
 		assign = load_value(1, TRUE);
 	} else {
 		emit_out("push_ebx\nmov_ebx, %");
