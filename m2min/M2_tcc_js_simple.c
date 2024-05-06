@@ -428,7 +428,7 @@ int remove_line_comment_tokens(int head) {
 }
 
 int remove_preprocessor_directives(int head) {
-	struct token_list* first;
+	int first;
 
 	first = NULL;
 
@@ -814,7 +814,7 @@ struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
 int emit(int s, int head) {
-	struct token_list* t;
+	int t;
 	t = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
 	stl_next(t, head);
@@ -1030,7 +1030,7 @@ int variable_load(struct token_list* a, int num_dereference)
 	}
 }
 
-int function_load(struct token_list* a) {
+int function_load(int a) {
 	require(neq(NULL, global_token), "incomplete function load\n");
 	if(match("(", gtl_s(global_token))) {
 		function_call(gtl_s(a), FALSE);
@@ -1042,7 +1042,7 @@ int function_load(struct token_list* a) {
 	emit_out("\n");
 }
 
-int global_load(struct token_list* a) {
+int global_load(int a) {
 	current_target = gtl_type(a);
 	emit_out("mov_eax, &GLOBAL_");
 	emit_out(gtl_s(a));
