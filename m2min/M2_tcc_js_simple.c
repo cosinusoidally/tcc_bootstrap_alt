@@ -250,7 +250,7 @@ int remove_preprocessor_directives(int head);
 
 int eat_newline_tokens();
 int program();
-int recursive_output(struct token_list* i, int out);
+int recursive_output(int i, int out);
 
 /* What types we have */
 struct type* global_types;
@@ -726,11 +726,11 @@ int add_primitive(int a) {
 }
 
 /* enable easy primitive creation */
-struct type* new_primitive(int name0, int name1, int name2, int size, int sign) {
+int new_primitive(int name0, int name1, int name2, int size, int sign) {
 	/* Create type** */
-	struct type* a;
-	struct type* b;
-	struct type* r;
+	int a;
+	int b;
+	int r;
 
 	a = calloc(1, sizeof_type);
 	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
@@ -762,7 +762,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 
 /* Initialize default types */
 int initialize_types() {
-	struct type* hold;
+	int hold;
 
 	register_size = 4;
 
@@ -832,8 +832,8 @@ int initialize_types() {
 	global_types = prim_types;
 }
 
-struct type* lookup_type(int s, struct type* start) {
-	struct type* i;
+int lookup_type(int s, int start) {
+	int i;
 
 	i = start;
 	while(1) {
@@ -851,7 +851,7 @@ struct type* lookup_type(int s, struct type* start) {
 int member_size;
 
 int type_name() {
-	struct type* ret;
+	int ret;
 
 	require(neq(NULL, global_token), "Received EOF instead of type name\n");
 
@@ -1392,7 +1392,7 @@ int postfix_expr_array() {
 int type_name();
 
 int unary_expr_sizeof() {
-	struct type* a;
+	int a;
 
 	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF when starting sizeof\n");
@@ -1562,10 +1562,10 @@ int ceil_div(int a, int b) {
 
 /* Process local variable */
 int collect_local() {
-	struct type* type_size;
+	int type_size;
 	int struct_depth_adjustment;
 	int i;
-	struct token_list* a;
+	int a;
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
@@ -1849,7 +1849,7 @@ int process_while() {
 
 /* Ensure that functions return */
 int return_result() {
-	struct token_list* i;
+	int i;
 	int size_local_var;
 
 	global_token = gtl_next(global_token);
@@ -1877,7 +1877,7 @@ int return_result() {
 }
 
 int process_break() {
-	struct token_list* i;
+	int i;
 
 	if(eq(NULL, break_target_head)) {
 		line_error();
@@ -2160,8 +2160,8 @@ int program() {
 	exit(EXIT_FAILURE);
 }
 
-int recursive_output(struct token_list* head, int out) {
-	struct token_list* i;
+int recursive_output(int head, int out) {
+	int i;
 
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
