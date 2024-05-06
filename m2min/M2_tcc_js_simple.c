@@ -1854,14 +1854,14 @@ int collect_arguments() {
 			type_size = type_name();
 			require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 			require(neq(NULL, type_size), "Must have non-null type\n");
-			if(eq(ri8(global_token->s), ')')) {
+			if(eq(ri8(gtl_s(global_token)), ')')) {
 				/* foo(int,char,void) doesn't need anything done */
 				cont = 1;
 				break;
-			} else if(neq(ri8(global_token->s), ',')) {
+			} else if(neq(ri8(gtl_s(global_token)), ',')) {
 				/* deal with foo(int a, char b) */
-				require(eq(0, in_set(ri8(global_token->s), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
-				a = sym_declare(global_token->s, type_size, function->arguments);
+				require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
+				a = sym_declare(gtl_s(global_token), type_size, function->arguments);
 				if(eq(NULL, function->arguments)) {
 					a->depth = sub(0, 4);
 				} else {
@@ -1874,7 +1874,7 @@ int collect_arguments() {
 			}
 
 			/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-			if(eq(ri8(global_token->s), ',')) {
+			if(eq(ri8(gtl_s(global_token)), ',')) {
 				global_token = global_token->next;
 				require(neq(NULL, global_token), "naked comma in collect arguments\n");
 			}
@@ -1887,7 +1887,7 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(global_token->prev->s, NULL, global_function_list);
+	function = sym_declare(gtl_s(global_token->prev), NULL, global_function_list);
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = function;
@@ -1895,19 +1895,19 @@ int declare_function() {
 
 	require(neq(NULL, global_token), "Function definitions either need to be prototypes or full\n");
 	/* If just a prototype don't waste time */
-	if(eq(ri8(global_token->s), ';')) {
+	if(eq(ri8(gtl_s(global_token)), ';')) {
 		global_token = global_token->next;
 	} else {
 		emit_out("# Defining function ");
-		emit_out(function->s);
+		emit_out(gtl_s(function));
 		emit_out("\n");
 		emit_out(":FUNCTION_");
-		emit_out(function->s);
+		emit_out(gtl_s(function));
 		emit_out("\n");
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(eq(0, match("ret\n", output_list->s))) {
+		if(eq(0, match("ret\n", gtl_s(output_list)))) {
 			emit_out("ret\n");
 		}
 	}
@@ -1916,7 +1916,7 @@ int declare_function() {
 int global_constant() {
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "CONSTANT lacks a name\n");
-	global_constant_list = sym_declare(global_token->s, NULL, global_constant_list);
+	global_constant_list = sym_declare(gtl_s(global_token), NULL, global_constant_list);
 
 	require(neq(NULL, global_token->next), "CONSTANT lacks a value\n");
 	global_constant_list->arguments = global_token->next;
@@ -1958,11 +1958,11 @@ int program() {
 					if (eq(NULL, global_token)) {
 						return;
 					}
-					require(neq('#', ri8(global_token->s)), "unhandled macro directive\n");
-					require(eq(0, match("\n", global_token->s)), "unexpected newline token\n");
+					require(neq('#', ri8(gtl_s(global_token))), "unhandled macro directive\n");
+					require(eq(0, match("\n", gtl_s(global_token))), "unexpected newline token\n");
 
 					/* Handle cc_* CONSTANT statements */
-					if(match("CONSTANT", global_token->s)) {
+					if(match("CONSTANT", gtl_s(global_token))) {
 						global_constant();
 					} else {
 						break;
@@ -1979,15 +1979,15 @@ int program() {
 			require(neq(NULL, global_token->next), "Unterminated global\n");
 
 			/* Add to global symbol table */
-			global_symbol_list = sym_declare(global_token->s, type_size, global_symbol_list);
+			global_symbol_list = sym_declare(gtl_s(global_token), type_size, global_symbol_list);
 			global_token = global_token->next;
 
 			/* Deal with global variables */
-			if(match(";", global_token->s)) {
+			if(match(";", gtl_s(global_token))) {
 				/* Ensure enough bytes are allocated to store global variable.
 				   In some cases it allocates too much but that is harmless. */
 				globals_list = emit(":GLOBAL_", globals_list);
-				globals_list = emit(global_token->prev->s, globals_list);
+				globals_list = emit(gtl_s(global_token->prev), globals_list);
 
 				/* round up division */
 				i = ceil_div(type_size->size, register_size);
@@ -2003,7 +2003,7 @@ int program() {
 		}
 
 		/* Deal with global functions */
-		if(match("(", global_token->s)) {
+		if(match("(", gtl_s(global_token))) {
 			declare_function();
 		} else {
 			break;
@@ -2013,7 +2013,7 @@ int program() {
 	/* Everything else is just an error */
 	line_error();
 	fputs("Received ", stderr);
-	fputs(global_token->s, stderr);
+	fputs(gtl_s(global_token), stderr);
 	fputs(" in program\n", stderr);
 	exit(EXIT_FAILURE);
 }
@@ -2023,7 +2023,7 @@ int recursive_output(struct token_list* head, int out) {
 
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
-		fputs(i->s, out);
+		fputs(gtl_s(i), out);
 		i = i->next;
 	}
 }
@@ -2051,7 +2051,7 @@ int eat_newline_tokens() {
 			return;
 		}
 
-		if(match("\n", macro_token->s)) {
+		if(match("\n", gtl_s(macro_token))) {
 			eat_current_token();
 		} else {
 			macro_token = macro_token->next;
