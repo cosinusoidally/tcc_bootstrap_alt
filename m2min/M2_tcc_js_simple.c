@@ -396,7 +396,7 @@ int eat_token(int token) {
 	return gtl_next(token);
 }
 
-struct token_list* eat_until_newline(struct token_list* head) {
+int eat_until_newline(int head) {
 	while (neq(NULL, head)) {
 		if(eq('\n', ri8(gtl_s(head)))) {
 			return head;
