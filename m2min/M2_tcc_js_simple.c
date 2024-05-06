@@ -127,6 +127,14 @@ int gty_next(int t) {
         return ri32(add(t, type_next_offset));
 }
 
+int sty_size(int t,int v) {
+        wi32(add(t, type_size_offset), v);
+}
+
+int gty_size(int t) {
+        return ri32(add(t, type_size_offset));
+}
+
 /* token_list getters and setters */
 
 int stl_next(int t,int v) {
