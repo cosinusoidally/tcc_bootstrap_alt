@@ -1593,7 +1593,7 @@ int process_asm() {
 	global_token = global_token->next;
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
 	while(eq('"', ri8(gtl_s(global_token)))) {
-		emit_out(add(global_token->s, 1));
+		emit_out(add(gtl_s(global_token), 1));
 		emit_out("\n");
 		global_token = global_token->next;
 		require(neq(NULL, global_token), "Received EOF inside asm statement\n");
@@ -1621,10 +1621,10 @@ int process_do() {
 	break_target_head = "DO_END_";
 	break_target_num = number_string;
 	break_frame = function->locals;
-	break_target_func = function->s;
+	break_target_func = gtl_s(function);
 
 	emit_out(":DO_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "Received EOF where do statement is expected\n");
@@ -1632,7 +1632,7 @@ int process_do() {
 	require(neq(NULL, global_token), "Reached EOF inside of function\n");
 
 	emit_out(":DO_TEST_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_do\nMISSING while\n", "while");
 	require_match("ERROR in process_do\nMISSING (\n", "(");
@@ -1642,10 +1642,10 @@ int process_do() {
 
 	emit_out("test_eax,eax\njne %DO_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":DO_END_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	break_frame = nested_locals;
 	break_target_head = nested_break_head;
@@ -1673,10 +1673,10 @@ int process_while() {
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
 	break_frame = function->locals;
-	break_target_func = function->s;
+	break_target_func = gtl_s(function);
 
 	emit_out(":WHILE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	global_token = global_token->next;
 	require_match("ERROR in process_while\nMISSING (\n", "(");
@@ -1684,10 +1684,10 @@ int process_while() {
 
 	emit_out("test_eax,eax\nje %END_WHILE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out("# THEN_while_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_while\nMISSING )\n", ")");
 	statement();
@@ -1695,10 +1695,10 @@ int process_while() {
 
 	emit_out("jmp %WHILE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":END_WHILE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
@@ -1713,7 +1713,7 @@ int return_result() {
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "Incomplete return statement received\n");
-	if(neq(ri8(global_token->s), ';')) {
+	if(neq(ri8(gtl_s(global_token)), ';')) {
 		expression();
 	}
 
@@ -1769,7 +1769,7 @@ int recursive_statement() {
 	require(neq(NULL, global_token), "Received EOF in recursive statement\n");
 	struct token_list* frame = function->locals;
 
-	while(eq(0, match("}", global_token->s))) {
+	while(eq(0, match("}", gtl_s(global_token)))) {
 		statement();
 		require(neq(NULL, global_token), "Received EOF in recursive statement prior to }\n");
 	}
@@ -1777,7 +1777,7 @@ int recursive_statement() {
 
 	/* Clean up any locals added */
 
-	if(eq(0, match("ret\n", output_list->s))) {
+	if(eq(0, match("ret\n", gtl_s(output_list)))) {
 		i = function->locals;
 		while(1) {
 			if(eq(frame, i)) {
