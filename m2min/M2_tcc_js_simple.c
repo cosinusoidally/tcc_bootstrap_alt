@@ -143,6 +143,14 @@ int gty_is_signed(int t) {
         return ri32(add(t, type_is_signed_offset));
 }
 
+int sty_indirect(int t,int v) {
+        wi32(add(t, type_indirect_offset), v);
+}
+
+int gty_indirect(int t) {
+        return ri32(add(t, type_indirect_offset));
+}
+
 /* token_list getters and setters */
 
 int stl_next(int t,int v) {
