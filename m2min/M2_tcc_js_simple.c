@@ -47,6 +47,26 @@ struct type
 	char* name;
 };
 
+int type_next_offset;
+int type_size_offset;
+int type_offset_offset;
+int type_is_signed_offset;
+int type_indirect_offset;
+int type_members_offset;
+int type_type_offset;
+int type_name_offset;
+
+int type_list_layout_init(){
+	type_next_offset = 0;
+	type_size_offset = 4;
+	type_offset_offset = 8;
+	type_is_signed_offset = 12;
+	type_indirect_offset = 16;
+	type_members_offset = 20;
+	type_type_offset = 24;
+	type_name_offset = 28;
+}
+
 struct token_list
 {
 	struct token_list* next;
@@ -2151,6 +2171,7 @@ int initialize_globals() {
 	fn_additive_expr_stub = 8;
 
 	token_list_layout_init();
+	type_list_layout_init();
 }
 
 int main(int argc, int argv) {
