@@ -35,6 +35,8 @@ int EOF;
 /* init support code */
 int init_support();
 
+/* structs are not used, kept as comment for reference */
+/*
 struct type
 {
 	struct type* next;
@@ -46,6 +48,7 @@ struct type
 	struct type* type;
 	char* name;
 };
+*/
 
 int type_next_offset;
 int type_size_offset;
@@ -70,6 +73,8 @@ int type_list_layout_init(){
 	sizeof_type = 32;
 }
 
+/* structs are not used. kept as a comment as reference */
+/*
 struct token_list
 {
 	struct token_list* next;
@@ -91,6 +96,7 @@ struct token_list
 		int linenumber;
 	};
 };
+*/
 
 int token_list_next_offset;
 int token_list_locals_offset;
