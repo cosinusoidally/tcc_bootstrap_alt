@@ -1924,7 +1924,7 @@ int collect_arguments() {
 				if(eq(NULL, gtl_arguments(function))) {
 					stl_depth(a, sub(0, 4));
 				} else {
-					stl_depth(a, sub(function->arguments->depth, register_size));
+					stl_depth(a, sub(gtl_depth(gtl_arguments(function)), register_size));
 				}
 
 				global_token = gtl_next(global_token);
