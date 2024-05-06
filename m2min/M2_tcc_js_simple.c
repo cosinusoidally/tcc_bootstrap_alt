@@ -746,7 +746,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	sty_size(b, register_size);
 	sty_is_signed(b, sign);
 	sty_indirect(b, a);
-	a->type = b;
+	sty_type(a, b);
 
 	r = calloc(1, sizeof_type);
 	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
@@ -754,8 +754,8 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	sty_size(r, size);
 	sty_is_signed(r, sign);
 	sty_indirect(r, b);
-	r->type = r;
-	b->type = r;
+	sty_type(r, r);
+	sty_type(b, r);
 
 	return r;
 }
@@ -1102,7 +1102,7 @@ int variable_load(struct token_list* a, int num_dereference)
 	}
 
 	while (gt(num_dereference, 0)) {
-		current_target = current_target->type;
+		current_target = gty_type(current_target);
 		emit_out(load_value(gty_size(current_target), gty_is_signed(current_target)));
 		num_dereference = sub(num_dereference, 1);
 	}
@@ -1364,7 +1364,7 @@ int postfix_expr_array() {
 		assign = load_value(1, TRUE);
 	} else {
 		emit_out("push_ebx\nmov_ebx, %");
-		emit_out(int2str(current_target->type->size, 10, TRUE));
+		emit_out(int2str(gty_size(gty_type(current_target)), 10, TRUE));
 		emit_out("\nmul_ebx\npop_ebx\n");
 	}
 
@@ -1378,7 +1378,7 @@ int postfix_expr_array() {
 	}
 
 	if(match("[", gtl_s(global_token))) {
-		current_target = current_target->type;
+		current_target = gty_type(current_target);
 	}
 
 	emit_out(assign);
