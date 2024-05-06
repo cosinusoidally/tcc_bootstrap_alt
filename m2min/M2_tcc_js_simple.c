@@ -202,7 +202,7 @@ struct token_list* token;
 int line;
 char* file;
 
-struct token_list* eat_token(struct token_list* head);
+int eat_token(int head);
 
 /* point where we are currently modifying the global_token list */
 struct token_list* macro_token;
@@ -383,7 +383,7 @@ int reset_hold_string() {
 }
 
 /* note if this is the first token in the list, head needs fixing up */
-struct token_list* eat_token(struct token_list* token) {
+int eat_token(int token) {
 	if(neq(NULL, gtl_prev(token))) {
 		stl_next(gtl_prev(token), gtl_next(token));
 	}
