@@ -848,11 +848,9 @@ struct type* lookup_type(int s, struct type* start) {
 	return NULL;
 }
 
-struct type* type_name();
-
 int member_size;
 
-struct type* type_name() {
+int type_name() {
 	struct type* ret;
 
 	require(neq(NULL, global_token), "Received EOF instead of type name\n");
@@ -912,7 +910,7 @@ int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-int sym_declare(int s, struct type* t, int list) {
+int sym_declare(int s, int t, int list) {
 	int a;
 	a = calloc(1, sizeof_token_list);
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
@@ -1082,7 +1080,7 @@ int store_value(int size) {
 }
 
 int postfix_expr_stub();
-int variable_load(struct token_list* a, int num_dereference)
+int variable_load(int a, int num_dereference)
 {
 	require(neq(NULL, global_token), "incomplete variable load received\n");
 	if(and(or(match("FUNCTION", gty_name(gtl_type(a))), match("FUNCTION*", gty_name(gtl_type(a)))), match("(", gtl_s(global_token)))) {
@@ -1233,8 +1231,8 @@ int primary_expr_variable() {
 }
 
 int primary_expr();
-struct type* promote_type(struct type* a, struct type* b) {
-	struct type* i;
+int promote_type(int a, int b) {
+	int i;
 
 	require(neq(NULL, b), "impossible case 1 in promote_type\n");
 	require(neq(NULL, a), "impossible case 2 in promote_type\n");
@@ -1300,7 +1298,7 @@ int dispatch(int fn) {
 }
 
 int common_recursion(int f) {
-	struct type* last_type;
+	int last_type;
 	emit_out("push_eax\t#_common_recursion\n");
 
 	last_type = current_target;
@@ -1348,7 +1346,7 @@ int arithmetic_recursion(int f, int s1, int s2, int name, int iterate) {
  */
 
 int postfix_expr_array() {
-	struct type* array;
+	int array;
 	int assign;
 
 	array = current_target;
@@ -1391,7 +1389,7 @@ int postfix_expr_array() {
  *         sizeof ( type )
  */
 
-struct type* type_name();
+int type_name();
 
 int unary_expr_sizeof() {
 	struct type* a;
