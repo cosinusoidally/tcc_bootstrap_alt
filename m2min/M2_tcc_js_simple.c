@@ -1085,7 +1085,7 @@ int primary_expr_variable() {
 		return;
 	}
 
-	a = sym_lookup(s, function->locals);
+	a = sym_lookup(s, gtl_locals(function));
 	if(neq(NULL, a)) {
 		variable_load(a, num_dereference);
 		return;
@@ -1450,17 +1450,19 @@ int collect_local() {
 	struct type* type_size;
 	int struct_depth_adjustment;
 	int i;
+	struct token_list* a;
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
 	require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
 	require(neq(NULL, type_size), "Must have non-null type\n");
-	struct token_list* a = sym_declare(gtl_s(global_token), type_size, function->locals);
-	if(and(match("main", gtl_s(function)), (eq(NULL, function->locals)))) {
+
+	a = sym_declare(gtl_s(global_token), type_size, gtl_locals(function));
+	if(and(match("main", gtl_s(function)), (eq(NULL, gtl_locals(function))))) {
 		a->depth = sub(0, 20);
-	} else if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
+	} else if(and(eq(NULL, function->arguments), eq(NULL, gtl_locals(function)))) {
 		a->depth = sub(0, 8);
-	} else if(eq(NULL, function->locals)) {
+	} else if(eq(NULL, gtl_locals(function))) {
 		a->depth = sub(function->arguments->depth, 8);
 	} else {
 		a->depth = sub(function->locals->depth, register_size);
@@ -1471,7 +1473,7 @@ int collect_local() {
 	struct_depth_adjustment = mul(sub(ceil_div(a->type->size, register_size), 1), register_size);
 	a->depth = sub(a->depth, struct_depth_adjustment);
 
-	function->locals = a;
+	stl_locals(function, a);
 
 	emit_out("# Defining local ");
 	emit_out(gtl_s(global_token));
@@ -1555,7 +1557,7 @@ int process_for() {
 
 	break_target_head = "FOR_END_";
 	break_target_num = number_string;
-	break_frame = function->locals;
+	break_frame = gtl_locals(function);
 	break_target_func = gtl_s(function);
 
 	emit_out("# FOR_initialization_");
@@ -1644,7 +1646,7 @@ int process_do() {
 
 	break_target_head = "DO_END_";
 	break_target_num = number_string;
-	break_frame = function->locals;
+	break_frame = gtl_locals(function);
 	break_target_func = gtl_s(function);
 
 	emit_out(":DO_");
@@ -1696,7 +1698,7 @@ int process_while() {
 
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
-	break_frame = function->locals;
+	break_frame = gtl_locals(function);
 	break_target_func = gtl_s(function);
 
 	emit_out(":WHILE_");
@@ -1743,7 +1745,7 @@ int return_result() {
 
 	require_match("ERROR in return_result\nMISSING ;\n", ";");
 
-	i = function->locals;
+	i = gtl_locals(function);
 	while(1) {
 		if(eq(NULL, i)) {
 			break;
@@ -1768,7 +1770,7 @@ int process_break() {
 		exit(EXIT_FAILURE);
 	}
 
-	i = function->locals;
+	i = gtl_locals(function);
 	while(neq(i, break_frame)) {
 		if(eq(NULL, i)) { break; }
 		emit_out("pop_ebx\t# break_cleanup_locals\n");
@@ -1788,10 +1790,11 @@ int process_break() {
 
 int recursive_statement() {
 	struct token_list* i;
+	struct token_list* frame;
 
 	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF in recursive statement\n");
-	struct token_list* frame = function->locals;
+	frame = gtl_locals(function);
 
 	while(eq(0, match("}", gtl_s(global_token)))) {
 		statement();
@@ -1802,7 +1805,7 @@ int recursive_statement() {
 	/* Clean up any locals added */
 
 	if(eq(0, match("ret\n", gtl_s(output_list)))) {
-		i = function->locals;
+		i = gtl_locals(function);
 		while(1) {
 			if(eq(frame, i)) {
 				break;
@@ -1811,7 +1814,7 @@ int recursive_statement() {
 			i = gtl_next(i);
 		}
 	}
-	function->locals = frame;
+	stl_locals(function, frame);
 }
 
 /*
