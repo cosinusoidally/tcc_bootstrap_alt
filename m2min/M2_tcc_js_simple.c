@@ -680,7 +680,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	struct type* b;
 	struct type* r;
 
-	a = calloc(1, sizeof(struct type));
+	a = calloc(1, sizeof_type);
 	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
 	a->size = register_size;
@@ -688,7 +688,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	a->is_signed = sign;
 
 	/* Create type* */
-	b = calloc(1, sizeof(struct type));
+	b = calloc(1, sizeof_type);
 	require(neq(NULL, b), "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
 	b->size = register_size;
@@ -696,7 +696,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	b->indirect = a;
 	a->type = b;
 
-	r = calloc(1, sizeof(struct type));
+	r = calloc(1, sizeof_type);
 	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
 	r->size = size;
