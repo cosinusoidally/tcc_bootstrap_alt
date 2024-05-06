@@ -879,11 +879,11 @@ int global_constant_list;
 int function;
 
 /* What we are currently working on */
-struct type* current_target;
-char* break_target_head;
-char* break_target_func;
-char* break_target_num;
-struct token_list* break_frame;
+int current_target;
+int break_target_head;
+int break_target_func;
+int break_target_num;
+int break_frame;
 int current_count;
 
 int add_primitive(int a);
