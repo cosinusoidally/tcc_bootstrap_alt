@@ -447,7 +447,7 @@ int remove_preprocessor_directives(int head) {
 }
 
 int new_token(int s, int size) {
-	struct token_list* current;
+	int current;
 
 	current = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
@@ -466,7 +466,7 @@ int new_token(int s, int size) {
 
 int get_token(int c) {
 	int reset;
-	struct token_list* current;
+	int current;
 
 	current = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
@@ -538,7 +538,7 @@ int reverse_list(int head) {
 	return root;
 }
 
-struct token_list* read_all_tokens(int a, struct token_list* current, int filename) {
+int read_all_tokens(int a, int current, int filename) {
 	int ch;
 	input  = a;
 	line = 1;
@@ -813,7 +813,7 @@ int current_count;
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
-struct token_list* emit(int s, struct token_list* head) {
+int emit(int s, int head) {
 	struct token_list* t;
 	t = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
@@ -826,7 +826,7 @@ int emit_out(int s) {
 	output_list = emit(s, output_list);
 }
 
-struct token_list* uniqueID(int s, struct token_list* l, int num) {
+int uniqueID(int s, int l, int num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
@@ -835,8 +835,8 @@ int uniqueID_out(int s, int num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
-	struct token_list* a;
+int sym_declare(int s, struct type* t, int list) {
+	int a;
 	a = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
 	stl_next(a, list);
@@ -845,8 +845,8 @@ struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 	return a;
 }
 
-struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
-	struct token_list* i;
+int sym_lookup(int s, int symbol_list) {
+	int i;
 
 	i = symbol_list;
 	while(1) {
@@ -861,7 +861,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 	return NULL;
 }
 
-int line_error_token(struct token_list *token) {
+int line_error_token(int token) {
 	if(eq(NULL, token)) {
 		fputs("EOF reached inside of line_error\n", stderr);
 		fputs("problem at end of file\n", stderr);
@@ -946,7 +946,7 @@ int function_call(int s, int bool) {
 	emit_out("pop_edi\t# Prevent overwrite\n");
 }
 
-int constant_load(struct token_list* a) {
+int constant_load(int a) {
 	emit_out("mov_eax, %");
 	emit_out(gtl_s(gtl_arguments(a)));
 	emit_out("\n");
