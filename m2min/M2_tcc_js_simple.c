@@ -1547,7 +1547,7 @@ int expression() {
 	if(match("=", gtl_s(global_token))) {
 		store = "";
 		if(match("]", gtl_s(gtl_prev(global_token)))) {
-			store = store_value(current_target->type->size);
+			store = store_value(gty_size(gty_type(current_target)));
 		} else {
 			store = store_value(gty_size(current_target));
 		}
@@ -1588,7 +1588,7 @@ int collect_local() {
 
 	/* Adjust the depth of local structs. When stack grows downwards, we want them to 
 	   start at the bottom of allocated space. */
-	struct_depth_adjustment = mul(sub(ceil_div(a->type->size, register_size), 1), register_size);
+	struct_depth_adjustment = mul(sub(ceil_div(gty_size(gtl_type(a)), register_size), 1), register_size);
 	stl_depth(a, sub(gtl_depth(a), struct_depth_adjustment));
 
 	stl_locals(function, a);
@@ -1608,7 +1608,7 @@ int collect_local() {
 
 	require_match("ERROR in collect_local\nMissing ;\n", ";");
 
-	i = div(sub(add(a->type->size, register_size), 1), register_size);
+	i = div(sub(add(gty_size(gtl_type(a)), register_size), 1), register_size);
 	while(neq(i, 0)) {
 		emit_out("push_eax\t#");
 		emit_out(gtl_s(a));
