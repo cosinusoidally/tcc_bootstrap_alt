@@ -55,6 +55,7 @@ int type_indirect_offset;
 int type_members_offset;
 int type_type_offset;
 int type_name_offset;
+int sizeof_type;
 
 int type_list_layout_init(){
 	type_next_offset = 0;
@@ -65,6 +66,8 @@ int type_list_layout_init(){
 	type_members_offset = 20;
 	type_type_offset = 24;
 	type_name_offset = 28;
+
+	sizeof_type = 32;
 }
 
 struct token_list
