@@ -151,6 +151,22 @@ int gty_indirect(int t) {
         return ri32(add(t, type_indirect_offset));
 }
 
+int sty_type(int t,int v) {
+        wi32(add(t, type_type_offset), v);
+}
+
+int gty_type(int t) {
+        return ri32(add(t, type_type_offset));
+}
+
+int sty_name(int t,int v) {
+        wi32(add(t, type_name_offset), v);
+}
+
+int gty_name(int t) {
+        return ri32(add(t, type_name_offset));
+}
+
 /* token_list getters and setters */
 
 int stl_next(int t,int v) {
