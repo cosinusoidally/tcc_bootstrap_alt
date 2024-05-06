@@ -91,6 +91,14 @@ int token_list_layout_init(){
 	token_list_linenumber_offset = 16;
 }
 
+int stl_next(int t,int v) {
+        wi32(add(t, token_list_next_offset), v);
+}
+
+int gtl_next(int t) {
+        return ri32(add(t, token_list_next_offset));
+}
+
 int stl_s(int t,int v) {
         wi32(add(t, token_list_s_offset), v);
 }
@@ -321,15 +329,15 @@ int reset_hold_string() {
 /* note if this is the first token in the list, head needs fixing up */
 struct token_list* eat_token(struct token_list* token) {
 	if(neq(NULL, token->prev)) {
-		token->prev->next = token->next;
+		stl_next(token->prev, gtl_next(token));
 	}
 
 	/* update backlinks */
-	if(neq(NULL, token->next)) {
+	if(neq(NULL, gtl_next(token))) {
 		token->next->prev = token->prev;
 	}
 
-	return token->next;
+	return gtl_next(token);
 }
 
 struct token_list* eat_until_newline(struct token_list* head) {
@@ -356,7 +364,7 @@ struct token_list* remove_line_comment_tokens(struct token_list* head) {
 			if(eq(NULL, first)) {
 				first = head;
 			}
-			head = head->next;
+			head = gtl_next(head);
 		}
 	}
 
@@ -375,7 +383,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head) {
 			if(eq(NULL, first)) {
 				first = head;
 			}
-			head = head->next;
+			head = gtl_next(head);
 		}
 	}
 
@@ -394,7 +402,7 @@ int new_token(int s, int size) {
 	copy_string(gtl_s(current), s, MAX_STRING);
 
 	current->prev = token;
-	current->next = token;
+	stl_next(current, token);
 	current->linenumber = line;
 	current->filename = file;
 	token = current;
@@ -466,8 +474,8 @@ struct token_list* reverse_list(struct token_list* head) {
 
 	root = NULL;
 	while(neq(NULL, head)) {
-		next = head->next;
-		head->next = root;
+		next = gtl_next(head);
+		stl_next(head, root);
 		root = head;
 		head = next;
 	}
@@ -717,12 +725,12 @@ struct type* type_name() {
 
 	ret = lookup_type(gtl_s(global_token), global_types);
 
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "unfinished type definition\n");
 
 	while(eq(ri8(gtl_s(global_token)), '*')) {
 		ret = ret->indirect;
-		global_token = global_token->next;
+		global_token = gtl_next(global_token);
 		require(neq(NULL, global_token), "unfinished type definition in indirection\n");
 	}
 
@@ -754,7 +762,7 @@ struct token_list* emit(int s, struct token_list* head) {
 	struct token_list* t;
 	t = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
-	t->next = head;
+	stl_next(t, head);
 	stl_s(t, s);
 	return t;
 }
@@ -776,7 +784,7 @@ struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 	struct token_list* a;
 	a = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
-	a->next = list;
+	stl_next(a, list);
 	stl_s(a, s);
 	a->type = t;
 	return a;
@@ -793,7 +801,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 		if(match(gtl_s(i), s)) {
 			return i;
 		}
-		i = i->next;
+		i = gtl_next(i);
 	}
 	return NULL;
 }
@@ -827,7 +835,7 @@ int require_match(int message, int required) {
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
 	}
-	global_token = global_token->next;
+	global_token = gtl_next(global_token);
 }
 
 int expression();
@@ -848,7 +856,7 @@ int function_call(int s, int bool) {
 		passed = 1;
 
 		while(eq(ri8(gtl_s(global_token)), ',')) {
-			global_token = global_token->next;
+			global_token = gtl_next(global_token);
 			require(neq(NULL, global_token), "incomplete function call, received EOF instead of argument\n");
 			expression();
 			emit_out("push_eax\t#_process_expression2\n");
