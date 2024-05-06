@@ -677,10 +677,10 @@ struct type* add_primitive(struct type* a) {
 		return a;
 	}
 	i = prim_types;
-	while(neq(NULL, i->next)) {
-		i = i->next;
+	while(neq(NULL, gty_next(i))) {
+		i = gty_next(i);
 	}
-	i->next = a;
+	sty_next(i, a);
 
 	return prim_types;
 }
@@ -803,7 +803,7 @@ struct type* lookup_type(int s, struct type* start) {
 		if(match(i->name, s)) {
 			return i;
 		}
-		i = i->next;
+		i = gty_next(i);
 	}
 	return NULL;
 }
@@ -1213,7 +1213,7 @@ struct type* promote_type(struct type* a, struct type* b) {
 		if(eq(b->name, i->name)) { break; }
 		if(eq(a->name, i->indirect->name)) { break; }
 		if(eq(b->name, i->indirect->name)) { break; }
-		i = i->next;
+		i = gty_next(i);
 	}
 	require(neq(NULL, i), "impossible case 3 in promote_type\n");
 	return i;
