@@ -1053,7 +1053,7 @@ int primary_expr_variable() {
 	int s;
 	struct token_list* a;
 	num_dereference = 0;
-	s = global_token->s;
+	s = gtl_s(global_token);
 	global_token = global_token->next;
 	a = sym_lookup(s, global_constant_list);
 	if(neq(NULL, a)) {
@@ -1173,7 +1173,7 @@ int common_recursion(int f) {
 
 int general_recursion(int f, int s, int name, int iterate) {
 	require(neq(NULL, global_token), "Received EOF in general_recursion\n");
-	if(match(name, global_token->s))
+	if(match(name, gtl_s(global_token)))
 	{
 		common_recursion(f);
 		emit_out(s);
@@ -1183,7 +1183,7 @@ int general_recursion(int f, int s, int name, int iterate) {
 
 int arithmetic_recursion(int f, int s1, int s2, int name, int iterate) {
 	require(neq(NULL, global_token), "Received EOF in arithmetic_recursion\n");
-	if(match(name, global_token->s)) {
+	if(match(name, gtl_s(global_token))) {
 		common_recursion(f);
 		if(eq(NULL, current_target)) {
 			emit_out(s1);
@@ -1231,11 +1231,11 @@ int postfix_expr_array() {
 	require_match("ERROR in postfix_expr\nMissing ]\n", "]");
 	require(neq(NULL, global_token), "truncated array expression\n");
 
-	if(or(match("=", global_token->s), match(".", global_token->s))) {
+	if(or(match("=", gtl_s(global_token)), match(".", gtl_s(global_token)))) {
 		assign = "";
 	}
 
-	if(match("[", global_token->s)) {
+	if(match("[", gtl_s(global_token))) {
 		current_target = current_target->type;
 	}
 
@@ -1268,7 +1268,7 @@ int unary_expr_sizeof() {
 
 int postfix_expr_stub() {
 	require(neq(NULL, global_token), "Unexpected EOF, improperly terminated primary expression\n");
-	if(match("[", global_token->s)) {
+	if(match("[", gtl_s(global_token))) {
 		postfix_expr_array();
 		postfix_expr_stub();
 	}
@@ -1362,37 +1362,37 @@ int bitwise_expr() {
 int primary_expr() {
 	require(neq(NULL, global_token), "Received EOF where primary expression expected\n");
 
-	if(match("sizeof", global_token->s)) {
+	if(match("sizeof", gtl_s(global_token))) {
 		unary_expr_sizeof();
-	} else if(eq('-', ri8(global_token->s))) {
+	} else if(eq('-', ri8(gtl_s(global_token)))) {
 		emit_out("mov_eax, %0\n");
 
 		common_recursion(fn_primary_expr);
 
 		emit_out("sub_ebx,eax\nmov_eax,ebx\n");
-	} else if(eq('!', ri8(global_token->s))) {
+	} else if(eq('!', ri8(gtl_s(global_token)))) {
 		emit_out("mov_eax, %1\n");
 
 		common_recursion(fn_postfix_expr);
 
 		emit_out("cmp\nseta_al\nmovzx_eax,al\n");
-	} else if(eq('~', ri8(global_token->s))) {
+	} else if(eq('~', ri8(gtl_s(global_token)))) {
 		common_recursion(fn_postfix_expr);
 
 		emit_out("not_eax\n");
-	} else if(eq(ri8(global_token->s), '(')) {
+	} else if(eq(ri8(gtl_s(global_token)), '(')) {
 		global_token = global_token->next;
 		expression();
 		require_match("Error in Primary expression\nDidn't get )\n", ")");
-	} else if(eq(ri8(global_token->s), '\'')) {
+	} else if(eq(ri8(gtl_s(global_token)), '\'')) {
 		primary_expr_char();
-	} else if(eq(ri8(global_token->s), '"')) {
+	} else if(eq(ri8(gtl_s(global_token)), '"')) {
 		primary_expr_string();
-	} else if(in_set(ri8(global_token->s), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+	} else if(in_set(ri8(gtl_s(global_token)), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
 		primary_expr_variable();
-	} else if(eq(ri8(global_token->s), '*')) {
+	} else if(eq(ri8(gtl_s(global_token)), '*')) {
 		primary_expr_variable();
-	} else if(in_set(ri8(global_token->s), "0123456789")) {
+	} else if(in_set(ri8(gtl_s(global_token)), "0123456789")) {
 		primary_expr_number();
 	} else {
 		primary_expr_failure();
@@ -1402,9 +1402,9 @@ int primary_expr() {
 int expression() {
 	int store;
 	bitwise_expr();
-	if(match("=", global_token->s)) {
+	if(match("=", gtl_s(global_token))) {
 		store = "";
-		if(match("]", global_token->prev->s)) {
+		if(match("]", gtl_s(global_token->prev))) {
 			store = store_value(current_target->type->size);
 		} else {
 			store = store_value(current_target->size);
@@ -1429,10 +1429,10 @@ int collect_local() {
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
-	require(eq(0, in_set(ri8(global_token->s), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
+	require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
 	require(neq(NULL, type_size), "Must have non-null type\n");
-	struct token_list* a = sym_declare(global_token->s, type_size, function->locals);
-	if(and(match("main", function->s), (eq(NULL, function->locals)))) {
+	struct token_list* a = sym_declare(gtl_s(global_token), type_size, function->locals);
+	if(and(match("main", gtl_s(function)), (eq(NULL, function->locals)))) {
 		a->depth = sub(0, 20);
 	} else if(and(eq(NULL, function->arguments), eq(NULL, function->locals))) {
 		a->depth = sub(0, 8);
@@ -1450,13 +1450,13 @@ int collect_local() {
 	function->locals = a;
 
 	emit_out("# Defining local ");
-	emit_out(global_token->s);
+	emit_out(gtl_s(global_token));
 	emit_out("\n");
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "incomplete local missing name\n");
 
-	if(match("=", global_token->s)) {
+	if(match("=", gtl_s(global_token))) {
 		global_token = global_token->next;
 		require(NULL != global_token, "incomplete local assignment\n");
 		expression();
@@ -1467,7 +1467,7 @@ int collect_local() {
 	i = div(sub(add(a->type->size, register_size), 1), register_size);
 	while(neq(i, 0)) {
 		emit_out("push_eax\t#");
-		emit_out(a->s);
+		emit_out(gtl_s(a));
 		emit_out("\n");
 		i = sub(i, 1);
 	}
@@ -1483,7 +1483,7 @@ int process_if() {
 	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	global_token = global_token->next;
 	require_match("ERROR in process_if\nMISSING (\n", "(");
@@ -1491,7 +1491,7 @@ int process_if() {
 
 	emit_out("test_eax,eax\nje %ELSE_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_if\nMISSING )\n", ")");
 	statement();
@@ -1499,19 +1499,19 @@ int process_if() {
 
 	emit_out("jmp %_END_IF_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":ELSE_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
-	if(match("else", global_token->s)) {
+	if(match("else", gtl_s(global_token))) {
 		global_token = global_token->next;
 		require(neq(NULL, global_token), "Received EOF where an else statement expected\n");
 		statement();
 		require(neq(NULL, global_token), "Reached EOF inside of function\n");
 	}
 	emit_out(":_END_IF_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 }
 
 int process_for() {
@@ -1532,44 +1532,44 @@ int process_for() {
 	break_target_head = "FOR_END_";
 	break_target_num = number_string;
 	break_frame = function->locals;
-	break_target_func = function->s;
+	break_target_func = gtl_s(function);
 
 	emit_out("# FOR_initialization_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	global_token = global_token->next;
 
 	require_match("ERROR in process_for\nMISSING (\n", "(");
-	if(eq(0, match(";",global_token->s))) {
+	if(eq(0, match(";", gtl_s(global_token)))) {
 		expression();
 	}
 
 	emit_out(":FOR_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_for\nMISSING ;1\n", ";");
 	expression();
 
 	emit_out("test_eax,eax\nje %FOR_END_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out("jmp %FOR_THEN_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":FOR_ITER_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_for\nMISSING ;2\n", ";");
 	expression();
 
 	emit_out("jmp %FOR_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":FOR_THEN_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	require_match("ERROR in process_for\nMISSING )\n", ")");
 	statement();
@@ -1577,10 +1577,10 @@ int process_for() {
 
 	emit_out("jmp %FOR_ITER_");
 
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	emit_out(":FOR_END_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
@@ -1592,7 +1592,7 @@ int process_for() {
 int process_asm() {
 	global_token = global_token->next;
 	require_match("ERROR in process_asm\nMISSING (\n", "(");
-	while(eq('"', ri8(global_token->s))) {
+	while(eq('"', ri8(gtl_s(global_token)))) {
 		emit_out(add(global_token->s, 1));
 		emit_out("\n");
 		global_token = global_token->next;
