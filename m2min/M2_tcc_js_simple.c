@@ -703,7 +703,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	a = calloc(1, sizeof_type);
 	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
 	a->name = name2;
-	a->size = register_size;
+	sty_size(a, register_size);
 	a->indirect = a;
 	a->is_signed = sign;
 
@@ -711,7 +711,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	b = calloc(1, sizeof_type);
 	require(neq(NULL, b), "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
-	b->size = register_size;
+	sty_size(b, register_size);
 	b->is_signed = sign;
 	b->indirect = a;
 	a->type = b;
@@ -719,7 +719,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	r = calloc(1, sizeof_type);
 	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
-	r->size = size;
+	sty_size(r, size);
 	r->is_signed = sign;
 	r->indirect = b;
 	r->type = r;
@@ -1066,12 +1066,12 @@ int variable_load(struct token_list* a, int num_dereference)
 	emit_out("\n");
 
 	if(eq(0, match("=", gtl_s(global_token)))) {
-		emit_out(load_value(current_target->size, current_target->is_signed));
+		emit_out(load_value(gty_size(current_target), current_target->is_signed));
 	}
 
 	while (gt(num_dereference, 0)) {
 		current_target = current_target->type;
-		emit_out(load_value(current_target->size, current_target->is_signed));
+		emit_out(load_value(gty_size(current_target), current_target->is_signed));
 		num_dereference = sub(num_dereference, 1);
 	}
 }
@@ -1372,7 +1372,7 @@ int unary_expr_sizeof() {
 	require_match("ERROR in unary_expr\nMissing )\n", ")");
 
 	emit_out("mov_eax, %");
-	emit_out(int2str(a->size, 10, TRUE));
+	emit_out(int2str(gty_size(a), 10, TRUE));
 	emit_out("\n");
 }
 
@@ -1517,7 +1517,7 @@ int expression() {
 		if(match("]", gtl_s(gtl_prev(global_token)))) {
 			store = store_value(current_target->type->size);
 		} else {
-			store = store_value(current_target->size);
+			store = store_value(gty_size(current_target));
 		}
 
 		common_recursion(fn_expression);
@@ -2103,7 +2103,7 @@ int program() {
 				globals_list = emit(gtl_s(gtl_prev(global_token)), globals_list);
 
 				/* round up division */
-				i = ceil_div(type_size->size, register_size);
+				i = ceil_div(gty_size(type_size), register_size);
 				globals_list = emit("\n", globals_list);
 				while(neq(i, 0)) {
 					globals_list = emit("NULL\n", globals_list);
