@@ -1868,7 +1868,7 @@ int return_result() {
 		if(eq(NULL, i)) {
 			break;
 		}
-		size_local_var = ceil_div(i->type->size, register_size);
+		size_local_var = ceil_div(gty_size(gtl_type(i)), register_size);
 		while(neq(size_local_var, 0)) {
 			emit_out("pop_ebx\t# _return_result_locals\n");
 			size_local_var = sub(size_local_var, 1);
@@ -1960,7 +1960,7 @@ int statement() {
 
 	if(eq(ri8(gtl_s(global_token)), '{')) {
 		recursive_statement();
-	} else if(or(neq(NULL, lookup_type(global_token->s, prim_types)),
+	} else if(or(neq(NULL, lookup_type(gtl_s(global_token), prim_types)),
 	          match("struct", gtl_s(global_token)))) {
 		collect_local();
 	} else if(match("if", gtl_s(global_token))) {
