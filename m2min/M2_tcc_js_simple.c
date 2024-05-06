@@ -284,7 +284,7 @@ int integer;
 int input;
 int token;
 int line;
-char* file;
+int file;
 
 int eat_token(int head);
 
@@ -1158,7 +1158,7 @@ int primary_expr_failure() {
 }
 
 int primary_expr_string() {
-	char* number_string;
+	int number_string;
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 	emit_out("mov_eax, &STRING_");
