@@ -91,6 +91,14 @@ int token_list_layout_init(){
 	token_list_linenumber_offset = 16;
 }
 
+int stl_s(int t,int v) {
+        wi32(add(t, token_list_s_offset), v);
+}
+
+int gtl_s(int t) {
+        return ri32(add(t, token_list_s_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
@@ -326,7 +334,7 @@ struct token_list* eat_token(struct token_list* token) {
 
 struct token_list* eat_until_newline(struct token_list* head) {
 	while (neq(NULL, head)) {
-		if(eq('\n', ri8(head->s))) {
+		if(eq('\n', ri8(gtl_s(head)))) {
 			return head;
 		} else {
 			head = eat_token(head);
@@ -342,7 +350,7 @@ struct token_list* remove_line_comment_tokens(struct token_list* head) {
 	first = NULL;
 
 	while (neq(NULL, head)) {
-		if(match("//", head->s)) {
+		if(match("//", gtl_s(head))) {
 			head = eat_token(head);
 		} else {
 			if(eq(NULL, first)) {
@@ -361,7 +369,7 @@ struct token_list* remove_preprocessor_directives(struct token_list* head) {
 	first = NULL;
 
 	while (neq(NULL, head)) {
-		if(eq('#', ri8(head->s))) {
+		if(eq('#', ri8(gtl_s(head)))) {
 			head = eat_until_newline(head);
 		} else {
 			if(eq(NULL, first)) {
@@ -381,9 +389,9 @@ int new_token(int s, int size) {
 	require(neq(NULL, current), "Exhausted memory while getting token\n");
 
 	/* More efficiently allocate memory for string */
-	current->s = calloc(size, sizeof(char));
-	require(neq(NULL, current->s), "Exhausted memory while trying to copy a token\n");
-	copy_string(current->s, s, MAX_STRING);
+	stl_s(current, calloc(size, 1));
+	require(neq(NULL, gtl_s(current)), "Exhausted memory while trying to copy a token\n");
+	copy_string(gtl_s(current), s, MAX_STRING);
 
 	current->prev = token;
 	current->next = token;
@@ -707,12 +715,12 @@ struct type* type_name() {
 
 	require(neq(NULL, global_token), "Received EOF instead of type name\n");
 
-	ret = lookup_type(global_token->s, global_types);
+	ret = lookup_type(gtl_s(global_token), global_types);
 
 	global_token = global_token->next;
 	require(neq(NULL, global_token), "unfinished type definition\n");
 
-	while(eq(ri8(global_token->s), '*')) {
+	while(eq(ri8(gtl_s(global_token)), '*')) {
 		ret = ret->indirect;
 		global_token = global_token->next;
 		require(neq(NULL, global_token), "unfinished type definition in indirection\n");
@@ -747,7 +755,7 @@ struct token_list* emit(int s, struct token_list* head) {
 	t = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, t), "Exhausted memory while generating token to emit\n");
 	t->next = head;
-	t->s = s;
+	stl_s(t, s);
 	return t;
 }
 
@@ -769,7 +777,7 @@ struct token_list* sym_declare(int s, struct type* t, struct token_list* list) {
 	a = calloc(1, sizeof(struct token_list));
 	require(neq(NULL, a), "Exhausted memory while attempting to declare a symbol\n");
 	a->next = list;
-	a->s = s;
+	stl_s(a, s);
 	a->type = t;
 	return a;
 }
@@ -782,7 +790,7 @@ struct token_list* sym_lookup(int s, struct token_list* symbol_list) {
 		if(eq(NULL, i)) {
 			break;
 		}
-		if(match(i->s, s)) {
+		if(match(gtl_s(i), s)) {
 			return i;
 		}
 		i = i->next;
@@ -814,7 +822,7 @@ int require_match(int message, int required) {
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
 	}
-	if(eq(0, match(global_token->s, required))) {
+	if(eq(0, match(gtl_s(global_token), required))) {
 		line_error();
 		fputs(message, stderr);
 		exit(EXIT_FAILURE);
