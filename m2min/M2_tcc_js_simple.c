@@ -1584,7 +1584,7 @@ int process_if() {
 }
 
 int process_for() {
-	struct token_list* nested_locals;
+	int nested_locals;
 	int nested_break_head;
 	int nested_break_func;
 	int nested_break_num;
@@ -1642,7 +1642,7 @@ int process_for() {
 
 	require_match("ERROR in process_for\nMISSING )\n", ")");
 	statement();
-	require(NULL != global_token, "Reached EOF inside of function\n");
+	require(neq(NULL, global_token), "Reached EOF inside of function\n");
 
 	emit_out("jmp %FOR_ITER_");
 
@@ -1673,7 +1673,7 @@ int process_asm() {
 
 /* Process do while loops */
 int process_do() {
-	struct token_list* nested_locals;
+	int nested_locals;
 	int nested_break_head;
 	int nested_break_func;
 	int nested_break_num;
