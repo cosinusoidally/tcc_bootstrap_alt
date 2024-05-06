@@ -155,6 +155,14 @@ int gtl_depth(int t) {
         return ri32(add(t, token_list_depth_offset));
 }
 
+int stl_linenumber(int t,int v) {
+        wi32(add(t, token_list_linenumber_offset), v);
+}
+
+int gtl_linenumber(int t) {
+        return ri32(add(t, token_list_linenumber_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
