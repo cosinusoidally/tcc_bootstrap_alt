@@ -1002,14 +1002,14 @@ int variable_load(struct token_list* a, int num_dereference)
 {
 	require(neq(NULL, global_token), "incomplete variable load received\n");
 	if(and(or(match("FUNCTION", a->type->name), match("FUNCTION*", a->type->name)), match("(", gtl_s(global_token)))) {
-		function_call(int2str(a->depth, 10, TRUE), TRUE);
+		function_call(int2str(gtl_depth(a), 10, TRUE), TRUE);
 		return;
 	}
 	current_target = a->type;
 
 	emit_out("lea_eax,[ebp+DWORD] %");
 
-	emit_out(int2str(a->depth, 10, TRUE));
+	emit_out(int2str(gtl_depth(a), 10, TRUE));
 	emit_out("\n");
 
 	if(eq(0, match("=", gtl_s(global_token)))) {
@@ -1491,11 +1491,11 @@ int collect_local() {
 
 	a = sym_declare(gtl_s(global_token), type_size, gtl_locals(function));
 	if(and(match("main", gtl_s(function)), (eq(NULL, gtl_locals(function))))) {
-		a->depth = sub(0, 20);
+		stl_depth(a, sub(0, 20));
 	} else if(and(eq(NULL, gtl_arguments(function)), eq(NULL, gtl_locals(function)))) {
-		a->depth = sub(0, 8);
+		stl_depth(a, sub(0, 8));
 	} else if(eq(NULL, gtl_locals(function))) {
-		a->depth = sub(function->arguments->depth, 8);
+		stl_depth(a, sub(function->arguments->depth, 8));
 	} else {
 		a->depth = sub(function->locals->depth, register_size);
 	}
