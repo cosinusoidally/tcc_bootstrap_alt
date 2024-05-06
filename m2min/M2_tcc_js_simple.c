@@ -713,14 +713,14 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	a->name = name2;
 	sty_size(a, register_size);
 	a->indirect = a;
-	a->is_signed = sign;
+	sty_is_signed(a, sign);
 
 	/* Create type* */
 	b = calloc(1, sizeof_type);
 	require(neq(NULL, b), "Exhausted memory while declaring new primitive*\n");
 	b->name = name1;
 	sty_size(b, register_size);
-	b->is_signed = sign;
+	sty_is_signed(b, sign);
 	b->indirect = a;
 	a->type = b;
 
@@ -728,7 +728,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
 	r->name = name0;
 	sty_size(r, size);
-	r->is_signed = sign;
+	sty_is_signed(r, sign);
 	r->indirect = b;
 	r->type = r;
 	b->type = r;
@@ -1074,12 +1074,12 @@ int variable_load(struct token_list* a, int num_dereference)
 	emit_out("\n");
 
 	if(eq(0, match("=", gtl_s(global_token)))) {
-		emit_out(load_value(gty_size(current_target), current_target->is_signed));
+		emit_out(load_value(gty_size(current_target), gty_is_signed(current_target)));
 	}
 
 	while (gt(num_dereference, 0)) {
 		current_target = current_target->type;
-		emit_out(load_value(gty_size(current_target), current_target->is_signed));
+		emit_out(load_value(gty_size(current_target), gty_is_signed(current_target)));
 		num_dereference = sub(num_dereference, 1);
 	}
 }
@@ -1108,7 +1108,7 @@ int global_load(int a) {
 		return;
 	}
 
-	emit_out(load_value(register_size, current_target->is_signed));
+	emit_out(load_value(register_size, gty_is_signed(current_target)));
 }
 
 /*
@@ -1305,7 +1305,7 @@ int arithmetic_recursion(int f, int s1, int s2, int name, int iterate) {
 		common_recursion(f);
 		if(eq(NULL, current_target)) {
 			emit_out(s1);
-		} else if(current_target->is_signed) {
+		} else if(gty_is_signed(current_target)) {
 			emit_out(s1);
 		} else {
 			emit_out(s2);
@@ -1333,7 +1333,7 @@ int postfix_expr_array() {
 	current_target = array;
 	require(neq(NULL, current_target), "Arrays only apply to variables\n");
 
-	assign = load_value(register_size, current_target->is_signed);
+	assign = load_value(register_size, gty_is_signed(current_target));
 
 	/* Add support for Ints */
 	if(match("char*", current_target->name)) {
