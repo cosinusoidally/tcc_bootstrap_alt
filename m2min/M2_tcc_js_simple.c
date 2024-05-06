@@ -165,7 +165,7 @@ int gtl_linenumber(int t) {
 
 /* The core functions */
 int initialize_types();
-struct token_list* reverse_list(struct token_list* head);
+int reverse_list(int head);
 
 struct token_list* remove_line_comment_tokens(struct token_list* head);
 struct token_list* remove_preprocessor_directives(struct token_list* head);
@@ -524,9 +524,9 @@ int get_token(int c) {
 	return c;
 }
 
-struct token_list* reverse_list(struct token_list* head) {
-	struct token_list* root;
-	struct token_list* next;
+int reverse_list(int head) {
+	int root;
+	int next;
 
 	root = NULL;
 	while(neq(NULL, head)) {
@@ -810,7 +810,6 @@ char* break_target_num;
 struct token_list* break_frame;
 int current_count;
 
-struct token_list* reverse_list(struct token_list* head);
 struct type* mirror_type(struct type* source, char* name);
 struct type* add_primitive(struct type* a);
 
