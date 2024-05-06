@@ -436,7 +436,7 @@ int new_token(int s, int size) {
 	stl_prev(current, token);
 	stl_next(current, token);
 	current->linenumber = line;
-	current->filename = file;
+	stl_filename(current, file);
 	token = current;
 }
 
@@ -844,7 +844,7 @@ int line_error_token(struct token_list *token) {
 		fputs("problem at end of file\n", stderr);
 		return;
 	}
-	fputs(token->filename, stderr);
+	fputs(gtl_filename(token), stderr);
 	fputs(":", stderr);
 	fputs(int2str(token->linenumber, 10, TRUE), stderr);
 	fputs(":", stderr);
