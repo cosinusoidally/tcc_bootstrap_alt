@@ -1503,7 +1503,7 @@ int collect_local() {
 	/* Adjust the depth of local structs. When stack grows downwards, we want them to 
 	   start at the bottom of allocated space. */
 	struct_depth_adjustment = mul(sub(ceil_div(a->type->size, register_size), 1), register_size);
-	a->depth = sub(a->depth, struct_depth_adjustment);
+	stl_depth(a, sub(gtl_depth(a), struct_depth_adjustment));
 
 	stl_locals(function, a);
 
@@ -1922,9 +1922,9 @@ int collect_arguments() {
 				require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
 				a = sym_declare(gtl_s(global_token), type_size, gtl_arguments(function));
 				if(eq(NULL, gtl_arguments(function))) {
-					a->depth = sub(0, 4);
+					stl_depth(a, sub(0, 4));
 				} else {
-					a->depth = sub(function->arguments->depth, register_size);
+					stl_depth(a, sub(function->arguments->depth, register_size));
 				}
 
 				global_token = gtl_next(global_token);
