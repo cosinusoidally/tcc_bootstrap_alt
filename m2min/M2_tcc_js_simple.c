@@ -711,8 +711,8 @@ int parse_string(int string) {
 }
 
 /* enable easy primitive extension */
-struct type* add_primitive(struct type* a) {
-	struct type* i;
+int add_primitive(int a) {
+	int i;
 	if(eq(NULL, prim_types)) {
 		return a;
 	}
@@ -888,8 +888,7 @@ char* break_target_num;
 struct token_list* break_frame;
 int current_count;
 
-struct type* mirror_type(struct type* source, char* name);
-struct type* add_primitive(struct type* a);
+int add_primitive(int a);
 
 int emit(int s, int head) {
 	int t;
