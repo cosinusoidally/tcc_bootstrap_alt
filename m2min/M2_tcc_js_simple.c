@@ -253,37 +253,37 @@ int program();
 int recursive_output(int i, int out);
 
 /* What types we have */
-struct type* global_types;
-struct type* prim_types;
+int global_types;
+int prim_types;
 
 /* What we are currently working on */
-struct token_list* global_token;
+int global_token;
 
 /* Output reorder collections*/
-struct token_list* output_list;
-struct token_list* strings_list;
-struct token_list* globals_list;
+int output_list;
+int strings_list;
+int globals_list;
 
 /* Make our string collection more efficient */
-char* hold_string;
+int hold_string;
 int string_index;
 
 /* Our Target Architecture */
 int register_size;
 
 int MAX_STRING;
-struct type* integer;
+int integer;
 
 /* Globals */
 int input;
-struct token_list* token;
+int token;
 int line;
 char* file;
 
 int eat_token(int head);
 
 /* point where we are currently modifying the global_token list */
-struct token_list* macro_token;
+int macro_token;
 
 
 int require(int bool, int error) {
@@ -871,12 +871,12 @@ int type_name() {
 
 
 /* Global lists */
-struct token_list* global_symbol_list;
-struct token_list* global_function_list;
-struct token_list* global_constant_list;
+int global_symbol_list;
+int global_function_list;
+int global_constant_list;
 
 /* Core lists for this file */
-struct token_list* function;
+int function;
 
 /* What we are currently working on */
 struct type* current_target;
