@@ -734,7 +734,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 
 	a = calloc(1, sizeof_type);
 	require(neq(NULL, a), "Exhausted memory while declaring new primitive**\n");
-	a->name = name2;
+	sty_name(a, name2);
 	sty_size(a, register_size);
 	sty_indirect(a, a);
 	sty_is_signed(a, sign);
@@ -742,7 +742,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 	/* Create type* */
 	b = calloc(1, sizeof_type);
 	require(neq(NULL, b), "Exhausted memory while declaring new primitive*\n");
-	b->name = name1;
+	sty_name(b, name1);
 	sty_size(b, register_size);
 	sty_is_signed(b, sign);
 	sty_indirect(b, a);
@@ -750,7 +750,7 @@ struct type* new_primitive(int name0, int name1, int name2, int size, int sign) 
 
 	r = calloc(1, sizeof_type);
 	require(neq(NULL, r), "Exhausted memory while declaring new primitive\n");
-	r->name = name0;
+	sty_name(r, name0);
 	sty_size(r, size);
 	sty_is_signed(r, sign);
 	sty_indirect(r, b);
@@ -840,7 +840,7 @@ struct type* lookup_type(int s, struct type* start) {
 		if(eq(NULL, i)) {
 			break;
 		}
-		if(match(i->name, s)) {
+		if(match(gty_name(i), s)) {
 			return i;
 		}
 		i = gty_next(i);
@@ -1086,7 +1086,7 @@ int postfix_expr_stub();
 int variable_load(struct token_list* a, int num_dereference)
 {
 	require(neq(NULL, global_token), "incomplete variable load received\n");
-	if(and(or(match("FUNCTION", a->type->name), match("FUNCTION*", a->type->name)), match("(", gtl_s(global_token)))) {
+	if(and(or(match("FUNCTION", gty_name(gtl_type(a))), match("FUNCTION*", a->type->name)), match("(", gtl_s(global_token)))) {
 		function_call(int2str(gtl_depth(a), 10, TRUE), TRUE);
 		return;
 	}
