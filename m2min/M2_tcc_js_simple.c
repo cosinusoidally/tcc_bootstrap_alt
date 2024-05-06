@@ -1251,8 +1251,8 @@ struct type* promote_type(struct type* a, struct type* b) {
 		}
 		if(eq(gty_name(a), gty_name(i))) { break; }
 		if(eq(gty_name(b), gty_name(i))) { break; }
-		if(eq(gty_name(a), i->indirect->name)) { break; }
-		if(eq(gty_name(b), i->indirect->name)) { break; }
+		if(eq(gty_name(a), gty_name(gty_indirect(i)))) { break; }
+		if(eq(gty_name(b), gty_name(gty_indirect(i)))) { break; }
 		i = gty_next(i);
 	}
 	require(neq(NULL, i), "impossible case 3 in promote_type\n");
