@@ -933,7 +933,7 @@ int function_call(int s, int bool) {
 
 int constant_load(struct token_list* a) {
 	emit_out("mov_eax, %");
-	emit_out(gtl_s(a->arguments));
+	emit_out(gtl_s(gtl_arguments(a)));
 	emit_out("\n");
 }
 
@@ -1115,7 +1115,7 @@ int primary_expr_variable() {
 		return;
 	}
 
-	a = sym_lookup(s, function->arguments);
+	a = sym_lookup(s, gtl_arguments(function));
 	if(neq(NULL, a)) {
 		variable_load(a, num_dereference);
 		return;
@@ -1484,7 +1484,7 @@ int collect_local() {
 	a = sym_declare(gtl_s(global_token), type_size, gtl_locals(function));
 	if(and(match("main", gtl_s(function)), (eq(NULL, gtl_locals(function))))) {
 		a->depth = sub(0, 20);
-	} else if(and(eq(NULL, function->arguments), eq(NULL, gtl_locals(function)))) {
+	} else if(and(eq(NULL, gtl_arguments(function)), eq(NULL, gtl_locals(function)))) {
 		a->depth = sub(0, 8);
 	} else if(eq(NULL, gtl_locals(function))) {
 		a->depth = sub(function->arguments->depth, 8);
@@ -1912,8 +1912,8 @@ int collect_arguments() {
 			} else if(neq(ri8(gtl_s(global_token)), ',')) {
 				/* deal with foo(int a, char b) */
 				require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
-				a = sym_declare(gtl_s(global_token), type_size, function->arguments);
-				if(eq(NULL, function->arguments)) {
+				a = sym_declare(gtl_s(global_token), type_size, gtl_arguments(function));
+				if(eq(NULL, gtl_arguments(function))) {
 					a->depth = sub(0, 4);
 				} else {
 					a->depth = sub(function->arguments->depth, register_size);
@@ -1921,7 +1921,7 @@ int collect_arguments() {
 
 				global_token = gtl_next(global_token);
 				require(neq(NULL, global_token), "Incomplete argument list\n");
-				function->arguments = a;
+				stl_arguments(function, a);
 			}
 
 			/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
@@ -1970,7 +1970,7 @@ int global_constant() {
 	global_constant_list = sym_declare(gtl_s(global_token), NULL, global_constant_list);
 
 	require(neq(NULL, gtl_next(global_token)), "CONSTANT lacks a value\n");
-	global_constant_list->arguments = gtl_next(global_token);
+	stl_arguments(global_constant_list, gtl_next(global_token));
 	global_token = gtl_next(gtl_next(global_token));
 }
 
