@@ -167,7 +167,7 @@ int gtl_linenumber(int t) {
 int initialize_types();
 int reverse_list(int head);
 
-struct token_list* remove_line_comment_tokens(struct token_list* head);
+int remove_line_comment_tokens(int head);
 struct token_list* remove_preprocessor_directives(struct token_list* head);
 
 int eat_newline_tokens();
@@ -408,8 +408,8 @@ int eat_until_newline(int head) {
 	return NULL;
 }
 
-struct token_list* remove_line_comment_tokens(struct token_list* head) {
-	struct token_list* first;
+int remove_line_comment_tokens(int head) {
+	int first;
 
 	first = NULL;
 
