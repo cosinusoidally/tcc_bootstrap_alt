@@ -1090,7 +1090,7 @@ int variable_load(struct token_list* a, int num_dereference)
 		function_call(int2str(gtl_depth(a), 10, TRUE), TRUE);
 		return;
 	}
-	current_target = a->type;
+	current_target = gtl_type(a);
 
 	emit_out("lea_eax,[ebp+DWORD] %");
 
@@ -1249,7 +1249,7 @@ struct type* promote_type(struct type* a, struct type* b) {
 		if(eq(NULL, i)) {
 			break;
 		}
-		if(eq(a->name, i->name)) { break; }
+		if(eq(gty_name(a), gty_name(i))) { break; }
 		if(eq(b->name, i->name)) { break; }
 		if(eq(a->name, i->indirect->name)) { break; }
 		if(eq(b->name, i->indirect->name)) { break; }
