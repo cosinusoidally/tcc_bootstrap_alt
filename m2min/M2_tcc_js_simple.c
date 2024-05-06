@@ -1813,24 +1813,24 @@ int statement() {
 	/* Always an integer until told otherwise */
 	current_target = integer;
 
-	if(eq(ri8(global_token->s), '{')) {
+	if(eq(ri8(gtl_s(global_token)), '{')) {
 		recursive_statement();
 	} else if(or(neq(NULL, lookup_type(global_token->s, prim_types)),
-	          match("struct", global_token->s))) {
+	          match("struct", gtl_s(global_token)))) {
 		collect_local();
-	} else if(match("if", global_token->s)) {
+	} else if(match("if", gtl_s(global_token))) {
 		process_if();
-	} else if(match("do", global_token->s)) {
+	} else if(match("do", gtl_s(global_token))) {
 		process_do();
-	} else if(match("while", global_token->s)) {
+	} else if(match("while", gtl_s(global_token))) {
 		process_while();
-	} else if(match("for", global_token->s)) {
+	} else if(match("for", gtl_s(global_token))) {
 		process_for();
-	} else if(match("asm", global_token->s)) {
+	} else if(match("asm", gtl_s(global_token))) {
 		process_asm();
-	} else if(match("return", global_token->s)) {
+	} else if(match("return", gtl_s(global_token))) {
 		return_result();
-	} else if(match("break", global_token->s)) {
+	} else if(match("break", gtl_s(global_token))) {
 		process_break();
 	} else {
 		expression();
@@ -1850,7 +1850,7 @@ int collect_arguments() {
 	cont = 1; /* work around since no continue */
 	while(eq(cont, 1)) {
 		cont = 0;
-		while(eq(0, match(")", global_token->s))) {
+		while(eq(0, match(")", gtl_s(global_token)))) {
 			type_size = type_name();
 			require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
 			require(neq(NULL, type_size), "Must have non-null type\n");
