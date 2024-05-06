@@ -335,13 +335,13 @@ int reset_hold_string() {
 
 /* note if this is the first token in the list, head needs fixing up */
 struct token_list* eat_token(struct token_list* token) {
-	if(neq(NULL, token->prev)) {
-		stl_next(token->prev, gtl_next(token));
+	if(neq(NULL, gtl_prev(token))) {
+		stl_next(gtl_prev(token), gtl_next(token));
 	}
 
 	/* update backlinks */
 	if(neq(NULL, gtl_next(token))) {
-		token->next->prev = token->prev;
+		stl_prev(gtl_next(token), gtl_prev(token));
 	}
 
 	return gtl_next(token);
@@ -408,7 +408,7 @@ int new_token(int s, int size) {
 	require(neq(NULL, gtl_s(current)), "Exhausted memory while trying to copy a token\n");
 	copy_string(gtl_s(current), s, MAX_STRING);
 
-	current->prev = token;
+	stl_prev(current, token);
 	stl_next(current, token);
 	current->linenumber = line;
 	current->filename = file;
@@ -1419,7 +1419,7 @@ int expression() {
 	bitwise_expr();
 	if(match("=", gtl_s(global_token))) {
 		store = "";
-		if(match("]", gtl_s(global_token->prev))) {
+		if(match("]", gtl_s(gtl_prev(global_token)))) {
 			store = store_value(current_target->type->size);
 		} else {
 			store = store_value(current_target->size);
@@ -1902,7 +1902,7 @@ int collect_arguments() {
 
 int declare_function() {
 	current_count = 0;
-	function = sym_declare(gtl_s(global_token->prev), NULL, global_function_list);
+	function = sym_declare(gtl_s(gtl_prev(global_token)), NULL, global_function_list);
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = function;
@@ -2002,7 +2002,7 @@ int program() {
 				/* Ensure enough bytes are allocated to store global variable.
 				   In some cases it allocates too much but that is harmless. */
 				globals_list = emit(":GLOBAL_", globals_list);
-				globals_list = emit(gtl_s(global_token->prev), globals_list);
+				globals_list = emit(gtl_s(gtl_prev(global_token)), globals_list);
 
 				/* round up division */
 				i = ceil_div(type_size->size, register_size);
