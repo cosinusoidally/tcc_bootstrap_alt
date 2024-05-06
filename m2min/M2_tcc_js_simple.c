@@ -1904,8 +1904,8 @@ int process_break() {
 }
 
 int recursive_statement() {
-	struct token_list* i;
-	struct token_list* frame;
+	int i;
+	int frame;
 
 	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF in recursive statement\n");
@@ -1983,8 +1983,8 @@ int statement() {
 /* Collect function arguments */
 int collect_arguments() {
 	int cont;
-	struct type* type_size;
-	struct token_list* a;
+	int type_size;
+	int a;
 
 	global_token = gtl_next(global_token);
 	require(neq(NULL, global_token), "Received EOF when attempting to collect arguments\n");
@@ -2088,7 +2088,7 @@ int global_constant() {
  */
 int program() {
 	int i;
-	struct type* type_size;
+	int type_size;
 
 	function = NULL;
 
