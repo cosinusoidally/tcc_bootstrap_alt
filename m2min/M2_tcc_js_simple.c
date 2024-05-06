@@ -841,13 +841,13 @@ int function_call(int s, int bool) {
 	emit_out("push_ebp\t# Protect the old base pointer\n");
 	emit_out("mov_edi,esp\t# Copy new base pointer\n");
 
-	if(neq(ri8(global_token->s), ')')) {
+	if(neq(ri8(gtl_s(global_token)), ')')) {
 		expression();
 		require(neq(NULL, global_token), "incomplete function call, received EOF instead of )\n");
 		emit_out("push_eax\t#_process_expression1\n");
 		passed = 1;
 
-		while(eq(ri8(global_token->s), ',')) {
+		while(eq(ri8(gtl_s(global_token)), ',')) {
 			global_token = global_token->next;
 			require(neq(NULL, global_token), "incomplete function call, received EOF instead of argument\n");
 			expression();
@@ -885,7 +885,7 @@ int function_call(int s, int bool) {
 
 int constant_load(struct token_list* a) {
 	emit_out("mov_eax, %");
-	emit_out(a->arguments->s);
+	emit_out(gtl_s(a->arguments));
 	emit_out("\n");
 }
 
@@ -945,7 +945,7 @@ int postfix_expr_stub();
 int variable_load(struct token_list* a, int num_dereference)
 {
 	require(neq(NULL, global_token), "incomplete variable load received\n");
-	if(and(or(match("FUNCTION", a->type->name), match("FUNCTION*", a->type->name)), match("(", global_token->s))) {
+	if(and(or(match("FUNCTION", a->type->name), match("FUNCTION*", a->type->name)), match("(", gtl_s(global_token)))) {
 		function_call(int2str(a->depth, 10, TRUE), TRUE);
 		return;
 	}
@@ -956,7 +956,7 @@ int variable_load(struct token_list* a, int num_dereference)
 	emit_out(int2str(a->depth, 10, TRUE));
 	emit_out("\n");
 
-	if(eq(0, match("=", global_token->s))) {
+	if(eq(0, match("=", gtl_s(global_token)))) {
 		emit_out(load_value(current_target->size, current_target->is_signed));
 	}
 
@@ -969,25 +969,25 @@ int variable_load(struct token_list* a, int num_dereference)
 
 int function_load(struct token_list* a) {
 	require(neq(NULL, global_token), "incomplete function load\n");
-	if(match("(", global_token->s)) {
-		function_call(a->s, FALSE);
+	if(match("(", gtl_s(global_token))) {
+		function_call(gtl_s(a), FALSE);
 		return;
 	}
 
 	emit_out("mov_eax, &FUNCTION_");
-	emit_out(a->s);
+	emit_out(gtl_s(a));
 	emit_out("\n");
 }
 
 int global_load(struct token_list* a) {
 	current_target = a->type;
 	emit_out("mov_eax, &GLOBAL_");
-	emit_out(a->s);
+	emit_out(gtl_s(a));
 	emit_out("\n");
 
 	require(neq(NULL, global_token), "unterminated global load\n");
 
-	if(match("=", global_token->s)) {
+	if(match("=", gtl_s(global_token))) {
 		return;
 	}
 
@@ -1008,7 +1008,7 @@ int primary_expr_failure() {
 	require(neq(NULL, global_token), "hit EOF when expecting primary expression\n");
 	line_error();
 	fputs("Received ", stderr);
-	fputs(global_token->s, stderr);
+	fputs(gtl_s(global_token), stderr);
 	fputs(" in primary_expr\n", stderr);
 	exit(EXIT_FAILURE);
 }
@@ -1018,32 +1018,32 @@ int primary_expr_string() {
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 	emit_out("mov_eax, &STRING_");
-	uniqueID_out(function->s, number_string);
+	uniqueID_out(gtl_s(function), number_string);
 
 	/* The target */
 	strings_list = emit(":STRING_", strings_list);
-	strings_list = uniqueID(function->s, strings_list, number_string);
+	strings_list = uniqueID(gtl_s(function), strings_list, number_string);
 
 	/* catch case of just "foo" from segfaulting */
 	require(neq(NULL, global_token->next), "a string by itself is not valid C\n");
 
 	/* Parse the string */
-	if(neq('"', ri8(global_token->next->s))) {
-		strings_list = emit(parse_string(global_token->s), strings_list);
+	if(neq('"', ri8(gtl_s(global_token->next)))) {
+		strings_list = emit(parse_string(gtl_s(global_token)), strings_list);
 		global_token = global_token->next;
 	}
 }
 
 int primary_expr_char() {
 	emit_out("mov_eax, %");
-	emit_out(int2str(escape_lookup(add(global_token->s, 1)), 10, TRUE));
+	emit_out(int2str(escape_lookup(add(gtl_s(global_token), 1)), 10, TRUE));
 	emit_out("\n");
 	global_token = global_token->next;
 }
 
 int primary_expr_number() {
 	emit_out("mov_eax, %");
-	emit_out(global_token->s);
+	emit_out(gtl_s(global_token));
 	emit_out("\n");
 	global_token = global_token->next;
 }
