@@ -147,6 +147,14 @@ int gtl_arguments(int t) {
         return ri32(add(t, token_list_arguments_offset));
 }
 
+int stl_depth(int t,int v) {
+        wi32(add(t, token_list_depth_offset), v);
+}
+
+int gtl_depth(int t) {
+        return ri32(add(t, token_list_depth_offset));
+}
+
 /* The core functions */
 int initialize_types();
 struct token_list* reverse_list(struct token_list* head);
