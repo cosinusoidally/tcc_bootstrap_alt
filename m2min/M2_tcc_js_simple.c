@@ -1725,11 +1725,11 @@ int process_do() {
 
 /* Process while loops */
 int process_while() {
-	struct token_list* nested_locals = break_frame;
-	int nested_break_head = break_target_head;
-	int nested_break_func = break_target_func;
-	int nested_break_num = break_target_num;
-	int number_string = int2str(current_count, 10, TRUE);
+	int nested_locals;
+	int nested_break_head;
+	int nested_break_func;
+	int nested_break_num;
+	int number_string;
 
 	nested_locals = break_frame;
 	nested_break_head = break_target_head;
