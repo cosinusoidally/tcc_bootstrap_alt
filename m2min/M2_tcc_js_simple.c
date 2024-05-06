@@ -1497,7 +1497,7 @@ int collect_local() {
 	} else if(eq(NULL, gtl_locals(function))) {
 		stl_depth(a, sub(gtl_arguments(gtl_depth(function)), 8));
 	} else {
-		stl_depth(a, sub(gtl_depth(function->locals), register_size));
+		stl_depth(a, sub(gtl_depth(gtl_locals(function)), register_size));
 	}
 
 	/* Adjust the depth of local structs. When stack grows downwards, we want them to 
