@@ -1577,7 +1577,10 @@ int collect_local() {
 
 	type_size = type_name();
 	require(neq(NULL, global_token), "Received EOF while collecting locals\n");
+/* temp disable as we don't support M2 weird strings */
+/*
 	require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in local variable name\n");
+*/
 	require(neq(NULL, type_size), "Must have non-null type\n");
 
 	a = sym_declare(gtl_s(global_token), type_size, gtl_locals(function));
@@ -2010,7 +2013,10 @@ int collect_arguments() {
 				break;
 			} else if(neq(ri8(gtl_s(global_token)), ',')) {
 				/* deal with foo(int a, char b) */
+/* temp disable as we don't support M2 weird strings */
+/*
 				require(eq(0, in_set(ri8(gtl_s(global_token)), "[{(<=>)}]|&!^%;:'\"")), "forbidden character in argument variable name\n");
+*/
 				a = sym_declare(gtl_s(global_token), type_size, gtl_arguments(function));
 				if(eq(NULL, gtl_arguments(function))) {
 					stl_depth(a, sub(0, 4));
