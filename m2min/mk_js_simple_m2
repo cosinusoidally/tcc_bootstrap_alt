@@ -14,16 +14,13 @@ cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_t
 cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_js_simple_full-0.hex2 > artifacts/M2_tcc_js_simple_full-0-0.hex2
 ../x86/bin/hex2-0 artifacts/M2_tcc_js_simple_full-0-0.hex2 artifacts/M2_tcc_js_simple_full.exe
 
-echo "rebuild M2_tcc_js_simple with itself"
+echo "build tcc_js_all.M1"
 
-./artifacts/M2_tcc_js_simple_full.exe artifacts/M2_tcc_js_simple_full.c artifacts/M2_tcc_js_simple_full_self.M1
-cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_tcc_js_simple_full_self.M1 > artifacts/M2_tcc_js_simple_full_self-0.M1
-../x86/bin/M0 ./artifacts/M2_tcc_js_simple_full_self-0.M1 ./artifacts/M2_tcc_js_simple_full_self-0.hex2
-cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_js_simple_full_self-0.hex2 > artifacts/M2_tcc_js_simple_full_self-0-0.hex2
-../x86/bin/hex2-0 artifacts/M2_tcc_js_simple_full_self-0-0.hex2 artifacts/M2_tcc_js_simple_full_self.exe
+./artifacts/M2_tcc_js_simple_full.exe ../x86/artifact/tcc_js_all.c artifacts/tcc_js_all.M1
 
-./artifacts/M2_tcc_js_simple_full_self.exe ../x86/artifact/tcc_js_all.c artifacts/tcc_js_all.M1
-./artifacts/M2_tcc_js_simple_full_self.exe otccelf_cc_x86_full.c artifacts/otccelf_cc_x86_full.M1
+echo "build otccelf_cc_x86_full.M1"
+
+./artifacts/M2_tcc_js_simple_full.exe otccelf_cc_x86_full.c artifacts/otccelf_cc_x86_full.M1
 
 ls -lh artifacts/M2_tcc_js_simple_full*
 sha256sum -c sums_tcc_js_simple
