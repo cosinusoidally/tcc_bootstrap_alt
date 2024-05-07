@@ -30,6 +30,8 @@ int NULL;
 int EXIT_SUCCESS;
 int EXIT_FAILURE;
 
+int quote_string;
+
 int EOF;
 
 /* init support code */
@@ -2227,6 +2229,11 @@ int initialize_globals() {
 	fn_relational_expr_stub = 6;
 	fn_bitwise_expr_stub = 7;
 	fn_additive_expr_stub = 8;
+
+	quote_string=calloc(1, 16); /* round up */
+	wi8(quote_string, '\'');
+	wi8(add(quote_string, 1), '"');
+	wi8(add(quote_string, 2), 0);
 
 	token_list_layout_init();
 	type_list_layout_init();
