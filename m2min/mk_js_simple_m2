@@ -1,6 +1,7 @@
 ./mk_simple_asm_self
 
-cat simple_support_m2.c > artifacts/M2_tcc_js_simple_full.c
+cat simple_support_m2_head.c > artifacts/M2_tcc_js_simple_full.c
+cat simple_support_m2.c >> artifacts/M2_tcc_js_simple_full.c
 cat simple_support_common.c >> artifacts/M2_tcc_js_simple_full.c
 cat M2_tcc_js_simple.c >> artifacts/M2_tcc_js_simple_full.c
 
