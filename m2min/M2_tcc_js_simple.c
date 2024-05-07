@@ -574,7 +574,7 @@ int get_token(int c) {
 			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
 		} else if(in_set(c, "<=>|&!^%")) {
 			c = preserve_keyword(c, "<=>|&!^%");
-		} else if(in_set(c, "'\"")) {
+		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
 		} else if(eq(c, '/')) {
 			c = consume_byte(c);
