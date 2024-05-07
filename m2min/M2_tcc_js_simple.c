@@ -1287,8 +1287,6 @@ int dispatch(int fn) {
 		primary_expr();
 	} else if(eq(fn, fn_postfix_expr)) {
 		postfix_expr();
-	} else if(eq(fn, postfix_expr)) {
-		postfix_expr();
 	} else if(eq(fn, fn_additive_expr)) {
 		additive_expr();
 	} else if(eq(fn, fn_relational_expr)) {
@@ -1438,13 +1436,13 @@ int postfix_expr() {
  *         additive-expr >> postfix-expr
  */
 int additive_expr_stub() {
-		arithmetic_recursion(postfix_expr, "add_eax,ebx\n", "add_eax,ebx\n", "+", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "sub_ebx,eax\nmov_eax,ebx\n", "sub_ebx,eax\nmov_eax,ebx\n", "-", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "imul_ebx\n", "mul_ebx\n", "*", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "xchg_ebx,eax\ncdq\nidiv_ebx\n", "xchg_ebx,eax\nmov_edx, %0\ndiv_ebx\n", "/", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "xchg_ebx,eax\ncdq\nidiv_ebx\nmov_eax,edx\n", "xchg_ebx,eax\nmov_edx, %0\ndiv_ebx\nmov_eax,edx\n", "%", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "mov_ecx,eax\nmov_eax,ebx\nsal_eax,cl\n", "mov_ecx,eax\nmov_eax,ebx\nshl_eax,cl\n", "<<", fn_additive_expr_stub);
-		arithmetic_recursion(postfix_expr, "mov_ecx,eax\nmov_eax,ebx\nsar_eax,cl\n", "mov_ecx,eax\nmov_eax,ebx\nshr_eax,cl\n", ">>", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "add_eax,ebx\n", "add_eax,ebx\n", "+", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "sub_ebx,eax\nmov_eax,ebx\n", "sub_ebx,eax\nmov_eax,ebx\n", "-", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "imul_ebx\n", "mul_ebx\n", "*", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "xchg_ebx,eax\ncdq\nidiv_ebx\n", "xchg_ebx,eax\nmov_edx, %0\ndiv_ebx\n", "/", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "xchg_ebx,eax\ncdq\nidiv_ebx\nmov_eax,edx\n", "xchg_ebx,eax\nmov_edx, %0\ndiv_ebx\nmov_eax,edx\n", "%", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "mov_ecx,eax\nmov_eax,ebx\nsal_eax,cl\n", "mov_ecx,eax\nmov_eax,ebx\nshl_eax,cl\n", "<<", fn_additive_expr_stub);
+		arithmetic_recursion(fn_postfix_expr, "mov_ecx,eax\nmov_eax,ebx\nsar_eax,cl\n", "mov_ecx,eax\nmov_eax,ebx\nshr_eax,cl\n", ">>", fn_additive_expr_stub);
 }
 
 
