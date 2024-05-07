@@ -2240,6 +2240,7 @@ int main(int argc, int argv) {
 	int in;
 	int destination_file;
 
+        init_support();
         initialize_globals();
 
 	i = 1;
