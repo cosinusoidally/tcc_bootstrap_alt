@@ -712,10 +712,39 @@ int collect_regular_string(int string) {
 	return message;
 }
 
+int collect_weird_string(int string) {
+	fputs("collect_weird_string not impl\n", stdout);
+}
+
+int weird(char* string)
+{
+        int c;
+        string = string + 1;
+
+	while(1) {
+        c = string[0];
+        if(0 == c) return FALSE;
+        if('\\' == c)
+        {
+                c = escape_lookup(string);
+                if('x' == string[1]) string = string + 2;
+                string = string + 1;
+        }
+
+        if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) return TRUE;
+        if(in_set(c, " \t\n\r") && (':' == string[1])) return TRUE;
+        string = string + 1;
+	}
+}
+
 /* Parse string to deal with hex characters*/
 int parse_string(int string) {
 	/* the string */
-	return collect_regular_string(string);
+        if(weird(string)) {
+		return collect_weird_string(string);
+	} else {
+		return collect_regular_string(string);
+	}
 }
 
 /* enable easy primitive extension */
