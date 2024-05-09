@@ -744,14 +744,14 @@ char* collect_weird_string(char* string)
 		wi8(add(hold_string, add(string_index, 1)), ri8(add(table,shr(temp, 4))));
 		wi8(add(hold_string, add(string_index, 2)), ri8(add(table, and(temp, 15))));
 
-		if(string[0] == '\\') {
-			if(string[1] == 'x') {
-				string = string + 2;
+		if(eq(ri8(string), '\\')) {
+			if(eq(ri8(add(string, 1)), 'x')) {
+				string = add(string, 2);
 			}
-			string = string + 1;
+			string = add(string, 1);
 		}
 
-		string_index = string_index + 3;
+		string_index = add(string_index, 3);
 		if(string[1] == 0) {
 			break;
 		}
