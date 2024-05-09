@@ -728,6 +728,7 @@ char* collect_weird_string(char* string)
         int temp;
         char* table;
 	char* hold_string2;
+        char* hold;
 
         string_index = 1;
         table = "0123456789ABCDEF";
@@ -742,14 +743,17 @@ collect_weird_string_reset:
         wi8(add(hold_string, add(string_index, 1)), ri8(add(table,shr(temp, 4))));
         wi8(add(hold_string, add(string_index, 2)), ri8(add(table, and(temp, 15))));
 
-        if(string[0] == '\\')
-        {
-                if(string[1] == 'x') string = string + 2;
+        if(string[0] == '\\') {
+                if(string[1] == 'x') {
+			string = string + 2;
+		}
                 string = string + 1;
         }
 
         string_index = string_index + 3;
-        if(string[1] != 0) goto collect_weird_string_reset;
+        if(string[1] != 0) {
+		goto collect_weird_string_reset;
+	}
 
         hold_string2[string_index] = ' ';
         hold_string2[string_index + 1] = '0';
@@ -757,7 +761,7 @@ collect_weird_string_reset:
         hold_string2[string_index + 3] = '\'';
         hold_string2[string_index + 4] = '\n';
 
-        char* hold = calloc(string_index + 6, sizeof(char));
+        hold = calloc(string_index + 6, sizeof(char));
         require(NULL != hold, "Exhausted available memory while attempting to collect a weird string\n");
         copy_string(hold, hold_string, string_index + 5);
         reset_hold_string();
