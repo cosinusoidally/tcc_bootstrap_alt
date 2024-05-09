@@ -737,24 +737,24 @@ char* collect_weird_string(char* string)
         wi8(hold_string, '\'');
 
 	while(1) {
-        require(gt((sub(MAX_STRING, 6)), string_index), "Attempt at parsing weird string exceeds max length\n");
-        string = add(string, 1);
-        wi8(add(hold_string, string_index), ' ');
-        temp = and(escape_lookup(string), 0xFF);
-        wi8(add(hold_string, add(string_index, 1)), ri8(add(table,shr(temp, 4))));
-        wi8(add(hold_string, add(string_index, 2)), ri8(add(table, and(temp, 15))));
+		require(gt((sub(MAX_STRING, 6)), string_index), "Attempt at parsing weird string exceeds max length\n");
+		string = add(string, 1);
+		wi8(add(hold_string, string_index), ' ');
+		temp = and(escape_lookup(string), 0xFF);
+		wi8(add(hold_string, add(string_index, 1)), ri8(add(table,shr(temp, 4))));
+		wi8(add(hold_string, add(string_index, 2)), ri8(add(table, and(temp, 15))));
 
-        if(string[0] == '\\') {
-                if(string[1] == 'x') {
-			string = string + 2;
+		if(string[0] == '\\') {
+			if(string[1] == 'x') {
+				string = string + 2;
+			}
+			string = string + 1;
 		}
-                string = string + 1;
-        }
 
-        string_index = string_index + 3;
-        if(string[1] == 0) {
-		break;
-	}
+		string_index = string_index + 3;
+		if(string[1] == 0) {
+			break;
+		}
 	}
 
         hold_string2[string_index] = ' ';
