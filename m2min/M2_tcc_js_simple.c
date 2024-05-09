@@ -740,7 +740,7 @@ collect_weird_string_reset:
         wi8(add(hold_string, string_index), ' ');
         temp = and(escape_lookup(string), 0xFF);
         wi8(add(hold_string, add(string_index, 1)), table[(temp >> 4)]);
-        hold_string2[string_index + 2] = table[(temp & 15)];
+        wi8(add(hold_string, add(string_index, 2)), table[(temp & 15)]);
 
         if(string[0] == '\\')
         {
