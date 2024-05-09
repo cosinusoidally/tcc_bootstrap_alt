@@ -725,10 +725,13 @@ int collect_weird_string(int string) {
 /* Deal with non-human strings */
 char* collect_weird_string(char* string)
 {
-        string_index = 1;
         int temp;
-        char* table = "0123456789ABCDEF";
-	char* hold_string2 = hold_string;
+        char* table;
+	char* hold_string2;
+
+        string_index = 1;
+        table = "0123456789ABCDEF";
+	hold_string2 = hold_string;
 
         hold_string2[0] = '\'';
 collect_weird_string_reset:
