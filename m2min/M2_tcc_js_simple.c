@@ -737,9 +737,9 @@ char* collect_weird_string(char* string)
 collect_weird_string_reset:
         require(gt((sub(MAX_STRING, 6)), string_index), "Attempt at parsing weird string exceeds max length\n");
         string = add(string, 1);
-        hold_string2[string_index] = ' ';
-        temp = escape_lookup(string) & 0xFF;
-        hold_string2[string_index + 1] = table[(temp >> 4)];
+        wi8(add(hold_string, string_index), ' ');
+        temp = and(escape_lookup(string), 0xFF);
+        wi8(add(hold_string, add(string_index, 1)), table[(temp >> 4)]);
         hold_string2[string_index + 2] = table[(temp & 15)];
 
         if(string[0] == '\\')
