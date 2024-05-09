@@ -730,12 +730,12 @@ int weird(char* string)
 		if(eq(0, c)) {
 			return FALSE;
 		}
-		if('\\' == c) {
+		if(eq('\\', c)) {
 			c = escape_lookup(string);
-			if('x' == string[1]) {
-				string = string + 2;
+			if(eq('x', ri8(add(string, 1)))) {
+				string = add(string, 2);
 			}
-			string = string + 1;
+			string = add(string, 1);
 		}
 		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) {
 			return TRUE;
