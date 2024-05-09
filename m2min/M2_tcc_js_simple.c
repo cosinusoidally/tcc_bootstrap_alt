@@ -752,16 +752,16 @@ char* collect_weird_string(char* string)
 		}
 
 		string_index = add(string_index, 3);
-		if(string[1] == 0) {
+		if(eq(ri8(add(string, 1)), 0)) {
 			break;
 		}
 	}
 
-        hold_string2[string_index] = ' ';
-        hold_string2[string_index + 1] = '0';
-        hold_string2[string_index + 2] = '0';
-        hold_string2[string_index + 3] = '\'';
-        hold_string2[string_index + 4] = '\n';
+        wi8(add(hold_string, string_index), ' ');
+        wi8(add(hold_string, add(string_index, 1)), '0');
+        wi8(add(hold_string, add(string_index, 2)), '0');
+        wi8(add(hold_string, add(string_index, 3)), '\'');
+        wi8(add(hold_string, add(string_index, 4)), '\n');
 
         hold = calloc(string_index + 6, sizeof(char));
         require(NULL != hold, "Exhausted available memory while attempting to collect a weird string\n");
