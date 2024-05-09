@@ -723,16 +723,13 @@ int collect_weird_string(int string) {
 */
 
 /* Deal with non-human strings */
-char* collect_weird_string(char* string)
-{
+int collect_weird_string(int string) {
         int temp;
-        char* table;
-	char* hold_string2;
-        char* hold;
+        int table;
+        int hold;
 
         string_index = 1;
         table = "0123456789ABCDEF";
-	hold_string2 = hold_string;
 
         wi8(hold_string, '\'');
 
@@ -763,9 +760,9 @@ char* collect_weird_string(char* string)
         wi8(add(hold_string, add(string_index, 3)), '\'');
         wi8(add(hold_string, add(string_index, 4)), '\n');
 
-        hold = calloc(string_index + 6, sizeof(char));
-        require(NULL != hold, "Exhausted available memory while attempting to collect a weird string\n");
-        copy_string(hold, hold_string, string_index + 5);
+        hold = calloc(add(string_index, 6), 1);
+        require(neq(NULL, hold), "Exhausted available memory while attempting to collect a weird string\n");
+        copy_string(hold, hold_string, add(string_index, 5));
         reset_hold_string();
         return hold;
 }
