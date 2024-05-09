@@ -720,8 +720,7 @@ int collect_weird_string(int string) {
 	exit(1);
 }
 
-int weird(char* string)
-{
+int weird(int string) {
 	int c;
 	string = add(string, 1);
 
@@ -740,7 +739,7 @@ int weird(char* string)
 		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) {
 			return TRUE;
 		}
-		if(in_set(c, " \t\n\r") && (':' == string[1])) {
+		if(in_set(c, " \t\n\r") && (':' == ri8(add(string, 1)))) {
 			return TRUE;
 		}
 		string = string + 1;
