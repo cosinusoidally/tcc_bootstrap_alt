@@ -733,10 +733,10 @@ char* collect_weird_string(char* string)
         table = "0123456789ABCDEF";
 	hold_string2 = hold_string;
 
-        hold_string2[0] = '\'';
+        wi8(hold_string, '\'');
 collect_weird_string_reset:
-        require((MAX_STRING - 6) > string_index, "Attempt at parsing weird string exceeds max length\n");
-        string = string + 1;
+        require(gt((sub(MAX_STRING, 6)), string_index), "Attempt at parsing weird string exceeds max length\n");
+        string = add(string, 1);
         hold_string2[string_index] = ' ';
         temp = escape_lookup(string) & 0xFF;
         hold_string2[string_index + 1] = table[(temp >> 4)];
