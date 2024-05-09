@@ -736,13 +736,13 @@ int weird(int string) {
 			}
 			string = add(string, 1);
 		}
-		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) {
+		if(eq(0, in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"))) {
 			return TRUE;
 		}
-		if(in_set(c, " \t\n\r") && (':' == ri8(add(string, 1)))) {
+		if(and(in_set(c, " \t\n\r"), (eq(':', ri8(add(string, 1)))))) {
 			return TRUE;
 		}
-		string = string + 1;
+		string = add(string, 1);
 	}
 }
 
