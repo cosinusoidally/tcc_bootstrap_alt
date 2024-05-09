@@ -712,6 +712,7 @@ int collect_regular_string(int string) {
 	return message;
 }
 
+/*
 int collect_weird_string(int string) {
 	fputs("collect_weird_string not impl\n", stdout);
 	fputs("line: ", stdout);
@@ -719,6 +720,47 @@ int collect_weird_string(int string) {
 	fputs("\n", stdout);
 	exit(1);
 }
+*/
+
+/* Deal with non-human strings */
+char* collect_weird_string(char* string)
+{
+        string_index = 1;
+        int temp;
+        char* table = "0123456789ABCDEF";
+	char* hold_string2 = hold_string;
+
+        hold_string2[0] = '\'';
+collect_weird_string_reset:
+        require((MAX_STRING - 6) > string_index, "Attempt at parsing weird string exceeds max length\n");
+        string = string + 1;
+        hold_string2[string_index] = ' ';
+        temp = escape_lookup(string) & 0xFF;
+        hold_string2[string_index + 1] = table[(temp >> 4)];
+        hold_string2[string_index + 2] = table[(temp & 15)];
+
+        if(string[0] == '\\')
+        {
+                if(string[1] == 'x') string = string + 2;
+                string = string + 1;
+        }
+
+        string_index = string_index + 3;
+        if(string[1] != 0) goto collect_weird_string_reset;
+
+        hold_string2[string_index] = ' ';
+        hold_string2[string_index + 1] = '0';
+        hold_string2[string_index + 2] = '0';
+        hold_string2[string_index + 3] = '\'';
+        hold_string2[string_index + 4] = '\n';
+
+        char* hold = calloc(string_index + 6, sizeof(char));
+        require(NULL != hold, "Exhausted available memory while attempting to collect a weird string\n");
+        copy_string(hold, hold_string, string_index + 5);
+        reset_hold_string();
+        return hold;
+}
+
 
 int weird(int string) {
 	int c;
