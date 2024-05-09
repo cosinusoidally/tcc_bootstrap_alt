@@ -723,16 +723,18 @@ int collect_weird_string(int string) {
 int weird(char* string)
 {
 	int c;
-	string = string + 1;
+	string = add(string, 1);
 
 	while(1) {
-		c = string[0];
-		if(0 == c) {
+		c = ri8(string);
+		if(eq(0, c)) {
 			return FALSE;
 		}
 		if('\\' == c) {
 			c = escape_lookup(string);
-			if('x' == string[1]) string = string + 2;
+			if('x' == string[1]) {
+				string = string + 2;
+			}
 			string = string + 1;
 		}
 		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) {
