@@ -723,15 +723,20 @@ int weird(char* string)
 
 	while(1) {
 		c = string[0];
-		if(0 == c) return FALSE;
-		if('\\' == c)
-		{
+		if(0 == c) {
+			return FALSE;
+		}
+		if('\\' == c) {
 			c = escape_lookup(string);
 			if('x' == string[1]) string = string + 2;
 			string = string + 1;
 		}
-		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) return TRUE;
-		if(in_set(c, " \t\n\r") && (':' == string[1])) return TRUE;
+		if(!in_set(c, "\t\n !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")) {
+			return TRUE;
+		}
+		if(in_set(c, " \t\n\r") && (':' == string[1])) {
+			return TRUE;
+		}
 		string = string + 1;
 	}
 }
