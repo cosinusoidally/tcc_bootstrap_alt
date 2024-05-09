@@ -714,6 +714,10 @@ int collect_regular_string(int string) {
 
 int collect_weird_string(int string) {
 	fputs("collect_weird_string not impl\n", stdout);
+	fputs("line: ", stdout);
+	fputs(int2str(gtl_linenumber(global_token), 10, 0), stdout);
+	fputs("\n", stdout);
+	exit(1);
 }
 
 int weird(char* string)
