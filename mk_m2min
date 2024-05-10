@@ -67,7 +67,13 @@ cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otc
 
 chmod +x ./artifacts/otccelf_cc_x86_min.exe
 
+echo "building otccelf_js.exe using otccelf_cc_x86_min.exe"
 
+cd ../otccelf/
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+cd ../m2min/
+./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
 
 sha256sum -c sums_simple_asm
 
