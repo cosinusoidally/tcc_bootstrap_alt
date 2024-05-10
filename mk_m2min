@@ -1,0 +1,13 @@
+echo "m2min"
+
+echo "cleanup"
+./mk_clean
+./mk_from_bootstrap_seed_clean
+cd otccelf
+./mk_clean
+cd ../m2min
+./mk_clean
+cd ..
+
+echo "make the bootstrap seeds"
+./mk_seeds
