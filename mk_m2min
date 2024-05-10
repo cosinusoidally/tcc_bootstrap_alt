@@ -106,3 +106,8 @@ ls -lh ./x86/bin/js_to_c_cc_x86.exe
 
 cd otccelf
 ./mk_elf_loader_m2min
+
+cd ..
+
+echo "Just for completeness note that M2_tcc_js_simple_full.exe has been used in place of cc_x86:"
+diff -u -s m2min/artifacts/M2_tcc_js_simple_full.exe x86/bin/cc_x86
