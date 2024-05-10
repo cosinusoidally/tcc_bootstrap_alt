@@ -31,5 +31,23 @@ echo "Phase-3 Build M0 from hex2"
 ./x86/bin/catm ./x86/artifact/M0.hex2 ./x86/ELF-i386.hex2 ./x86/M0_x86.hex2
 ./x86/bin/hex2-0 ./x86/artifact/M0.hex2 ./x86/bin/M0
 
-ls ./x86/artifact/
-ls ./x86/bin/
+cd m2min
+
+echo "building M2_simple_asm.M1 using hex2 and M0"
+
+cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
+cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 ./M2_simple_asm.M1 > artifacts/M2_simple_asm-0.M1
+../x86/bin/M0 ./artifacts/M2_simple_asm-0.M1 ./artifacts/M2_simple_asm-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm-0.hex2 > artifacts/M2_simple_asm-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_simple_asm-0-0.hex2 artifacts/M2_simple_asm.exe
+
+echo "building M2_simple_asm_m2.exe using M2_simple_asm.exe"
+
+./artifacts/M2_simple_asm.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
+
+sha256sum -c sums_simple_asm
+
+cd ..
+echo $PWD
