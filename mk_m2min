@@ -104,4 +104,5 @@ cp ./m2min/artifacts/otccelf_js.exe otccelf/artifacts/
 
 ls -lh ./x86/bin/js_to_c_cc_x86.exe
 
-echo $PWD
+cd otccelf
+./mk_elf_loader_m2min
