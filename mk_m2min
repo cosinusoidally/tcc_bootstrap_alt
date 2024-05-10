@@ -89,6 +89,8 @@ cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_t
 cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_js_simple_full-0.hex2 > artifacts/M2_tcc_js_simple_full-0-0.hex2
 ../x86/bin/hex2-0 artifacts/M2_tcc_js_simple_full-0-0.hex2 artifacts/M2_tcc_js_simple_full.exe
 
+ls -lhS artifacts/*.exe
+
 sha256sum -c sums_simple_asm
 
 cd ..
