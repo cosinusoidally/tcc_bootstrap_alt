@@ -98,7 +98,9 @@ cd ..
 # use M2_tcc_js_simple_full.exe in place of cc_x86
 cp ./m2min/artifacts/M2_tcc_js_simple_full.exe ./x86/bin/cc_x86
 
-./x86/artifact/kaem-optional-seed ./alt_after.kaem
+cp ./m2min/artifacts/otccelf_js.exe otccelf/artifacts/
+
+./x86/artifact/kaem-optional-seed ./alt_after2.kaem
 
 ls -lh ./x86/bin/js_to_c_cc_x86.exe
 
