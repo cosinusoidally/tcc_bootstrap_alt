@@ -1,5 +1,3 @@
-./mk_clean
-./mk_cc_x86
 ./artifacts/otccelf_js.exe loader_boot.c ./artifacts/loader_otcc.exe
 chmod +x ./artifacts/loader_otcc.exe
 pushd .
