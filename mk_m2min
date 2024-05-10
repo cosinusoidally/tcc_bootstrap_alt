@@ -18,5 +18,18 @@ echo "Phase-0 Build hex0 from bootstrapped binary"
 echo "Phase-0b Build minimal kaem from hex0"
 ./x86/artifact/hex0 ./x86/kaem-minimal.hex0 ./x86/artifact/kaem-0
 
+echo "Phase-1 Build hex1 from hex0"
+./x86/artifact/hex0 ./x86/hex1_x86.hex0 ./x86/artifact/hex1
+
+echo "Phase-2 Build hex2 from hex1"
+./x86/artifact/hex1 ./x86/hex2_x86.hex1 ./x86/bin/hex2-0
+
+echo "Phase-2b Build catm from hex2"
+./x86/bin/hex2-0 ./x86/catm_x86.hex2 ./x86/bin/catm
+
+echo "Phase-3 Build M0 from hex2"
+./x86/bin/catm ./x86/artifact/M0.hex2 ./x86/ELF-i386.hex2 ./x86/M0_x86.hex2
+./x86/bin/hex2-0 ./x86/artifact/M0.hex2 ./x86/bin/M0
+
 ls ./x86/artifact/
 ls ./x86/bin/
