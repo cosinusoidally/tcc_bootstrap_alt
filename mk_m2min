@@ -65,8 +65,6 @@ cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otcc
 cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
 ../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
 
-chmod +x ./artifacts/otccelf_cc_x86_min.exe
-
 echo "building otccelf_js.exe using otccelf_cc_x86_min.exe"
 
 cd ../otccelf/
@@ -74,6 +72,22 @@ cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
 
 cd ../m2min/
 ./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
+
+chmod +x ./artifacts/otccelf_js.exe
+
+echo "building M2_tcc_js_simple_full.exe using M2_simple_asm_m2.exe"
+
+cat simple_support_m2_head.c > artifacts/M2_tcc_js_simple_full.c
+cat simple_support_m2.c >> artifacts/M2_tcc_js_simple_full.c
+cat simple_support_common.c >> artifacts/M2_tcc_js_simple_full.c
+cat M2_tcc_js_simple.c >> artifacts/M2_tcc_js_simple_full.c
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_tcc_js_simple_full.c artifacts/M2_tcc_js_simple_full.M1
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_tcc_js_simple_full.M1 > artifacts/M2_tcc_js_simple_full-0.M1
+../x86/bin/M0 ./artifacts/M2_tcc_js_simple_full-0.M1 ./artifacts/M2_tcc_js_simple_full-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_js_simple_full-0.hex2 > artifacts/M2_tcc_js_simple_full-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_tcc_js_simple_full-0-0.hex2 artifacts/M2_tcc_js_simple_full.exe
 
 sha256sum -c sums_simple_asm
 
