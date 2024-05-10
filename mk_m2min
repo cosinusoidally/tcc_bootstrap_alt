@@ -94,4 +94,12 @@ ls -lhS artifacts/*.exe
 sha256sum -c sums_simple_asm
 
 cd ..
+
+# use M2_tcc_js_simple_full.exe in place of cc_x86
+cp ./m2min/artifacts/M2_tcc_js_simple_full.exe ./x86/bin/cc_x86
+
+./x86/artifact/kaem-optional-seed ./alt_after.kaem
+
+ls -lh ./x86/bin/js_to_c_cc_x86.exe
+
 echo $PWD
