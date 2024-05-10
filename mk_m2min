@@ -11,3 +11,12 @@ cd ..
 
 echo "make the bootstrap seeds"
 ./mk_seeds
+
+echo "Phase-0 Build hex0 from bootstrapped binary"
+./x86/artifact/hex0-seed ./x86/hex0_x86.hex0 ./x86/artifact/hex0
+
+echo "Phase-0b Build minimal kaem from hex0"
+./x86/artifact/hex0 ./x86/kaem-minimal.hex0 ./x86/artifact/kaem-0
+
+ls ./x86/artifact/
+ls ./x86/bin/
