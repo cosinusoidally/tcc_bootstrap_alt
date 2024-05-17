@@ -284,7 +284,7 @@ int global_token_string() {
 	return token_string(global_token);
 }
 
-char global_token_char0() {
+int global_token_char0() {
 	return ri8(token_string(global_token));
 }
 
