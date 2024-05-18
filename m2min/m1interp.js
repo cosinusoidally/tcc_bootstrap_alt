@@ -115,3 +115,15 @@ for(var i=0;i<a.length;i++){
     }
   }
 }
+
+function link(x) {
+  var c;
+  for(var i=0;i<x.length;i++){
+    c = x[i];
+    wi32(c.ho,0x12345678);
+  }
+}
+
+link(absp);
+
+print(to_hex(ri32(labels["FUNCTION_skip"].ho+1)));
