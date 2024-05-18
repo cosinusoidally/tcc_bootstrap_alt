@@ -8,6 +8,12 @@ labels={};
 relp = [];
 absp = [];
 
+heap = [];
+
+function append_hex(s) {
+  print(s);
+}
+
 for(var i=0;i<a.length;i++){
   var l;
   var l0;
@@ -16,12 +22,14 @@ for(var i=0;i<a.length;i++){
   if(l0===":"){
     labels[l.split(":")[1]] = i;
   } else if(l0==="%"){
-    relp.push([[l.split("%")[1]], i]);
+    relp.push({name: l.split("%")[1], line: i});
+    append_hex("DEADBEEF");
   } else if(l0==="&"){
-    absp.push([[l.split("&")[1]], i]);
+    absp.push({name: l.split("&")[1], line: i});
+    append_hex("DEADBEEF");
   } else {
     if(l.length >0) {
-      print("hex: "+l);
+      append_hex(l);
     }
   }
 }
