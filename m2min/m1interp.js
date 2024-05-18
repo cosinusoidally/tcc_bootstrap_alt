@@ -224,6 +224,15 @@ function run(){
       break;
     }
     eip = eip + 1;
+  } else if(op=== 0x5B){
+    print("store");
+    eip = eip + 1;
+    t = ri32(eip) & 0xFFFF;
+    if(t !== 0x0389) {
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 2;
   } else {
     print("unsupported opcode");
     break;
