@@ -8,6 +8,8 @@ labels={};
 // patch points for relative offsets
 relp = [];
 
+rel_index=[];
+
 // patch points for absolute addresses
 absp = [];
 
@@ -98,12 +100,15 @@ function append_hex(s) {
 for(var i=0;i<a.length;i++){
   var l;
   var l0;
+  var name;
   l=a[i];
   l0=l[0];
   if(l0===":"){
     labels[l.split(":")[1]] = {line: i, ho: ho};
   } else if(l0==="%"){
-    relp.push({name: l.split("%")[1], line: i, ho: ho});
+    name = l.split("%")[1];
+    relp.push({name: name, line: i, ho: ho});
+    rel_index[ho]=name;
     append_hex("DEADBEEF");
   } else if(l0==="&"){
     absp.push({name: l.split("&")[1], line: i, ho: ho});
@@ -166,6 +171,7 @@ function run(){
     eip = eip + 2;
     t = ri32(eip);
     print("t "+ to_hex(t));
+    print("%" + rel_index[eip]);
     eip = eip + 4;
   } else {
     print("unsupported opcode");
