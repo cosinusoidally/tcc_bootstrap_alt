@@ -118,9 +118,11 @@ for(var i=0;i<a.length;i++){
 
 function link(x) {
   var c;
+  var lo;
   for(var i=0;i<x.length;i++){
     c = x[i];
-    wi32(c.ho,0x12345678);
+    lo = labels[c.name].ho;
+    wi32(c.ho, lo);
   }
 }
 
