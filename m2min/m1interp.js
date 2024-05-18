@@ -13,6 +13,8 @@ rel_index=[];
 // patch points for absolute addresses
 absp = [];
 
+abs_index = [];
+
 hex_frags = [];
 
 var heap_size=16*1024*1024;
@@ -172,6 +174,22 @@ function run(){
     t = ri32(eip);
     print("t "+ to_hex(t));
     print("%" + rel_index[eip]);
+    eip = eip + 4;
+  } else if(op=== 0x5D){
+    print(")");
+    eip = eip + 1;
+    t = ri8(eip);
+//    print("t "+ to_hex(t));
+    if(t !== 0x5F) {
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 1;
+  } else if(op=== 0xB8){
+    print("mov_eax,");
+    eip = eip + 1;
+    t = ri32(eip);
+    print("&" + abs_index[eip]);
     eip = eip + 4;
   } else {
     print("unsupported opcode");
