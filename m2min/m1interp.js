@@ -15,10 +15,16 @@ heap = [];
 ho = 0;
 
 function append_hex(s) {
+  var v;
   print(s);
   s=s.split("");
   for(var i=0; i<s.length; i=i+2){
-
+    v=[];
+    v.push("0x");
+    v.push(s[i]);
+    v.push(s[i+1]);
+    v=v.join("");
+    print(v);
   }
 }
 
