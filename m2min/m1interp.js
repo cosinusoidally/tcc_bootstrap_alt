@@ -198,6 +198,18 @@ function run(){
       print("%" + t + " # assuming constant");
     }
     eip = eip + 4;
+  } else if(op=== 0x81){
+    print("add_esp,");
+    eip = eip + 1;
+    t = ri8(eip);
+    if(t !== 0xC4){
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 1;
+    t = ri32(eip);
+    print("%" + t);
+    eip = eip + 4;
   } else if(op=== 0xB8){
     eip = eip + 1;
     t = ri32(eip);
