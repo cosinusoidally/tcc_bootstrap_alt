@@ -126,4 +126,8 @@ function link(x) {
 
 link(absp);
 
+// hack we don't actually need relative offsets to intepret
+link(relp);
+
 print(to_hex(ri32(labels["FUNCTION_skip"].ho+1)));
+print(to_hex(ri32(labels["WHILE_match_3"].ho+9)));
