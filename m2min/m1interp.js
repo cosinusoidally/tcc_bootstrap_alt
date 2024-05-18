@@ -147,13 +147,26 @@ function run(){
   } else if(op=== 0x57){
     print("(");
     eip = eip + 1;
-    t = ri32(eip) >>> 8;
-    if(t !== 0x89e789) {
+    t = ri32(eip) & 0xFFFFFF;
+//    print("t "+ to_hex(t));
+    if(t !== 0xE78955) {
       print("unsupported opcode");
-     break;
+      break;
     }
-    print("t "+ to_hex(t));
     eip = eip + 3;
+  } else if(op=== 0x89){
+    print("do_call");
+    eip = eip + 1;
+    t = ri32(eip) & 0xFFFF;
+//    print("t "+ to_hex(t));
+    if(t !== 0xE8FD) {
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 2;
+    t = ri32(eip);
+    print("t "+ to_hex(t));
+    eip = eip + 4;
   } else {
     print("unsupported opcode");
     break;
