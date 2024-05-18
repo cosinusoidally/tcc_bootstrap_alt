@@ -133,3 +133,33 @@ link(relp);
 
 print(to_hex(ri32(labels["FUNCTION_skip"].ho+1)));
 print(to_hex(ri32(labels["WHILE_match_3"].ho+9)));
+
+eip=labels["FUNCTION_main"].ho;
+
+function run(){
+  var t;
+  while(1) {
+  op=ri8(eip);
+  print("op",op.toString(16));
+  if(op=== 0x50){
+    print("push_eax");
+    eip = eip + 1;
+  } else if(op=== 0x57){
+    print("(");
+    eip = eip + 1;
+    t = ri32(eip) >>> 8;
+    if(t !== 0x89e789) {
+      print("unsupported opcode");
+     break;
+    }
+    print("t "+ to_hex(t));
+    eip = eip + 3;
+  } else {
+    print("unsupported opcode");
+    break;
+  }
+  }
+}
+
+
+run();
