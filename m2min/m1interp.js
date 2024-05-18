@@ -113,7 +113,9 @@ for(var i=0;i<a.length;i++){
     rel_index[ho]=name;
     append_hex("DEADBEEF");
   } else if(l0==="&"){
-    absp.push({name: l.split("&")[1], line: i, ho: ho});
+    name = l.split("&")[1];
+    absp.push({name: name, line: i, ho: ho});
+    abs_index[ho]=name;
     append_hex("DEADBEEF");
   } else {
     if(l.length >0) {
