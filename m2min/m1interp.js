@@ -5,12 +5,23 @@ a=a.split("\n");
 
 labels={};
 
+relp = [];
+absp = [];
+
 for(var i=0;i<a.length;i++){
   var l;
+  var l0;
   l=a[i];
-  if(l[0]===":"){
+  l0=l[0];
+  if(l0===":"){
     labels[l.split(":")[1]] = i;
+  } else if(l0==="%"){
+    relp.push([[l.split("%")[1]], i]);
+  } else if(l0==="&"){
+    absp.push([[l.split("&")[1]], i]);
   } else {
-
+    if(l.length >0) {
+      print("hex: "+l);
+    }
   }
 }
