@@ -8,10 +8,18 @@ labels={};
 relp = [];
 absp = [];
 
+hex_frags = [];
+
 heap = [];
+
+ho = 0;
 
 function append_hex(s) {
   print(s);
+  s=s.split("");
+  for(var i=0; i<s.length; i=i+2){
+
+  }
 }
 
 for(var i=0;i<a.length;i++){
@@ -20,7 +28,7 @@ for(var i=0;i<a.length;i++){
   l=a[i];
   l0=l[0];
   if(l0===":"){
-    labels[l.split(":")[1]] = i;
+    labels[l.split(":")[1]] = {line: i, heap_offset: ho};
   } else if(l0==="%"){
     relp.push({name: l.split("%")[1], line: i});
     append_hex("DEADBEEF");
