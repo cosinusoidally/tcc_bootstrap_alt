@@ -383,6 +383,7 @@ function run(){
   while(1) {
   op=ri8(eip);
   print("op",op.toString(16));
+  print("line: " + md[eip].line);
   if(op=== 0x50){
     op_push_eax();
   } else if(op=== 0x57){
@@ -433,3 +434,8 @@ try {
 }
 
 print(md[eip].function);
+
+
+eip = labels["FUNCTION_main"].ho;
+exec = true;
+run();
