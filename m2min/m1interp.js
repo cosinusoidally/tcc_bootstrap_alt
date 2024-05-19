@@ -25,9 +25,13 @@ for(var i=0;i<heap_size/4;i++){
   heap[i]=0;
 };
 
+current_function = "*NOT_FUNCTION*";
 
 // heap offset
 ho = 0;
+
+// heap metadata
+md = [];
 
 function wi8(o,v){
   if(v===undefined){
@@ -85,6 +89,7 @@ function to_hex(x){
 
 function append_hex(s) {
   var v;
+  var m;
   print(s);
   s=s.split("");
   for(var i=0; i<s.length; i=i+2){
@@ -95,6 +100,11 @@ function append_hex(s) {
     v=v.join("");
     print(v);
     wi8(ho,parseInt(v,16));
+    m = {};
+    m.function = current_function;
+    m.line = current_line;
+    md[ho] = m;
+
     ho=ho+1;
   }
 }
@@ -105,6 +115,7 @@ for(var i=0;i<a.length;i++){
   var name;
   l=a[i];
   l0=l[0];
+  current_line = i;
   if(l0===":"){
     name = l.split(":")[1];
     metadata = {name: name, line: i, ho: ho};
