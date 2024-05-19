@@ -123,6 +123,12 @@ for(var i=0;i<a.length;i++){
     if(name.split("_")[0] === "FUNCTION") {
       current_function = name.split("FUNCTION_")[1];
     }
+    if(name.split("_")[0] === "GLOBAL") {
+      current_function = "*NON_FUNCTION: "+name;
+    }
+    if(name.split("_")[0] === "STRING") {
+      current_function = "*NON_FUNCTION: "+name;
+    }
   } else if(l0==="%"){
     name = l.split("%")[1];
     relp.push({name: name, line: i, ho: ho});
