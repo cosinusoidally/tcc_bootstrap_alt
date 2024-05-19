@@ -214,18 +214,23 @@ function op_oparen(){
 function op_do_call(){
   var t;
   print("do_call");
-  eip = eip + 1;
-  t = ri32(eip) & 0xFFFF;
+  eip = eip;
+  t = ri32(eip + 1) & 0xFFFF;
 //    print("t "+ to_hex(t));
   if(t !== 0xE8FD) {
     print("unsupported opcode");
     throw "op_do_call";
   }
-  eip = eip + 2;
-  t = ri32(eip);
+  t = ri32(eip + 3);
   print("t "+ to_hex(t));
   print("%" + rel_index[eip]);
-  eip = eip + 4;
+  if(exec) {
+    push(esp + 7);
+    // HACK we are using absolute addresses
+    eip = t;
+  } else {
+    eip = eip + 7;
+  }
 }
 
 function op_cparen(){
