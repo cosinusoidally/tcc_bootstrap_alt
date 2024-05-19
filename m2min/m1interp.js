@@ -191,6 +191,9 @@ function pop(){
 
 function op_push_eax(){
   print("push_eax");
+  if(exec){
+    push(eax);
+  }
   eip = eip + 1;
 }
 
@@ -382,12 +385,23 @@ function op_int_03(){
   }
 }
 
+function dump_stack(){
+  print("stack:");
+  for(var i=esp;i< heap_size;i=i+4){
+    print(to_hex(ri32(i)));
+  }
+  print("end stack");
+}
+
 function run(){
   var t;
   while(1) {
   op=ri8(eip);
   print("op",op.toString(16));
   print("line: " + md[eip].line);
+  if(exec){
+    dump_stack();
+  }
   if(op=== 0x50){
     op_push_eax();
   } else if(op=== 0x57){
@@ -443,4 +457,9 @@ print(md[eip].function);
 print("starting");
 eip = labels["FUNCTION_main"].ho;
 exec = true;
-run();
+
+try {
+  run();
+} catch (e){
+  print("error");
+}
