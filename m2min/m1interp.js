@@ -223,9 +223,10 @@ function op_do_call(){
   }
   t = ri32(eip + 3);
   print("t "+ to_hex(t));
-  print("%" + rel_index[eip]);
+  print("%" + rel_index[eip+3]);
   if(exec) {
-    push(esp + 7);
+    ebp = edi;
+    push(eip + 7);
     // HACK we are using absolute addresses
     eip = t;
   } else {
@@ -328,9 +329,12 @@ function op_local(){
 }
 
 function op_ret(){
+  var t;
   print("ret");
   if(exec) {
-    eip = pop();
+    t = pop();
+    print("return address:" + t);
+    eip = t;
   } else {
     eip = eip + 1;
   }
@@ -436,6 +440,7 @@ try {
 print(md[eip].function);
 
 
+print("starting");
 eip = labels["FUNCTION_main"].ho;
 exec = true;
 run();
