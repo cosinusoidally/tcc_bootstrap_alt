@@ -283,6 +283,11 @@ function op_local(){
   eip = eip + 4;
 }
 
+function op_ret(){
+  print("ret");
+  eip = eip + 1;
+}
+
 function op_jump_false(){
   var t;
   print("jump_false");
@@ -322,8 +327,7 @@ function run(){
   } else if(op=== 0x8D){
     op_local();
   } else if(op=== 0xC3){
-    print("ret");
-    eip = eip + 1;
+    op_ret();
   } else if(op=== 0x85){
     op_jump_false();
   } else if(op=== 0xE9){
