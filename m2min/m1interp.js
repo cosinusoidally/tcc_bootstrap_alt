@@ -215,6 +215,20 @@ function op_cparen(){
   eip = eip + 1;
 }
 
+function op_mov_eax(){
+  var t;
+  print("mov_eax,");
+  eip = eip + 1;
+  t = ri32(eip);
+  name = abs_index[eip];
+  if(name) {
+    print("&" + name);
+  } else {
+    print("%" + t + " # assuming constant");
+  }
+  eip = eip + 4;
+}
+
 function run(){
   var t;
   while(1) {
@@ -229,16 +243,7 @@ function run(){
   } else if(op=== 0x5D){
     op_cparen();
   } else if(op=== 0xB8){
-    print("mov_eax,");
-    eip = eip + 1;
-    t = ri32(eip);
-    name = abs_index[eip];
-    if(name) {
-      print("&" + name);
-    } else {
-      print("%" + t + " # assuming constant");
-    }
-    eip = eip + 4;
+    op_mov_eax();
   } else if(op=== 0x81){
     print("add_esp,");
     eip = eip + 1;
