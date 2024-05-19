@@ -256,6 +256,18 @@ function op_load(){
   eip = eip + 1;
 }
 
+function op_store(){
+  var t;
+  print("store");
+  eip = eip + 1;
+  t = ri32(eip) & 0xFFFF;
+  if(t !== 0x0389) {
+    print("unsupported opcode");
+    throw "op_store";
+  }
+  eip = eip + 2;
+}
+
 function run(){
   var t;
   while(1) {
@@ -276,14 +288,7 @@ function run(){
   } else if(op=== 0x8B){
     op_load();
   } else if(op=== 0x5B){
-    print("store");
-    eip = eip + 1;
-    t = ri32(eip) & 0xFFFF;
-    if(t !== 0x0389) {
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 2;
+    op_store();
   } else if(op=== 0x8D){
     print("local");
     eip = eip + 1;
