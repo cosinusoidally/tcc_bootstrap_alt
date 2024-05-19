@@ -21,6 +21,9 @@ var heap_size=16*1024*1024;
 var v_stack_size=256*1024;
 var heap=new Array(heap_size/4);
 
+var esp;
+esp=heap_size-4;
+
 for(var i=0;i<heap_size/4;i++){
   heap[i]=0;
 };
@@ -370,6 +373,10 @@ prims.forEach(function(x){
   wi8(labels["FUNCTION_"+x].ho, int_03);
 });
 
-run();
+try {
+  run();
+} catch (e){
+  print("error");
+}
 
 print(md[eip].function);
