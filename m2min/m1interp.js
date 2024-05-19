@@ -170,9 +170,21 @@ print(to_hex(ri32(labels["WHILE_match_3"].ho+9)));
 
 eip=labels["FUNCTION_token_list_layout_init"].ho;
 
+function push(r){
+  esp = esp - 4;
+  wi32(esp, r);
+}
+
+function pop(){
+  var r;
+  r = ri32(esp);
+  esp = esp + 4;
+  return r;
+}
+
 function op_push_eax(){
-    print("push_eax");
-    eip = eip + 1;
+  print("push_eax");
+  eip = eip + 1;
 }
 
 function op_oparen(){
