@@ -354,10 +354,13 @@ function op_jump_false(){
 function op_jump(){
   var t;
   print("jump");
-  eip = eip + 1;
-  t = ri32(eip);
+  t = ri32(eip + 1);
   print("%" + rel_index[eip]);
-  eip = eip + 4;
+  if(exec) {
+    eip = t;
+  } else {
+    eip = eip + 5;
+  }
 }
 
 function op_int_03(){
