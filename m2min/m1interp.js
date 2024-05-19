@@ -185,6 +185,23 @@ function op_oparen(){
   eip = eip + 3;
 }
 
+function op_do_call(){
+  var t;
+  print("do_call");
+  eip = eip + 1;
+  t = ri32(eip) & 0xFFFF;
+//    print("t "+ to_hex(t));
+  if(t !== 0xE8FD) {
+    print("unsupported opcode");
+    throw "op_do_call";
+  }
+  eip = eip + 2;
+  t = ri32(eip);
+  print("t "+ to_hex(t));
+  print("%" + rel_index[eip]);
+  eip = eip + 4;
+}
+
 function run(){
   var t;
   while(1) {
@@ -195,19 +212,7 @@ function run(){
   } else if(op=== 0x57){
     op_oparen();
   } else if(op=== 0x89){
-    print("do_call");
-    eip = eip + 1;
-    t = ri32(eip) & 0xFFFF;
-//    print("t "+ to_hex(t));
-    if(t !== 0xE8FD) {
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 2;
-    t = ri32(eip);
-    print("t "+ to_hex(t));
-    print("%" + rel_index[eip]);
-    eip = eip + 4;
+    op_do_call();
   } else if(op=== 0x5D){
     print(")");
     eip = eip + 1;
