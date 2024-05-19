@@ -314,16 +314,14 @@ function op_store(){
 function op_local(){
   var t;
   print("local");
-  eip = eip + 1;
-  t = ri8(eip);
+  t = ri8(eip + 1);
   if(t !== 0x85) {
     print("unsupported opcode");
     throw "op_local";
   }
-  eip = eip + 1;
-  t = ri32(eip);
+  t = ri32(eip + 2);
   print("local: " + t);
-  eip = eip + 4;
+  eip = eip + 6;
 }
 
 function op_ret(){
