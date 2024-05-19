@@ -143,7 +143,7 @@ link(relp);
 print(to_hex(ri32(labels["FUNCTION_skip"].ho+1)));
 print(to_hex(ri32(labels["WHILE_match_3"].ho+9)));
 
-eip=labels["FUNCTION_main"].ho;
+eip=labels["FUNCTION_token_list_layout_init"].ho;
 
 function run(){
   var t;
@@ -248,6 +248,24 @@ function run(){
   } else if(op=== 0xC3){
     print("ret");
     eip = eip + 1;
+  } else if(op=== 0x85){
+    print("jump_false");
+    eip = eip + 1;
+    t = ri32(eip) & 0xFFFFFF;
+    if(t !== 0x840FC0) {
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 3;
+    t = ri32(eip);
+    print("%" + rel_index[eip]);
+    eip = eip + 4;
+  } else if(op=== 0xE9){
+    print("jump");
+    eip = eip + 1;
+    t = ri32(eip);
+    print("%" + rel_index[eip]);
+    eip = eip + 4;
   } else {
     print("unsupported opcode");
     break;
