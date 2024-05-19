@@ -274,22 +274,26 @@ function op_add_esp(){
     print("unsupported opcode");
     throw "op_add_esp";
   }
-  eip = eip + 1;
-  t = ri32(eip);
+  t = ri32(eip + 1);
   print("%" + t);
-  eip = eip + 4;
+  if(exec) {
+    esp = esp + t
+  }
+  eip = eip + 5;
 }
 
 function op_load(){
   var t;
   print("load");
-  eip = eip + 1;
-  t = ri8(eip);
+  t = ri8(eip + 1);
   if(t !== 0){
     print("unsupported opcode");
     throw "op_load";
   }
-  eip = eip + 1;
+  if(exec) {
+    eax = ri32(eax);
+  }
+  eip = eip + 2;
 }
 
 function op_store(){
