@@ -289,5 +289,8 @@ function run(){
   }
 }
 
+int_03 = 0xCC;
+
+wi8(labels["FUNCTION_add"].ho, int_03);
 
 run();
