@@ -282,6 +282,13 @@ function run(){
     t = ri32(eip);
     print("%" + rel_index[eip]);
     eip = eip + 4;
+  } else if(op=== 0xCC){
+    print("int_03");
+    t = md[eip].function;
+    while(t === md[eip].function) {
+      eip = eip + 1;
+    }
+    print(md[eip].function);
   } else {
     print("unsupported opcode");
     break;
@@ -291,6 +298,12 @@ function run(){
 
 int_03 = 0xCC;
 
-wi8(labels["FUNCTION_add"].ho, int_03);
+prims = ["add", "sub", "mul", "shl", "shr"];
+
+prims.forEach(function(x){
+  wi8(labels["FUNCTION_"+x].ho, int_03);
+});
 
 run();
+
+print(md[eip].function);
