@@ -244,6 +244,18 @@ function op_add_esp(){
   eip = eip + 4;
 }
 
+function op_load(){
+  var t;
+  print("load");
+  eip = eip + 1;
+  t = ri8(eip);
+  if(t !== 0){
+    print("unsupported opcode");
+    throw "op_load";
+  }
+  eip = eip + 1;
+}
+
 function run(){
   var t;
   while(1) {
@@ -262,14 +274,7 @@ function run(){
   } else if(op=== 0x81){
     op_add_esp();
   } else if(op=== 0x8B){
-    print("load");
-    eip = eip + 1;
-    t = ri8(eip);
-    if(t !== 0){
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 1;
+    op_load();
   } else if(op=== 0x5B){
     print("store");
     eip = eip + 1;
