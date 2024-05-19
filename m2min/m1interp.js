@@ -106,7 +106,12 @@ for(var i=0;i<a.length;i++){
   l=a[i];
   l0=l[0];
   if(l0===":"){
-    labels[l.split(":")[1]] = {line: i, ho: ho};
+    name = l.split(":")[1];
+    metadata = {name: name, line: i, ho: ho};
+    labels[name] = metadata;
+    if(name.split("_")[0] === "FUNCTION") {
+      current_function = name.split("FUNCTION_")[1];
+    }
   } else if(l0==="%"){
     name = l.split("%")[1];
     relp.push({name: name, line: i, ho: ho});
