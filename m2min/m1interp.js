@@ -329,7 +329,11 @@ function op_local(){
 
 function op_ret(){
   print("ret");
-  eip = eip + 1;
+  if(exec) {
+    eip = pop();
+  } else {
+    eip = eip + 1;
+  }
 }
 
 function op_jump_false(){
