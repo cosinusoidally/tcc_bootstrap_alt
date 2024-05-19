@@ -314,8 +314,8 @@ function op_jump(){
 
 function op_int_03(){
   var t;
-  print("int_03");
   t = md[eip].function;
+  print("int_03 : " + t);
   while(t === md[eip].function) {
     eip = eip + 1;
   }
