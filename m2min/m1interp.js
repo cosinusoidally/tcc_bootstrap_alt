@@ -441,8 +441,18 @@ prims = ["add", "sub", "mul", "shl", "shr", "lt", "gt", "lte", "gte", "and",
          "or", "ri8", "eq", "neq", "xor", "wi8", "div", "mod", "fgetc", "fputc",
          "open", "close", "brk", "exit"];
 
+prim_ops={};
+
+function stub(x){
+  return function(){
+    print(x + " not impl");
+    throw "error";
+  }
+}
+
 prims.forEach(function(x){
   wi8(labels["FUNCTION_"+x].ho, int_03);
+  prim_ops[x] = stub(x);
 });
 
 try {
