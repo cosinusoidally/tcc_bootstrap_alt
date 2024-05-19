@@ -261,11 +261,6 @@ function run(){
     op_mov_eax();
   } else if(op=== 0x81){
     op_add_esp();
-  } else if(op=== 0xB8){
-    eip = eip + 1;
-    t = ri32(eip);
-    print("&" + abs_index[eip]);
-    eip = eip + 4;
   } else if(op=== 0x8B){
     print("load");
     eip = eip + 1;
