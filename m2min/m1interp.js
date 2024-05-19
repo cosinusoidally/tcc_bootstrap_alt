@@ -202,6 +202,19 @@ function op_do_call(){
   eip = eip + 4;
 }
 
+function op_cparen(){
+  var t;
+  print(")");
+  eip = eip + 1;
+  t = ri8(eip);
+//    print("t "+ to_hex(t));
+  if(t !== 0x5F) {
+    print("unsupported opcode");
+    throw "op_cparen";
+  }
+  eip = eip + 1;
+}
+
 function run(){
   var t;
   while(1) {
@@ -214,15 +227,7 @@ function run(){
   } else if(op=== 0x89){
     op_do_call();
   } else if(op=== 0x5D){
-    print(")");
-    eip = eip + 1;
-    t = ri8(eip);
-//    print("t "+ to_hex(t));
-    if(t !== 0x5F) {
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 1;
+    op_cparen();
   } else if(op=== 0xB8){
     print("mov_eax,");
     eip = eip + 1;
