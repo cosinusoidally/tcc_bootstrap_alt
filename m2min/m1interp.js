@@ -252,15 +252,17 @@ function op_cparen(){
 function op_mov_eax(){
   var t;
   print("mov_eax,");
-  eip = eip + 1;
-  t = ri32(eip);
-  name = abs_index[eip];
+  t = ri32(eip + 1);
+  name = abs_index[eip + 1];
   if(name) {
     print("&" + name);
   } else {
     print("%" + t + " # assuming constant");
   }
-  eip = eip + 4;
+  if(exec) {
+    eax = t;
+  }
+  eip = eip + 5;
 }
 
 function op_add_esp(){
