@@ -303,6 +303,15 @@ function op_jump_false(){
   eip = eip + 4;
 }
 
+function op_jump(){
+  var t;
+  print("jump");
+  eip = eip + 1;
+  t = ri32(eip);
+  print("%" + rel_index[eip]);
+  eip = eip + 4;
+}
+
 function run(){
   var t;
   while(1) {
@@ -331,11 +340,7 @@ function run(){
   } else if(op=== 0x85){
     op_jump_false();
   } else if(op=== 0xE9){
-    print("jump");
-    eip = eip + 1;
-    t = ri32(eip);
-    print("%" + rel_index[eip]);
-    eip = eip + 4;
+    op_jump();
   } else if(op=== 0xCC){
     print("int_03");
     t = md[eip].function;
