@@ -193,15 +193,7 @@ function run(){
   if(op=== 0x50){
     op_push_eax();
   } else if(op=== 0x57){
-    print("(");
-    eip = eip + 1;
-    t = ri32(eip) & 0xFFFFFF;
-//    print("t "+ to_hex(t));
-    if(t !== 0xE78955) {
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 3;
+    op_oparen();
   } else if(op=== 0x89){
     print("do_call");
     eip = eip + 1;
