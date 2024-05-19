@@ -236,14 +236,17 @@ function op_do_call(){
 function op_cparen(){
   var t;
   print(")");
-  eip = eip + 1;
-  t = ri8(eip);
+  t = ri8(eip + 1);
 //    print("t "+ to_hex(t));
   if(t !== 0x5F) {
     print("unsupported opcode");
     throw "op_cparen";
   }
-  eip = eip + 1;
+  if(exec) {
+    ebp = pop();
+    edi = pop();
+  }
+  eip = eip + 2;
 }
 
 function op_mov_eax(){
