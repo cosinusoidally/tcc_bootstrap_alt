@@ -24,6 +24,13 @@ var heap=new Array(heap_size/4);
 var esp;
 esp=heap_size-4;
 
+var ebp = 0;
+var edi = 0;
+var eax = 0;
+var ebx = 0;
+
+var exec;
+
 for(var i=0;i<heap_size/4;i++){
   heap[i]=0;
 };
@@ -190,14 +197,18 @@ function op_push_eax(){
 function op_oparen(){
   var t;
   print("(");
-  eip = eip + 1;
-  t = ri32(eip) & 0xFFFFFF;
+  t = ri32(eip+1) & 0xFFFFFF;
 //    print("t "+ to_hex(t));
   if(t !== 0xE78955) {
     print("unsupported opcode");
     throw "op_oparen";
   }
-  eip = eip + 3;
+  if(exec) {
+    push(edi);
+    push(ebp);
+    edi = esp;
+  }
+  eip = eip + 4;
 }
 
 function op_do_call(){
