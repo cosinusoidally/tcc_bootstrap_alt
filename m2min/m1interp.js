@@ -299,13 +299,16 @@ function op_load(){
 function op_store(){
   var t;
   print("store");
-  eip = eip + 1;
-  t = ri32(eip) & 0xFFFF;
+  t = ri32(eip + 1) & 0xFFFF;
   if(t !== 0x0389) {
     print("unsupported opcode");
     throw "op_store";
   }
-  eip = eip + 2;
+  if(exec) {
+    ebx = pop();
+    wi32(ebx, eax);
+  }
+  eip = eip + 3;
 }
 
 function op_local(){
