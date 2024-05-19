@@ -304,7 +304,9 @@ function run(){
 
 int_03 = 0xCC;
 
-prims = ["add", "sub", "mul", "shl", "shr"];
+prims = ["add", "sub", "mul", "shl", "shr", "lt", "gt", "lte", "gte", "and",
+         "or", "ri8", "eq", "neq", "xor", "wi8", "div", "mod", "fgetc", "fputc",
+         "open", "close", "brk", "exit"];
 
 prims.forEach(function(x){
   wi8(labels["FUNCTION_"+x].ho, int_03);
