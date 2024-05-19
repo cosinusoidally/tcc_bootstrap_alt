@@ -367,10 +367,15 @@ function op_int_03(){
   var t;
   t = md[eip].function;
   print("int_03 : " + t);
-  while(t === md[eip].function) {
-    eip = eip + 1;
+  if(exec) {
+    print("no prims yet");
+    throw "op_int_03";
+  } else {
+    while(t === md[eip].function) {
+      eip = eip + 1;
+    }
+    print(md[eip].function);
   }
-  print(md[eip].function);
 }
 
 function run(){
