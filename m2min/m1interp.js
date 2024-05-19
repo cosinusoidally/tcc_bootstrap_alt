@@ -375,8 +375,7 @@ function op_int_03(){
   t = md[eip].function;
   print("int_03 : " + t);
   if(exec) {
-    print("no prims yet");
-    throw "op_int_03";
+    prim_ops[t]();
   } else {
     while(t === md[eip].function) {
       eip = eip + 1;
@@ -472,4 +471,5 @@ try {
   run();
 } catch (e){
   print("error");
+  print(e.stack);
 }
