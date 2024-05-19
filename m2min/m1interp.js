@@ -229,6 +229,21 @@ function op_mov_eax(){
   eip = eip + 4;
 }
 
+function op_add_esp(){
+  var t;
+  print("add_esp,");
+  eip = eip + 1;
+  t = ri8(eip);
+  if(t !== 0xC4){
+    print("unsupported opcode");
+    throw "op_add_esp";
+  }
+  eip = eip + 1;
+  t = ri32(eip);
+  print("%" + t);
+  eip = eip + 4;
+}
+
 function run(){
   var t;
   while(1) {
@@ -245,17 +260,7 @@ function run(){
   } else if(op=== 0xB8){
     op_mov_eax();
   } else if(op=== 0x81){
-    print("add_esp,");
-    eip = eip + 1;
-    t = ri8(eip);
-    if(t !== 0xC4){
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 1;
-    t = ri32(eip);
-    print("%" + t);
-    eip = eip + 4;
+    op_add_esp();
   } else if(op=== 0xB8){
     eip = eip + 1;
     t = ri32(eip);
