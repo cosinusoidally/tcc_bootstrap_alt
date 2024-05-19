@@ -167,14 +167,31 @@ print(to_hex(ri32(labels["WHILE_match_3"].ho+9)));
 
 eip=labels["FUNCTION_token_list_layout_init"].ho;
 
+function op_push_eax(){
+    print("push_eax");
+    eip = eip + 1;
+}
+
+function op_oparen(){
+  var t;
+  print("(");
+  eip = eip + 1;
+  t = ri32(eip) & 0xFFFFFF;
+//    print("t "+ to_hex(t));
+  if(t !== 0xE78955) {
+    print("unsupported opcode");
+    throw "op_oparen";
+  }
+  eip = eip + 3;
+}
+
 function run(){
   var t;
   while(1) {
   op=ri8(eip);
   print("op",op.toString(16));
   if(op=== 0x50){
-    print("push_eax");
-    eip = eip + 1;
+    op_push_eax();
   } else if(op=== 0x57){
     print("(");
     eip = eip + 1;
