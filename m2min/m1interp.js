@@ -233,6 +233,21 @@ function run(){
       break;
     }
     eip = eip + 2;
+  } else if(op=== 0x8D){
+    print("local");
+    eip = eip + 1;
+    t = ri8(eip);
+    if(t !== 0x85) {
+      print("unsupported opcode");
+      break;
+    }
+    eip = eip + 1;
+    t = ri32(eip);
+    print("local: " + t);
+    eip = eip + 4;
+  } else if(op=== 0xC3){
+    print("ret");
+    eip = eip + 1;
   } else {
     print("unsupported opcode");
     break;
