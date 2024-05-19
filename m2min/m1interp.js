@@ -321,6 +321,9 @@ function op_local(){
   }
   t = ri32(eip + 2);
   print("local: " + t);
+  if(exec) {
+    eax = ebp + t;
+  }
   eip = eip + 6;
 }
 
