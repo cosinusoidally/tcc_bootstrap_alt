@@ -268,6 +268,21 @@ function op_store(){
   eip = eip + 2;
 }
 
+function op_local(){
+  var t;
+  print("local");
+  eip = eip + 1;
+  t = ri8(eip);
+  if(t !== 0x85) {
+    print("unsupported opcode");
+    throw "op_local";
+  }
+  eip = eip + 1;
+  t = ri32(eip);
+  print("local: " + t);
+  eip = eip + 4;
+}
+
 function run(){
   var t;
   while(1) {
@@ -290,17 +305,7 @@ function run(){
   } else if(op=== 0x5B){
     op_store();
   } else if(op=== 0x8D){
-    print("local");
-    eip = eip + 1;
-    t = ri8(eip);
-    if(t !== 0x85) {
-      print("unsupported opcode");
-      break;
-    }
-    eip = eip + 1;
-    t = ri32(eip);
-    print("local: " + t);
-    eip = eip + 4;
+    op_local();
   } else if(op=== 0xC3){
     print("ret");
     eip = eip + 1;
