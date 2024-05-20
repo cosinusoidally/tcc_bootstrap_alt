@@ -476,11 +476,18 @@ function malloc(n){
   return r;
 }
 
+function mk_c_string(s){
+  return malloc(1);
+}
+
 function mk_args(s){
   var argc;
   s=s.split(" ");
   argc = s.length;
   argv = malloc(argc * 4);
+  for(var i = 0; i < argc ; i++){
+    wi32(argv+(4*i), mk_c_string(s[i]));
+  }
   return [argc, argv];
 }
 
