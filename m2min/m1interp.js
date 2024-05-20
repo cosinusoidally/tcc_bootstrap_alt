@@ -467,6 +467,15 @@ prim_ops["sub"]=function(){
   op_ret();
 }
 
+prim_ops["mul"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("mul(" +a+", "+b+")");
+  eax = a * b;
+  op_ret();
+}
+
 try {
   run();
 } catch (e){
