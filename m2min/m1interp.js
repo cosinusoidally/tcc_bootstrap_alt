@@ -454,6 +454,19 @@ prims.forEach(function(x){
   prim_ops[x] = stub(x);
 });
 
+function get_arg(x){
+  return ri32(ebp-4*(x + 1));
+}
+
+prim_ops["sub"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("sub(" +a+", "+b+")");
+  eax = a - b;
+  op_ret();
+}
+
 try {
   run();
 } catch (e){
