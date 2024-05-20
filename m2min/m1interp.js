@@ -467,6 +467,17 @@ print("starting");
 eip = labels["FUNCTION_main"].ho;
 exec = true;
 
+argv = 0;
+argc = 3;
+
+ebp = esp;
+push(argc);
+push(argv);
+push(0); // envp (unused)
+push(labels["FUNCTION_exit"].ho);
+
+eax = 0x1234567; // deliberate garbage
+
 try {
   run();
 } catch (e){
