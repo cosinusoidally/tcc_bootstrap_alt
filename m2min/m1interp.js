@@ -531,6 +531,13 @@ prim_ops["wi8"]=function(){
   op_ret();
 }
 
+prim_ops["ri8"]=function(){
+  var a = get_arg(0);
+
+  print("ri8(" +a+")");
+  eax = ri8(a);
+  op_ret();
+}
 
 try {
   run();
