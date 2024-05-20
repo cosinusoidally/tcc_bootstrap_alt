@@ -346,16 +346,23 @@ function op_ret(){
 function op_jump_false(){
   var t;
   print("jump_false");
-  eip = eip + 1;
-  t = ri32(eip) & 0xFFFFFF;
+  t = ri32(eip + 1) & 0xFFFFFF;
   if(t !== 0x840FC0) {
     print("unsupported opcode");
     throw "op_jump_false";
   }
-  eip = eip + 3;
-  t = ri32(eip);
+  t = ri32(eip + 4);
   print("%" + rel_index[eip]);
-  eip = eip + 4;
+
+  if(exec) {
+    if(eax & eax) {
+      eip = eip + 8;
+    } else {
+      eip = t;
+    }
+  } else {
+    eip = eip + 8;
+  }
 }
 
 function op_jump(){
@@ -494,6 +501,15 @@ prim_ops["eq"]=function(){
   op_ret();
 }
 
+prim_ops["lt"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("lt(" +a+", "+b+")");
+  eax = (a < b) | 0;
+  op_ret();
+}
+
 prim_ops["brk"]=function(){
   var a = get_arg(0);
 
@@ -505,6 +521,16 @@ prim_ops["brk"]=function(){
   }
   op_ret();
 }
+
+prim_ops["wi8"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("wi8(" +a+", "+b+")");
+  throw "wi8";
+  op_ret();
+}
+
 
 try {
   run();
