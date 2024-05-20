@@ -476,6 +476,15 @@ prim_ops["mul"]=function(){
   op_ret();
 }
 
+prim_ops["eq"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("eq(" +a+", "+b+")");
+  eax = (a === b) | 0;
+  op_ret();
+}
+
 try {
   run();
 } catch (e){
