@@ -467,8 +467,14 @@ print("starting");
 eip = labels["FUNCTION_main"].ho;
 exec = true;
 
-argv = 0;
-argc = 3;
+function mk_args(s){
+  return [3,0];
+}
+
+argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
+
+argv = argc_argv[1];
+argc = argc_argv[0];
 
 ebp = esp;
 push(argc);
