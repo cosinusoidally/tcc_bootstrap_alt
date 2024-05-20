@@ -467,8 +467,18 @@ print("starting");
 eip = labels["FUNCTION_main"].ho;
 exec = true;
 
+brk_ptr=128*1024;
+
+function malloc(n){
+  var r;
+  r = brk_ptr;
+  brk_ptr = brk_ptr + n;
+  return r;
+}
+
 function mk_args(s){
-  return [3,0];
+  s=s.split(" ");
+  return [s.length,0];
 }
 
 argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
