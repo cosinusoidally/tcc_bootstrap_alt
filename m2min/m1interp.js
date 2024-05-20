@@ -485,6 +485,18 @@ prim_ops["eq"]=function(){
   op_ret();
 }
 
+prim_ops["brk"]=function(){
+  var a = get_arg(0);
+
+  print("brk("+a+")");
+  if(a===0){
+    eax = brk_ptr;
+  } else {
+    eax = a;
+  }
+  op_ret();
+}
+
 try {
   run();
 } catch (e){
