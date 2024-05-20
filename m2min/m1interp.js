@@ -458,6 +458,16 @@ function get_arg(x){
   return ri32(ebp-4*(x + 1));
 }
 
+prim_ops["add"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("add(" +a+", "+b+")");
+  eax = a + b;
+  throw "add";
+  op_ret();
+}
+
 prim_ops["sub"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
