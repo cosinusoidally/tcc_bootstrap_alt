@@ -527,7 +527,7 @@ prim_ops["wi8"]=function(){
   var b = get_arg(1);
 
   print("wi8(" +a+", "+b+")");
-  throw "wi8";
+  wi8(a, b);
   op_ret();
 }
 
