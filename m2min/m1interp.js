@@ -464,7 +464,6 @@ prim_ops["add"]=function(){
 
   print("add(" +a+", "+b+")");
   eax = a + b;
-  throw "add";
   op_ret();
 }
 
