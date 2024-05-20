@@ -477,8 +477,11 @@ function malloc(n){
 }
 
 function mk_args(s){
+  var argc;
   s=s.split(" ");
-  return [s.length,0];
+  argc = s.length;
+  argv = malloc(argc * 4);
+  return [argc, argv];
 }
 
 argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
