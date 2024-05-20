@@ -539,6 +539,33 @@ prim_ops["ri8"]=function(){
   op_ret();
 }
 
+prim_ops["and"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("and(" +a+", "+b+")");
+  eax = a & b;
+  op_ret();
+}
+
+prim_ops["shl"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("shl(" +a+", "+b+")");
+  eax = a << b;
+  op_ret();
+}
+
+prim_ops["or"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("or(" +a+", "+b+")");
+  eax = a | b;
+  op_ret();
+}
+
 try {
   run();
 } catch (e){
