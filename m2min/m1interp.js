@@ -477,7 +477,12 @@ function malloc(n){
 }
 
 function mk_c_string(s){
-  return malloc(1);
+  var r;
+  r = malloc(s.length + 1);
+  for(var i =0; i<s.length; i++){
+    wi8(r + i, s.charCodeAt(i));
+  }
+  return r;
 }
 
 function mk_args(s){
