@@ -438,8 +438,10 @@ function run(){
   var t;
   while(1) {
   op=ri8(eip);
-  print("op",op.toString(16));
-  print("line: " + md[eip].line);
+  if(dbg) {
+    print("op",op.toString(16));
+    print("line: " + md[eip].line);
+  }
   if(exec){
 //    dump_stack();
   }
