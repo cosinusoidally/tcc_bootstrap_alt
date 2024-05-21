@@ -40,10 +40,10 @@ prim_ops["fgetc"]=function(){
   if(a === in_file_num) {
     if(in_file[1] < in_file[0].length) {
       eax = in_file[0][in_file[1]];
-      print("fgetc: "+String.fromCharCode(eax));
+      print_old("fgetc: "+String.fromCharCode(eax));
       in_file[1]=in_file[1]+1;
     } else {
-      print("fgetc: EOF");
+      print_old("fgetc: EOF");
       eax = -1;
     }
   } else {
@@ -74,3 +74,22 @@ prim_ops["shr"]=function(){
   op_ret();
 }
 
+prim_ops["close"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("close("+a+")");
+  eax = 0;
+  throw "close";
+  op_ret();
+}
+
+function dl(){
+  for(var i=0;i<out2.length;i++){
+    print_old(out2[i]);
+  }
+
+  for(var i=0;i<out.length;i++){
+    print_old(out[i]);
+  }
+}

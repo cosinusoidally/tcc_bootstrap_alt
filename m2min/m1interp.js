@@ -406,7 +406,7 @@ function run(){
   print("op",op.toString(16));
   print("line: " + md[eip].line);
   if(exec){
-    dump_stack();
+//    dump_stack();
   }
   if(op=== 0x50){
     op_push_eax();
@@ -639,6 +639,19 @@ push(0); // envp (unused)
 push(labels["FUNCTION_exit"].ho);
 
 eax = 0x1234567; // deliberate garbage
+
+out=[];
+out2=[];
+
+print_old=print;
+
+print=function(x){
+  out.push(x);
+  if(out.length>100){
+    out2=out;
+    out=[];
+  }
+}
 
 try {
   run();
