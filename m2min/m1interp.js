@@ -96,7 +96,7 @@ function ri32(o) {
 }
 
 
-function to_hex(x){
+to_hex = function(x){
   var y;
   var a=[];
   while(x){
