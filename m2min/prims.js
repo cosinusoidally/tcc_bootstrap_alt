@@ -17,6 +17,14 @@ prim_ops["open"]=function(){
       print("in_file already loaded");
       throw "open";
     }
+  } else if((flags === 577 ) && (mode === 384)){
+    if(out_file === undefined) {
+      out_file = [];
+      eax = out_file_num;
+    } else {
+      print("out_file already loaded");
+      throw "open";
+    }
   } else {
     throw "open";
   }
@@ -80,7 +88,7 @@ prim_ops["close"]=function(){
 
   print("close("+a+")");
   eax = 0;
-  throw "close";
+
   op_ret();
 }
 
