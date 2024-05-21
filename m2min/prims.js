@@ -101,3 +101,24 @@ function dl(){
     print_old(out[i]);
   }
 }
+
+prim_ops["mod"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("mod(" +a+", "+b+")");
+  eax = a % b;
+
+  op_ret();
+}
+
+prim_ops["div"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("div(" +a+", "+b+")");
+  eax = Math.floor(a / b);
+
+  op_ret();
+}
+
