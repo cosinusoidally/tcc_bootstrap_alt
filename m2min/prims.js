@@ -40,6 +40,16 @@ prim_ops["gt"]=function(){
   op_ret();
 }
 
+prim_ops["gte"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("gte(" +a+", "+b+")");
+  eax = (a >= b) | 0;
+
+  op_ret();
+}
+
 prim_ops["fgetc"]=function(){
   var a = get_arg(0);
 
@@ -118,6 +128,16 @@ prim_ops["div"]=function(){
 
   print("div(" +a+", "+b+")");
   eax = Math.floor(a / b);
+
+  op_ret();
+}
+
+prim_ops["fputc"]=function(){
+  var c = get_arg(0);
+  var stream = get_arg(1);
+
+  print("fputc(" +c+", "+stream+")");
+  out_file.push(c);
 
   op_ret();
 }

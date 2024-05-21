@@ -1,4 +1,15 @@
+print_old=print;
+
+print=function(x){
+  out.push(x);
+  if(out.length>100){
+    out2=out;
+    out=[];
+  }
+}
+
 print("hello world");
+
 a=read("artifacts/M2_simple_asm-0.hex2");
 
 a=a.split("\n");
@@ -643,19 +654,11 @@ eax = 0x1234567; // deliberate garbage
 out=[];
 out2=[];
 
-print_old=print;
-
-print=function(x){
-  out.push(x);
-  if(out.length>100){
-    out2=out;
-    out=[];
-  }
-}
-
 try {
   run();
 } catch (e){
   print("error");
   print(e.stack);
 }
+
+dl();
