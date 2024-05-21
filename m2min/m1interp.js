@@ -346,7 +346,9 @@ function op_local(){
     throw "op_local";
   }
   t = ri32(eip + 2);
-  print("local: " + t);
+  if(dbg){
+    print("local: " + t);
+  }
   if(exec) {
     eax = ebp + t;
   }
@@ -358,7 +360,9 @@ function op_ret(){
   print("ret");
   if(exec) {
     t = pop();
-    print("return address:" + t);
+    if(dbg) {
+      print("return address:" + t);
+    }
     eip = t;
   } else {
     eip = eip + 1;
@@ -374,8 +378,9 @@ function op_jump_false(){
     throw "op_jump_false";
   }
   t = ri32(eip + 4);
-  print("%" + rel_index[eip]);
-
+  if(dbg) {
+    print("%" + rel_index[eip]);
+  }
   if(exec) {
     if(eax & eax) {
       eip = eip + 8;
