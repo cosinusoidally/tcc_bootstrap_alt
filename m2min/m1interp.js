@@ -664,7 +664,7 @@ try {
 // dl();
 
 // pop of the last newline in the file
-if(out_file[out_file.length-1]==="\n"){
+if(out_file[out_file.length-1]===0xa){
   out_file.pop();
 }
 
