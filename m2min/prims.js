@@ -4,11 +4,21 @@ lp=function(){
 }
 
 prim_ops["open"]=function(){
-  var pathname = get_arg(0);
+  var pathname = mk_js_string(get_arg(0));
   var flags = get_arg(1);
   var mode = get_arg(2);
 
-  print("open(\"" +mk_js_string(pathname)+"\", "+flags+", "+mode+")");
+  print("open(\"" +pathname+"\", "+flags+", "+mode+")");
+  if((flags ===0 ) && (mode === 0)){
+    if(in_file === undefined) {
+      in_file=[read(pathname, "binary"), 0];
+    } else {
+      print("in_file already loaded");
+      throw "open";
+    }
+  } else {
+    throw "open";
+  }
   throw "open";
   op_ret();
 }
