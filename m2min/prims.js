@@ -64,3 +64,13 @@ prim_ops["neq"]=function(){
   op_ret();
 }
 
+prim_ops["shr"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("shr(" +a+", "+b+")");
+  eax = a >>> b;
+
+  op_ret();
+}
+
