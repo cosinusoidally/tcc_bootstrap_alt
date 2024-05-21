@@ -12,6 +12,7 @@ prim_ops["open"]=function(){
   if((flags ===0 ) && (mode === 0)){
     if(in_file === undefined) {
       in_file=[read(pathname, "binary"), 0];
+      eax = in_file_num;
     } else {
       print("in_file already loaded");
       throw "open";
@@ -19,6 +20,5 @@ prim_ops["open"]=function(){
   } else {
     throw "open";
   }
-  throw "open";
   op_ret();
 }
