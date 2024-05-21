@@ -1,3 +1,6 @@
+out=[];
+out2=[];
+
 print_old=print;
 
 print=function(x){
@@ -651,9 +654,6 @@ push(labels["FUNCTION_exit"].ho);
 
 eax = 0x1234567; // deliberate garbage
 
-out=[];
-out2=[];
-
 try {
   run();
 } catch (e){
@@ -661,4 +661,10 @@ try {
   print(e.stack);
 }
 
-dl();
+// dl();
+
+file=out_file.map(function(x){
+  return String.fromCharCode(x);
+}).join("");
+
+print_old(file);

@@ -58,10 +58,10 @@ prim_ops["fgetc"]=function(){
   if(a === in_file_num) {
     if(in_file[1] < in_file[0].length) {
       eax = in_file[0][in_file[1]];
-      print_old("fgetc: "+String.fromCharCode(eax));
+      print("fgetc: "+String.fromCharCode(eax));
       in_file[1]=in_file[1]+1;
     } else {
-      print_old("fgetc: EOF");
+      print("fgetc: EOF");
       eax = -1;
     }
   } else {
