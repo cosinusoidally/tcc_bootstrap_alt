@@ -35,7 +35,9 @@ prim_ops["gt"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("gt(" +a+", "+b+")");
+  if(dbg) {
+    print("gt(" +a+", "+b+")");
+  }
   eax = (a > b) | 0;
   op_ret();
 }
@@ -44,7 +46,9 @@ prim_ops["gte"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("gte(" +a+", "+b+")");
+  if(dbg) {
+    print("gte(" +a+", "+b+")");
+  }
   eax = (a >= b) | 0;
 
   op_ret();
@@ -53,8 +57,9 @@ prim_ops["gte"]=function(){
 prim_ops["fgetc"]=function(){
   var a = get_arg(0);
 
-  print("fgetc(" +a+")");
-
+  if(dbg) {
+    print("fgetc(" +a+")");
+  }
   if(a === in_file_num) {
     if(in_file[1] < in_file[0].length) {
       eax = in_file[0][in_file[1]];
@@ -78,7 +83,9 @@ prim_ops["neq"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("neq(" +a+", "+b+")");
+  if(dbg) {
+    print("neq(" +a+", "+b+")");
+  }
   eax = (a != b) | 0;
 
   op_ret();
@@ -88,7 +95,9 @@ prim_ops["shr"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("shr(" +a+", "+b+")");
+  if(dbg) {
+    print("shr(" +a+", "+b+")");
+  }
   eax = a >>> b;
 
   op_ret();
@@ -118,7 +127,9 @@ prim_ops["mod"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("mod(" +a+", "+b+")");
+  if(dbg) {
+    print("mod(" +a+", "+b+")");
+  }
   eax = a % b;
 
   op_ret();
@@ -128,7 +139,9 @@ prim_ops["div"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("div(" +a+", "+b+")");
+  if(dbg) {
+    print("div(" +a+", "+b+")");
+  }
   eax = Math.floor(a / b);
 
   op_ret();
@@ -138,7 +151,9 @@ prim_ops["fputc"]=function(){
   var c = get_arg(0);
   var stream = get_arg(1);
 
-  print("fputc(" +c+", "+stream+")");
+  if(dbg) {
+    print("fputc(" +c+", "+stream+")");
+  }
   out_file.push(c);
 
   op_ret();
