@@ -663,6 +663,11 @@ try {
 
 // dl();
 
+// pop of the last newline in the file
+if(out_file[out_file.length-1]==="\n"){
+  out_file.pop();
+}
+
 file=out_file.map(function(x){
   return String.fromCharCode(x);
 }).join("");
