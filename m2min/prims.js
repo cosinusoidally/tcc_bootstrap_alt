@@ -54,3 +54,13 @@ prim_ops["fgetc"]=function(){
   op_ret();
 }
 
+prim_ops["neq"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("neq(" +a+", "+b+")");
+  eax = (a != b) | 0;
+
+  op_ret();
+}
+
