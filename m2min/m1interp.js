@@ -619,7 +619,9 @@ prim_ops["or"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("or(" +a+", "+b+")");
+  if(dbg) {
+    print("or(" +a+", "+b+")");
+  }
   eax = a | b;
   op_ret();
 }
