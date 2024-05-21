@@ -22,3 +22,13 @@ prim_ops["open"]=function(){
   }
   op_ret();
 }
+
+prim_ops["gt"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  print("gt(" +a+", "+b+")");
+  eax = (a > b) | 0;
+  op_ret();
+}
+
