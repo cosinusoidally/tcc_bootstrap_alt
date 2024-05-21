@@ -634,14 +634,15 @@ out_file_num = 6;
 
 load("prims.js");
 
-try {
-  run();
-} catch (e){
-  print("error");
+if(dbg) {
+  try {
+    run();
+  } catch (e){
+    print("error");
+  }
+
+  print(md[eip].function);
 }
-
-print(md[eip].function);
-
 
 print("starting");
 eip = labels["FUNCTION_main"].ho;
