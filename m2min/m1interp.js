@@ -6,10 +6,12 @@ out2=[];
 print_old=print;
 
 print=function(x){
-  out.push(x);
-  if(out.length>100){
-    out2=out;
-    out=[];
+  if(dbg) {
+    out.push(x);
+    if(out.length>100){
+      out2=out;
+      out=[];
+    }
   }
 }
 
@@ -553,7 +555,9 @@ prim_ops["wi8"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("wi8(" +a+", "+b+")");
+  if(dbg) {
+    print("wi8(" +a+", "+b+")");
+  }
   wi8(a, b);
   op_ret();
 }
@@ -561,7 +565,9 @@ prim_ops["wi8"]=function(){
 prim_ops["ri8"]=function(){
   var a = get_arg(0);
 
-  print("ri8(" +a+")");
+  if(dbg) {
+    print("ri8(" +a+")");
+  }
   eax = ri8(a);
   op_ret();
 }
