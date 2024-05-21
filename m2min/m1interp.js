@@ -506,7 +506,9 @@ prim_ops["add"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("add(" +a+", "+b+")");
+  if(dbg) {
+    print("add(" +a+", "+b+")");
+  }
   eax = a + b;
   op_ret();
 }
@@ -515,7 +517,9 @@ prim_ops["sub"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("sub(" +a+", "+b+")");
+  if(dbg) {
+    print("sub(" +a+", "+b+")");
+  }
   eax = a - b;
   op_ret();
 }
@@ -524,7 +528,9 @@ prim_ops["mul"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("mul(" +a+", "+b+")");
+  if(dbg) {
+    print("mul(" +a+", "+b+")");
+  }
   eax = a * b;
   op_ret();
 }
@@ -533,7 +539,9 @@ prim_ops["eq"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("eq(" +a+", "+b+")");
+  if(dbg) {
+    print("eq(" +a+", "+b+")");
+  }
   eax = (a === b) | 0;
   op_ret();
 }
@@ -542,7 +550,9 @@ prim_ops["lt"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("lt(" +a+", "+b+")");
+  if(dbg) {
+    print("lt(" +a+", "+b+")");
+  }
   eax = (a < b) | 0;
   op_ret();
 }
@@ -550,7 +560,9 @@ prim_ops["lt"]=function(){
 prim_ops["brk"]=function(){
   var a = get_arg(0);
 
-  print("brk("+a+")");
+  if(dbg) {
+    print("brk("+a+")");
+  }
   if(a===0){
     eax = brk_ptr;
   } else {
@@ -584,7 +596,9 @@ prim_ops["and"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("and(" +a+", "+b+")");
+  if(dbg) {
+    print("and(" +a+", "+b+")");
+  }
   eax = a & b;
   op_ret();
 }
@@ -593,8 +607,11 @@ prim_ops["shl"]=function(){
   var a = get_arg(0);
   var b = get_arg(1);
 
-  print("shl(" +a+", "+b+")");
+  if(dbg) {
+    print("shl(" +a+", "+b+")");
+  }
   eax = a << b;
+
   op_ret();
 }
 
