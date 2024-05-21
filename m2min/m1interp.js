@@ -1,3 +1,5 @@
+var dbg;
+
 out=[];
 out2=[];
 
@@ -239,8 +241,10 @@ function op_do_call(){
     throw "op_do_call";
   }
   t = ri32(eip + 3);
-  print("t "+ to_hex(t));
-  print("%" + rel_index[eip+3]);
+  if(dbg) {
+    print("t "+ to_hex(t));
+    print("%" + rel_index[eip+3]);
+  }
   if(exec) {
     ebp = edi;
     push(eip + 7);
@@ -272,10 +276,12 @@ function op_mov_eax(){
   print("mov_eax,");
   t = ri32(eip + 1);
   name = abs_index[eip + 1];
-  if(name) {
-    print("&" + name);
-  } else {
-    print("%" + t + " # assuming constant");
+  if(dbg) {
+    if(name) {
+      print("&" + name);
+    } else {
+      print("%" + t + " # assuming constant");
+    }
   }
   if(exec) {
     eax = t;
@@ -293,7 +299,9 @@ function op_add_esp(){
     throw "op_add_esp";
   }
   t = ri32(eip + 1);
-  print("%" + t);
+  if(dbg) {
+    print("%" + t);
+  }
   if(exec) {
     esp = esp + t
   }
