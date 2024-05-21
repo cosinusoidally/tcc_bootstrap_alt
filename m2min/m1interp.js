@@ -566,6 +566,14 @@ prim_ops["or"]=function(){
   op_ret();
 }
 
+var in_file;
+in_file_num = 5;
+
+var out_file;
+out_file_num = 6;
+
+load("prims.js");
+
 try {
   run();
 } catch (e){
