@@ -398,7 +398,9 @@ function op_jump(){
   var t;
   print("jump");
   t = ri32(eip + 1);
-  print("%" + rel_index[eip]);
+  if(dbg) {
+    print("%" + rel_index[eip]);
+  }
   if(exec) {
     eip = t;
   } else {
@@ -409,14 +411,18 @@ function op_jump(){
 function op_int_03(){
   var t;
   t = md[eip].function;
-  print("int_03 : " + t);
+  if(dbg) {
+    print("int_03 : " + t);
+  }
   if(exec) {
     prim_ops[t]();
   } else {
     while(t === md[eip].function) {
       eip = eip + 1;
     }
-    print(md[eip].function);
+    if(dbg) {
+      print(md[eip].function);
+    }
   }
 }
 
