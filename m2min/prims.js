@@ -1,6 +1,12 @@
 print("loading prims");
 lp=function(){
+  var c;
+  var n;
   load("prims.js");
+  prims_index=[];
+  for(var i=0;i<prims.length;i++){
+    prims_index[i]=prim_ops[prims[i]];
+  }
 }
 
 prim_ops["open"]=function(){

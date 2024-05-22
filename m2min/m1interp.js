@@ -410,12 +410,12 @@ function op_jump(){
 
 function op_int_03(){
   var t;
-  t = md[eip].function;
   if(dbg) {
+    t = md[eip].function;
     print("int_03 : " + t);
   }
   if(exec) {
-    prim_ops[t]();
+    prims_index[ri8(eip+1)]();
   } else {
     while(t === md[eip].function) {
       eip = eip + 1;
@@ -702,6 +702,10 @@ push(0); // envp (unused)
 push(labels["FUNCTION_exit"].ho);
 
 eax = 0x1234567; // deliberate garbage
+
+
+// re-load prims and re-populate prims_index
+lp();
 
 try {
   run();
