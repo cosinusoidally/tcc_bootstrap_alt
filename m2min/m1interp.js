@@ -493,8 +493,10 @@ function stub(x){
   }
 }
 
-prims.forEach(function(x){
-  wi8(labels["FUNCTION_"+x].ho, int_03);
+prims.forEach(function(x,i){
+  var o=labels["FUNCTION_"+x].ho;
+  wi8(o, int_03);
+  wi8(o+1, i);
   prim_ops[x] = stub(x);
 });
 
