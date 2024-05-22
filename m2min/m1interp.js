@@ -277,8 +277,8 @@ function op_mov_eax(){
   var t;
   print("mov_eax,");
   t = ri32(eip + 1);
-  name = abs_index[eip + 1];
   if(dbg) {
+    name = abs_index[eip + 1];
     if(name) {
       print("&" + name);
     } else {
