@@ -294,20 +294,19 @@ function op_mov_eax(){
 function op_add_esp(){
   var t;
   print("add_esp,");
-  eip = eip + 1;
-  t = ri8(eip);
+  t = ri8(eip + 1);
   if(t !== 0xC4){
     print("unsupported opcode");
     throw "op_add_esp";
   }
-  t = ri32(eip + 1);
+  t = ri32(eip + 2);
   if(dbg) {
     print("%" + t);
   }
   if(exec) {
     esp = esp + t
   }
-  eip = eip + 5;
+  eip = eip + 6;
 }
 
 function op_load(){
