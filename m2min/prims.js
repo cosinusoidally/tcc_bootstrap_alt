@@ -165,3 +165,15 @@ prim_ops["fputc"]=function(){
   op_ret();
 }
 
+prim_ops["lte"]=function(){
+  var a = get_arg(0);
+  var b = get_arg(1);
+
+  if(dbg) {
+    print("lte(" +a+", "+b+")");
+  }
+  eax = (a <= b) | 0;
+
+  op_ret();
+}
+
