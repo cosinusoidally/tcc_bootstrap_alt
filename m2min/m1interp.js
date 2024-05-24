@@ -37,7 +37,7 @@ hex_frags = [];
 
 var heap_size=16*1024*1024;
 var v_stack_size=256*1024;
-var heap=new Array(heap_size/4);
+var heap=new Array(heap_size);
 
 var esp;
 esp=heap_size-4;
@@ -49,7 +49,7 @@ var ebx = 0;
 
 var exec;
 
-for(var i=0;i<heap_size/4;i++){
+for(var i=0;i<heap_size;i++){
   heap[i]=0;
 };
 
@@ -66,11 +66,7 @@ function wi8(o,v){
     print("wrong use of wi8");
     err();
   }
-  var o1=o>>>2;
-  var s=o&3;
-  var v1=heap[o1];
-  v1=v1&(~(0xff<<(s*8))) | ((v&0xff)<<(s*8));
-  heap[o1]=v1;
+  heap[o]=v & 0xFF;
 };
 
 function ri8(o,dummy){
@@ -78,10 +74,7 @@ function ri8(o,dummy){
     print("wrong use of ri8");
     err();
   }
-  var o1=o>>>2;
-  var s=o&3;
-  var v1=heap[o1];
-  return (v1>>>(s*8)) &0xff;
+  return heap[o] & 0xFF;
 };
 
 function wi32(o, v) {
