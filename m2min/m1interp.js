@@ -37,7 +37,7 @@ hex_frags = [];
 
 var heap_size=16*1024*1024;
 var v_stack_size=256*1024;
-var heap=new Array(heap_size);
+var heap=new Uint8Array(heap_size);
 
 var esp;
 esp=heap_size-4;
