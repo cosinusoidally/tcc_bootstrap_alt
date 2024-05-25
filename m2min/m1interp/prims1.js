@@ -2,7 +2,7 @@ print("loading prims");
 lp=function(){
   var c;
   var n;
-  load("prims.js");
+  load("m1interp/prims1.js");
   prims_index=[];
   for(var i=0;i<prims.length;i++){
     prims_index[i]=prim_ops[prims[i]];

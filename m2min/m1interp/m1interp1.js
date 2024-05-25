@@ -623,7 +623,7 @@ in_file_num = 5;
 var out_file;
 out_file_num = 6;
 
-load("prims.js");
+load("m1interp/prims1.js");
 
 if(dbg) {
   try {
