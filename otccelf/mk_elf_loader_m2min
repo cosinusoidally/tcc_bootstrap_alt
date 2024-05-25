@@ -1,0 +1,46 @@
+./mk_loader_m2min
+./artifacts/otccelf_js.exe elf_loader.c artifacts/elf_loader_otcc.exe
+chmod +x artifacts/elf_loader_otcc.exe
+
+pushd .
+cd ../tcc_23/
+rm ./*.o
+
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_10/tcc.o -o tcc.o -c tcc.c
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_10/tcc.o -o libtcc1_min.o -c libtcc1_min.c
+
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1_min.o -l tcc.o -c libtcc1.c
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1_min.o -l tcc.o -I ../woody/usr/include/ -I . -c tcc.c
+
+cd ../tcc_24/
+rm ./*.o
+
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_23/libtcc1.o -l ../tcc_23/tcc.o -I ../woody/usr/include/ -I . -c tcc.c
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_23/libtcc1.o -l ../tcc_23/tcc.o -c libtcc1.c
+
+cd ../tcc_26/
+rm ./*.o
+
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_24/libtcc1.o -l ../tcc_24/tcc.o -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_24/libtcc1.o -l ../tcc_24/tcc.o -c ../tcc_24/libtcc1.c
+
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1.o -l tcc.o -c ./lib/libtcc1.c -o libtcc1_new.o
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1.o -l tcc.o -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE -o tcc_new.o
+
+mv libtcc1_new.o libtcc1.o
+mv tcc_new.o tcc.o
+
+cd ../tcc_27/
+rm ./*.o
+
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_26/libtcc1.o -l ../tcc_26/tcc.o -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
+../otccelf/artifacts/elf_loader_otcc.exe -l ../tcc_26/libtcc1.o -l ../tcc_26/tcc.o -c ../tcc_26/lib/libtcc1.c
+
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1.o -l tcc.o -c ./lib/libtcc1.c -o libtcc1_new.o
+../otccelf/artifacts/elf_loader_otcc.exe -l libtcc1.o -l tcc.o -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc_new.o
+
+mv libtcc1_new.o libtcc1.o
+mv tcc_new.o tcc.o
+
+cd ..
+sha256sum -c sum

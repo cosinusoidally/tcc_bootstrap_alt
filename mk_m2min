@@ -1,0 +1,113 @@
+echo "m2min"
+
+echo "cleanup"
+./mk_clean
+./mk_from_bootstrap_seed_clean
+cd otccelf
+./mk_clean
+cd ../m2min
+./mk_clean
+cd ..
+
+echo "make the bootstrap seeds"
+./mk_seeds
+
+echo "Phase-0 Build hex0 from bootstrapped binary"
+./x86/artifact/hex0-seed ./x86/hex0_x86.hex0 ./x86/artifact/hex0
+
+echo "Phase-0b Build minimal kaem from hex0"
+./x86/artifact/hex0 ./x86/kaem-minimal.hex0 ./x86/artifact/kaem-0
+
+echo "Phase-1 Build hex1 from hex0"
+./x86/artifact/hex0 ./x86/hex1_x86.hex0 ./x86/artifact/hex1
+
+echo "Phase-2 Build hex2 from hex1"
+./x86/artifact/hex1 ./x86/hex2_x86.hex1 ./x86/bin/hex2-0
+
+echo "Phase-2b Build catm from hex2"
+./x86/bin/hex2-0 ./x86/catm_x86.hex2 ./x86/bin/catm
+
+echo "Phase-3 Build M0 from hex2"
+./x86/bin/catm ./x86/artifact/M0.hex2 ./x86/ELF-i386.hex2 ./x86/M0_x86.hex2
+./x86/bin/hex2-0 ./x86/artifact/M0.hex2 ./x86/bin/M0
+
+cd m2min
+
+echo "building M2_simple_asm.M1 using hex2 and M0"
+
+cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
+cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 ./M2_simple_asm.M1 > artifacts/M2_simple_asm-0.M1
+../x86/bin/M0 ./artifacts/M2_simple_asm-0.M1 ./artifacts/M2_simple_asm-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm-0.hex2 > artifacts/M2_simple_asm-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_simple_asm-0-0.hex2 artifacts/M2_simple_asm.exe
+
+echo "building M2_simple_asm_m2.exe using M2_simple_asm.exe"
+
+./artifacts/M2_simple_asm.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
+../x86/bin/M0 artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2.exe
+
+echo "building M2_simple_asm_self.M1 with M2_simple_asm_m2.exe for validation purposes"
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_self.M1
+
+echo "build otccelf_cc_x86_min.exe with M2_simple_asm_m2.exe"
+
+./artifacts/M2_simple_asm_m2.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
+../x86/bin/M0 artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
+cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
+../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
+
+echo "building otccelf_js.exe using otccelf_cc_x86_min.exe"
+
+cd ../otccelf/
+cat support.c support_common.js otccelf_full.js > artifacts/otccelf_js.c
+
+cd ../m2min/
+./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
+
+chmod +x ./artifacts/otccelf_js.exe
+
+echo "building M2_tcc_js_simple_full.exe using M2_simple_asm_m2.exe"
+
+cat simple_support_m2_head.c > artifacts/M2_tcc_js_simple_full.c
+cat simple_support_m2.c >> artifacts/M2_tcc_js_simple_full.c
+cat simple_support_common.c >> artifacts/M2_tcc_js_simple_full.c
+cat M2_tcc_js_simple.c >> artifacts/M2_tcc_js_simple_full.c
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_tcc_js_simple_full.c artifacts/M2_tcc_js_simple_full.M1
+
+cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_tcc_js_simple_full.M1 > artifacts/M2_tcc_js_simple_full-0.M1
+../x86/bin/M0 ./artifacts/M2_tcc_js_simple_full-0.M1 ./artifacts/M2_tcc_js_simple_full-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_tcc_js_simple_full-0.hex2 > artifacts/M2_tcc_js_simple_full-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_tcc_js_simple_full-0-0.hex2 artifacts/M2_tcc_js_simple_full.exe
+
+ls -lhS artifacts/*.exe
+
+sha256sum -c sums_simple_asm
+
+cd ..
+
+# use M2_tcc_js_simple_full.exe in place of cc_x86
+cp ./m2min/artifacts/M2_tcc_js_simple_full.exe ./x86/bin/cc_x86
+
+cp ./m2min/artifacts/otccelf_js.exe otccelf/artifacts/
+
+./x86/artifact/kaem-optional-seed ./alt_after.kaem
+
+ls -lh ./x86/bin/js_to_c_cc_x86.exe
+
+cd otccelf
+./mk_elf_loader_m2min
+
+cd ..
+
+echo "Just for completeness note that M2_tcc_js_simple_full.exe has been used in place of cc_x86:"
+diff -u -s m2min/artifacts/M2_tcc_js_simple_full.exe x86/bin/cc_x86

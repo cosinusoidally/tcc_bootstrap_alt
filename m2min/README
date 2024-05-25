@@ -44,9 +44,9 @@ Bootstrap path
 Currently incomplete, but the general plan will be:
 
 hex0 -> hex1 -> hex2 -> M0 -> M2_simple_asm.M1 -> otccelf (DONE)
-M2_simple_asm then is used to build M2_tcc.c (TODO port this to the
-M2_simple_asm dialect).
-M2_tcc build tcc.js and then the standard tcc_bootstrap_alt bootstrap process
+M2_simple_asm then is used to build M2_tcc_js_simple.c (a cut down version of M2
+in the simple C dialect that is able to compile tcc.js).
+build tcc.js and then the standard tcc_bootstrap_alt bootstrap process
 continues from here up to tcc-0.9.27
 
 otccelf will then be used to build loaders to run the rest of the steps since
@@ -57,6 +57,8 @@ link to a polyfill libc like ../mk_from_bootstrap_seed can.
 
 Note I originally planned to use otccelf to build tcc.js, but I found that
 otccelf will miscompile it (see ../otccelf/mk_js_to_c_alt).
+
+Note M2_tcc_js_simple.c can be built with mk_js_simple_m2
 
 C dialect
 =========

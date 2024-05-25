@@ -1,0 +1,127 @@
+cc_x86_min.M1 is a cut down version of cc_x86.M1 that is able to be used as an
+alternative path to bootstrap M2_simple_asm.c . Couple of stats:
+
+m2min$ ls -l artifacts/cc_x86_min.exe
+-rwx------ 1 foo foo 5345 May  4 15:51 artifacts/cc_x86_min.exe
+
+m2min$ ls -l ../x86/bin/cc_x86
+-rwx------ 1 foo foo 14239 May  4 15:50 ../x86/bin/cc_x86
+
+As you can see the cc_x86_min.exe binary is considerably smaller than the
+cc_x86 binary.
+
+m2min$ wc cc_x86_min.M1
+ 2430  8858 91918 cc_x86_min.M1
+
+m2min$ wc ../x86/cc_x86.M1
+  4983  19179 209318 ../x86/cc_x86.M1
+
+(note these numbers will likely drift out of sync, run mk_simple_asm_cc_x86_min
+to get the latest ones).
+
+You can also see that cc_x86_min.M1 is less than half the size of cc_x86.M1 .
+This was achieved by cutting it down to only support the M2_simple_asm.c dialect
+of C. The code genator has also been tweaked to generate output fairly similar
+to M2_simple_asm.
+
+cc_x86 is based off:
+https://github.com/oriansj/stage0/tree/master/stage2/High_level_prototypes/cc_x86
+but M2_simple_asm.c is also a useful reference too. You'll notice the
+similarities with function names and in the general structure.
+
+Internal calling convention:
+============================
+
+Note I am referring to the internal calling convention of the assembly
+implementation itself rather than the calling convention of the code that it
+generates. When reading cc_x86_min.M1 code you will notice the following general
+register usage:
+
+EAX this is used as a scratch register, the first arguments to functions, and
+    also as the return value from functions
+
+EBX generally used as the 2nd argument to a functions
+EDX used as 3rd argument
+ESI 4th arg
+EBP 5th arg
+
+Registers (other than EAX) are callee saved (ie in the called function itself
+you will see the registers being saved at the start of the function and then
+restored at the end).
+
+This approach has pros and cons. On the plus side it is probably generating
+shorter code as there is less stack juggling, but on the negative side I find it
+harder to mentally keep track of where are variable is. I also find it confusing
+during function calls as it's not obvious at the call site how many arguments
+are being passed.
+
+Random notes:
+=============
+No hold string so it will just allocate MAX_STRING bytes per token (I set
+MAX_STRING to 256).
+
+-------------------------------------------------------------------------------
+
+I moved all the strings to the end of the file since this allows me to more
+easily disasseble the whole file using gdb. Note objdump seems to struggle with
+cc_x86_min.exe so instead I had to try the following gdb script:
+
+starti
+set disassembly-flavor intel
+disassemble /r $eip,+6000
+quit
+
+It's then a case of manually crossreferencing cc_x86_min.M1 and the output from
+gdb
+
+command is something like this:
+
+gdb -batch -x script.gdb artifacts/cc_x86_min.exe > /tmp/blah/cc.dis
+
+-------------------------------------------------------------------------------
+
+TOKEN_LIST structure now has named fields:
+
+        ;; Struct TOKEN_LIST format: (size 16)
+        ;; NEXT => 0
+DEFINE f_NEXT 00
+        ;; LOCALS/PREV => 4
+DEFINE f_LOCALS 04
+DEFINE f_PREV 04
+        ;; S => 8
+DEFINE f_S 08
+        ;; ARGS/DEPTH => 12
+DEFINE f_ARGS 0C
+DEFINE f_DEPTH 0C
+
+We then have stuff like this
+
+        LOAD32_ECX_from_ECX_Immediate8 f_ARGS       ; function->args
+
+This also allowed me to change the structure layout without having to change all
+users of the struct.
+
+-------------------------------------------------------------------------------
+Should experiment with alternative calling conventions with cc_x86_min to see if
+it is possible to make the assembly a bit clearer.
+
+-------------------------------------------------------------------------------
+Try adding local variables to cc_x86_min eg
+
+:foo
+DEFINE LOCAL_a FC (or whatever the offset is)
+reserve_stack_space
+
+and then later on:
+
+local LOCAL_a load
+
+Similar to how M2_simple_asm.c does things, but maybe keep the offsets 8 bits
+to keep the code size down (though this is not a hard requirement).
+
+This goes hand in hand with an alternative calling convention since we would
+also modify things to make heavier use of the stack (for the above to work we
+would also need a frame setting up).
+
+-------------------------------------------------------------------------------
+To locate dead code you can sprinkle in INT_03 calls

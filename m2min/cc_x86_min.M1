@@ -1,0 +1,2417 @@
+;; heavily cut down version of cc_x86
+;; modifications Copyright (C) 2024 Liam Wilson (under same license)
+;; original license
+;; Copyright (C) 2017 Jeremiah Orians
+;; This file is part of stage0.
+;;
+;; stage0 is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; stage0 is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with stage0.  If not, see <http://www.gnu.org/licenses/>.
+
+DEFINE ADDI8_EAX 83C0
+DEFINE ADDI8_EBX 83C3
+DEFINE ADDI8_ECX 83C1
+DEFINE ADDI8_EDX 83C2
+DEFINE ADDI8_ESI 83C6
+DEFINE ADD_eax_into_ebx 01C3
+DEFINE ADD_ebx_into_eax 01D8
+DEFINE ADD_ecx_into_eax 01C8
+DEFINE ADD_edi_into_ecx 01F9
+DEFINE AND_EAX_EBX 21D8
+DEFINE ANDI32_EAX 25
+DEFINE CALL_EAX FFD0
+DEFINE CALL32 E8
+DEFINE CMPI8_EAX 83F8
+DEFINE CMPI8_EBP 83fd
+DEFINE CMPI8_EBX 83FB
+DEFINE CMPI8_ECX 83F9
+DEFINE CMPI8_EDX 83FA
+DEFINE CMPI8_ESI 83FE
+DEFINE CMP_EAX_EBX 39D8
+DEFINE CMP_EAX_ECX 39C8
+DEFINE CMP_EBX_ECX 39D9
+DEFINE CMP_ECX_EBX 39CB
+DEFINE CMP_EDI_ESI 39FE
+DEFINE CMP_EBX_EDX 39D3
+DEFINE COPY_EAX_to_EBP 89C5
+DEFINE COPY_EAX_to_EBX 89C3
+DEFINE COPY_EAX_to_ECX 89C1
+DEFINE COPY_EAX_to_EDX 89C2
+DEFINE COPY_EAX_to_ESI 89C6
+DEFINE COPY_EBP_to_EAX 89E8
+DEFINE COPY_EBX_to_EAX 89D8
+DEFINE COPY_EBX_to_ECX 89D9
+DEFINE COPY_EBX_to_EDX 89DA
+DEFINE COPY_ECX_to_EAX 89C8
+DEFINE COPY_ECX_to_EBX 89CB
+DEFINE COPY_EDI_to_ESI 89FE
+DEFINE COPY_EDX_to_EAX 89D0
+DEFINE COPY_EDX_to_EBP 89D5
+DEFINE COPY_EDX_to_EBX 89D3
+DEFINE COPY_ESI_to_EAX 89F0
+DEFINE COPY_ESI_to_EDI 89F7
+DEFINE IDIV_EBX F7FB
+DEFINE IMUL_EAX_by_EBX 0FAFC3
+DEFINE IMULI8_EAX 6BC0
+DEFINE IMULI8_EBP 6BED
+DEFINE INT_03 CC
+DEFINE INT_80 CD80
+DEFINE JBE8 76
+DEFINE JE32 0F84
+DEFINE JG32 0F8F
+DEFINE JG8 7F
+DEFINE JL32 0F8C
+DEFINE JLE32 0F8E
+DEFINE JMP32 E9
+DEFINE JNE32 0F85
+DEFINE LEA32_ECX_from_esp 8D0C24
+DEFINE LOAD32_Absolute32_eax A1
+DEFINE LOAD32_Absolute32_ebx 8B1D
+DEFINE LOAD32_Absolute32_ecx 8B0D
+DEFINE LOAD32_EAX_from_EAX 8B00
+DEFINE LOAD32_EAX_from_EAX_Immediate8 8B40
+DEFINE LOAD32_EAX_from_EBP_Immediate8 8B45
+DEFINE LOAD32_EAX_from_EBX 8B03
+DEFINE LOAD32_EAX_from_EBX_Immediate8 8B43
+DEFINE LOAD32_EAX_from_ECX_Immediate8 8B41
+DEFINE LOAD32_EAX_from_EDX_Immediate8 8B42
+DEFINE LOAD32_EBP_from_EBP 8B6D00
+DEFINE LOAD32_EBX_from_EAX_Immediate8 8B58
+DEFINE LOAD32_EBX_from_EBX 8B1B
+DEFINE LOAD32_EBX_from_EBX_Immediate8 8B5B
+DEFINE LOAD32_EBX_from_ECX_Immediate8 8B59
+DEFINE LOAD32_ECX_from_EAX_Immediate8 8B48
+DEFINE LOAD32_ECX_from_EBX 8B0B
+DEFINE LOAD32_ECX_from_ECX 8B09
+DEFINE LOAD32_ECX_from_ECX_Immediate8 8B49
+DEFINE LOAD32_ECX_from_EDX_Immediate8 8B4A
+DEFINE LOAD32_EDI_from_EDX_Immediate8 8B7A
+DEFINE LOAD32_EDX_from_EDX_Immediate8 8B52
+DEFINE LOAD8_al_from_EAX 8A00
+DEFINE LOAD8_al_from_EBX 8A03
+DEFINE LOAD8_al_from_ECX 8A01
+DEFINE LOAD8_al_from_EDX 8A02
+DEFINE LOAD8_bl_from_EBX 8A1B
+DEFINE LOAD8_bl_from_ECX 8A19
+DEFINE LOAD8_bl_from_EDX 8A1A
+DEFINE LOAD8_cl_from_EBX 8A0B
+DEFINE LOAD8_cl_from_EBX_Immediate8 8A4B
+DEFINE LOADI32_EAX B8
+DEFINE LOADI32_EBX BB
+DEFINE LOADI32_ECX B9
+DEFINE LOADI32_EDI BF
+DEFINE LOADI32_EDX BA
+DEFINE LOADI32_ESI BE
+DEFINE MOVZX_al 0FB6C0
+DEFINE MOVZX_bl 0FB6DB
+DEFINE MOVZX_cl 0FB6C9
+DEFINE NULL 00000000
+DEFINE POP_EAX 58
+DEFINE POP_EBP 5D
+DEFINE POP_EBX 5B
+DEFINE POP_ECX 59
+DEFINE POP_EDI 5F
+DEFINE POP_EDX 5A
+DEFINE POP_ESI 5E
+DEFINE PUSH_EAX 50
+DEFINE PUSH_EBP 55
+DEFINE PUSH_EBX 53
+DEFINE PUSH_ECX 51
+DEFINE PUSH_EDI 57
+DEFINE PUSH_EDX 52
+DEFINE PUSH_ESI 56
+DEFINE RETURN C3
+DEFINE SALI8_EAX C1E0
+DEFINE SHRI8_EAX C1E8
+DEFINE SHRI8_EBX C1EB
+DEFINE STORE32_Absolute32_eax A3
+DEFINE STORE32_Absolute32_ebx 891D
+DEFINE STORE32_Absolute32_ecx 890D
+DEFINE STORE32_Absolute32_edx 8915
+DEFINE STORE32_EAX_into_EBP_Immediate8 8945
+DEFINE STORE32_EAX_into_EBX 8903
+DEFINE STORE32_EAX_into_ECX_Immediate8 8941
+DEFINE STORE32_EAX_into_EDX 8902
+DEFINE STORE32_EAX_into_EDX_Immediate8 8942
+DEFINE STORE32_EBP_into_EDX_Immediate8 896A
+DEFINE STORE32_EBX_into_EAX 8918
+DEFINE STORE32_EBX_into_EAX_Immediate8 8958
+DEFINE STORE32_EBX_into_EDX_Immediate8 895A
+DEFINE STORE32_ECX_into_EAX 8908
+DEFINE STORE32_ECX_into_EAX_Immediate8 8948
+DEFINE STORE32_ECX_into_EDX_Immediate8 894A
+DEFINE STORE32_EDX_into_EAX_Immediate8 8950
+DEFINE STORE32_EDX_into_EBP_Immediate8 8955
+DEFINE STORE32_ESI_into_EBP_Immedate8 8975
+DEFINE STORE32_ESI_into_EDX_Immedate8 8972
+DEFINE STORE8_al_into_Address_EBX 8803
+DEFINE STORE8_al_into_Address_ECX 8801
+DEFINE STORE8_al_into_Address_ESI 8806
+DEFINE STORE8_bl_into_Address_ECX 8819
+DEFINE SUBI8_EAX 83E8
+DEFINE SUBI8_ECX 83E9
+DEFINE SUBI8_ESI 83EE
+DEFINE SWAP_EAX_EBX 93
+
+
+	;; Register usage:
+	;; EAX => Temps
+
+	;; Struct TOKEN_LIST format: (size 16)
+	;; NEXT => 0
+DEFINE f_NEXT 00
+	;; LOCALS/PREV => 4
+DEFINE f_LOCALS 04
+DEFINE f_PREV 04
+	;; S => 8
+DEFINE f_S 08
+	;; ARGS/DEPTH => 12
+DEFINE f_ARGS 0C
+DEFINE f_DEPTH 0C
+
+; sizeof_token_list encoded as a little endian 32 bit value
+DEFINE sizeof_token_list 10000000
+
+DEFINE MAX_STRING FF000000
+
+; Where the ELF Header is going to hit
+; Simply jump to _start
+; Our main function
+:_start
+	POP_EAX                                     ; Get the number of arguments
+	POP_EBX                                     ; Get the program name
+	POP_EBX                                     ; Get the actual input name
+	LOADI32_ECX %0                              ; prepare read_only
+	LOADI32_EAX %5                              ; the syscall number for open()
+	CALL32 %syscall
+	STORE32_Absolute32_eax &Input_file          ; Preserve the file pointer we were given
+
+	POP_EBX                                     ; Get the actual output name
+	LOADI32_ECX %577                            ; Prepare file as O_WRONLY|O_CREAT|O_TRUNC
+	LOADI32_EDX %384                            ; Prepare file as RW for owner only (600 in octal)
+	LOADI32_EAX %5                              ; the syscall number for open()
+	CALL32 %syscall
+
+	STORE32_Absolute32_eax &Output_file         ; Preserve the file pointer we were given
+
+	LOADI32_EAX %45                             ; the Syscall # for SYS_BRK
+	LOADI32_EBX %0                              ; Get current brk
+	CALL32 %syscall
+	STORE32_Absolute32_eax &MALLOC              ; Set our malloc pointer
+	LOADI32_EAX %0                              ; HEAD = NULL
+	CALL32 %read_all_tokens                     ; Read all tokens
+	CALL32 %Reverse_List                        ; Reverse order
+	STORE32_Absolute32_eax &global_token        ; Set global_token
+	CALL32 %program                             ; Convert into program
+	LOADI32_EAX &header_string1                 ; Our header string
+	CALL32 %File_Print                          ; Print it
+	LOAD32_Absolute32_eax &output_list          ; Our output_list
+	CALL32 %recursive_output                    ; Print core program
+	LOADI32_EAX &header_string3                 ; Our second label
+	CALL32 %File_Print                          ; Print it
+	LOAD32_Absolute32_eax &globals_list         ; Our globals
+	CALL32 %recursive_output                    ; Get them
+	LOADI32_EAX &header_string4                 ; Our final header
+	CALL32 %File_Print                          ; Print it
+	LOAD32_Absolute32_eax &strings_list         ; Our strings
+	CALL32 %recursive_output                    ; Get them
+	LOADI32_EAX &header_string5                 ; Make this a bare assembly
+	CALL32 %File_Print                          ; Print it
+
+:Done
+	; program completed Successfully
+	LOADI32_EBX %0                              ; All is well
+	LOADI32_EAX %1                              ; put the exit syscall number in eax
+	CALL32 %syscall
+
+;; wrapper around INT_80 so can be easily overridden
+:syscall
+	INT_80
+	RETURN
+
+;; read_all_tokens function
+;; Receives Token_List* in EAX
+;; Tokenizes all input and returns updated list in EAX
+;; Returns TOKEN in EAX
+;; Uses EAX for C
+:read_all_tokens
+	STORE32_Absolute32_eax &Token
+	CALL32 %fgetc
+:read_all_tokens_loop
+	CMPI8_EAX !-4                               ; Check for EOF
+	JE32 %read_all_tokens_done                  ; Stop if found
+	CALL32 %get_token                           ; Read all tokens
+	JMP32 %read_all_tokens_loop                 ; Loop
+:read_all_tokens_done
+	LOAD32_Absolute32_eax &Token
+	RETURN
+
+
+;; get_token function
+;; Receives INT in EAX
+;; Makes a list of TOKEN_LIST
+;; C and STRING_INDEX are stored in memory, ECX is used for S and EDX is used for current
+;; Returns C in EAX
+:get_token
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+
+	STORE32_Absolute32_eax &C                   ; Set C
+
+	LOADI32_EAX sizeof_token_list               ; Malloc CURRENT
+	CALL32 %malloc                              ; Get Pointer
+	COPY_EAX_to_EDX                             ; Set CURRENT
+
+	LOADI32_EAX MAX_STRING                      ; Malloc the string
+	CALL32 %malloc                              ; Get pointer to S
+	COPY_EAX_to_ECX                             ; Set S
+	STORE32_ECX_into_EDX_Immediate8 f_S         ; CURRENT->S = S
+:reset
+	STORE32_Absolute32_ecx &string_index        ; S[0]
+	LOAD32_Absolute32_eax &C                    ; Using C
+
+	CALL32 %clear_white_space                   ; Clear WhiteSpace
+	STORE32_Absolute32_eax &C                   ; Set C
+
+	CMPI8_EAX !-4                               ; Check for EOF
+	JE32 %get_token_abort                       ; if EOF abort
+
+	LOAD32_Absolute32_eax &C                    ; Send C
+	LOADI32_EBX &alphas                         ; Get alphanumerics
+	CALL32 %In_Set                              ; See if in set
+	JNE32 %get_token_symbol                     ; Otherwise
+
+	;; Store keywords
+	LOAD32_Absolute32_eax &C                    ; Send C
+	CALL32 %preserve_keyword                    ; Store
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %get_token_done                       ; Be done with this token
+
+:get_token_symbol
+	LOAD32_Absolute32_eax &C                    ; Send C
+	LOADI32_EBX &symbols                        ; Get symbols
+	CALL32 %In_Set                              ; See if in set
+	JNE32 %get_token_strings                    ; Otherwise
+
+	;; Store symbols
+	LOAD32_Absolute32_eax &C                    ; Send C
+	CALL32 %preserve_symbol                     ; Store
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %get_token_done                       ; Be done with this token
+
+:get_token_strings
+	LOAD32_Absolute32_eax &C                    ; Send C
+	LOADI32_EBX &strings                        ; Get strings
+	CALL32 %In_Set                              ; See if in set
+	JNE32 %get_token_comment                    ; Otherwise
+
+	;; Store String
+	LOAD32_Absolute32_eax &C                    ; Send C
+	CALL32 %consume_word                        ; Store
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %get_token_done                       ; Be done with this token
+
+:get_token_comment
+	LOAD32_Absolute32_eax &C                    ; Send C
+	CMPI8_EAX !47                               ; IF '/' == C
+	JNE32 %get_token_else                       ; Otherwise
+
+	CALL32 %consume_byte                        ; Hope it just is '/'
+	STORE32_Absolute32_eax &C                   ; Set C
+
+	CMPI8_EAX !42                               ; IF '*' we have '/*'
+
+	;; Deal with /* block comments */
+	CALL32 %fgetc                               ; get next C
+	STORE32_Absolute32_eax &C                   ; Set C
+:get_token_comment_block_outer
+	LOAD32_Absolute32_eax &C                    ; Using C
+	CMPI8_EAX !47                               ; IF '/' != C
+	JE32 %get_token_comment_block_done          ; be done
+
+:get_token_comment_block_inner
+	LOAD32_Absolute32_eax &C                    ; Using C
+	CMPI8_EAX !42                               ; IF '*' != C
+	JE32 %get_token_comment_block_iter          ; jump over
+
+	;; Deal with inner loop
+	CALL32 %fgetc                               ; get next C
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %get_token_comment_block_inner        ; keep going
+
+:get_token_comment_block_iter
+	CALL32 %fgetc                               ; get next C
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %get_token_comment_block_outer
+
+:get_token_comment_block_done
+	CALL32 %fgetc                               ; get next C
+	STORE32_Absolute32_eax &C                   ; Set C
+	JMP32 %reset                                ; throw away, try again
+
+:get_token_else
+	LOAD32_Absolute32_eax &C                    ; Send C
+	CALL32 %consume_byte
+	STORE32_Absolute32_eax &C                   ; Set C
+
+:get_token_done
+	LOAD32_Absolute32_eax &Token                ; TOKEN
+	STORE32_EAX_into_EDX_Immediate8 f_PREV      ; CURRENT->PREV = TOKEN
+	STORE32_EAX_into_EDX                        ; CURRENT->NEXT = TOKEN
+	STORE32_Absolute32_edx &Token               ; TOKEN = CURRENT
+
+:get_token_abort
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	LOAD32_Absolute32_eax &C                    ; Return C
+	RETURN
+
+
+;; Malloc isn't actually required if the program being built fits in the initial memory
+;; However, it doesn't take much to add it.
+;; Requires [MALLOC] to be initialized and EAX to have the number of desired bytes
+:malloc
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	LOAD32_Absolute32_ebx &MALLOC               ; Using the current pointer
+	ADD_eax_into_ebx                            ; Request the number of desired bytes
+	LOADI32_EAX %45                             ; the Syscall # for SYS_BRK
+	CALL32 %syscall
+	LOAD32_Absolute32_eax &MALLOC               ; Return pointer
+	STORE32_Absolute32_ebx &MALLOC              ; Update pointer
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; clear_white_space function
+;; Receives INT C in EAX
+;; Returns first non-whitespace char in EAX
+:clear_white_space
+	CMPI8_EAX !32                               ; Check for ' '
+	JE32 %clear_white_space_wipe                ; wipe it out
+
+	CMPI8_EAX !10                               ; Check for '\n'
+	JE32 %clear_white_space_wipe                ; wipe it output
+
+	CMPI8_EAX !9                                ; Check for '\t'
+	JNE32 %clear_white_space_done               ; looks like non-whitespace
+
+:clear_white_space_wipe
+	CALL32 %fgetc                               ; Read a new byte
+	CMPI8_EAX !-4                               ; Check for EOF
+	JE32 %clear_white_space_done                ; Short circuit
+	JMP32 %clear_white_space                    ; iterate
+
+:clear_white_space_done
+	RETURN
+
+
+;; In_Set function
+;; Receives Char C in EAX and CHAR* in EBX
+;; Returns 1 if true, zero if false in EAX
+:In_Set
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+:In_Set_loop
+	LOAD8_cl_from_EBX                           ; Read char
+	MOVZX_cl                                    ; Zero extend it
+
+	CMP_EAX_ECX                                 ; See if they match
+	JE32 %In_Set_True                           ; return true
+
+	CMPI8_ECX !0                                ; Check for NULL
+	JE32 %In_Set_False                          ; return false
+
+	ADDI8_EBX !1                                ; s = s + 1
+	JMP32 %In_Set_loop                          ; Keep looping
+
+:In_Set_True
+	LOADI32_EAX %1                              ; Set True
+	JMP32 %In_Set_done
+
+:In_Set_False
+	LOADI32_EAX %0                              ; Set FALSE
+:In_Set_done
+	CMPI8_EAX !1                                ; make sure flags are set so we can conditionally branch straight after call
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; preserve_keyword function
+;; Receives INT C in EAX
+;; collects all chars in keyword
+;; Returns C in EAX
+;; Uses ECX for INT C
+:preserve_keyword
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_ECX                             ; Setup C
+	LOADI32_EBX &alphas                         ; Concerning ourselves with "abc.."
+:preserve_keyword_loop
+	CALL32 %In_Set                              ; Check if alphanumerics
+	JNE32 %preserve_keyword_done                ; Otherwise done
+
+	COPY_ECX_to_EAX                             ; Pass C
+	CALL32 %consume_byte                        ; consume that byte
+	COPY_EAX_to_ECX                             ; Update C
+	JMP32 %preserve_keyword_loop                ; keep looping
+
+:preserve_keyword_done
+	COPY_ECX_to_EAX                             ; Fix return
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; preserve_symbol function
+;; Receives INT C in EAX
+;; collects all chars in symbol
+;; Returns C in EAX
+;; Uses ECX for INT C
+:preserve_symbol
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_ECX                             ; Setup C
+	LOADI32_EBX &symbols                        ; Concerning ourselves with "="
+:preserve_symbol_loop
+	CALL32 %In_Set                              ; Check if symbol
+	JNE32 %preserve_symbol_done                 ; Otherwise be done
+
+	COPY_ECX_to_EAX                             ; Pass C
+	CALL32 %consume_byte                        ; consume that byte
+	COPY_EAX_to_ECX                             ; Update C
+	JMP32 %preserve_symbol_loop                 ; keep looping
+
+:preserve_symbol_done
+	COPY_ECX_to_EAX                             ; Fix return
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; consume_word function
+;; receives INT C in EAX
+;; returns INT C in EAX
+;; Uses EAX for C, EBX for FREQ and ECX for ESCAPE
+:consume_word
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_EBX                             ; FREQ = C
+	LOADI32_ECX %0                              ; ESCAPE = FALSE
+:consume_word_loop
+	CMPI8_ECX !0                                ; IF !ESCAPE
+	JNE32 %consume_word_escape                  ; Enable escape
+
+	CMPI8_EAX !92                               ; if '\\'
+	JNE32 %consume_word_iter                    ; keep state
+
+	LOADI32_ECX %1                              ; ESCAPE = TRUE
+	JMP32 %consume_word_iter                    ; keep going
+
+:consume_word_escape
+	LOADI32_ECX %0                              ; ESCAPE = FALSE
+
+:consume_word_iter
+	CALL32 %consume_byte                        ; read next char
+
+	CMPI8_ECX !0                                ; IF ESCAPE
+	JNE32 %consume_word_loop                    ; keep looping
+
+	CMP_EAX_EBX                                 ; IF C != FREQ
+	JNE32 %consume_word_loop                    ; keep going
+
+	CALL32 %fgetc                               ; return next char
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; consume_byte function
+;; Receives INT C in EAX
+;; Inserts C into string S, updates String S
+;; Returns Next char in EAX
+:consume_byte
+	PUSH_EBX                                    ; Protect EBX
+	LOAD32_Absolute32_ebx &string_index         ; S[0]
+	STORE8_al_into_Address_EBX                  ; S[0] = C
+	ADDI8_EBX !1                                ; S = S + 1
+	STORE32_Absolute32_ebx &string_index        ; Update S
+	CALL32 %fgetc
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; fgetc function
+;; Loads FILE* from [INPUT_FILE]
+;; Returns -4 (EOF) or char in EAX
+:fgetc
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	LOADI32_EAX %-4                             ; Put EOF in eax
+	PUSH_EAX                                    ; Assume bad (If nothing read, value will remain EOF)
+	LEA32_ECX_from_esp                          ; Get stack address
+	LOAD32_Absolute32_ebx &Input_file           ; Where are we reading from
+	LOADI32_EAX %3                              ; the syscall number for read
+	LOADI32_EDX %1                              ; set the size of chars we want
+	CALL32 %syscall
+	POP_EAX                                     ; Get either char or EOF
+	CMPI8_EAX !-4                               ; Check for EOF
+	JE32 %fgetc_done                            ; Return as is
+	MOVZX_al                                    ; Make it useful
+:fgetc_done
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; Reverse_List function
+;; Receives List in EAX
+;; Returns the list reversed in EAX
+:Reverse_List
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_EBX                             ; Set HEAD
+	LOADI32_EAX %0                              ; ROOT = NULL
+:Reverse_List_Loop
+	CMPI8_EBX !0                                ; WHILE HEAD != NULL
+	JE32 %Reverse_List_Done                     ; Stop otherwise
+
+	LOAD32_ECX_from_EBX                         ; NEXT = HEAD->NEXT
+	STORE32_EAX_into_EBX                        ; HEAD->NEXT = ROOT
+	COPY_EBX_to_EAX                             ; ROOT = HEAD
+	COPY_ECX_to_EBX                             ; HEAD = NEXT
+	JMP32 %Reverse_List_Loop                    ; Keep Going
+
+:Reverse_List_Done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; recursive_output function
+;; Receives list in EAX
+;; walks the list and prints the I->S for all nodes backwards
+;; Uses EBX for I
+:recursive_output
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	CMPI8_EAX !0                                ; Check for NULL
+	JE32 %recursive_output_done                 ; Skip the work
+	COPY_EAX_to_EBX                             ; I = Head
+
+	LOAD32_EAX_from_EBX                         ; Iterate to next Token
+	CALL32 %recursive_output                    ; Recurse
+
+	LOAD32_EAX_from_EBX_Immediate8 f_S          ; Using S
+	CALL32 %File_Print                          ; Print it
+
+:recursive_output_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; File_Print function
+;; Receives CHAR* in EAX
+;; calls fputc for every non-null char
+:File_Print
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_EBX                             ; Protect S
+	CMPI8_EAX !0                                ; Protect against nulls
+	JE32 %File_Print_Done                       ; Simply don't try to print them
+:File_Print_Loop
+	LOAD8_al_from_EBX                           ; Read byte
+	MOVZX_al                                    ; zero extend
+	CMPI8_EAX !0                                ; Check for NULL
+	JE32 %File_Print_Done                       ; Stop at NULL
+
+	CALL32 %fputc                               ; write it
+	ADDI8_EBX !1                                ; S = S + 1
+	JMP32 %File_Print_Loop                      ; Keep going
+
+:File_Print_Done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; fputc function
+;; receives CHAR in EAX and load FILE* from [OUTPUT_FILE]
+;; writes char and returns
+:fputc
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	PUSH_EAX                                    ; We are writing eax
+	LEA32_ECX_from_esp                          ; Get stack address
+	LOAD32_Absolute32_ebx &Output_file          ; Write to target file
+	LOADI32_EAX %4                              ; the syscall number for write
+	LOADI32_EDX %1                              ; set the size of chars we want
+	CALL32 %syscall
+	POP_EAX                                     ; Restore stack
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; program function
+;; receives nothing, returns nothing
+:program
+	;; The binary initialized the globals to null, so we can skip those steps
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+:new_type
+	LOAD32_Absolute32_eax &global_token         ; Using global_token
+	CMPI8_EAX !0                                ; Check if NULL
+	JE32 %program_done                          ; Be done if null
+
+	CALL32 %next
+
+	;; Add to global symbol table
+	CALL32 %get_s
+	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
+	CALL32 %sym_declare                         ; Declare symbol
+	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size(unused), global_symbol_list);
+	CALL32 %next
+
+	CALL32 %get_s
+	LOADI32_EBX &semicolon                      ; ";"
+	CALL32 %match                               ; if(match(";", global_token->s))
+	JNE32 %program_function                     ; looks like not a match
+
+	;; Deal with the global variable
+	LOAD32_Absolute32_ebx &globals_list         ; Using globals_list
+	LOADI32_EAX &program_string_0               ; ":GLOBAL_"
+	CALL32 %emit                                ; Emit it
+	COPY_EAX_to_EBX                             ; update globals_list
+
+	LOAD32_Absolute32_eax &global_token         ; Using global token
+	LOAD32_EAX_from_EAX_Immediate8 f_PREV       ; global token->prev
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
+	CALL32 %emit                                ; Emit it
+
+	COPY_EAX_to_EBX                             ; update globals_list
+	LOADI32_EAX &program_string_1               ; "\nNULL\n"
+	CALL32 %emit                                ; Emit it
+	STORE32_Absolute32_eax &globals_list        ; update globals_list
+
+	CALL32 %next
+	JMP32 %new_type                             ; go around again
+
+:program_function
+
+	;; Deal with function definition
+	CALL32 %declare_function                    ; Lets get the parsing rolling
+	JMP32 %new_type                             ; Keep looping through functions
+
+:program_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; declare_function function
+;; Receives nothing and returns nothing
+;; Sets current function and adds it to the global function list
+:declare_function
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	LOADI32_EAX %0                              ; Using NULL
+	STORE32_Absolute32_eax &current_count       ; current_count = 0
+
+	LOAD32_Absolute32_eax &global_token         ; Using global token
+	LOAD32_EAX_from_EAX_Immediate8 f_PREV       ; global token->prev
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global token->prev->s
+	LOADI32_EBX %0                              ; NULL
+	LOAD32_Absolute32_ecx &global_function_list ; global_function_list
+	CALL32 %sym_declare                         ; sym_declare(global_token->prev->s, NULL, global_function_list);
+	STORE32_Absolute32_eax &function            ; function = sym_declare(global_token->prev->s, NULL, global_function_list);
+	STORE32_Absolute32_eax &global_function_list ; global_function_list = function
+
+	CALL32 %collect_arguments                   ; collect all of the function arguments
+
+	CALL32 %get_s
+	LOADI32_EBX &semicolon                      ; ";"
+	CALL32 %match                               ; IF global token->s == ";"
+	JNE32 %declare_function_full                ; It was a prototype
+
+	;; Deal with prototypes
+	CALL32 %next
+	JMP32 %declare_function_done                ; Move on
+
+:declare_function_full
+	;; Deal with full function definitions
+	LOADI32_EAX &declare_function_string_1      ; "\n:FUNCTION_"
+	CALL32 %emit_out                            ; emit it
+
+	LOAD32_Absolute32_eax &function             ; function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->s
+	CALL32 %emit_out                            ; emit it
+
+	CALL32 %emit_newline
+
+	CALL32 %statement                           ; Recursively get the function pieces
+
+	LOAD32_Absolute32_eax &output_list          ; output
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; output->s
+	LOADI32_EBX &ret_string                     ; "ret\n"
+	CALL32 %match                               ; IF output->s == "ret\n"
+	JE32 %declare_function_done                 ; otherwise we need to add it
+
+	;; Add the return to the end of a function lacking a return;
+	LOADI32_EAX &ret_string                     ; "ret\n"
+	CALL32 %emit_out                            ; emit it
+
+:declare_function_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; collect_arguments function
+;; Receives nothing
+;; Returns Nothing
+;; Adds arguments to the function definition
+:collect_arguments
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	CALL32 %next
+:collect_arguments_loop
+	CALL32 %get_s
+	LOADI32_EBX &close_paren                    ; ")"
+	CALL32 %match                               ; IF global_token->S == ")"
+	JE32 %collect_arguments_done                ; be done
+
+	;; deal with the case of there are arguments
+	CALL32 %next
+
+	CALL32 %get_s
+	LOADI32_EBX &comma                          ; ","
+	CALL32 %match                               ; IF global_token->S == ","
+	JE32 %collect_arguments_common              ; case of commas between arguments
+
+	;; deal with foo(int a, char b)
+	CALL32 %get_s
+	LOAD32_Absolute32_ecx &function             ; Using function
+	LOAD32_ECX_from_ECX_Immediate8 f_ARGS       ; function->args
+	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size(unused), function->arguments);
+	COPY_EAX_to_ECX                             ; put a in a safe place
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	CMPI8_EAX !0                                ; IF function->args == NULL
+	JNE32 %collect_arguments_another            ; otherwise it isn't the first
+
+	;; Deal with the case of first argument in the function
+	LOADI32_EAX %-4                             ; -4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = -4
+	JMP32 %collect_arguments_next               ; get to next
+
+:collect_arguments_another
+	;; deal with the case of non-first arguments
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
+	SUBI8_EAX !4                                ; function->args->depth - 4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = function->args->depth - 4
+
+:collect_arguments_next
+	CALL32 %next
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	STORE32_ECX_into_EAX_Immediate8 f_ARGS      ; function->args = a
+
+:collect_arguments_common
+	CALL32 %get_s
+	LOADI32_EBX &comma                          ; ","
+	CALL32 %match                               ; IF global_token->S == ","
+	JNE32 %collect_arguments_loop               ; otherwise loop
+
+	;; keep foo(bar(), 1) expressions working
+	CALL32 %next
+	JMP32 %collect_arguments_loop               ; keep going
+
+:collect_arguments_done
+	CALL32 %next
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; statement function
+;; Receives nothing
+;; Returns nothing
+;; Walks down global_token recursively to collect the contents of the function
+:statement
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &open_curly_brace               ; "{"
+	CALL32 %match                               ; IF global_token->S == "{"
+	JNE32 %statement_local                      ; otherwise try local
+
+	;; deal with { statement }
+	CALL32 %recursive_statement                 ; Statements inside of statements for days
+	JMP32 %statement_done                       ; Be done
+
+:statement_local
+	LOADI32_EAX &int_string                     ; Using "int"
+	CALL32 %match
+	JE32 %statement_local_success              ; Sweet a new local
+
+	;; Second chance
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+
+	JMP32 %statement_if                         ; otherwise try IF
+
+:statement_local_success
+	CALL32 %collect_local                       ; Grab those locals
+	JMP32 %statement_done                       ; be done
+
+:statement_if
+	LOADI32_EAX &if_string
+	CALL32 %match
+	JNE32 %statement_while                      ; otherwise try WHILE
+
+	;; Deal with IF statement
+	CALL32 %process_if                          ; DO IT
+	JMP32 %statement_done                       ; be done
+
+:statement_while
+	LOADI32_EAX &while_string
+	CALL32 %match
+	JNE32 %statement_asm                        ; otherwise try ASM
+
+	;; Deal with WHILE statement
+	CALL32 %process_while                       ; DO IT
+	JMP32 %statement_done                       ; be done
+
+:statement_asm
+	LOADI32_EAX &asm_string
+	CALL32 %match
+	JNE32 %statement_return                       ; otherwise try RETURN
+
+	;; Deal with ASM statement
+	CALL32 %process_asm                         ; Hit it
+	JMP32 %statement_done                       ; be done
+
+:statement_return
+	LOADI32_EAX &return_string
+	CALL32 %match
+	JNE32 %statement_break                      ; Otherwise try BREAK
+
+	;; Deal with RETURN Statement
+	CALL32 %return_result                       ; Return anything they want
+	JMP32 %statement_done                       ; be done
+
+:statement_break
+	LOADI32_EAX &break_string
+	CALL32 %match
+	JNE32 %statement_else                       ; Otherwise try ELSE
+
+	;; Deal with BREAK statement
+	CALL32 %process_break                       ; Lets do some damage
+	JMP32 %statement_done                       ; be done
+
+:statement_else
+	CALL32 %expression                          ; Collect expression
+	CALL32 %next
+
+:statement_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; recursive_statement function
+;; Receives nothing
+;; Returns nothing
+;; Walks the global_token list to build the contents of statements
+;; Uses struct token_list* frame in ECX
+:recursive_statement
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %next
+
+	LOAD32_Absolute32_ecx &function             ; Using function
+	LOAD32_ECX_from_ECX_Immediate8 f_LOCALS     ; frame = function->locals
+
+:recursive_statement_loop
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &close_curly_brace
+	CALL32 %match
+	JE32 %recursive_statement_cleanup           ; and then we clean up
+
+	;; Deal with the recursive calls
+	CALL32 %statement                           ; Deal with another statement
+	JMP32 %recursive_statement_loop             ; loop some more
+
+:recursive_statement_cleanup
+	CALL32 %next
+
+	LOADI32_EAX &ret_string                     ; Using "ret\n"
+	LOAD32_Absolute32_ebx &output_list          ; Using output
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; output->S
+	CALL32 %match                               ; IF output->S == "ret\n"
+	JE32 %recursive_statement_done              ; and be done
+
+	;; Deal with cleanup
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; i = function->locals
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _recursive_statement_locals\n"
+
+:recursive_statement_locals
+	CMP_ECX_EBX                                 ; IF frame != i
+	JE32 %recursive_statement_done              ; Otherwise be done
+
+	;; Lets emit
+	CALL32 %emit_out                            ; emit it
+	LOAD32_EBX_from_EBX                         ; i = i->next
+	JMP32 %recursive_statement_locals           ; keep going
+
+:recursive_statement_done
+	LOAD32_Absolute32_eax &function             ; Using function
+	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = frame
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; return_result function
+;; Receives nothing
+;; Returns nothing
+;; Cleans up function and generates return
+;; Also handles returning expressions
+:return_result
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %next
+
+	CALL32 %get_s0
+	CMPI8_EAX !59                               ; If global_token->S[0] == ';'
+	JE32 %return_result_cleanup                 ; Go straight to cleanup
+
+	CALL32 %expression                          ; get the expression we are returning
+
+:return_result_cleanup
+	CALL32 %next
+
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _return_result_locals\n"
+:return_result_locals
+	CMPI8_EBX !0                                ; IF NULL == i
+	JE32 %return_result_done                    ; Be done
+
+	CALL32 %emit_out                            ; Emit out pop
+	LOAD32_EBX_from_EBX                         ; i = i->NEXT
+	JMP32 %return_result_locals                 ; Keep going
+
+:return_result_done
+	LOADI32_EAX &ret_string                     ; Using "ret\n"
+	CALL32 %emit_out                            ; Emit it
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; collect_local function
+;; Receives nothing
+;; Returns nothing
+;; Walks global_token list to create function locals
+;; Uses ECX for struct token_list* A
+:collect_local
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %next
+
+	CALL32 %get_s
+	LOAD32_Absolute32_ecx &function             ; Using function
+	LOAD32_ECX_from_ECX_Immediate8 f_LOCALS     ; function->locals
+	CALL32 %sym_declare                         ; Declare it
+	COPY_EAX_to_ECX                             ; put it away safely
+
+	;; Try for main
+	LOADI32_EAX &main_string                    ; Using "main"
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; function->S
+	CALL32 %match                               ; IF match("main", function->s)
+	JNE32 %collect_local_fresh                  ; try to see if fresh function
+
+	;; Ok we are in main, now to see if main is fresh
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
+	CMPI8_EAX !0                                ; IF NULL == function->locals
+	JNE32 %collect_local_fresh                  ; try to see if fresh function
+
+	;; Sweet we are in a fresh main
+	LOADI32_EAX %-20                            ; We start at -20
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = -20
+	JMP32 %collect_local_common                 ; Go to the commons
+
+:collect_local_fresh
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	CMPI8_EAX !0                                ; IF NULL == function->args
+	JNE32 %collect_local_first                  ; Otherwise see if first
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
+	CMPI8_EAX !0                                ; IF NULL == function->locals
+	JNE32 %collect_local_first                  ; Otherwise try first
+
+	;; Sweet we are in a fresh function
+	LOADI32_EAX %-8                             ; We start at -8
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = -8
+	JMP32 %collect_local_common                 ; Go to the commons
+
+:collect_local_first
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
+	CMPI8_EAX !0                                ; IF NULL == function->locals
+	JNE32 %collect_local_else                   ; Looks like we are just another local
+
+	;; Ok we are the first local
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
+	SUBI8_EAX !8                                ; function->arguments->depth - 8
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = function->arguments->depth - 8
+	JMP32 %collect_local_common                 ; Go to the commons
+
+:collect_local_else
+	;; Always the last to know
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_LOCALS     ; function->locals
+	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->locals->depth
+	SUBI8_EAX !4                                ; function->locals->depth - 4
+	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->DEPTH = function->locals->depth - 4
+
+:collect_local_common
+	LOAD32_Absolute32_eax &function             ; Using function
+
+	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = a
+	LOAD32_ECX_from_ECX_Immediate8 f_S          ; a->S
+
+	CALL32 %next
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &equal                          ; Using "="
+	CALL32 %match                               ; IF match("=", global_token->s)
+	JNE32 %collect_local_done                   ; Otherwise finish it
+
+	;; Deal with assignment
+	CALL32 %next
+
+	CALL32 %expression                          ; Recurse
+
+:collect_local_done
+	CALL32 %next
+
+	LOADI32_EAX &collect_local_string_3         ; Using "push_eax\t#"
+	CALL32 %emit_out                            ; emit it
+
+	COPY_ECX_to_EAX                             ; put A->S where it belongs
+	CALL32 %emit_out                            ; emit it
+
+	CALL32 %emit_newline
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; process_asm function
+;; Receives nothing
+;; Returns nothing
+;; Simply inlines the asm statements
+:process_asm
+
+	CALL32 %next
+	CALL32 %next
+
+:process_asm_iter
+	CALL32 %get_s0
+	CMPI8_EAX !34                               ; IF global_token->S[0] == '\"'
+	JNE32 %process_asm_done                     ; Otherwise be done
+
+	CALL32 %get_s
+	ADDI8_EAX !1                                ; global_token->S + 1
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %emit_newline
+
+	CALL32 %next
+	JMP32 %process_asm_iter                     ; keep going
+
+:process_asm_done
+	CALL32 %next
+	CALL32 %next
+
+	RETURN
+
+
+;; process_if function
+;; Receives nothing
+;; Returns Nothing
+;; Increments current_count recurses into expression + statement
+;; Uses ECX for char* NUMBER_STRING
+:process_if
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	LOAD32_Absolute32_eax &current_count        ; Using current count
+	COPY_EAX_to_EBX                             ; Preparing for update
+	ADDI8_EBX !1                                ; current_count + 1
+	STORE32_Absolute32_ebx &current_count       ; current_count = current_count + 1
+	CALL32 %numerate_number                     ; convert to string
+	COPY_EAX_to_ECX                             ; put NUMBER_STRING in place
+
+	LOADI32_EAX &process_if_string_0            ; Using "# IF_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %next
+	CALL32 %next
+
+	CALL32 %expression                          ; Recurse to get the IF(...) part
+
+	LOADI32_EAX &process_if_string_2            ; Using "test_eax,eax\nje %ELSE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %next
+
+	CALL32 %statement                           ; Recursive to get the IF(){...} part
+
+	LOADI32_EAX &process_if_string_4            ; Using "jmp %_END_IF_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	LOADI32_EAX &process_if_string_5            ; Using ":ELSE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &else_string                    ; Using "else"
+	CALL32 %match                               ; IF global_token->S == "else"
+	JNE32 %process_if_done                      ; Otherwise finish up
+
+	;; deal with else statement
+	CALL32 %next
+
+	CALL32 %statement                           ; Recurse to get the ELSE {...} part
+
+:process_if_done
+	LOADI32_EAX &process_if_string_6            ; Using ":_END_IF_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; save_break_frame microfunction
+;; Overwrites EAX and EBX
+;; Saves break frame on stack
+;; Returns to caller
+:save_break_frame
+	POP_EBX                                     ; Save return Address
+	LOAD32_Absolute32_eax &break_frame          ; Get break_frame
+	PUSH_EAX                                    ; Store as nested_locals
+	LOAD32_Absolute32_eax &break_target_head    ; Get break_target_head
+	PUSH_EAX                                    ; Store as nested_break_head
+	LOAD32_Absolute32_eax &break_target_func    ; Get break_target_func
+	PUSH_EAX                                    ; Store as nested_break_func
+	LOAD32_Absolute32_eax &break_target_num     ; Get break_target_num
+	PUSH_EAX                                    ; Store as nested_break_num
+	PUSH_EBX                                    ; Put return back in place
+	RETURN                                      ; Return to caller
+
+
+;; restore_break_frame microfunction
+;; Overwrites EAX and EBX
+;; Restores break frame from stack
+;; Returns to caller
+:restore_break_frame
+	POP_EBX                                     ; Save return Address
+	POP_EAX                                     ; Get nested_break_num
+	STORE32_Absolute32_eax &break_target_num    ; Restore break_target_num
+	POP_EAX                                     ; Get nested_break_func
+	STORE32_Absolute32_eax &break_target_func   ; Restore break_target_func
+	POP_EAX                                     ; Get nested_break_head
+	STORE32_Absolute32_eax &break_target_head   ; Restore break_target_head
+	POP_EAX                                     ; Get nested_locals
+	STORE32_Absolute32_eax &break_frame         ; Restore break_frame
+	PUSH_EBX                                    ; Put return back in place
+	RETURN                                      ; Return to caller
+
+
+;; set_break_frame microfunction
+;; Receives char* head in EAX and char* num in EBX
+;; Overwrites EAX and EBX
+;; Returns to calling function
+:set_break_frame
+	STORE32_Absolute32_eax &break_target_head   ; update break_target_head
+	STORE32_Absolute32_ebx &break_target_num    ; update break_target_num
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EAX_from_EBX_Immediate8 f_LOCALS     ; function->LOCALS
+	STORE32_Absolute32_eax &break_frame         ; break_frame = function->LOCALS
+	LOAD32_EAX_from_EBX_Immediate8 f_S          ; function->S
+	STORE32_Absolute32_eax &break_target_func   ; break_target_func = function->S
+	RETURN                                      ; Return to sender
+
+
+;; process_while function
+;; Receives nothing
+;; Returns nothing
+;; Increments current_count and leverages save/restore_break_frame pieces
+;; Uses ECX for char* NUMBER_STRING
+:process_while
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	CALL32 %save_break_frame                    ; Save break_frame
+
+	LOAD32_Absolute32_eax &current_count        ; Using current count
+	COPY_EAX_to_EBX                             ; Preparing for update
+	ADDI8_EBX !1                                ; current_count + 1
+	STORE32_Absolute32_ebx &current_count       ; current_count = current_count + 1
+	CALL32 %numerate_number                     ; convert to string
+	COPY_EAX_to_ECX                             ; put NUMBER_STRING in place
+
+	LOADI32_EAX &process_while_string_0         ; Using "END_WHILE_"
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %set_break_frame                     ; Set it and forget it
+
+	LOADI32_EAX &process_while_string_1         ; Using ":WHILE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %next
+
+	CALL32 %next
+
+	CALL32 %expression                          ; Deal with the WHILE (...) part
+
+	LOADI32_EAX &process_while_string_3         ; Using "test_eax,eax\nje %END_WHILE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %next
+
+	CALL32 %statement                           ; Deal with the {....} part
+
+	LOADI32_EAX &process_while_string_6         ; Using "jmp %WHILE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Passing NUMBER_STRING
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	LOADI32_EAX &process_while_string_7         ; Using ":END_WHILE_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	CALL32 %uniqueID_out                        ; uniqueID_out(function->s, number_string)
+
+	CALL32 %restore_break_frame                 ; Restore the old break frame
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; process_break function
+;; Receives nothing
+;; Returns nothing
+;; Handles the break out of loops case
+;; Uses EBX for struct token_list* break_frame and ECX for struct token_list* I
+:process_break
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_ECX_from_EAX_Immediate8 f_LOCALS     ; I = function->LOCALS
+	LOAD32_Absolute32_ebx &break_frame          ; Put break_frame in the right spot
+	LOADI32_EAX &pop_ebx_string                ; Using "pop_ebx"
+
+:process_break_iter
+	CMPI8_ECX !0                                ; IF (NULL == I)
+	JE32 %process_break_cleaned                 ; We are done
+
+	CMP_EBX_ECX                                 ; IF I != break_frame
+	JE32 %process_break_cleaned                 ; We are done
+
+	CALL32 %emit_out                            ; Emit it
+	LOAD32_ECX_from_ECX                         ; I = I->NEXT
+	JMP32 %process_break_iter                   ; Keep looping
+
+:process_break_cleaned
+	CALL32 %next
+
+	LOADI32_EAX &jump_string                    ; Using "jump %"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &break_target_head    ; Get what we are in
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &break_target_func    ; Get what function we are in
+	CALL32 %emit_out                            ; Emit it
+
+	LOADI32_EAX &underline                      ; Using "_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &break_target_num     ; Get dem digits
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %emit_newline
+
+	CALL32 %next
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; expression function
+;; Receives Nothing
+;; Returns Nothing
+;; Walks global_token and updates output_list
+;; Uses EAX and EBX for match and ECX for char* store
+:expression
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	CALL32 %primary_expr
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &equal                          ; "="
+	CALL32 %match                               ; IF global_token->S == "="
+	JNE32 %expression_done                      ; Looks like nope
+
+	;; Deal with possible assignment
+	LOAD32_Absolute32_ebx &global_token         ; Using global_token
+	LOAD32_EBX_from_EBX_Immediate8 f_PREV       ; global_token->PREV
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; global_token->PREV->S
+
+	LOADI32_EAX &expression_string_1            ; Using "push_eax\t#_common_recursion\n"
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %next
+
+	CALL32 %expression                          ; expression();
+	LOADI32_EAX &expression_string_2            ; Using "store\n"
+	CALL32 %emit_out                            ; Emit it
+
+:expression_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; primary_expr function
+;; Receives nothing
+;; Returns nothing
+:primary_expr
+	PUSH_EBX                                    ; Protect EBX
+
+:primary_expr_paren
+	CALL32 %get_s0
+	CMPI8_EAX !40                               ; IF global_token->S[0] == "("
+	JNE32 %primary_expr_ch                      ; Otherwise try char
+
+	;; deal with nesting
+	CALL32 %next
+	CALL32 %expression                          ; Lets recurse
+	CALL32 %next
+	JMP32 %primary_expr_done                    ; Be done
+
+:primary_expr_ch
+	CALL32 %get_s0
+	CMPI8_EAX !39                               ; Using "'"
+	JNE32 %primary_expr_str                     ; Otherwise try string
+
+	;; Deal with chars
+	CALL32 %primary_expr_char                   ; Handle that char
+	JMP32 %primary_expr_done                    ; Be done
+
+:primary_expr_str
+	CALL32 %get_s0
+	CMPI8_EAX !34                               ; Using '\"'
+	JNE32 %primary_expr_var                     ; Otherwise try a variable
+
+	;; Deal with strings
+	CALL32 %primary_expr_string                 ; Handle that string
+	JMP32 %primary_expr_done                    ; Be done
+
+:primary_expr_var
+	CALL32 %get_s0
+	LOADI32_EBX &primary_expr_string_6          ; Using "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+	CALL32 %In_Set                              ; See if we have a match
+	JNE32 %primary_expr_num                     ; otherwise try number
+
+	;; Deal with variables
+	CALL32 %primary_expr_variable               ; Deal with variable
+	JMP32 %primary_expr_done                    ; Be done
+
+:primary_expr_num
+	CALL32 %get_s0
+	LOADI32_EBX &primary_expr_string_7          ; Using "0123456789"
+	CALL32 %In_Set                              ; See if we have a match
+
+	;; Deal with numbers
+	CALL32 %primary_expr_number                 ; Collect the number
+
+:primary_expr_done
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; primary_expr_variable function
+;; Receives nothing
+;; Returns nothing
+;; Walks global and updates output
+;; Uses EAX for struct token_list* a and ECX for char* S
+:primary_expr_variable
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+
+	CALL32 %get_s
+	COPY_EAX_to_ECX
+	LOAD32_Absolute32_eax &global_token         ; Using global_token
+	LOAD32_EAX_from_EAX                         ; global_token->NEXT
+	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
+
+:primary_expr_variable_local
+	COPY_ECX_to_EAX                             ; Using S
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
+	CALL32 %sym_lookup                          ; sym_lookup(s, function->locals)
+	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, function->locals)
+	JE32 %primary_expr_variable_arguments       ; try arguments next
+
+	;; Deal with local load
+	CALL32 %variable_load                       ; Collect it
+	JMP32 %primary_expr_variable_done           ; Be done
+
+:primary_expr_variable_arguments
+	COPY_ECX_to_EAX                             ; Using S
+	LOAD32_Absolute32_ebx &function             ; Using function
+	LOAD32_EBX_from_EBX_Immediate8 f_ARGS       ; function->args
+	CALL32 %sym_lookup                          ; sym_lookup(s, function->args)
+	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_constant_list)
+	JE32 %primary_expr_variable_function        ; try functions next
+
+	;; Deal with argument load
+	CALL32 %variable_load                       ; Collect it
+	JMP32 %primary_expr_variable_done           ; Be done
+
+:primary_expr_variable_function
+	COPY_ECX_to_EAX                             ; Using S
+	LOAD32_Absolute32_ebx &global_function_list ; Using global_function_list
+	CALL32 %sym_lookup                          ; sym_lookup(s, global_function_list)
+	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_function_list)
+	JE32 %primary_expr_variable_global          ; try globals next
+
+	;; Deal with functions
+	LOAD32_EAX_from_EAX_Immediate8 f_S
+	CALL32 %function_call                       ; Deal with the function
+	JMP32 %primary_expr_variable_done           ; Be done
+
+:primary_expr_variable_global
+	COPY_ECX_to_EAX                             ; Using S
+	LOAD32_Absolute32_ebx &global_symbol_list   ; Using global_symbol_list
+	CALL32 %sym_lookup                          ; sym_lookup(s, global_symbol_list)
+
+	;; Deal with globals
+	CALL32 %global_load                         ; Collect that global
+
+:primary_expr_variable_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; function_call function
+;; Receives char* S in EAX
+;; Builds stack frames before and tears them down after function calls
+;; Uses ECX for char* S, EDX for int BOOL, ESI for PASSED
+:function_call
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	PUSH_ESI                                    ; Protect ESI
+	COPY_EAX_to_ECX                             ; Put S in place
+	LOADI32_ESI %0                              ; PASSED = 0
+
+	CALL32 %next
+
+	LOADI32_EAX &function_call_string_1         ; Using "call frame preamble"
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %get_s0
+	CMPI8_EAX !41                               ; IF global_token->S[0] == ")"
+	JE32 %function_call_gen_done                ; Then no arguments to send
+
+	;; looks like we have arguments to collect
+	CALL32 %expression                          ; Collect the argument
+
+	LOADI32_EAX &function_call_string_4         ; Using "push_eax\t#_process_expression1\n"
+	CALL32 %emit_out                            ; Emit it
+	LOADI32_ESI %1                              ; PASSED = 1
+
+:function_call_gen_iter
+	CALL32 %get_s0
+	CMPI8_EAX !44                               ; IF global_token->S[0] == ","
+	JNE32 %function_call_gen_done               ; Otherwise we are done
+
+	CALL32 %next
+
+	CALL32 %expression                          ; Collect the argument
+
+	LOADI32_EAX &function_call_string_4         ; Using "push_eax\t#_process_expression2\n"
+	CALL32 %emit_out                            ; Emit it
+	ADDI8_ESI !1                                ; PASSED = PASSED + 1
+	JMP32 %function_call_gen_iter               ; Keep trying
+
+:function_call_gen_done
+	;; All is collected
+	CALL32 %next
+
+	;; Deal with fixed function name
+	LOADI32_EAX &function_call_string_9         ; Using "mov_ebp,edi call %FUNCTION_"
+	CALL32 %emit_out                            ; Emit it
+
+	COPY_ECX_to_EAX                             ; Using S
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %emit_newline
+
+	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\n"
+
+:function_call_cleanup
+	CMPI8_ESI !0                                ; IF PASSED > 0
+	JLE32 %function_call_done                   ; Otherwise be done
+
+	;; The desired string is already in EAX
+	CALL32 %emit_out                            ; Emit it
+
+	SUBI8_ESI !1                                ; PASSED = PASSED - 1
+	JMP32 %function_call_cleanup                ; Keep going
+
+:function_call_done
+	LOADI32_EAX &function_call_string_14        ; Using "restore ebp edi\n"
+	CALL32 %emit_out                            ; Emit it
+
+	POP_ESI                                     ; Restore ESI
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	RETURN
+
+;; variable_load function
+;; Receives struct token_list* A in EAX
+;; Returns nothing
+;; Updates output
+;; Uses ECX for A
+:variable_load
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_ECX                             ; Protect A
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_EAX_from_ECX_Immediate8 f_DEPTH      ; A->DEPTH
+	CALL32 %numerate_number                     ; Convert to string
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %emit_newline
+
+	;; Check for special case of assignment
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &equal                          ; Using "="
+	CALL32 %match                               ; IF global_token->S == "="
+	JE32 %variable_load_done                    ; And be done
+
+	;; Deal with common case
+	LOADI32_EAX &variable_load_string_2         ; Using "mov_eax,[eax]\n"
+	CALL32 %emit_out                            ; Emit it
+
+:variable_load_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; global_load function
+;; Receives struct token_list* A in EAX
+;; Returns nothing
+;; Uses EBX to hold A->S
+:global_load
+	PUSH_EBX                                    ; Protect EBX
+	COPY_EAX_to_EBX                             ; Set as A
+	LOAD32_EBX_from_EBX_Immediate8 f_S          ; Set as A->S
+
+	LOADI32_EAX &global_load_string_0           ; Using "mov_eax, &GLOBAL_"
+	CALL32 %emit_out                            ; Emit it
+
+	COPY_EBX_to_EAX                             ; Using A->S
+	CALL32 %emit_out                            ; Emit it
+
+	CALL32 %emit_newline
+
+	CALL32 %get_s
+	COPY_EAX_to_EBX
+	LOADI32_EAX &equal                          ; "="
+	CALL32 %match                               ; IF global_token->S == "="
+	JE32 %global_load_done                      ; and be done
+
+	;; Otherwise we are loading the contents
+	LOADI32_EAX &global_load_string_2           ; Using "mov_eax,[eax]\n"
+	CALL32 %emit_out                            ; Emit it
+
+:global_load_done
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; sym_lookup function
+;; Receives char* S in EAX and struct token_list* symbol_list in EBX
+;; Uses I->S in EAX, S in EBX and I in ECX
+;; Returns match or NULL
+:sym_lookup
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EBX_to_ECX                             ; I = symbol_list
+	COPY_EAX_to_EBX                             ; Put S in the right place
+:sym_lookup_iter
+	CMPI8_ECX !0                                ; IF NULL == I
+	JE32 %sym_lookup_done                       ; We failed to find match
+
+	LOAD32_EAX_from_ECX_Immediate8 f_S          ; Using I->S
+	CALL32 %match                               ; IF I->S == S
+	JE32 %sym_lookup_done                       ; Failed
+
+	LOAD32_ECX_from_ECX                         ; I = I->NEXT
+	JMP32 %sym_lookup_iter                      ; otherwise keep looping
+
+:sym_lookup_done
+	COPY_ECX_to_EAX                             ; Return I
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; primary_expr_number function
+;; Receives nothing
+;; Returns nothing
+;; Simply uses current global token to update output and then steps to next global_token
+:primary_expr_number
+	LOADI32_EAX &constant_string                ; Using "mov_eax, %"
+	CALL32 %emit_out                            ; Emit it
+	CALL32 %get_s
+	CALL32 %emit_out                            ; Emit it
+	CALL32 %emit_newline
+	CALL32 %next
+	RETURN
+
+;; primary_expr_string function
+;; receives nothing
+;; Returns nothing
+;; creates entries for string and calls to generate string output
+;; uses ECX for char* number_string
+:primary_expr_string
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	LOAD32_Absolute32_ebx &current_count        ; Using current_count
+	COPY_EBX_to_EAX                             ; And putting it in the right place
+	CALL32 %numerate_number                     ; Get the string
+	COPY_EAX_to_ECX                             ; protect number_string
+
+	ADDI8_EBX !1                                ; current_count + 1
+	STORE32_Absolute32_ebx &current_count       ; current_count = current_count + 1
+
+	LOADI32_EAX &primary_expr_string_string_0   ; Using "mov_eax, &STRING_"
+	CALL32 %emit_out                            ; Emit it
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	COPY_ECX_to_EBX                             ; Put number_string in the right place
+	CALL32 %uniqueID_out                        ; Make it unique
+
+	;; Generate the target
+	LOADI32_EAX &primary_expr_string_string_1   ; Using ":STRING_"
+	LOAD32_Absolute32_ebx &strings_list         ; Using strings_list
+	CALL32 %emit                                ; Emit it
+	COPY_EAX_to_EBX                             ; put new strings_list in place
+
+	LOAD32_Absolute32_eax &function             ; Using function
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; function->S
+	CALL32 %uniqueID                            ; Make it unique
+	COPY_EAX_to_EBX                             ; put new strings_list in place
+
+	;; Parse the string
+	CALL32 %get_s
+	CALL32 %parse_string                        ; convert to useful form
+	CALL32 %emit                                ; Emit it
+	STORE32_Absolute32_eax &strings_list        ; Update Strings _list
+
+	CALL32 %next
+
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+;; primary_expr_char function
+;; Receives nothing
+;; Returns nothing
+;; Updates output_list using global_token
+:primary_expr_char
+	LOADI32_EAX &constant_string                ; Using "mov_eax, %"
+	CALL32 %emit_out                            ; Emit it
+	CALL32 %get_s
+	ADDI8_EAX !1                                ; global_token->S + 1
+	CALL32 %escape_lookup                       ; Get the char
+	CALL32 %numerate_number                     ; Convert to string
+	CALL32 %emit_out                            ; emit it
+	CALL32 %emit_newline
+	CALL32 %next
+	RETURN
+
+
+;; next function skip to next token
+;; HACK LJW this was previously require_match witch checked the token
+;; Returns nothing
+:next
+	LOAD32_Absolute32_eax &global_token         ; Using global_token
+	LOAD32_EAX_from_EAX                         ; global_token->next
+	STORE32_Absolute32_eax &global_token        ; global_token = global_token->next
+	RETURN
+
+;; get string value of global_token
+:get_s
+	LOAD32_Absolute32_eax &global_token         ; Using global_token
+	LOAD32_EAX_from_EAX_Immediate8 f_S          ; global_token->S
+	RETURN
+
+;; get first character for the string value of global_token
+:get_s0
+	CALL32 %get_s
+	LOAD8_al_from_EAX                           ; global_token->S[0]
+	MOVZX_al                                    ; Make it useful
+	RETURN
+
+;; uniqueID Function
+;; Receives char *S in EAX, struct token_list* l in EBX and char* num in ECX
+;; Returns updated struct token_list* L in EAX
+:uniqueID
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	CALL32 %emit                                ; emit(s, l)
+	COPY_EAX_to_EBX                             ; Put L in correct place
+	LOADI32_EAX &underline                      ; Using "_"
+	CALL32 %emit                                ; emit("_", l)
+	COPY_EAX_to_EBX                             ; Put L in correct place
+	COPY_ECX_to_EAX                             ; Put num in correct place
+	CALL32 %emit                                ; emit(num, l)
+	COPY_EAX_to_EBX                             ; Put L in correct place
+	LOADI32_EAX &newline                        ; Using "\n"
+	CALL32 %emit                                ; emit("\n", l)
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; uniqueID_out function
+;; Receives char* S in EAX and char* num in EBX
+;; Returns nothing
+:uniqueID_out
+	PUSH_EAX                                    ; Protect EAX
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EBX_to_ECX                             ; Put num in right spot
+	LOAD32_Absolute32_ebx &output_list          ; Using output_list
+	CALL32 %uniqueID                            ; Get updated list
+	STORE32_Absolute32_eax &output_list         ; output_list = uniqueID(s, output_list, num)
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	POP_EAX                                     ; Restore EAX
+	RETURN
+
+
+;; emit_out function
+;; Receives char* S in EAX
+;; Returns nothing
+;; Updates output_list
+;; MUST NOT ALTER REGISTERS
+:emit_out
+	PUSH_EAX                                    ; Protect EAX
+	PUSH_EBX                                    ; Protect EBX
+	LOAD32_Absolute32_ebx &output_list          ; Using output_list
+	CALL32 %emit                                ; emit it
+	STORE32_Absolute32_eax &output_list         ; update it
+	POP_EBX                                     ; Restore EBX
+	POP_EAX                                     ; Restore EAX
+	RETURN
+
+
+;; emit function
+;; Receives char *s in EAX and struct token_list* head in EBX
+;; Returns struct token_list* T in EAX
+:emit
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_ECX                             ; put S out of the way
+	LOADI32_EAX sizeof_token_list               ; sizeof(struct token_list)
+	CALL32 %malloc                              ; get T
+	STORE32_EBX_into_EAX                        ; t->next = head;
+	STORE32_ECX_into_EAX_Immediate8 f_S         ; t->s = s;
+	POP_ECX                                     ; Restore ECX
+	RETURN
+
+:emit_newline
+	LOADI32_EAX &newline                        ; "\n"
+	CALL32 %emit_out                            ; emit it
+	RETURN
+
+
+;; escape_lookup function
+;; Receives char* c in EAX
+;; Returns integer value of char in EAX
+;; Aborts hard if unknown escape is received
+;; Uses ECX to hold char* C
+:escape_lookup
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	COPY_EAX_to_ECX                             ; Put char* C in safe place
+	LOAD8_al_from_ECX                           ; Load c[0]
+	MOVZX_al                                    ; make it useful
+	CMPI8_EAX !92                               ; If '\\' != c[0]
+	JNE32 %escape_lookup_done                   ; Be done
+
+	COPY_ECX_to_EBX                             ; Prepare for walk
+	ADDI8_EBX !1                                ; increment
+	LOAD8_bl_from_EBX                           ; load c[1]
+	MOVZX_bl                                    ; make it useful
+
+	;; Deal with \? escapes
+	LOADI32_EAX %10                             ; Guess "\n"
+	CMPI8_EBX !110                              ; If n
+	JE32 %escape_lookup_done                    ; Be done
+
+	LOADI32_EAX %9                              ; Guess "\t"
+	CMPI8_EBX !116                              ; If t
+	JE32 %escape_lookup_done                    ; Be done
+
+	COPY_EBX_to_EAX                             ; "\\", "'" and '\"' all encode as themselves
+	CMPI8_EBX !92                               ; If "\\"
+	JE32 %escape_lookup_done                    ; Be done
+	CMPI8_EBX !39                               ; IF "'"
+	JE32 %escape_lookup_done                    ; Be done
+	CMPI8_EBX !34                               ; IF '\"'
+	JE32 %escape_lookup_done                    ; Be done
+
+:escape_lookup_done
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; char2hex function
+;; Receives char in EAX
+;; Returns hex or aborts hard
+:char2hex
+	SUBI8_EAX !48                               ; Try 0-9
+	CMPI8_EAX !10                               ; Otherwise fun times
+	JL32 %char2hex_done                         ; Be done
+
+	;; Deal with A-F
+	ANDI32_EAX %0xDF                            ; Unset High bit turning a-f into A-F
+	SUBI8_EAX !7                                ; Shift down into position
+
+:char2hex_done
+	RETURN
+
+
+;; parse_string function
+;; Receives char* string in EAX
+;; Returns cleaned up string
+;; aliased to collect_regular_string
+
+;; collect_regular_string function
+;; Receives char* string in EAX
+;; Malloc and creates new string to return in EAX
+;; Uses ECX for return string and EDX for passed string
+:parse_string
+:collect_regular_string
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	COPY_EAX_to_EDX                             ; Protect our passed string
+	LOADI32_EAX MAX_STRING                      ; We need MAX_STRING bytes of storage
+	CALL32 %malloc                              ; Get our new pointer
+	COPY_EAX_to_ECX                             ; put it in place
+	PUSH_EAX                                    ; protect until done
+:collect_regular_string_reset
+	LOAD8_al_from_EDX                           ; string[0]
+	MOVZX_al                                    ; Make it useful
+	CMPI8_EAX !0                                ; See if we hit the end
+	JE32 %collect_regular_string_done           ; And be done
+
+	CMPI8_EAX !92                               ; IF string[0] == '\\'
+	JE32 %collect_regular_string_escaped        ; Deal with that mess
+
+	;; deal with boring char
+	STORE8_al_into_Address_ECX                  ; hold_string[index] = string[0]
+	ADDI8_ECX !1                                ; Increment it
+	ADDI8_EDX !1                                ; Increment it
+	JMP32 %collect_regular_string_reset         ; And keep going
+
+:collect_regular_string_escaped
+	COPY_EDX_to_EAX                             ; Using string
+	CALL32 %escape_lookup                       ; Get the char
+	STORE8_al_into_Address_ECX                  ; hold_string[index] = escape_lookup(string)
+	ADDI8_EDX !1                                ; Increment it
+	ADDI8_ECX !1                                ; Increment it
+	LOAD8_al_from_EDX                           ; string[0]
+	MOVZX_al                                    ; Make it useful
+	ADDI8_EDX !1                                ; Increment it
+	CMPI8_EAX !120                              ; IF 'x' == string[1]
+	JNE32 %collect_regular_string_reset         ; Otherwise keep going
+
+	ADDI8_EDX !2                                ; Increment it
+	JMP32 %collect_regular_string_reset         ; Keep going
+
+:collect_regular_string_done
+	LOADI32_EAX %34                             ; Using '\"'
+	STORE8_al_into_Address_ECX                  ; hold_string[index] = '\"'
+	ADDI8_ECX !1                                ; Increment it
+	LOADI32_EAX %10                             ; Using "\n"
+	STORE8_al_into_Address_ECX                  ; hold_string[index] = '\n'
+	POP_EAX                                     ; Return our new string
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; HEX to ascii routine
+;; Receives INT in EAX and CHAR* in ECX
+;; Stores ascii of INT in CHAR*
+;; Returns only modifying EAX and ECX
+:hex8
+	PUSH_EAX                                    ; Protect bottom nibble
+	SHRI8_EAX !4                                ; do high nibble first
+	CALL32 %hex4                                ; Store it
+	POP_EAX                                     ; do low nibble
+:hex4
+	ANDI32_EAX %0xF                             ; isolate nibble
+	ADDI8_EAX !48                               ; convert to ascii
+	CMPI8_EAX !57                               ; valid digit?
+	JBE8 !hex1                                  ; yes
+	ADDI8_EAX !7                                ; use alpha range
+:hex1
+	STORE8_al_into_Address_ECX                  ; store result
+	ADDI8_ECX !1                                ; next position
+	RETURN
+
+
+;; sym_declare function
+;; Receives char *s in EAX, struct type* t in EBX, and struct token_list* list in ECX
+;; Returns struct token_list* in EAX
+;; Uses EAX for A
+:sym_declare
+	PUSH_EDX                                    ; Protect EDX
+	COPY_EAX_to_EDX                             ; Get char *S safely out of the way
+	LOADI32_EAX sizeof_token_list               ; Using sizeof(struct token_list)
+	CALL32 %malloc                              ; Get pointer to A
+	STORE32_ECX_into_EAX                        ; A->NEXT = LIST
+	STORE32_EDX_into_EAX_Immediate8 f_S         ; A->S = S
+	POP_EDX                                     ; Restore EDX
+	RETURN
+
+
+;; match function
+;; Receives CHAR* in EAX and CHAR* in EBX
+;; Returns 0 (TRUE) or 1 (FALSE) in EAX
+:match
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	COPY_EAX_to_ECX                             ; S1 in place
+	COPY_EBX_to_EDX                             ; S2 in place
+:match_Loop
+	LOAD8_al_from_ECX                           ; S1[0]
+	MOVZX_al                                    ; Make it useful
+	LOAD8_bl_from_EDX                           ; S2[0]
+	MOVZX_bl                                    ; Make it useful
+	CMP_EAX_EBX                                 ; See if they match
+	JNE32 %match_False                          ; If not
+
+	ADDI8_ECX !1                                ; S1 = S1 + 1
+	ADDI8_EDX !1                                ; S2 = S2 + 1
+	CMPI8_EAX !0                                ; If reached end of string
+	JE32 %match_Done                            ; Perfect match
+	JMP32 %match_Loop                           ; Otherwise keep looping
+
+:match_False
+	LOADI32_EAX %1                              ; Return false
+:match_Done
+	CMPI8_EAX !0                                ; make sure flags are set so we can conditionally branch straight after match
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; numerate_number function
+;; Receives an INT A in EAX
+;; Returns char* result in EAX
+;; Allocates 16 bytes of memory
+;; Behaves badly when given a negative number too large
+;; Uses EAX for temp, EBX for DIVISOR, EDX for mod/0, ESI for result[i] and EBP for A
+:numerate_number
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	PUSH_ESI                                    ; Protect ESI
+	PUSH_EBP                                    ; Protect EBP
+	COPY_EAX_to_EBP                             ; Protect A
+
+	LOADI32_EAX %16                             ; 16bytes
+	CALL32 %malloc                              ; Get our pointer
+	PUSH_EAX                                    ; Protect our pointer
+	COPY_EAX_to_ESI                             ; put pointer in right place
+	LOADI32_EBX %0x3B9ACA00                     ; Set divisor to largest positive number that fits in 32bits
+
+	CMPI8_EBP !0                                ; Deal with 0 case
+	JE32 %numerate_number_ZERO                  ; If it is
+	JG32 %numerate_number_positive              ; If it is positive
+
+	;; Deal with negative case
+	LOADI32_EAX %45                             ; Using "-"
+	STORE8_al_into_Address_ESI                  ; Write it
+	ADDI8_ESI !1                                ; increment
+	IMULI8_EBP !-1                              ; A = A * -1
+
+:numerate_number_positive
+	LOADI32_EDX %0                              ; Set top to 0
+	COPY_EBP_to_EAX                             ; Using A as bottom
+	IDIV_EBX                                    ; edx:eax % ebx -> edx + edx:eax / ebx -> eax [Even if we don't want it]
+	CMPI8_EAX !0                                ; IF 0 == (a / divisor)
+	JNE32 %numerate_number_iter                 ; Clean up those leading Zeros
+
+	LOADI32_EDX %0                              ; Set top to 0
+	COPY_EBX_to_EAX                             ; Using Divisor for bottom
+	LOADI32_EBX %10                             ; Make this shit work because idiv 10 doesn't work
+	IDIV_EBX                                    ; edx:eax % 10 -> edx + edx:eax / 10 -> eax [Even if we don't want it]
+	COPY_EAX_to_EBX                             ; Update divisor
+	JMP32 %numerate_number_positive             ; Keep collecting
+
+:numerate_number_iter
+	CMPI8_EBX !0                                ; IF DIVISOR < 0
+	JLE32 %numerate_number_done                 ; Be done
+
+	LOADI32_EDX %0                              ; Set top to 0
+	COPY_EBP_to_EAX                             ; Using A as bottom
+	IDIV_EBX                                    ; edx:eax % ebx -> edx + edx:eax / ebx -> eax [Even if we don't want it]
+	ADDI8_EAX !48                               ; ((a / divisor) + 48)
+	STORE8_al_into_Address_ESI                  ; Write it
+	COPY_EDX_to_EBP                             ; a = a % divisor
+
+	LOADI32_EDX %0                              ; Set top to 0
+	COPY_EBX_to_EAX                             ; Using Divisor for bottom
+	LOADI32_EBX %10                             ; Make this shit work because idiv 10 doesn't work
+	IDIV_EBX                                    ; edx:eax % 10 -> edx + edx:eax / 10 -> eax [Even if we don't want it]
+	COPY_EAX_to_EBX                             ; Update divisor
+
+	ADDI8_ESI !1                                ; increment
+	JMP32 %numerate_number_iter                 ; Keep going
+
+:numerate_number_done
+	POP_EAX                                     ; Restore our result
+	POP_EBP                                     ; Restore EBP
+	POP_ESI                                     ; Restore ESI
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+:numerate_number_ZERO
+	LOADI32_EAX %48                             ; Using '0'
+	STORE8_al_into_Address_ESI                  ; Write it
+	ADDI8_ESI !1                                ; increment
+	JMP32 %numerate_number_done                 ; Be done
+
+
+;; numerate_string function
+;; Receives CHAR* in EAX
+;; Returns value of CHAR* in EAX
+;; Uses EAX for VALUE, EBX for S, ECX for CH and ESI for NEGATIVE?
+:numerate_string
+	PUSH_EBX                                    ; Protect EBX
+	PUSH_ECX                                    ; Protect ECX
+	PUSH_EDX                                    ; Protect EDX
+	PUSH_ESI                                    ; Protect ESI
+	COPY_EAX_to_EBX                             ; put S in correct place
+	LOADI32_EAX %0                              ; Initialize to Zero
+:numerate_string_loop
+	LOAD8_cl_from_EBX_Immediate8 !1             ; S[1]
+	MOVZX_cl                                    ; make it useful
+	CMPI8_ECX !120                              ; IF 'x' == S[1]
+	JE32 %numerate_hex                          ; Deal with hex input
+
+	;; Assume decimal input
+	LOADI32_ESI %0                              ; Assume no negation
+	LOAD8_cl_from_EBX                           ; S[0]
+	MOVZX_cl                                    ; make it useful
+	CMPI8_ECX !45                               ; IF '-' == S[0]
+	JNE32 %numerate_decimal                     ; Skip negation
+
+	LOADI32_ESI %1                              ; Set FLAG
+	ADDI8_EBX !1                                ; S = S + 1
+
+:numerate_decimal
+	LOAD8_cl_from_EBX                           ; S[0]
+	MOVZX_cl                                    ; make it useful
+	CMPI8_ECX !0                                ; IF NULL == S[0]
+	JE32 %numerate_decimal_done                 ; We are done
+
+	IMULI8_EAX !10                              ; VALUE = VALUE * 10
+	SUBI8_ECX !48                               ; CH = CH - '0'
+	CMPI8_ECX !9                                ; Check for illegal
+	JG32 %numerate_string_fail                  ; If CH > '9'
+	CMPI8_ECX !0                                ; Check for illegal
+	JL32 %numerate_string_fail                  ; IF CH < 0
+	ADD_ecx_into_eax                            ; VALUE = VALUE + CH
+	ADDI8_EBX !1                                ; S = S + 1
+	JMP32 %numerate_decimal                     ; Keep looping
+
+:numerate_decimal_done
+	CMPI8_ESI !1                                ; Check if need to negate
+	JNE32 %numerate_string_done                 ; Nope
+
+	IMULI8_EAX !-1                              ; VALUE = VALUE * -1
+	JMP32 %numerate_string_done                 ; Done
+
+:numerate_hex
+	ADDI8_EBX !2                                ; S = S + 2
+:numerate_hex_loop
+	LOAD8_cl_from_EBX                           ; S[0]
+	MOVZX_cl                                    ; make it useful
+	CMPI8_ECX !0                                ; IF NULL == S[0]
+	JE32 %numerate_string_done                  ; We are done
+
+	SALI8_EAX !4                                ; VALUE = VALUE << 4
+	SUBI8_ECX !48                               ; CH = CH - '0'
+	CMPI8_ECX !10                               ; IF 10 >= CH
+	JL32 %numerate_hex_digit                    ; NO
+	SUBI8_ECX !7                                ; Push A-F into range
+:numerate_hex_digit
+	CMPI8_ECX !15                               ; Check for illegal
+	JG32 %numerate_string_fail                  ; If CH > 'F'
+	CMPI8_ECX !0                                ; Check for illegal
+	JL32 %numerate_string_fail                  ; IF CH < 0
+	ADD_ecx_into_eax                            ; VALUE = VALUE + CH
+	ADDI8_EBX !1                                ; S = S + 1
+	JMP32 %numerate_hex_loop                    ; Keep looping
+
+:numerate_string_fail
+	LOADI32_EAX %0                              ; return ZERO
+
+:numerate_string_done
+	POP_ESI                                     ; Restore ESI
+	POP_EDX                                     ; Restore EDX
+	POP_ECX                                     ; Restore ECX
+	POP_EBX                                     ; Restore EBX
+	RETURN
+
+
+;; Keywords
+:main_string  "main"
+:if_string  "if"
+:else_string  "else"
+:while_string  "while"
+:asm_string  "asm"
+:return_string  "return"
+:break_string  "break"
+:int_string  "int"
+
+
+;; Frequently Used strings
+:open_curly_brace  "{"
+:close_curly_brace  "}"
+:open_paren  "("
+:close_paren  ")"
+:comma  ","
+:semicolon  ";"
+:equal  "="
+:newline  "
+"
+:underline  "_"
+
+;; function strings
+:header_string1  "
+# Core program
+"
+:header_string3  "
+# Program global variables
+"
+:header_string4  "
+# Program strings
+"
+:header_string5  "
+:ELF_end
+"
+
+;; Strings needed by the program function
+:program_string_0  ":GLOBAL_"
+:program_string_1  "
+NULL
+"
+
+:declare_function_string_1  "
+:FUNCTION_"
+:ret_string  "ret
+"
+
+:collect_local_string_3  "reserve_stack_slot	#"
+
+:process_if_string_0  "# IF_"
+:process_if_string_2  "jump_false %ELSE_"
+:process_if_string_4  "jump %_END_IF_"
+:process_if_string_5  ":ELSE_"
+:process_if_string_6  ":_END_IF_"
+
+:process_while_string_0  "END_WHILE_"
+:process_while_string_1  ":WHILE_"
+:process_while_string_3  "jump_false %END_WHILE_"
+:process_while_string_6  "jump %WHILE_"
+:process_while_string_7  ":END_WHILE_"
+
+:pop_ebx_string  "pop_ebx
+"
+:jump_string  "jump %"
+
+:expression_string_1  "push_address
+"
+:expression_string_2  "store
+"
+
+:function_call_string_1  "(
+"
+:function_call_string_4  "push_arg
+"
+:function_call_string_9  "do_call %FUNCTION_"
+:function_call_string_14 ")
+"
+
+:global_load_string_0  "global &GLOBAL_"
+:global_load_string_2  "load
+"
+
+:primary_expr_string_6  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
+:primary_expr_string_7  "0123456789"
+
+:constant_string  "constant %"
+
+:variable_load_string_0  "local %"
+:variable_load_string_2  "load
+"
+
+:primary_expr_string_string_0  "constant &STRING_"
+:primary_expr_string_string_1  ":STRING_"
+
+:alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
+:symbols  "="
+:strings  '22 27 00'
+
+
+:C
+	NULL
+:Input_file
+	NULL
+:MALLOC
+	NULL
+:Output_file
+	NULL
+:Token
+	NULL
+:break_frame
+	NULL
+:break_target_func
+	NULL
+:break_target_head
+	NULL
+:break_target_num
+	NULL
+:current_count
+	NULL
+:function
+	NULL
+:global_function_list
+	NULL
+:global_symbol_list
+	NULL
+:global_token
+	NULL
+:global_types
+	&prim_types
+:globals_list
+	NULL
+:output_list
+	NULL
+:string_index
+	NULL
+:strings_list
+	NULL
+
+:ELF_end
