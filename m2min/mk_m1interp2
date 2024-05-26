@@ -1,0 +1,3 @@
+rm artifacts/out.M1
+js m1interp/m1interp2.js > artifacts/out.M1 
+diff -u -s M2_simple_asm.M1 artifacts/out.M1
