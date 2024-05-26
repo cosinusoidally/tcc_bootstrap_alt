@@ -911,4 +911,11 @@ var no_go;
 
 if(!no_go){
   go();
+} else {
+  var b=labels["FUNCTION_program"].ho;
+  wi8(b, int_03);
+  wi8(b + 1, prims.length-1);
+  go();
+  pon();
+  print("here");
 }
