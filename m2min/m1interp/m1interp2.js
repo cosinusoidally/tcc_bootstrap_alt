@@ -884,6 +884,8 @@ lp=function(){
 lp();
 
 
+function go(){
+
 try {
   run();
 } catch (e){
@@ -903,3 +905,10 @@ file=out_file.map(function(x){
 }).join("");
 
 print_old(file);
+}
+
+var no_go;
+
+if(!no_go){
+  go();
+}
