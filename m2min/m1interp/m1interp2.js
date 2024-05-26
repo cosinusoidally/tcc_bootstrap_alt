@@ -3,6 +3,7 @@ var dbg;
 out=[];
 out2=[];
 
+function poff(){
 print_old=print;
 
 print=function(x){
@@ -14,6 +15,13 @@ print=function(x){
     }
   }
 }
+}
+
+function pon(){
+  print=print_old;
+}
+
+poff();
 
 print("hello world");
 
