@@ -969,6 +969,8 @@ if(!no_go){
   resume();
   global_token=gen_tokens();
   global_symbol_list=gen_global_symbol_list();
+  global_symbol_list=gen_global_symbol_list();
+  global_function_list=gen_global_function_list();
 }
 
 function reverse_list(x){
@@ -1006,6 +1008,25 @@ function gen_tokens(){
     c.next=last;
     c.s=mk_js_string(ri32(g+8));
     c.linenumber=ri32(g+12);
+    g=ri32(g);
+  }
+  return reverse_list(c);
+}
+
+function gen_global_function_list(){
+  var g=labels["GLOBAL_global_function_list"].ho;
+  gf={};
+  var c={};
+  var last;
+  while(g) {
+    last=c;
+    c={};
+    c.prev=last;
+    c.next=last;
+    c.addr=g;
+    c.s=mk_js_string(ri32(g+8));
+    c.arguments=ri32(g+12);
+    gf[c.s]=c;
     g=ri32(g);
   }
   return reverse_list(c);
