@@ -968,6 +968,7 @@ if(!no_go){
   print(o2.join(""));
   resume();
   global_token=gen_tokens();
+  global_symbol_list=gen_global_symbol_list();
 }
 
 function reverse_list(x){
@@ -977,6 +978,21 @@ function reverse_list(x){
     n=n.prev;
   }
   return n;
+}
+
+function gen_global_symbol_list(g){
+  var g=labels["GLOBAL_global_symbol_list"].ho;
+  var c={};
+  var last;
+  while(g) {
+    last=c;
+    c={};
+    c.prev=last;
+    c.next=last;
+    c.s=mk_js_string(ri32(g+8));
+    g=ri32(g);
+  }
+  return reverse_list(c);
 }
 
 function gen_tokens(){
