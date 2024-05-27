@@ -909,15 +909,26 @@ print_old(file);
 
 var no_go;
 
+function resume() {
+  wi32(b, backup);
+  poff();
+  go();
+  pon();
+}
+
+
+
 if(!no_go){
   go();
 } else {
   var b=labels["FUNCTION_program"].ho;
+  backup=ri32(b);
   wi8(b, int_03);
   wi8(b + 1, prims.length-1);
   go();
   pon();
   g0=labels["GLOBAL_global_token"].ho;
+  GLOBAL_global_token=ri32(labels["GLOBAL_global_token"].ho);
   g=g0;
   gn=0;
   o2=[];
@@ -955,4 +966,30 @@ if(!no_go){
     gn=gn+1;
   }
   print(o2.join(""));
+  resume();
+}
+
+function reverse_list(x){
+  var n=x;
+  while(n.prev!==undefined){
+    print(n.s);
+    n.prev.next=n;
+    n=n.prev;
+  }
+  return n;
+}
+
+function gen_tokens(){
+  var g=GLOBAL_global_token;
+  var c={};
+  var last;
+  while(g) {
+    last=c;
+    c={};
+    c.prev=last;
+    c.next=last;
+    c.s=mk_js_string(ri32(g+8));
+    g=ri32(g);
+  }
+  return reverse_list(c);
 }
