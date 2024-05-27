@@ -917,5 +917,42 @@ if(!no_go){
   wi8(b + 1, prims.length-1);
   go();
   pon();
-  print("here");
+  g0=labels["GLOBAL_global_token"].ho;
+  g=g0;
+  gn=0;
+  o2=[];
+  ident=0;
+  while(g=ri32(g)){
+    s=mk_js_string(ri32(g+8));
+    if(s[0]=="\""){
+      s=s+"\"";
+    }
+    if(s[0]=="'"){
+      s=s+"'";
+    }
+    o2.push(s);
+    if(s==="{" || s===";" || s==="}") {
+      if(s==="}"){
+        o2.pop();
+        if(o2[o2.length-1]==="  "){
+          o2.pop();
+        }
+        o2.push(s);
+      }
+      o2.push("\n");
+      if(s==="{"){
+        ident=ident+1;
+      }
+      if(s==="}"){
+        ident=ident-1;
+      }
+      for(var i=0;i<ident;i++){
+        o2.push("  ");
+      }
+    } else {
+      o2.push(" ");
+    }
+    gn=gn+1;
+  }
+  print(o2.join(""));
 }
