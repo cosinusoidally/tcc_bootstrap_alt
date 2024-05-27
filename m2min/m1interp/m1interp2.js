@@ -1013,6 +1013,19 @@ function gen_tokens(){
   return reverse_list(c);
 }
 
+function decode_arguments(x){
+  var args=[];
+  var rev=[];
+  while(x){
+    args.push({s:mk_js_string(ri32(x+8)),depth:ri32(x+12)});
+    x=ri32(x);
+  }
+  while(args.length>0){
+    rev.push(args.pop());
+  }
+  return rev;
+}
+
 function gen_global_function_list(){
   var g=labels["GLOBAL_global_function_list"].ho;
   gf={};
@@ -1025,7 +1038,8 @@ function gen_global_function_list(){
     c.next=last;
     c.addr=g;
     c.s=mk_js_string(ri32(g+8));
-    c.arguments=ri32(g+12);
+    c.arguments_addr=ri32(g+12);
+    c.arguments=decode_arguments(c.arguments_addr);
     gf[c.s]=c;
     g=ri32(g);
   }
