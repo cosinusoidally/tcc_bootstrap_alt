@@ -967,12 +967,12 @@ if(!no_go){
   }
   print(o2.join(""));
   resume();
+  global_token=gen_tokens();
 }
 
 function reverse_list(x){
   var n=x;
   while(n.prev!==undefined){
-    print(n.s);
     n.prev.next=n;
     n=n.prev;
   }
@@ -989,6 +989,7 @@ function gen_tokens(){
     c.prev=last;
     c.next=last;
     c.s=mk_js_string(ri32(g+8));
+    c.linenumber=ri32(g+12);
     g=ri32(g);
   }
   return reverse_list(c);
