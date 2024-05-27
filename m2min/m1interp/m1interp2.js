@@ -969,7 +969,6 @@ if(!no_go){
   resume();
   global_token=gen_tokens();
   global_symbol_list=gen_global_symbol_list();
-  global_symbol_list=gen_global_symbol_list();
   global_function_list=gen_global_function_list();
 }
 
