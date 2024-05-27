@@ -982,15 +982,18 @@ function reverse_list(x){
 }
 
 function gen_global_symbol_list(g){
-  var g=labels["GLOBAL_global_symbol_list"].ho;
+  var g=ri32(labels["GLOBAL_global_symbol_list"].ho);
   var c={};
+  gs=[];
   var last;
   while(g) {
     last=c;
     c={};
+    c.addr=g;
     c.prev=last;
     c.next=last;
     c.s=mk_js_string(ri32(g+8));
+    gs.push(c);
     g=ri32(g);
   }
   return reverse_list(c);
@@ -1026,7 +1029,7 @@ function decode_arguments(x){
 }
 
 function gen_global_function_list(){
-  var g=labels["GLOBAL_global_function_list"].ho;
+  var g=ri32(labels["GLOBAL_global_function_list"].ho);
   gf={};
   var c={};
   var last;
