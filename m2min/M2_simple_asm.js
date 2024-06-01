@@ -822,9 +822,9 @@ function collect_local() {
 		expression();
 	}
 
-	skip(";");
+	skip(mks(";"));
 
-	indented_emit_out("reserve_stack_slot\n");
+	indented_emit_out(mks("reserve_stack_slot\n"));
 }
 
 /* Evaluate if statements */
@@ -833,46 +833,46 @@ function process_if() {
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 
-	emit_out("# IF_");
+	emit_out(mks("# IF_"));
 	uniqueID_out(get_s(func), number_string);
 
 	advance();
-	skip("(");
+	skip(mks("("));
 	expression();
 
-	indented_emit_out("jump_false %ELSE_");
+	indented_emit_out(mks("jump_false %ELSE_"));
 
 	uniqueID_out(get_s(func), number_string);
 
-	skip(")");
+	skip(mks(")"));
 	statement();
 
-	indented_emit_out("jump %_END_IF_");
+	indented_emit_out(mks("jump %_END_IF_"));
 
 	uniqueID_out(get_s(func), number_string);
 
-	emit_out(":ELSE_");
+	emit_out(mks(":ELSE_"));
 	uniqueID_out(get_s(func), number_string);
 
-	if(match("else", global_token_string())) {
+	if(match(mks("else"), global_token_string())) {
 		advance();
 		statement();
 	}
-	emit_out(":_END_IF_");
+	emit_out(mks(":_END_IF_"));
 	uniqueID_out(get_s(func), number_string);
 }
 
 /* Process Assembly statements */
 function process_asm() {
 	advance();
-	skip("(");
+	skip(mks("("));
 	while(eq('"', global_token_char0())) {
 		emit_out(add(global_token_string(), 1));
-		emit_out("\n");
+		emit_out(mks("\n"));
 		advance();
 	}
-	skip(")");
-	skip(";");
+	skip(mks(")"));
+	skip(mks(";"));
 }
 
 /* Process while loops */
@@ -891,16 +891,16 @@ function process_while() {
 
 	current_count = add(current_count, 1);
 
-	break_target_head = "END_WHILE_";
+	break_target_head = mks("END_WHILE_");
 	break_target_num = number_string;
 	break_frame = get_locals(func);
 	break_target_func = get_s(func);
 
-	emit_out(":WHILE_");
+	emit_out(mks(":WHILE_"));
 	uniqueID_out(get_s(func), number_string);
 
 	advance();
-	skip("(");
+	skip(mks("("));
 	expression();
 
 	indented_emit_out("jump_false %END_WHILE_");
