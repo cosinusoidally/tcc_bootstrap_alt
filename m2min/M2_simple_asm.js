@@ -202,7 +202,7 @@ function indented_emit_out(s) {
 		no_indent = 0;
 	} else {
 		while(lt(c, indent)) {
-			emit_out(" ");
+			emit_out(mk_c_string(" "));
 			c = add(c, 1);
 		}
 	}

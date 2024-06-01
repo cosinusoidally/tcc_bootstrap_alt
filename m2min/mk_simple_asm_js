@@ -1,6 +1,7 @@
 ./mk_clean
 
 cat simple_support_js_defs.c > artifacts/M2_simple_asm_full.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_full.c
 cat simple_support_tcc.c >> artifacts/M2_simple_asm_full.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
 
@@ -14,6 +15,7 @@ tcc artifacts/M2_simple_asm_full.c -o artifacts/M2_min_tcc.exe
 
 # hack declare stdout
 echo "int stdout;" > artifacts/M2_simple_asm_m2.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_m2.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_m2.c
 cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
 
