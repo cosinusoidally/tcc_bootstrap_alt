@@ -1226,7 +1226,7 @@ int initialize_globals() {
 	no_indent = 0;
 }
 
-int main(int argc, int argv) {
+function main(int argc, int argv) {
 	int in;
 	int destination_file;
 	int name;
