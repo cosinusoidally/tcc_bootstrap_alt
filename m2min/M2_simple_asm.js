@@ -1116,14 +1116,14 @@ function program() {
 			global_symbol_list = tmp;
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
-			globals_list = emit(":GLOBAL_", globals_list);
+			globals_list = emit(mks(":GLOBAL_"), globals_list);
 			globals_list = emit(get_s(get_prev(global_token)),
 						globals_list);
 
 			i = 1;
-			globals_list = emit("\n", globals_list);
+			globals_list = emit(mks("\n"), globals_list);
 			while(neq(i, 0)) {
-				globals_list = emit("NULL\n", globals_list);
+				globals_list = emit(mks("NULL\n"), globals_list);
 				i = sub(i, 1);
 			}
 			advance();
@@ -1131,7 +1131,7 @@ function program() {
 		}
 
 		/* Deal with global functions */
-		if(match("(", global_token_string())) {
+		if(match(mks("("), global_token_string())) {
 			declare_function();
 			new_type = 1;
 		}
@@ -1187,11 +1187,11 @@ function main(argc, argv) {
 
 	name = ri32(add(argv, 4));
 
-	inp = fopen(name, "r");
+	inp = fopen(name, mks("r"));
 	global_token = read_all_tokens(inp, global_token);
 	fclose(inp);
 
-	destination_file = fopen(ri32(add(argv,mul(4, 2))), "w");
+	destination_file = fopen(ri32(add(argv,mul(4, 2))), mks("w"));
 
 	global_token = reverse_list(global_token);
 
@@ -1200,13 +1200,13 @@ function main(argc, argv) {
 	program();
 
 	/* Output the program we have compiled */
-	fputs("\n# Core program\n", destination_file);
+	fputs(mks("\n# Core program\n"), destination_file);
 	recursive_output(output_list, destination_file);
-	fputs("\n# Program global variables\n", destination_file);
+	fputs(mks("\n# Program global variables\n"), destination_file);
 	recursive_output(globals_list, destination_file);
-	fputs("\n# Program strings\n", destination_file);
+	fputs(mks("\n# Program strings\n"), destination_file);
 	recursive_output(strings_list, destination_file);
-	fputs("\n:ELF_end\n", destination_file);
+	fputs(mks("\n:ELF_end\n"), destination_file);
 
 	fclose(destination_file);
 	return EXIT_SUCCESS;
