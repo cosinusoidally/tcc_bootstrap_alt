@@ -340,8 +340,8 @@ function int2str(x, base, signed_p) {
 	return add(p, 1);
 }
 
-int grab_byte() {
-	int c;
+function grab_byte() {
+	var c;
 	c = fgetc(input);
 	if(eq(10, c)) {
 		line = add(line, 1);
@@ -349,22 +349,22 @@ int grab_byte() {
 	return c;
 }
 
-int clearWhiteSpace(int c) {
+var clearWhiteSpace(c) {
 	if(or(eq(32, c), eq(9, c))) {
 		return clearWhiteSpace(grab_byte());
 	}
 	return c;
 }
 
-int consume_byte(int c) {
+function consume_byte(c) {
 	wi8(add(hold_string, string_index), c);
 	string_index = add(string_index, 1);
 	return grab_byte();
 }
 
-int preserve_string(int c) {
-	int frequent;
-	int escape;
+function preserve_string(c) {
+	var frequent;
+	var escape;
 
 	frequent = c;
 	escape = FALSE;
@@ -381,8 +381,8 @@ int preserve_string(int c) {
 	return grab_byte();
 }
 
-int copy_string(int target, int source, int max) {
-	int i;
+function copy_string(target, source, max) {
+	var i;
 	i = 0;
 	while(neq(0, ri8(add(source, i)))) {
 		wi8(add(target, i), ri8(add(source, i)));
