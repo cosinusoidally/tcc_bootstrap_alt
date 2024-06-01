@@ -280,7 +280,7 @@ function match(a, b) {
 	return TRUE;
 }
 
-int in_set(int c, int s) {
+function in_set(c, s) {
 	/* NULL set is always false */
 	if(eq(NULL, s)) {
 		return FALSE;
@@ -295,11 +295,11 @@ int in_set(int c, int s) {
 	return FALSE;
 }
 
-int int2str(int x, int base, int signed_p) {
-	int p;
-	int i;
-	int sign_p;
-	int table;
+function int2str(x, base, signed_p) {
+	var p;
+	var i;
+	var sign_p;
+	var table;
 	/* Be overly conservative and save space for 32binary digits and padding null */
 	p = calloc(34, 1);
 	/* if calloc fails return null to let calling code deal with it */
