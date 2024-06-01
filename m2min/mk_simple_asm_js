@@ -33,4 +33,5 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 
 sha256sum artifacts/*M1
 ls -l artifacts/*.exe
+diff -u -s artifacts/M2_simple_asm_m2.M1 artifacts/M2_simple_asm_self.M1
 sha256sum -c sums_simple_asm
