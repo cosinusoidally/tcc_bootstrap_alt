@@ -393,16 +393,16 @@ function copy_string(target, source, max) {
 	}
 }
 
-int preserve_keyword(int c, int S) {
+function preserve_keyword(c, S) {
 	while(in_set(c, S)) {
 		c = consume_byte(c);
 	}
 	return c;
 }
 
-int reset_hold_string() {
-	int i;
-	int o;
+function reset_hold_string() {
+	var i;
+	var o;
 	i = 0;
 	while(lt(i, MAX_STRING)) {
 		o = add(hold_string, i);
@@ -415,8 +415,8 @@ int reset_hold_string() {
 	string_index = 0;
 }
 
-int new_token(int s, int size) {
-	int current;
+function new_token(s, size) {
+	var current;
 	current = calloc(1, sizeof_token_list);
 
 	/* More efficiently allocate memory for string */
@@ -429,9 +429,9 @@ int new_token(int s, int size) {
 	token = current;
 }
 
-int get_token(int c) {
-	int current;
-	int reset;
+function get_token(c) {
+	var current;
+	var reset;
 	current = calloc(1, sizeof_token_list);
 
 	reset = 1;
@@ -477,9 +477,9 @@ int get_token(int c) {
 	return c;
 }
 
-int reverse_list(int head) {
-	int root;
-	int next;
+function reverse_list(head) {
+	var root;
+	var next;
 
 	root = NULL;
 
@@ -492,7 +492,7 @@ int reverse_list(int head) {
 	return root;
 }
 
-int read_all_tokens(int a, int current) {
+function read_all_tokens(a, current) {
 	input  = a;
 	line = 1;
 	token = current;
