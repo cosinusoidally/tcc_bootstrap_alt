@@ -903,21 +903,21 @@ function process_while() {
 	skip(mks("("));
 	expression();
 
-	indented_emit_out("jump_false %END_WHILE_");
+	indented_emit_out(mks("jump_false %END_WHILE_"));
 
 	uniqueID_out(get_s(func), number_string);
 
-	emit_out("# THEN_while_");
+	emit_out(mks("# THEN_while_"));
 	uniqueID_out(get_s(func), number_string);
 
-	skip(")");
+	skip(mks(")"));
 	statement();
 
-	indented_emit_out("jump %WHILE_");
+	indented_emit_out(mks("jump %WHILE_"));
 
 	uniqueID_out(get_s(func), number_string);
 
-	emit_out(":END_WHILE_");
+	emit_out(mks(":END_WHILE_"));
 	uniqueID_out(get_s(func), number_string);
 
 	break_target_head = nested_break_head;
@@ -937,19 +937,19 @@ function return_result() {
 	if(neq(global_token_char0(), ';')) {
 		expression();
 	}
-	skip(";");
+	skip(mks(";"));
 	i = get_locals(func);
 	while(neq(NULL, i)) {
 		i = get_next(i);
 		c = add(c, 1);
 	}
 	if(neq(0, c)) {
-		indented_emit_out("cleanup_locals_bytes %");
+		indented_emit_out(mks("cleanup_locals_bytes %"));
 		emit_out(int2str(mul(c, register_size), 10, TRUE));
-		emit_out(" ");
+		emit_out(mks(" "));
 		no_indent = 1;
 	}
-	indented_emit_out("ret\n");
+	indented_emit_out(mks("ret\n"));
 }
 
 function process_break() {
@@ -957,13 +957,13 @@ function process_break() {
 	i = get_locals(func);
 
 	advance();
-	indented_emit_out("jump %");
+	indented_emit_out(mks("jump %"));
 	emit_out(break_target_head);
 	emit_out(break_target_func);
-	emit_out("_");
+	emit_out(mks("_"));
 	emit_out(break_target_num);
-	emit_out("\n");
-	skip(";");
+	emit_out(mks("\n"));
+	skip(mks(";"));
 }
 
 function recursive_statement() {
@@ -974,22 +974,22 @@ function recursive_statement() {
 
 	advance();
 	frame = get_locals(func);
-	while(eq(0, match("}", global_token_string()))) {
+	while(eq(0, match(mks("}"), global_token_string()))) {
 		statement();
 	}
 	advance();
 
 	/* Clean up any locals added */
-	if(eq(0, match("ret\n", get_s(output_list)))) {
+	if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
 		i = get_locals(func);
 		while(neq(frame,i)) {
 			c = add(c, 1);
 			i = get_next(i);
 		}
 		if(neq(0, c)) {
-			indented_emit_out("cleanup_locals_bytes %");
+			indented_emit_out(mks("cleanup_locals_bytes %"));
 			emit_out(int2str(mul(c, register_size), 10, TRUE));
-			emit_out(" ");
+			emit_out(mks(" "));
 			no_indent = 1;
 		}
 	}
@@ -999,14 +999,14 @@ function recursive_statement() {
 function statement() {
 	if(eq(global_token_char0(), '{')) {
 		recursive_statement();
-	} else if(or(match("int", global_token_string()),
-			match("var", global_token_string()))) {
+	} else if(or(match(mks("int"), global_token_string()),
+			match(mks("var"), global_token_string()))) {
 		collect_local();
-	} else if(match("if", global_token_string())) {
+	} else if(match(mks("if"), global_token_string())) {
 		process_if();
-	} else if(match("while", global_token_string())) {
+	} else if(match(mks("while"), global_token_string())) {
 		process_while();
-	} else if(match("asm", global_token_string())) {
+	} else if(match(mks("asm"), global_token_string())) {
 		process_asm();
 	} else if(match("return", global_token_string())) {
 		return_result();
