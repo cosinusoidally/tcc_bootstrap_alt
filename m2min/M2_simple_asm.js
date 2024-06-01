@@ -1055,7 +1055,8 @@ void recursive_statement() {
 int statement() {
 	if(eq(global_token_char0(), '{')) {
 		recursive_statement();
-	} else if(match("int", global_token_string())) {
+	} else if(or(match("int", global_token_string()),
+			match("var", global_token_string()))) {
 		collect_local();
 	} else if(match("if", global_token_string())) {
 		process_if();
