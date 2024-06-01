@@ -99,7 +99,7 @@ int token_list_arguments_offset;
 int token_list_depth_offset;
 int token_list_linenumber_offset;
 
-int token_list_layout_init(){
+function token_list_layout_init(){
 	token_list_next_offset = 0;
 	token_list_locals_offset = 4;
 	token_list_prev_offset = 4;
