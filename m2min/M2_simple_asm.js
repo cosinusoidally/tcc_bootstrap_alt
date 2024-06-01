@@ -736,7 +736,7 @@ int variable_load(int a, int is_arg) {
 
 int function_load(int a) {
 	if(match("(", global_token_string())) {
-		function_call(get_s(a));
+		function_call(a);
 		return;
 	}
 }
@@ -803,19 +803,18 @@ int primary_expr_variable() {
 		return;
 	}
 
-	a = sym_lookup(s, global_function_list);
-	if(neq(NULL, a)) {
-		function_load(a);
-		return;
-	}
-
 	a = sym_lookup(s, global_symbol_list);
 	if(neq(NULL, a)) {
 		global_load(a);
 		return;
 	}
 
-	exit(add(EXIT_FAILURE, 2));
+	/* anything else is implicity a function */
+	function_load(s);
+	return;
+
+/* no longer reachable */
+/*	exit(add(EXIT_FAILURE, 2)); */
 }
 
 int expression() {
@@ -1150,6 +1149,7 @@ int declare_function() {
 int program() {
 	int i;
 	int new_type;
+	int tmp;
 	func = NULL;
 
 	new_type = 1;
@@ -1162,12 +1162,13 @@ int program() {
 
 		advance();
 
-		/* Add to global symbol table */
-		global_symbol_list = sym_declare(global_token_string(), global_symbol_list);
+		/* Add to global symbol table (tmp since we only want non-fns)*/
+		tmp = sym_declare(global_token_string(), global_symbol_list);
 		advance();
 
 		/* Deal with global variables */
 		if(match(";", global_token_string())) {
+			global_symbol_list = tmp;
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(":GLOBAL_", globals_list);
