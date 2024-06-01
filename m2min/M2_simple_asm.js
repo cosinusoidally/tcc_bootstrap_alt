@@ -349,7 +349,7 @@ function grab_byte() {
 	return c;
 }
 
-var clearWhiteSpace(c) {
+function clearWhiteSpace(c) {
 	if(or(eq(32, c), eq(9, c))) {
 		return clearWhiteSpace(grab_byte());
 	}
@@ -493,10 +493,12 @@ function reverse_list(head) {
 }
 
 function read_all_tokens(a, current) {
+	var ch;
+
 	input  = a;
 	line = 1;
 	token = current;
-	int ch = grab_byte();
+	ch = grab_byte();
 	while(neq(EOF, ch)) {
 		ch = get_token(ch);
 	}
@@ -1051,8 +1053,8 @@ function collect_arguments() {
 	advance();
 }
 
-int declare_function() {
-	int a;
+function declare_function() {
+	var a;
 	current_count = 0;
 	func = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
