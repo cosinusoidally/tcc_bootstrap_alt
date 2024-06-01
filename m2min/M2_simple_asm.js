@@ -504,8 +504,8 @@ function read_all_tokens(a, current) {
 }
 
 /* Lookup escape values */
-int escape_lookup(int c) {
-	int c1;
+function escape_lookup(c) {
+	var c1;
 	c1 = ri8(add(c,1));
 	if(neq('\\', ri8(c))) {
 		return ri8(c);
@@ -540,9 +540,9 @@ int escape_lookup(int c) {
 	exit(add(EXIT_FAILURE, 1));
 }
 
-int parse_string(int string) {
-	int collect_regular_string_reset;
-	int message;
+function parse_string(string) {
+	var collect_regular_string_reset;
+	var message;
 
 	string_index = 0;
 	collect_regular_string_reset = 1;
@@ -571,15 +571,15 @@ int parse_string(int string) {
 	return message;
 }
 
-int emit(int s, int head) {
-	int t;
+function emit(s, head) {
+	var t;
 	t = calloc(1, sizeof_token_list);
 	set_next(t, head);
 	set_s(t, s);
 	return t;
 }
 
-int emit_out(int s) {
+function emit_out(s) {
 	output_list = emit(s, output_list);
 }
 
