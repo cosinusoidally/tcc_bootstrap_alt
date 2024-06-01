@@ -30,9 +30,9 @@ var NULL;
 var EXIT_SUCCESS;
 var EXIT_FAILURE;
 
-int EOF;
+var EOF;
 
-int quote_string;
+var quote_string;
 
 /* init support code */
 int init_support();
@@ -91,13 +91,13 @@ struct token_list {
 };
 */
 
-int token_list_next_offset;
-int token_list_locals_offset;
-int token_list_prev_offset;
-int token_list_s_offset;
-int token_list_arguments_offset;
-int token_list_depth_offset;
-int token_list_linenumber_offset;
+var token_list_next_offset;
+var token_list_locals_offset;
+var token_list_prev_offset;
+var token_list_s_offset;
+var token_list_arguments_offset;
+var token_list_depth_offset;
+var token_list_linenumber_offset;
 
 function token_list_layout_init(){
 	token_list_next_offset = 0;
