@@ -656,12 +656,12 @@ function function_call(s) {
 	indented_emit_out(")\n");
 }
 
-int load_value() {
+function load_value() {
 	no_indent = 1;
 	return "load ";
 }
 
-int variable_load(int a, int is_arg) {
+function variable_load(a, is_arg) {
 	indented_emit_out("local ");
 	if(eq(is_arg, TRUE)) {
 		emit_out("ARG_");
@@ -677,14 +677,14 @@ int variable_load(int a, int is_arg) {
 
 }
 
-int function_load(int a) {
+function function_load(a) {
 	if(match("(", global_token_string())) {
 		function_call(a);
 		return;
 	}
 }
 
-int global_load(int a) {
+function global_load(a) {
 	indented_emit_out("global &GLOBAL_");
 	emit_out(get_s(a));
 	emit_out(" ");
@@ -695,8 +695,8 @@ int global_load(int a) {
 	emit_out(load_value());
 }
 
-int primary_expr_string() {
-	int number_string;
+function primary_expr_string() {
+	var number_string;
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 	indented_emit_out("constant &STRING_");
@@ -713,23 +713,23 @@ int primary_expr_string() {
 	}
 }
 
-int primary_expr_char() {
+function primary_expr_char() {
 	indented_emit_out("constant %");
 	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
 	emit_out(" "); no_indent = 1;
 	advance();
 }
 
-int primary_expr_number() {
+function primary_expr_number() {
 	indented_emit_out("constant %");
 	emit_out(global_token_string());
 	emit_out(" "); no_indent = 1;
 	advance();
 }
 
-int primary_expr_variable() {
-	int a;
-	int s;
+function primary_expr_variable() {
+	var a;
+	var s;
 
 	s = global_token_string();
 	advance();
@@ -760,7 +760,7 @@ int primary_expr_variable() {
 /*	exit(add(EXIT_FAILURE, 2)); */
 }
 
-int expression() {
+function expression() {
 	if(eq(global_token_char0(), '(')) {
 		advance();
 		expression();
@@ -786,8 +786,8 @@ int expression() {
 }
 
 /* Process local variable */
-int collect_local() {
-	int a;
+function collect_local() {
+	var a;
 
 	advance();
 	a = sym_declare(global_token_string(), get_locals(func));
