@@ -309,13 +309,13 @@ function int2str(x, base, signed_p) {
 
 	p = add(p, 32);
 	sign_p = FALSE;
-	table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	table = mk_c_string("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
 		/* Truncate to 31bits */
 		i = and(sub(0, x), 0x7FFFFFFF);
 		if(eq(0, i)) {
-			return "-2147483648";
+			return mk_c_string("-2147483648");
 		}
 		sign_p = TRUE;
 	} else {
@@ -445,10 +445,10 @@ function get_token(c) {
 		if(eq(c, EOF)) {
 			free(current);
 			return c;
-		} else if(in_set(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_")) {
-			c = preserve_keyword(c, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
+		} else if(in_set(c, mk_c_string("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))) {
+			c = preserve_keyword(c, mk_c_string("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"));
 		} else if(in_set(c, "=")) {
-			c = preserve_keyword(c, "=");
+			c = preserve_keyword(c, mk_c_string("="));
 		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
 		} else if(eq(c, '/')) {
@@ -586,7 +586,7 @@ function emit_out(s) {
 }
 
 function uniqueID(s, l, num) {
-	l = emit("\n", emit(num, emit("_", emit(s, l))));
+	l = emit(mks("\n"), emit(num, emit(mks("_"), emit(s, l))));
 	return l;
 }
 
@@ -618,15 +618,15 @@ function sym_lookup(s, symbol_list) {
 function function_call(s) {
 	var passed;
 	passed = 0;
-	skip("(");
+	skip(mks("("));
 
-	indented_emit_out("(");
+	indented_emit_out(mks("("));
 	increase_indent();
 
 	if(neq(global_token_char0(), ')')) {
-		emit_out(" "); no_indent = 1;
+		emit_out(mks(" ")); no_indent = 1;
 		expression();
-		indented_emit_out("push_arg\n");
+		indented_emit_out(mks("push_arg\n"));
 		passed = 1;
 
 		while(eq(global_token_char0(), ',')) {
