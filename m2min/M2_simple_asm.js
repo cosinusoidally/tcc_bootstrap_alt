@@ -109,7 +109,7 @@ function token_list_layout_init(){
 	token_list_linenumber_offset = 12;
 }
 
-int sizeof_token_list;
+var sizeof_token_list;
 
 /* The core functions */
 int read_all_tokens(int a, int current);
@@ -119,43 +119,43 @@ int program();
 int recursive_output(int i, int out);
 
 /* What we are currently working on */
-int global_token;
+var global_token;
 
 /* Output reorder collections*/
-int output_list;
-int strings_list;
-int globals_list;
+var output_list;
+var strings_list;
+var globals_list;
 
 /* Make our string collection more efficient */
-int hold_string;
-int string_index;
+var hold_string;
+var string_index;
 
 /* Our Target Architecture */
-int register_size;
+var register_size;
 
-int MAX_STRING;
+var MAX_STRING;
 
 /* Globals */
-int input;
-int token;
-int line;
-int file;
+var input;
+var token;
+var line;
+var file;
 
 /* Global lists */
-int global_symbol_list;
-int global_function_list;
+var global_symbol_list;
+var global_function_list;
 
 /* Core lists for this file */
-int func;
+var func;
 
-int break_target_head;
-int break_target_func;
-int break_target_num;
-int break_frame;
-int current_count;
+var break_target_head;
+var break_target_func;
+var break_target_num;
+var break_frame;
+var current_count;
 
-int indent;
-int no_indent;
+var indent;
+var no_indent;
 
 int int2str(int x, int base, int signed_p);
 int parse_string(int string);
