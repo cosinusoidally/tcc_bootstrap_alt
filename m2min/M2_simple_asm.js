@@ -209,29 +209,29 @@ function indented_emit_out(s) {
 	emit_out(s);
 }
 
-int skip(int str) {
+function skip(str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_next(global_token);
 }
 
 /* advance to next token */
-int advance() {
+function advance() {
 	global_token = get_next(global_token);
 }
 
-int token_string(int a) {
+function token_string(a) {
 	return get_s(a);
 }
 
-int global_token_string() {
+function global_token_string() {
 	return token_string(global_token);
 }
 
-int global_token_char0() {
+function global_token_char0() {
 	return ri8(token_string(global_token));
 }
 
-int to_hex_digit(int a) {
+function to_hex_digit(a) {
 	a = and(15, a);
 	if(gt(a, 9)) {
 		a = add(sub(a,10), 65);
@@ -241,9 +241,9 @@ int to_hex_digit(int a) {
 	return a;
 }
 
-int to_hex_le(int a) {
-	int o;
-	int i;
+function to_hex_le(a) {
+	var o;
+	var i;
 	i = 0;
 	o = calloc(17,1);
 	while(lt(i, 4)) {
@@ -255,8 +255,8 @@ int to_hex_le(int a) {
 	return o;
 }
 
-int match(int a, int b) {
-	int i;
+function match(a, b) {
+	var i;
 	if(and(eq(NULL, a), eq(NULL, b))) {
 		return TRUE;
 	}
