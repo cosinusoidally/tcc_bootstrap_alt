@@ -925,10 +925,10 @@ function process_while() {
 }
 
 /* Ensure that functions return */
-int return_result() {
-	int i;
-	int size_local_var;
-	int c;
+function return_result() {
+	var i;
+	var size_local_var;
+	var c;
 	c = 0;
 
 	advance();
@@ -950,8 +950,8 @@ int return_result() {
 	indented_emit_out("ret\n");
 }
 
-int process_break() {
-	int i;
+function process_break() {
+	var i;
 	i = get_locals(func);
 
 	advance();
@@ -964,10 +964,10 @@ int process_break() {
 	skip(";");
 }
 
-void recursive_statement() {
-	int frame;
-	int i;
-	int c;
+function recursive_statement() {
+	var frame;
+	var i;
+	var c;
 	c = 0;
 
 	advance();
@@ -994,7 +994,7 @@ void recursive_statement() {
 	set_locals(func, frame);
 }
 
-int statement() {
+function statement() {
 	if(eq(global_token_char0(), '{')) {
 		recursive_statement();
 	} else if(or(match("int", global_token_string()),
@@ -1017,8 +1017,8 @@ int statement() {
 }
 
 /* Collect function arguments */
-int collect_arguments() {
-	int a;
+function collect_arguments() {
+	var a;
 
 	advance();
 	while(eq(0, match(")", global_token_string()))) {
