@@ -1,6 +1,6 @@
 ./mk_clean
 
-cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
+cat M2_simple_asm.js > artifacts/M2_simple_asm_m2.c
 cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
 
 echo "building M2_simple_asm.M1"
@@ -32,6 +32,5 @@ chmod +x ./artifacts/otccelf_cc_x86_min.exe
 ./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
 
 sha256sum artifacts/*M1
-wc M2_tcc_min_simple.c
 ls -l artifacts/*.exe
 sha256sum -c sums_simple_asm
