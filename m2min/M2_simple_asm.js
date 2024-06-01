@@ -1089,10 +1089,10 @@ int declare_function() {
 	}
 }
 
-int program() {
-	int i;
-	int new_type;
-	int tmp;
+function program() {
+	var i;
+	var new_type;
+	var tmp;
 	func = NULL;
 
 	new_type = 1;
@@ -1139,8 +1139,8 @@ int program() {
 	exit(add(EXIT_FAILURE, 3));
 }
 
-int recursive_output(int head, int out) {
-	int i;
+function recursive_output(head, out) {
+	var i;
 	i = reverse_list(head);
 	while(neq(NULL, i)) {
 		fputs(get_s(i), out);
@@ -1148,7 +1148,7 @@ int recursive_output(int head, int out) {
 	}
 }
 
-int initialize_globals() {
+function initialize_globals() {
 	NULL = 0;
 	register_size = 4;
 	FALSE = 0;
@@ -1174,9 +1174,9 @@ int initialize_globals() {
 }
 
 function main(argc, argv) {
-	int in;
-	int destination_file;
-	int name;
+	var in;
+	var destination_file;
+	var name;
 
 	init_support();
 	initialize_globals();
