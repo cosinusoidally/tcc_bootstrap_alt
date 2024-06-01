@@ -333,7 +333,7 @@ function int2str(x, base, signed_p) {
 	}
 
 	if(sign_p) {
-		wi8(p, mk_char('-'));
+		wi8(p, mkc('-'));
 		p = sub(p, 1);
 	}
 
@@ -369,7 +369,7 @@ function preserve_string(c) {
 	frequent = c;
 	escape = FALSE;
 	while(1) {
-		if(and(eq(0, escape), eq('\\', c))) {
+		if(and(eq(0, escape), eq(mkc('\\'), c))) {
 			escape = TRUE;
 		}
 		else escape = FALSE;
@@ -451,12 +451,12 @@ function get_token(c) {
 			c = preserve_keyword(c, mks("="));
 		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
-		} else if(eq(c, '/')) {
+		} else if(eq(c, mkc('/'))) {
 			c = consume_byte(c);
-			if(eq(c, '*')) {
+			if(eq(c, mkc('*'))) {
 				c = grab_byte();
-				while(neq(c, '/')) {
-					while(neq(c, '*')) {
+				while(neq(c, mkc('/'))) {
+					while(neq(c, mkc('*'))) {
 						c = grab_byte();
 					}
 					c = grab_byte();
@@ -464,7 +464,7 @@ function get_token(c) {
 				c = grab_byte();
 				reset = 1;
 			}
-		} else if (eq(c, '\n')) {
+		} else if (eq(c, mkc('\n'))) {
 			/* eat newlines here */
 			c = consume_byte(c);
 			reset = 1;
@@ -509,33 +509,33 @@ function read_all_tokens(a, current) {
 function escape_lookup(c) {
 	var c1;
 	c1 = ri8(add(c,1));
-	if(neq('\\', ri8(c))) {
+	if(neq(mkc('\\'), ri8(c))) {
 		return ri8(c);
 	}
 
-	if(eq(c1, '0')) {
+	if(eq(c1, mkc('0'))) {
 		return 0;
-	} else if(eq(c1, 'a')) {
+	} else if(eq(c1, mkc('a'))) {
 		return 7;
-	} else if(eq(c1, 'b')) {
+	} else if(eq(c1, mkc('b'))) {
 		return 8;
-	} else if(eq(c1, 't')) {
+	} else if(eq(c1, mkc('t'))) {
 		return 9;
-	} else if(eq(c1, 'n')) {
+	} else if(eq(c1, mkc('n'))) {
 		return 10;
-	} else if(eq(c1, 'v')) {
+	} else if(eq(c1, mkc('v'))) {
 		return 11;
-	} else if(eq(c1, 'f')) {
+	} else if(eq(c1, mkc('f'))) {
 		return 12;
-	} else if(eq(c1, 'r')) {
+	} else if(eq(c1, mkc('r'))) {
 		return 13;
-	} else if(eq(c1, 'e')) {
+	} else if(eq(c1, mkc('e'))) {
 		return 27;
-	} else if(eq(c1, '"')) {
+	} else if(eq(c1, mkc('"'))) {
 		return 34;
-	} else if(eq(c1, '\'')) {
+	} else if(eq(c1, mkc('\''))) {
 		return 39;
-	} else if(eq(c1, '\\')) {
+	} else if(eq(c1, mkc('\\'))) {
 		return 92;
 	}
 
@@ -551,7 +551,7 @@ function parse_string(string) {
 
 	while(eq(collect_regular_string_reset, 1)) {
 		collect_regular_string_reset = 0;
-		if(eq(ri8(string),'\\')) {
+		if(eq(ri8(string),mkc('\\'))) {
 			wi8(add(hold_string, string_index), escape_lookup(string));
 			string = add(string, 2);
 		} else {
