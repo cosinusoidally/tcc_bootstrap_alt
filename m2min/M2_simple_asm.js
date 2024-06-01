@@ -632,55 +632,55 @@ function function_call(s) {
 		while(eq(global_token_char0(), ',')) {
 			advance();
 			expression();
-			indented_emit_out("push_arg\n");
+			indented_emit_out(mks("push_arg\n"));
 			passed = add(passed, 1);
 		}
 	} else {
-		emit_out(" "); no_indent = 1;
+		emit_out(mks(" ")); no_indent = 1;
 	}
 
-	skip(")");
+	skip(mks(")"));
 
-	indented_emit_out("do_call %FUNCTION_");
+	indented_emit_out(mks("do_call %FUNCTION_"));
 	emit_out(s);
-	emit_out(" ");
+	emit_out(mks(" "));
 
 
 	if(neq(0, passed)) {
-		emit_out("cleanup_args_bytes %");
+		emit_out(mks("cleanup_args_bytes %"));
 		emit_out(int2str(mul(passed, register_size), 10, TRUE));
-		emit_out("\n");
+		emit_out(mks("\n"));
 	} else {
 		no_indent = 1;
 	}
 
 	decrease_indent();
-	indented_emit_out(")\n");
+	indented_emit_out(mks(")\n"));
 }
 
 function load_value() {
 	no_indent = 1;
-	return "load ";
+	return mks("load ");
 }
 
 function variable_load(a, is_arg) {
-	indented_emit_out("local ");
+	indented_emit_out(mks("local "));
 	if(eq(is_arg, TRUE)) {
-		emit_out("ARG_");
+		emit_out(mks("ARG_"));
 	} else {
-		emit_out("LOCAL_");
+		emit_out(mks("LOCAL_"));
 	}
 	emit_out(get_s(a));
-	emit_out(" ");
+	emit_out(mks(" "));
 
-	if(eq(0,match("=", global_token_string()))) {
+	if(eq(0,match(mks("="), global_token_string()))) {
 		emit_out(load_value());
 	}
 
 }
 
 function function_load(a) {
-	if(match("(", global_token_string())) {
+	if(match(mks("("), global_token_string())) {
 		function_call(a);
 		return;
 	}
