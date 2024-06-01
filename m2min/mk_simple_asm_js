@@ -1,6 +1,7 @@
 ./mk_clean
 
-cat simple_support_tcc.c > artifacts/M2_simple_asm_full.c
+cat simple_support_js_defs.c > artifacts/M2_simple_asm_full.c
+cat simple_support_tcc.c >> artifacts/M2_simple_asm_full.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
 
 echo "gcc build"
@@ -43,3 +44,4 @@ wc M2_tcc_min_simple.c
 ls -l artifacts/*.exe
 sha256sum -c sums_simple_asm
 diff -u -s artifacts/M2_simple_asm_self.M1 artifacts/M2_simple_asm_m2.M1
+wc artifacts/M2_simple_asm_self.M1
