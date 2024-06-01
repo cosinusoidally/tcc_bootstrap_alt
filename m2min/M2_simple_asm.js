@@ -23,12 +23,12 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-int FALSE;
-int TRUE;
-int NULL;
+var FALSE;
+var TRUE;
+var NULL;
 
-int EXIT_SUCCESS;
-int EXIT_FAILURE;
+var EXIT_SUCCESS;
+var EXIT_FAILURE;
 
 int EOF;
 
