@@ -1080,7 +1080,10 @@ int collect_arguments() {
 
 	advance();
 	while(eq(0, match(")", global_token_string()))) {
-		advance();
+		/* allow int type of argument to be optional */
+		if(match("int", global_token_string())) {
+			advance();
+		}
 		if(neq(global_token_char0(), ',')) {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(),
