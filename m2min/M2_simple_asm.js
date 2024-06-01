@@ -111,17 +111,6 @@ var current_count;
 var indent;
 var no_indent;
 
-int int2str(int x, int base, int signed_p);
-int parse_string(int string);
-int escape_lookup(int c);
-
-int emit(int s, int head);
-int emit_out(int s);
-
-int expression();
-int advance();
-int statement();
-
 function ri32(o) {
         return or(or(and(ri8(o), 255),
                 shl(and(ri8(add(o, 1)), 255), 8)),
