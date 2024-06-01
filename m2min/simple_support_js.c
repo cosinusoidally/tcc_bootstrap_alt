@@ -1,7 +1,3 @@
-function mk_c_string(s) {
-  return s;
-}
-
 function mks(s) {
   return s;
 }
