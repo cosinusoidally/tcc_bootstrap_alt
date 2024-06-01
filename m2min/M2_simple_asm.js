@@ -1008,13 +1008,13 @@ function statement() {
 		process_while();
 	} else if(match(mks("asm"), global_token_string())) {
 		process_asm();
-	} else if(match("return", global_token_string())) {
+	} else if(match(mks("return"), global_token_string())) {
 		return_result();
-	} else if(match("break", global_token_string())) {
+	} else if(match(mks("break"), global_token_string())) {
 		process_break();
 	} else {
 		expression();
-		skip(";");
+		skip(mks(";"));
 	}
 }
 
@@ -1023,9 +1023,9 @@ function collect_arguments() {
 	var a;
 
 	advance();
-	while(eq(0, match(")", global_token_string()))) {
+	while(eq(0, match(mks(")"), global_token_string()))) {
 		/* allow int type of argument to be optional */
-		if(match("int", global_token_string())) {
+		if(match(mks("int"), global_token_string())) {
 			advance();
 		}
 		if(neq(global_token_char0(), ',')) {
@@ -1067,25 +1067,25 @@ function declare_function() {
 	if(eq(global_token_char0(), ';')) {
 		advance();
 	} else {
-		emit_out(":FUNCTION_");
+		emit_out(mks(":FUNCTION_"));
 		emit_out(get_s(func));
 		increase_indent();
-		emit_out("\n");
+		emit_out(mks("\n"));
 
 		a = get_arguments(func);
 		while(neq(0, a)) {
-			indented_emit_out("DEFINE ARG_");
+			indented_emit_out(mks("DEFINE ARG_"));
 			emit_out(get_s(a));
-			emit_out(" ");
+			emit_out(mks(" "));
 			emit_out(to_hex_le(get_depth(a)));
-			emit_out("\n");
+			emit_out(mks("\n"));
 			a = get_next(a);
 		}
 		statement();
 
 		/* Prevent duplicate RETURNS */
-		if(eq(0, match("ret\n", get_s(output_list)))) {
-			indented_emit_out("ret\n");
+		if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
+			indented_emit_out(mks("ret\n"));
 		}
 		decrease_indent();
 	}
@@ -1112,7 +1112,7 @@ function program() {
 		advance();
 
 		/* Deal with global variables */
-		if(match(";", global_token_string())) {
+		if(match(mks(";"), global_token_string())) {
 			global_symbol_list = tmp;
 			/* Ensure enough bytes are allocated to store global variable.
 			   In some cases it allocates too much but that is harmless. */
