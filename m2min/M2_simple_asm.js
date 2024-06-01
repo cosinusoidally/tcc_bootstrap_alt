@@ -34,45 +34,6 @@ var EOF;
 
 var quote_string;
 
-/* init support code */
-int init_support();
-
-/* delare primitives */
-int add(int a, int b);
-int and(int a, int b);
-int div(int a, int b);
-int eq(int a, int b);
-int gt(int a, int b);
-int gte(int a, int b);
-int lt(int a, int b);
-int lte(int a, int b);
-int mod(int a, int b);
-int mul(int a, int b);
-int neq(int a, int b);
-int or(int a, int b);
-int shl(int a, int b);
-int shr(int a, int b);
-int sub(int a, int b);
-
-/* declare base memory operations */
-int ri8(int o);
-int wi8(int o,int v);
-
-/* libc functions */
-int calloc(int count, int size);
-int fgetc(int f);
-int free(int l);
-int exit(int value);
-int fputs(int si, int f);
-int fopen(int filename, int mode);
-int fclose(int stream);
-
-/* misc functions */
-int copy_string(int target, int source, int max);
-int in_set(int c, int s);
-int match(int a, int b);
-int reset_hold_string();
-
 /* token_list structure for reference */
 
 /*
@@ -110,13 +71,6 @@ function token_list_layout_init(){
 }
 
 var sizeof_token_list;
-
-/* The core functions */
-int read_all_tokens(int a, int current);
-int reverse_list(int head);
-
-int program();
-int recursive_output(int i, int out);
 
 /* What we are currently working on */
 var global_token;
