@@ -1176,7 +1176,7 @@ function initialize_globals() {
 }
 
 function main(argc, argv) {
-	var in;
+	var inp;
 	var destination_file;
 	var name;
 
@@ -1187,9 +1187,9 @@ function main(argc, argv) {
 
 	name = ri32(add(argv, 4));
 
-	in = fopen(name, "r");
-	global_token = read_all_tokens(in, global_token);
-	fclose(in);
+	inp = fopen(name, "r");
+	global_token = read_all_tokens(inp, global_token);
+	fclose(inp);
 
 	destination_file = fopen(ri32(add(argv,mul(4, 2))), "w");
 
