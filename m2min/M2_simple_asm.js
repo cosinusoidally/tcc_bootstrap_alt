@@ -168,14 +168,14 @@ int expression();
 int advance();
 int statement();
 
-function ri32(int o) {
+function ri32(o) {
         return or(or(and(ri8(o), 255),
                 shl(and(ri8(add(o, 1)), 255), 8)),
                 or(shl(and(ri8(add(o, 2)), 255), 16),
                 shl(and(ri8(add(o, 3)), 255), 24)));
 }
 
-function wi32(int o, int v) {
+function wi32(o, v) {
   wi8(o, and(v, 0xFF));
   v = shr(v, 8);
   wi8(add(o, 1), and(v, 0xFF));
@@ -185,27 +185,27 @@ function wi32(int o, int v) {
   wi8(add(o, 3), and(v, 0xFF));
 }
 
-function set_s(int t,int v) {
+function set_s(t, v) {
 	wi32(add(t, token_list_s_offset), v);
 }
 
-int get_s(int t) {
+function get_s( t) {
 	return ri32(add(t, token_list_s_offset));
 }
 
-int set_prev(int t,int v) {
+function set_prev(t, v) {
 	wi32(add(t, token_list_prev_offset), v);
 }
 
-int get_prev(int t) {
+function get_prev(t) {
 	return ri32(add(t, token_list_prev_offset));
 }
 
-int set_next(int t,int v) {
+function set_next(t, v) {
 	wi32(add(t, token_list_next_offset), v);
 }
 
-int get_next(int t) {
+function get_next(t) {
 	return ri32(add(t, token_list_next_offset));
 }
 
