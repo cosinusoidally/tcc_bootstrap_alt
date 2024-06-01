@@ -146,7 +146,7 @@ int global_symbol_list;
 int global_function_list;
 
 /* Core lists for this file */
-int function;
+int func;
 
 int break_target_head;
 int break_target_func;
@@ -757,11 +757,11 @@ int primary_expr_string() {
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 	indented_emit_out("constant &STRING_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	/* The target */
 	strings_list = emit(":STRING_", strings_list);
-	strings_list = uniqueID(get_s(function), strings_list, number_string);
+	strings_list = uniqueID(get_s(func), strings_list, number_string);
 
 	/* Parse the string */
 	if(neq('"', ri8(get_s(get_next(global_token))))) {
@@ -791,13 +791,13 @@ int primary_expr_variable() {
 	s = global_token_string();
 	advance();
 
-	a = sym_lookup(s, get_locals(function));
+	a = sym_lookup(s, get_locals(func));
 	if(neq(NULL, a)) {
 		variable_load(a, FALSE);
 		return;
 	}
 
-	a = sym_lookup(s, get_arguments(function));
+	a = sym_lookup(s, get_arguments(func));
 	if(neq(NULL, a)) {
 		variable_load(a, TRUE);
 		return;
@@ -848,22 +848,22 @@ int collect_local() {
 	int a;
 
 	advance();
-	a = sym_declare(global_token_string(), get_locals(function));
+	a = sym_declare(global_token_string(), get_locals(func));
 
-        if(and(match("main", get_s(function)), eq(NULL, get_locals(function)))) {
+        if(and(match("main", get_s(func)), eq(NULL, get_locals(func)))) {
                 set_depth(a, sub(0, 20));
-        } else if(and(eq(NULL, get_arguments(function)),
-			eq(NULL, get_locals(function)))) {
+        } else if(and(eq(NULL, get_arguments(func)),
+			eq(NULL, get_locals(func)))) {
 		set_depth(a, sub(0, mul(register_size, 2)));
-	} else if(eq(NULL, get_locals(function))) {
-		set_depth(a, sub(get_depth(get_arguments(function)),
+	} else if(eq(NULL, get_locals(func))) {
+		set_depth(a, sub(get_depth(get_arguments(func)),
 					mul(register_size, 2)));
 	} else {
-		set_depth(a, sub(get_depth(get_locals(function)),
+		set_depth(a, sub(get_depth(get_locals(func)),
 						register_size));
 	}
 
-	set_locals(function, a);
+	set_locals(func, a);
 
 	indented_emit_out("DEFINE LOCAL_");
 	emit_out(global_token_string());
@@ -890,7 +890,7 @@ int process_if() {
 	current_count = add(current_count, 1);
 
 	emit_out("# IF_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	advance();
 	skip("(");
@@ -898,24 +898,24 @@ int process_if() {
 
 	indented_emit_out("jump_false %ELSE_");
 
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	skip(")");
 	statement();
 
 	indented_emit_out("jump %_END_IF_");
 
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	emit_out(":ELSE_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	if(match("else", global_token_string())) {
 		advance();
 		statement();
 	}
 	emit_out(":_END_IF_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 }
 
 /* Process Assembly statements */
@@ -949,11 +949,11 @@ int process_while() {
 
 	break_target_head = "END_WHILE_";
 	break_target_num = number_string;
-	break_frame = get_locals(function);
-	break_target_func = get_s(function);
+	break_frame = get_locals(func);
+	break_target_func = get_s(func);
 
 	emit_out(":WHILE_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	advance();
 	skip("(");
@@ -961,20 +961,20 @@ int process_while() {
 
 	indented_emit_out("jump_false %END_WHILE_");
 
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	emit_out("# THEN_while_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	skip(")");
 	statement();
 
 	indented_emit_out("jump %WHILE_");
 
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	emit_out(":END_WHILE_");
-	uniqueID_out(get_s(function), number_string);
+	uniqueID_out(get_s(func), number_string);
 
 	break_target_head = nested_break_head;
 	break_target_func = nested_break_func;
@@ -994,7 +994,7 @@ int return_result() {
 		expression();
 	}
 	skip(";");
-	i = get_locals(function);
+	i = get_locals(func);
 	while(neq(NULL, i)) {
 		i = get_next(i);
 		c = add(c, 1);
@@ -1010,7 +1010,7 @@ int return_result() {
 
 int process_break() {
 	int i;
-	i = get_locals(function);
+	i = get_locals(func);
 
 	advance();
 	indented_emit_out("jump %");
@@ -1029,7 +1029,7 @@ void recursive_statement() {
 	c = 0;
 
 	advance();
-	frame = get_locals(function);
+	frame = get_locals(func);
 	while(eq(0, match("}", global_token_string()))) {
 		statement();
 	}
@@ -1037,7 +1037,7 @@ void recursive_statement() {
 
 	/* Clean up any locals added */
 	if(eq(0, match("ret\n", get_s(output_list)))) {
-		i = get_locals(function);
+		i = get_locals(func);
 		while(neq(frame,i)) {
 			c = add(c, 1);
 			i = get_next(i);
@@ -1049,7 +1049,7 @@ void recursive_statement() {
 			no_indent = 1;
 		}
 	}
-	set_locals(function, frame);
+	set_locals(func, frame);
 }
 
 int statement() {
@@ -1084,17 +1084,17 @@ int collect_arguments() {
 		if(neq(global_token_char0(), ',')) {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(),
-						get_arguments(function));
-			if(eq(NULL, get_arguments(function))) {
+						get_arguments(func));
+			if(eq(NULL, get_arguments(func))) {
 				set_depth(a, sub(0, register_size));
 			} else {
 				set_depth(a, sub(get_depth(
-						get_arguments(function)),
+						get_arguments(func)),
 						register_size));
 			}
 			advance();
 
-			set_arguments(function, a);
+			set_arguments(func, a);
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
@@ -1109,11 +1109,11 @@ int collect_arguments() {
 int declare_function() {
 	int a;
 	current_count = 0;
-	function = sym_declare(get_s(get_prev(global_token)),
+	func = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
 
 	/* allow previously defined functions to be looked up */
-	global_function_list = function;
+	global_function_list = func;
 	collect_arguments();
 
 	/* If just a prototype don't waste time */
@@ -1121,11 +1121,11 @@ int declare_function() {
 		advance();
 	} else {
 		emit_out(":FUNCTION_");
-		emit_out(get_s(function));
+		emit_out(get_s(func));
 		increase_indent();
 		emit_out("\n");
 
-		a = get_arguments(function);
+		a = get_arguments(func);
 		while(neq(0, a)) {
 			indented_emit_out("DEFINE ARG_");
 			emit_out(get_s(a));
@@ -1147,7 +1147,7 @@ int declare_function() {
 int program() {
 	int i;
 	int new_type;
-	function = NULL;
+	func = NULL;
 
 	new_type = 1;
 	while(eq(new_type, 1)) {
