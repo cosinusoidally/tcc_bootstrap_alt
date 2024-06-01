@@ -333,7 +333,7 @@ function int2str(x, base, signed_p) {
 	}
 
 	if(sign_p) {
-		wi8(p, '-');
+		wi8(p, mk_char('-'));
 		p = sub(p, 1);
 	}
 
