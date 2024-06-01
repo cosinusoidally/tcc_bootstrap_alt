@@ -687,11 +687,11 @@ function function_load(a) {
 }
 
 function global_load(a) {
-	indented_emit_out("global &GLOBAL_");
+	indented_emit_out(mks("global &GLOBAL_"));
 	emit_out(get_s(a));
-	emit_out(" ");
+	emit_out(mks(" "));
 
-	if(match("=", global_token_string())) {
+	if(match(mks("="), global_token_string())) {
 		return;
 	}
 	emit_out(load_value());
@@ -701,11 +701,11 @@ function primary_expr_string() {
 	var number_string;
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
-	indented_emit_out("constant &STRING_");
+	indented_emit_out(mks("constant &STRING_"));
 	uniqueID_out(get_s(func), number_string);
 
 	/* The target */
-	strings_list = emit(":STRING_", strings_list);
+	strings_list = emit(mks(":STRING_"), strings_list);
 	strings_list = uniqueID(get_s(func), strings_list, number_string);
 
 	/* Parse the string */
@@ -716,16 +716,16 @@ function primary_expr_string() {
 }
 
 function primary_expr_char() {
-	indented_emit_out("constant %");
+	indented_emit_out(mks("constant %"));
 	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
-	emit_out(" "); no_indent = 1;
+	emit_out(mks(" ")); no_indent = 1;
 	advance();
 }
 
 function primary_expr_number() {
-	indented_emit_out("constant %");
+	indented_emit_out(mks("constant %"));
 	emit_out(global_token_string());
-	emit_out(" "); no_indent = 1;
+	emit_out(mks(" ")); no_indent = 1;
 	advance();
 }
 
@@ -766,24 +766,24 @@ function expression() {
 	if(eq(global_token_char0(), '(')) {
 		advance();
 		expression();
-		skip(")");
+		skip(mks(")"));
 	} else if(eq(global_token_char0(), '\'')) {
 		primary_expr_char();
 	} else if(eq(global_token_char0(), '"')) {
 		primary_expr_string();
-	} else if(in_set(global_token_char0(), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_")) {
+	} else if(in_set(global_token_char0(), mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"))) {
 		primary_expr_variable();
-	} else if(in_set(global_token_char0(), "0123456789")) {
+	} else if(in_set(global_token_char0(), mks("0123456789"))) {
 		primary_expr_number();
 	} else {
 		exit(1);
 	}
 
-	if(match("=", global_token_string())) {
-		emit_out("push_address\n");
+	if(match(mks("="), global_token_string())) {
+		emit_out(mks("push_address\n"));
 		advance();
 		expression();
-		indented_emit_out("store\n");
+		indented_emit_out(mks("store\n"));
 	}
 }
 
@@ -794,7 +794,7 @@ function collect_local() {
 	advance();
 	a = sym_declare(global_token_string(), get_locals(func));
 
-        if(and(match("main", get_s(func)), eq(NULL, get_locals(func)))) {
+        if(and(match(mks("main"), get_s(func)), eq(NULL, get_locals(func)))) {
                 set_depth(a, sub(0, 20));
         } else if(and(eq(NULL, get_arguments(func)),
 			eq(NULL, get_locals(func)))) {
@@ -809,15 +809,15 @@ function collect_local() {
 
 	set_locals(func, a);
 
-	indented_emit_out("DEFINE LOCAL_");
+	indented_emit_out(mks("DEFINE LOCAL_"));
 	emit_out(global_token_string());
-	emit_out(" ");
+	emit_out(mks(" "));
 	emit_out(to_hex_le(get_depth(a)));
-	emit_out("\n");
+	emit_out(mks("\n"));
 
 	advance();
 
-	if(match("=", global_token_string())) {
+	if(match(mks("="), global_token_string())) {
 		advance();
 		expression();
 	}
