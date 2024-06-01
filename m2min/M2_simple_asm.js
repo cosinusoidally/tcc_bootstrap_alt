@@ -202,7 +202,7 @@ function indented_emit_out(s) {
 		no_indent = 0;
 	} else {
 		while(lt(c, indent)) {
-			emit_out(mk_c_string(" "));
+			emit_out(mks(" "));
 			c = add(c, 1);
 		}
 	}
@@ -309,13 +309,13 @@ function int2str(x, base, signed_p) {
 
 	p = add(p, 32);
 	sign_p = FALSE;
-	table = mk_c_string("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	table = mks("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
 		/* Truncate to 31bits */
 		i = and(sub(0, x), 0x7FFFFFFF);
 		if(eq(0, i)) {
-			return mk_c_string("-2147483648");
+			return mks("-2147483648");
 		}
 		sign_p = TRUE;
 	} else {
@@ -445,10 +445,10 @@ function get_token(c) {
 		if(eq(c, EOF)) {
 			free(current);
 			return c;
-		} else if(in_set(c, mk_c_string("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))) {
-			c = preserve_keyword(c, mk_c_string("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"));
+		} else if(in_set(c, mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))) {
+			c = preserve_keyword(c, mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"));
 		} else if(in_set(c, "=")) {
-			c = preserve_keyword(c, mk_c_string("="));
+			c = preserve_keyword(c, mks("="));
 		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
 		} else if(eq(c, '/')) {
