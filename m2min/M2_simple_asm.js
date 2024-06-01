@@ -583,25 +583,25 @@ function emit_out(s) {
 	output_list = emit(s, output_list);
 }
 
-int uniqueID(int s, int l, int num) {
+function uniqueID(s, l, num) {
 	l = emit("\n", emit(num, emit("_", emit(s, l))));
 	return l;
 }
 
-int uniqueID_out(int s, int num) {
+function uniqueID_out(s, num) {
 	output_list = uniqueID(s, output_list, num);
 }
 
-int sym_declare(int s, int list) {
-	int a;
+function sym_declare(s, list) {
+	var a;
 	a = calloc(1, sizeof_token_list);
 	set_next(a, list);
 	set_s(a, s);
 	return a;
 }
 
-int sym_lookup(int s, int symbol_list) {
-	int i;
+function sym_lookup(s, symbol_list) {
+	var i;
 
 	i = symbol_list;
 	while(neq(NULL, i)) {
@@ -613,8 +613,8 @@ int sym_lookup(int s, int symbol_list) {
 	return NULL;
 }
 
-int function_call(int s) {
-	int passed;
+function function_call(s) {
+	var passed;
 	passed = 0;
 	skip("(");
 
