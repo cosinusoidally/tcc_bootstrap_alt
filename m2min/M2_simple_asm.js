@@ -152,51 +152,51 @@ function get_next(t) {
 	return ri32(add(t, token_list_next_offset));
 }
 
-int set_linenumber(int t,int v) {
+function set_linenumber(t, v) {
 	wi32(add(t, token_list_linenumber_offset), v);
 }
 
-int get_linenumber(int t) {
+function get_linenumber(t) {
 	return ri32(add(t, token_list_linenumber_offset));
 }
 
-int set_depth(int t,int v) {
+function set_depth(t, v) {
 	wi32(add(t, token_list_depth_offset), v);
 }
 
-int get_depth(int t) {
+function get_depth(t) {
 	return ri32(add(t, token_list_depth_offset));
 }
 
-int set_locals(int t,int v) {
+function set_locals(t, v) {
 	wi32(add(t, token_list_locals_offset), v);
 }
 
-int get_locals(int t) {
+function get_locals(t) {
 	return ri32(add(t, token_list_locals_offset));
 }
 
-int set_arguments(int t,int v) {
+function set_arguments(t, v) {
 	wi32(add(t, token_list_arguments_offset), v);
 }
 
-int get_arguments(int t) {
+function get_arguments(t) {
 	return ri32(add(t, token_list_arguments_offset));
 }
 
-int increase_indent() {
+function increase_indent() {
 	indent = add(indent, 2);
 }
 
-int decrease_indent() {
+function decrease_indent() {
 	indent = sub(indent, 2);
 	if(lt(indent,0)) {
 		indent = 0;
 	}
 }
 
-int indented_emit_out(int s) {
-	int c;
+function indented_emit_out(s) {
+	var c;
 	c = 0;
 	if(no_indent) {
 		no_indent = 0;
