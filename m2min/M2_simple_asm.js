@@ -826,8 +826,8 @@ function collect_local() {
 }
 
 /* Evaluate if statements */
-int process_if() {
-	int number_string;
+function process_if() {
+	var number_string;
 	number_string = int2str(current_count, 10, TRUE);
 	current_count = add(current_count, 1);
 
@@ -861,7 +861,7 @@ int process_if() {
 }
 
 /* Process Assembly statements */
-int process_asm() {
+function process_asm() {
 	advance();
 	skip("(");
 	while(eq('"', global_token_char0())) {
@@ -874,12 +874,12 @@ int process_asm() {
 }
 
 /* Process while loops */
-int process_while() {
-	int nested_locals;
-	int nested_break_head;
-	int nested_break_func;
-	int nested_break_num;
-	int number_string;
+function process_while() {
+	var nested_locals;
+	var nested_break_head;
+	var nested_break_func;
+	var nested_break_num;
+	var number_string;
 
 	nested_locals = break_frame;
 	nested_break_head = break_target_head;
