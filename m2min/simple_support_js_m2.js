@@ -92,8 +92,11 @@ int memset(int ptr, int value, int num)
 
 int calloc(int count, int size)
 {
-	int ret = malloc(mul(count, size));
-	if(eq(NULL, ret)) return NULL;
+	int ret;
+	ret = malloc(mul(count, size));
+	if(eq(NULL, ret)) {
+		return NULL;
+	}
 	memset(ret, 0, mul(count, size));
 	return ret;
 }
@@ -101,14 +104,6 @@ int calloc(int count, int size)
 int free(int l)
 {
 	return;
-}
-
-int exit(int value)
-{
-	asm("pop_ebx"
-	    "pop_ebx"
-	    "mov_eax, %1"
-	    "int !0x80");
 }
 
 int init_support(){
