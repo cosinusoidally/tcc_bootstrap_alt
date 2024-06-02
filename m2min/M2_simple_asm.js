@@ -565,8 +565,8 @@ function parse_string(string) {
 		}
 	}
 
-	wi8(add(hold_string, string_index), '"');
-	wi8(add(add(hold_string, string_index), 1), '\n');
+	wi8(add(hold_string, string_index), mkc('"'));
+	wi8(add(add(hold_string, string_index), 1), mkc('\n'));
 	message = calloc(add(string_index, 3), 1);
 	copy_string(message, hold_string, add(string_index, 2));
 	reset_hold_string();
@@ -623,13 +623,13 @@ function function_call(s) {
 	indented_emit_out(mks("("));
 	increase_indent();
 
-	if(neq(global_token_char0(), ')')) {
+	if(neq(global_token_char0(), mkc(')'))) {
 		emit_out(mks(" ")); no_indent = 1;
 		expression();
 		indented_emit_out(mks("push_arg\n"));
 		passed = 1;
 
-		while(eq(global_token_char0(), ',')) {
+		while(eq(global_token_char0(), mkc(','))) {
 			advance();
 			expression();
 			indented_emit_out(mks("push_arg\n"));
@@ -709,7 +709,7 @@ function primary_expr_string() {
 	strings_list = uniqueID(get_s(func), strings_list, number_string);
 
 	/* Parse the string */
-	if(neq('"', ri8(get_s(get_next(global_token))))) {
+	if(neq(mkc('"'), ri8(get_s(get_next(global_token))))) {
 		strings_list = emit(parse_string(global_token_string()), strings_list);
 		advance();
 	}
