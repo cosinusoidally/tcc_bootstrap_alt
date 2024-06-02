@@ -447,7 +447,7 @@ function get_token(c) {
 			return c;
 		} else if(in_set(c, mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"))) {
 			c = preserve_keyword(c, mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"));
-		} else if(in_set(c, "=")) {
+		} else if(in_set(c, mks("="))) {
 			c = preserve_keyword(c, mks("="));
 		} else if(in_set(c, quote_string)) {
 			c = preserve_string(c);
