@@ -63,8 +63,7 @@ function gte(a, b){
 function and(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a & b; */
-  err();
+  return a & b;
 }
 
 function or(a, b){
@@ -132,22 +131,32 @@ function brk(addr) {
 function exit(value) {
 }
 
-function ri8(o) {
-/*
-  char *h = 0;
-  return h[o] & 0xFF;
-*/
-  err();
+function mkc(c) {
+  return c.charCodeAt(0) & 0xFF;
 }
 
-function wi8(o,v) {
-/*
-  char *h = 0;
-  h[o]=v;
-  return;
-*/
-  err();
+var heap_size=16*1024*1024;
+var heap=new Uint8Array(heap_size);
+
+function wi8(o,v){
+  if(v===undefined){
+    print("wrong use of wi8");
+    err();
+  }
+  heap[o]=v & 0xFF;
+};
+
+function ri8(o,dummy){
+  if(dummy!==undefined){
+    print("wrong use of ri8");
+    err();
+  }
+  return heap[o] & 0xFF;
+};
+
+
+try {
+  main();
+} catch (e){
+  print(e.stack);
 }
-
-
-main();
