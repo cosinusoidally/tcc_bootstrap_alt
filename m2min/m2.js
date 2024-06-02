@@ -148,7 +148,6 @@ function open(pathname, flags, mode) {
       throw "open";
     }
   } else if((flags === 577 ) && (mode === 384)){
-    throw "open";
     if(out_file === undefined) {
       out_file = [];
       return out_file_num;
