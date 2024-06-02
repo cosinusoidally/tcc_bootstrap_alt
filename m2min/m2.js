@@ -156,7 +156,7 @@ function ri8(o,dummy){
 
 
 try {
-  main();
+  main(0,0);
 } catch (e){
   print(e.stack);
 }
