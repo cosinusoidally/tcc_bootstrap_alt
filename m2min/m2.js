@@ -22,8 +22,7 @@ function mul(a, b){
 function shl(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a << b; */
-  err();
+  return (a << b) | 0;
 }
 
 function shr(a, b){
@@ -69,8 +68,7 @@ function and(a, b){
 function or(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a | b; */
-  err();
+  return a | b;
 }
 
 function eq(a, b){
@@ -159,4 +157,5 @@ try {
   main(0,0);
 } catch (e){
   print(e.stack);
+  print(e.message);
 }
