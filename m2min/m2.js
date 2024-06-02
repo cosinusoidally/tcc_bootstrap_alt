@@ -243,13 +243,20 @@ function ri8(o,dummy){
   return heap[o] & 0xFF;
 };
 
+function gen_out(){
+  if(out_file[out_file.length-1]=== mkc("\n")){
+   out_file.pop();
+  }
+  return out_file.map(function(x){return String.fromCharCode(x)}).join("");
+}
+
 try {
   argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
 
   argv = argc_argv[1];
   argc = argc_argv[0];
   main(argc, argv);
-  print(out_file.map(function(x){return String.fromCharCode(x)}).join(""));
+  print(gen_out());
 } catch (e){
   print(e.stack);
   print(e.message);
