@@ -763,13 +763,13 @@ function primary_expr_variable() {
 }
 
 function expression() {
-	if(eq(global_token_char0(), '(')) {
+	if(eq(global_token_char0(), mkc('('))) {
 		advance();
 		expression();
 		skip(mks(")"));
-	} else if(eq(global_token_char0(), '\'')) {
+	} else if(eq(global_token_char0(), mkc('\''))) {
 		primary_expr_char();
-	} else if(eq(global_token_char0(), '"')) {
+	} else if(eq(global_token_char0(), mkc('"'))) {
 		primary_expr_string();
 	} else if(in_set(global_token_char0(), mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"))) {
 		primary_expr_variable();
@@ -866,7 +866,7 @@ function process_if() {
 function process_asm() {
 	advance();
 	skip(mks("("));
-	while(eq('"', global_token_char0())) {
+	while(eq(mkc('"'), global_token_char0())) {
 		emit_out(add(global_token_string(), 1));
 		emit_out(mks("\n"));
 		advance();
@@ -934,7 +934,7 @@ function return_result() {
 	c = 0;
 
 	advance();
-	if(neq(global_token_char0(), ';')) {
+	if(neq(global_token_char0(), mkc(';'))) {
 		expression();
 	}
 	skip(mks(";"));
@@ -997,7 +997,7 @@ function recursive_statement() {
 }
 
 function statement() {
-	if(eq(global_token_char0(), '{')) {
+	if(eq(global_token_char0(), mkc('{'))) {
 		recursive_statement();
 	} else if(or(match(mks("int"), global_token_string()),
 			match(mks("var"), global_token_string()))) {
@@ -1028,7 +1028,7 @@ function collect_arguments() {
 		if(match(mks("int"), global_token_string())) {
 			advance();
 		}
-		if(neq(global_token_char0(), ',')) {
+		if(neq(global_token_char0(), mkc(','))) {
 			/* deal with foo(int a, char b) */
 			a = sym_declare(global_token_string(),
 						get_arguments(func));
@@ -1045,7 +1045,7 @@ function collect_arguments() {
 		}
 
 		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(eq(global_token_char0(), ',')) {
+		if(eq(global_token_char0(), mkc(','))) {
 			advance();
 		}
 
@@ -1064,7 +1064,7 @@ function declare_function() {
 	collect_arguments();
 
 	/* If just a prototype don't waste time */
-	if(eq(global_token_char0(), ';')) {
+	if(eq(global_token_char0(), mkc(';'))) {
 		advance();
 	} else {
 		emit_out(mks(":FUNCTION_"));
@@ -1167,8 +1167,8 @@ function initialize_globals() {
 	token_list_layout_init();
 
 	quote_string=calloc(1, 16); /* round up */
-	wi8(quote_string, '\'');
-	wi8(add(quote_string, 1), '"');
+	wi8(quote_string, mkc('\''));
+	wi8(add(quote_string, 1), mkc('"'));
 	wi8(add(quote_string, 2), 0);
 
 	indent = 0;
