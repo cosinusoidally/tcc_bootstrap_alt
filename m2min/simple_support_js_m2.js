@@ -28,21 +28,18 @@ function fputs(si, f) {
 	}
 }
 
-function fopen(int filename, int mode)
-{
-	int f;
-	if(eq(mkc('w'), ri8(mode)))
-	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
+function fopen(filename, mode) {
+	var f;
+	if(eq(mkc('w'), ri8(mode))) {
+		/* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
-	}
-	else
-	{ /* Everything else is a read */
+	} else {
+		/* Everything else is a read */
 		f = open(filename, 0, 0);
 	}
 
 	/* Negative numbers are error codes */
-	if(gt(0, f))
-	{
+	if(gt(0, f)) {
 		return 0;
 	}
 	return f;
