@@ -116,6 +116,7 @@ function fputc(s, f) {
 }
 
 function open(name, flag, mode) {
+  print("open name:" +mk_js_string(name) + " flag: "+flag+" mode: "+mode);
   err();
 }
 
@@ -132,6 +133,28 @@ function exit(value) {
 function mkc(c) {
   return c.charCodeAt(0) & 0xFF;
 }
+
+function mk_c_string(s){
+  var r;
+  r = malloc(s.length + 1);
+  for(var i =0; i<s.length; i++){
+    wi8(r + i, s.charCodeAt(i));
+  }
+  return r;
+}
+
+function mk_js_string(o){
+  var c;
+  var s = [];
+  var i=0;
+  while((c=ri8(o+i)) !==0){
+    s.push(String.fromCharCode(c));
+    i=i+1;
+  }
+  return s.join("");
+}
+
+mks = mk_c_string;
 
 var heap_size=16*1024*1024;
 var heap=new Uint8Array(heap_size);
