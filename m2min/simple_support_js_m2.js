@@ -82,9 +82,8 @@ function memset(ptr, value, num) {
 	}
 }
 
-int calloc(int count, int size)
-{
-	int ret;
+function calloc(count, size) {
+	var ret;
 	ret = malloc(mul(count, size));
 	if(eq(NULL, ret)) {
 		return NULL;
@@ -93,12 +92,11 @@ int calloc(int count, int size)
 	return ret;
 }
 
-int free(int l)
-{
+function free(l) {
 	return;
 }
 
-int init_support(){
+function init_support(){
 	stdin = 0;
 	stdout = 1;
 	stderr = 2;
