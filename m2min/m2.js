@@ -1,6 +1,8 @@
 load("simple_support_js_m2.js");
 load("M2_simple_asm.js");
 
+var dbg=true;
+
 function add(a, b){
   a = a | 0;
   b = b | 0;
@@ -40,8 +42,7 @@ function lt(a, b){
 function gt(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a > b; */
-  err();
+  return (a > b) | 0;
 }
 
 function lte(a, b){
@@ -81,8 +82,7 @@ function eq(a, b){
 function neq(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a != b; */
-  err();
+  return (a != b) | 0;
 }
 
 function xor(a, b){
@@ -107,15 +107,58 @@ function mod(a, b){
 }
 
 function fgetc(f) {
-  err();
+  var eax;
+  if(f === in_file_num) {
+    if(in_file[1] < in_file[0].length) {
+      eax = in_file[0][in_file[1]];
+      if(dbg) {
+        print("fgetc: "+String.fromCharCode(eax));
+      }
+      in_file[1]=in_file[1]+1;
+    } else {
+      print("fgetc: EOF");
+      eax = -1;
+    }
+  } else {
+    print("fgetc wrong file descriptor");
+    throw "fgetc";
+  }
+  return eax;
 }
 
 function fputc(s, f) {
   err();
 }
 
-function open(name, flag, mode) {
-  print("open name:" +mk_js_string(name) + " flag: "+flag+" mode: "+mode);
+var in_file;
+in_file_num = 5;
+
+var out_file;
+out_file_num = 6;
+
+function open(pathname, flags, mode) {
+  pathname = mk_js_string(pathname);
+  print("open name:" + pathname + " flag: "+flags+" mode: "+mode);
+  if((flags ===0 ) && (mode === 0)){
+    if(in_file === undefined) {
+      in_file=[read(pathname, "binary"), 0];
+      return in_file_num;
+    } else {
+      print("in_file already loaded");
+      throw "open";
+    }
+  } else if((flags === 577 ) && (mode === 384)){
+    throw "open";
+    if(out_file === undefined) {
+      out_file = [];
+      return out_file_num;
+    } else {
+      print("out_file already loaded");
+      throw "open";
+    }
+  } else {
+    throw "open";
+  }
   err();
 }
 
@@ -194,9 +237,6 @@ function ri8(o,dummy){
   }
   return heap[o] & 0xFF;
 };
-
-
-
 
 try {
   argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
