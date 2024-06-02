@@ -54,17 +54,14 @@ function fclose(stream) {
 var _malloc_ptr;
 var _brk_ptr;
 
-int malloc(int size)
-{
-	int old_malloc;
-	if(eq(NULL, _brk_ptr))
-	{
+function malloc(size) {
+	var old_malloc;
+	if(eq(NULL, _brk_ptr)) {
 		_brk_ptr = brk(0);
 		_malloc_ptr = _brk_ptr;
 	}
 
-	if(lt(_brk_ptr, add(_malloc_ptr, size)))
-	{
+	if(lt(_brk_ptr, add(_malloc_ptr, size))) {
 		_brk_ptr = brk(add(_malloc_ptr, size));
 		if(eq(sub(0,1), _brk_ptr)) return 0;
 	}
@@ -74,9 +71,8 @@ int malloc(int size)
 	return old_malloc;
 }
 
-int memset(int ptr, int value, int num)
-{
-	int s;
+function memset(ptr, value, num) {
+	var s;
 	s = ptr;
 	while(lt(0, num))
 	{
