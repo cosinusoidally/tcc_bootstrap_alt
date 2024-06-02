@@ -132,7 +132,6 @@ function vfs_open(pathname) {
   var t = [];
   var t1;
   if(pathname==="vfs://dummy.c") {
-    print("dummy.c");
     t1 = read("M2_simple_asm.c", "binary");
     for(var i=0;i<t1.length;i++) {
       t.push(t1[i]);
@@ -278,7 +277,7 @@ var fname;
 
 try {
   if(!fname) {
-    fname = "artifacts/M2_simple_asm_m2.c";
+    fname = "vfs://dummy.c";
   }
   argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe " + fname+ " artifacts/out.M1")
 
