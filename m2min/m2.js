@@ -163,7 +163,8 @@ function open(pathname, flags, mode) {
 }
 
 function close(fd) {
-  err();
+  print("close("+fd+")");
+  return 0;
 }
 
 var brk_ptr = brk_ptr=128*1024;
