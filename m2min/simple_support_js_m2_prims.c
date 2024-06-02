@@ -17,10 +17,6 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-int stdin;
-int stdout;
-int stderr;
-
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -344,13 +340,6 @@ int fputc(int s, int f)
 	    "int !0x80");
 }
 
-int fputs(int si, int f) {
-	while(neq(0, ri8(si))) {
-		fputc(ri8(si), f);
-		si = add(si, 1);
-	}
-}
-
 int open(int name, int flag, int mode)
 {
 	asm("lea_ebx,[esp+DWORD] %12"
@@ -363,39 +352,12 @@ int open(int name, int flag, int mode)
 	    "int !0x80");
 }
 
-int fopen(int filename, int mode)
-{
-	int f;
-	if(eq('w', ri8(mode)))
-	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
-		f = open(filename, 577 , 384);
-	}
-	else
-	{ /* Everything else is a read */
-		f = open(filename, 0, 0);
-	}
-
-	/* Negative numbers are error codes */
-	if(gt(0, f))
-	{
-		return 0;
-	}
-	return f;
-}
-
 int close(int fd)
 {
 	asm("lea_ebx,[esp+DWORD] %4"
 	    "mov_ebx,[ebx]"
 	    "mov_eax, %6"
 	    "int !0x80");
-}
-
-int fclose(int stream)
-{
-	int error;
-	error = close(stream);
-	return error;
 }
 
 int brk(int addr)
@@ -405,29 +367,6 @@ int brk(int addr)
 	    "mov_eax, %45"
 	    "pop_ebx"
 	    "int !0x80");
-}
-
-int _malloc_ptr;
-int _brk_ptr;
-
-int malloc(int size)
-{
-	int old_malloc;
-	if(eq(NULL, _brk_ptr))
-	{
-		_brk_ptr = brk(0);
-		_malloc_ptr = _brk_ptr;
-	}
-
-	if(lt(_brk_ptr, add(_malloc_ptr, size)))
-	{
-		_brk_ptr = brk(add(_malloc_ptr, size));
-		if(eq(sub(0,1), _brk_ptr)) return 0;
-	}
-
-	old_malloc = _malloc_ptr;
-	_malloc_ptr = add(_malloc_ptr, size);
-	return old_malloc;
 }
 
 int memset(int ptr, int value, int num)
