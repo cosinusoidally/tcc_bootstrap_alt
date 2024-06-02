@@ -17,21 +17,21 @@
  * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-int stdin;
-int stdout;
-int stderr;
+var stdin;
+var stdout;
+var stderr;
 
-int fputs(int si, int f) {
+function fputs(si, f) {
 	while(neq(0, ri8(si))) {
 		fputc(ri8(si), f);
 		si = add(si, 1);
 	}
 }
 
-int fopen(int filename, int mode)
+function fopen(int filename, int mode)
 {
 	int f;
-	if(eq('w', ri8(mode)))
+	if(eq(mkc('w'), ri8(mode)))
 	{ /* 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal */
 		f = open(filename, 577 , 384);
 	}
