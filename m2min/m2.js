@@ -141,7 +141,11 @@ function open(pathname, flags, mode) {
   }
   if((flags ===0 ) && (mode === 0)){
     if(in_file === undefined) {
-      in_file=[read(pathname, "binary"), 0];
+      if(pathname.split(":")[0]==="vfs") {
+        err();
+      } else {
+        in_file=[read(pathname, "binary"), 0];
+      }
       return in_file_num;
     } else {
       print("in_file already loaded");
@@ -249,6 +253,7 @@ function gen_out(){
 }
 
 try {
+// argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe vfs://dummy.c artifacts/out.M1")
   argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
 
   argv = argc_argv[1];
