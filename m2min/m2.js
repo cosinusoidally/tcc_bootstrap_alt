@@ -73,9 +73,7 @@ function or(a, b){
 function eq(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a == b; */
   return (a == b) | 0;
-  err();
 }
 
 function neq(a, b){
@@ -130,6 +128,27 @@ function fputc(c, stream) {
   out_file.push(c);
 }
 
+function vfs_open(pathname) {
+  var t = [];
+  var t1;
+  if(pathname==="vfs://dummy.c") {
+    t1 = read("M2_simple_asm.c", "binary");
+    for(var i=0;i<t1.length;i++) {
+      t.push(t1[i]);
+    }
+
+    t1 = read("simple_support_m2.c", "binary");
+    for(var i=0;i<t1.length;i++) {
+      t.push(t1[i]);
+    }
+
+    return t;
+  } else {
+    print("unsupported virtual file");
+    err();
+  }
+}
+
 var in_file;
 in_file_num = 5;
 
@@ -143,7 +162,11 @@ function open(pathname, flags, mode) {
   }
   if((flags ===0 ) && (mode === 0)){
     if(in_file === undefined) {
-      in_file=[read(pathname, "binary"), 0];
+      if(pathname.split(":")[0]==="vfs") {
+        in_file = [vfs_open(pathname), 0];
+      } else {
+        in_file=[read(pathname, "binary"), 0];
+      }
       return in_file_num;
     } else {
       print("in_file already loaded");
@@ -250,8 +273,13 @@ function gen_out(){
   return out_file.map(function(x){return String.fromCharCode(x)}).join("");
 }
 
+var fname;
+
 try {
-  argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
+  if(!fname) {
+    fname = "vfs://dummy.c";
+  }
+  argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe " + fname+ " artifacts/out.M1")
 
   argv = argc_argv[1];
   argc = argc_argv[0];
