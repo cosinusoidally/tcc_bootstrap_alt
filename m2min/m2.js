@@ -1,7 +1,7 @@
 load("simple_support_js_m2.js");
 load("M2_simple_asm.js");
 
-var dbg=true;
+var dbg;
 
 function add(a, b){
   a = a | 0;
@@ -113,7 +113,9 @@ function fgetc(f) {
       }
       in_file[1]=in_file[1]+1;
     } else {
-      print("fgetc: EOF");
+      if(dbg) {
+        print("fgetc: EOF");
+      }
       eax = -1;
     }
   } else {
@@ -123,8 +125,9 @@ function fgetc(f) {
   return eax;
 }
 
-function fputc(s, f) {
-  err();
+function fputc(c, stream) {
+//  print("fputc(" +c+", "+stream+")");
+  out_file.push(c);
 }
 
 var in_file;
@@ -135,7 +138,9 @@ out_file_num = 6;
 
 function open(pathname, flags, mode) {
   pathname = mk_js_string(pathname);
-  print("open name:" + pathname + " flag: "+flags+" mode: "+mode);
+  if(dbg) {
+    print("open name:" + pathname + " flag: "+flags+" mode: "+mode);
+  }
   if((flags ===0 ) && (mode === 0)){
     if(in_file === undefined) {
       in_file=[read(pathname, "binary"), 0];
@@ -159,7 +164,9 @@ function open(pathname, flags, mode) {
 }
 
 function close(fd) {
-  print("close("+fd+")");
+  if(dbg) {
+    print("close("+fd+")");
+  }
   return 0;
 }
 
@@ -241,6 +248,7 @@ try {
   argv = argc_argv[1];
   argc = argc_argv[0];
   main(argc, argv);
+  print(out_file.map(function(x){return String.fromCharCode(x)}).join(""));
 } catch (e){
   print(e.stack);
   print(e.message);
