@@ -129,9 +129,21 @@ function fputc(c, stream) {
 }
 
 function vfs_open(pathname) {
+  var t = [];
+  var t1;
   if(pathname==="vfs://dummy.c") {
     print("dummy.c");
-    err();
+    t1 = read("M2_simple_asm.c", "binary");
+    for(var i=0;i<t1.length;i++) {
+      t.push(t1[i]);
+    }
+
+    t1 = read("simple_support_m2.c", "binary");
+    for(var i=0;i<t1.length;i++) {
+      t.push(t1[i]);
+    }
+
+    return t;
   } else {
     print("unsupported virtual file");
     err();
@@ -152,7 +164,7 @@ function open(pathname, flags, mode) {
   if((flags ===0 ) && (mode === 0)){
     if(in_file === undefined) {
       if(pathname.split(":")[0]==="vfs") {
-        vfs_open(pathname);
+        in_file = [vfs_open(pathname), 0];
       } else {
         in_file=[read(pathname, "binary"), 0];
       }
