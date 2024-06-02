@@ -73,9 +73,7 @@ function or(a, b){
 function eq(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a == b; */
   return (a == b) | 0;
-  err();
 }
 
 function neq(a, b){
