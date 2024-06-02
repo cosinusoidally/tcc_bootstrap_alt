@@ -17,7 +17,8 @@ tcc artifacts/M2_simple_asm_full.c -o artifacts/M2_min_tcc.exe
 echo "int stdout;" > artifacts/M2_simple_asm_m2.c
 cat simple_support_js.c >> artifacts/M2_simple_asm_m2.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_m2.c
-cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2_prims.c >> artifacts/M2_simple_asm_m2.c
 
 ./artifacts/M2_min_tcc.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
 
