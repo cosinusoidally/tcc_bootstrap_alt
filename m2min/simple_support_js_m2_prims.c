@@ -1,22 +1,3 @@
-/* heavily modified version of some M2lib files modified by Liam Wilson */
-
-/* Copyright (C) 2016 Jeremiah Orians
- * This file is part of M2-Planet.
- *
- * M2-Planet is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * M2-Planet is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with M2-Planet.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 int add(int a, int b){
 /*	return a + b; */
 	asm(
@@ -369,41 +350,10 @@ int brk(int addr)
 	    "int !0x80");
 }
 
-int memset(int ptr, int value, int num)
-{
-	int s;
-	s = ptr;
-	while(lt(0, num))
-	{
-		wi8(s, value);
-		s = add(s, 1);
-		num = sub(num, 1);
-	}
-}
-
-int calloc(int count, int size)
-{
-	int ret = malloc(mul(count, size));
-	if(eq(NULL, ret)) return NULL;
-	memset(ret, 0, mul(count, size));
-	return ret;
-}
-
-int free(int l)
-{
-	return;
-}
-
 int exit(int value)
 {
 	asm("pop_ebx"
 	    "pop_ebx"
 	    "mov_eax, %1"
 	    "int !0x80");
-}
-
-int init_support(){
-	stdin = 0;
-	stdout = 1;
-	stderr = 2;
 }
