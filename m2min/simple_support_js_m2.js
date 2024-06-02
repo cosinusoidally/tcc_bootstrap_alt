@@ -45,15 +45,14 @@ function fopen(filename, mode) {
 	return f;
 }
 
-int fclose(int stream)
-{
-	int error;
+function fclose(stream) {
+	var error;
 	error = close(stream);
 	return error;
 }
 
-int _malloc_ptr;
-int _brk_ptr;
+var _malloc_ptr;
+var _brk_ptr;
 
 int malloc(int size)
 {
