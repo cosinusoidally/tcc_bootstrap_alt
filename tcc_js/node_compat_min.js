@@ -7,7 +7,8 @@ print=function(x){
 
 plat=os.platform();
 
-print(plat);
+// keep quiet
+// print(plat);
 
 read=function(x,y){
   if(arguments.length>1){

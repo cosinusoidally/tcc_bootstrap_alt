@@ -1,0 +1,57 @@
+./mk_clean
+
+cat simple_support_js_defs.c > artifacts/M2_simple_asm_full.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_full.c
+cat simple_support_tcc.c >> artifacts/M2_simple_asm_full.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
+
+echo "gcc build"
+gcc -g -m32 -O0 artifacts/M2_simple_asm_full.c -o artifacts/M2_min_gcc.exe
+./artifacts/M2_min_gcc.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_gcc.M1
+
+echo "tcc build"
+tcc artifacts/M2_simple_asm_full.c -o artifacts/M2_min_tcc.exe
+# building self hosted M2_tcc_min_simple.c
+
+# hack declare stdout
+echo "int stdout;" > artifacts/M2_simple_asm_m2.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_m2.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2_prims.c >> artifacts/M2_simple_asm_m2.c
+
+./artifacts/M2_min_tcc.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
+
+cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
+../x86/bin/M0 artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
+../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2.exe
+
+chmod +x artifacts/M2_simple_asm_m2.exe
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_self.M1
+
+echo "build otccelf_cc_x86_min.exe"
+./artifacts/M2_simple_asm_m2.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
+
+cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
+../x86/bin/M0 artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
+cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
+../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
+
+chmod +x ./artifacts/otccelf_cc_x86_min.exe
+
+./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
+
+cat M2_simple_asm.c > artifacts/M2_simple_asm_orig.c
+cat simple_support_m2.c >> artifacts/M2_simple_asm_orig.c
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_orig.c artifacts/M2_simple_asm_orig.M1
+
+diff -u -s artifacts/otccelf_cc_x86_min_gcc.M1 artifacts/otccelf_cc_x86_min_tcc.M1
+sha256sum artifacts/*M1
+wc M2_tcc_min_simple.c
+ls -l artifacts/*.exe
+sha256sum -c sums_simple_asm_js
+diff -u -s artifacts/M2_simple_asm_self.M1 artifacts/M2_simple_asm_m2.M1
+wc artifacts/M2_simple_asm_self.M1
