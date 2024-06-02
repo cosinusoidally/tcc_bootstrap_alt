@@ -28,8 +28,7 @@ function shl(a, b){
 function shr(a, b){
   a = a | 0;
   b = b | 0;
-/*	return a >> b; */
-  err();
+  return a >>> b;
 }
 
 function lt(a, b){
@@ -124,10 +123,19 @@ function close(fd) {
   err();
 }
 
+var brk_ptr = brk_ptr=128*1024;
+
 function brk(addr) {
+  addr = addr |0;
+  if(addr===0){
+    return brk_ptr;
+  } else {
+    return addr;
+  }
 }
 
 function exit(value) {
+  err();
 }
 
 function mkc(c) {
@@ -156,6 +164,18 @@ function mk_js_string(o){
 
 mks = mk_c_string;
 
+
+function mk_args(s){
+  var argc;
+  s=s.split(" ");
+  argc = s.length;
+  argv = malloc(argc * 4);
+  for(var i = 0; i < argc ; i++){
+    wi32(argv+(4*i), mk_c_string(s[i]));
+  }
+  return [argc, argv];
+}
+
 var heap_size=16*1024*1024;
 var heap=new Uint8Array(heap_size);
 
@@ -176,8 +196,14 @@ function ri8(o,dummy){
 };
 
 
+
+
 try {
-  main(0,0);
+  argc_argv = mk_args("./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/out.M1")
+
+  argv = argc_argv[1];
+  argc = argc_argv[0];
+  main(argc, argv);
 } catch (e){
   print(e.stack);
   print(e.message);
