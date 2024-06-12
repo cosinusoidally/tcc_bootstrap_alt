@@ -1,0 +1,22 @@
+2024-06-12
+In M2_simple_asm.c there is a line like this:
+int ch = 123;
+That needs fixing so "int ch" is hoisted to the top of function:
+
+int ch;
+....
+ch = 123;
+
+Noticed this when trying to compile it with gcc 2.95 on slackware 8.1
+
+Yes, writing this bug entry is taking longer than actually fixing the bug.
+I just can't be bothered fixing atm and I wanted to make a note so I don't
+forget.
+
+Incidentally all the stage0 tools are broken on slackware 8.1. They just
+segfault. Maybe to do with the 2.4 kernel. iirc it does work on a 2.6 kernel.
+I wonder if it's something to do with:
+
+https://github.com/oriansj/stage0-posix-x86/issues/1
+
+hex1 and hex2 write outside declared ELF memory #1
