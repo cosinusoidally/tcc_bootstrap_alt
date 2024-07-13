@@ -550,10 +550,11 @@ int reverse_list(int head) {
 }
 
 int read_all_tokens(int a, int current) {
+	int ch;
 	input  = a;
 	line = 1;
 	token = current;
-	int ch = grab_byte();
+	ch = grab_byte();
 	while(neq(EOF, ch)) {
 		ch = get_token(ch);
 	}
