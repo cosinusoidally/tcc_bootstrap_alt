@@ -1,5 +1,5 @@
 function hex0_to_bin() {
-  for i in $(sed 's/[;#].*$//g' $1 | sed 's/[ \t]//g' | tr -d '\n' | fold -b -w2)
+  for i in $(sed 's/[;#].*$//g' $1 | tr -d ' ' | tr -d '\t' | tr -d '\n' | fold -b -w2)
     do printf "\\x$i"
   done
 }
