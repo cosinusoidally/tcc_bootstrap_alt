@@ -36,6 +36,11 @@
 ; Simply jump to _start
 ; Our main function
 :_start
+	B8 00000000                 ; LOADI32_EAX %0              ; Linux versions prior to 2.2
+	50                          ; PUSH_EAX                    ; do not initize EBP to zero,
+	5D                          ; POP_EBP                     ; so do it here as Tokenize_Line
+	                                                          ; requires it.
+
 	58                          ; POP_EAX                     ; Get the number of arguments
 	5B                          ; POP_EBX                     ; Get the program name
 	5B                          ; POP_EBX                     ; Get the actual input name
