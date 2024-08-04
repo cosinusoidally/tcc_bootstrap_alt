@@ -1342,15 +1342,17 @@
 :FUNCTION_read_all_tokens
   DEFINE ARG_current F8FFFFFF
   DEFINE ARG_a FCFFFFFF
+  DEFINE LOCAL_ch F0FFFFFF
+  reserve_stack_slot
   global &GLOBAL_input push_address
   local ARG_a load store
   global &GLOBAL_line push_address
   constant %1 store
   global &GLOBAL_token push_address
   local ARG_current load store
-  DEFINE LOCAL_ch F0FFFFFF
+  local LOCAL_ch push_address
   ( do_call %FUNCTION_grab_byte )
-  reserve_stack_slot
+  store
 :WHILE_read_all_tokens_0
   ( global &GLOBAL_EOF load push_arg
     local LOCAL_ch load push_arg
