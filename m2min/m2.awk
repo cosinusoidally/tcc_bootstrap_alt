@@ -29,10 +29,13 @@ function calloc(a,b,c){
   print "calloc not impl"
   exit
 }
+
 function init_support(a,b,c){
-  print "init_support not impl"
-  exit
+  stdin = 0;
+  stdout = 0;
+  stderr = 2;
 }
+
 function wi8(a,b,c){
   print "wi8 not impl"
   exit
