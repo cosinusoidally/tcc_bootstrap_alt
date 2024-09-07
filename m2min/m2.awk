@@ -44,22 +44,28 @@ function mkc(a,b,c){
   print "mkc not impl"
   exit
 }
-function _sub(a,b,c){
-  print "_sub not impl"
-  exit
+
+function _sub(a,b){
+  a = or(a, 0);
+  b = or(b, 0);
+  return a - b;
 }
+
 function neq(a,b,c){
   print "neq not impl"
   exit
 }
+
 function eq(a,b,c){
   print "eq not impl"
   exit
 }
+
 function or(a,b,c){
   print "or not impl"
   exit
 }
+
 function and(a,b,c){
   print "and not impl"
   exit
