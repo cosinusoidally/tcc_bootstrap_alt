@@ -1035,8 +1035,7 @@ function collect_arguments() {
 			if(eq(NULL, get_arguments(func))) {
 				set_depth(a, sub(0, register_size));
 			} else {
-				set_depth(a, sub(get_depth(
-						get_arguments(func)),
+				set_depth(a, sub(get_depth(get_arguments(func)),
 						register_size));
 			}
 			advance();
