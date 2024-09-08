@@ -60,6 +60,7 @@ function malloc(size \
 function memset(ptr, value, num \
 , s) {
   s = ptr;
+  print "memset ptr: " ptr " value: " value " num: " num;
   while(lt(0, num)) {
     wi8(s, value);
     s = add(s, 1);
@@ -177,10 +178,13 @@ function free(a,b,c){
   print "free not impl"
   exit
 }
-function lt(a,b,c){
-  print "lt not impl"
-  exit
+
+function lt(a,b) {
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a < b), 0);
 }
+
 function gte(a,b,c){
   print "gte not impl"
   exit
