@@ -89,10 +89,14 @@ function init_support(a,b,c){
   brk_ptr = 128*1024;
 }
 
-function wi8(a,b,c){
-  print "wi8 not impl"
-  exit
+function wi8(o,v){
+  if(v==""){
+    print("wrong use of wi8");
+    exit 1;
+  }
+  heap[o] = and(v, 255);
 }
+
 function mkc(a,b,c){
   print "mkc not impl"
   exit
