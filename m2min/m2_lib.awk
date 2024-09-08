@@ -44,8 +44,8 @@ function open(pathname, flags, mode \
       exit 1;
     }
   } else if((flags == 577 ) && (mode == 384)){
-    print "open for write not impl";
-    exit 1;
+    print "FIXME implement open for write";
+    return out_file_num;
   } else {
     print "open unsuported mode";
   }
