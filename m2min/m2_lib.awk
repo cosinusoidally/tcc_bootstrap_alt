@@ -6,10 +6,22 @@ function fopen(filename, mode \
 }
 
 function join(a,j \
-, s \
+, i \
+, res \
 ) {
-  print "join not impl";
-  exit 1;
+  i=1;
+  if(j!="") {
+    print "can only joing with the empty string"
+    exit 1;
+  }
+  while(a[i]!=""){
+    # FIXME this is quadratic probably not an issue but not sure if can fix in
+    # awk
+    res = res a[i];
+    i=i+1;
+  }
+  print "joined to: " res;
+  return res;
 }
 
 function mk_awk_str(s \
@@ -19,12 +31,11 @@ function mk_awk_str(s \
   i=1;
   while(heap[s]!=0) {
     reta[i]=charcode_to_str(ri8(s));
-    print reta[i];
     i=i+1;
     s=s+1;
   }
   ret=join(reta,"");
-  return "not impl";
+  return ret;
 }
 
 function fclose(a,b,c){
