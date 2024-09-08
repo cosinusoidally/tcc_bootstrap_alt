@@ -311,16 +311,19 @@ function int2str(x, base, signed_p) {
 	sign_p = FALSE;
 	table = mks("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
+	/* hack avoid 0x80000000 literal for awk compat add(2147483647,1) */
+	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, add(2147483647,1)))))) {
 		/* Truncate to 31bits */
-		i = and(sub(0, x), 0x7FFFFFFF);
+	        /* hack avoid 0x7FFFFFFF literal for awk compat */
+		i = and(sub(0, x), 2147483647);
 		if(eq(0, i)) {
 			return mks("-2147483648");
 		}
 		sign_p = TRUE;
 	} else {
 		/* Truncate to 32bits */
-		i = and(x, or(0x7FFFFFFF, shl(1, 31)));
+	        /* hack avoid 0x7FFFFFFF literal for awk compat */
+		i = and(x, or(2147483647, shl(1, 31)));
 	}
 
 	while(1) {
