@@ -217,10 +217,15 @@ function and(a,b \
 #  print "r: " r;
   return r;
 }
-function ri8(a,b,c){
-  print "ri8 not impl"
-  exit
+
+function ri8(o, dummy){
+  if(dummy!=""){
+    print("wrong use of ri8");
+    exit 1;
+  }
+  return and(heap[o], 255);
 }
+
 function free(a,b,c){
   print "free not impl"
   exit
