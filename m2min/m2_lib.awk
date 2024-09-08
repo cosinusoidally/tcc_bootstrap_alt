@@ -28,10 +28,54 @@ function mul(a,b,c){
   return a*b;
 }
 
-function calloc(nmemb, size){
+function brk(addr) {
+  addr = or(addr,0);
+  if(addr==0){
+    return brk_ptr;
+  } else {
+    brk_ptr = addr;
+    return addr;
+  }
+}
+
+function malloc(size \
+, old_malloc) {
+  if(eq(NULL, _brk_ptr)) {
+    _brk_ptr = brk(0);
+    _malloc_ptr = _brk_ptr;
+  }
+
+  if(lt(_brk_ptr, add(_malloc_ptr, size))) {
+    _brk_ptr = brk(add(_malloc_ptr, size));
+    if(eq(sub(0,1), _brk_ptr)) return 0;
+  }
+
+  old_malloc = _malloc_ptr;
+  _malloc_ptr = add(_malloc_ptr, size);
+  return old_malloc;
+}
+
+function memset(ptr, value, num \
+, s) {
+  s = ptr;
+  while(lt(0, num)) {
+    wi8(s, value);
+    s = add(s, 1);
+    num = sub(num, 1);
+  }
+}
+
+function calloc(nmemb, size \
+, ret) {
   print "calloc nmemb: " nmemb " size: " size;
+  ret = malloc(mul(count, size));
+  if(eq(NULL, ret)) {
+    return NULL;
+  }
+  memset(ret, 0, mul(count, size));
   print "calloc not impl";
   exit
+  return ret;
 }
 
 function init_support(a,b,c){
@@ -39,6 +83,7 @@ function init_support(a,b,c){
   stdout = 0;
   stderr = 2;
   init_or_tt();
+  brk_ptr = 128*1024;
 }
 
 function wi8(a,b,c){
