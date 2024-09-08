@@ -113,9 +113,9 @@ function mk_awk_str(s \
   return ret;
 }
 
-function _close(stream) {
-  print "close not impl";
-  exit 1;
+function _close(fd) {
+  print("close(" fd ")");
+  return 0;
 }
 
 function fclose(stream \
