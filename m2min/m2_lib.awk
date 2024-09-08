@@ -86,6 +86,7 @@ function init_support(a,b,c){
   stdout = 0;
   stderr = 2;
   init_or_tt();
+  init_and_tt();
   brk_ptr = 128*1024;
 }
 
@@ -124,6 +125,7 @@ function do_bitwise(a, b, tt \
 , bb \
 , i \
 , r \
+, t \
 , v) {
   r=0;
 #  print "a: " a;
@@ -132,7 +134,9 @@ function do_bitwise(a, b, tt \
     r=r*0.5;
     ba=(a % 2);
     bb=(b % 2);
-    v=tt[ba+bb];
+    t = ba+bb;
+#    print "t: " t;
+    v=tt[t];
 #    print ba " " bb " " v;
     a=a-ba; a=a * 0.5;
     b=b-bb; b=b * 0.5;
@@ -157,7 +161,6 @@ function init_or_tt(){
   or_tt[0]=0;
   or_tt[1]=1;
   or_tt[2]=1;
-  or_tt[3]=1;
 }
 
 function or(a,b \
@@ -170,9 +173,20 @@ function or(a,b \
   return r;
 }
 
-function and(a,b,c){
-  print "and not impl"
-  exit
+function init_and_tt(){
+  and_tt[0]=0;
+  and_tt[1]=0;
+  and_tt[2]=1;
+}
+
+function and(a,b \
+, r) {
+  a=to_uint32(a);
+  b=to_uint32(b);
+
+  r=do_bitwise(a, b, and_tt);
+#  print "r: " r;
+  return r;
 }
 function ri8(a,b,c){
   print "ri8 not impl"

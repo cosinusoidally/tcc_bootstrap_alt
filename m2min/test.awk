@@ -26,6 +26,13 @@ BEGIN {
   expect(heap[0]=="",1);
   expect(heap[0]==0,1);
 
+
+  print("and tests:");
+  expect(and(1,1),1);
+  expect(and(1,2),0);
+  expect(and(2147483647,0),0);
+  expect(and(43690,52428),61166);
+
   expect(or(-1,2),-1);
   exit;
 }
