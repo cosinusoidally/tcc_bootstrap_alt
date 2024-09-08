@@ -18,7 +18,7 @@ function mks(a,b,c){
   exit
 }
 
-function add(a,b,c){
+function add(a,b) {
   a = or(a, 0);
   b = or(b, 0);
   return a + b;
@@ -62,6 +62,7 @@ function memset(ptr, value, num \
   s = ptr;
   print "memset ptr: " ptr " value: " value " num: " num;
   while(lt(0, num)) {
+    print "num: " num;
     wi8(s, value);
     s = add(s, 1);
     num = sub(num, 1);
