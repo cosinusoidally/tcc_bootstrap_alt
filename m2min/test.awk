@@ -42,5 +42,9 @@ BEGIN {
   print("add tests:");
   expect(add(1,2),3);
 
+  print("shl tests:");
+  expect(shl(1,2),4);
+  expect(shl(100,16), 6553600);
+
   exit;
 }
