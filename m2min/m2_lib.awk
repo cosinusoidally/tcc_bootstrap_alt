@@ -268,6 +268,7 @@ function eq(a, b){
   return or((a == b), 0);
 }
 
+# FIXME this is badly named: it is more like uint32_to_int32
 function to_int32(x){
   if(x>2147483647) {
     x=x-4294967296;
