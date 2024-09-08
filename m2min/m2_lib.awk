@@ -1,6 +1,12 @@
-function fopen(a,b,c){
+function fopen(filename, mode \
+, f) {
+  print("fopen filename: " mk_awk_str(filename) " mode: " mode);
   print "fopen not impl"
   exit
+}
+
+function mk_awk_str(s) {
+  return "not impl";
 }
 
 function fclose(a,b,c){
