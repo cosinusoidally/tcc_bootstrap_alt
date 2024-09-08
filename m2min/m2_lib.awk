@@ -34,6 +34,7 @@ function init_support(a,b,c){
   stdin = 0;
   stdout = 0;
   stderr = 2;
+  init_or_tt();
 }
 
 function wi8(a,b,c){
@@ -63,9 +64,25 @@ function eq(a,b,c){
 
 function do_bitwise(a, b, tt \
 , ba \
-, bb ) {
-  print "a: " a;
-
+, bb \
+, i \
+, r \
+, v) {
+  r=0;
+#  print "a: " a;
+#  print "b: " b;
+  for(i=0;i<32;i++){
+    r=r*0.5;
+    ba=(a % 2);
+    bb=(b % 2);
+    v=tt[ba+bb];
+#    print ba " " bb " " v;
+    a=a-ba; a=a * 0.5;
+    b=b-bb; b=b * 0.5;
+    r=r+(v*2147483648);
+  }
+#  print "r: " r;
+  return r;
 }
 
 function to_uint32(x) {
@@ -79,20 +96,21 @@ function to_uint32(x) {
   return x;
 }
 
-or_tt[0]=0;
-or_tt[1]=1;
-or_tt[2]=1;
-or_tt[3]=1;
+function init_or_tt(){
+  or_tt[0]=0;
+  or_tt[1]=1;
+  or_tt[2]=1;
+  or_tt[3]=1;
+}
 
 function or(a,b \
 , r) {
   a=to_uint32(a);
-  b=to_uint32(a);
+  b=to_uint32(b);
 
   r=do_bitwise(a, b, or_tt);
-  print "r: "r;
-  print "or not impl"
-  exit
+#  print "r: " r;
+  return r;
 }
 
 function and(a,b,c){
