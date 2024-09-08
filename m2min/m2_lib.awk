@@ -264,7 +264,7 @@ function shl(a,b \
   b = to_uint32(b);
   p = 2 ^ b;
   ret = and(a*p,4294967295);
-  print "shl a: " a " b: " b " multiplier: " p " ret: " ret;
+#  print "shl a: " a " b: " b " multiplier: " p " ret: " ret;
   return ret;
 }
 
