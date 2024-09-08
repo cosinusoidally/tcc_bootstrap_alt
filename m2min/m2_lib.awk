@@ -21,12 +21,16 @@ function add(a,b,c){
   print "add not impl"
   exit
 }
+
 function mul(a,b,c){
-  print "mul not impl"
-  exit
+  a=or(a,0);
+  b=or(b,0);
+  return a*b;
 }
-function calloc(a,b,c){
-  print "calloc not impl"
+
+function calloc(nmemb, size){
+  print "calloc nmemb: " nmemb " size: " size;
+  print "calloc not impl";
   exit
 }
 
