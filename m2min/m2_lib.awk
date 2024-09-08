@@ -113,9 +113,15 @@ function mk_awk_str(s \
   return ret;
 }
 
-function fclose(a,b,c){
-  print "fclose not impl"
-  exit
+function _close(stream) {
+  print "close not impl";
+  exit 1;
+}
+
+function fclose(stream \
+, error) {
+        error = _close(stream);
+        return error;
 }
 
 function fputs(a,b,c){
@@ -360,8 +366,7 @@ function ri8(o, dummy){
 }
 
 function free(a,b,c){
-  print "free not impl"
-  exit
+  print "free is noop: " a;
 }
 
 function lt(a,b) {
