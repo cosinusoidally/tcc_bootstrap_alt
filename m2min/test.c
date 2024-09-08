@@ -1,3 +1,3 @@
 int foo(int a, int b){
-  return a+b+10;
+  return add(add(a,b),10);
 }
