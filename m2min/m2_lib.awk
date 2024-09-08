@@ -77,8 +77,6 @@ function calloc(nmemb, size \
     return NULL;
   }
   memset(ret, 0, mul(nmemb, size));
-  print "calloc not impl";
-  exit
   return ret;
 }
 
