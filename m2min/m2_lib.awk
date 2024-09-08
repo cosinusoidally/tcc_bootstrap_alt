@@ -1,5 +1,17 @@
 function open(pathname, flags, mode \
 ) {
+  pathname = mk_awk_str(pathname);
+  print("open name:" pathname " flag: " flags " mode: " mode);
+
+  if((flags == 0 ) && (mode == 0)){
+    print "open for read";
+  } else if((flags == 577 ) && (mode == 384)){
+    print "open for write not impl";
+    exit 1;
+  } else {
+    print "open unsuported mode";
+    exit 1;
+  }
   print "open not impl"
   exit 1;
 }
