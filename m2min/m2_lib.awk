@@ -413,8 +413,9 @@ function shr(a,b \
   return ret;
 }
 function gt(a,b,c){
-  print "gt not impl"
-  exit
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a > b), 0);
 }
 
 function mk_args(si \
