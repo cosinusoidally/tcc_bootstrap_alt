@@ -5,12 +5,25 @@ function fopen(filename, mode \
   exit
 }
 
-function mk_awk_str(s, \
-ret) {
+function join(a,j \
+, s \
+) {
+  print "join not impl";
+  exit 1;
+}
+
+function mk_awk_str(s \
+, reta \
+, i \
+, ret) {
+  i=1;
   while(heap[s]!=0) {
-    print charcode_to_str(ri8(s));
+    reta[i]=charcode_to_str(ri8(s));
+    print reta[i];
+    i=i+1;
     s=s+1;
   }
+  ret=join(reta,"");
   return "not impl";
 }
 
