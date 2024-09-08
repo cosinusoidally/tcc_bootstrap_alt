@@ -121,6 +121,11 @@ function eq(a, b){
   return or((a == b), 0);
 }
 
+function to_int32(x){
+  print "to_int32 not impl";
+  exit 1;
+}
+
 function do_bitwise(a, b, tt \
 , ba \
 , bb \
@@ -144,7 +149,7 @@ function do_bitwise(a, b, tt \
     r=r+(v*2147483648);
   }
 #  print "r: " r;
-  return r;
+  return to_int32(r);
 }
 
 function to_uint32(x) {
