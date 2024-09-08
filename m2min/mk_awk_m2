@@ -1,4 +1,10 @@
 ./mk_clean
+
+cat simple_support_js_defs.c > artifacts/M2_simple_asm_full.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_full.c
+cat simple_support_tcc.c >> artifacts/M2_simple_asm_full.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
+
 cp M2_simple_asm.js artifacts/tmp.c
 tcc -Dmatch=_match -Dnext=_next -Dsub=_sub -Dclose=_close -E artifacts/tmp.c |sed "s/('/(\"/g" |sed "s/')/\")/g" |sed 's/"""/"\\""/g' | awk -W posix -f js_to_awk.awk > artifacts/M2_simple_asm.awk
 
