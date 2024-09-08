@@ -149,8 +149,12 @@ function do_bitwise(a, b, tt \
 
 function to_uint32(x) {
   if((x<0)){
-    print "to_uint32 negative not supported";
-    exit 1;
+    if(x<-2147483648) {
+      print("to_uint32 less than -2147483648 not supported");
+      exit 1;
+    }
+    x=4294967296+x;
+    print("to_uint32 x: " or(x,0));
   }
   if(x>4294967295) {
     print "to_uint32 too big";
