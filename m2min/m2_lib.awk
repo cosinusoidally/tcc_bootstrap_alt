@@ -183,7 +183,7 @@ function brk(addr) {
 
 function malloc(size \
 , old_malloc) {
-  print "malloc: " size;
+#  print "malloc: " size;
   if(eq(NULL, _brk_ptr)) {
     _brk_ptr = brk(0);
     _malloc_ptr = _brk_ptr;
@@ -196,14 +196,14 @@ function malloc(size \
 
   old_malloc = _malloc_ptr;
   _malloc_ptr = add(_malloc_ptr, size);
-  print("malloc old_malloc: " old_malloc);
+#  print("malloc old_malloc: " old_malloc);
   return old_malloc;
 }
 
 function memset(ptr, value, num \
 , s) {
   s = ptr;
-  print "memset ptr: " ptr " value: " value " num: " num;
+#  print "memset ptr: " ptr " value: " value " num: " num;
   while(lt(0, num)) {
 #    print "num: " num;
     wi8(s, value);
@@ -214,7 +214,7 @@ function memset(ptr, value, num \
 
 function calloc(nmemb, size \
 , ret) {
-  print "calloc nmemb: " nmemb " size: " size;
+#  print "calloc nmemb: " nmemb " size: " size;
   ret = malloc(mul(nmemb, size));
   if(eq(NULL, ret)) {
     return NULL;
