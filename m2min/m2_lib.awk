@@ -380,20 +380,20 @@ function div(a,b,c){
 function fgetc(f \
 , eax) {
   if(f == in_file_num) {
-#    if(in_file[1] < in_file[0].length) {
-#      eax = in_file[0][in_file[1]];
+    if(in_off < in_len) {
+      eax = in_data[in_off];
 #      if(dbg) {
 #        print("fgetc: "+String.fromCharCode(eax));
 #      }
 #      in_file[1]=in_file[1]+1;
-#    } else {
+      print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
+    } else {
 #      if(dbg) {
 #        print("fgetc: EOF");
 #      }
-#      eax = -1;
-#    }
-    print "fgetc not impl yet: " f;
-    exit 1;
+      eax = -1;
+      print "here2 " f;
+    }
   } else {
     print("fgetc wrong file descriptor");
     exit 1;
