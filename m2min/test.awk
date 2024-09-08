@@ -22,6 +22,10 @@ BEGIN {
   expect(lt(9,10),1);
   expect(lt(10,9),0);
 
+
+  expect(heap[0]=="",1);
+  expect(heap[0]==0,1);
+
   expect(or(-1,2),-1);
   exit;
 }
