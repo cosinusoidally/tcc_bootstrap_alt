@@ -146,7 +146,7 @@ function mks(s \
   l = length(s);
   r=malloc(l+1);
   split(s, cs, "");
-  print "mks s: " s " length: " length(s);
+#  print "mks s: " s " length: " length(s);
 
   for(i =0; i<l; i++){
     wi8(r + i, mkc(cs[i+1]));
@@ -262,7 +262,7 @@ function mkc(a \
     print("mkc char not defined: "a);
     exit 1;
   }
-  print("mkc: " a " charcode: " c);
+#  print("mkc: " a " charcode: " c);
   return c;
 }
 
@@ -405,7 +405,8 @@ function fgetc(f \
 #        print("fgetc: "+String.fromCharCode(eax));
 #      }
 #      in_file[1]=in_file[1]+1;
-      print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
+
+#      print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
       in_off=in_off+1;
     } else {
 #      if(dbg) {
@@ -451,9 +452,10 @@ function shr(a,b \
   b = to_uint32(b);
   p = 2 ^ b;
   ret=int(a/p);
-  print "shr a: " a " b: " b " multiplier: " p " ret: " ret;
+#  print "shr a: " a " b: " b " multiplier: " p " ret: " ret;
   return ret;
 }
+
 function gt(a,b,c){
   a = or(a, 0);
   b = or(b, 0);
