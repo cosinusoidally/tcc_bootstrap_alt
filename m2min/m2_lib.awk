@@ -106,9 +106,10 @@ function neq(a,b,c){
   exit
 }
 
-function eq(a,b,c){
-  print "eq not impl"
-  exit
+function eq(a, b){
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a == b), 0);
 }
 
 function do_bitwise(a, b, tt \
