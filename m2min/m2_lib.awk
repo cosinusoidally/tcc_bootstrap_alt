@@ -178,7 +178,7 @@ function free(a,b,c){
   exit
 }
 function lt(a,b,c){
-  print "fgetc not impl"
+  print "lt not impl"
   exit
 }
 function gte(a,b,c){
