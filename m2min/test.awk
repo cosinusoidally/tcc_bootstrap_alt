@@ -10,6 +10,7 @@ function expect(a,b){
 
 
 BEGIN {
+  init_runtime();
   init_support();
   print "starting tests";
   print("or tests:");

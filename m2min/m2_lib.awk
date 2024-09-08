@@ -55,6 +55,7 @@ function brk(addr) {
 
 function malloc(size \
 , old_malloc) {
+  print "malloc: " size;
   if(eq(NULL, _brk_ptr)) {
     _brk_ptr = brk(0);
     _malloc_ptr = _brk_ptr;
@@ -67,6 +68,7 @@ function malloc(size \
 
   old_malloc = _malloc_ptr;
   _malloc_ptr = add(_malloc_ptr, size);
+  print("malloc old_malloc: " old_malloc);
   return old_malloc;
 }
 
@@ -94,13 +96,6 @@ function calloc(nmemb, size \
 }
 
 function init_support(a,b,c){
-  stdin = 0;
-  stdout = 0;
-  stderr = 2;
-  init_or_tt();
-  init_and_tt();
-  init_mkc();
-  brk_ptr = 128*1024;
 }
 
 function wi8(o,v){
@@ -291,16 +286,34 @@ function gt(a,b,c){
 }
 
 function mk_args(si \
-, argc \
+, i \
+, s \
 , ret \
 ){
+  i = 1;
+  print "mk_args si: " si;
   split(si, s, " ");
-#  argc = length(s);
-#  argv = malloc(argc * 4);
+  while(s[i]!="") {
+    print i " : " s[i];
+    argva[i-1]=s[i];
+    argc = i;
+    i=i+1;
+  }
+  print "argc : " argc;
+  argv = malloc(argc * 4);
 #  for(var i = 0; i < argc ; i++){
 #    wi32(argv+(4*i), mk_c_string(s[i]));
 #  }
 #  return [argc, argv];
-  print "mk_args incomplete"
-  exit 1;
+}
+
+function init_runtime() {
+  print "init_runtime";
+  stdin = 0;
+  stdout = 1;
+  stderr = 2;
+  init_or_tt();
+  init_and_tt();
+  init_mkc();
+  brk_ptr = 128*1024;
 }
