@@ -4,4 +4,5 @@ BEGIN {
   print "argc: " argc;
   print "argv: " argv;
   main(argc, argv);
+  exit;
 }

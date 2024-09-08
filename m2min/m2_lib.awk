@@ -45,6 +45,7 @@ function open(pathname, flags, mode \
     }
   } else if((flags == 577 ) && (mode == 384)){
     print "FIXME implement open for write";
+    out_filename = pathname;
     return out_file_num;
   } else {
     print "open unsuported mode";
@@ -122,9 +123,19 @@ function fclose(stream \
         return error;
 }
 
-function fputs(a,b,c){
-  print "fputs not impl"
-  exit
+function fputc(c, stream) {
+  print "fputc c: " c " stream: " stream;
+  if(out_filename != "") {
+    print "fputc filename: " out_filename;
+    printf("%c", c) >> out_filename;
+  }
+}
+
+function fputs(si, f) {
+  while(neq(0, ri8(si))) {
+    fputc(ri8(si), f);
+    si = add(si, 1);
+  }
 }
 
 function mks(s \
