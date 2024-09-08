@@ -86,6 +86,7 @@ function init_support(a,b,c){
   stderr = 2;
   init_or_tt();
   init_and_tt();
+  init_mkc();
   brk_ptr = 128*1024;
 }
 
@@ -97,10 +98,26 @@ function wi8(o,v){
   heap[o] = and(v, 255);
 }
 
-function mkc(a) {
-  print("mkc: " a);
-  print "mkc not impl"
-  exit
+function init_mkc( \
+i, \
+t) {
+  print("init_mkc");
+  for(i=0;i<256;i++){
+    t=sprintf("%c",i);
+    mkc_table[t]=i;
+  }
+  mkc_table["\'"]=39;
+}
+
+function mkc(a \
+, c) {
+  c=mkc_table[a];
+  if(c==""){
+    print("mkc char not defined: "a);
+    exit 1;
+  }
+  print("mkc: " a " charcode: " c);
+  return c;
 }
 
 function _sub(a,b){
