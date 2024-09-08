@@ -49,7 +49,7 @@ function malloc(size \
 
   if(lt(_brk_ptr, add(_malloc_ptr, size))) {
     _brk_ptr = brk(add(_malloc_ptr, size));
-    if(eq(sub(0,1), _brk_ptr)) return 0;
+    if(eq(_sub(0,1), _brk_ptr)) return 0;
   }
 
   old_malloc = _malloc_ptr;
@@ -65,7 +65,7 @@ function memset(ptr, value, num \
     print "num: " num;
     wi8(s, value);
     s = add(s, 1);
-    num = sub(num, 1);
+    num = _sub(num, 1);
   }
 }
 

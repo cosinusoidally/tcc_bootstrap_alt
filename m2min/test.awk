@@ -33,6 +33,10 @@ BEGIN {
   expect(and(2147483647,0),0);
   expect(and(43690,52428),34952);
 
+
+  print("add tests:");
+  expect(add(1,2),3);
+
   expect(or(-1,2),-1);
   exit;
 }
