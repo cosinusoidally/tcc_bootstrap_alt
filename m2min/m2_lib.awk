@@ -26,9 +26,7 @@ function mks(s \
   for(i =0; i<l; i++){
     wi8(r + i, mkc(cs[i+1]));
   }
-
-  print "mks not impl"
-  exit
+  return r;
 }
 
 function add(a,b) {
@@ -301,10 +299,9 @@ function mk_args(si \
   }
   print "argc : " argc;
   argv = malloc(argc * 4);
-#  for(var i = 0; i < argc ; i++){
-#    wi32(argv+(4*i), mk_c_string(s[i]));
-#  }
-#  return [argc, argv];
+  for(i = 0; i < argc ; i++){
+    wi32(argv+(4*i), mks(s[i+1]));
+  }
 }
 
 function init_runtime() {
