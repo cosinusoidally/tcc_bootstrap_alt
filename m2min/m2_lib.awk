@@ -5,6 +5,14 @@ function open(pathname, flags, mode \
 
   if((flags == 0 ) && (mode == 0)){
     print "open for read";
+    if(in_file == "") {
+      print "opening in_file";
+      exit 1;
+      return in_file_num;
+    } else {
+      print("ERROR in_file already loaded");
+      exit 1;
+    }
   } else if((flags == 577 ) && (mode == 384)){
     print "open for write not impl";
     exit 1;
