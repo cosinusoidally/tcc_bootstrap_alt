@@ -119,13 +119,13 @@ function ri32(o) {
 }
 
 function wi32(o, v) {
-  wi8(o, and(v, 0xFF));
+  wi8(o, and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 1), and(v, 0xFF));
+  wi8(add(o, 1), and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 2), and(v, 0xFF));
+  wi8(add(o, 2), and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 3), and(v, 0xFF));
+  wi8(add(o, 3), and(v, 255));
 }
 
 function set_s(t, v) {
