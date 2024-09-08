@@ -258,8 +258,9 @@ function _sub(a,b){
 }
 
 function neq(a,b,c){
-  print "neq not impl"
-  exit
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a != b), 0);
 }
 
 function eq(a, b){
@@ -388,6 +389,7 @@ function fgetc(f \
 #      }
 #      in_file[1]=in_file[1]+1;
       print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
+      in_off=in_off+1;
     } else {
 #      if(dbg) {
 #        print("fgetc: EOF");
