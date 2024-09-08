@@ -13,7 +13,20 @@ function fputs(a,b,c){
   exit
 }
 
-function mks(a,b,c){
+function mks(s \
+, i \
+, l \
+, cs \
+, r) {
+  l = length(s);
+  r=malloc(l+1);
+  split(s, cs, "");
+  print "mks s: " s " length: " length(s);
+
+  for(i =0; i<l; i++){
+    wi8(r + i, mkc(cs[i+1]));
+  }
+
   print "mks not impl"
   exit
 }
