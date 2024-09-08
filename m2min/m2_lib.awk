@@ -1,6 +1,6 @@
 function fopen(filename, mode \
 , f) {
-  print("fopen filename: " mk_awk_str(filename) " mode: " mode);
+  print("fopen filename: " mk_awk_str(filename) " mode: " mk_awk_str(mode));
   print "fopen not impl"
   exit
 }
