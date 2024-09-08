@@ -253,10 +253,21 @@ function mod(a,b,c){
   print "mod not impl"
   exit
 }
-function shl(a,b,c){
-  print "shl not impl"
-  exit
+
+function shl(a,b \
+, p \
+, ret) {
+  a = to_uint32(a);
+  if(b<0){
+    print("shl cannot be a negative shift");
+  }
+  b = to_uint32(b);
+  p = 2 ^ b;
+  ret = and(a*p,4294967295);
+  print "shl a: " a " b: " b " multiplier: " p " ret: " ret;
+  return ret;
 }
+
 function shr(a,b,c){
   print "shr not impl"
   exit
