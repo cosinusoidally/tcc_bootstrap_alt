@@ -97,7 +97,8 @@ function wi8(o,v){
   heap[o] = and(v, 255);
 }
 
-function mkc(a,b,c){
+function mkc(a) {
+  print("mkc: " a);
   print "mkc not impl"
   exit
 }
