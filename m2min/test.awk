@@ -17,6 +17,7 @@ BEGIN {
   expect(or(2147483647,0),2147483647);
   expect(or(43690,52428),61166);
   expect(or(-1,2),-1);
+  expect(or(-2,3),-1);
 
   print("eq tests:");
   expect(eq(1,2),0);
