@@ -62,7 +62,7 @@ function memset(ptr, value, num \
   s = ptr;
   print "memset ptr: " ptr " value: " value " num: " num;
   while(lt(0, num)) {
-    print "num: " num;
+#    print "num: " num;
     wi8(s, value);
     s = add(s, 1);
     num = _sub(num, 1);
