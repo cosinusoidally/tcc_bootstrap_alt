@@ -376,10 +376,31 @@ function div(a,b,c){
   print "div not impl"
   exit
 }
-function fgetc(a,b,c){
-  print "fgetc not impl"
-  exit
+
+function fgetc(f \
+, eax) {
+  if(f == in_file_num) {
+#    if(in_file[1] < in_file[0].length) {
+#      eax = in_file[0][in_file[1]];
+#      if(dbg) {
+#        print("fgetc: "+String.fromCharCode(eax));
+#      }
+#      in_file[1]=in_file[1]+1;
+#    } else {
+#      if(dbg) {
+#        print("fgetc: EOF");
+#      }
+#      eax = -1;
+#    }
+    print "fgetc not impl yet: " f;
+    exit 1;
+  } else {
+    print("fgetc wrong file descriptor");
+    exit 1;
+  }
+  return eax;
 }
+
 function mod(a,b,c){
   print "mod not impl"
   exit
