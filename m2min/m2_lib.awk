@@ -1,4 +1,21 @@
+function append_in_line(l \
+, chars \
+, i \
+){
+  i=1;
+  split(l, chars,"");
+  while(chars[i]!=""){
+    in_data[in_off++]=mkc(chars[i]);
+    i=i+1;
+  }
+  in_data[in_off++]=mkc("\n");
+  print "\n";
+  print "not imp";
+  exit 1;
+}
+
 function open(pathname, flags, mode \
+, myline \
 ) {
   pathname = mk_awk_str(pathname);
   print("open name:" pathname " flag: " flags " mode: " mode);
@@ -7,6 +24,10 @@ function open(pathname, flags, mode \
     print "open for read";
     if(in_file == "") {
       print "opening in_file";
+      while((getline < pathname)) {
+        append_in_line($0);
+        print $0;
+      }
       exit 1;
       return in_file_num;
     } else {
@@ -417,4 +438,6 @@ function init_runtime() {
   init_and_tt();
   init_mkc();
   brk_ptr = 128*1024;
+  in_file_num = 5;
+  out_file_num = 6;
 }
