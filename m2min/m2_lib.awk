@@ -377,9 +377,11 @@ function gte(a,b,c){
   print "gte not impl"
   exit
 }
-function div(a,b,c){
-  print "div not impl"
-  exit
+
+function div(a,b) {
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a / b), 0);
 }
 
 function fgetc(f \
@@ -407,9 +409,10 @@ function fgetc(f \
   return eax;
 }
 
-function mod(a,b,c){
-  print "mod not impl"
-  exit
+function mod(a,b){
+  a = or(a, 0);
+  b = or(b, 0);
+  return a % b;
 }
 
 function shl(a,b \
