@@ -1,5 +1,5 @@
 function fopen(a,b,c){
-  print "fclose not impl"
+  print "fopen not impl"
   exit
 }
 
