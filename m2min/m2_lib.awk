@@ -274,9 +274,18 @@ function shl(a,b \
   return ret;
 }
 
-function shr(a,b,c){
-  print "shr not impl"
-  exit
+function shr(a,b \
+, p \
+, ret){
+  a = to_uint32(a);
+  if(b<0){
+    print("shr cannot be a negative shift");
+  }
+  b = to_uint32(b);
+  p = 2 ^ b;
+  ret=int(a/p);
+  print "shr a: " a " b: " b " multiplier: " p " ret: " ret;
+  return ret;
 }
 function gt(a,b,c){
   print "gt not impl"
