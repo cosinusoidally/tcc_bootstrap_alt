@@ -18,6 +18,10 @@ BEGIN {
   expect(eq(1,2),0);
   expect(eq(10,10),1);
 
+  expect(lt(10,10),0);
+  expect(lt(9,10),1);
+  expect(lt(10,9),0);
+
   expect(or(-1,2),-1);
   exit;
 }
