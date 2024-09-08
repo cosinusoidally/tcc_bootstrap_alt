@@ -289,3 +289,18 @@ function gt(a,b,c){
   print "gt not impl"
   exit
 }
+
+function mk_args(si \
+, argc \
+, ret \
+){
+  split(si, s, " ");
+#  argc = length(s);
+#  argv = malloc(argc * 4);
+#  for(var i = 0; i < argc ; i++){
+#    wi32(argv+(4*i), mk_c_string(s[i]));
+#  }
+#  return [argc, argv];
+  print "mk_args incomplete"
+  exit 1;
+}
