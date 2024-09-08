@@ -71,11 +71,11 @@ function memset(ptr, value, num \
 function calloc(nmemb, size \
 , ret) {
   print "calloc nmemb: " nmemb " size: " size;
-  ret = malloc(mul(count, size));
+  ret = malloc(mul(nmemb, size));
   if(eq(NULL, ret)) {
     return NULL;
   }
-  memset(ret, 0, mul(count, size));
+  memset(ret, 0, mul(nmemb, size));
   print "calloc not impl";
   exit
   return ret;
