@@ -1,3 +1,9 @@
+function open(pathname, flags, mode \
+) {
+  print "open not impl"
+  exit 1;
+}
+
 function fopen(filename, mode \
 , filename_s \
 , mode_s \
@@ -5,6 +11,21 @@ function fopen(filename, mode \
   filename_s=mk_awk_str(filename);
   mode_s=mk_awk_str(mode);
   print("fopen filename: " filename_s " mode: " mode_s);
+
+  if(eq(mkc("w"), ri8(mode))) {
+    # 577 is O_WRONLY|O_CREAT|O_TRUNC, 384 is 600 in octal
+    f = open(filename, 577 , 384);
+  } else {
+    # Everything else is a read
+    f = open(filename, 0, 0);
+  }
+
+  # Negative numbers are error codes */
+  if(gt(0, f)) {
+    return 0;
+  }
+  return f;
+
   print "fopen not impl"
   exit
 }
