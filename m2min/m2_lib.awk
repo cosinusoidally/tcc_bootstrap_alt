@@ -17,9 +17,11 @@ function mks(a,b,c){
   print "mks not impl"
   exit
 }
+
 function add(a,b,c){
-  print "add not impl"
-  exit
+  a = or(a, 0);
+  b = or(b, 0);
+  return a + b;
 }
 
 function mul(a,b,c){
