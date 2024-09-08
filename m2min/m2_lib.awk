@@ -10,8 +10,16 @@ function append_in_line(l \
   }
   in_data[in_off++]=mkc("\n");
   print "\n";
-  print "not imp";
-  exit 1;
+}
+
+function print_infile( \
+i){
+  i=0;
+  print "input file:";
+  while(in_data[i]!=""){
+    printf("%c",in_data[i]);
+    i=i+1;
+  }
 }
 
 function open(pathname, flags, mode \
@@ -26,9 +34,10 @@ function open(pathname, flags, mode \
       print "opening in_file";
       while((getline < pathname)) {
         append_in_line($0);
-        print $0;
       }
-      exit 1;
+      in_len=in_off;
+      in_off=0;
+      print_infile();
       return in_file_num;
     } else {
       print("ERROR in_file already loaded");
