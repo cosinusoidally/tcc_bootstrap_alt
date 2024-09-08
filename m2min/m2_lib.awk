@@ -5,7 +5,12 @@ function fopen(filename, mode \
   exit
 }
 
-function mk_awk_str(s) {
+function mk_awk_str(s, \
+ret) {
+  while(heap[s]!=0) {
+    print charcode_to_str(ri8(s));
+    s=s+1;
+  }
   return "not impl";
 }
 
@@ -110,8 +115,19 @@ function wi8(o,v){
   heap[o] = and(v, 255);
 }
 
+function charcode_to_str(a \
+, c){
+  c = charcode_to_str_arr[a];
+  if(c!="") {
+    return c;
+  }
+  print "charcode_to_str invalid: "+a;
+  exit 1;
+}
+
 function init_mkc( \
 i, \
+c, \
 t) {
   print("init_mkc");
   for(i=0;i<256;i++){
@@ -119,6 +135,10 @@ t) {
     mkc_table[t]=i;
   }
   mkc_table["\'"]=39;
+  for(i in mkc_table){
+    c=mkc_table[i];
+    charcode_to_str_arr[c] = i;
+  }
 }
 
 function mkc(a \
