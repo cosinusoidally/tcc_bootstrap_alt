@@ -373,9 +373,10 @@ function lt(a,b) {
   return or((a < b), 0);
 }
 
-function gte(a,b,c){
-  print "gte not impl"
-  exit
+function gte(a,b) {
+  a = or(a, 0);
+  b = or(b, 0);
+  return or((a >= b), 0);
 }
 
 function div(a,b) {
