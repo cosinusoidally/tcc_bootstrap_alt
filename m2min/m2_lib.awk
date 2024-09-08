@@ -143,6 +143,10 @@ function mks(s \
 , l \
 , cs \
 , r) {
+  r = string_cache[s];
+  if(r) {
+    return r;
+  }
   l = length(s);
   r=malloc(l+1);
   split(s, cs, "");
@@ -151,6 +155,7 @@ function mks(s \
   for(i =0; i<l; i++){
     wi8(r + i, mkc(cs[i+1]));
   }
+  string_cache[s]=r;
   return r;
 }
 
