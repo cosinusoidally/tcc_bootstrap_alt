@@ -48,9 +48,7 @@ function open(pathname, flags, mode \
     exit 1;
   } else {
     print "open unsuported mode";
-    exit 1;
   }
-  print "open not impl"
   exit 1;
 }
 
