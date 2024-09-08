@@ -61,11 +61,36 @@ function eq(a,b,c){
   exit
 }
 
-function or(a,b,c){
-  if( (a<0) || (b<0)){
-    print "or negative not supported";
+function do_bitwise(a, b, tt \
+, ba \
+, bb ) {
+  print "a: " a;
+
+}
+
+function to_uint32(x) {
+  if((x<0)){
+    print "to_uint32 negative not supported";
     exit 1;
   }
+  if(x>4294967295) {
+    print "to_uint32 too big";
+  }
+  return x;
+}
+
+or_tt[0]=0;
+or_tt[1]=1;
+or_tt[2]=1;
+or_tt[3]=1;
+
+function or(a,b \
+, r) {
+  a=to_uint32(a);
+  b=to_uint32(a);
+
+  r=do_bitwise(a, b, or_tt);
+  print "r: "r;
   print "or not impl"
   exit
 }
