@@ -9,7 +9,7 @@ function append_in_line(l \
     i=i+1;
   }
   in_data[in_off++]=mkc("\n");
-  print "\n";
+#  print "\n";
 }
 
 function print_infile( \
@@ -37,7 +37,7 @@ function open(pathname, flags, mode \
       }
       in_len=in_off;
       in_off=0;
-      print_infile();
+#      print_infile();
       return in_file_num;
     } else {
       print("ERROR in_file already loaded");
@@ -413,6 +413,9 @@ function fgetc(f \
 
 #      print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
       in_off=in_off+1;
+      if(eax == 10) {
+        print "fgetc newline: " (my_line_num++);
+      }
     } else {
 #      if(dbg) {
 #        print("fgetc: EOF");
