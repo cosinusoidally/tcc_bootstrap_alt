@@ -47,5 +47,9 @@ BEGIN {
   expect(shl(1,2),4);
   expect(shl(100,16), 6553600);
 
+  print("int2str tests:");
+  expect(mk_awk_str(int2str(101,10,1)),"101");
+  expect(mk_awk_str(int2str(110,10,1)),"110");
+
   exit;
 }
