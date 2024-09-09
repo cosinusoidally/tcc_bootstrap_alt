@@ -124,9 +124,9 @@ function fclose(stream \
 }
 
 function fputc(c, stream) {
-  print "fputc c: " c " stream: " stream;
+#  print "fputc c: " c " stream: " stream;
   if(out_filename != "") {
-    print "fputc filename: " out_filename;
+#    print "fputc filename: " out_filename;
     printf("%c", c) >> out_filename;
   }
 }
