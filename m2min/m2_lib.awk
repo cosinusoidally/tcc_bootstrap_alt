@@ -291,6 +291,7 @@ function eq(a, b){
 
 # FIXME this is badly named: it is more like uint32_to_int32
 function to_int32(x){
+  x=int(x);
   if(x>2147483647) {
     x=x-4294967296;
   }
@@ -325,6 +326,7 @@ function do_bitwise(a, b, tt \
 
 function to_uint32(x) {
 #  print("to_uint32 x: " x);
+  x=int(x);
   if((x<0)){
     if(x<-2147483648) {
       print("to_uint32 less than -2147483648 not supported");
