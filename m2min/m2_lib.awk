@@ -26,7 +26,7 @@ function open(pathname, flags, mode \
 , myline \
 ) {
   pathname = mk_awk_str(pathname);
-  print("open name:" pathname " flag: " flags " mode: " mode);
+  print("open name: " pathname " flag: " flags " mode: " mode);
 
   if((flags == 0 ) && (mode == 0)){
     print "open for read";
