@@ -4,7 +4,8 @@
  * Copyright (C) 2016 Jeremiah Orians
  * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright (C) 2020 deesix <deesix@tuta.io>
- * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
+ * FIXME (Liam Wilson) I've mangled andrius name as gawk doesn't like the "S"
+ * Copyright (C) 2021 Andrius Stikonas <andrius@stikonas.eu>
  * Copyright (C) 2021 Sanne Wouda
  * Copyright (C) 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * This file is part of M2-Planet.
