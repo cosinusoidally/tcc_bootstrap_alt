@@ -44,7 +44,7 @@ function open(pathname, flags, mode \
       exit 1;
     }
   } else if((flags == 577 ) && (mode == 384)){
-    print "FIXME implement open for write";
+    print "opening for write";
     out_filename = pathname;
     return out_file_num;
   } else {
