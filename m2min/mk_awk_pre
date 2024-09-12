@@ -13,4 +13,6 @@ tcc -E artifacts/tmp.c > artifacts/p1.c
 
 awk -W posix -f pre.awk > artifacts/p2.c
 
+cat artifacts/p2.c |sed "s/('/(\"/g" |sed "s/')/\")/g" |sed 's/"""/"\\""/g' | awk -W posix -f js_to_awk.awk > artifacts/M2_simple_asm2.awk
+
 #diff -u artifacts/p1.c artifacts/p2.c
