@@ -107,7 +107,6 @@ c){
     }
     if(print_on){
       if(c==-1) {
-        print "EOF";
         exit;
       } else if(match(ch,/[a-zA-Z0-9_]/)){
         symbol();
