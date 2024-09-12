@@ -60,6 +60,42 @@ function consume_whitespace(){
   }
 }
 
+function join(a,j \
+, i \
+, res \
+) {
+  i=1;
+  if(j!="") {
+#    print "can only joing with the empty string"
+    exit 1;
+  }
+  while(a[i]!=""){
+    # FIXME this is quadratic probably not an issue but not sure if can fix in
+    # awk
+    res = res a[i];
+    i=i+1;
+  }
+#  print "joined to: " res;
+  return res;
+}
+
+
+function symbol( \
+s \
+, i \
+, tmp){
+  i=1;
+  while(match(ch,/[a-zA-Z0-9_]/)){
+#    printf("%s",ch);
+    tmp[i]=ch;
+    i=i+1;
+    getchar();
+  }
+  in_off--;
+  s=join(tmp,"");
+  printf("%s",s);
+}
+
 function process( \
 c){
   while(c=getchar()){
@@ -76,7 +112,14 @@ c){
       }
     }
     if(print_on){
-      printf("%s", ch);
+      if(c==-1) {
+        print "EOF";
+        exit;
+      } else if(match(ch,/[a-zA-Z0-9_]/)){
+        symbol();
+      } else {
+        printf("%s", ch);
+      }
     }
     } else {
       if(ch=="*"){
