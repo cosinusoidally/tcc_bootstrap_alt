@@ -57,12 +57,28 @@ eax) {
 function process( \
 c){
   while(c=getchar()){
-    printf("%s", ch);
+    if(print_on){
+    if(ch=="/"){
+      getchar();
+      if(ch=="*") {
+        printf("slash_star");
+        print_on=0;
+      } else {
+        print_on=1;
+      }
+    }
+    if(print_on){
+      printf("%s", ch);
+    }
+    } else {
+      print_on=1;
+    }
   }
 }
 
 
 BEGIN {
+  print_on=1;
   load_in("./artifacts/tmp.c");
   process();
   exit 0;

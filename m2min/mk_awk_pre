@@ -13,4 +13,4 @@ tcc -E artifacts/tmp.c > artifacts/p1.c
 
 awk -W posix -f pre.awk > artifacts/p2.c
 
-diff -u artifacts/p1.c artifacts/p2.c
+#diff -u artifacts/p1.c artifacts/p2.c
