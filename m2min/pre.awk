@@ -53,11 +53,18 @@ eax) {
   return eax;
 }
 
+function consume_whitespace(){
+  while((ch==" ") || (ch =="\t")) {
+    printf("%s", ch);
+    getchar();
+  }
+}
 
 function process( \
 c){
   while(c=getchar()){
     if(print_on){
+    consume_whitespace();
     if(ch=="/"){
       getchar();
       if(ch=="*") {
