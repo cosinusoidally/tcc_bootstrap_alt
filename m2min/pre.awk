@@ -61,17 +61,26 @@ c){
     if(ch=="/"){
       getchar();
       if(ch=="*") {
-        printf("slash_star");
+#        printf("slash_star");
         print_on=0;
       } else {
         print_on=1;
+        printf("/");
       }
     }
     if(print_on){
       printf("%s", ch);
     }
     } else {
-      print_on=1;
+      if(ch=="*"){
+        getchar();
+        if(ch=="/") {
+#          printf("slash_star");
+          print_on=1;
+        } else {
+          print_on=0;
+        }
+      }
     }
   }
 }
