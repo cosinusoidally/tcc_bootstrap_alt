@@ -9,4 +9,8 @@ cat simple_support_js_m2_prims.c >> artifacts/M2_simple_asm_m2.c
 cp M2_simple_asm.js artifacts/tmp.c
 tcc -Dmatch=_match -Dnext=_next -Dsub=_sub -Dclose=_close -E artifacts/tmp.c |sed "s/('/(\"/g" |sed "s/')/\")/g" |sed 's/"""/"\\""/g' | awk -W posix -f js_to_awk.awk > artifacts/M2_simple_asm.awk
 
-awk -W posix -f pre.awk > artifacts/tmp2.c
+tcc -E artifacts/tmp.c > artifacts/p1.c
+
+awk -W posix -f pre.awk > artifacts/p2.c
+
+diff -u artifacts/p1.c artifacts/p2.c
