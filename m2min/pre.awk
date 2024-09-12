@@ -1,12 +1,16 @@
 function append_in_line(l \
 , chars \
 , i \
+, len \
 ){
   i=1;
+  len=length(l);
   split(l, chars,"");
-  while(chars[i]!=""){
-    in_data[in_off++]=chars[i];
-    i=i+1;
+  if(len>=1){
+    for(i=1;i<=len;i++){
+#      printf("%s", chars[i]);
+      in_data[in_off++]=chars[i];
+    }
   }
   in_data[in_off++]="\n";
 }
@@ -14,9 +18,10 @@ function append_in_line(l \
 function load_in(pathname, flags, mode \
 , myline \
 ) {
-  print("open name: " pathname);
+#  print("open name: " pathname);
 
   while((getline < pathname)) {
+#    print "line";
     append_in_line($0);
   }
   in_len=in_off;
@@ -26,7 +31,8 @@ function load_in(pathname, flags, mode \
 function getchar( \
 eax) {
   if(in_off < in_len) {
-    eax = in_data[in_off];
+    eax = 1;
+    ch = in_data[in_off];
 #      if(dbg) {
 #        print("fgetc: "+String.fromCharCode(eax));
 #      }
@@ -34,15 +40,15 @@ eax) {
 
 #      print "fgetc f:" f " c: " eax " is: " charcode_to_str(eax);
     in_off=in_off+1;
-    if(eax == "\n") {
-      print "fgetc newline: " (my_line_num++);
+    if(ch == "\n") {
+#      print "fgetc newline: " (my_line_num++);
     }
   } else {
 #      if(dbg) {
 #        print("fgetc: EOF");
 #      }
-    eax = -1;
-    print "here2 " f;
+    eax = 0;
+#    print "here2 " f;
   }
   return eax;
 }
@@ -51,7 +57,7 @@ eax) {
 function process( \
 c){
   while(c=getchar()){
-    print c;
+    printf("%s", ch);
   }
 }
 
