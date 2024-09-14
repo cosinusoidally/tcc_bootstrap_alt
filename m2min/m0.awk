@@ -32,19 +32,24 @@ function signed_char_to_hex(s \
 
 function signed_int_to_hex(s \
 , t \
+, t2 \
 , d1 \
 , d2 \
 , d3 \
 , d4 \
 ) {
   t=s;
-  if(s < 0){
-
+  if(split(s,t2,"x")>1) {
+    d1=t2[2];
+  } else {
+    if(s < 0){
+      s=s+4294967296;
+    }
+    d1=signed_char_to_hex(s % 256); s=int(s/256);
+    d2=signed_char_to_hex(s % 256); s=int(s/256);
+    d3=signed_char_to_hex(s % 256); s=int(s/256);
+    d4=signed_char_to_hex(s % 256); s=int(s/256);
   }
-  d1=signed_char_to_hex(s % 256); s=int(s/256);
-  d2=signed_char_to_hex(s % 256); s=int(s/256);
-  d3=signed_char_to_hex(s % 256); s=int(s/256);
-  d4=signed_char_to_hex(s % 256); s=int(s/256);
   return "signed int: " t " " d1 d2 d3 d4;
 }
 
