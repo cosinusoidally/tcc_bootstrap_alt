@@ -32,7 +32,9 @@ function signed_char_to_hex(s \
 
 function signed_int_to_hex(s \
 , t \
+, i \
 , t2 \
+, t3 \
 , d1 \
 , d2 \
 , d3 \
@@ -41,6 +43,13 @@ function signed_int_to_hex(s \
   t=s;
   if(split(s,t2,"x")>1) {
     d1=t2[2];
+    split(t2[2],t3,"");
+    for(i=1;i<=8;i++){
+      if(t3[i]==0) {
+        t3[i]="0";
+      }
+    }
+    d1= t3[7] t3[8] t3[5] t3[6] t3[3] t3[4] t3[1] t3[2];
   } else {
     if(s < 0){
       s=s+4294967296;
@@ -50,7 +59,7 @@ function signed_int_to_hex(s \
     d3=signed_char_to_hex(s % 256); s=int(s/256);
     d4=signed_char_to_hex(s % 256); s=int(s/256);
   }
-  return "signed int: " t " " d1 d2 d3 d4;
+  return d1 d2 d3 d4;
 }
 
 function get_tok(a,s,f \
