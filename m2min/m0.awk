@@ -20,6 +20,13 @@ function join(a,j \
 function get_tok(a,s,f \
 , i \
 , t){
+  if(a[s]=="!") {
+    for(i=s+1;i<=f;i++){
+      t[i-s]=a[i];
+    }
+    r = "signed char: " join(t,"");
+    return r;
+  }
   for(i=s;i<=f;i++){
     t[i-s+1]=a[i];
   }
