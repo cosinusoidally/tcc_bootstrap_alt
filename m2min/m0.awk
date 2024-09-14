@@ -30,6 +30,10 @@ function signed_char_to_hex(s \
   return hexc[h] hexc[l];
 }
 
+function signed_int_to_hex(s) {
+  return "signed int: " s;
+}
+
 function get_tok(a,s,f \
 , i \
 , t){
@@ -40,10 +44,19 @@ function get_tok(a,s,f \
     r = signed_char_to_hex(join(t,""));
     return r;
   }
+  if(a[s]=="%") {
+    if(match(a[s+1], /[0-9\-]/)) {
+      for(i=s+1;i<=f;i++){
+        t[i-s]=a[i];
+      }
+      r = signed_int_to_hex(join(t,""));
+      return r;
+    }
+  }
   for(i=s;i<=f;i++){
     t[i-s+1]=a[i];
   }
-  r=join(t,"");
+  r= join(t,"");
 #  print "TOKEN: " r;
   if(r in defines) {
     return defines[r];
@@ -116,7 +129,7 @@ function init_tables(){
   hexc[6]="6";
   hexc[7]="7";
   hexc[8]="8";
-  hexc[9]="8";
+  hexc[9]="9";
   hexc[10]="A";
   hexc[11]="B";
   hexc[12]="C";
