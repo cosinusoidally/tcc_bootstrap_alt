@@ -27,7 +27,7 @@ function signed_char_to_hex(s \
   l=(s % 16);
   h=s-l;
   h=h / 16;
-  return s;
+  return hexc[h] hexc[l];
 }
 
 function get_tok(a,s,f \
@@ -37,7 +37,7 @@ function get_tok(a,s,f \
     for(i=s+1;i<=f;i++){
       t[i-s]=a[i];
     }
-    r = "signed char: " signed_char_to_hex(join(t,""));
+    r = signed_char_to_hex(join(t,""));
     return r;
   }
   for(i=s;i<=f;i++){
