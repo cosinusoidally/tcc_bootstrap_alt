@@ -17,6 +17,41 @@ function join(a,j \
   return res;
 }
 
+function charcode_to_str(a \
+, c){
+  c = charcode_to_str_arr[a];
+  if(c!="") {
+    return c;
+  }
+  print "charcode_to_str invalid: "+a;
+  exit 1;
+}
+
+function init_mkc( \
+i, \
+c, \
+t) {
+  for(i=0;i<256;i++){
+    t=sprintf("%c",i);
+    mkc_table[t]=i;
+  }
+  mkc_table["\'"]=39;
+  for(i in mkc_table){
+    c=mkc_table[i];
+    charcode_to_str_arr[c] = i;
+  }
+}
+
+function mkc(a \
+, c) {
+  c=mkc_table[a];
+  if(c==""){
+    print("mkc char not defined: "a);
+    exit 1;
+  }
+#  print("mkc: " a " charcode: " c);
+  return c;
+}
 
 function signed_char_to_hex(s \
 , h \
@@ -200,6 +235,8 @@ function init_tables(){
   hexc[13]="D";
   hexc[14]="E";
   hexc[15]="F";
+
+  init_mkc();
 }
 
 BEGIN {
