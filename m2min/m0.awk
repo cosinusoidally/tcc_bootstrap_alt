@@ -7,6 +7,7 @@ function process_line(x \
     return "";
   }
   split(x, t1, "");
+  print x > out_name;
   return x;
 }
 
@@ -19,7 +20,6 @@ BEGIN {
   print "# output file" > out_name;
   while((getline < in_name)) {
     $0=process_line($0);
-    print $0 > out_name;
   }
   for(i in defines) {
 #    print("DEFINE: " i " as " defines[i]);
