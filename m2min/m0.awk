@@ -119,7 +119,14 @@ function process_line(x \
   l=split(x, t1, "");
   for(i=1;i<=l;i++){
     t=t1[i];
-    if(in_string) {
+    if(in_quote) {
+      if(t1[i]=="'") {
+        in_quote=0;
+        printf("\n") > out_name;
+      } else {
+        printf("%s",t1[i]) > out_name;
+      }
+    } else if(in_string) {
       if(t1[i]=="\"") {
         in_string=0;
         printf("\n*STRING_END*\n") > out_name;
@@ -135,6 +142,8 @@ function process_line(x \
       } else if(t1[i]=="\"") {
         in_string=1;
         printf(" *STRING_START*\n") > out_name;
+      } else if(t1[i]=="'") {
+        in_quote=1;
       } else {
         in_tok=1;
         if(!tok_start) {
