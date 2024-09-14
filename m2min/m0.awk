@@ -25,6 +25,9 @@ function get_tok(a,s,f \
   }
   r=join(t,"");
 #  print "TOKEN: " r;
+  if(r in defines) {
+    return defines[r];
+  }
   return r;
 }
 
@@ -43,9 +46,11 @@ function process_line(x \
   for(i=1;i<=l;i++){
     t=t1[i];
     if(in_string) {
-      printf("%s",t1[i]) > out_name;
       if(t1[i]=="\"") {
         in_string=0;
+        printf("\n*STRING_END*\n") > out_name;
+      } else {
+        printf("%s",t1[i]) > out_name;
       }
     } else {
       in_tok=0;
@@ -55,7 +60,7 @@ function process_line(x \
         # skip whitespace
       } else if(t1[i]=="\"") {
         in_string=1;
-        printf("\n") > out_name;
+        printf(" *STRING_START*\n") > out_name;
       } else {
         in_tok=1;
         if(!tok_start) {
@@ -64,7 +69,7 @@ function process_line(x \
 #        printf("%s",t1[i]) > out_name;
       }
       if((in_tok==0) && tok_start) {
-        t2=get_tok(t1,tok_start,i);
+        t2=get_tok(t1,tok_start,i-1);
         printf("%s", t2) > out_name;
         printf("\n") > out_name;
         tok_start=0;
@@ -72,9 +77,8 @@ function process_line(x \
     }
   }
   if((in_tok==1) && tok_start) {
-    for(j=tok_start;j<=i;j++){
-      printf("%s",t1[j]) > out_name;
-    }
+    t2=get_tok(t1,tok_start,i-1);
+    printf("%s", t2) > out_name;
     printf("\n") > out_name;
     tok_start=0;
   }
