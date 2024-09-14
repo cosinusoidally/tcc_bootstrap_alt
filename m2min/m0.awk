@@ -17,6 +17,10 @@ function join(a,j \
   return res;
 }
 
+function signed_char_to_hex(s){
+  return s;
+}
+
 function get_tok(a,s,f \
 , i \
 , t){
@@ -24,7 +28,7 @@ function get_tok(a,s,f \
     for(i=s+1;i<=f;i++){
       t[i-s]=a[i];
     }
-    r = "signed char: " join(t,"");
+    r = "signed char: " signed_char_to_hex(join(t,""));
     return r;
   }
   for(i=s;i<=f;i++){
