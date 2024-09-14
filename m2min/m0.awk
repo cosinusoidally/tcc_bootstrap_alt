@@ -6,6 +6,7 @@ function process_line(x \
     defines[t1[2]]=t1[3];
     return "";
   }
+  split(x, t1, "");
   return x;
 }
 
@@ -21,7 +22,7 @@ BEGIN {
     print $0 > out_name;
   }
   for(i in defines) {
-    print("DEFINE: " i " as " defines[i]);
+#    print("DEFINE: " i " as " defines[i]);
   }
   exit;
 }
