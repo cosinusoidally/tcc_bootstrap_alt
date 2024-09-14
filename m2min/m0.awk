@@ -80,8 +80,10 @@ function get_tok(a,s,f \
     for(i=s+1;i<=f;i++){
       t[i-s]=a[i];
     }
-    r = signed_char_to_hex(join(t,""));
-    return r;
+    if(match(a[s+1],/[0-9-]/)) {
+      r = signed_char_to_hex(join(t,""));
+      return r;
+    }
   }
   if(a[s]=="%") {
     if(match(a[s+1], /[0-9\-]/)) {
