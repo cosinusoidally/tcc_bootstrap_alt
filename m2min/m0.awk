@@ -1,3 +1,34 @@
+function join(a,j \
+, i \
+, res \
+) {
+  i=1;
+  if(j!="") {
+    print "can only join with the empty string"
+    exit 1;
+  }
+  while(a[i]!=""){
+    # FIXME this is quadratic probably not an issue but not sure if can fix in
+    # awk
+    res = res a[i];
+    i=i+1;
+  }
+#  print "joined to: " res;
+  return res;
+}
+
+function get_tok(a,s,f \
+, i \
+, t){
+  for(i=s;i<=f;i++){
+    t[i-s+1]=a[i];
+  }
+  r=join(t,"");
+#  print "TOKEN: " r;
+  return r;
+}
+
+
 function process_line(x \
 , t \
 , t1 \
@@ -33,9 +64,8 @@ function process_line(x \
 #        printf("%s",t1[i]) > out_name;
       }
       if((in_tok==0) && tok_start) {
-        for(j=tok_start;j<=i;j++){
-          printf("%s",t1[j]) > out_name;
-        }
+        t2=get_tok(t1,tok_start,i);
+        printf("%s", t2) > out_name;
         printf("\n") > out_name;
         tok_start=0;
       }
