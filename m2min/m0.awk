@@ -1,4 +1,5 @@
 function process_line(x \
+, t \
 , t1 \
 , t2) {
   if(match(x,/^DEFINE/)) {
@@ -8,7 +9,24 @@ function process_line(x \
   }
   l=split(x, t1, "");
   for(i=1;i<=l;i++){
-    printf("%s",t1[i]) > out_name;
+    t=t1[i];
+    if(in_string) {
+      printf("%s",t1[i]) > out_name;
+      if(t1[i]=="\"") {
+        in_string=0;
+      }
+    } else {
+      if((t1[i]==";")) {
+        return;
+      } else if((t1[i]==" ") || (t1[i]=="\t")) {
+        # skip whitespace
+      } else if(t1[i]=="\"") {
+        in_string=1;
+        printf("\n") > out_name;
+      } else {
+        printf("%s",t1[i]) > out_name;
+      }
+    }
   }
   printf("\n") > out_name;
 #  print x > out_name;
