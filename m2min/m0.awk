@@ -105,6 +105,17 @@ function get_tok(a,s,f \
   return r;
 }
 
+function tmp_str_reset( \
+i){
+  for(i in tmp_str){
+    delete tmp_str[i];
+  }
+  str_off=1;
+}
+
+function string_append(c){
+  tmp_str[str_off++]=c;
+}
 
 function process_line(x \
 , t \
@@ -129,9 +140,11 @@ function process_line(x \
     } else if(in_string) {
       if(t1[i]=="\"") {
         in_string=0;
-        printf("\n*STRING_END*\n") > out_name;
+        printf("%s\n", join(tmp_str,"")) > out_name;
+        printf("*STRING_END*\n") > out_name;
       } else {
-        printf("%s",t1[i]) > out_name;
+        string_append(t1[i]);
+#        printf("%s",t1[i]) > out_name;
       }
     } else {
       in_tok=0;
@@ -141,6 +154,7 @@ function process_line(x \
         # skip whitespace
       } else if(t1[i]=="\"") {
         in_string=1;
+        tmp_str_reset();
         printf(" *STRING_START*\n") > out_name;
       } else if(t1[i]=="'") {
         in_quote=1;
