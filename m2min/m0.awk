@@ -152,6 +152,16 @@ function string_append(c){
   tmp_str[str_off++]=c;
 }
 
+function tmp_str_to_hex( \
+i \
+, t ){
+  for(i=1;i<str_off;i++) {
+    t[i]=signed_char_to_hex(mkc(tmp_str[i]));
+  }
+  t[i]="00";
+  return join(t,"");
+}
+
 function process_line(x \
 , t \
 , t1 \
@@ -175,8 +185,8 @@ function process_line(x \
     } else if(in_string) {
       if(t1[i]=="\"") {
         in_string=0;
-        printf("%s\n", join(tmp_str,"")) > out_name;
-        printf("*STRING_END*\n") > out_name;
+        printf("%s\n", tmp_str_to_hex()) > out_name;
+#        printf("*STRING_END*\n") > out_name;
       } else {
         string_append(t1[i]);
 #        printf("%s",t1[i]) > out_name;
@@ -190,7 +200,7 @@ function process_line(x \
       } else if(t1[i]=="\"") {
         in_string=1;
         tmp_str_reset();
-        printf(" *STRING_START*\n") > out_name;
+#        printf(" *STRING_START*\n") > out_name;
       } else if(t1[i]=="'") {
         in_quote=1;
       } else {
