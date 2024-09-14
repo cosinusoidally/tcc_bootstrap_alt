@@ -17,7 +17,14 @@ function join(a,j \
   return res;
 }
 
-function signed_char_to_hex(s){
+
+
+function signed_char_to_hex(s \
+, h \
+, l ){
+  if(s<0) {
+   s=256+s;
+  }
   return s;
 }
 
