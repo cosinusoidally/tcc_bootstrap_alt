@@ -6,9 +6,13 @@ function process_line(x \
     defines[t1[2]]=t1[3];
     return "";
   }
-  split(x, t1, "");
-  print x > out_name;
-  return x;
+  l=split(x, t1, "");
+  for(i=1;i<=l;i++){
+    printf("%s",t1[i]) > out_name;
+  }
+  printf("\n") > out_name;
+#  print x > out_name;
+  return l;
 }
 
 BEGIN {
@@ -19,7 +23,7 @@ BEGIN {
   print "out_name: " out_name;
   print "# output file" > out_name;
   while((getline < in_name)) {
-    $0=process_line($0);
+    process_line($0);
   }
   for(i in defines) {
 #    print("DEFINE: " i " as " defines[i]);
