@@ -173,6 +173,8 @@ function process_line(x \
     return "";
   }
   l=split(x, t1, "");
+  l++;
+  t1[l]="\n";
   for(i=1;i<=l;i++){
     t=t1[i];
     if(in_quote) {
@@ -195,7 +197,7 @@ function process_line(x \
       in_tok=0;
       if((t1[i]==";")) {
         return;
-      } else if((t1[i]==" ") || (t1[i]=="\t")) {
+      } else if((t1[i]==" ") || (t1[i]=="\t") || (t1[i]=="\n")) {
         # skip whitespace
       } else if(t1[i]=="\"") {
         in_string=1;
@@ -256,7 +258,7 @@ BEGIN {
   out_name= ARGV[2];
   print "in_name: " in_name;
   print "out_name: " out_name;
-  print "# output file" > out_name;
+#  print "# output file" > out_name;
   while((getline < in_name)) {
     process_line($0);
   }
