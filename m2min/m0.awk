@@ -48,7 +48,6 @@ function process_line(x \
     printf("\n") > out_name;
     tok_start=0;
   }
-  printf("\n") > out_name;
 #  print x > out_name;
   return l;
 }
