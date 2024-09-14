@@ -30,8 +30,22 @@ function signed_char_to_hex(s \
   return hexc[h] hexc[l];
 }
 
-function signed_int_to_hex(s) {
-  return "signed int: " s;
+function signed_int_to_hex(s \
+, t \
+, d1 \
+, d2 \
+, d3 \
+, d4 \
+) {
+  t=s;
+  if(s < 0){
+
+  }
+  d1=signed_char_to_hex(s % 256); s=int(s/256);
+  d2=signed_char_to_hex(s % 256); s=int(s/256);
+  d3=signed_char_to_hex(s % 256); s=int(s/256);
+  d4=signed_char_to_hex(s % 256); s=int(s/256);
+  return "signed int: " t " " d1 d2 d3 d4;
 }
 
 function get_tok(a,s,f \
