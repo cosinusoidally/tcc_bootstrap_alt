@@ -2,6 +2,7 @@ function process_line(x \
 , t \
 , t1 \
 , t2) {
+  tok_start=0;
   if(match(x,/^DEFINE/)) {
     split(x, t1, " ");
     defines[t1[2]]=t1[3];
@@ -16,6 +17,7 @@ function process_line(x \
         in_string=0;
       }
     } else {
+      in_tok=0;
       if((t1[i]==";")) {
         return;
       } else if((t1[i]==" ") || (t1[i]=="\t")) {
@@ -24,9 +26,27 @@ function process_line(x \
         in_string=1;
         printf("\n") > out_name;
       } else {
-        printf("%s",t1[i]) > out_name;
+        in_tok=1;
+        if(!tok_start) {
+          tok_start=i;
+        }
+#        printf("%s",t1[i]) > out_name;
+      }
+      if((in_tok==0) && tok_start) {
+        for(j=tok_start;j<=i;j++){
+          printf("%s",t1[j]) > out_name;
+        }
+        printf("\n") > out_name;
+        tok_start=0;
       }
     }
+  }
+  if((in_tok==1) && tok_start) {
+    for(j=tok_start;j<=i;j++){
+      printf("%s",t1[j]) > out_name;
+    }
+    printf("\n") > out_name;
+    tok_start=0;
   }
   printf("\n") > out_name;
 #  print x > out_name;
