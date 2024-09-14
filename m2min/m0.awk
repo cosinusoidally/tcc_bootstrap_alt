@@ -18,13 +18,15 @@ function join(a,j \
 }
 
 
-
 function signed_char_to_hex(s \
 , h \
 , l ){
   if(s<0) {
    s=256+s;
   }
+  l=(s % 16);
+  h=s-l;
+  h=h / 16;
   return s;
 }
 
@@ -104,7 +106,27 @@ function process_line(x \
   return l;
 }
 
+function init_tables(){
+  hexc[0]="0";
+  hexc[1]="1";
+  hexc[2]="2";
+  hexc[3]="3";
+  hexc[4]="4";
+  hexc[5]="5";
+  hexc[6]="6";
+  hexc[7]="7";
+  hexc[8]="8";
+  hexc[9]="8";
+  hexc[10]="A";
+  hexc[11]="B";
+  hexc[12]="C";
+  hexc[13]="D";
+  hexc[14]="E";
+  hexc[15]="F";
+}
+
 BEGIN {
+  init_tables();
   print "M0 awk";
   in_name= ARGV[1];
   out_name= ARGV[2];
