@@ -1,0 +1,2 @@
+./mk_clean
+../x86/bin/M0 ./cc_x86_min.M1 ./artifacts/cc_x86_min-0.hex2
