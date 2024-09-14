@@ -2,6 +2,8 @@ function process_line(x \
 , t1 \
 , t2) {
   if(match(x,/^DEFINE/)) {
+    split(x, t1, " ");
+    defines[t1[2]]=t1[3];
     return "";
   }
   return x;
@@ -17,6 +19,9 @@ BEGIN {
   while((getline < in_name)) {
     $0=process_line($0);
     print $0 > out_name;
+  }
+  for(i in defines) {
+    print("DEFINE: " i " as " defines[i]);
   }
   exit;
 }
