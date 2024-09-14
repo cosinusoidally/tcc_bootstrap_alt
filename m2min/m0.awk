@@ -167,7 +167,7 @@ function process_line(x \
 , t1 \
 , t2) {
   tok_start=0;
-  if(match(x,/^DEFINE/)) {
+  if(match(x,/^[ \t]*DEFINE/)) {
     split(x, t1, " ");
     defines[t1[2]]=t1[3];
     return "";
@@ -195,7 +195,7 @@ function process_line(x \
       }
     } else {
       in_tok=0;
-      if((t1[i]==";")) {
+      if((t1[i]==";") || (t1[i]=="#")) {
         return;
       } else if((t1[i]==" ") || (t1[i]=="\t") || (t1[i]=="\n")) {
         # skip whitespace
