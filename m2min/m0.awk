@@ -62,8 +62,6 @@ function signed_char_to_hex(s \
   l=(s % 16);
   h=s-l;
   h=h / 16;
-  h=toupper(h);
-  l=toupper(l);
   return hexc[h] hexc[l];
 }
 
