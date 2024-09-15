@@ -2,6 +2,8 @@ function process_line(x \
 , t \
 , l \
 , i \
+, h \
+, lo \
 ) {
   l=split(x, t, "");
   if(t[1]=="%"){
@@ -19,8 +21,10 @@ function process_line(x \
     return;
   }
   for(i=1;i<=l;i=i+2){
-    printf("%s",t[i]) > out_name;
-    printf("%s",t[i+1]) > out_name;
+    hi=t[i];
+    lo=t[i+1];
+    printf("%s",hi) > out_name;
+    printf("%s",lo) > out_name;
   }
   printf("\n") > out_name;
 }
