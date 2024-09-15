@@ -105,7 +105,7 @@ i \
   }
 
   # elf base address
-  base=134512724;
+  base=134512724-84;
 
   # number of bytes we currently are into the output file
   offset=0;
