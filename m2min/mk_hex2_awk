@@ -1,4 +1,27 @@
-./mk_m0_awk
-awk -W posix -f hex2.awk ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2_awk.exe
+mkdir artifacts/tmp
+mv artifacts/M2_simple_asm_m2.M1 artifacts/tmp
+rm artifacts/*c
+rm artifacts/*M1
+rm artifacts/*hex2
+rm artifacts/*exe
+mv artifacts/tmp/M2_simple_asm_m2.M1 artifacts/
 
-#diff -u -s ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2_awk.exe
+echo "int stdout;" > artifacts/M2_simple_asm_m2.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_m2.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2_prims.c >> artifacts/M2_simple_asm_m2.c
+
+cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
+
+awk -W posix -f m0.awk artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
+
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
+
+# HACK feed hex2 through m0.awk again to simplify the output we will feed to
+# hex2.awk
+awk -W posix -f m0.awk artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2-0-0_2.hex2
+
+awk -W posix -f hex2.awk ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2.exe
+
+chmod +x ./artifacts/M2_simple_asm_m2.exe
