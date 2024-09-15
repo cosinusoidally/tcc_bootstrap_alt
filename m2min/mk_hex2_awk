@@ -33,4 +33,21 @@ cat simple_support_m2.c >> artifacts/M2_simple_asm_orig.c
 
 ./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_orig.c artifacts/M2_simple_asm_orig.M1
 
+./artifacts/M2_simple_asm_m2.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
+
+cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
+
+awk -W posix -f m0.awk artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
+
+cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
+
+
+awk -W posix -f m0.awk artifacts/otccelf_cc_x86_min-0-0.hex2 artifacts/otccelf_cc_x86_min-0-0_2.hex2
+
+awk -W posix -f hex2.awk ./artifacts/otccelf_cc_x86_min-0-0_2.hex2 ./artifacts/otccelf_cc_x86_min.exe
+
+chmod +x ./artifacts/otccelf_cc_x86_min.exe
+
+./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
+
 sha256sum -c sums_awk_hex2
