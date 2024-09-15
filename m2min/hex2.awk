@@ -23,19 +23,18 @@ function process_line(x \
   for(i=1;i<=l;i=i+2){
     hi=t[i];
     lo=t[i+1];
-    printf("%s",hi) > out_name;
-    printf("%s",lo) > out_name;
+    printf("%s",(hi lo)) > out_name;
   }
   printf("\n") > out_name;
 }
 
 function hex_to_byte(s \
 , h \
-, l ){
-  l=(s % 16);
-  h=s-l;
-  h=h / 16;
-  return hexc[h] hexc[l];
+, l \
+, t \
+){
+  split(s,t,"");
+  return (256*hexv[h])+hexv[l];
 }
 
 
