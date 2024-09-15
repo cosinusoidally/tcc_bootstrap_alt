@@ -2,7 +2,7 @@ function process_line(x \
 , t \
 , t1 \
 , t2) {
-  print "FIXME process line";
+  print x >> out_name;
 }
 
 BEGIN {
