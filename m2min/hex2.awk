@@ -1,23 +1,48 @@
+function join(a,j \
+, i \
+, res \
+) {
+  i=1;
+  if(j!="") {
+    print "can only join with the empty string"
+    exit 1;
+  }
+  while(a[i]!=""){
+    # FIXME this is quadratic probably not an issue but not sure if can fix in
+    # awk
+    res = res a[i];
+    i=i+1;
+  }
+#  print "joined to: " res;
+  return res;
+}
+
 function process_line(x \
 , t \
 , l \
 , i \
 , h \
 , lo \
+, s \
 ) {
   l=split(x, t, "");
   if(t[1]=="%"){
 #    print "rel_32";
     printf("%c%c%c%c",69,70,71,10) > out_name;
+    offset=offset+4;
     return;
   }
   if(t[1]=="&"){
 #    print "abs_32";
     printf("%c%c%c%c",65,66,67,10) > out_name;
+    offset=offset+4;
     return;
   }
   if(t[1]==":"){
-#    print "label";
+    for(i=2;i<=l;i=i+1){
+      s[i-1]=t[i];
+    }
+    print "label " join(s,"");
     return;
   }
   for(i=1;i<=l;i=i+2){
@@ -25,6 +50,7 @@ function process_line(x \
     lo=t[i+1];
 #    printf("%s",(hi lo)) > out_name;
     printf("%c",hex_to_byte(hi lo)) > out_name;
+    offset=offset+1;
   }
 #  printf("\n") > out_name;
 }
@@ -63,6 +89,9 @@ i \
 
   # elf base address
   base=134512724;
+
+  # number of bytes we currently are into the output file
+  offset=0;
 }
 
 BEGIN {
@@ -76,5 +105,6 @@ BEGIN {
   while((getline < in_name)) {
     process_line($0);
   }
+  print("end offset: " offset);
   exit;
 }
