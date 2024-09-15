@@ -112,7 +112,9 @@ i \
 }
 
 function process_relocs( \
-v){
+v \
+, name \
+, t){
   for(i in abs_32){
     v=labels[abs_32[i]]+base;
     print "patching abs_32: " i " to label: " abs_32[i] " v: " v;
@@ -126,8 +128,9 @@ v){
   }
 
   for(i in rel_32){
-    v=labels[rel_32[i]]-i-4;
-    print "patching rel_32: " i " to label: " rel_32[i] " v: " v;
+    name=rel_32[i];
+    v=labels[name]-i-4;
+    print "patching rel_32: " i " to label: " name " v: " v;
     if(v<0){
       v=v+4294967296;
     }
