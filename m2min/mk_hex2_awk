@@ -27,3 +27,5 @@ awk -W posix -f hex2.awk ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_
 chmod +x ./artifacts/M2_simple_asm_m2.exe
 
 ./artifacts/M2_simple_asm_m2.exe ./artifacts/M2_simple_asm_m2.c ./artifacts/M2_simple_asm_self.M1
+
+sha256sum -c sums_awk_hex2
