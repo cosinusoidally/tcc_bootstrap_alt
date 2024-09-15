@@ -5,13 +5,32 @@ function process_line(x \
 ) {
   l=split(x, t, "");
   if(t[1]=="%"){
-#    print "rel_32" > out_name;
+#    print "rel_32";
+    return;
+  }
+  if(t[1]=="&"){
+#    print "abs_32";
+    return;
+  }
+  if(t[1]==":"){
+#    print "label";
+    return;
   }
   for(i=1;i<=l;i++){
     printf("%s",t[i]) > out_name;
   }
   printf("\n") > out_name;
 }
+
+function hex_to_byte(s \
+, h \
+, l ){
+  l=(s % 16);
+  h=s-l;
+  h=h / 16;
+  return hexc[h] hexc[l];
+}
+
 
 function init_tables(){
   hexc[0]="0";
