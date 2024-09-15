@@ -24,6 +24,19 @@ cat ./simple_asm_defs.M1 ../x86/x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts
 ../x86/bin/M0 artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
 awk -W posix -f m0.awk artifacts/M2_simple_asm_m2-0.M1 ./artifacts/M2_simple_asm_m2-awk.hex2
 
+cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
+
+../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2.exe
+
+# HACK feed hex2 through m0.awk again to simplify the output we will feed to
+# hex2.awk
+awk -W posix -f m0.awk artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2-0-0_2.hex2
+
+../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0_2.hex2 artifacts/M2_simple_asm_m2_2.exe
+
+ls -l artifacts/M2_simple_asm_m2.exe
+sha256sum artifacts/M2_simple_asm_m2.exe
+sha256sum artifacts/M2_simple_asm_m2_2.exe
 
 diff -u -s artifacts/cc_x86_min-0.hex2 artifacts/cc_x86_min-awk.hex2
 diff -u -s artifacts/M2_simple_asm_m2-0.hex2 artifacts/M2_simple_asm_m2-awk.hex2
