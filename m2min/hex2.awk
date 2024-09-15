@@ -5,7 +5,27 @@ function process_line(x \
   print x >> out_name;
 }
 
+function init_tables(){
+  hexc[0]="0";
+  hexc[1]="1";
+  hexc[2]="2";
+  hexc[3]="3";
+  hexc[4]="4";
+  hexc[5]="5";
+  hexc[6]="6";
+  hexc[7]="7";
+  hexc[8]="8";
+  hexc[9]="9";
+  hexc[10]="A";
+  hexc[11]="B";
+  hexc[12]="C";
+  hexc[13]="D";
+  hexc[14]="E";
+  hexc[15]="F";
+}
+
 BEGIN {
+  init_tables();
   print "hex2 awk";
   in_name= ARGV[1];
   out_name= ARGV[2];
