@@ -25,3 +25,5 @@ awk -W posix -f m0.awk artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_a
 awk -W posix -f hex2.awk ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2.exe
 
 chmod +x ./artifacts/M2_simple_asm_m2.exe
+
+./artifacts/M2_simple_asm_m2.exe ./artifacts/M2_simple_asm_m2.c ./artifacts/M2_simple_asm_self.M1
