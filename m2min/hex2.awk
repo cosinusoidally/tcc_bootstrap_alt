@@ -42,7 +42,7 @@ function process_line(x \
     for(i=2;i<=l;i=i+1){
       s[i-1]=t[i];
     }
-    print "label " join(s,"");
+    print "label " join(s,"") " " offset;
     return;
   }
   for(i=1;i<=l;i=i+2){
