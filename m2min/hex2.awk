@@ -37,7 +37,7 @@ function hex_to_byte(s \
 }
 
 
-function init_tables( \
+function init( \
 i \
 ){
   hexc[0]="0";
@@ -56,14 +56,17 @@ i \
   hexc[13]="D";
   hexc[14]="E";
   hexc[15]="F";
+
   for(i in hexc){
     hexv[hexc[i]]=i;
   }
+
+  # elf base address
+  base=134512724;
 }
 
 BEGIN {
-  init_tables();
-  base=134512724;
+  init();
   print "hex2 awk";
   in_name= ARGV[1];
   out_name= ARGV[2];
