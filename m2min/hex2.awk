@@ -66,8 +66,7 @@ function process_line(x \
     hi=t[i];
     lo=t[i+1];
 #    printf("%s",(hi lo)) > out_name;
-    printf("%c",hex_to_byte(hi lo)) > out_name;
-    offset=offset+1;
+    ob(hex_to_byte(hi lo));
   }
 #  printf("\n") > out_name;
 }
