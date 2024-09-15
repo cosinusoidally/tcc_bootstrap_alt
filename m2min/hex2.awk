@@ -32,7 +32,9 @@ function process_line(x \
     for(i=2;i<=l;i=i+1){
       s[i-1]=t[i];
     }
+    ln=join(s,"");
     printf("%c%c%c%c",69,70,71,10) > out_name;
+    rel_32[offset]=ln;
     offset=offset+4;
     return;
   }
@@ -41,7 +43,9 @@ function process_line(x \
     for(i=2;i<=l;i=i+1){
       s[i-1]=t[i];
     }
+    ln=join(s,"");
     printf("%c%c%c%c",65,66,67,10) > out_name;
+    abs_32[offset]=ln;
     offset=offset+4;
     return;
   }
@@ -103,6 +107,10 @@ i \
   offset=0;
 }
 
+function process_relocs(){
+
+}
+
 BEGIN {
   init();
   print "hex2 awk";
@@ -114,9 +122,10 @@ BEGIN {
   while((getline < in_name)) {
     process_line($0);
   }
-  for(i in labels){
-    print "label: " i ":" labels[i];
-  }
+#  for(i in labels){
+#    print "label: " i ":" labels[i];
+#  }
+  process_relocs();
   print("end offset: " offset);
   exit;
 }
