@@ -39,7 +39,9 @@ function hex_to_byte(s \
 }
 
 
-function init_tables(){
+function init_tables( \
+i \
+){
   hexc[0]="0";
   hexc[1]="1";
   hexc[2]="2";
@@ -56,6 +58,9 @@ function init_tables(){
   hexc[13]="D";
   hexc[14]="E";
   hexc[15]="F";
+  for(i in hexc){
+    hexv[hexc[i]]=i;
+  }
 }
 
 BEGIN {
