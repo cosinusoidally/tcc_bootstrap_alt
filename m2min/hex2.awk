@@ -111,7 +111,12 @@ i \
   offset=0;
 }
 
-function process_relocs(){
+function process_relocs( \
+v){
+  for(i in abs_32){
+    v=labels[i]+base;
+    print "patching abs_32: " i " to label: " abs_32[i] " v: " v;
+  }
 
 }
 
