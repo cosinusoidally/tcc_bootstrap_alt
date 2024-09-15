@@ -1,8 +1,16 @@
 function process_line(x \
 , t \
-, t1 \
-, t2) {
-  print x >> out_name;
+, l \
+, i \
+) {
+  l=split(x, t, "");
+  if(t[1]=="%"){
+#    print "rel_32" > out_name;
+  }
+  for(i=1;i<=l;i++){
+    printf("%s",t[i]) > out_name;
+  }
+  printf("\n") > out_name;
 }
 
 function init_tables(){
