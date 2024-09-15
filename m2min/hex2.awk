@@ -44,7 +44,7 @@ function process_line(x \
       s[i-1]=t[i];
     }
     ln=join(s,"");
-    print "label " ln " " offset;
+#    print "label " ln " " offset;
     labels[ln]=offset;
     return;
   }
@@ -107,6 +107,9 @@ BEGIN {
 #  print "# output file" > out_name;
   while((getline < in_name)) {
     process_line($0);
+  }
+  for(i in labels){
+    print "label: " i ":" labels[i];
   }
   print("end offset: " offset);
   exit;
