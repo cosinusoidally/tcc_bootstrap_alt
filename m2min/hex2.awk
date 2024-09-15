@@ -76,7 +76,7 @@ function hex_to_byte(s \
 , t \
 ){
   split(s,t,"");
-  return (16*hexv[t[1]])+hexv[t[2]];
+  return (16*hexv[toupper(t[1])])+hexv[toupper(t[2])];
 }
 
 
