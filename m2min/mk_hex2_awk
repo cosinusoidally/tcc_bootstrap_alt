@@ -28,4 +28,9 @@ chmod +x ./artifacts/M2_simple_asm_m2.exe
 
 ./artifacts/M2_simple_asm_m2.exe ./artifacts/M2_simple_asm_m2.c ./artifacts/M2_simple_asm_self.M1
 
+cat M2_simple_asm.c > artifacts/M2_simple_asm_orig.c
+cat simple_support_m2.c >> artifacts/M2_simple_asm_orig.c
+
+./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_orig.c artifacts/M2_simple_asm_orig.M1
+
 sha256sum -c sums_awk_hex2
