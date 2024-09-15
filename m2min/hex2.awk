@@ -130,6 +130,9 @@ v \
   for(i in rel_32){
     name=rel_32[i];
     v=labels[name]-i-4;
+    if(split(name,t,">")>1) {
+      v=255+256*255+(256*256*255)+(256*256*256*255);
+    }
     print "patching rel_32: " i " to label: " name " v: " v;
     if(v<0){
       v=v+4294967296;
