@@ -23,18 +23,17 @@ function process_line(x \
   for(i=1;i<=l;i=i+2){
     hi=t[i];
     lo=t[i+1];
-    printf("%s",(hi lo)) > out_name;
+#    printf("%s",(hi lo)) > out_name;
+    printf("%c",hex_to_byte(hi lo)) > out_name;
   }
-  printf("\n") > out_name;
+#  printf("\n") > out_name;
 }
 
 function hex_to_byte(s \
-, h \
-, l \
 , t \
 ){
   split(s,t,"");
-  return (256*hexv[h])+hexv[l];
+  return (16*hexv[t[1]])+hexv[t[2]];
 }
 
 
@@ -64,6 +63,7 @@ i \
 
 BEGIN {
   init_tables();
+  base=134512724;
   print "hex2 awk";
   in_name= ARGV[1];
   out_name= ARGV[2];
