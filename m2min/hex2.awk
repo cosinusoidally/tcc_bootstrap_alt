@@ -114,8 +114,15 @@ i \
 function process_relocs( \
 v){
   for(i in abs_32){
-    v=labels[i]+base;
+    v=labels[abs_32[i]]+base;
     print "patching abs_32: " i " to label: " abs_32[i] " v: " v;
+    out_data[i]= v % 256;
+    v=int(v/256);
+    out_data[i+1]= v % 256;
+    v=int(v/256);
+    out_data[i+2]= v % 256;
+    v=int(v/256);
+    out_data[i+3]= v % 256;
   }
 
 }
