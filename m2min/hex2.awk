@@ -125,6 +125,21 @@ v){
     out_data[i+3]= v % 256;
   }
 
+  for(i in rel_32){
+    v=labels[rel_32[i]]-i-4;
+    print "patching rel_32: " i " to label: " rel_32[i] " v: " v;
+    if(v<0){
+      v=v+4294967296;
+    }
+    out_data[i]= v % 256;
+    v=int(v/256);
+    out_data[i+1]= v % 256;
+    v=int(v/256);
+    out_data[i+2]= v % 256;
+    v=int(v/256);
+    out_data[i+3]= v % 256;
+  }
+
 }
 
 function write_data( \
