@@ -6,26 +6,21 @@ function process_line(x \
   l=split(x, t, "");
   if(t[1]=="%"){
 #    print "rel_32";
-    printf("%c",0);
-    printf("%c",1);
-    printf("%c",2);
-    printf("%c",3);
+    printf("%c%c%c%c",69,70,71,10) > out_name;
     return;
   }
   if(t[1]=="&"){
 #    print "abs_32";
-    printf("%c",0);
-    printf("%c",1);
-    printf("%c",2);
-    printf("%c",3);
+    printf("%c%c%c%c",65,66,67,10) > out_name;
     return;
   }
   if(t[1]==":"){
 #    print "label";
     return;
   }
-  for(i=1;i<=l;i++){
+  for(i=1;i<=l;i=i+2){
     printf("%s",t[i]) > out_name;
+    printf("%s",t[i+1]) > out_name;
   }
   printf("\n") > out_name;
 }
