@@ -1,6 +1,7 @@
 # output a byte
 function ob(b){
-  printf("%c",b) > out_name;
+#  printf("%c",b) > out_name;
+  out_data[offset]=b;
   offset=offset+1;
 }
 
@@ -114,6 +115,13 @@ function process_relocs(){
 
 }
 
+function write_data( \
+i){
+  for(i=0;i<offset;i=i+1){
+    printf("%c",out_data[i]) > out_name;
+  }
+}
+
 BEGIN {
   init();
   print "hex2 awk";
@@ -129,6 +137,7 @@ BEGIN {
 #    print "label: " i ":" labels[i];
 #  }
   process_relocs();
+  write_data();
   print("end offset: " offset);
   exit;
 }
