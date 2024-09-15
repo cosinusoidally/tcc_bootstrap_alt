@@ -29,12 +29,18 @@ function process_line(x \
   l=split(x, t, "");
   if(t[1]=="%"){
 #    print "rel_32";
+    for(i=2;i<=l;i=i+1){
+      s[i-1]=t[i];
+    }
     printf("%c%c%c%c",69,70,71,10) > out_name;
     offset=offset+4;
     return;
   }
   if(t[1]=="&"){
 #    print "abs_32";
+    for(i=2;i<=l;i=i+1){
+      s[i-1]=t[i];
+    }
     printf("%c%c%c%c",65,66,67,10) > out_name;
     offset=offset+4;
     return;
