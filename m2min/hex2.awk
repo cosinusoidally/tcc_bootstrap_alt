@@ -1,3 +1,9 @@
+# output a byte
+function ob(b){
+  printf("%c",b) > out_name;
+  offset=offset+1;
+}
+
 function join(a,j \
 , i \
 , res \
@@ -33,9 +39,8 @@ function process_line(x \
       s[i-1]=t[i];
     }
     ln=join(s,"");
-    printf("%c%c%c%c",69,70,71,10) > out_name;
     rel_32[offset]=ln;
-    offset=offset+4;
+    ob(69);ob(70);ob(71);ob(10);
     return;
   }
   if(t[1]=="&"){
