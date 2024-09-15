@@ -49,9 +49,8 @@ function process_line(x \
       s[i-1]=t[i];
     }
     ln=join(s,"");
-    printf("%c%c%c%c",65,66,67,10) > out_name;
     abs_32[offset]=ln;
-    offset=offset+4;
+    ob(65);ob(66);ob(67);ob(10);
     return;
   }
   if(t[1]==":"){
