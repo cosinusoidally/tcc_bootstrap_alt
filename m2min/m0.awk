@@ -55,7 +55,15 @@ function mkc(a \
 
 function signed_char_to_hex(s \
 , h \
-, l ){
+, l \
+, len \
+, t){
+# handle hex values first
+  len=split(s, t, "x");
+  if(len>1){
+    return t[2];
+  }
+# non hex handling
   if(s<0) {
    s=256+s;
   }
