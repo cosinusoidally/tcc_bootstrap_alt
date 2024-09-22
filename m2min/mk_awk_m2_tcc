@@ -1,3 +1,5 @@
+export LC_ALL=C
+
 ./mk_clean
 
 echo "int stdout;" > artifacts/M2_simple_asm_m2.c

@@ -1,4 +1,7 @@
+export LC_ALL=C
+
 ./mk_m0_awk
+
 awk -W posix -f hex2.awk ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2_awk.exe
 
 #diff -u -s ./artifacts/M2_simple_asm_m2-0-0_2.hex2 ./artifacts/M2_simple_asm_m2_awk.exe

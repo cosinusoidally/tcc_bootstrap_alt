@@ -1,3 +1,5 @@
+export LC_ALL=C
+
 mkdir artifacts/tmp
 mv artifacts/M2_simple_asm_m2.M1 artifacts/tmp
 rm artifacts/*c
