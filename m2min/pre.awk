@@ -84,7 +84,7 @@ s \
   }
   in_off--;
   s=join(tmp,"");
-  if((s=="match") || (s=="next") || (s=="sub") || (s=="close")) {
+  if((s=="match") || (s=="next") || (s=="sub") || (s=="close") || (s=="func")) {
     printf("_",s);
   }
   printf("%s",s);
