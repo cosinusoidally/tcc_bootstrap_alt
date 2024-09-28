@@ -349,9 +349,45 @@ function or(a,b) {
   }
 }
 
-function fast_or(a,b) {
+function cache_or(a,b) {
+  if(!((a,b) in or_cache)){
+    or_cache[a,b]=slow_or(a,b);
+  }
+  return or_cache[a,b];
+}
+
+function fast_or(a,b \
+, t1, t2, r) {
   or_count++;
-  return slow_or(a,b);
+  a=to_uint32(a);
+  b=to_uint32(b);
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = cache_or(t1,t2);
+
+  a=int(a/256);
+  b=int(b/256);
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*cache_or(t1,t2);
+
+  a=int(a/256);
+  b=int(b/256);
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*256*cache_or(t1,t2);
+
+  a=int(a/256);
+  b=int(b/256);
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*256*256*cache_or(t1,t2);
+
+  return to_int32(r);
 }
 
 function init_or_tt(){
