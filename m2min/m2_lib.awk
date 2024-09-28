@@ -356,9 +356,15 @@ function cache_or(a,b) {
 function fast_or(a,b \
 , t1, t2, r, v) {
   or_count++;
+
   v=1/256;
   a=to_uint32(a);
   b=to_uint32(b);
+
+# fast path for single byte or
+  if((a < 256) && (b < 256)) {
+    return cache_or(a,b);
+  }
 
   t1 = a % 256;
   t2 = b % 256;
@@ -419,9 +425,15 @@ function cache_and(a,b) {
 function fast_and(a,b \
 , t1, t2, r, v) {
   and_count++;
+
   v=1/256;
   a=to_uint32(a);
   b=to_uint32(b);
+
+# fast path for single byte and
+  if((a < 256) && (b < 256)) {
+    return cache_and(a,b);
+  }
 
   t1 = a % 256;
   t2 = b % 256;
