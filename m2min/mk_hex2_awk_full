@@ -1,0 +1,17 @@
+export LC_ALL=C
+
+./mk_clean
+
+echo "int stdout;" > artifacts/M2_simple_asm_m2.c
+cat simple_support_js.c >> artifacts/M2_simple_asm_m2.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2.js >> artifacts/M2_simple_asm_m2.c
+cat simple_support_js_m2_prims.c >> artifacts/M2_simple_asm_m2.c
+
+cp M2_simple_asm.js artifacts/tmp.c
+
+awk -W posix -f pre.awk | awk -W posix -f js_to_awk.awk > artifacts/M2_simple_asm.awk
+
+awk -W posix -v my_fname='artifacts/M2_simple_asm_m2.c' -f artifacts/M2_simple_asm.awk -f m2_lib.awk -f m2.awk
+
+./mk_hex2_awk

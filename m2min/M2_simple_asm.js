@@ -4,7 +4,8 @@
  * Copyright (C) 2016 Jeremiah Orians
  * Copyright (C) 2018 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * Copyright (C) 2020 deesix <deesix@tuta.io>
- * Copyright (C) 2021 Andrius Štikonas <andrius@stikonas.eu>
+ * FIXME (Liam Wilson) I've mangled andrius name as gawk doesn't like the "S"
+ * Copyright (C) 2021 Andrius Stikonas <andrius@stikonas.eu>
  * Copyright (C) 2021 Sanne Wouda
  * Copyright (C) 2022 Jan (janneke) Nieuwenhuizen <janneke@gnu.org>
  * This file is part of M2-Planet.
@@ -119,13 +120,13 @@ function ri32(o) {
 }
 
 function wi32(o, v) {
-  wi8(o, and(v, 0xFF));
+  wi8(o, and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 1), and(v, 0xFF));
+  wi8(add(o, 1), and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 2), and(v, 0xFF));
+  wi8(add(o, 2), and(v, 255));
   v = shr(v, 8);
-  wi8(add(o, 3), and(v, 0xFF));
+  wi8(add(o, 3), and(v, 255));
 }
 
 function set_s(t, v) {
@@ -311,16 +312,19 @@ function int2str(x, base, signed_p) {
 	sign_p = FALSE;
 	table = mks("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, 0x80000000))))) {
+	/* hack avoid 0x80000000 literal for awk compat add(2147483647,1) */
+	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, add(2147483647,1)))))) {
 		/* Truncate to 31bits */
-		i = and(sub(0, x), 0x7FFFFFFF);
+	        /* hack avoid 0x7FFFFFFF literal for awk compat */
+		i = and(sub(0, x), 2147483647);
 		if(eq(0, i)) {
 			return mks("-2147483648");
 		}
 		sign_p = TRUE;
 	} else {
 		/* Truncate to 32bits */
-		i = and(x, or(0x7FFFFFFF, shl(1, 31)));
+	        /* hack avoid 0x7FFFFFFF literal for awk compat */
+		i = and(x, or(2147483647, shl(1, 31)));
 	}
 
 	while(1) {
@@ -1035,8 +1039,7 @@ function collect_arguments() {
 			if(eq(NULL, get_arguments(func))) {
 				set_depth(a, sub(0, register_size));
 			} else {
-				set_depth(a, sub(get_depth(
-						get_arguments(func)),
+				set_depth(a, sub(get_depth(get_arguments(func)),
 						register_size));
 			}
 			advance();
