@@ -354,8 +354,9 @@ function cache_or(a,b) {
 }
 
 function fast_or(a,b \
-, t1, t2, r) {
+, t1, t2, r, v) {
   or_count++;
+  v=1/256;
   a=to_uint32(a);
   b=to_uint32(b);
 
@@ -363,26 +364,26 @@ function fast_or(a,b \
   t2 = b % 256;
   r = cache_or(t1,t2);
 
-  a=int(a/256);
-  b=int(b/256);
+  a=(a-t1)*v;
+  b=(b-t2)*v;
 
   t1 = a % 256;
   t2 = b % 256;
   r = r + 256*cache_or(t1,t2);
 
-  a=int(a/256);
-  b=int(b/256);
+  a=(a-t1)*v;
+  b=(b-t2)*v;
 
   t1 = a % 256;
   t2 = b % 256;
-  r = r + 256*256*cache_or(t1,t2);
+  r = r + 65536*cache_or(t1,t2);
 
-  a=int(a/256);
-  b=int(b/256);
+  a=(a-t1)*v;
+  b=(b-t2)*v;
 
   t1 = a % 256;
   t2 = b % 256;
-  r = r + 256*256*256*cache_or(t1,t2);
+  r = r + 16777216*cache_or(t1,t2);
 
   return to_int32(r);
 }
