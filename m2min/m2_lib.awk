@@ -567,6 +567,11 @@ function init_fast_or(){
 function init_fast_and(){
   if(use_fast_and) {
     print "init fast and";
+    for(a=0;a<256;a=a+1) {
+      for(b=0;b<256;b=b+1) {
+        and_cache[(256*a)+b]=slow_and(a,b);
+      }
+    }
   }
 }
 
