@@ -370,13 +370,26 @@ function slow_or(a,b \
   return r;
 }
 
+function and(a,b) {
+  if(use_fast_and){
+    return fast_and(a,b);
+  } else {
+    return slow_and(a,b);
+  }
+}
+
+function fast_and(a,b) {
+  and_count++;
+  return slow_and(a,b);
+}
+
 function init_and_tt(){
   and_tt[0]=0;
   and_tt[1]=0;
   and_tt[2]=1;
 }
 
-function and(a,b \
+function slow_and(a,b \
 , r) {
   a=to_uint32(a);
   b=to_uint32(b);
@@ -512,6 +525,12 @@ function init_fast_or(){
   }
 }
 
+function init_fast_and(){
+  if(use_fast_and) {
+    print "init fast and";
+  }
+}
+
 function init_runtime() {
   print "init_runtime";
   stdin = 0;
@@ -525,4 +544,5 @@ function init_runtime() {
   out_file_num = 6;
 
   init_fast_or();
+  init_fast_and();
 }
