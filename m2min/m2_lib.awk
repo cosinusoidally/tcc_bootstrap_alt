@@ -341,13 +341,26 @@ function to_uint32(x) {
   return x;
 }
 
+function or(a,b) {
+  if(use_fast_or){
+    return fast_or(a,b);
+  } else {
+    return slow_or(a,b);
+  }
+}
+
+function fast_or(a,b) {
+  or_count++;
+  return slow_or(a,b);
+}
+
 function init_or_tt(){
   or_tt[0]=0;
   or_tt[1]=1;
   or_tt[2]=1;
 }
 
-function or(a,b \
+function slow_or(a,b \
 , r) {
   a=to_uint32(a);
   b=to_uint32(b);
@@ -493,6 +506,12 @@ function mk_args(si \
   }
 }
 
+function init_fast_or(){
+  if(use_fast_or) {
+    print "init fast or";
+  }
+}
+
 function init_runtime() {
   print "init_runtime";
   stdin = 0;
@@ -504,4 +523,6 @@ function init_runtime() {
   brk_ptr = 128*1024;
   in_file_num = 5;
   out_file_num = 6;
+
+  init_fast_or();
 }
