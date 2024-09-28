@@ -412,9 +412,43 @@ function and(a,b) {
   }
 }
 
-function fast_and(a,b) {
+function cache_and(a,b) {
+  return and_cache[(256*a+b)];
+}
+
+function fast_and(a,b \
+, t1, t2, r, v) {
   and_count++;
-  return slow_and(a,b);
+  v=1/256;
+  a=to_uint32(a);
+  b=to_uint32(b);
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 65536*cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 16777216*cache_and(t1,t2);
+
+  return to_int32(r);
 }
 
 function init_and_tt(){
