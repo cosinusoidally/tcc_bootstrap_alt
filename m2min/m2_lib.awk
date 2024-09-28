@@ -555,10 +555,10 @@ function mk_args(si \
 function init_fast_or(){
   if(use_fast_or) {
     print "init fast or";
-  }
-  for(a=0;a<256;a=a+1) {
-    for(b=0;b<256;b=b+1) {
-      or_cache[(256*a)+b]=slow_or(a,b);
+    for(a=0;a<256;a=a+1) {
+      for(b=0;b<256;b=b+1) {
+        or_cache[(256*a)+b]=slow_or(a,b);
+      }
     }
   }
 }
