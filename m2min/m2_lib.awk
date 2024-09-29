@@ -349,9 +349,49 @@ function or(a,b) {
   }
 }
 
-function fast_or(a,b) {
+function cache_or(a,b) {
+  return or_cache[(256*a+b)];
+}
+
+function fast_or(a,b \
+, t1, t2, r, v) {
   or_count++;
-  return slow_or(a,b);
+
+  v=1/256;
+  a=to_uint32(a);
+  b=to_uint32(b);
+
+# fast path for single byte or
+  if((a < 256) && (b < 256)) {
+    return cache_or(a,b);
+  }
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = cache_or(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*cache_or(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 65536*cache_or(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 16777216*cache_or(t1,t2);
+
+  return to_int32(r);
 }
 
 function init_or_tt(){
@@ -370,13 +410,66 @@ function slow_or(a,b \
   return r;
 }
 
+function and(a,b) {
+  if(use_fast_and){
+    return fast_and(a,b);
+  } else {
+    return slow_and(a,b);
+  }
+}
+
+function cache_and(a,b) {
+  return and_cache[(256*a+b)];
+}
+
+function fast_and(a,b \
+, t1, t2, r, v) {
+  and_count++;
+
+  v=1/256;
+  a=to_uint32(a);
+  b=to_uint32(b);
+
+# fast path for single byte and
+  if((a < 256) && (b < 256)) {
+    return cache_and(a,b);
+  }
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 256*cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 65536*cache_and(t1,t2);
+
+  a=(a-t1)*v;
+  b=(b-t2)*v;
+
+  t1 = a % 256;
+  t2 = b % 256;
+  r = r + 16777216*cache_and(t1,t2);
+
+  return to_int32(r);
+}
+
 function init_and_tt(){
   and_tt[0]=0;
   and_tt[1]=0;
   and_tt[2]=1;
 }
 
-function and(a,b \
+function slow_and(a,b \
 , r) {
   a=to_uint32(a);
   b=to_uint32(b);
@@ -509,6 +602,22 @@ function mk_args(si \
 function init_fast_or(){
   if(use_fast_or) {
     print "init fast or";
+    for(a=0;a<256;a=a+1) {
+      for(b=0;b<256;b=b+1) {
+        or_cache[(256*a)+b]=slow_or(a,b);
+      }
+    }
+  }
+}
+
+function init_fast_and(){
+  if(use_fast_and) {
+    print "init fast and";
+    for(a=0;a<256;a=a+1) {
+      for(b=0;b<256;b=b+1) {
+        and_cache[(256*a)+b]=slow_and(a,b);
+      }
+    }
   }
 }
 
@@ -525,4 +634,5 @@ function init_runtime() {
   out_file_num = 6;
 
   init_fast_or();
+  init_fast_and();
 }

@@ -7,5 +7,7 @@ BEGIN {
   print "argc: " argc;
   print "argv: " argv;
   main(argc, argv);
+  print("or_count: " or_count);
+  print("and_count: " and_count);
   exit;
 }

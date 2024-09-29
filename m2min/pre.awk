@@ -5,8 +5,8 @@ function append_in_line(l \
 ){
   i=1;
   # replace single quotes with double
-  gsub(/\(\'/,"(\"", l);
-  gsub(/\'\)/,"\")", l);
+  gsub(/\('/,"(\"", l);
+  gsub(/'\)/,"\")", l);
   gsub(/\"\"\"/,"\"\\\"\"", l);
   len=length(l);
   split(l, chars,"");
