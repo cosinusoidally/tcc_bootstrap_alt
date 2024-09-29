@@ -160,19 +160,19 @@ function mks(s \
 }
 
 function add(a,b) {
-  a = or(a, 0);
-  b = or(b, 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
   return a + b;
 }
 
 function mul(a,b,c){
-  a=or(a,0);
-  b=or(b,0);
+  a=_or(a,0);
+  b=_or(b,0);
   return a*b;
 }
 
 function brk(addr) {
-  addr = or(addr,0);
+  addr = _or(addr,0);
   if(addr==0){
     return brk_ptr;
   } else {
@@ -231,7 +231,7 @@ function wi8(o,v){
     print("wrong use of wi8");
     exit 1;
   }
-  heap[o] = and(v, 255);
+  heap[o] = _and(v, 255);
 }
 
 function charcode_to_str(a \
@@ -272,21 +272,21 @@ function mkc(a \
 }
 
 function _sub(a,b){
-  a = or(a, 0);
-  b = or(b, 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
   return a - b;
 }
 
 function neq(a,b,c){
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a != b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a != b), 0);
 }
 
 function eq(a, b){
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a == b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a == b), 0);
 }
 
 # FIXME this is badly named: it is more like uint32_to_int32
@@ -333,7 +333,7 @@ function to_uint32(x) {
       exit 1;
     }
     x=4294967296+x;
-#    print("to_uint32 x: " or(x,0));
+#    print("to_uint32 x: " _or(x,0));
   }
   if(x>4294967295) {
     print "to_uint32 too big";
@@ -341,7 +341,7 @@ function to_uint32(x) {
   return x;
 }
 
-function or(a,b) {
+function _or(a,b) {
   if(use_fast_or){
     return fast_or(a,b);
   } else {
@@ -410,7 +410,7 @@ function slow_or(a,b \
   return r;
 }
 
-function and(a,b) {
+function _and(a,b) {
   if(use_fast_and){
     return fast_and(a,b);
   } else {
@@ -484,7 +484,7 @@ function ri8(o, dummy){
     print("wrong use of ri8");
     exit 1;
   }
-  return and(heap[o], 255);
+  return _and(heap[o], 255);
 }
 
 function free(a,b,c){
@@ -492,21 +492,21 @@ function free(a,b,c){
 }
 
 function lt(a,b) {
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a < b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a < b), 0);
 }
 
 function gte(a,b) {
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a >= b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a >= b), 0);
 }
 
 function div(a,b) {
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a / b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a / b), 0);
 }
 
 function fgetc(f \
@@ -539,8 +539,8 @@ function fgetc(f \
 }
 
 function mod(a,b){
-  a = or(a, 0);
-  b = or(b, 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
   return a % b;
 }
 
@@ -553,7 +553,7 @@ function shl(a,b \
   }
   b = to_uint32(b);
   p = 2 ^ b;
-  ret = and(a*p,4294967295);
+  ret = _and(a*p,4294967295);
 #  print "shl a: " a " b: " b " multiplier: " p " ret: " ret;
   return ret;
 }
@@ -573,9 +573,9 @@ function shr(a,b \
 }
 
 function gt(a,b,c){
-  a = or(a, 0);
-  b = or(b, 0);
-  return or((a > b), 0);
+  a = _or(a, 0);
+  b = _or(b, 0);
+  return _or((a > b), 0);
 }
 
 function mk_args(si \
