@@ -14,6 +14,6 @@ cp M2_simple_asm.js artifacts/tmp.c
 
 awk $EXTRA -f pre.awk | awk $EXTRA -f js_to_awk.awk > artifacts/M2_simple_asm.awk
 
-awk $EXTRA -v my_fname='artifacts/M2_simple_asm_m2.c' -v use_fast_or=1 -v use_fast_and=1 -f artifacts/M2_simple_asm.awk -f bt.awk -f m2_lib.awk -f m2.awk
+awk $EXTRA -v my_fname='artifacts/M2_simple_asm_m2.c' -v use_fast_or=1 -v use_fast_and=1 -f artifacts/M2_simple_asm.awk -f m2_lib.awk -f m2.awk
 
 ./mk_hex2_awk
