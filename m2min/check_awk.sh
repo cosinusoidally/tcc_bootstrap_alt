@@ -7,6 +7,14 @@ else
   CMD=""
 fi
 
-# EXTRA=" -v use_to_bin=bash"
+SNAME="bash"
+
+EXTRA_ARGS=" -v use_to_bin=$SNAME"
+
+COUNT=$(awk 'BEGIN {printf("%c",0);exit}'|wc -c)
+
+if [ $COUNT -ne 1 ]; then
+  EXTRA=$EXTRA_ARGS
+fi
 
 echo $CMD $EXTRA
