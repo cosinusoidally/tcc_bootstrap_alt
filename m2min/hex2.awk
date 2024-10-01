@@ -150,11 +150,13 @@ v \
 
 function write_data( \
 i){
+  cmd="./to_bin.sh " out_name "2";
   for(i=0;i<offset;i=i+1){
     printf("%c",out_data[i]) > out_name;
 # hack trying to find and alternative to the above
     printf("%s\n", signed_char_to_hex(out_data[i])) | cmd;
   }
+  close(cmd);
 }
 
 function signed_char_to_hex(s \
@@ -192,9 +194,7 @@ BEGIN {
 #    print "label: " i ":" labels[i];
 #  }
   process_relocs();
-  cmd="./to_bin.sh " out_name "2";
   write_data();
-  close(cmd);
   print("end offset: " offset);
   exit;
 }
