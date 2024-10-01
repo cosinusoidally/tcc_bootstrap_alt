@@ -17,7 +17,11 @@ i){
   i=0;
   print "input file:";
   while(in_data[i]!=""){
-    printf("%c",in_data[i]);
+    if(use_bt) {
+      printf(bt[in_data[i]]);
+    } else {
+      printf("%c",in_data[i]);
+    }
     i=i+1;
   }
 }
