@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export LC_ALL=C
+
 awk -W posix 'BEGIN { exit }'
 if [ $? -eq 0 ]; then
   CMD="-W posix"
