@@ -9,6 +9,12 @@ fi
 
 SNAME="bash"
 
+ash --help
+
+if [ $? -eq 0 ]; then
+  SNAME="ash"
+fi
+
 EXTRA_ARGS=" -v use_to_bin=$SNAME"
 
 COUNT=$(awk 'BEGIN {printf("%c",0);exit}'|wc -c)
