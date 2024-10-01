@@ -9,6 +9,7 @@ fi
 
 SNAME="bash"
 
+# prefer ash for to_bin.sh
 ash --help
 
 if [ $? -eq 0 ]; then
