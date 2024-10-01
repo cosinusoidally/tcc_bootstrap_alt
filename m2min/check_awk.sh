@@ -2,7 +2,11 @@
 
 awk -W posix 'BEGIN { exit }'
 if [ $? -eq 0 ]; then
-  echo "-W posix"
+  CMD="-W posix"
 else
-  echo ""
+  CMD=""
 fi
+
+# EXTRA=" -v use_to_bin=bash"
+
+echo $CMD $EXTRA
