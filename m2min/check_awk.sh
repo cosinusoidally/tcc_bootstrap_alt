@@ -25,4 +25,10 @@ if [ $COUNT -ne 1 ]; then
   EXTRA=$EXTRA_ARGS
 fi
 
+COUNT=$(awk 'BEGIN {printf("%c",255);exit}'|wc -c)
+
+if [ $COUNT -ne 1 ]; then
+  EXTRA=$EXTRA_ARGS
+fi
+
 echo $CMD $EXTRA
