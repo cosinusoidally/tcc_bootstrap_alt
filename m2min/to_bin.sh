@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-read line
-printf "\\x$line"  > artifacts/out
+read i
+printf "\x$i"  > $1
 
-while read line
+while read i
 do
-  printf "\\x$line"  >> artifacts/out
+  printf "\x$i"  >> $1
 done

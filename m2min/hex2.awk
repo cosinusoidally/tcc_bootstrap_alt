@@ -153,8 +153,28 @@ i){
   for(i=0;i<offset;i=i+1){
     printf("%c",out_data[i]) > out_name;
 # hack trying to find and alternative to the above
-    printf("%d\n",out_data[i]) | cmd;
+    printf("%s\n", signed_char_to_hex(out_data[i])) | cmd;
   }
+}
+
+function signed_char_to_hex(s \
+, h \
+, l \
+, len \
+, t){
+# handle hex values first
+  len=split(s, t, "x");
+  if(len>1){
+    return t[2];
+  }
+# non hex handling
+  if(s<0) {
+   s=256+s;
+  }
+  l=(s % 16);
+  h=s-l;
+  h=h / 16;
+  return hexc[h] hexc[l];
 }
 
 BEGIN {
@@ -172,7 +192,7 @@ BEGIN {
 #    print "label: " i ":" labels[i];
 #  }
   process_relocs();
-  cmd="./to_bin.sh";
+  cmd="./to_bin.sh " out_name "2";
   write_data();
   close(cmd);
   print("end offset: " offset);
