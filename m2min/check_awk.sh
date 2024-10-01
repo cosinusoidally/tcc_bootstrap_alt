@@ -18,6 +18,7 @@ fi
 
 EXTRA_ARGS=" -v use_to_bin=$SNAME"
 
+# checking if we can use printf to output bytes
 COUNT=$(awk 'BEGIN {printf("%c",0);exit}'|wc -c)
 
 if [ $COUNT -ne 1 ]; then
