@@ -152,6 +152,8 @@ function write_data( \
 i){
   for(i=0;i<offset;i=i+1){
     printf("%c",out_data[i]) > out_name;
+# hack trying to find and alternative to the above
+    printf("%d\n",out_data[i]) | cmd;
   }
 }
 
@@ -170,7 +172,9 @@ BEGIN {
 #    print "label: " i ":" labels[i];
 #  }
   process_relocs();
+  cmd="./to_bin.sh";
   write_data();
+  close(cmd);
   print("end offset: " offset);
   exit;
 }
