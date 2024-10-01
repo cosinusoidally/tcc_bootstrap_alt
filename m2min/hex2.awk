@@ -150,7 +150,8 @@ v \
 
 function write_data( \
 i){
-  cmd="./to_bin.sh " out_name;
+#  use_to_bin="bash";
+  cmd=use_to_bin " ./to_bin.sh " out_name;
   for(i=0;i<offset;i=i+1){
     if(use_to_bin) {
 # busybox awk needs to use this method as it ignores LC_ALL=C
