@@ -174,5 +174,3 @@ BEGIN {
   print("end offset: " offset);
   exit;
 }
-
-
