@@ -152,11 +152,16 @@ function write_data( \
 i){
   cmd="./to_bin.sh " out_name "2";
   for(i=0;i<offset;i=i+1){
-    printf("%c",out_data[i]) > out_name;
-# hack trying to find and alternative to the above
-    printf("%s\n", signed_char_to_hex(out_data[i])) | cmd;
+    if(use_to_bin) {
+# busybox awk needs to use this method as it ignores LC_ALL=C
+      printf("%s\n", signed_char_to_hex(out_data[i])) | cmd;
+    } else {
+      printf("%c",out_data[i]) > out_name;
+    }
   }
-  close(cmd);
+  if(use_to_bin) {
+    close(cmd);
+  }
 }
 
 function signed_char_to_hex(s \
