@@ -161,28 +161,8 @@ function get_linenumber(t) {
 	return ri32(add(t, token_list_linenumber_offset));
 }
 
-function set_depth(t, v) {
-	wi32(add(t, token_list_depth_offset), v);
-}
-
-function get_depth(t) {
-	return ri32(add(t, token_list_depth_offset));
-}
-
-function set_locals(t, v) {
-	wi32(add(t, token_list_locals_offset), v);
-}
-
 function get_locals(t) {
 	return ri32(add(t, token_list_locals_offset));
-}
-
-function set_arguments(t, v) {
-	wi32(add(t, token_list_arguments_offset), v);
-}
-
-function get_arguments(t) {
-	return ri32(add(t, token_list_arguments_offset));
 }
 
 function increase_indent() {
