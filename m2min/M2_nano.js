@@ -667,22 +667,6 @@ function load_value() {
 	return mks("load ");
 }
 
-function variable_load(a, is_arg) {
-	indented_emit_out(mks("local "));
-	if(eq(is_arg, TRUE)) {
-		emit_out(mks("ARG_"));
-	} else {
-		emit_out(mks("LOCAL_"));
-	}
-	emit_out(get_s(a));
-	emit_out(mks(" "));
-
-	if(eq(0,match(mks("="), global_token_string()))) {
-		emit_out(load_value());
-	}
-
-}
-
 function function_load(a) {
 	if(match(mks("("), global_token_string())) {
 		function_call(a);
