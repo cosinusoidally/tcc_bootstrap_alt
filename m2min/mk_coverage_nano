@@ -7,7 +7,7 @@ cat M2_nano.js >> artifacts/M2_nano_full.c
 
 gcc -g -m32 -O0 --coverage artifacts/M2_nano_full.c -o artifacts/coverage.exe
 
-./artifacts/coverage.exe ../x86/artifact/tcc_js_all.c artifacts/tcc_js_all.M1
+./artifacts/coverage.exe ./M2_nano_test.js artifacts/M2_nano_test.M1
 gcovr artifacts/ --html-details -o artifacts/example.html
 
 ~/ffnew/firefox/firefox artifacts/example.html
