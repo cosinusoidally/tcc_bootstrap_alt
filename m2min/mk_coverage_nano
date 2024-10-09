@@ -12,4 +12,5 @@ gcovr artifacts/ --html-details -o artifacts/example.html
 
 ~/ffnew/firefox/firefox artifacts/example.html
 
+wc M2_nano.js
 sha256sum -c sums_nano_test
