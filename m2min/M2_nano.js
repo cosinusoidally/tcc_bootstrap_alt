@@ -956,20 +956,6 @@ function return_result() {
 	indented_emit_out(mks("ret\n"));
 }
 
-function process_break() {
-	var i;
-	i = get_locals(func);
-
-	advance();
-	indented_emit_out(mks("jump %"));
-	emit_out(break_target_head);
-	emit_out(break_target_func);
-	emit_out(mks("_"));
-	emit_out(break_target_num);
-	emit_out(mks("\n"));
-	skip(mks(";"));
-}
-
 function recursive_statement() {
 	advance();
 	while(eq(0, match(mks("}"), global_token_string()))) {
