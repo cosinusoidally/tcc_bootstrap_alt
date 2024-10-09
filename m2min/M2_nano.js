@@ -735,24 +735,11 @@ function process_asm() {
 
 /* Process while loops */
 function process_while() {
-	var nested_locals;
-	var nested_break_head;
-	var nested_break_func;
-	var nested_break_num;
 	var number_string;
 
-	nested_locals = break_frame;
-	nested_break_head = break_target_head;
-	nested_break_func = break_target_func;
-	nested_break_num = break_target_num;
 	number_string = int2str(current_count, 10, TRUE);
 
 	current_count = add(current_count, 1);
-
-	break_target_head = mks("END_WHILE_");
-	break_target_num = number_string;
-	break_frame = get_locals(func);
-	break_target_func = get_s(func);
 
 	emit_out(mks(":WHILE_"));
 	uniqueID_out(get_s(func), number_string);
@@ -777,11 +764,6 @@ function process_while() {
 
 	emit_out(mks(":END_WHILE_"));
 	uniqueID_out(get_s(func), number_string);
-
-	break_target_head = nested_break_head;
-	break_target_func = nested_break_func;
-	break_target_num = nested_break_num;
-	break_frame = nested_locals;
 }
 
 function recursive_statement() {
