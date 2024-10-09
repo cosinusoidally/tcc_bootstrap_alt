@@ -150,9 +150,39 @@ v \
 
 function write_data( \
 i){
+#  use_to_bin="bash";
+  cmd=use_to_bin " ./to_bin.sh " out_name;
   for(i=0;i<offset;i=i+1){
-    printf("%c",out_data[i]) > out_name;
+    if(use_to_bin) {
+# busybox awk needs to use this method as it ignores LC_ALL=C
+      printf("%s\n", signed_char_to_hex(out_data[i])) | cmd;
+    } else {
+      printf("%c",out_data[i]) > out_name;
+    }
   }
+  if(use_to_bin) {
+    close(cmd);
+  }
+}
+
+function signed_char_to_hex(s \
+, h \
+, l \
+, len \
+, t){
+# handle hex values first
+  len=split(s, t, "x");
+  if(len>1){
+    return t[2];
+  }
+# non hex handling
+  if(s<0) {
+   s=256+s;
+  }
+  l=(s % 16);
+  h=s-l;
+  h=h / 16;
+  return hexc[h] hexc[l];
 }
 
 BEGIN {
