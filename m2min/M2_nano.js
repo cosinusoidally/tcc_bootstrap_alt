@@ -767,11 +767,7 @@ function primary_expr_variable() {
 }
 
 function expression() {
-	if(eq(global_token_char0(), mkc('('))) {
-		advance();
-		expression();
-		skip(mks(")"));
-	} else if(eq(global_token_char0(), mkc('\''))) {
+	if(eq(global_token_char0(), mkc('\''))) {
 		primary_expr_char();
 	} else if(eq(global_token_char0(), mkc('"'))) {
 		primary_expr_string();
