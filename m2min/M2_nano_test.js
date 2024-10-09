@@ -3,6 +3,8 @@ var acc;
 var a0;
 var a1;
 
+var cond;
+
 function add(){
 /* this is not currently correct, just here to test out asm */
 /* what it should do is acc = a0 + a1; */
@@ -23,7 +25,11 @@ var c;
 function my_loop(){
   c=1;
   while(c) {
-
+    a0=c; a1=10; gt();
+    if(acc){
+      c=0;
+    }
+    a0=1; a1=c; add(); c=acc;
   }
 }
 
