@@ -930,32 +930,6 @@ function process_while() {
 	break_frame = nested_locals;
 }
 
-/* Ensure that functions return */
-function return_result() {
-	var i;
-	var size_local_var;
-	var c;
-	c = 0;
-
-	advance();
-	if(neq(global_token_char0(), mkc(';'))) {
-		expression();
-	}
-	skip(mks(";"));
-	i = get_locals(func);
-	while(neq(NULL, i)) {
-		i = get_next(i);
-		c = add(c, 1);
-	}
-	if(neq(0, c)) {
-		indented_emit_out(mks("cleanup_locals_bytes %"));
-		emit_out(int2str(mul(c, register_size), 10, TRUE));
-		emit_out(mks(" "));
-		no_indent = 1;
-	}
-	indented_emit_out(mks("ret\n"));
-}
-
 function recursive_statement() {
 	advance();
 	while(eq(0, match(mks("}"), global_token_string()))) {
