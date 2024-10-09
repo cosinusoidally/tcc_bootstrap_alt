@@ -161,10 +161,6 @@ function get_linenumber(t) {
 	return ri32(add(t, token_list_linenumber_offset));
 }
 
-function get_locals(t) {
-	return ri32(add(t, token_list_locals_offset));
-}
-
 function increase_indent() {
 	indent = add(indent, 2);
 }
