@@ -1003,19 +1003,12 @@ function recursive_statement() {
 function statement() {
 	if(eq(global_token_char0(), mkc('{'))) {
 		recursive_statement();
-	} else if(or(match(mks("int"), global_token_string()),
-			match(mks("var"), global_token_string()))) {
-		collect_local();
 	} else if(match(mks("if"), global_token_string())) {
 		process_if();
 	} else if(match(mks("while"), global_token_string())) {
 		process_while();
 	} else if(match(mks("asm"), global_token_string())) {
 		process_asm();
-	} else if(match(mks("return"), global_token_string())) {
-		return_result();
-	} else if(match(mks("break"), global_token_string())) {
-		process_break();
 	} else {
 		expression();
 		skip(mks(";"));
