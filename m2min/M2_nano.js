@@ -994,7 +994,6 @@ function statement() {
 }
 
 function declare_function() {
-	var a;
 	current_count = 0;
 	func = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
