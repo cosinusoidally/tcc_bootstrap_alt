@@ -576,8 +576,6 @@ function sym_lookup(s, symbol_list) {
 }
 
 function function_call(s) {
-	var passed;
-	passed = 0;
 	skip(mks("("));
 
 	indented_emit_out(mks("("));
