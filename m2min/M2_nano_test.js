@@ -18,12 +18,22 @@ function add(){
 		);
 }
 
+var c;
+
+function my_loop(){
+  c=1;
+  while(c) {
+
+  }
+}
+
 function f3(){
   acc='a';
 }
 
 function bar(){
   acc="Hello world";
+  acc="Hello\n";
 }
 
 function foo(){
