@@ -740,18 +740,6 @@ function primary_expr_variable() {
 	s = global_token_string();
 	advance();
 
-	a = sym_lookup(s, get_locals(func));
-	if(neq(NULL, a)) {
-		variable_load(a, FALSE);
-		return;
-	}
-
-	a = sym_lookup(s, get_arguments(func));
-	if(neq(NULL, a)) {
-		variable_load(a, TRUE);
-		return;
-	}
-
 	a = sym_lookup(s, global_symbol_list);
 	if(neq(NULL, a)) {
 		global_load(a);
@@ -761,9 +749,6 @@ function primary_expr_variable() {
 	/* anything else is implicity a function */
 	function_load(s);
 	return;
-
-/* no longer reachable */
-/*	exit(add(EXIT_FAILURE, 2)); */
 }
 
 function expression() {
