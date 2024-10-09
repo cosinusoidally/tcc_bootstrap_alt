@@ -627,21 +627,7 @@ function function_call(s) {
 	indented_emit_out(mks("("));
 	increase_indent();
 
-	if(neq(global_token_char0(), mkc(')'))) {
-		emit_out(mks(" ")); no_indent = 1;
-		expression();
-		indented_emit_out(mks("push_arg\n"));
-		passed = 1;
-
-		while(eq(global_token_char0(), mkc(','))) {
-			advance();
-			expression();
-			indented_emit_out(mks("push_arg\n"));
-			passed = add(passed, 1);
-		}
-	} else {
-		emit_out(mks(" ")); no_indent = 1;
-	}
+	emit_out(mks(" ")); no_indent = 1;
 
 	skip(mks(")"));
 
@@ -649,14 +635,7 @@ function function_call(s) {
 	emit_out(s);
 	emit_out(mks(" "));
 
-
-	if(neq(0, passed)) {
-		emit_out(mks("cleanup_args_bytes %"));
-		emit_out(int2str(mul(passed, register_size), 10, TRUE));
-		emit_out(mks("\n"));
-	} else {
-		no_indent = 1;
-	}
+	no_indent = 1;
 
 	decrease_indent();
 	indented_emit_out(mks(")\n"));
