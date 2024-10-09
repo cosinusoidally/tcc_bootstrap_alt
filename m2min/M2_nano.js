@@ -1071,15 +1071,6 @@ function declare_function() {
 	increase_indent();
 	emit_out(mks("\n"));
 
-	a = get_arguments(func);
-	while(neq(0, a)) {
-		indented_emit_out(mks("DEFINE ARG_"));
-		emit_out(get_s(a));
-		emit_out(mks(" "));
-		emit_out(to_hex_le(get_depth(a)));
-		emit_out(mks("\n"));
-		a = get_next(a);
-	}
 	statement();
 
 	/* Prevent duplicate RETURNS */
