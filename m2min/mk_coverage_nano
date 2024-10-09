@@ -1,6 +1,8 @@
 ./mk_clean
 
-cat simple_support_tcc.c > artifacts/M2_nano_full.c
+cat simple_support_js_defs.c > artifacts/M2_nano_full.c
+cat simple_support_js.c >> artifacts/M2_nano_full.c
+cat simple_support_tcc.c >> artifacts/M2_nano_full.c
 cat M2_nano.js >> artifacts/M2_nano_full.c
 
 gcc -g -m32 -O0 --coverage artifacts/M2_nano_full.c -o artifacts/coverage.exe
