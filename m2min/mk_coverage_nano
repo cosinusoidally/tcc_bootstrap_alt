@@ -1,0 +1,9 @@
+./mk_clean
+
+cat simple_support_tcc.c > artifacts/M2_simple_asm_full.c
+cat M2_simple_asm.c >> artifacts/M2_simple_asm_full.c
+
+gcc -g -m32 -O0 --coverage artifacts/M2_simple_asm_full.c -o artifacts/coverage.exe
+
+./artifacts/coverage.exe ../x86/artifact/tcc_js_all.c artifacts/tcc_js_all.M1
+gcovr artifacts/ --html-details -o artifacts/example.html
