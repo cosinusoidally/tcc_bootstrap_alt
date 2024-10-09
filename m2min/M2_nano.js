@@ -1022,40 +1022,6 @@ function statement() {
 	}
 }
 
-/* Collect function arguments */
-function collect_arguments() {
-	var a;
-
-	advance();
-	while(eq(0, match(mks(")"), global_token_string()))) {
-		/* allow int type of argument to be optional */
-		if(match(mks("int"), global_token_string())) {
-			advance();
-		}
-		if(neq(global_token_char0(), mkc(','))) {
-			/* deal with foo(int a, char b) */
-			a = sym_declare(global_token_string(),
-						get_arguments(func));
-			if(eq(NULL, get_arguments(func))) {
-				set_depth(a, sub(0, register_size));
-			} else {
-				set_depth(a, sub(get_depth(get_arguments(func)),
-						register_size));
-			}
-			advance();
-
-			set_arguments(func, a);
-		}
-
-		/* ignore trailing comma (needed for foo(bar(), 1); expressions*/
-		if(eq(global_token_char0(), mkc(','))) {
-			advance();
-		}
-
-	}
-	advance();
-}
-
 function declare_function() {
 	var a;
 	current_count = 0;
@@ -1064,7 +1030,8 @@ function declare_function() {
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = func;
-	collect_arguments();
+	advance(); /* skip ( */
+	advance(); /* skip ) */
 
 	emit_out(mks(":FUNCTION_"));
 	emit_out(get_s(func));
