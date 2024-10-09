@@ -791,46 +791,6 @@ function expression() {
 	}
 }
 
-/* Process local variable */
-function collect_local() {
-	var a;
-
-	advance();
-	a = sym_declare(global_token_string(), get_locals(func));
-
-        if(and(match(mks("main"), get_s(func)), eq(NULL, get_locals(func)))) {
-                set_depth(a, sub(0, 20));
-        } else if(and(eq(NULL, get_arguments(func)),
-			eq(NULL, get_locals(func)))) {
-		set_depth(a, sub(0, mul(register_size, 2)));
-	} else if(eq(NULL, get_locals(func))) {
-		set_depth(a, sub(get_depth(get_arguments(func)),
-					mul(register_size, 2)));
-	} else {
-		set_depth(a, sub(get_depth(get_locals(func)),
-						register_size));
-	}
-
-	set_locals(func, a);
-
-	indented_emit_out(mks("DEFINE LOCAL_"));
-	emit_out(global_token_string());
-	emit_out(mks(" "));
-	emit_out(to_hex_le(get_depth(a)));
-	emit_out(mks("\n"));
-
-	advance();
-
-	if(match(mks("="), global_token_string())) {
-		advance();
-		expression();
-	}
-
-	skip(mks(";"));
-
-	indented_emit_out(mks("reserve_stack_slot\n"));
-}
-
 /* Evaluate if statements */
 function process_if() {
 	var number_string;
