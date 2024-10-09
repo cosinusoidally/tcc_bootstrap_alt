@@ -212,30 +212,6 @@ function global_token_char0() {
 	return ri8(token_string(global_token));
 }
 
-function to_hex_digit(a) {
-	a = and(15, a);
-	if(gt(a, 9)) {
-		a = add(sub(a,10), 65);
-	} else {
-		a = add(a, 48);
-	}
-	return a;
-}
-
-function to_hex_le(a) {
-	var o;
-	var i;
-	i = 0;
-	o = calloc(17,1);
-	while(lt(i, 4)) {
-		wi8(add(o, add(mul(i,2), 1)), to_hex_digit(a));
-		wi8(add(o, mul(i, 2)), to_hex_digit(shr(a,4)));
-		a = shr(a, 8);
-		i = add(i, 1);
-	}
-	return o;
-}
-
 function match(a, b) {
 	var i;
 	if(and(eq(NULL, a), eq(NULL, b))) {
