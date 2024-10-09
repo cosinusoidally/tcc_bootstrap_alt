@@ -971,33 +971,11 @@ function process_break() {
 }
 
 function recursive_statement() {
-	var frame;
-	var i;
-	var c;
-	c = 0;
-
 	advance();
-	frame = get_locals(func);
 	while(eq(0, match(mks("}"), global_token_string()))) {
 		statement();
 	}
 	advance();
-
-	/* Clean up any locals added */
-	if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
-		i = get_locals(func);
-		while(neq(frame,i)) {
-			c = add(c, 1);
-			i = get_next(i);
-		}
-		if(neq(0, c)) {
-			indented_emit_out(mks("cleanup_locals_bytes %"));
-			emit_out(int2str(mul(c, register_size), 10, TRUE));
-			emit_out(mks(" "));
-			no_indent = 1;
-		}
-	}
-	set_locals(func, frame);
 }
 
 function statement() {

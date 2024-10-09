@@ -21,6 +21,7 @@ function add(){
 }
 
 var c;
+var d;
 
 function my_loop(){
   c=1;
@@ -28,6 +29,7 @@ function my_loop(){
     a0=c; a1=10; gt();
     if(acc){
       c=0;
+      d=20;
     }
     a0=1; a1=c; add(); c=acc;
   }
