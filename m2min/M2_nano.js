@@ -1066,32 +1066,27 @@ function declare_function() {
 	global_function_list = func;
 	collect_arguments();
 
-	/* If just a prototype don't waste time */
-	if(eq(global_token_char0(), mkc(';'))) {
-		advance();
-	} else {
-		emit_out(mks(":FUNCTION_"));
-		emit_out(get_s(func));
-		increase_indent();
+	emit_out(mks(":FUNCTION_"));
+	emit_out(get_s(func));
+	increase_indent();
+	emit_out(mks("\n"));
+
+	a = get_arguments(func);
+	while(neq(0, a)) {
+		indented_emit_out(mks("DEFINE ARG_"));
+		emit_out(get_s(a));
+		emit_out(mks(" "));
+		emit_out(to_hex_le(get_depth(a)));
 		emit_out(mks("\n"));
-
-		a = get_arguments(func);
-		while(neq(0, a)) {
-			indented_emit_out(mks("DEFINE ARG_"));
-			emit_out(get_s(a));
-			emit_out(mks(" "));
-			emit_out(to_hex_le(get_depth(a)));
-			emit_out(mks("\n"));
-			a = get_next(a);
-		}
-		statement();
-
-		/* Prevent duplicate RETURNS */
-		if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
-			indented_emit_out(mks("ret\n"));
-		}
-		decrease_indent();
+		a = get_next(a);
 	}
+	statement();
+
+	/* Prevent duplicate RETURNS */
+	if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
+		indented_emit_out(mks("ret\n"));
+	}
+	decrease_indent();
 }
 
 function program() {
