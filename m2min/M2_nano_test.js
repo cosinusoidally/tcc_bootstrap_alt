@@ -27,9 +27,18 @@ function my_loop(){
   c=1;
   while(c) {
     a0=c; a1=10; gt();
+/* this is nonesense, but just testing if else codegen */
     if(acc){
       c=0;
       d=20;
+    } else {
+      a0=2;a1=20; gt();
+      if(acc){
+        c=10;
+        d=20;
+      } else {
+        d=40;
+      }
     }
     a0=1; a1=c; add(); c=acc;
   }
