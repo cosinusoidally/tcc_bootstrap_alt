@@ -810,7 +810,6 @@ function declare_function() {
 }
 
 function program() {
-	var i;
 	var new_type;
 	var tmp;
 	func = NULL;
@@ -832,18 +831,11 @@ function program() {
 		/* Deal with global variables */
 		if(match(mks(";"), global_token_string())) {
 			global_symbol_list = tmp;
-			/* Ensure enough bytes are allocated to store global variable.
-			   In some cases it allocates too much but that is harmless. */
 			globals_list = emit(mks(":GLOBAL_"), globals_list);
 			globals_list = emit(get_s(get_prev(global_token)),
 						globals_list);
-
-			i = 1;
 			globals_list = emit(mks("\n"), globals_list);
-			while(neq(i, 0)) {
-				globals_list = emit(mks("NULL\n"), globals_list);
-				i = sub(i, 1);
-			}
+			globals_list = emit(mks("NULL\n"), globals_list);
 			advance();
 			new_type = 1;
 		}
