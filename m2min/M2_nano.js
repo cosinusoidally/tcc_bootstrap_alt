@@ -701,6 +701,10 @@ function process_if() {
 	emit_out(mks(":ELSE_"));
 	uniqueID_out(get_s(func), number_string);
 
+	if(match(mks("else"), global_token_string())) {
+		advance();
+		statement();
+	}
 	emit_out(mks(":_END_IF_"));
 	uniqueID_out(get_s(func), number_string);
 }
