@@ -88,7 +88,6 @@ var MAX_STRING;
 var input;
 var token;
 var line;
-var file;
 
 /* Global lists */
 var global_symbol_list;
