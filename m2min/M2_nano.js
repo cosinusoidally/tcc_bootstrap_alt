@@ -54,20 +54,14 @@ struct token_list {
 */
 
 var token_list_next_offset;
-var token_list_locals_offset;
 var token_list_prev_offset;
 var token_list_s_offset;
-var token_list_arguments_offset;
-var token_list_depth_offset;
 var token_list_linenumber_offset;
 
 function token_list_layout_init(){
 	token_list_next_offset = 0;
-	token_list_locals_offset = 4;
 	token_list_prev_offset = 4;
 	token_list_s_offset = 8;
-	token_list_arguments_offset = 12;
-	token_list_depth_offset = 12;
 	token_list_linenumber_offset = 12;
 }
 
