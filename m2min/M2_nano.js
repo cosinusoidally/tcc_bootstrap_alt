@@ -97,10 +97,6 @@ var global_function_list;
 /* Core lists for this file */
 var func;
 
-var break_target_head;
-var break_target_func;
-var break_target_num;
-var break_frame;
 var current_count;
 
 var indent;
