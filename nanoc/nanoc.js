@@ -722,39 +722,6 @@ function process_asm() {
 	skip(mks(";"));
 }
 
-/* Process while loops */
-function process_while() {
-	var number_string;
-
-	number_string = int2str(current_count, 10, TRUE);
-
-	current_count = add(current_count, 1);
-
-	emit_out(mks(":WHILE_"));
-	uniqueID_out(get_s(func), number_string);
-
-	advance();
-	skip(mks("("));
-	expression();
-
-	indented_emit_out(mks("jump_false %END_WHILE_"));
-
-	uniqueID_out(get_s(func), number_string);
-
-	emit_out(mks("# THEN_while_"));
-	uniqueID_out(get_s(func), number_string);
-
-	skip(mks(")"));
-	statement();
-
-	indented_emit_out(mks("jump %WHILE_"));
-
-	uniqueID_out(get_s(func), number_string);
-
-	emit_out(mks(":END_WHILE_"));
-	uniqueID_out(get_s(func), number_string);
-}
-
 function recursive_statement() {
 	advance();
 	while(eq(0, match(mks("}"), global_token_string()))) {
