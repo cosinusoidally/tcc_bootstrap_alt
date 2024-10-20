@@ -578,13 +578,6 @@ function initialize_globals() {
 
 	token_list_layout_init();
 
-	quote_string=calloc(1, 16); /* round up */
-	wi8(quote_string, mkc('\''));
-	wi8(add(quote_string, 1), mkc('"'));
-	wi8(add(quote_string, 2), 0);
-
-	indent = 0;
-	no_indent = 0;
 }
 
 function main(argc, argv) {
