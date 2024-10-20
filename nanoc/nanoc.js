@@ -33,8 +33,6 @@ var EXIT_FAILURE;
 
 var EOF;
 
-var quote_string;
-
 /* token_list structure for reference */
 
 /*
