@@ -386,19 +386,12 @@ function sym_lookup(s, symbol_list) {
 
 function function_call(s) {
 	skip(mks("("));
-
-	emit_out(mks("("));
-
-	emit_out(mks(" "));
-
 	skip(mks(")"));
 
-	emit_out(mks("do_call %FUNCTION_"));
+	emit_out(mks("call %FUNCTION_"));
 	emit_out(s);
-	emit_out(mks(" "));
 
-
-	emit_out(mks(")\n"));
+	emit_out(mks("\n"));
 }
 
 function load_value() {
