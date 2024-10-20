@@ -425,7 +425,6 @@ function primary_expr_variable() {
 
 	/* anything else is implicity a function call */
 	function_call(s);
-	return;
 }
 
 function expression() {
