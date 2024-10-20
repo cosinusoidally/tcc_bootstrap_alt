@@ -451,7 +451,7 @@ function expression() {
 	}
 
 	if(match(mks("="), global_token_string())) {
-		emit_out(mks("push_address\n"));
+		emit_out(mks("push_address "));
 		advance();
 		expression();
 		emit_out(mks("store\n"));
