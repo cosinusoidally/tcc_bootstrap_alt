@@ -6,8 +6,8 @@ int next_block_;
 
 /* these are blocks */
 function test(){
-  acc = 1;
-  a1 = 2;
+  acc = 123;
+  a1 = 1000;
   add();
   ip = next_block_; /* this would call the next block */
 }
