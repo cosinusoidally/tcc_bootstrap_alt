@@ -392,13 +392,6 @@ function function_call(s) {
 	emit_out(mks("\n"));
 }
 
-function function_load(a) {
-	if(match(mks("("), global_token_string())) {
-		function_call(a);
-		return;
-	}
-}
-
 function global_load(a) {
 	emit_out(mks("global &GLOBAL_"));
 	emit_out(get_s(a));
@@ -430,8 +423,8 @@ function primary_expr_variable() {
 		return;
 	}
 
-	/* anything else is implicity a function */
-	function_load(s);
+	/* anything else is implicity a function call */
+	function_call(s);
 	return;
 }
 
