@@ -13,4 +13,4 @@ gcovr artifacts/ --html-details -o artifacts/example.html
 ~/ffnew/firefox/firefox artifacts/example.html
 
 wc nanoc.js
-# sha256sum -c sums_nano_test
+sha256sum -c sums_nanoc_test
