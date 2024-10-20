@@ -621,13 +621,6 @@ function primary_expr_string() {
 	}
 }
 
-function primary_expr_char() {
-	indented_emit_out(mks("constant %"));
-	emit_out(int2str(escape_lookup(add(global_token_string(), 1)), 10, TRUE));
-	emit_out(mks(" ")); no_indent = 1;
-	advance();
-}
-
 function primary_expr_number() {
 	indented_emit_out(mks("constant %"));
 	emit_out(global_token_string());
