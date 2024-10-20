@@ -487,13 +487,7 @@ function program() {
 	func = NULL;
 
 	new_type = 1;
-	while(eq(new_type, 1)) {
-		new_type = 0;
-		/* Deal with garbage input */
-		if (eq(NULL, global_token)) {
-			return;
-		}
-
+	while(neq(NULL, global_token)) {
 		advance();
 
 		/* Add to global symbol table (tmp since we only want non-fns)*/
@@ -509,18 +503,13 @@ function program() {
 			globals_list = emit(mks("\n"), globals_list);
 			globals_list = emit(mks("NULL\n"), globals_list);
 			advance();
-			new_type = 1;
 		}
 
 		/* Deal with global functions */
 		if(match(mks("("), global_token_string())) {
 			declare_function();
-			new_type = 1;
 		}
 	}
-
-	/* Everything else is just an error */
-	exit(add(EXIT_FAILURE, 3));
 }
 
 function recursive_output(head, out) {
