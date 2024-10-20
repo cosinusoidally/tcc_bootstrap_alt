@@ -393,10 +393,6 @@ function function_call(s) {
 	emit_out(mks("\n"));
 }
 
-function load_value() {
-	return mks("load ");
-}
-
 function function_load(a) {
 	if(match(mks("("), global_token_string())) {
 		function_call(a);
@@ -412,7 +408,7 @@ function global_load(a) {
 	if(match(mks("="), global_token_string())) {
 		return;
 	}
-	emit_out(load_value());
+	emit_out("load ");
 }
 
 function primary_expr_number() {
@@ -559,7 +555,6 @@ function initialize_globals() {
 	sizeof_token_list = mul(register_size, 4);
 
 	token_list_layout_init();
-
 }
 
 function main(argc, argv) {
