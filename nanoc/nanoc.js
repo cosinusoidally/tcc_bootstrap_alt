@@ -674,41 +674,6 @@ function expression() {
 	}
 }
 
-/* Evaluate if statements */
-function process_if() {
-	var number_string;
-	number_string = int2str(current_count, 10, TRUE);
-	current_count = add(current_count, 1);
-
-	emit_out(mks("# IF_"));
-	uniqueID_out(get_s(func), number_string);
-
-	advance();
-	skip(mks("("));
-	expression();
-
-	indented_emit_out(mks("jump_false %ELSE_"));
-
-	uniqueID_out(get_s(func), number_string);
-
-	skip(mks(")"));
-	statement();
-
-	indented_emit_out(mks("jump %_END_IF_"));
-
-	uniqueID_out(get_s(func), number_string);
-
-	emit_out(mks(":ELSE_"));
-	uniqueID_out(get_s(func), number_string);
-
-	if(match(mks("else"), global_token_string())) {
-		advance();
-		statement();
-	}
-	emit_out(mks(":_END_IF_"));
-	uniqueID_out(get_s(func), number_string);
-}
-
 function recursive_statement() {
 	advance();
 	while(eq(0, match(mks("}"), global_token_string()))) {
