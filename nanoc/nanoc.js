@@ -417,21 +417,19 @@ function sym_lookup(s, symbol_list) {
 function function_call(s) {
 	skip(mks("("));
 
-	indented_emit_out(mks("("));
-	increase_indent();
+	emit_out(mks("("));
 
 	emit_out(mks(" ")); no_indent = 1;
 
 	skip(mks(")"));
 
-	indented_emit_out(mks("do_call %FUNCTION_"));
+	emit_out(mks("do_call %FUNCTION_"));
 	emit_out(s);
 	emit_out(mks(" "));
 
 	no_indent = 1;
 
-	decrease_indent();
-	indented_emit_out(mks(")\n"));
+	emit_out(mks(")\n"));
 }
 
 function load_value() {
@@ -447,7 +445,7 @@ function function_load(a) {
 }
 
 function global_load(a) {
-	indented_emit_out(mks("global &GLOBAL_"));
+	emit_out(mks("global &GLOBAL_"));
 	emit_out(get_s(a));
 	emit_out(mks(" "));
 
@@ -458,9 +456,9 @@ function global_load(a) {
 }
 
 function primary_expr_number() {
-	indented_emit_out(mks("constant %"));
+	emit_out(mks("constant %"));
 	emit_out(global_token_string());
-	emit_out(mks(" ")); no_indent = 1;
+	emit_out(mks(" "));
 	advance();
 }
 
@@ -495,7 +493,7 @@ function expression() {
 		emit_out(mks("push_address\n"));
 		advance();
 		expression();
-		indented_emit_out(mks("store\n"));
+		emit_out(mks("store\n"));
 	}
 }
 
@@ -528,16 +526,14 @@ function declare_function() {
 
 	emit_out(mks(":FUNCTION_"));
 	emit_out(get_s(func));
-	increase_indent();
 	emit_out(mks("\n"));
 
 	statement();
 
 	/* Prevent duplicate RETURNS */
 	if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
-		indented_emit_out(mks("ret\n"));
+		emit_out(mks("ret\n"));
 	}
-	decrease_indent();
 }
 
 function program() {
