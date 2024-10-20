@@ -766,12 +766,6 @@ function recursive_statement() {
 function statement() {
 	if(eq(global_token_char0(), mkc('{'))) {
 		recursive_statement();
-	} else if(match(mks("if"), global_token_string())) {
-		process_if();
-	} else if(match(mks("while"), global_token_string())) {
-		process_while();
-	} else if(match(mks("asm"), global_token_string())) {
-		process_asm();
 	} else {
 		expression();
 		skip(mks(";"));
