@@ -654,11 +654,7 @@ function primary_expr_variable() {
 }
 
 function expression() {
-	if(eq(global_token_char0(), mkc('\''))) {
-		primary_expr_char();
-	} else if(eq(global_token_char0(), mkc('"'))) {
-		primary_expr_string();
-	} else if(in_set(global_token_char0(), mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"))) {
+	if(in_set(global_token_char0(), mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"))) {
 		primary_expr_variable();
 	} else if(in_set(global_token_char0(), mks("0123456789"))) {
 		primary_expr_number();
