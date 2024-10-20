@@ -93,8 +93,6 @@ var global_function_list;
 /* Core lists for this file */
 var func;
 
-var current_count;
-
 function ri32(o) {
         return or(or(and(ri8(o), 255),
                 shl(and(ri8(add(o, 1)), 255), 8)),
@@ -462,7 +460,6 @@ function statement() {
 }
 
 function declare_function() {
-	current_count = 0;
 	func = sym_declare(get_s(get_prev(global_token)),
 				global_function_list);
 
@@ -481,11 +478,9 @@ function declare_function() {
 }
 
 function program() {
-	var new_type;
 	var tmp;
 	func = NULL;
 
-	new_type = 1;
 	while(neq(NULL, global_token)) {
 		advance();
 
