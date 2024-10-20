@@ -70,7 +70,6 @@ var global_token;
 
 /* Output reorder collections*/
 var output_list;
-var strings_list;
 var globals_list;
 
 /* Make our string collection more efficient */
@@ -595,8 +594,6 @@ function main(argc, argv) {
 	recursive_output(output_list, destination_file);
 	fputs(mks("\n# Program global variables\n"), destination_file);
 	recursive_output(globals_list, destination_file);
-	fputs(mks("\n# Program strings\n"), destination_file);
-	recursive_output(strings_list, destination_file);
 	fputs(mks("\n:ELF_end\n"), destination_file);
 
 	fclose(destination_file);
