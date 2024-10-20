@@ -150,31 +150,6 @@ function get_linenumber(t) {
 	return ri32(add(t, token_list_linenumber_offset));
 }
 
-function increase_indent() {
-	indent = add(indent, 2);
-}
-
-function decrease_indent() {
-	indent = sub(indent, 2);
-	if(lt(indent,0)) {
-		indent = 0;
-	}
-}
-
-function indented_emit_out(s) {
-	var c;
-	c = 0;
-	if(no_indent) {
-		no_indent = 0;
-	} else {
-		while(lt(c, indent)) {
-			emit_out(mks(" "));
-			c = add(c, 1);
-		}
-	}
-	emit_out(s);
-}
-
 function skip(str) {
 /* dummy impl should check and abort if doesn't match */
 	global_token = get_next(global_token);
