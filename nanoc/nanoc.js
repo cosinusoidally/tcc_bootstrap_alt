@@ -709,19 +709,6 @@ function process_if() {
 	uniqueID_out(get_s(func), number_string);
 }
 
-/* Process Assembly statements */
-function process_asm() {
-	advance();
-	skip(mks("("));
-	while(eq(mkc('"'), global_token_char0())) {
-		emit_out(add(global_token_string(), 1));
-		emit_out(mks("\n"));
-		advance();
-	}
-	skip(mks(")"));
-	skip(mks(";"));
-}
-
 function recursive_statement() {
 	advance();
 	while(eq(0, match(mks("}"), global_token_string()))) {
