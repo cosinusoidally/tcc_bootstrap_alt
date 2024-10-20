@@ -603,24 +603,6 @@ function global_load(a) {
 	emit_out(load_value());
 }
 
-function primary_expr_string() {
-	var number_string;
-	number_string = int2str(current_count, 10, TRUE);
-	current_count = add(current_count, 1);
-	indented_emit_out(mks("constant &STRING_"));
-	uniqueID_out(get_s(func), number_string);
-
-	/* The target */
-	strings_list = emit(mks(":STRING_"), strings_list);
-	strings_list = uniqueID(get_s(func), strings_list, number_string);
-
-	/* Parse the string */
-	if(neq(mkc('"'), ri8(get_s(get_next(global_token))))) {
-		strings_list = emit(parse_string(global_token_string()), strings_list);
-		advance();
-	}
-}
-
 function primary_expr_number() {
 	indented_emit_out(mks("constant %"));
 	emit_out(global_token_string());
