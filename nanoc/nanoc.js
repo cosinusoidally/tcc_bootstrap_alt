@@ -96,9 +96,6 @@ var func;
 
 var current_count;
 
-var indent;
-var no_indent;
-
 function ri32(o) {
         return or(or(and(ri8(o), 255),
                 shl(and(ri8(add(o, 1)), 255), 8)),
@@ -392,7 +389,7 @@ function function_call(s) {
 
 	emit_out(mks("("));
 
-	emit_out(mks(" ")); no_indent = 1;
+	emit_out(mks(" "));
 
 	skip(mks(")"));
 
@@ -400,13 +397,11 @@ function function_call(s) {
 	emit_out(s);
 	emit_out(mks(" "));
 
-	no_indent = 1;
 
 	emit_out(mks(")\n"));
 }
 
 function load_value() {
-	no_indent = 1;
 	return mks("load ");
 }
 
