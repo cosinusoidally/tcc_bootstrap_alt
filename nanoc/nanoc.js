@@ -441,15 +441,6 @@ function emit_out(s) {
 	output_list = emit(s, output_list);
 }
 
-function uniqueID(s, l, num) {
-	l = emit(mks("\n"), emit(num, emit(mks("_"), emit(s, l))));
-	return l;
-}
-
-function uniqueID_out(s, num) {
-	output_list = uniqueID(s, output_list, num);
-}
-
 function sym_declare(s, list) {
 	var a;
 	a = calloc(1, sizeof_token_list);
