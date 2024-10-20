@@ -237,54 +237,6 @@ function in_set(c, s) {
 	return FALSE;
 }
 
-function int2str(x, base, signed_p) {
-	var p;
-	var i;
-	var sign_p;
-	var table;
-	/* Be overly conservative and save space for 32binary digits and padding null */
-	p = calloc(34, 1);
-	/* if calloc fails return null to let calling code deal with it */
-	if(eq(NULL, p)) {
-		return p;
-	}
-
-	p = add(p, 32);
-	sign_p = FALSE;
-	table = mks("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-
-	/* hack avoid 0x80000000 literal for awk compat add(2147483647,1) */
-	if(and(and(signed_p, eq(10, base)), neq(0, (and(x, add(2147483647,1)))))) {
-		/* Truncate to 31bits */
-	        /* hack avoid 0x7FFFFFFF literal for awk compat */
-		i = and(sub(0, x), 2147483647);
-		if(eq(0, i)) {
-			return mks("-2147483648");
-		}
-		sign_p = TRUE;
-	} else {
-		/* Truncate to 32bits */
-	        /* hack avoid 0x7FFFFFFF literal for awk compat */
-		i = and(x, or(2147483647, shl(1, 31)));
-	}
-
-	while(1) {
-		wi8(p, ri8(add(table, mod(i, base))));
-		p = sub(p, 1);
-		i = div(i, base);
-		if(gte(0, i)) {
-			break;
-		}
-	}
-
-	if(sign_p) {
-		wi8(p, mkc('-'));
-		p = sub(p, 1);
-	}
-
-	return add(p, 1);
-}
-
 function grab_byte() {
 	var c;
 	c = fgetc(input);
