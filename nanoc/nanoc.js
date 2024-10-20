@@ -307,25 +307,6 @@ function consume_byte(c) {
 	return grab_byte();
 }
 
-function preserve_string(c) {
-	var frequent;
-	var escape;
-
-	frequent = c;
-	escape = FALSE;
-	while(1) {
-		if(and(eq(0, escape), eq(mkc('\\'), c))) {
-			escape = TRUE;
-		}
-		else escape = FALSE;
-		c = consume_byte(c);
-		if(eq(0,or(escape, (neq(c, frequent))))){
-			break;
-		}
-	}
-	return grab_byte();
-}
-
 function copy_string(target, source, max) {
 	var i;
 	i = 0;
@@ -394,8 +375,6 @@ function get_token(c) {
 			c = preserve_keyword(c, mks("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"));
 		} else if(in_set(c, mks("="))) {
 			c = preserve_keyword(c, mks("="));
-		} else if(in_set(c, quote_string)) {
-			c = preserve_string(c);
 		} else if(eq(c, mkc('/'))) {
 			c = consume_byte(c);
 			if(eq(c, mkc('*'))) {
