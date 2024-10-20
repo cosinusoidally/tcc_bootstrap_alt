@@ -481,8 +481,8 @@ function declare_function() {
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = func;
-	advance(); /* skip ( */
-	advance(); /* skip ) */
+	skip(mks("("));
+	skip(mks(")"));
 
 	emit_out(mks(":FUNCTION_"));
 	emit_out(get_s(func));
