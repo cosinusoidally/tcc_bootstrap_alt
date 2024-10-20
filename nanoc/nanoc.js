@@ -384,8 +384,7 @@ function sym_lookup(s, symbol_list) {
 }
 
 function function_call(s) {
-	skip(mks("("));
-	skip(mks(")"));
+	skip(mks("(")); skip(mks(")"));
 
 	emit_out(mks("call %FUNCTION_"));
 	emit_out(s);
@@ -477,8 +476,8 @@ function declare_function() {
 
 	/* allow previously defined functions to be looked up */
 	global_function_list = func;
-	skip(mks("("));
-	skip(mks(")"));
+
+	skip(mks("(")); skip(mks(")"));
 
 	emit_out(mks(":FUNCTION_"));
 	emit_out(get_s(func));
