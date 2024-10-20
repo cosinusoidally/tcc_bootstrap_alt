@@ -490,10 +490,7 @@ function declare_function() {
 
 	statement();
 
-	/* Prevent duplicate RETURNS */
-	if(eq(0, match(mks("ret\n"), get_s(output_list)))) {
-		emit_out(mks("ret\n"));
-	}
+	emit_out(mks("ret\n"));
 }
 
 function program() {
