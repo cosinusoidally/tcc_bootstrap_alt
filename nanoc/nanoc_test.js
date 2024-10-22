@@ -1,8 +1,8 @@
-int acc;
-int a1;
-int ip;
+var acc;
+var a1;
+var ip;
 
-int next_block_;
+var next_block_;
 
 /* these are blocks */
 function test(){
