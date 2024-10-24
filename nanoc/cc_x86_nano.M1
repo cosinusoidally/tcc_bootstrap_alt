@@ -904,23 +904,20 @@ DEFINE MAX_STRING FF000000
 	STORE32_Absolute32_eax &global_token        ; global_token = global_token->NEXT
 
 	COPY_ECX_to_EAX                             ; Using S
-	LOAD32_Absolute32_ebx &global_function_list ; Using global_function_list
+	LOAD32_Absolute32_ebx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_lookup                          ; sym_lookup(s, global_function_list)
 	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_function_list)
-	JE32 %primary_expr_variable_global          ; try globals next
-
-	;; Deal with functions
-	LOAD32_EAX_from_EAX_Immediate8 f_S
-	CALL32 %function_call                       ; Deal with the function
-	JMP32 %primary_expr_variable_done           ; Be done
-
-:primary_expr_variable_global
-	COPY_ECX_to_EAX                             ; Using S
-	LOAD32_Absolute32_ebx &global_symbol_list   ; Using global_symbol_list
-	CALL32 %sym_lookup                          ; sym_lookup(s, global_symbol_list)
+	JE32 %primary_expr_function                 ; try function next
 
 	;; Deal with globals
 	CALL32 %global_load                         ; Collect that global
+	JMP32 %primary_expr_variable_done           ; Be done
+
+:primary_expr_function
+
+	;; Deal with functions (everything else is implicitly a function)
+	COPY_ECX_to_EAX                             ; Using S
+	CALL32 %function_call                       ; Deal with the function
 
 :primary_expr_variable_done
 	POP_ECX                                     ; Restore ECX
