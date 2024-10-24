@@ -836,15 +836,6 @@ DEFINE MAX_STRING FF000000
 	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; i = function->locals
 	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _recursive_statement_locals\n"
 
-:recursive_statement_locals
-	CMP_ECX_EBX                                 ; IF frame != i
-	JE32 %recursive_statement_done              ; Otherwise be done
-
-	;; Lets emit
-	CALL32 %emit_out                            ; emit it
-	LOAD32_EBX_from_EBX                         ; i = i->next
-	JMP32 %recursive_statement_locals           ; keep going
-
 :recursive_statement_done
 	LOAD32_Absolute32_eax &function             ; Using function
 	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = frame
