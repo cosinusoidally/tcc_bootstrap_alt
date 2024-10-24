@@ -939,23 +939,6 @@ DEFINE MAX_STRING FF000000
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-;; save_break_frame microfunction
-;; Overwrites EAX and EBX
-;; Saves break frame on stack
-;; Returns to caller
-:save_break_frame
-	POP_EBX                                     ; Save return Address
-	LOAD32_Absolute32_eax &break_frame          ; Get break_frame
-	PUSH_EAX                                    ; Store as nested_locals
-	LOAD32_Absolute32_eax &break_target_head    ; Get break_target_head
-	PUSH_EAX                                    ; Store as nested_break_head
-	LOAD32_Absolute32_eax &break_target_func    ; Get break_target_func
-	PUSH_EAX                                    ; Store as nested_break_func
-	LOAD32_Absolute32_eax &break_target_num     ; Get break_target_num
-	PUSH_EAX                                    ; Store as nested_break_num
-	PUSH_EBX                                    ; Put return back in place
-	RETURN                                      ; Return to caller
-
 ;; expression function
 ;; Receives Nothing
 ;; Returns Nothing
@@ -1722,17 +1705,6 @@ DEFINE MAX_STRING FF000000
 	STORE8_al_into_Address_ESI                  ; Write it
 	ADDI8_ESI !1                                ; increment
 	JMP32 %numerate_number_done                 ; Be done
-
-
-;; Keywords
-:main_string  "main"
-:if_string  "if"
-:else_string  "else"
-:while_string  "while"
-:asm_string  "asm"
-:return_string  "return"
-:break_string  "break"
-:int_string  "int"
 
 
 ;; Frequently Used strings
