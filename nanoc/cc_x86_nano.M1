@@ -733,7 +733,8 @@ DEFINE MAX_STRING FF000000
 	STORE32_Absolute32_eax &function            ; function = sym_declare(global_token->prev->s, NULL, global_function_list);
 	STORE32_Absolute32_eax &global_function_list ; global_function_list = function
 
-	CALL32 %collect_arguments                   ; collect all of the function arguments
+	CALL32 %next
+	CALL32 %next
 
 	CALL32 %get_s
 	LOADI32_EBX &semicolon                      ; ";"
@@ -767,24 +768,6 @@ DEFINE MAX_STRING FF000000
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
-
-;; collect_arguments function
-;; Receives nothing
-;; Returns Nothing
-;; Adds arguments to the function definition
-:collect_arguments
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	CALL32 %next
-	CALL32 %get_s
-	LOADI32_EBX &close_paren                    ; ")"
-	CALL32 %match                               ; IF global_token->S == ")"
-	CALL32 %next
-
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
 
 ;; statement function
 ;; Receives nothing
