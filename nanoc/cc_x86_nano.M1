@@ -793,7 +793,6 @@ DEFINE MAX_STRING FF000000
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
 	CALL32 %next
-:collect_arguments_loop
 	CALL32 %get_s
 	LOADI32_EBX &close_paren                    ; ")"
 	CALL32 %match                               ; IF global_token->S == ")"
