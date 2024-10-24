@@ -1017,17 +1017,6 @@ DEFINE MAX_STRING FF000000
 
 	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\n"
 
-:function_call_cleanup
-	CMPI8_ESI !0                                ; IF PASSED > 0
-	JLE32 %function_call_done                   ; Otherwise be done
-
-	;; The desired string is already in EAX
-	CALL32 %emit_out                            ; Emit it
-
-	SUBI8_ESI !1                                ; PASSED = PASSED - 1
-	JMP32 %function_call_cleanup                ; Keep going
-
-:function_call_done
 	LOADI32_EAX &function_call_string_14        ; Using "restore ebp edi\n"
 	CALL32 %emit_out                            ; Emit it
 
