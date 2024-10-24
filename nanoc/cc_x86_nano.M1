@@ -1243,7 +1243,6 @@ DEFINE MAX_STRING FF000000
 :close_curly_brace  "}"
 :open_paren  "("
 :close_paren  ")"
-:comma  ","
 :semicolon  ";"
 :equal  "="
 :newline  "
