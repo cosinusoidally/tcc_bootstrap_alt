@@ -1317,14 +1317,6 @@ NULL
 	NULL
 :Token
 	NULL
-:break_frame
-	NULL
-:break_target_func
-	NULL
-:break_target_head
-	NULL
-:break_target_num
-	NULL
 :function
 	NULL
 :global_function_list
