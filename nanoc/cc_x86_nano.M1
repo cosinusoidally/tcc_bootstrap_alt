@@ -868,47 +868,11 @@ DEFINE MAX_STRING FF000000
 	COPY_EAX_to_EBX
 	LOADI32_EAX &open_curly_brace               ; "{"
 	CALL32 %match                               ; IF global_token->S == "{"
-	JNE32 %statement_while
+	JNE32 %statement_else
 
 	;; deal with { statement }
 	CALL32 %recursive_statement                 ; Statements inside of statements for days
 	JMP32 %statement_done                       ; Be done
-
-:statement_while
-	LOADI32_EAX &while_string
-	CALL32 %match
-	JNE32 %statement_asm                        ; otherwise try ASM
-
-	;; Deal with WHILE statement
-	CALL32 %process_while                       ; DO IT
-	JMP32 %statement_done                       ; be done
-
-:statement_asm
-	LOADI32_EAX &asm_string
-	CALL32 %match
-	JNE32 %statement_return                       ; otherwise try RETURN
-
-	;; Deal with ASM statement
-	CALL32 %process_asm                         ; Hit it
-	JMP32 %statement_done                       ; be done
-
-:statement_return
-	LOADI32_EAX &return_string
-	CALL32 %match
-	JNE32 %statement_break                      ; Otherwise try BREAK
-
-	;; Deal with RETURN Statement
-	CALL32 %return_result                       ; Return anything they want
-	JMP32 %statement_done                       ; be done
-
-:statement_break
-	LOADI32_EAX &break_string
-	CALL32 %match
-	JNE32 %statement_else                       ; Otherwise try ELSE
-
-	;; Deal with BREAK statement
-	CALL32 %process_break                       ; Lets do some damage
-	JMP32 %statement_done                       ; be done
 
 :statement_else
 	CALL32 %expression                          ; Collect expression
