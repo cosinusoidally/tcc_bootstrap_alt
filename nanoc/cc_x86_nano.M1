@@ -797,58 +797,6 @@ DEFINE MAX_STRING FF000000
 	CALL32 %get_s
 	LOADI32_EBX &close_paren                    ; ")"
 	CALL32 %match                               ; IF global_token->S == ")"
-	JE32 %collect_arguments_done                ; be done
-
-	;; deal with the case of there are arguments
-	CALL32 %next
-
-	CALL32 %get_s
-	LOADI32_EBX &comma                          ; ","
-	CALL32 %match                               ; IF global_token->S == ","
-	JE32 %collect_arguments_common              ; case of commas between arguments
-
-	;; deal with foo(int a, char b)
-	CALL32 %get_s
-	LOAD32_Absolute32_ecx &function             ; Using function
-	LOAD32_ECX_from_ECX_Immediate8 f_ARGS       ; function->args
-	CALL32 %sym_declare                         ; sym_declare(global_token->s, type_size(unused), function->arguments);
-	COPY_EAX_to_ECX                             ; put a in a safe place
-
-	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
-	CMPI8_EAX !0                                ; IF function->args == NULL
-	JNE32 %collect_arguments_another            ; otherwise it isn't the first
-
-	;; Deal with the case of first argument in the function
-	LOADI32_EAX %-4                             ; -4
-	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = -4
-	JMP32 %collect_arguments_next               ; get to next
-
-:collect_arguments_another
-	;; deal with the case of non-first arguments
-	LOAD32_Absolute32_eax &function             ; Using function
-	LOAD32_EAX_from_EAX_Immediate8 f_ARGS       ; function->args
-	LOAD32_EAX_from_EAX_Immediate8 f_DEPTH      ; function->args->depth
-	SUBI8_EAX !4                                ; function->args->depth - 4
-	STORE32_EAX_into_ECX_Immediate8 f_DEPTH     ; a->depth = function->args->depth - 4
-
-:collect_arguments_next
-	CALL32 %next
-
-	LOAD32_Absolute32_eax &function             ; Using function
-	STORE32_ECX_into_EAX_Immediate8 f_ARGS      ; function->args = a
-
-:collect_arguments_common
-	CALL32 %get_s
-	LOADI32_EBX &comma                          ; ","
-	CALL32 %match                               ; IF global_token->S == ","
-	JNE32 %collect_arguments_loop               ; otherwise loop
-
-	;; keep foo(bar(), 1) expressions working
-	CALL32 %next
-	JMP32 %collect_arguments_loop               ; keep going
-
-:collect_arguments_done
 	CALL32 %next
 
 	POP_ECX                                     ; Restore ECX
