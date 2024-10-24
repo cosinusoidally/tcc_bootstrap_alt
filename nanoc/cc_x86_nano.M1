@@ -758,10 +758,6 @@ DEFINE MAX_STRING FF000000
 	CALL32 %statement                           ; Recursively get the function pieces
 
 	LOAD32_Absolute32_eax &output_list          ; output
-	LOAD32_EAX_from_EAX_Immediate8 f_S          ; output->s
-	LOADI32_EBX &ret_string                     ; "ret\n"
-	CALL32 %match                               ; IF output->s == "ret\n"
-	JE32 %declare_function_done                 ; otherwise we need to add it
 
 	;; Add the return to the end of a function lacking a return;
 	LOADI32_EAX &ret_string                     ; "ret\n"
