@@ -674,14 +674,17 @@ DEFINE MAX_STRING FF000000
 	CALL32 %get_s
 	LOAD32_Absolute32_ecx &global_symbol_list   ; Using global_symbol_list
 	CALL32 %sym_declare                         ; Declare symbol
-	STORE32_Absolute32_eax &global_symbol_list  ; global_symbol_list = sym_declare(global_token->s, type_size(unused), global_symbol_list);
+; LJW_HACK temp symbol as we only want globals in the symbol list
+	STORE32_Absolute32_eax &global_symbol_list_tmp  ; global_symbol_list_tmp
 	CALL32 %next
 
 	CALL32 %get_s
 	LOADI32_EBX &semicolon                      ; ";"
 	CALL32 %match                               ; if(match(";", global_token->s))
 	JNE32 %program_function                     ; looks like not a match
-
+; LJW_HACK this stores the global variable in the global_symbol_list
+	LOAD32_Absolute32_ebx &global_symbol_list_tmp  ; global_symbol_list_tmp
+	STORE32_Absolute32_ebx &global_symbol_list  ; global_symbol_list
 	;; Deal with the global variable
 	LOAD32_Absolute32_ebx &globals_list         ; Using globals_list
 	LOADI32_EAX &program_string_0               ; ":GLOBAL_"
@@ -1216,6 +1219,8 @@ NULL
 :global_function_list
 	NULL
 :global_symbol_list
+	NULL
+:global_symbol_list_tmp
 	NULL
 :global_token
 	NULL
