@@ -1772,20 +1772,6 @@ NULL
 :ret_string  "ret
 "
 
-:collect_local_string_3  "reserve_stack_slot	#"
-
-:process_if_string_0  "# IF_"
-:process_if_string_2  "jump_false %ELSE_"
-:process_if_string_4  "jump %_END_IF_"
-:process_if_string_5  ":ELSE_"
-:process_if_string_6  ":_END_IF_"
-
-:process_while_string_0  "END_WHILE_"
-:process_while_string_1  ":WHILE_"
-:process_while_string_3  "jump_false %END_WHILE_"
-:process_while_string_6  "jump %WHILE_"
-:process_while_string_7  ":END_WHILE_"
-
 :pop_ebx_string  "pop_ebx
 "
 :jump_string  "jump %"
