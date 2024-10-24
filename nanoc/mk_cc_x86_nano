@@ -4,4 +4,4 @@
 ../x86/bin/catm ./artifacts/cc_x86_nano-1.hex2 ../x86/ELF-i386.hex2 ./artifacts/cc_x86_nano-0.hex2
 ../x86/bin/hex2-0 ./artifacts/cc_x86_nano-1.hex2 ./artifacts/cc_x86_nano.exe
 
-./artifacts/cc_x86_nano.exe ./nanoc_test1.c artifacts/M2_simple_asm_cc_x86.M1
+./artifacts/cc_x86_nano.exe ./nanoc_test1.c artifacts/nanoc_test1.M1
