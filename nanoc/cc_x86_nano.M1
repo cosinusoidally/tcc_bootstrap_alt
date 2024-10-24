@@ -1229,27 +1229,6 @@ DEFINE MAX_STRING FF000000
 	POP_EBX                                     ; Restore EBX
 	RETURN
 
-;; HEX to ascii routine
-;; Receives INT in EAX and CHAR* in ECX
-;; Stores ascii of INT in CHAR*
-;; Returns only modifying EAX and ECX
-:hex8
-	PUSH_EAX                                    ; Protect bottom nibble
-	SHRI8_EAX !4                                ; do high nibble first
-	CALL32 %hex4                                ; Store it
-	POP_EAX                                     ; do low nibble
-:hex4
-	ANDI32_EAX %0xF                             ; isolate nibble
-	ADDI8_EAX !48                               ; convert to ascii
-	CMPI8_EAX !57                               ; valid digit?
-	JBE8 !hex1                                  ; yes
-	ADDI8_EAX !7                                ; use alpha range
-:hex1
-	STORE8_al_into_Address_ECX                  ; store result
-	ADDI8_ECX !1                                ; next position
-	RETURN
-
-
 ;; sym_declare function
 ;; Receives char *s in EAX, struct type* t in EBX, and struct token_list* list in ECX
 ;; Returns struct token_list* in EAX
