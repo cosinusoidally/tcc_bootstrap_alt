@@ -1153,44 +1153,6 @@ DEFINE MAX_STRING FF000000
 	MOVZX_al                                    ; Make it useful
 	RETURN
 
-;; uniqueID Function
-;; Receives char *S in EAX, struct token_list* l in EBX and char* num in ECX
-;; Returns updated struct token_list* L in EAX
-:uniqueID
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	CALL32 %emit                                ; emit(s, l)
-	COPY_EAX_to_EBX                             ; Put L in correct place
-	LOADI32_EAX &underline                      ; Using "_"
-	CALL32 %emit                                ; emit("_", l)
-	COPY_EAX_to_EBX                             ; Put L in correct place
-	COPY_ECX_to_EAX                             ; Put num in correct place
-	CALL32 %emit                                ; emit(num, l)
-	COPY_EAX_to_EBX                             ; Put L in correct place
-	LOADI32_EAX &newline                        ; Using "\n"
-	CALL32 %emit                                ; emit("\n", l)
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
-
-;; uniqueID_out function
-;; Receives char* S in EAX and char* num in EBX
-;; Returns nothing
-:uniqueID_out
-	PUSH_EAX                                    ; Protect EAX
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	COPY_EBX_to_ECX                             ; Put num in right spot
-	LOAD32_Absolute32_ebx &output_list          ; Using output_list
-	CALL32 %uniqueID                            ; Get updated list
-	STORE32_Absolute32_eax &output_list         ; output_list = uniqueID(s, output_list, num)
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	POP_EAX                                     ; Restore EAX
-	RETURN
-
-
 ;; emit_out function
 ;; Receives char* S in EAX
 ;; Returns nothing
