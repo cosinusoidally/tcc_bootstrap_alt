@@ -1102,48 +1102,6 @@ DEFINE MAX_STRING FF000000
 	CALL32 %emit_out                            ; emit it
 	RETURN
 
-
-;; escape_lookup function
-;; Receives char* c in EAX
-;; Returns integer value of char in EAX
-;; Aborts hard if unknown escape is received
-;; Uses ECX to hold char* C
-:escape_lookup
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	COPY_EAX_to_ECX                             ; Put char* C in safe place
-	LOAD8_al_from_ECX                           ; Load c[0]
-	MOVZX_al                                    ; make it useful
-	CMPI8_EAX !92                               ; If '\\' != c[0]
-	JNE32 %escape_lookup_done                   ; Be done
-
-	COPY_ECX_to_EBX                             ; Prepare for walk
-	ADDI8_EBX !1                                ; increment
-	LOAD8_bl_from_EBX                           ; load c[1]
-	MOVZX_bl                                    ; make it useful
-
-	;; Deal with \? escapes
-	LOADI32_EAX %10                             ; Guess "\n"
-	CMPI8_EBX !110                              ; If n
-	JE32 %escape_lookup_done                    ; Be done
-
-	LOADI32_EAX %9                              ; Guess "\t"
-	CMPI8_EBX !116                              ; If t
-	JE32 %escape_lookup_done                    ; Be done
-
-	COPY_EBX_to_EAX                             ; "\\", "'" and '\"' all encode as themselves
-	CMPI8_EBX !92                               ; If "\\"
-	JE32 %escape_lookup_done                    ; Be done
-	CMPI8_EBX !39                               ; IF "'"
-	JE32 %escape_lookup_done                    ; Be done
-	CMPI8_EBX !34                               ; IF '\"'
-	JE32 %escape_lookup_done                    ; Be done
-
-:escape_lookup_done
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
 ;; sym_declare function
 ;; Receives char *s in EAX, struct type* t in EBX, and struct token_list* list in ECX
 ;; Returns struct token_list* in EAX
