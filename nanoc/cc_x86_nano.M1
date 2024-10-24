@@ -723,7 +723,6 @@ DEFINE MAX_STRING FF000000
 	PUSH_EBX                                    ; Protect EBX
 	PUSH_ECX                                    ; Protect ECX
 	LOADI32_EAX %0                              ; Using NULL
-	STORE32_Absolute32_eax &current_count       ; current_count = 0
 
 	LOAD32_Absolute32_eax &global_token         ; Using global token
 	LOAD32_EAX_from_EAX_Immediate8 f_PREV       ; global token->prev
@@ -1325,8 +1324,6 @@ NULL
 :break_target_head
 	NULL
 :break_target_num
-	NULL
-:current_count
 	NULL
 :function
 	NULL
