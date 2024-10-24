@@ -5,4 +5,7 @@
 ../x86/bin/hex2-0 ./artifacts/cc_x86_nano-1.hex2 ./artifacts/cc_x86_nano.exe
 
 ./artifacts/cc_x86_nano.exe ./nanoc_test1.c artifacts/nanoc_test1.M1
+
+ls -l artifacts/cc_x86_nano.exe
+wc cc_x86_nano.M1
 sha256sum -c sums_cc_x86_nano_test
