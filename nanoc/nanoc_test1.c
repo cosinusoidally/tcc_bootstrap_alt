@@ -4,9 +4,6 @@ int ip;
 
 int next_block_;
 
-int add();
-int end();
-
 /* these are blocks */
 int test(){
   acc = 123;
