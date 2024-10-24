@@ -808,9 +808,6 @@ DEFINE MAX_STRING FF000000
 
 	CALL32 %next
 
-	LOAD32_Absolute32_ecx &function             ; Using function
-	LOAD32_ECX_from_ECX_Immediate8 f_LOCALS     ; frame = function->locals
-
 :recursive_statement_loop
 	CALL32 %get_s
 	COPY_EAX_to_EBX
