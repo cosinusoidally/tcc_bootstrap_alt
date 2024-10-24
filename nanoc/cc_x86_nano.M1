@@ -998,26 +998,10 @@ DEFINE MAX_STRING FF000000
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; function->locals
 	CALL32 %sym_lookup                          ; sym_lookup(s, function->locals)
-	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, function->locals)
-	JE32 %primary_expr_variable_arguments       ; try arguments next
-
-	;; Deal with local load
-	CALL32 %variable_load                       ; Collect it
-	JMP32 %primary_expr_variable_done           ; Be done
-
-:primary_expr_variable_arguments
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &function             ; Using function
 	LOAD32_EBX_from_EBX_Immediate8 f_ARGS       ; function->args
 	CALL32 %sym_lookup                          ; sym_lookup(s, function->args)
-	CMPI8_EAX !0                                ; IF NULL == sym_lookup(s, global_constant_list)
-	JE32 %primary_expr_variable_function        ; try functions next
-
-	;; Deal with argument load
-	CALL32 %variable_load                       ; Collect it
-	JMP32 %primary_expr_variable_done           ; Be done
-
-:primary_expr_variable_function
 	COPY_ECX_to_EAX                             ; Using S
 	LOAD32_Absolute32_ebx &global_function_list ; Using global_function_list
 	CALL32 %sym_lookup                          ; sym_lookup(s, global_function_list)
@@ -1116,44 +1100,6 @@ DEFINE MAX_STRING FF000000
 	POP_EDX                                     ; Restore EDX
 	POP_ECX                                     ; Restore ECX
 	RETURN
-
-;; variable_load function
-;; Receives struct token_list* A in EAX
-;; Returns nothing
-;; Updates output
-;; Uses ECX for A
-:variable_load
-	PUSH_EBX                                    ; Protect EBX
-	PUSH_ECX                                    ; Protect ECX
-	COPY_EAX_to_ECX                             ; Protect A
-
-	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &variable_load_string_0         ; Using "lea_eax,[ebp+DWORD] %"
-	CALL32 %emit_out                            ; Emit it
-
-	LOAD32_EAX_from_ECX_Immediate8 f_DEPTH      ; A->DEPTH
-	CALL32 %numerate_number                     ; Convert to string
-	CALL32 %emit_out                            ; Emit it
-
-	CALL32 %emit_newline
-
-	;; Check for special case of assignment
-	CALL32 %get_s
-	COPY_EAX_to_EBX
-	LOADI32_EAX &equal                          ; Using "="
-	CALL32 %match                               ; IF global_token->S == "="
-	JE32 %variable_load_done                    ; And be done
-
-	;; Deal with common case
-	LOADI32_EAX &variable_load_string_2         ; Using "mov_eax,[eax]\n"
-	CALL32 %emit_out                            ; Emit it
-
-:variable_load_done
-	POP_ECX                                     ; Restore ECX
-	POP_EBX                                     ; Restore EBX
-	RETURN
-
 
 ;; global_load function
 ;; Receives struct token_list* A in EAX
