@@ -1015,8 +1015,6 @@ DEFINE MAX_STRING FF000000
 
 	CALL32 %emit_newline
 
-	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\n"
-
 	LOADI32_EAX &function_call_string_14        ; Using "restore ebp edi\n"
 	CALL32 %emit_out                            ; Emit it
 
