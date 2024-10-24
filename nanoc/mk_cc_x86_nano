@@ -1,47 +1,7 @@
 ./mk_clean
 
-../x86/bin/M0 ./cc_x86_min.M1 ./artifacts/cc_x86_min-0.hex2
-../x86/bin/catm ./artifacts/cc_x86_min-1.hex2 ../x86/ELF-i386.hex2 ./artifacts/cc_x86_min-0.hex2
-../x86/bin/hex2-0 ./artifacts/cc_x86_min-1.hex2 ./artifacts/cc_x86_min.exe
+../x86/bin/M0 ./cc_x86_nano.M1 ./artifacts/cc_x86_nano-0.hex2
+../x86/bin/catm ./artifacts/cc_x86_nano-1.hex2 ../x86/ELF-i386.hex2 ./artifacts/cc_x86_nano-0.hex2
+../x86/bin/hex2-0 ./artifacts/cc_x86_nano-1.hex2 ./artifacts/cc_x86_nano.exe
 
-cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
-cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
-
-echo "building M2_simple_asm_cc_x86.exe with cc_x86"
-
-./artifacts/cc_x86_min.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_cc_x86.M1
-
-cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_cc_x86.M1 > artifacts/M2_simple_asm_cc_x86-0.M1
-../x86/bin/M0 artifacts/M2_simple_asm_cc_x86-0.M1 artifacts/M2_simple_asm_cc_x86-0.hex2
-cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_cc_x86-0.hex2 > artifacts/M2_simple_asm_cc_x86-0-0.hex2
-../x86/bin/hex2-0 artifacts/M2_simple_asm_cc_x86-0-0.hex2 artifacts/M2_simple_asm_cc_x86.exe
-
-echo "building M2_simple_asm_m2.exe"
-
-./artifacts/M2_simple_asm_cc_x86.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
-
-cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/M2_simple_asm_m2.M1 > artifacts/M2_simple_asm_m2-0.M1
-../x86/bin/M0 artifacts/M2_simple_asm_m2-0.M1 artifacts/M2_simple_asm_m2-0.hex2
-cat ../x86/ELF-i386.hex2 artifacts/M2_simple_asm_m2-0.hex2 > artifacts/M2_simple_asm_m2-0-0.hex2
-../x86/bin/hex2-0 artifacts/M2_simple_asm_m2-0-0.hex2 artifacts/M2_simple_asm_m2.exe
-
-echo "building M2_simple_asm_self.M1"
-
-./artifacts/M2_simple_asm_m2.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_self.M1
-
-echo "build otccelf_cc_x86_min.exe"
-./artifacts/M2_simple_asm_m2.exe otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min_tcc.M1
-
-cat ./simple_asm_defs.M1 ./x86_defs.M1 ../M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min_tcc.M1 > artifacts/otccelf_cc_x86_min-0.M1
-../x86/bin/M0 artifacts/otccelf_cc_x86_min-0.M1 artifacts/otccelf_cc_x86_min-0.hex2
-cat ../x86/ELF-i386.hex2 ./artifacts/otccelf_cc_x86_min-0.hex2 > ./artifacts/otccelf_cc_x86_min-0-0.hex2
-../x86/bin/hex2-0 ./artifacts/otccelf_cc_x86_min-0-0.hex2 ./artifacts/otccelf_cc_x86_min.exe
-
-chmod +x ./artifacts/otccelf_cc_x86_min.exe
-
-./artifacts/otccelf_cc_x86_min.exe ../otccelf/artifacts/otccelf_js.c artifacts/otccelf_js.exe
-
-sha256sum artifacts/*M1
-wc cc_x86_min.M1
-ls -l artifacts/*.exe
-sha256sum -c sums_simple_asm
+./artifacts/cc_x86_nano.exe ./nanoc_test1.c artifacts/M2_simple_asm_cc_x86.M1
