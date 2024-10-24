@@ -868,35 +868,11 @@ DEFINE MAX_STRING FF000000
 	COPY_EAX_to_EBX
 	LOADI32_EAX &open_curly_brace               ; "{"
 	CALL32 %match                               ; IF global_token->S == "{"
-	JNE32 %statement_local                      ; otherwise try local
+	JNE32 %statement_while
 
 	;; deal with { statement }
 	CALL32 %recursive_statement                 ; Statements inside of statements for days
 	JMP32 %statement_done                       ; Be done
-
-:statement_local
-	LOADI32_EAX &int_string                     ; Using "int"
-	CALL32 %match
-	JE32 %statement_local_success              ; Sweet a new local
-
-	;; Second chance
-	CALL32 %get_s
-	COPY_EAX_to_EBX
-
-	JMP32 %statement_if                         ; otherwise try IF
-
-:statement_local_success
-	CALL32 %collect_local                       ; Grab those locals
-	JMP32 %statement_done                       ; be done
-
-:statement_if
-	LOADI32_EAX &if_string
-	CALL32 %match
-	JNE32 %statement_while                      ; otherwise try WHILE
-
-	;; Deal with IF statement
-	CALL32 %process_if                          ; DO IT
-	JMP32 %statement_done                       ; be done
 
 :statement_while
 	LOADI32_EAX &while_string
