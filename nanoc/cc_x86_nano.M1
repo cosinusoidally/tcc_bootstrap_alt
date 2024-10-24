@@ -301,23 +301,11 @@ DEFINE MAX_STRING FF000000
 	LOAD32_Absolute32_eax &C                    ; Send C
 	LOADI32_EBX &symbols                        ; Get symbols
 	CALL32 %In_Set                              ; See if in set
-	JNE32 %get_token_strings                    ; Otherwise
+	JNE32 %get_token_comment                    ; Otherwise
 
 	;; Store symbols
 	LOAD32_Absolute32_eax &C                    ; Send C
 	CALL32 %preserve_symbol                     ; Store
-	STORE32_Absolute32_eax &C                   ; Set C
-	JMP32 %get_token_done                       ; Be done with this token
-
-:get_token_strings
-	LOAD32_Absolute32_eax &C                    ; Send C
-	LOADI32_EBX &strings                        ; Get strings
-	CALL32 %In_Set                              ; See if in set
-	JNE32 %get_token_comment                    ; Otherwise
-
-	;; Store String
-	LOAD32_Absolute32_eax &C                    ; Send C
-	CALL32 %consume_word                        ; Store
 	STORE32_Absolute32_eax &C                   ; Set C
 	JMP32 %get_token_done                       ; Be done with this token
 
