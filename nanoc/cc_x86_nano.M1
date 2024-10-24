@@ -169,14 +169,10 @@ DEFINE SWAP_EAX_EBX 93
 	;; Struct TOKEN_LIST format: (size 16)
 	;; NEXT => 0
 DEFINE f_NEXT 00
-	;; LOCALS/PREV => 4
-DEFINE f_LOCALS 04
+	;; PREV => 4
 DEFINE f_PREV 04
 	;; S => 8
 DEFINE f_S 08
-	;; ARGS/DEPTH => 12
-DEFINE f_ARGS 0C
-DEFINE f_DEPTH 0C
 
 ; sizeof_token_list encoded as a little endian 32 bit value
 DEFINE sizeof_token_list 10000000
