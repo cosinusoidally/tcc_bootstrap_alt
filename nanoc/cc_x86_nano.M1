@@ -1002,31 +1002,7 @@ DEFINE MAX_STRING FF000000
 	CALL32 %emit_out                            ; Emit it
 
 	CALL32 %get_s0
-	CMPI8_EAX !41                               ; IF global_token->S[0] == ")"
-	JE32 %function_call_gen_done                ; Then no arguments to send
 
-	;; looks like we have arguments to collect
-	CALL32 %expression                          ; Collect the argument
-
-	LOADI32_EAX &function_call_string_4         ; Using "push_eax\t#_process_expression1\n"
-	CALL32 %emit_out                            ; Emit it
-	LOADI32_ESI %1                              ; PASSED = 1
-
-:function_call_gen_iter
-	CALL32 %get_s0
-	CMPI8_EAX !44                               ; IF global_token->S[0] == ","
-	JNE32 %function_call_gen_done               ; Otherwise we are done
-
-	CALL32 %next
-
-	CALL32 %expression                          ; Collect the argument
-
-	LOADI32_EAX &function_call_string_4         ; Using "push_eax\t#_process_expression2\n"
-	CALL32 %emit_out                            ; Emit it
-	ADDI8_ESI !1                                ; PASSED = PASSED + 1
-	JMP32 %function_call_gen_iter               ; Keep trying
-
-:function_call_gen_done
 	;; All is collected
 	CALL32 %next
 
