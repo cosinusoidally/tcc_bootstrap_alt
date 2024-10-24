@@ -735,16 +735,6 @@ DEFINE MAX_STRING FF000000
 	CALL32 %next
 	CALL32 %next
 
-	CALL32 %get_s
-	LOADI32_EBX &semicolon                      ; ";"
-	CALL32 %match                               ; IF global token->s == ";"
-	JNE32 %declare_function_full                ; It was a prototype
-
-	;; Deal with prototypes
-	CALL32 %next
-	JMP32 %declare_function_done                ; Move on
-
-:declare_function_full
 	;; Deal with full function definitions
 	LOADI32_EAX &declare_function_string_1      ; "\n:FUNCTION_"
 	CALL32 %emit_out                            ; emit it
