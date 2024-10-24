@@ -1253,9 +1253,6 @@ NULL
 
 :constant_string  "constant %"
 
-:primary_expr_string_string_0  "constant &STRING_"
-:primary_expr_string_string_1  ":STRING_"
-
 :alphas  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz"
 :symbols  "="
 
