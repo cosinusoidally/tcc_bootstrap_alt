@@ -825,20 +825,6 @@ DEFINE MAX_STRING FF000000
 :recursive_statement_cleanup
 	CALL32 %next
 
-	LOADI32_EAX &ret_string                     ; Using "ret\n"
-	LOAD32_Absolute32_ebx &output_list          ; Using output
-	LOAD32_EBX_from_EBX_Immediate8 f_S          ; output->S
-	CALL32 %match                               ; IF output->S == "ret\n"
-	JE32 %recursive_statement_done              ; and be done
-
-	;; Deal with cleanup
-	LOAD32_Absolute32_ebx &function             ; Using function
-	LOAD32_EBX_from_EBX_Immediate8 f_LOCALS     ; i = function->locals
-	LOADI32_EAX &pop_ebx_string                 ; Using "pop_ebx\t# _recursive_statement_locals\n"
-
-:recursive_statement_done
-	LOAD32_Absolute32_eax &function             ; Using function
-	STORE32_ECX_into_EAX_Immediate8 f_LOCALS    ; function->locals = frame
 	POP_ECX                                     ; Restore ECX
 	POP_EBX                                     ; Restore EBX
 	RETURN
