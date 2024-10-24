@@ -927,36 +927,7 @@ DEFINE MAX_STRING FF000000
 :primary_expr
 	PUSH_EBX                                    ; Protect EBX
 
-:primary_expr_paren
 	CALL32 %get_s0
-	CMPI8_EAX !40                               ; IF global_token->S[0] == "("
-	JNE32 %primary_expr_ch                      ; Otherwise try char
-
-	;; deal with nesting
-	CALL32 %next
-	CALL32 %expression                          ; Lets recurse
-	CALL32 %next
-	JMP32 %primary_expr_done                    ; Be done
-
-:primary_expr_ch
-	CALL32 %get_s0
-	CMPI8_EAX !39                               ; Using "'"
-	JNE32 %primary_expr_str                     ; Otherwise try string
-
-	;; Deal with chars
-	CALL32 %primary_expr_char                   ; Handle that char
-	JMP32 %primary_expr_done                    ; Be done
-
-:primary_expr_str
-	CALL32 %get_s0
-	CMPI8_EAX !34                               ; Using '\"'
-	JNE32 %primary_expr_var                     ; Otherwise try a variable
-
-	;; Deal with strings
-	CALL32 %primary_expr_string                 ; Handle that string
-	JMP32 %primary_expr_done                    ; Be done
-
-:primary_expr_var
 	CALL32 %get_s0
 	LOADI32_EBX &primary_expr_string_6          ; Using "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"
 	CALL32 %In_Set                              ; See if we have a match
