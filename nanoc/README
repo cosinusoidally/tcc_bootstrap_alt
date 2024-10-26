@@ -1,6 +1,9 @@
 The nanoc dialect of C
 ======================
 
+The idea is to create the simplest subset of C that can still reasonably be used
+to bootstrap more complete C compliers (and then all the way up to tcc).
+
 For the standard bootstrap path we use the early stages of stage0-posix-x86.
 Basically we do:
 
