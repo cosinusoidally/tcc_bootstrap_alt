@@ -15,4 +15,27 @@ hex2 is a compiler for commented hex dumps with support for any length labels
 M0 is a simple macro assembly language that can be used to implement a simple
 assembler. It outputs hex2 code.
 cc_x86 is a C compiler written in the M1 macro assembly language (M0 can
-assemble this code, M0 is just a simplified implememntation of M1).
+assemble this code, M0 is just a simplified implementation of M1).
+
+Lets look at the size of each of these compilers:
+
+$ wc x86/hex2_x86.hex1 x86/M0_x86.hex2 x86/cc_x86.M1
+   626   3158  27758 x86/hex2_x86.hex1
+   874   5002  45885 x86/M0_x86.hex2
+  4983  19179 209318 x86/cc_x86.M1
+
+As you can see, cc_x86 is a moderately large assembly language program. To be
+fair it implements a fairly reasonable dialect of C (even includes stuff like
+structs etc). To this end I have previously cut down cc_x86.M1 into
+cc_x86_min.M1 :
+
+$ wc m2min/cc_x86_min.M1
+ 2417  8806 91450 m2min/cc_x86_min.M1
+
+This implements a much smaller dialect of C (see m2min/M2_simple_asm.c for a
+complier written in this dialect that is able to bootstrap all the way up to
+tcc).
+
+Even though I have managed to cut cc_x86.M1 in half it still feels like a bit
+too much assembly for my taste.
+
