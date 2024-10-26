@@ -4,6 +4,9 @@ The nanoc dialect of C
 The idea is to create the simplest subset of C that can still reasonably be used
 to bootstrap more complete C compliers (and then all the way up to tcc).
 
+
+A bit of context why I am doing this:
+
 For the standard bootstrap path we use the early stages of stage0-posix-x86.
 Basically we do:
 
@@ -37,5 +40,10 @@ complier written in this dialect that is able to bootstrap all the way up to
 tcc).
 
 Even though I have managed to cut cc_x86.M1 in half it still feels like a bit
-too much assembly for my taste.
+too much assembly for my taste. To this end I have further cut down cc_x86 into
+the nanoc dialect (lightly tested atm, but probably around the final expected
+size):
+
+$ wc nanoc/cc_x86_nano.M1
+ 1225  4332 43347 nanoc/cc_x86_nano.M1
 
