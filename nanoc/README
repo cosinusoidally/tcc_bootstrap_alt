@@ -4,10 +4,11 @@ The nanoc dialect of C
 The idea is to create the simplest subset of C that can still reasonably be used
 to bootstrap more complete C compliers (and then all the way up to tcc).
 
-This is basically the while dialect:
+This is basically the whole dialect:
+
 
 You'll notice var and function in the below code. In both cases these are
-  implicitly defined as follows:
+implicitly defined as follows:
 
 #define var int
 #define function int
@@ -32,8 +33,31 @@ function foo(){ /* all functions take no arguments and return no values */
                  run */
 }
 
+A conditional looks something like this (note I'm still in the design stage atm
+so this will be updated when I figure out the exact approach).
 
+function with_cond(){
+  acc = 2;
+  a1 = 3;
+  lt_(); /* less than */
+  fip=branch_false_ /* this is the ip to go to if the condition is false */
+  ip=branch_true_;  /* this is the default branch */
+  cond_(); /* if cond_() is false then it sets ip to fip */
+}
+function branch_true(){
+  /* ... */
+}
+function branch_false(){
+  /* ... */
+}
 
+Also note that the next ip value has a trailing underscore (eg branch_true_ for
+branch_true). There's a couple of reasons for this:
+
+* My stripped down version of M2_Planet can't handle assigning function pointers
+  to ints.
+* I want the code to also be valid JavaScript and AWK. For AWK support you can't
+  assign a function to a variable.
 
 A bit of context why I am doing this:
 
