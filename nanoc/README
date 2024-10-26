@@ -1,4 +1,15 @@
 The nanoc dialect of C
 ======================
 
+For the standard bootstrap path we use the early stages of stage0-posix-x86.
+Basically we do:
 
+hex0 -> hex1 -> hex2 -> M0 -> cc_x86
+
+hex0 is a "compiler" for commented hex dumps
+hex1 is a compiler for commented hex dumps with 1 character labels
+hex2 is a compiler for commented hex dumps with support for any length labels
+M0 is a simple macro assembly language that can be used to implement a simple
+assembler. It outputs hex2 code.
+cc_x86 is a C compiler written in the M1 macro assembly language (M0 can
+assemble this code, M0 is just a simplified implememntation of M1).
