@@ -59,6 +59,73 @@ branch_true). There's a couple of reasons for this:
 * I want the code to also be valid JavaScript and AWK. For AWK support you can't
   assign a function to a variable.
 
+There are no local variables, or arguments to functions. I need to figure out
+the exact details, but there will be some kind of frame creation function that
+also allocates stack space for locals. Something vaguely like:
+
+function foo_x(){
+  /* this is a local variable */
+  acc=frame;
+  a1=4; /* where local variable foo_x is relative to the frame pointer */
+  add();
+}
+
+/* similar function for foo_y */
+
+function foo(){
+  locals=2; /* specify the number of locals */
+  ip = foo_body_;
+  enter_frame();
+}
+function foo_body(){
+/* do stuff */
+  foo_x(); ri32_(); a1=acc; /* load local x and store in a1 */
+  foo_y(); ri32_(); /* load local y */
+  add_(); a1 = acc;
+  foo_x(); wi32_(); / store local x */
+  leave_frame(); /* this is how we exit a function, it cleans up the stack and
+                    returns */
+}
+
+ri32_() reads a signed 32 bit int
+wi32_() writes a signed 32 bit int. argument order tba, but will be something
+like acc is address and a1 is value
+
+enter_frame is a builtin defined in a different file (and ultimately defined in
+M1 assembly, but for prototyping purposes will be in a fuller dialect of C).
+
+Approx impl:
+
+function enter_frame(){
+  running=1;
+  push_ip();
+  push_frame();
+  frame=sp;
+  sp=sp+(locals*4);
+  while(running){
+    ip();
+  }
+  sp=frame;
+  pop_frame();
+  pop_ip();
+  running=1;
+}
+
+function leave_frame(){
+  running=0;
+}
+
+main (defined in the support code) will look something like this:
+
+int main(argc, argv){
+  init_runtime();
+  ip = main_nanoc; /* main in your nanoc source */
+  locals=2;
+  main_argc(); a1=argc; wi32_();
+  main_argv(); a1=argv; wi32_();
+  enter_frame();
+}
+
 A bit of context why I am doing this:
 
 For the standard bootstrap path we use the early stages of stage0-posix-x86.
