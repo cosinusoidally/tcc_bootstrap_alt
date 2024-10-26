@@ -4,13 +4,43 @@ The nanoc dialect of C
 The idea is to create the simplest subset of C that can still reasonably be used
 to bootstrap more complete C compliers (and then all the way up to tcc).
 
+This is basically the while dialect:
+
+You'll notice var and function in the below code. In both cases these are
+  implicitly defined as follows:
+
+#define var int
+#define function int
+
+The above defines are implicit. The preprocessor is not supported.
+
+/* C style multiline comments are supported */
+
+var i; /* global variables only, and int type only. Variables cannot be
+          initialised in the global scope (ie int i=10; is not valid) */
+
+var acc; /* this is used as the first parameter to a function, and as the return
+            variable, essentially it's like an accumulator register */
+
+function foo(){ /* all functions take no arguments and return no values */
+  i = 100; /* assign a decimal integer to a variable */
+  acc = i; /* copy one variable to another */
+  a1 = 200; /* the next argument a1...a8 are "argument registers" */
+  add_();  /* this is a built in function that will add acc and a1 and return
+              the result in acc */
+  ip = foo2_; /* this is used for control flow, the ip is the next block to
+                 run */
+}
+
+
+
 
 A bit of context why I am doing this:
 
 For the standard bootstrap path we use the early stages of stage0-posix-x86.
 Basically we do:
 
-hex0 -> hex1 -> hex2 -> M0 -> cc_x86
+hex0 -> hex1 -> hex2 -> M0 -> cc_x86 ...
 
 hex0 is a "compiler" for commented hex dumps
 hex1 is a compiler for commented hex dumps with 1 character labels
