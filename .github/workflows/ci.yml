@@ -18,6 +18,7 @@ jobs:
           time ./mk_m2min &> /dev/shm/log_dynamic.txt
           tail -n 20 /dev/shm/log_dynamic.txt
       - name: Run statically linked bootstrap path
+        run: |
           time ./mk_from_bootstrap_seed &> /dev/shm/log_static.txt
           tail -n 20 /dev/shm/log_static.txt
       - run: echo "This job's status is ${{ job.status }}."
