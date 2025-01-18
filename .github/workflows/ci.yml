@@ -14,7 +14,9 @@ jobs:
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "The workflow is now ready to test your code on the runner."
       - name: Run dynamically linked bootstrap path
-        run: "time ./mk_m2min |tail"
+        run: |
+          time ./mk_m2min &> /dev/shm/log_dynamic.txt
+          tail -n 20 /dev/shm/log_dynamic.txt
       - name: Run statically linked bootstrap path
         run: "time ./mk_from_bootstrap_seed | tail"
       - run: echo "This job's status is ${{ job.status }}."
