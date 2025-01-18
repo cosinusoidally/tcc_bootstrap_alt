@@ -1,0 +1,46 @@
+name: test
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Run dynamically linked bootstrap path
+        run: |
+          time ./mk_m2min &> /dev/shm/log_dynamic.txt
+          grep ^tcc_27 /dev/shm/log_dynamic.txt
+      - name: Clean up build artifacts
+        run: |
+          ./mk_really_clean
+      - name: Run statically linked bootstrap path
+        run: |
+          time ./mk_from_bootstrap_seed &> /dev/shm/log_static.txt
+          grep ^tcc_27 /dev/shm/log_static.txt
+      - name: Clean up build artifacts
+        run: |
+          ./mk_really_clean
+      - name: checkout mishmashvm
+        run: |
+          pushd .
+          cd ..
+          git clone --depth=1 https://github.com/cosinusoidally/mishmashvm.git
+          popd
+      - name: Run dynamically linked mishmashvm bootstrap path
+        run: |
+          pushd .
+          cd ..
+          cd mishmashvm/auxiliary/
+          time ./bootstrap_alt5.sh &> /dev/shm/log_mmvm_dynamic.txt
+          cd ../libc_portable_proto/tcc_bin/
+          echo "59483d03266a9eadb84ceafaf4ed8a37e5a5231aaf773f296a7ca097679307b3  libtcc1.o" > tmp_sums
+          echo "b64ff3010f2de6eb50762169fc5309b66ef704924cfc21648e7b75f088af3365  tcc_boot3.o" >> tmp_sums
+          sha256sum -c tmp_sums
+          popd
+      - run: echo "This job's status is ${{ job.status }}."

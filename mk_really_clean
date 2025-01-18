@@ -1,0 +1,24 @@
+rm -r ./artifacts
+mkdir artifacts
+touch artifacts/placeholder
+./mk_clean
+./mk_from_bootstrap_seed_clean
+pushd .
+cd m2min
+./mk_clean
+popd
+pushd .
+cd otccelf
+./mk_clean
+popd
+pushd .
+cd nanoc
+./mk_clean
+popd
+
+pwd
+find .|grep \\.o$
+find .|grep \\.exe$
+find .|grep \\.out$
+
+exit 0

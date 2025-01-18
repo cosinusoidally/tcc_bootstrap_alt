@@ -1,0 +1,170 @@
+The nanoc dialect of C
+======================
+
+The idea is to create the simplest subset of C that can still reasonably be used
+to bootstrap more complete C compliers (and then all the way up to tcc).
+
+This is basically the whole dialect:
+
+
+You'll notice var and function in the below code. In both cases these are
+implicitly defined as follows:
+
+#define var int
+#define function int
+
+The above defines are implicit. The preprocessor is not supported.
+
+/* C style multiline comments are supported */
+
+var i; /* global variables only, and int type only. Variables cannot be
+          initialised in the global scope (ie int i=10; is not valid) */
+
+var acc; /* this is used as the first parameter to a function, and as the return
+            variable, essentially it's like an accumulator register */
+
+function foo(){ /* all functions take no arguments and return no values */
+  i = 100; /* assign a decimal integer to a variable */
+  acc = i; /* copy one variable to another */
+  a1 = 200; /* the next argument a1...a8 are "argument registers" */
+  add_();  /* this is a built in function that will add acc and a1 and return
+              the result in acc */
+  ip = foo2_; /* this is used for control flow, the ip is the next block to
+                 run */
+}
+
+A conditional looks something like this (note I'm still in the design stage atm
+so this will be updated when I figure out the exact approach).
+
+function with_cond(){
+  acc = 2;
+  a1 = 3;
+  lt_(); /* less than */
+  fip=branch_false_ /* this is the ip to go to if the condition is false */
+  ip=branch_true_;  /* this is the default branch */
+  cond_(); /* if cond_() is false then it sets ip to fip */
+}
+function branch_true(){
+  /* ... */
+}
+function branch_false(){
+  /* ... */
+}
+
+Also note that the next ip value has a trailing underscore (eg branch_true_ for
+branch_true). There's a couple of reasons for this:
+
+* My stripped down version of M2_Planet can't handle assigning function pointers
+  to ints.
+* I want the code to also be valid JavaScript and AWK. For AWK support you can't
+  assign a function to a variable.
+
+There are no local variables, or arguments to functions. I need to figure out
+the exact details, but there will be some kind of frame creation function that
+also allocates stack space for locals. Something vaguely like:
+
+function foo_x(){
+  /* this is a local variable */
+  acc=frame;
+  a1=4; /* where local variable foo_x is relative to the frame pointer */
+  add();
+}
+
+/* similar function for foo_y */
+
+function foo(){
+  locals=2; /* specify the number of locals */
+  ip = foo_body_;
+  enter_frame();
+}
+function foo_body(){
+/* do stuff */
+  foo_x(); ri32_(); a1=acc; /* load local x and store in a1 */
+  foo_y(); ri32_(); /* load local y */
+  add_(); a1 = acc;
+  foo_x(); wi32_(); / store local x */
+  leave_frame(); /* this is how we exit a function, it cleans up the stack and
+                    returns */
+}
+
+ri32_() reads a signed 32 bit int
+wi32_() writes a signed 32 bit int. argument order tba, but will be something
+like acc is address and a1 is value
+
+enter_frame is a builtin defined in a different file (and ultimately defined in
+M1 assembly, but for prototyping purposes will be in a fuller dialect of C).
+
+Approx impl:
+
+function enter_frame(){
+  running=1;
+  push_ip();
+  push_frame();
+  frame=sp;
+  sp=sp+(locals*4);
+  while(running){
+    ip();
+  }
+  sp=frame;
+  pop_frame();
+  pop_ip();
+  running=1;
+}
+
+function leave_frame(){
+  running=0;
+}
+
+main (defined in the support code) will look something like this:
+
+int main(argc, argv){
+  init_runtime();
+  ip = main_nanoc; /* main in your nanoc source */
+  locals=2;
+  main_argc(); a1=argc; wi32_();
+  main_argv(); a1=argv; wi32_();
+  enter_frame();
+}
+
+A bit of context why I am doing this:
+
+For the standard bootstrap path we use the early stages of stage0-posix-x86.
+Basically we do:
+
+hex0 -> hex1 -> hex2 -> M0 -> cc_x86 ...
+
+hex0 is a "compiler" for commented hex dumps
+hex1 is a compiler for commented hex dumps with 1 character labels
+hex2 is a compiler for commented hex dumps with support for any length labels
+M0 is a simple macro assembly language that can be used to implement a simple
+assembler. It outputs hex2 code.
+cc_x86 is a C compiler written in the M1 macro assembly language (M0 can
+assemble this code, M0 is just a simplified implementation of M1).
+
+Lets look at the size of each of these compilers:
+
+$ wc x86/hex2_x86.hex1 x86/M0_x86.hex2 x86/cc_x86.M1
+   626   3158  27758 x86/hex2_x86.hex1
+   874   5002  45885 x86/M0_x86.hex2
+  4983  19179 209318 x86/cc_x86.M1
+
+As you can see, cc_x86 is a moderately large assembly language program. To be
+fair it implements a fairly reasonable dialect of C (even includes stuff like
+structs etc). To this end I have previously cut down cc_x86.M1 into
+cc_x86_min.M1 :
+
+$ wc m2min/cc_x86_min.M1
+ 2417  8806 91450 m2min/cc_x86_min.M1
+
+This implements a much smaller dialect of C (see m2min/M2_simple_asm.c for a
+complier written in this dialect that is able to bootstrap all the way up to
+tcc).
+
+Even though I have managed to cut cc_x86.M1 in half it still feels like a bit
+too much assembly for my taste. To this end I have further cut down cc_x86 into
+the nanoc dialect (lightly tested atm, but probably around the final expected
+size):
+
+$ wc nanoc/cc_x86_nano.M1
+ 1225  4332 43347 nanoc/cc_x86_nano.M1
+

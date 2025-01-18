@@ -1,0 +1,16 @@
+./mk_clean
+
+cat simple_support_js_defs.c > artifacts/nanoc_full.c
+cat simple_support_js.c >> artifacts/nanoc_full.c
+cat simple_support_tcc.c >> artifacts/nanoc_full.c
+cat nanoc.js >> artifacts/nanoc_full.c
+
+gcc -g -m32 -O0 --coverage artifacts/nanoc_full.c -o artifacts/coverage.exe
+
+./artifacts/coverage.exe ./nanoc_test.js artifacts/nanoc_test.M1
+gcovr artifacts/ --html-details -o artifacts/example.html
+
+~/ffnew/firefox/firefox artifacts/example.html
+
+wc nanoc.js
+sha256sum -c sums_nanoc_test
