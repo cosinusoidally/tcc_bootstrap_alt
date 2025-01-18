@@ -3,15 +3,20 @@ mkdir artifacts
 touch artifacts/placeholder
 ./mk_clean
 ./mk_from_bootstrap_seed_clean
+pushd .
 cd m2min
 ./mk_clean
-cd ../otccelf
+popd
+pushd .
+cd otccelf
 ./mk_clean
-cd ..
-cd ../nanoc
+popd
+pushd .
+cd nanoc
 ./mk_clean
-cd ..
+popd
 
+pwd
 find .|grep \\.o$
 find .|grep \\.exe$
 find .|grep \\.out$
