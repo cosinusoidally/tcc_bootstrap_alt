@@ -20,3 +20,5 @@ pwd
 find .|grep \\.o$
 find .|grep \\.exe$
 find .|grep \\.out$
+
+exit 0
