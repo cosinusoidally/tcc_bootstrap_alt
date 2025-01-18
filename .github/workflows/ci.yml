@@ -17,6 +17,9 @@ jobs:
         run: |
           time ./mk_m2min &> /dev/shm/log_dynamic.txt
           grep ^tcc_27 /dev/shm/log_dynamic.txt
+      - name: Clean up build artifacts
+        run: |
+          ./mk_really_clean
       - name: Run statically linked bootstrap path
         run: |
           time ./mk_from_bootstrap_seed &> /dev/shm/log_static.txt
