@@ -1,0 +1,13 @@
+rm -r ./artifacts
+mkdir artifacts
+touch artifacts/placeholder
+./mk_clean
+./mk_from_bootstrap_seed_clean
+cd m2min
+./mk_clean
+cd ../otccelf
+./mk_clean
+cd ..
+find .|grep \\.o$
+find .|grep \\.exe$
+find .|grep \\.out$
