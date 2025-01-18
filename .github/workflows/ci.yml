@@ -18,7 +18,8 @@ jobs:
           pushd .
           cd ..
           git clone --depth=1 https://github.com/cosinusoidally/mishmashvm.git
-          ls mishmashvm
+          cd mishmashvm/auxiliary/
+          time ./bootstrap_alt5.sh
           popd
       - name: Clean up build artifacts
         run: |
