@@ -12,7 +12,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "The workflow is now ready to test your code on the runner."
       - name: Run dynamically linked bootstrap path
         run: |
           time ./mk_m2min &> /dev/shm/log_dynamic.txt
@@ -33,7 +32,7 @@ jobs:
           cd ..
           git clone --depth=1 https://github.com/cosinusoidally/mishmashvm.git
           popd
-      - name: Run dynamic mishmashvm bootstrap path
+      - name: Run dynamically linked mishmashvm bootstrap path
         run: |
           pushd .
           cd ..
