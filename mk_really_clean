@@ -8,6 +8,10 @@ cd m2min
 cd ../otccelf
 ./mk_clean
 cd ..
+cd ../nanoc
+./mk_clean
+cd ..
+
 find .|grep \\.o$
 find .|grep \\.exe$
 find .|grep \\.out$
