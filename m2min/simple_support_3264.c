@@ -79,6 +79,9 @@ int wi8(int o,int v) {
 char *heap;
 int heap_size = 16 * 1024 * 1024;
 
+int brk_ptr;
+int _malloc_ptr;
+
 int init_support() {
   puts("init_support called");
   heap = mmap(
@@ -98,6 +101,8 @@ int init_support() {
       puts("error heap above 32 bit address");
       exit(1);
   }
+  brk_ptr = heap + 128*1024;
+  _malloc_ptr = brk_ptr;
 }
 
 int mks(s) {
