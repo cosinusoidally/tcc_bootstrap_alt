@@ -120,7 +120,7 @@ int v_free(l) {
         return 0;
 }
 
-int v_mks(char *s){
+int mks(char *s){
   int i;
   int r;
   int len;
@@ -160,21 +160,30 @@ int init_support() {
   _malloc_ptr = _brk_ptr;
 }
 
-int mks(s) {
-  return s;
-}
-
 int mkc(c) {
   return c;
 }
 
 int main(int argc, char **argv) {
   int r;
+  int i;
   int v_argv;
+  int v_arg;
 
   init_support();
 
+  /* virtual arguments */
   v_argv = v_calloc(mul(4,argc),1);
+  v_arg = v_argv;
+  for(i = 0 ; i < argc ; i = i + 1) {
+    wi32(v_arg, mks(argv[i]));
+    v_arg = v_arg + 4;
+  }
+  v_arg = v_argv;
+  for(i = 0 ; i < argc ; i = i + 1) {
+    printf("arg: %s\n",ri32(v_arg));
+    v_arg = v_arg + 4;
+  }
   printf("v_argv: %x\n",v_argv);
   printf("main function called\n");
   r = v_main(argc, argv);
