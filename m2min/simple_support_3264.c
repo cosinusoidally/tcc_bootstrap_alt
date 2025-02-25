@@ -73,9 +73,31 @@ int wi8(int o,int v) {
 	return;
 }
 
+#include <sys/mman.h>
+#include <stdio.h>
+
+char *heap;
+int heap_size = 16 * 1024 * 1024;
+
 int init_support() {
   puts("init_support called");
-	/* dummy */
+  heap = mmap(
+        NULL,
+        heap_size,
+        PROT_READ | PROT_WRITE, // permissions
+        MAP_32BIT | MAP_PRIVATE | MAP_ANONYMOUS, // flags
+        -1, // file descriptor
+        0 // offset
+  );
+  if (heap == MAP_FAILED) {
+      perror("mmap");
+  } else {
+      printf("%p\n", heap);
+  }
+  if(heap >= (void *)0xFFFFFFFF) {
+      puts("error heap above 32 bit address");
+      exit(1);
+  }
 }
 
 int mks(s) {
