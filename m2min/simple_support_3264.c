@@ -1,11 +1,3 @@
-extern int stdin;
-extern int stdout;
-extern int stderr;
-
-int init_support() {
-	/* dummy */
-}
-
 /* primitives */
 
 int add(int a, int b) {
@@ -79,4 +71,16 @@ int wi8(int o,int v) {
 	char *h = 0;
 	h[o]=v;
 	return;
+}
+
+int init_support() {
+	/* dummy */
+}
+
+int mks(s) {
+  return s;
+}
+
+int mkc(c) {
+  return c;
 }

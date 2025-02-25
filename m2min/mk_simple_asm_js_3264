@@ -3,7 +3,6 @@
 set -xe
 
 cat simple_support_js_defs_3264.c > artifacts/M2_simple_asm_full.c
-cat simple_support_js.c >> artifacts/M2_simple_asm_full.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
 
 echo "gcc build"
