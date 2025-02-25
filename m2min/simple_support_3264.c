@@ -133,6 +133,10 @@ int v_mks(char *s){
   return r;
 }
 
+int v_init_support() {
+  /* dummy */
+}
+
 int init_support() {
   puts("init_support called");
   heap = mmap(
@@ -166,6 +170,12 @@ int mkc(c) {
 
 int main(int argc, char **argv) {
   int r;
+  int v_argv;
+
+  init_support();
+
+  v_argv = v_calloc(mul(4,argc),1);
+  printf("v_argv: %x\n",v_argv);
   printf("main function called\n");
   r = v_main(argc, argv);
   return r;
