@@ -120,6 +120,18 @@ int v_free(l) {
         return 0;
 }
 
+int v_mks(char *s){
+  int i;
+  int r;
+  int len;
+  len = strlen(s);
+  r = malloc(add(len, 1));
+  for(i =0; lt(i, len); i = add(i, 1)){
+    wi8(add(r, i), s[i]);
+  }
+  wi8(add(r, i), 0);
+  return r;
+}
 
 int init_support() {
   puts("init_support called");
