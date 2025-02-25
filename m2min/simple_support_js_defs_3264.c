@@ -14,3 +14,4 @@
 #define fopen v_fopen
 #define fgetc v_fgetc
 #define fputs v_fputs
+#define fclose v_fclose
