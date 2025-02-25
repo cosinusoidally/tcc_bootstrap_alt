@@ -8,7 +8,8 @@ int and(int a, int b) {
 	return a & b;
 }
 
-int div(int a, int b) {
+/* need to use underscore I think, something to do with symbols */
+int _div(int a, int b) {
 	return a / b;
 }
 
@@ -186,6 +187,6 @@ int main(int argc, char **argv) {
   }
   printf("v_argv: %x\n",v_argv);
   printf("main function called\n");
-  r = v_main(argc, argv);
+  r = v_main(argc, v_argv);
   return r;
 }

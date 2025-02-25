@@ -5,6 +5,8 @@
 
 #define main v_main
 
+#define div _div
+
 #define malloc v_malloc
 #define calloc v_calloc
 #define free v_free
