@@ -86,7 +86,9 @@ int mkc(c) {
   return c;
 }
 
-int real_main(int argc, char **argv) {
+int main(int argc, char **argv) {
+  int r;
   printf("main function called\n");
-
+  r = v_main(argc, argv);
+  return r;
 }
