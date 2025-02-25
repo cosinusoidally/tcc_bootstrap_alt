@@ -10,3 +10,5 @@
 #define malloc v_malloc
 #define calloc v_calloc
 #define free v_free
+
+#define fopen v_fopen

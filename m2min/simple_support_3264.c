@@ -75,11 +75,19 @@ int wi8(int o,int v) {
 }
 
 int fopen(char *pathname, char *mode);
+int fgetc(int stream);
 
 int v_fopen(pathname, mode) {
   int r;
   printf("v_fopen pathname: %s mode: %s\n", pathname, mode);
   r = fopen(pathname, mode);
+  return r;
+}
+
+
+int v_fgetc(stream) {
+  int r;
+  r = fgetc(stream);
   return r;
 }
 
