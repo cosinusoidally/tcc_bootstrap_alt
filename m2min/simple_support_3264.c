@@ -74,33 +74,40 @@ int wi8(int o,int v) {
 	return;
 }
 
-int fopen(char *pathname, char *mode);
-int fgetc(int stream);
-int fputs(char *s, int stream);
-int fclose(int stream);
+void* fopen(char *pathname, char *mode);
+int fgetc(void* stream);
+int fputs(char *s, void *stream);
+int fclose(void* stream);
 
 int v_fopen(pathname, mode) {
-  int r;
+  void **p;
+  p = v_calloc(sizeof(void*),1);
   printf("v_fopen pathname: %s mode: %s\n", pathname, mode);
-  r = fopen(pathname, mode);
-  return r;
+  p[0] = fopen(pathname, mode);
+  return p;
 }
 
 int v_fgetc(stream) {
   int r;
-  r = fgetc(stream);
+  void **p;
+  p = stream;
+  r = fgetc(p[0]);
   return r;
 }
 
 int v_fputs(s, stream) {
   int r;
-  r = fputs(s, stream);
+  void **p;
+  p = stream;
+  r = fputs(s, p[0]);
   return r;
 }
 
 int v_fclose(stream) {
   int r;
-  r = fclose(stream);
+  void **p;
+  p = stream;
+  r = fclose(p[0]);
   return r;
 }
 
