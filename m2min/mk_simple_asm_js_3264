@@ -2,13 +2,13 @@
 
 set -xe
 
-cat simple_support_js_defs.c > artifacts/M2_simple_asm_full.c
+cat simple_support_js_defs_3264.c > artifacts/M2_simple_asm_full.c
 cat simple_support_js.c >> artifacts/M2_simple_asm_full.c
 cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
 
 echo "gcc build"
 gcc -c -g -m32 -O0 artifacts/M2_simple_asm_full.c -o artifacts/M2_simple_asm_full.o
-gcc -c -g -m32 -O0 simple_support_tcc.c -o artifacts/simple_support_tcc.o
+gcc -c -g -m32 -O0 simple_support_3264.c -o artifacts/simple_support_tcc.o
 gcc -g -m32 -O0 artifacts/M2_simple_asm_full.o artifacts/simple_support_tcc.o -o artifacts/M2_min_gcc.exe
 
 echo "build M2_simple_asm_m2.M1"
