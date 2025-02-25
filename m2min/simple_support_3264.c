@@ -74,8 +74,16 @@ int wi8(int o,int v) {
 	return;
 }
 
+int fopen(char *pathname, char *mode);
+
+int v_fopen(pathname, mode) {
+  int r;
+  printf("v_fopen pathname: %s mode: %s\n", pathname, mode);
+  r = fopen(pathname, mode);
+  return r;
+}
+
 #include <sys/mman.h>
-#include <stdio.h>
 
 char *heap;
 int heap_size = 16 * 1024 * 1024;
@@ -110,8 +118,8 @@ int v_memset(ptr, value, num) {
 int v_calloc(count, size) {
         int ret;
         ret = v_malloc(mul(count, size));
-        if(eq(NULL, ret)) {
-                return NULL;
+        if(eq(0, ret)) {
+                return 0;
         }
         v_memset(ret, 0, mul(count, size));
         return ret;
@@ -141,7 +149,7 @@ int v_init_support() {
 int init_support() {
   puts("init_support called");
   heap = mmap(
-        NULL,
+        0,
         heap_size,
         PROT_READ | PROT_WRITE, // permissions
         MAP_32BIT | MAP_PRIVATE | MAP_ANONYMOUS, // flags
