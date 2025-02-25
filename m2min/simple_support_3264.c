@@ -95,6 +95,32 @@ int v_malloc(size) {
         return old_malloc;
 }
 
+int v_memset(ptr, value, num) {
+        int s;
+        s = ptr;
+        while(lt(0, num))
+        {
+                wi8(s, value);
+                s = add(s, 1);
+                num = sub(num, 1);
+        }
+}
+
+int v_calloc(count, size) {
+        int ret;
+        ret = v_malloc(mul(count, size));
+        if(eq(NULL, ret)) {
+                return NULL;
+        }
+        v_memset(ret, 0, mul(count, size));
+        return ret;
+}
+
+int v_free(l) {
+        return 0;
+}
+
+
 int init_support() {
   puts("init_support called");
   heap = mmap(
