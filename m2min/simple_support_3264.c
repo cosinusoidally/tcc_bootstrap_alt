@@ -74,6 +74,7 @@ int wi8(int o,int v) {
 }
 
 int init_support() {
+  puts("init_support called");
 	/* dummy */
 }
 
