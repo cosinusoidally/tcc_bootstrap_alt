@@ -76,7 +76,7 @@ int wi8(int o,int v) {
 
 int fopen(char *pathname, char *mode);
 int fgetc(int stream);
-int fputc(int c, int stream);
+int fputs(char *s, int stream);
 
 int v_fopen(pathname, mode) {
   int r;
@@ -91,9 +91,9 @@ int v_fgetc(stream) {
   return r;
 }
 
-int v_fputc(c, stream) {
+int v_fputs(s, stream) {
   int r;
-  r = fputc(c, stream);
+  r = fputs(s, stream);
   return r;
 }
 

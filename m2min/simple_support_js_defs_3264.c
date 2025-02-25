@@ -12,3 +12,5 @@
 #define free v_free
 
 #define fopen v_fopen
+#define fgetc v_fgetc
+#define fputs v_fputs
