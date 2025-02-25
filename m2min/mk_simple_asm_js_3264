@@ -1,0 +1,28 @@
+./mk_clean
+
+set -xe
+
+cat simple_support_js_defs_3264.c > artifacts/M2_simple_asm_full.c
+cat M2_simple_asm.js >> artifacts/M2_simple_asm_full.c
+
+echo "gcc build"
+gcc -c -m32 -g -O0 artifacts/M2_simple_asm_full.c -o artifacts/M2_simple_asm_full.o
+gcc -c -m32 -g -O0 simple_support_3264.c -o artifacts/simple_support_tcc.o
+gcc -g -m32 -O0 artifacts/M2_simple_asm_full.o artifacts/simple_support_tcc.o -o artifacts/M2_min_gcc.exe
+
+echo "gcc64 build"
+gcc -c -m64 -g -O0 artifacts/M2_simple_asm_full.c -o artifacts/M2_simple_asm_full64.o
+gcc -c -m64 -g -O0 simple_support_3264.c -o artifacts/simple_support_tcc64.o
+gcc -g -m64 -O0 artifacts/M2_simple_asm_full64.o artifacts/simple_support_tcc64.o -o artifacts/M2_min_gcc64.exe
+
+echo "build M2_simple_asm_m2.M1"
+
+cat M2_simple_asm.c > artifacts/M2_simple_asm_m2.c
+cat simple_support_m2.c >> artifacts/M2_simple_asm_m2.c
+
+
+./artifacts/M2_min_gcc.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2.M1
+./artifacts/M2_min_gcc64.exe artifacts/M2_simple_asm_m2.c artifacts/M2_simple_asm_m2_64.M1
+
+diff -u -s M2_simple_asm.M1 artifacts/M2_simple_asm_m2.M1
+diff -u -s M2_simple_asm.M1 artifacts/M2_simple_asm_m2_64.M1
