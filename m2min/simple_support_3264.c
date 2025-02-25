@@ -125,7 +125,7 @@ int mks(char *s){
   int r;
   int len;
   len = strlen(s);
-  r = malloc(add(len, 1));
+  r = v_malloc(add(len, 1));
   for(i =0; lt(i, len); i = add(i, 1)){
     wi8(add(r, i), s[i]);
   }
