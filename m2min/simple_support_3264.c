@@ -84,3 +84,8 @@ int mks(s) {
 int mkc(c) {
   return c;
 }
+
+int real_main(int argc, char **argv) {
+  printf("main function called\n");
+
+}
