@@ -19,6 +19,15 @@ int mkc(int a);
 
 int v_calloc(int a, int b);
 int v_fgetc(int a);
+int v_fputs(int a, int b);
 int v_free(int a);
+int v_fopen(int a, int b);
+int v_fclose(int a);
+
+int v_init_support();
+
+int exit(int a);
 
 int emit_out(int a);
+int expression();
+int statement();
