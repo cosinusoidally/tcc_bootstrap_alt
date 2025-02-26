@@ -8,7 +8,7 @@ int shr(int a, int b);
 int sub(int a, int b);
 int lt(int a, int b);
 int gt(int a, int b);
-int mks(int a);
+int mks(char *a);
 int mul(int a, int b);
 int eq(int a, int b);
 int neq(int a, int b);
