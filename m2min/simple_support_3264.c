@@ -108,6 +108,7 @@ int v_fclose(stream) {
   void **p;
   p = stream;
   r = fclose(p[0]);
+  v_free(p);
   return r;
 }
 
