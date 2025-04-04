@@ -2,11 +2,13 @@
 *.exe
 *.out
 *.swp
+artifacts/*
 x86/artifact/*
 x86/bin/*
 otccelf/artifacts/*
 m2min/artifacts/*
 nanoc/artifacts/*
+!artifacts/placeholder
 !x86/bin/placeholder
 !x86/artifact/placeholder
 !otccelf/artifacts/placeholder

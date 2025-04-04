@@ -1,0 +1,5 @@
+./mk_really_clean
+
+set -xe
+
+cp ../tcc_simple/experiments/artifacts/tcc-boot-mes artifacts/
