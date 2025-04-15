@@ -1,0 +1,6 @@
+./mk_really_clean
+
+set -xe
+
+./mk_seeds
+./x86/artifact/kaem-optional-seed cc_x86.kaem
