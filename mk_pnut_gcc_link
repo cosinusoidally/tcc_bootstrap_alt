@@ -8,19 +8,19 @@ cd tcc_26
 ../artifacts/tcc-boot-mes -c ./lib/libtcc1.c -o libtcc1.o
 ../artifacts/tcc-boot-mes -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE -o tcc.o
 
-tcc libtcc1.o tcc.o -ldl
+gcc -m32 libtcc1.o tcc.o -ldl
 
 cd ../tcc_27
 
 ../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
 ../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
 
-tcc libtcc1.o tcc.o -ldl
+gcc -m32 libtcc1.o tcc.o -ldl
 
 ./a.out -c ./lib/libtcc1.c -o libtcc1.o
 ./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
 
-tcc libtcc1.o tcc.o -ldl
+gcc -m32 libtcc1.o tcc.o -ldl
 
 ./a.out -c ./lib/libtcc1.c -o libtcc1.o
 ./a.out -U__linux__ -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
