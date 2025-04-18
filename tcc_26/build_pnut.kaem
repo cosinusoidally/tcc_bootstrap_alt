@@ -1,0 +1,11 @@
+# build tcc_26
+../artifacts/tcc-boot-mes -o libc_boot3.o -c ../tcc_10/libc_boot3.c
+../artifacts/tcc-boot-mes -o libtcc1.o -c ./lib/libtcc1.c
+../artifacts/tcc-boot-mes -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE -o tcc.o
+
+# run tcc_26
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot3.o -l tcc.o -c ./lib/libtcc1.c -o libtcc1_new.o
+../x86/bin/elf_loader_cc_x86.exe -l libtcc1.o -l libc_boot3.o -l tcc.o -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE -o tcc_new.o
+
+../x86/bin/catm libtcc1.o libtcc1_new.o
+../x86/bin/catm tcc.o tcc_new.o

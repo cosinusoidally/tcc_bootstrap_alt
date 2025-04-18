@@ -1,0 +1,14 @@
+./mk_really_clean
+
+set -xe
+
+cp ../tcc_simple/experiments/artifacts/tcc-boot-mes artifacts/
+cp ../tcc_simple/experiments/m2min_v2/artifacts/hex0 x86/artifact
+cp ../tcc_simple/experiments/m2min_v2/artifacts/kaem-optional-seed x86/artifact/kaem-0
+cp ../tcc_simple/experiments/m2min_v2/artifacts/hex2-0 x86/bin
+cp ../tcc_simple/experiments/m2min_v2/artifacts/catm x86/bin
+cp ../tcc_simple/experiments/m2min_v2/artifacts/M0 x86/bin
+cp ../tcc_simple/experiments/m2min_v2/artifacts/m2min_v2.exe x86/bin/cc_x86
+
+./x86/artifact/kaem-0 ./after_pnut.kaem
+sha256sum -c sum
