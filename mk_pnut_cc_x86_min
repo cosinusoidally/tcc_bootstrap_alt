@@ -2,6 +2,13 @@
 
 set -xe
 
+pushd .
+
+cd ../tcc_simple/experiments
+./mk_pnut_cc_x86_min
+
+popd
+
 cp ../tcc_simple/experiments/artifacts/tcc-boot-mes artifacts/
 cp ../tcc_simple/experiments/m2min_v2/artifacts/hex0 x86/artifact
 cp ../tcc_simple/experiments/m2min_v2/artifacts/kaem-optional-seed x86/artifact/kaem-0
