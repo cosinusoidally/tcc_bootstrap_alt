@@ -1,0 +1,16 @@
+# build native cdrun
+
+./x86/bin/catm ./x86/artifact/cdrun_all.c ./M2libc/x86/linux/bootstrap.c ./M2libc/bootstrappable.c ./tcc_js/support_cc_x86.c ./tcc_js/cdrun.c
+./x86/bin/cc_x86 ./x86/artifact/cdrun_all.c ./x86/artifact/cdrun.M1
+./x86/bin/catm ./x86/artifact/cdrun-0.M1 ./x86/x86_defs.M1 ./M2libc/x86/libc-core.M1 ./x86/artifact/cdrun.M1
+./x86/bin/M0 ./x86/artifact/cdrun-0.M1  ./x86/artifact/cdrun-0.hex2
+./x86/bin/catm ./x86/artifact/cdrun-0-0.hex2 ./x86/ELF-i386.hex2 ./x86/artifact/cdrun-0.hex2
+./x86/bin/hex2-0 ./x86/artifact/cdrun-0-0.hex2 ./x86/bin/cdrun
+
+# walk up through the tcc versions
+
+./x86/bin/cdrun ./tcc_js/ ../x86/artifact/kaem-0 ./build_pnut.kaem
+./x86/bin/cdrun ./tcc_26/ ../x86/artifact/kaem-0 ./build_pnut.kaem
+./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./build.kaem
+./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./run_27_pnut.kaem
+./x86/bin/cdrun ./tcc_27/ ../x86/artifact/kaem-0 ./run_27_static.kaem
