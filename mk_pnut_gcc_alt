@@ -8,6 +8,13 @@ cp ../tcc_simple/experiments/artifacts/tcc-boot-mes artifacts/
 ./artifacts/tcc-boot-mes -I ./woody/usr/include/ -I ./tcc_26/include -I tcc_26 -c tcc_26/tcc.c -DONE_SOURCE -o artifacts/tcc_26.o
 gcc -m32 artifacts/libtcc1_26.o artifacts/tcc_26.o -ldl -o artifacts/tcc26.exe
 
+./artifacts/tcc-boot-mes -c tcc_27/libc_static.c -o artifacts/libc_static_26.o
+./artifacts/tcc-boot-mes -c tcc_10/libc_boot3.c -o artifacts/libc_boot3_26.o
+
+# ./artifacts/tcc-boot-mes -nostdlib -static artifacts/libc_static_26.o artifacts/libc_boot3_26.o artifacts/libtcc1_26.o artifacts/tcc_26.o -o artifacts/tcc_26_boot_static.exe
+
+gcc -m32 -nostdlib artifacts/libc_static_26.o artifacts/libc_boot3_26.o artifacts/libtcc1_26.o artifacts/tcc_26.o -o artifacts/tcc_26_boot_static.exe
+
 cd tcc_27
 
 ../artifacts/tcc26.exe -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
