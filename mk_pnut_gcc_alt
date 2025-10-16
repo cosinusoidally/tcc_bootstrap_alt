@@ -4,16 +4,14 @@ set -xe
 
 cp ../tcc_simple/experiments/artifacts/tcc-boot-mes artifacts/
 
-cd tcc_26
-../artifacts/tcc-boot-mes -c ./lib/libtcc1.c -o libtcc1.o
-../artifacts/tcc-boot-mes -I ../woody/usr/include/ -I ./include -c tcc.c -DONE_SOURCE -o tcc.o
+./artifacts/tcc-boot-mes -c ./tcc_26/lib/libtcc1.c -o artifacts/libtcc1_26.o
+./artifacts/tcc-boot-mes -I ./woody/usr/include/ -I ./tcc_26/include -I tcc_26 -c tcc_26/tcc.c -DONE_SOURCE -o artifacts/tcc_26.o
+gcc -m32 artifacts/libtcc1_26.o artifacts/tcc_26.o -ldl -o artifacts/tcc26.exe
 
-gcc -m32 libtcc1.o tcc.o -ldl
+cd tcc_27
 
-cd ../tcc_27
-
-../tcc_26/a.out -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
-../tcc_26/a.out -c ../tcc_26/lib/libtcc1.c
+../artifacts/tcc26.exe -I ../woody/usr/include/ -I ../tcc_26/include -c tcc.c -DONE_SOURCE
+../artifacts/tcc26.exe -c ../tcc_26/lib/libtcc1.c
 
 gcc -m32 libtcc1.o tcc.o -ldl
 
