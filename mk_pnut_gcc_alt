@@ -23,8 +23,6 @@ gcc -m32 -nostdlib artifacts/libc_static_26.o artifacts/libc_boot3_26.o artifact
 
 cd tcc_27
 
-../artifacts/tcc26_static.exe -c ../tcc_26/lib/libtcc1.c
-
 gcc -m32 ../artifacts/libtcc1_26.o ../artifacts/tcc_27.o -ldl
 
 ./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
