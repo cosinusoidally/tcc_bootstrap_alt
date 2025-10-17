@@ -10,10 +10,10 @@ cp ../tcc_simple/experiments/artifacts/elf_loader_cc_x86.exe artifacts/
 ./artifacts/tcc-boot-mes -I woody/usr/include/ -I tcc_26/include -I tcc_26 -c tcc_26/tcc.c -DONE_SOURCE -o artifacts/tcc_26.o
 ./artifacts/tcc-boot-mes -c tcc_27/libc_boot4.c -o artifacts/libc_boot4_mes.o
 
-./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_26.o -l artifacts/tcc_26.o -I woody/usr/include -I tcc_26/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27.o
-
+./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_26.o -l artifacts/tcc_26.o -U__linux__ -I woody/usr/include -I tcc_26/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27.o
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_26.o -l artifacts/tcc_27.o -c tcc_27/lib/libtcc1.c -o artifacts/libtcc1_27.o
-./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_27.o -l artifacts/tcc_27.o -U__linux__ -I woody/usr/include/ -I tcc_27/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27_new.o
+
+./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_27.o -l artifacts/tcc_27.o -I woody/usr/include/ -I tcc_27/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27_new.o
 
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_mes.o -l artifacts/libtcc1_27.o -l artifacts/tcc_27.o -c tcc_27/libc_boot4.c -o artifacts/libc_boot4_27.o
 
@@ -29,7 +29,7 @@ chmod +x artifacts/tcc_27_boot_static2.exe
 cd tcc_27
 
 ../artifacts/tcc_27_boot_static2.exe -c ./lib/libtcc1.c -o libtcc1.o
-../artifacts/tcc_27_boot_static2.exe -U__linux__ -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
+../artifacts/tcc_27_boot_static2.exe -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
 
 cd ..
 sha256sum -c sum
