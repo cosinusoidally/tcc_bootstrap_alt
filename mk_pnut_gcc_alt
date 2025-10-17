@@ -27,6 +27,12 @@ gcc -m32 -nostdlib artifacts/libc_static_26.o artifacts/libc_boot3_26.o artifact
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_27.o -l artifacts/libtcc1_27.o -l artifacts/tcc_27_new.o -c tcc_27/lib/libtcc1.c -o artifacts/libtcc1_27_new.o
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_27.o -l artifacts/libtcc1_27_new.o -l artifacts/tcc_27_new.o -I woody/usr/include/ -I tcc_27/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27_new2.o
 
+./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_27.o -l artifacts/libtcc1_27_new.o -l artifacts/tcc_27_new2.o -c tcc_27/libc_static.c -o artifacts/libc_static_27.o
+
+./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot4_27.o -l artifacts/libtcc1_27_new.o -l artifacts/tcc_27_new2.o -nostdlib -static artifacts/libc_static_27.o artifacts/libc_boot4_27.o artifacts/libtcc1_27_new.o artifacts/tcc_27_new2.o -o artifacts/tcc_27_boot_static2.exe
+
+chmod +x artifacts/tcc_27_boot_static2.exe
+
 cd tcc_27
 
 gcc -m32 ../artifacts/libtcc1_27_new.o ../artifacts/tcc_27_new2.o -ldl
