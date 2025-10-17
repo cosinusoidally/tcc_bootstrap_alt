@@ -20,14 +20,11 @@ gcc -m32 -nostdlib artifacts/libc_static_26.o artifacts/libc_boot3_26.o artifact
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot3_26.o -l artifacts/libtcc1_26.o -l artifacts/tcc_26.o -I woody/usr/include -I tcc_26/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27.o
 
 ./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot3_26.o -l artifacts/libtcc1_26.o -l artifacts/tcc_27.o -c tcc_27/lib/libtcc1.c -o artifacts/libtcc1_27.o
+./artifacts/elf_loader_cc_x86.exe -l artifacts/libc_boot3_26.o -l artifacts/libtcc1_26.o -l artifacts/tcc_27.o -U__linux__ -I woody/usr/include/ -I tcc_27/include -c tcc_27/tcc.c -DONE_SOURCE -o artifacts/tcc_27_new.o
 
 cd tcc_27
 
-gcc -m32 ../artifacts/libtcc1_26.o ../artifacts/tcc_27.o -ldl
-
-./a.out -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
-
-gcc -m32 ../artifacts/libtcc1_27.o tcc.o -ldl
+gcc -m32 ../artifacts/libtcc1_27.o ../artifacts/tcc_27_new.o -ldl
 
 ./a.out -c ./lib/libtcc1.c -o libtcc1.o
 ./a.out -U__linux__ -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
