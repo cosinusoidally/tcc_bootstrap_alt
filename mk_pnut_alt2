@@ -1,0 +1,14 @@
+./mk_really_clean
+
+set -xe
+
+cp ../tcc_simple/experiments/xp_linux/artifacts/tcc_27_boot_static3.exe artifacts/
+chmod +x artifacts/tcc_27_boot_static3.exe
+
+cd tcc_27
+
+../artifacts/tcc_27_boot_static3.exe -c ./lib/libtcc1.c -o libtcc1.o
+../artifacts/tcc_27_boot_static3.exe -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
+
+cd ..
+sha256sum -c sum
