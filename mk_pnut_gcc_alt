@@ -35,10 +35,8 @@ chmod +x artifacts/tcc_27_boot_static2.exe
 
 cd tcc_27
 
-gcc -m32 ../artifacts/libtcc1_27_new.o ../artifacts/tcc_27_new2.o -ldl
-
-./a.out -c ./lib/libtcc1.c -o libtcc1.o
-./a.out -U__linux__ -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
+../artifacts/tcc_27_boot_static2.exe -c ./lib/libtcc1.c -o libtcc1.o
+../artifacts/tcc_27_boot_static2.exe -U__linux__ -I ../woody/usr/include/ -I include -c tcc.c -DONE_SOURCE -o tcc.o
 
 cd ..
 sha256sum -c sum
