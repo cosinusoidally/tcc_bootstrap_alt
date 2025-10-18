@@ -2,28 +2,8 @@
 
 set -xe
 
-cp ../tcc_simple/experiments/xp_linux/artifacts/tcc_27_boot_static5.exe artifacts/
 cp ../tcc_simple/experiments/xp_linux/artifacts/*_4.o artifacts/
-cp ../tcc_simple/experiments/xp_linux/artifacts/elf_loader_cc_x86.exe artifacts/
-cp ../tcc_simple/experiments/xp_linux/artifacts/M2_tcc_js_simple.exe artifacts/
-cp ../tcc_simple/experiments/xp_linux/artifacts/m0.exe artifacts/
-cp ../tcc_simple/experiments/xp_linux/artifacts/hex2.exe artifacts/
-chmod +x artifacts/tcc_27_boot_static5.exe
-chmod +x artifacts/elf_loader_cc_x86.exe
-chmod +x artifacts/M2_tcc_js_simple.exe
-chmod +x artifacts/m0.exe
-chmod +x artifacts/hex2.exe
-
-artifacts/M2_tcc_js_simple.exe m2min/otccelf_cc_x86_min.c artifacts/otccelf_cc_x86_min.exe.M1
-cat m2min/simple_asm_defs.M1 m2min/x86_defs.M1 M2libc/x86/libc-core.M1 artifacts/otccelf_cc_x86_min.exe.M1 > artifacts/otccelf_cc_x86_min.exe-0.M1
-artifacts/m0.exe artifacts/otccelf_cc_x86_min.exe-0.M1 artifacts/otccelf_cc_x86_min.exe.hex2
-cat x86/ELF-i386.hex2 artifacts/otccelf_cc_x86_min.exe.hex2 > artifacts/otccelf_cc_x86_min.exe-0.hex2
-artifacts/hex2.exe artifacts/otccelf_cc_x86_min.exe-0.hex2 artifacts/otccelf_cc_x86_min.exe
-
-chmod +x artifacts/otccelf_cc_x86_min.exe
-
-artifacts/otccelf_cc_x86_min.exe otccelf/elf_loader.c artifacts/elf_loader.exe
-
+cp ../tcc_simple/experiments/xp_linux/artifacts/elf_loader.exe artifacts/
 chmod +x artifacts/elf_loader.exe
 
 cd tcc_27
