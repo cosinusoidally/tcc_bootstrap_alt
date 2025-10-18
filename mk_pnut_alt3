@@ -5,8 +5,11 @@ set -xe
 cp ../tcc_simple/experiments/xp_linux/artifacts/*_4.o artifacts/
 cp ../tcc_simple/experiments/xp_linux/artifacts/elf_loader.exe artifacts/
 cp ../tcc_simple/experiments/xp_linux/artifacts/elf_loader.exe otccelf/artifacts/elf_loader_otcc.exe
+# bodge should do better name is wrong as this is not otccelf_js
+cp ../tcc_simple/experiments/xp_linux/artifacts/otccelf_cc_x86_min.exe otccelf/artifacts/otccelf_js.exe
 chmod +x artifacts/elf_loader.exe
 chmod +x otccelf/artifacts/elf_loader_otcc.exe
+chmod +x otccelf/artifacts/otccelf_js.exe
 
 cd tcc_27
 
