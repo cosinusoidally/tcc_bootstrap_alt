@@ -6,7 +6,7 @@ method goes from an cut down tcc 0.9.2 (circa 2001) all the way up to tcc 0.9.27
 a couple of seconds on very modest hardware.
 
 
-*Update* this works now. You can bootstrap from nothing up to tcc 0.2.97 by
+*Update* this works now. You can bootstrap from nothing up to tcc 0.9.27 by
 using the following command:
 
 ./mk_from_bootstrap_seed &> /dev/shm/log
