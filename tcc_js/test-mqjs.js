@@ -33,6 +33,12 @@ load = function(x) {
     var tmp;
     var tmp2;
     tmp = read(x).split("\n");
+    if(tmp[46] === "  var blocks = [];") {
+      tmp[46] = "var blocks = new Array(16);";
+    } else {
+      print("error line does not match: " +tmp2);
+      throw "error";
+    }
     if(tmp[85] === "    var crypto = eval(\"require('crypto')\");") {
       tmp[85] = "var crypto;";
     } else {
