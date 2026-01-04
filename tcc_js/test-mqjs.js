@@ -7,6 +7,8 @@ var to_hex_orig;
 var argc_argv;
 var s;
 var file_o;
+var f;
+var fp;
 
 var read_ = read;
 
