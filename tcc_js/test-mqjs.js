@@ -9,6 +9,8 @@ var s;
 var file_o;
 var f;
 var fp;
+var AMD;
+var sha256;
 
 var read_ = read;
 
