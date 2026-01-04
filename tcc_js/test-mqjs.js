@@ -28,6 +28,10 @@ var load_ = load;
 
 load = function(x) {
   if(x == "sha256.js") {
+    var tmp;
+    tmp = read(x).split("\n");
+    print(tmp[86]);
+    eval.call(this, tmp.join("\n"));
     return;
   }
   load_(x);
