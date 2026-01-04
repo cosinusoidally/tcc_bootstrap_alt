@@ -22,7 +22,7 @@ try {
 }
 print=print_orig;
 to_hex=to_hex_orig;
-check("0ee8d6110aeface2e916bd91075bc0ff535e61af6ad2b8215073ad74fefdb8fc");
+check("e5144b7b28a63470a107fd95c527cc0da8c5c80abd46426c147015417a8e149d");
 print("tcc_boot.o is now in ../tcc_10");
 if(nofile){
   print("file *NOT* written as fs support unavailable");
