@@ -31,8 +31,20 @@ load = function(x) {
     var tmp;
     var tmp2;
     tmp = read(x).split("\n");
-    tmp2 = tmp[86];
-    print(tmp2);
+    if(tmp[85] === "    var crypto = eval(\"require('crypto')\");") {
+      tmp[85] = "var crypto;";
+    } else {
+      print("error line does not match: " +tmp2);
+      throw "error";
+    }
+    if(tmp[86] === "    var Buffer = eval(\"require('buffer').Buffer\");") {
+      tmp[86] = "var Buffer;";
+    } else {
+      print("error line does not match: " +tmp2);
+      throw "error";
+    }
+//    print("got here");
+//    print(tmp.join("\n"));
     eval.call(this, tmp.join("\n"));
     return;
   }
